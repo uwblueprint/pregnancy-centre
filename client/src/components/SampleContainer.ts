@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { loadData } from "../actions";
+import { loadData } from "../data/actions";
 import SampleComponent from "./SampleComponent";
 
 const mapStateToProps = (store: any) => {

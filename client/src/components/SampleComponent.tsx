@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
-import { removeTypeName } from "../utilities";
+import { removeTypeName } from "../data/utilities";
 
 const sampleQuery = gql`
   {

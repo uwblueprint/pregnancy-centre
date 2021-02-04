@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { Provider } from "react-redux";
-import configureStore from "./store";
+import configureStore from "./data/store";
 
 const apolloClient = new ApolloClient({
   uri: `${process.env.REACT_APP_GRAPHQL_SERVER_URL}/graphql`,
