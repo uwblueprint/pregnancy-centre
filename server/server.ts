@@ -1,5 +1,8 @@
+import { mongo } from "mongoose";
+
 const express = require("express");
 const cors = require("cors"); 
+const mongoose = require("mongoose");
 const { graphqlHTTP } = require("express-graphql");
 const app = express();
 /* Info on packages used:
@@ -11,6 +14,17 @@ const app = express();
 // CORS
 //-----------------------------------------------------------------------------
 
+
+//-----------------------------------------------------------------------------
+// MONGODB + MONGOOSE
+//-----------------------------------------------------------------------------
+
+const uri = "";
+
+mongoose
+    .connect(uri)
+    .then(() => {})
+    .catch(err => console.log(err));
 
 //-----------------------------------------------------------------------------
 // SERVER SETUP
