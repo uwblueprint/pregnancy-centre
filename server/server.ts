@@ -1,33 +1,52 @@
-import mongoose = require("mongoose");
+require('dotenv').config();
+import mongoose from 'mongoose';
 const { ApolloServer, gql } = require('apollo-server');
+
+// TODO: need to make script to build(compile) prod server and to run prod server
 
 //-----------------------------------------------------------------------------
 // MONGODB + MONGOOSE
 //-----------------------------------------------------------------------------
 
 const uri = "";
+const options = {
 
-/*mongoose
-    .connect(uri)
-    .then(() => {})
-    .catch(err => console.log(err));*/
+};
+
+/*mongoose.connect(uri, options);
+mongoose.connection.on('connected', () => {
+    console.log("Connected to MongoDB");
+});
+mongoose.connection.on('error', (error) => {
+    console.log(error);
+});*/
 
 
 //-----------------------------------------------------------------------------
 // APOLLO SETUP
 //-----------------------------------------------------------------------------
 
-const typeDefs = gql`
-    type Book {
-        title: String
-        author: String
-    }
+const books = [
+    {
+        title: 'The Awakening',
+        author: 'Kate Chopin',
+    },
+    {
+        title: 'City of Glass',
+        author: 'Paul Auster',
+    },
+];
+
+const typeDefs = `
+  type Query { books: [Book] }
+  type Book { title: String, author: String }
 `;
+
 const resolvers = {
     Query: {
-        books: () => books,
+      books: () => books,
     },
-};
+  };
 
 //-----------------------------------------------------------------------------
 // SERVER LAUNCH
