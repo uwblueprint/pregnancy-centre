@@ -1,5 +1,4 @@
-export {}
-const mongoose = require('mongoose');
+import mongoose = require('mongoose');
 
 const flagSchema = new mongoose.Schema({
     category_name: {

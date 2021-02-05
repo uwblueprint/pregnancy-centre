@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "seed": "node /seed/seeder.ts",
     "server": "node server.ts"
   },
   "keywords": [],

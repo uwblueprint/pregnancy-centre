@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose = require('mongoose');
 
 const tagSchema = new mongoose.Schema({
     category_name: {

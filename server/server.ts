@@ -1,5 +1,5 @@
+import mongoose = require("mongoose");
 const { ApolloServer, gql } = require('apollo-server');
-const mongoose = require("mongoose");
 
 //-----------------------------------------------------------------------------
 // MONGODB + MONGOOSE

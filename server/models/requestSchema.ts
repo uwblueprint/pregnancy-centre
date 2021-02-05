@@ -1,4 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose = require("mongoose");
+const tagSchema = require("tagSchema");
+const flagSchema = require("flagSchema");
 
 const requestsSchema = new mongoose.Schema({
   request_id: {
@@ -22,7 +24,10 @@ const requestsSchema = new mongoose.Schema({
     type: Number
   },
   tags: {
-      type: []
+    type: [tagSchema]
+  },
+  flags: {
+    type: [flagSchema]
   }
 });
 
