@@ -1,19 +1,5 @@
-import { mongo } from "mongoose";
-
-const express = require("express");
-const cors = require("cors"); 
+const { ApolloServer, gql } = require('apollo-server');
 const mongoose = require("mongoose");
-const { graphqlHTTP } = require("express-graphql");
-const app = express();
-/* Info on packages used:
-- cors: for use later in security - can validate API calls made only from our web-host
-- TODO: tslint deprecated in favor of eslint
-*/
-
-//-----------------------------------------------------------------------------
-// CORS
-//-----------------------------------------------------------------------------
-
 
 //-----------------------------------------------------------------------------
 // MONGODB + MONGOOSE
@@ -21,30 +7,34 @@ const app = express();
 
 const uri = "";
 
-mongoose
+/*mongoose
     .connect(uri)
     .then(() => {})
-    .catch(err => console.log(err));
-
-//-----------------------------------------------------------------------------
-// SERVER SETUP
-//-----------------------------------------------------------------------------
-
-app.use(cors());
-app.use(express.json()); // use express's middleware to parse JSON from body of POSTs or PUTs
+    .catch(err => console.log(err));*/
 
 
 //-----------------------------------------------------------------------------
-// API
+// APOLLO SETUP
 //-----------------------------------------------------------------------------
 
-app.use('/api', graphqlHTTP)
-
+const typeDefs = gql`
+    type Book {
+        title: String
+        author: String
+    }
+`;
+const resolvers = {
+    Query: {
+        books: () => books,
+    },
+};
 
 //-----------------------------------------------------------------------------
 // SERVER LAUNCH
 //-----------------------------------------------------------------------------
 
-app.listen(4000, () => {
-    console.log("Server listening on port 4000");
+const server = new ApolloServer({ typeDefs, resolvers });
+
+server.listen({ port: process.env.PORT }).then(({ url }) => {
+    console.log(`🚀 Server ready at ${url}`);
 });
