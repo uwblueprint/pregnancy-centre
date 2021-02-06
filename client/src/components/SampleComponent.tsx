@@ -3,11 +3,20 @@ import { useQuery, gql } from "@apollo/client";
 import { removeTypeName } from "../data/utilities";
 
 const sampleQuery = gql`
-  {
-    items {
-      id
-      propertyA
-      propertyB
+  query SampleQuery {
+    Request {
+      _id
+      request_id
+      name
+      description
+      date_created
+      archived
+      deleted
+      fulfilled
+      image
+      priority
+      tags
+      flags
     }
   }
 `;
@@ -22,7 +31,7 @@ const SampleComponent = (props: any) => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
 
-  return <p>{data}</p>;
+  return <p>{data.toString()}</p>;
 };
 
 export default SampleComponent;
