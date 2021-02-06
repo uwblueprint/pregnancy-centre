@@ -1,5 +1,5 @@
 require('dotenv').config();
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const { ApolloServer, gql } = require('apollo-server');
 
 // TODO: need to make script to build(compile) prod server and to run prod server
@@ -26,16 +26,7 @@ mongoose.connection.on('error', (error) => {
 // // APOLLO SETUP
 // //-----------------------------------------------------------------------------
 
-const typeDefs = gql`
-    type Book {
-        title: String
-        author: String
-    }
-    type Query {
-        title: String
-    }
-`;
-
+const typeDefs = require('./schema.ts')
 
 //-----------------------------------------------------------------------------
 // SERVER LAUNCH
