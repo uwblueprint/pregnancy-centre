@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
-const tagSchema = require("tagSchema");
-const flagSchema = require("flagSchema");
+import { tagSchema } from "./tagSchema";
 
 const requestSchema = new mongoose.Schema({
   request_id: {
@@ -46,12 +45,9 @@ const requestSchema = new mongoose.Schema({
   },
   tags: {
     type: [tagSchema]
-  },
-  flags: {
-    type: [flagSchema]
   }
 });
 
-const Request = mongoose.model('Request', tagSchema);
+const Request = mongoose.model('Request', requestSchema);
 
 export { Request };

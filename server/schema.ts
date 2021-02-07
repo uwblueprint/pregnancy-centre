@@ -1,4 +1,6 @@
 const { gql } = require('apollo-server')
+const { GraphQLScalarType } = require('graphql')
+const { Kind } = require('graphql/language')
 
 const typeDefs = gql`
     type Request {
@@ -13,11 +15,10 @@ const typeDefs = gql`
         image: String
         priority: Int
         tags: [String]
-        flags: [String]
     }
     type Query {
         request(id: ID): Request
     }
 `;
 
-module.exports = typeDefs;
+export { typeDefs };

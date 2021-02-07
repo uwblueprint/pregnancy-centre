@@ -1,13 +1,15 @@
 import mongoose from 'mongoose';
 
+const TagEnum = [
+    "CATEGORY",
+    "LOCATION",
+    "PRICE_RANGE"
+]
+
 const tagSchema = new mongoose.Schema({
     type: {
         type: String,
-        enum: [
-            "CATEGORY",
-            "LOCATION",
-            "PRICE_RANGE"
-        ],
+        enum: TagEnum,
         required: true
     },
     value: {
@@ -16,6 +18,4 @@ const tagSchema = new mongoose.Schema({
     }
 });
 
-const Tag = mongoose.model('Tag', tagSchema);
-
-export { Tag };
+export { tagSchema, TagEnum };
