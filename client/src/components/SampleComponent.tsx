@@ -2,9 +2,10 @@ import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import { removeTypeName } from "../data/utilities";
 
+//Edit the following as necessary according to backend gql schema/resolver
 const sampleQuery = gql`
-  query SampleQuery {
-    Request {
+  {
+    requests {
       _id
       request_id
       name
