@@ -14,7 +14,7 @@ class Cache {
 
     init() {
         this.data = this.query.exec();
-        this.model.watch().on('change', () => this.query.exec());
+        this.model.watch().on('change', () => this.data = this.query.exec());
     }
 
     getData() {
