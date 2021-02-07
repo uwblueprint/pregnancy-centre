@@ -2,6 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const { ApolloServer, gql } = require('apollo-server');
 import { connectDB } from "./mongo"
+const resolvers = require('./resolvers.ts')
 
 // TODO: need to make script to build(compile) prod server and to run prod server
 

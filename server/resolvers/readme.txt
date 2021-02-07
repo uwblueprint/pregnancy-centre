@@ -1,1 +1,0 @@
-for putting resolvers for graphql

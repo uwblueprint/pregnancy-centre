@@ -4,7 +4,6 @@ const { Kind } = require('graphql/language')
 
 const typeDefs = gql`
     type Request {
-        _id: ID
         request_id: String
         name: String
         description: String
@@ -21,4 +20,4 @@ const typeDefs = gql`
     }
 `;
 
-export { typeDefs };
+module.exports = typeDefs;
