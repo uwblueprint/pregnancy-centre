@@ -6,7 +6,7 @@ const options = {
     useUnifiedTopology: true
 };
 
-function connectDB(callback = undefined) {
+function connectDB(callback = () => {}) {
     mongoose.connect(uri, options)
         .catch(error => {
             console.error('\x1b[31m', "Failed to connect to MongoDB");
