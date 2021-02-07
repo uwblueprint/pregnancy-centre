@@ -1,6 +1,6 @@
-const { gql } = require('apollo-server')
-const { GraphQLScalarType } = require('graphql')
-const { Kind } = require('graphql/language')
+import { gql } from 'apollo-server';
+import { GraphQLScalarType } from 'graphql';
+import { Kind } from 'graphql/language';
 
 const typeDefs = gql`
     type Request {
@@ -15,12 +15,12 @@ const typeDefs = gql`
         priority: Int
         tags: [Tag]
     }
+    type Query {
+        request(id: ID): Request
+    }
     type Tag {
         type: String
         value: String
-    }
-    type Query {
-        request(id: ID): Request
     }
 `;
 

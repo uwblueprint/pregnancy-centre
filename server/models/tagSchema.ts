@@ -18,7 +18,7 @@ const tagSchema = new mongoose.Schema({
         required: true
     },
     value: {
-        type: mongoose.Schema.Types.Mixed,
+        type: String,
         required: true
     }
 });
