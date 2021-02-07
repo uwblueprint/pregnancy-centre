@@ -22,7 +22,7 @@ import { resolvers } from "./resolvers";
 //-----------------------------------------------------------------------------
 
 // connect to MongoDB and setup data sources
-connectDB({});
+connectDB(() => {});
 
 //-----------------------------------------------------------------------------
 // SERVER LAUNCH
