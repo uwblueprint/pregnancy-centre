@@ -1,7 +1,8 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const { ApolloServer, gql } = require('apollo-server');
-import { connectDB } from "./mongo"
+import { connectDB } from "./mongoConnection";
+import { ResultsCache } from "./cache";
 
 // TODO: need to make script to build(compile) prod server and to run prod server
 
@@ -22,5 +23,12 @@ server.listen({ port }).then(({ url }) => {
     console.log(`🚀 Server ready at ${url}`);
 });
 
-// connect to MongoDB
-connectDB();
+//-----------------------------------------------------------------------------
+// MONGODB CONNECTION AND CACHING
+//-----------------------------------------------------------------------------
+
+// connect to MongoDB and initialize caches
+connectDB(() => {
+    ResultsCache.init();
+});
+
