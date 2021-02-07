@@ -23,6 +23,6 @@ class Cache {
 }
 
 import { Request } from "./models/requestModel";
-const ResultsCache = new Cache(Request, Request.find());
+const RequestsCache = new Cache(Request, Request.find());
 
-export { ResultsCache };
+export { RequestsCache };
