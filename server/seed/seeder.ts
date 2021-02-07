@@ -5,7 +5,7 @@ import { exit } from 'process';
 
 import { Request } from "../models/requestModel";
 import { TagEnum } from "../models/tagSchema";
-import { connectDB } from "../mongo";
+import { connectDB } from "../mongoConnection";
 
 //-----------------------------------------------------------------------------
 // SEED REQUESTS/TAGS
