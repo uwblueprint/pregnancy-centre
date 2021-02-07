@@ -1,11 +1,11 @@
 require('dotenv').config();
 import mongoose from 'mongoose';
 import { ApolloServer, gql } from 'apollo-server';
-import { MongoDataSource } from 'apollo-datasource-mongodb';
 import { connectDB } from "./mongoConnection";
 
 import { Request, RequestDocument } from './models/requestModel';
 import RequestDataSource from './datasources/requestsDataSource'
+import { RequestsCache } from "./cache";
 
 // TODO: need to make script to build(compile) prod server and to run prod server
 
@@ -22,7 +22,9 @@ import { resolvers } from "./resolvers";
 //-----------------------------------------------------------------------------
 
 // connect to MongoDB and setup data sources
-connectDB(() => {});
+connectDB(() => {
+    RequestsCache.init();
+});
 
 
 //-----------------------------------------------------------------------------
@@ -30,7 +32,7 @@ connectDB(() => {});
 //-----------------------------------------------------------------------------
 
 const server = new ApolloServer({ typeDefs, resolvers, dataSources: () => ({
-    requests: new RequestDataSource(mongoose.connection.db.collection('requests'))
+    requests: new RequestDataSource()
 }) });
 
 const port = 4000;

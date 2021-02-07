@@ -14,7 +14,6 @@ function connectDB(callback = () => {}) {
         });
     mongoose.connection.on('connected', () => {
         console.log('\x1b[33m%s\x1b[0m', "Connected to MongoDB");
-        console.log('\x1b[33m%s\x1b[0m', "Seeding MongoDB");
         console.log('\x1b[0m');
     });
     mongoose.connection.on('error', (error) => {

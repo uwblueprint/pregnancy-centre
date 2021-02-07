@@ -1,10 +1,31 @@
-import { MongoDataSource } from 'apollo-datasource-mongodb';
-import { RequestDocument } from '../models/requestModel';
+import { DataSource } from 'apollo-datasource';
+import { RequestsCache } from '../cache';
+import { Request, RequestDocument } from '../models/requestModel';
 
-export default class RequestDataSource extends MongoDataSource<RequestDocument> {
+export default class RequestDataSource extends DataSource {
+    constructor() {
+        super();
+    }
+
     async getRequestById(id) {
-        const response = await this.findOneById(id);
-        return this.requestReducer(response);
+        // with cache
+        // return RequestsCache.getData().filter(request => request._id === id);
+        // with mongoose
+        Request.findById({_id: "60204d37bfc3910e48f6337a"}).exec()
+        .then((res) => {
+            return this.requestReducer(JSON.stringify(res));
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    }
+
+    async getRequests() {
+        // with cache
+        return RequestsCache.getData();
+        // with mongoose
+        const res = await Request.find();
+        return res.map((res) => {this.requestReducer(res)});
     }
 
     requestReducer(request) {

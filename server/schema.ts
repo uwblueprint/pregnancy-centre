@@ -17,6 +17,7 @@ const typeDefs = gql`
     }
     type Query {
         request(id: ID): Request
+        requests: [Request]
     }
     type Tag {
         type: String

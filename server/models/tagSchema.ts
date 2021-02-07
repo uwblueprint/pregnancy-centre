@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 interface TagDocument {
+    _id: mongoose.ObjectId
     type: string
     value: string
 }
