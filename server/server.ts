@@ -1,8 +1,11 @@
 require('dotenv').config();
-const mongoose = require('mongoose');
-const { ApolloServer, gql } = require('apollo-server');
+import mongoose from 'mongoose';
+import { ApolloServer, gql } from 'apollo-server';
+import { MongoDataSource } from 'apollo-datasource-mongodb';
 import { connectDB } from "./mongoConnection";
-import { RequestsCache } from "./cache";
+
+import { Request, RequestDocument } from './models/requestModel';
+import RequestDataSource from './datasources/requestsDataSource'
 
 // TODO: need to make script to build(compile) prod server and to run prod server
 
@@ -11,24 +14,25 @@ import { RequestsCache } from "./cache";
 // // APOLLO SETUP
 // //-----------------------------------------------------------------------------
 
-const typeDefs = require('./schema.ts')
+import { typeDefs } from "./schema";
+import { resolvers } from "./resolvers";
+
+//-----------------------------------------------------------------------------
+// MONGODB CONNECTION AND DATA SOURCES FOR APOLLO
+//-----------------------------------------------------------------------------
+
+// connect to MongoDB and setup data sources
+connectDB({});
 
 //-----------------------------------------------------------------------------
 // SERVER LAUNCH
 //-----------------------------------------------------------------------------
 
-const server = new ApolloServer({ typeDefs });
+const server = new ApolloServer({ typeDefs, resolvers, dataSources: () => ({
+    requests: new RequestDataSource(mongoose.connection.db.collection('Requests'))
+}) });
 const port = 4000;
 server.listen({ port }).then(({ url }) => {
     console.log(`🚀 Server ready at ${url}`);
-});
-
-//-----------------------------------------------------------------------------
-// MONGODB CONNECTION AND CACHING
-//-----------------------------------------------------------------------------
-
-// connect to MongoDB and initialize caches
-connectDB(() => {
-    RequestsCache.init();
 });
 

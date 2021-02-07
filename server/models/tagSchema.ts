@@ -1,5 +1,10 @@
 import mongoose from 'mongoose';
 
+interface TagDocument {
+    type: string
+    value: string
+}
+
 const TagEnum = [
     "CATEGORY",
     "LOCATION",
@@ -18,4 +23,4 @@ const tagSchema = new mongoose.Schema({
     }
 });
 
-export { tagSchema, TagEnum };
+export { tagSchema, TagEnum, TagDocument };

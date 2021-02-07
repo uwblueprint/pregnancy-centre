@@ -1,6 +1,20 @@
 import mongoose from 'mongoose';
 
-import { tagSchema } from "./tagSchema";
+import { tagSchema, TagDocument } from "./tagSchema";
+
+interface RequestDocument {
+  _id: mongoose.ObjectId
+  request_id: string
+  name: string
+  priority: number
+  date_created: Date
+  archived: Boolean
+  deleted: Boolean
+  fulfilled: Boolean
+  description: string
+  image: string
+  tags: [TagDocument]
+}
 
 const requestSchema = new mongoose.Schema({
   request_id: {
@@ -50,4 +64,4 @@ const requestSchema = new mongoose.Schema({
 
 const Request = mongoose.model('Request', requestSchema);
 
-export { Request };
+export { Request, RequestDocument };

@@ -1,13 +1,7 @@
-export {}
-const { DataSource } = require('apollo-datasource');
-const Request  = require('../models/requestModel');
+import { MongoDataSource } from 'apollo-datasource-mongodb';
+import { RequestDocument } from '../models/requestModel';
 
-
-class RequestAPI extends DataSource {
-    constructor() {
-        super();
-    }
-
+export default class RequestDataSource extends MongoDataSource<RequestDocument> {
     async getRequestById(id) {
 
     }
@@ -27,5 +21,3 @@ class RequestAPI extends DataSource {
         }
     }
 }
-
-module.exports = RequestAPI;
