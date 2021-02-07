@@ -6,18 +6,8 @@ import { removeTypeName } from "../data/utilities";
 const sampleQuery = gql`
   {
     requests {
-      _id
       request_id
       name
-      description
-      date_created
-      archived
-      deleted
-      fulfilled
-      image
-      priority
-      tags
-      flags
     }
   }
 `;
