@@ -13,6 +13,9 @@ import { connectDB } from "../mongoConnection";
 
 // connect to DB, and on success, seed documents
 connectDB(() => {
+    console.log('\x1b[34m', "Beginning to seed");
+    console.log('\x1b[0m');
+
     // Reset collections
     Request.deleteMany((err) => {
         if (err) {
@@ -25,6 +28,8 @@ connectDB(() => {
     const num_requests = 1;
     const num_tags_per_request = 3;
 
+    console.log('\x1b[34m', "Seeding " + num_requests + " requests with " + num_tags_per_request + " tags each");
+    console.log('\x1b[0m');
     faker.seed(2021);
     for (var i = 0; i < num_requests; i++) {
         var request_tags = []
@@ -70,4 +75,8 @@ connectDB(() => {
             }
         });
     }
+
+    console.log('\x1b[34m', "Finished seeding!");
+    console.log('\x1b[0m');
+    mongoose.disconnect();
 });
