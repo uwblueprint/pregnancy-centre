@@ -3,9 +3,9 @@ import mongoose from 'mongoose';
 import faker from 'faker';
 import { exit } from 'process';
 
-import { Request } from "../models/requestModel";
-import { TagEnum } from "../models/tagSchema";
-import { connectDB } from "../mongoConnection";
+import { Request } from "./models/requestModel";
+import { TagEnum } from "./models/tagSchema";
+import { connectDB } from "./mongoConnection";
 
 //-----------------------------------------------------------------------------
 // SEED REQUESTS/TAGS
@@ -25,8 +25,8 @@ connectDB(() => {
         }
     });
 
-    const num_requests = 1;
-    const num_tags_per_request = 3;
+    const num_requests = 200;
+    const num_tags_per_request = 5;
 
     console.log('\x1b[34m', "Seeding " + num_requests + " requests with " + num_tags_per_request + " tags each");
     console.log('\x1b[0m');
@@ -78,5 +78,4 @@ connectDB(() => {
 
     console.log('\x1b[34m', "Finished seeding!");
     console.log('\x1b[0m');
-    mongoose.disconnect();
 });
