@@ -24,12 +24,13 @@ import { resolvers } from "./resolvers";
 // connect to MongoDB and setup data sources
 connectDB(() => {});
 
+
 //-----------------------------------------------------------------------------
 // SERVER LAUNCH
 //-----------------------------------------------------------------------------
 
 const server = new ApolloServer({ typeDefs, resolvers, dataSources: () => ({
-    requests: new RequestDataSource(mongoose.connection.db.collection('Requests'))
+    requests: new RequestDataSource(mongoose.connection.db.collection('requests'))
 }) });
 
 const port = 4000;

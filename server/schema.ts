@@ -13,11 +13,17 @@ const typeDefs = gql`
         fulfilled: Boolean
         image: String
         priority: Int
-        tags: [String]
+        tags: [Tag]
+    }
+    type Tag {
+        type: String
+        value: String
     }
     type Query {
         request(id: ID): Request
     }
 `;
+
+
 
 export { typeDefs };

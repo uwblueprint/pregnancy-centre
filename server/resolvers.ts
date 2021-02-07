@@ -1,6 +1,6 @@
 const resolvers= {
     Query: {
-        request: (_, { id }, { dataSources }) => dataSources.RequestAPI.getRequestById(id)
+        request: (_, { id }, { dataSources: { requests } }) => requests.getRequestById(id)
     }
 };
 

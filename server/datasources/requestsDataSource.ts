@@ -1,10 +1,10 @@
 import { MongoDataSource } from 'apollo-datasource-mongodb';
-import { Request, RequestDocument } from '../models/requestModel';
+import { RequestDocument } from '../models/requestModel';
 
 export default class RequestDataSource extends MongoDataSource<RequestDocument> {
     async getRequestById(id) {
-        const response = await Request.findById(id);
-        return this.requestReducer(response[0]);
+        const response = await this.findOneById(id);
+        return this.requestReducer(response);
     }
 
     requestReducer(request) {
