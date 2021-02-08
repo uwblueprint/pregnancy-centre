@@ -1,7 +1,7 @@
 const resolvers= {
     Query: {
-        request: (_, { id }, { dataSources: { requests } }) => requests.getRequestById(id),
-        requests: (_, __, { dataSources: { requests } }) => requests.getRequests()
+        request: (_, { id }, { dataSources }) => dataSources.requests.getRequestById(id),
+        requests: (_, __, { dataSources }) => dataSources.requests.getRequests()
     }
 };
 
