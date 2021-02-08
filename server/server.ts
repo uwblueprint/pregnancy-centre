@@ -4,7 +4,6 @@ import { connectDB } from "./mongoConnection";
 
 import { config } from './config';
 
-import { Request, RequestDocument } from './models/requestModel';
 import RequestDataSource from './datasources/requestsDataSource'
 import { RequestsCache } from "./cache";
 

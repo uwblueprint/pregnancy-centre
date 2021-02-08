@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import { Request } from "./models/requestModel";
 
 // TODO: add typing
 
@@ -35,7 +35,6 @@ class Cache {
     }
 }
 
-import { Request } from "./models/requestModel";
 const RequestsCache = new Cache("Request", Request, Request.find());
 
 export { Cache, RequestsCache };
