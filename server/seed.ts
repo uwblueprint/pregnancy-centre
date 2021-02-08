@@ -24,37 +24,37 @@ connectDB(() => {
         }
     });
 
-    const num_requests = 200;
-    const num_tags_per_request = 5;
+    const numRequests = 200;
+    const numTagsPerRequest = 5;
 
-    console.log('\x1b[34m', "Seeding " + num_requests + " requests with " + num_tags_per_request + " tags each");
+    console.log('\x1b[34m', "Seeding " + numRequests + " requests with " + numTagsPerRequest + " tags each");
     console.log('\x1b[0m');
     faker.seed(2021);
-    for (var i = 0; i < num_requests; i++) {
-        var request_tags = []
-        for (var j = 0; j < num_tags_per_request; j++) {
-            const tag_type = Math.floor(Math.random() * TagEnum.length);
-            var tag_value;
+    for (var i = 0; i < numRequests; i++) {
+        var requestTags = []
+        for (var j = 0; j < numTagsPerRequest; j++) {
+            const tagType = Math.floor(Math.random() * TagEnum.length);
+            var tagValue;
 
-            switch (tag_type) {
+            switch (tagType) {
                 case 0: // 'CATEGORY'
-                    tag_value = {category: faker.commerce.product()};
+                    tagValue = {category: faker.commerce.product()};
                     break;
                 case 1: // 'LOCATION'
-                    tag_value = {city: faker.address.city()};
+                    tagValue = {city: faker.address.city()};
                     break;
                 case 3: // 'PRICE_RANGE'
-                    tag_value = {low: faker.finance.amount(1,50,2), high: faker.finance.amount(51,100,2)};
+                    tagValue = {low: faker.finance.amount(1,50,2), high: faker.finance.amount(51,100,2)};
                     break;
                 default:
-                    tag_value = "";
+                    tagValue = "";
             }
 
             const tag = {
-                type: TagEnum[tag_type],
-                value: tag_value
+                type: TagEnum[tagType],
+                value: tagValue
             };
-            request_tags.push(tag);
+            requestTags.push(tag);
         }
 
         const request = new Request({
@@ -63,7 +63,7 @@ connectDB(() => {
             description: faker.lorem.sentence(),
             image: "https://picsum.photos/200",
             priority: faker.random.number(3),
-            tags: request_tags
+            tags: requestTags
         });
         request.save((err) => {
             if (err) {

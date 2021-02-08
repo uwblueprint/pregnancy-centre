@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const uri = process.env.mongo_uri;
+const uri = process.env.MONGO_URI;
 const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true
