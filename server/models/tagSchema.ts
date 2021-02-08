@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 interface TagDocument {
-    _id: mongoose.ObjectId
+    _id: mongoose.Types.ObjectId
     type: string
     value: string
 }
@@ -19,7 +19,7 @@ const tagSchema = new mongoose.Schema({
         required: true
     },
     value: {
-        type: String,
+        type: Object,
         required: true
     }
 });

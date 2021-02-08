@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "seed": "ts-node ./seed",
-    "server": "ts-node server"
+    "server": "nodemon server"
   },
   "keywords": [],
   "author": "",

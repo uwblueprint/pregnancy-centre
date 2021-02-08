@@ -3,11 +3,13 @@ import mongoose from 'mongoose';
 // TODO: add typing
 
 class Cache {
+    name: string;
     model: any;
     query: any;
     data: any;
 
-    constructor(model, query) {
+    constructor(name, model, query) {
+        this.name = name;
         this.model = model;
         this.query = query;
     }
@@ -16,6 +18,7 @@ class Cache {
         this.query.exec()
         .then((data) => {
             this.data = data;
+            console.log("Finished caching " + this.name + " cache");
         })
         .catch((error) => {
             console.error("ERROR: Failed to fetch Requests from MongoDB");
@@ -33,6 +36,6 @@ class Cache {
 }
 
 import { Request } from "./models/requestModel";
-const RequestsCache = new Cache(Request, Request.find());
+const RequestsCache = new Cache("Request", Request, Request.find());
 
 export { Cache, RequestsCache };

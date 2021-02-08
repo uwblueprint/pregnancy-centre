@@ -1,6 +1,9 @@
+import mongoose from 'mongoose';
 import { DataSource } from 'apollo-datasource';
 import { RequestsCache } from '../cache';
-import { Request, RequestDocument } from '../models/requestModel';
+import { Request } from '../models/requestModel';
+
+import { config } from '../config';
 
 export default class RequestDataSource extends DataSource {
     constructor() {
@@ -8,28 +11,45 @@ export default class RequestDataSource extends DataSource {
     }
 
     async getRequestById(id) {
-        // with cache
-        // return RequestsCache.getData().filter(request => request._id === id);
-        // with mongoose
-        Request.findById({_id: "60204d37bfc3910e48f6337a"}).exec()
-        .then((res) => {
-            return this.requestReducer(JSON.stringify(res));
-        })
-        .catch((err) => {
-            console.error(err);
-        });
+        id = mongoose.Types.ObjectId("60207ba42605bb489cb80e1d");
+        var result;
+
+        if (config.caching) {
+            result = RequestsCache.getData().filter(request => request._id.equals(id))[0];
+        } else {
+            Request.findById(id).exec()
+            .then((res) => {
+                result = res[0];
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        }
+
+        return this.requestReducer(result);
     }
 
     async getRequests() {
-        // with cache
-        return RequestsCache.getData();
-        // with mongoose
-        const res = await Request.find();
-        return res.map((res) => {this.requestReducer(res)});
+        var result;
+
+        if (config.caching) {
+            result = RequestsCache.getData();
+        } else {
+            Request.find().exec()
+            .then((res) => {
+                result = res;
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        }
+
+        return result.map((request) => this.requestReducer(request));
     }
 
     requestReducer(request) {
         return {
+            _id: request._id,
             request_id: request.request_id,
             name: request.name,
             description: request.description,

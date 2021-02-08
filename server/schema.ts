@@ -1,9 +1,8 @@
 import { gql } from 'apollo-server';
-import { GraphQLScalarType } from 'graphql';
-import { Kind } from 'graphql/language';
 
 const typeDefs = gql`
     type Request {
+        _id: ID
         request_id: String
         name: String
         description: String
@@ -20,6 +19,7 @@ const typeDefs = gql`
         requests: [Request]
     }
     type Tag {
+        _id: ID
         type: String
         value: String
     }

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { tagSchema, TagDocument } from "./tagSchema";
 
 interface RequestDocument {
-  _id: mongoose.ObjectId
+  _id: mongoose.Types.ObjectId
   request_id: string
   name: string
   priority: number

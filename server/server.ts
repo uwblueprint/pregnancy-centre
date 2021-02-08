@@ -1,7 +1,8 @@
 require('dotenv').config();
-import mongoose from 'mongoose';
-import { ApolloServer, gql } from 'apollo-server';
+import { ApolloServer } from 'apollo-server';
 import { connectDB } from "./mongoConnection";
+
+import { config } from './config';
 
 import { Request, RequestDocument } from './models/requestModel';
 import RequestDataSource from './datasources/requestsDataSource'
@@ -23,7 +24,9 @@ import { resolvers } from "./resolvers";
 
 // connect to MongoDB and setup data sources
 connectDB(() => {
-    RequestsCache.init();
+    if (config.caching) {
+        RequestsCache.init();
+    }
 });
 
 
@@ -35,7 +38,7 @@ const server = new ApolloServer({ typeDefs, resolvers, dataSources: () => ({
     requests: new RequestDataSource()
 }) });
 
-const port = 4000;
+const port = config.port | 4000;
 server.listen({ port }).then(({ url }) => {
     console.log(`🚀 Server ready at ${url}`);
 });

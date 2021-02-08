@@ -1,5 +1,4 @@
 require('dotenv').config();
-import mongoose from 'mongoose';
 import faker from 'faker';
 import { exit } from 'process';
 
@@ -38,14 +37,14 @@ connectDB(() => {
             var tag_value;
 
             switch (tag_type) {
-                case 0: // 'LOCATION'
-                    tag_value = faker.commerce.product();
+                case 0: // 'CATEGORY'
+                    tag_value = {category: faker.commerce.product()};
                     break;
-                case 1: // 'CATEGORY'
-                    tag_value = faker.address.city();
+                case 1: // 'LOCATION'
+                    tag_value = {city: faker.address.city()};
                     break;
                 case 3: // 'PRICE_RANGE'
-                    tag_value = [faker.finance.amount(1,50,2), faker.finance.amount(51,100,2)];
+                    tag_value = {low: faker.finance.amount(1,50,2), high: faker.finance.amount(51,100,2)};
                     break;
                 default:
                     tag_value = "";
