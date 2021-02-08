@@ -11,7 +11,7 @@ export default class RequestDataSource extends DataSource {
     }
 
     async getRequestById(id) {
-        id = mongoose.Types.ObjectId("60207ba42605bb489cb80e1d");
+        id = mongoose.Types.ObjectId(id);
         var result;
 
         if (config.caching) {

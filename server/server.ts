@@ -38,7 +38,7 @@ const server = new ApolloServer({ typeDefs, resolvers, dataSources: () => ({
     requests: new RequestDataSource()
 }) });
 
-const port = config.port | 4000;
+const port = config.port;
 server.listen({ port }).then(({ url }) => {
     console.log(`🚀 Server ready at ${url}`);
 });
