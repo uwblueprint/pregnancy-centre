@@ -4,6 +4,7 @@ import { Kind } from 'graphql/language';
 
 const typeDefs = gql`
     type Request {
+        _id: String
         request_id: String
         name: String
         description: String

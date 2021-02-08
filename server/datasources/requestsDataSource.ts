@@ -9,27 +9,25 @@ export default class RequestDataSource extends DataSource {
 
     async getRequestById(id) {
         // with cache
-        // return RequestsCache.getData().filter(request => request._id === id);
+        return RequestsCache.getData().filter(request => request._id == id)[0]
+
         // with mongoose
-        Request.findById({_id: "60204d37bfc3910e48f6337a"}).exec()
-        .then((res) => {
-            return this.requestReducer(JSON.stringify(res));
-        })
-        .catch((err) => {
-            console.error(err);
-        });
+        const response = await Request.findById(id);
+        return this.requestReducer(response);
     }
 
     async getRequests() {
         // with cache
         return RequestsCache.getData();
+
         // with mongoose
         const res = await Request.find();
-        return res.map((res) => {this.requestReducer(res)});
+        return res.map(request => this.requestReducer(request));
     }
 
     requestReducer(request) {
         return {
+            _id: request._id,
             request_id: request.request_id,
             name: request.name,
             description: request.description,
