@@ -1,40 +1,39 @@
-import { Request } from "./models/requestModel";
-
-// TODO: add typing
+import { Document, Model, Query } from 'mongoose'
+import { Request } from './models/requestModel'
 
 class Cache {
-    name: string;
-    model: any;
-    query: any;
-    data: any;
+  name: string;
+  model: Model<Document>;
+  query: Query<Array<Document>, Document>;
+  data: Array<Document>;
 
-    constructor(name, model, query) {
-        this.name = name;
-        this.model = model;
-        this.query = query;
-    }
+  constructor(name: string, model: Model<Document>, query: Query<Array<Document>, Document>) {
+    this.name = name
+    this.model = model
+    this.query = query
+  }
 
-    exec() {
-        this.query.exec()
-        .then((data) => {
-            this.data = data;
-            console.log("Finished caching " + this.name + " cache");
-        })
-        .catch((error) => {
-            console.error("ERROR: Failed to fetch Requests from MongoDB");
-        });
-    }
+  exec(): void {
+    this.query.exec()
+      .then((data) => {
+        this.data = data
+        console.log('Finished caching ' + this.name + ' cache')
+      })
+      .catch((error) => {
+        console.error(`ERROR: Failed to fetch Requests from MongoDB\n${error}`)
+      })
+  }
 
-    init() {
-        this.exec();
-        this.model.watch().on('change', this.exec);
-    }
+  init(): void {
+    this.exec()
+    this.model.watch().on('change', this.exec)
+  }
 
-    getData() {
-        return this.data;
-    }
+  getData(): Array<Document> {
+    return this.data
+  }
 }
 
-const RequestsCache = new Cache("Request", Request, Request.find());
+const RequestsCache = new Cache('Request', Request, Request.find())
 
-export { Cache, RequestsCache };
+export { Cache, RequestsCache }

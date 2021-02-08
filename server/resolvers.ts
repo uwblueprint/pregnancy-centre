@@ -1,8 +1,10 @@
-const resolvers= {
-    Query: {
-        request: (_, { id }, { dataSources }) => dataSources.requests.getRequestById(id),
-        requests: (_, __, { dataSources }) => dataSources.requests.getRequests()
-    }
-};
+import { RequestInterface } from './models/requestModel'
 
-export { resolvers };
+const resolvers = {
+  Query: {
+    request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getRequestById(id),
+    requests: (_, __, { dataSources }): Array<RequestInterface> => dataSources.requests.getRequests()
+  }
+}
+
+export { resolvers }

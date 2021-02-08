@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
-import { StringDecoder } from 'string_decoder';
+import { Document, model, ObjectId, Schema } from 'mongoose'
+import { StringDecoder } from 'string_decoder'
 
-interface UserDocument {
-  _id: mongoose.ObjectId
+interface UserDocument extends Document {
+  _id: ObjectId
   request_id: string
   name: string
   priority: number
@@ -14,7 +14,7 @@ interface UserDocument {
   image: StringDecoder
 }
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   email: {
     type: String,
     required: true
@@ -42,8 +42,8 @@ const userSchema = new mongoose.Schema({
   verification_hash: {
     type: String
   }
-});
+})
 
-const User = mongoose.model('User', userSchema);
+const User = model('User', userSchema)
 
-export { User, UserDocument };
+export { User, UserDocument }

@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server';
+import { gql } from 'apollo-server'
 
 const typeDefs = gql`
     type Request {
@@ -23,8 +23,6 @@ const typeDefs = gql`
         type: String
         value: String
     }
-`;
+`
 
-
-
-export { typeDefs };
+export { typeDefs }

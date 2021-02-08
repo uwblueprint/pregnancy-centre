@@ -1,22 +1,24 @@
-import mongoose from 'mongoose';
+import { Document, model, Schema, Types } from 'mongoose'
 
-import { tagSchema, TagDocument } from "./tagSchema";
+import { TagDocument, tagSchema } from './tagSchema'
 
-interface RequestDocument {
-  _id: mongoose.Types.ObjectId
-  request_id: string
+interface RequestInterface {
+  _id: Types.ObjectId
+  archived: boolean
+  date_created: Date
+  deleted: boolean
+  description: string
+  fulfilled: boolean
+  image: string
   name: string
   priority: number
-  date_created: Date
-  archived: Boolean
-  deleted: Boolean
-  fulfilled: Boolean
-  description: string
-  image: string
+  request_id: string
   tags: [TagDocument]
 }
 
-const requestSchema = new mongoose.Schema({
+type RequestDocument = RequestInterface & Document;
+
+const requestSchema = new Schema({
   request_id: {
     type: String,
     required: true
@@ -52,7 +54,7 @@ const requestSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    default: "",
+    default: ''
   },
   image: {
     type: String // the URL to the image
@@ -60,8 +62,8 @@ const requestSchema = new mongoose.Schema({
   tags: {
     type: [tagSchema]
   }
-});
+})
 
-const Request = mongoose.model('Request', requestSchema);
+const Request = model('Request', requestSchema)
 
-export { Request, RequestDocument };
+export { Request, RequestDocument, RequestInterface }
