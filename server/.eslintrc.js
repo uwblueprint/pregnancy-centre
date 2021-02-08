@@ -1,19 +1,30 @@
 module.exports = {
-  env: {
-    commonjs: true,
-    es6: true,
-    node: true
+  "env": {
+    "commonjs": true,
+    "es6": true,
+    "node": true
   },
-  extends: [
-    'standard'
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 12
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
   },
-  plugins: [
-    '@typescript-eslint'
+  "plugins": [
+    "@typescript-eslint"
   ],
-  rules: {
+  "rules": {
+    "sort-imports": [
+      "error",
+      {
+        "allowSeparatedGroups": true,
+        "ignoreCase": true
+      }
+    ],
+    "@typescript-eslint/no-empty-function": "off"
   }
-}
+};
