@@ -1,7 +1,18 @@
 version: 2.1
 orbs:
-  node: circleci/node@3.0.0
+  node: circleci/node@4.1.0
+jobs:
+  lint-server:
+    executor: node/default
+    working_directory: ~/project/server
+    steps:
+      - checkout
+      - node/install-packages:
+          cache-path: ~/project/server/node_modules
+          override-ci-command: npm install
+      - run: npm run lint
 workflows:
-  node-tests:
+  lint-server:
     jobs:
-      - node/test
+      - lint-server
+  
