@@ -6,6 +6,7 @@ jobs:
     working_directory: ~/project/server
     steps:
       - checkout
+      - run: pwd
       - run: npm --prefix ~/project/server install
       - run: npm --prefix ~/project/server run lint
 workflows:
