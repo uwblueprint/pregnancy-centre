@@ -1,15 +1,12 @@
 version: 2.1
-orbs:
-  node: circleci/node@4.1.0
 jobs:
   lint-server:
-    executor: node/default
+    docker:
+      - image: circleci/node
     working_directory: ~/project/server
     steps:
       - checkout
-      - node/install-packages:
-          cache-path: ~/project/server/node_modules
-          override-ci-command: cd ~/project/server && npm install
+      - run: cd ~/project/server && npm install
       - run: cd ~/project/server && npm run lint
 workflows:
   lint-server:
