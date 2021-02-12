@@ -3,12 +3,13 @@ jobs:
   lint-server:
     docker:
       - image: circleci/node
-    working_directory: ~/project/server
+    working_directory: ~/app/server
     steps:
       - checkout
+        - path: ~/app
       - run: pwd
-      - run: npm --prefix ~/project/server install
-      - run: npm --prefix ~/project/server run lint
+      - run: npm install
+      - run: npm run lint
 workflows:
   lint-server:
     jobs:
