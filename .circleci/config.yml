@@ -5,7 +5,7 @@ jobs:
       - image: circleci/node
     working_directory: ~/app/server
     steps:
-      - checkout
+      - checkout:
         - path: ~/app
       - run: pwd
       - run: npm install
