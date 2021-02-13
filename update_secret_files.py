@@ -43,14 +43,17 @@ for line in configFile:
 configFile.close()
 
 # Write values to the secret file corresponding to their keys
-for key in data:
-	if key in locations:
-		try:
-			f = open(locations[key], 'w')
-			f.write(data[key])
-			f.close()
-		except Exception as e:
-			print("Could not write the values for key <{keyName}> to location <{locName}>".format(keyName=key, locName=locations[key]))
-			print(e)
-	else:
-		print("File location for key <{keyName}> was not found.".format(keyName=key))
+if data is not None:
+    for key in data:
+        if key in locations:
+            try:
+                f = open(locations[key], 'w')
+                f.write(data[key])
+                f.close()
+            except Exception as e:
+                print("Could not write the values for key <{keyName}> to location <{locName}>".format(keyName=key, locName=locations[key]))
+                print(e)
+        else:
+            print("File location for key <{keyName}> was not found.".format(keyName=key))
+else:
+    print("No data in vault")
