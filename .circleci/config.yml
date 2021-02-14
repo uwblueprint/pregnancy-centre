@@ -6,7 +6,7 @@ jobs:
     working_directory: ~/app/server
     steps:
       - checkout:
-        - path: ~/app
+          path: ~/app
       - run: pwd
       - run: npm install
       - run: npm run lint
