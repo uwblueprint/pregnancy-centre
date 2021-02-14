@@ -1,19 +1,13 @@
 import { Document, model, Schema, Types } from 'mongoose'
 
-import { TagDocument, tagSchema } from './tagSchema'
-
 interface RequestInterface {
   _id: Types.ObjectId
-  archived: boolean
-  date_created: Date
-  deleted: boolean
-  description: string
-  fulfilled: boolean
-  image: string
-  name: string
-  priority: number
   request_id: string
-  tags: [TagDocument]
+  client_id: string
+  date_created: Date
+  date_fulfilled: Date
+  deleted: boolean
+  fulfilled: boolean
 }
 
 type RequestDocument = RequestInterface & Document;
@@ -23,24 +17,18 @@ const requestSchema = new Schema({
     type: String,
     required: true
   },
-  name: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  priority: {
-    type: Number,
-    default: 0
+  client_id: {
+    type: String
   },
   date_created: {
     type: Date,
     required: true,
     default: Date.now
   },
-  archived: {
-    type: Boolean,
+  date_fulfilled: {
+    type: Date,
     required: true,
-    default: false
+    default: undefined
   },
   deleted: {
     type: Boolean,
@@ -51,16 +39,6 @@ const requestSchema = new Schema({
     type: Boolean,
     required: true,
     default: false
-  },
-  description: {
-    type: String,
-    default: ''
-  },
-  image: {
-    type: String // the URL to the image
-  },
-  tags: {
-    type: [tagSchema]
   }
 })
 

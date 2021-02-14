@@ -4,7 +4,12 @@ import faker from 'faker'
 
 import { connectDB } from './mongoConnection'
 import { Request } from './models/requestModel'
-import { TagEnum } from './models/tagSchema'
+// import { TagEnum } from './models/tagSchema'
+
+// TODO: REWRITE
+
+console.log('REWRITE SEEDER BEFORE SEEDING!!!')
+exit()
 
 // -----------------------------------------------------------------------------
 // SEED REQUESTS/TAGS
@@ -12,7 +17,7 @@ import { TagEnum } from './models/tagSchema'
 
 dotenv.config()
 
-// connect to DB, and on success, seed documents
+/*// connect to DB, and on success, seed documents
 connectDB(() => {
   console.log('\x1b[34m', 'Beginning to seed')
   console.log('\x1b[0m')
@@ -79,4 +84,4 @@ connectDB(() => {
 
   console.log('\x1b[34m', 'Finished seeding!')
   console.log('\x1b[0m')
-})
+})*/

@@ -1,27 +1,38 @@
 import { gql } from 'apollo-server'
 
+// TODO: date types
+
 const typeDefs = gql`
     type Request {
         _id: ID
         request_id: String
-        name: String
-        description: String
         date_created: String
-        archived: Boolean
+        date_fulfilled: String
         deleted: Boolean
         fulfilled: Boolean
-        image: String
-        priority: Int
         tags: [Tag]
+    }
+    type RequestListing {
+        openRequests: [ID]
+        fulfilledRequests: [ID]
+        deletedRequests: [ID]
+    }
+    type RequestType {
+        _id: ID
+        name: String
+        requests: RequestListing
+    }
+    type RequestGroup {
+        _id: ID
+        name: String
+        description: String
+        requirements: String
+        image: String
+        requestTypes: [RequestType]
     }
     type Query {
         request(id: ID): Request
         requests: [Request]
-    }
-    type Tag {
-        _id: ID
-        type: String
-        value: String
     }
 `
 
