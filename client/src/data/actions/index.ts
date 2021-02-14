@@ -1,4 +1,4 @@
 /**
  * Export all actions from here
  */
-export * from "./dataActions";
+export * from "./requestsActions";

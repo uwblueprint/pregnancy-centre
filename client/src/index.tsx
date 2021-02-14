@@ -1,9 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
+/* Imports from packages */
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { Provider } from "react-redux";
+import React from "react";
+import ReactDOM from "react-dom";
+
+/* Imports from local files */
+import "./index.css";
+import App from "./App";
 import configureStore from "./data/store";
 
 const apolloClient = new ApolloClient({
