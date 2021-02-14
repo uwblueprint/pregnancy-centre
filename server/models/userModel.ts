@@ -1,5 +1,6 @@
-import { Document, model, ObjectId, Schema } from 'mongoose'
 import { StringDecoder } from 'string_decoder'
+import { Document, model, ObjectId, Schema } from 'mongoose'
+
 
 interface UserDocument extends Document {
   _id: ObjectId
