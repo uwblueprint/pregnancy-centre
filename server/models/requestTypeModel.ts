@@ -1,4 +1,4 @@
-import { Document, Schema, Types } from 'mongoose'
+import { Document, model, Schema, Types } from 'mongoose'
 
 interface RequestTypeDocument extends Document {
   _id: Types.ObjectId
@@ -15,6 +15,11 @@ const RequestTypeSchema = new Schema({
     type: String,
     required: true
   },
+  deleted: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   requests: {
     open: {
         type: [ { type: Types.ObjectId, ref: 'Request' } ]
@@ -28,4 +33,6 @@ const RequestTypeSchema = new Schema({
   }
 })
 
-export { RequestTypeSchema, RequestTypeDocument }
+const RequestType = model('RequestType', RequestTypeSchema)
+
+export { RequestType, RequestTypeDocument }
