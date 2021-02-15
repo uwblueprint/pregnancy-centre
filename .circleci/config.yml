@@ -7,6 +7,15 @@ jobs:
     steps:
       - checkout:
           path: ~/app
+      - run: npm install
+      - run: npm run lint
+  lint-client:
+    docker:
+      - image: circleci/node
+    working_directory: ~/app/client
+    steps:
+      - checkout:
+          path: ~/app
       - restore_cache:
           keys:
             - v1-deps-{{ checksum "package-lock.json" }}
@@ -19,7 +28,7 @@ jobs:
   build-client:
     docker:
       - image: circleci/node
-    working_directory: ~/app/server
+    working_directory: ~/app/client
     steps:
       - checkout:
           path: ~/app
@@ -32,15 +41,6 @@ jobs:
           paths:
             - node_modules
       - run: npm run build
-  lint-client:
-    docker:
-      - image: circleci/node
-    working_directory: ~/app/client
-    steps:
-      - checkout:
-          path: ~/app
-      - run: npm install
-      - run: npm run lint
 workflows:
   server:
     jobs:
