@@ -8,8 +8,8 @@ jobs:
       - checkout:
           path: ~/app
       - restore_cache:
-        keys:
-          - v1-deps-{{ checksum "package-lock.json" }}
+          keys:
+            - v1-deps-{{ checksum "package-lock.json" }}
       - run: npm install
       - save_cache:
           key: v1-deps-{{ checksum "package-lock.json" }}
@@ -24,8 +24,8 @@ jobs:
       - checkout:
           path: ~/app
       - restore_cache:
-        keys:
-          - v1-deps-{{ checksum "package-lock.json" }}
+          keys:
+            - v1-deps-{{ checksum "package-lock.json" }}
       - run: npm install
       - save_cache:
           key: v1-deps-{{ checksum "package-lock.json" }}
