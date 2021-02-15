@@ -6,6 +6,7 @@ import mongoose from 'mongoose'
 import { connectDB } from './mongoConnection'
 import { Request } from './models/requestModel'
 import { RequestGroup } from './models/requestGroupModel'
+import { RequestType } from './models/requestTypeModel'
 
 // -----------------------------------------------------------------------------
 // SEED REQUESTS/TAGS
@@ -21,14 +22,21 @@ connectDB(() => {
   // Reset collections
   Request.deleteMany((err) => {
     if (err) {
-      console.error('\x1b[31m', "Failed to delete all documents in 'request' collection")
+      console.error('\x1b[31m', "Failed to delete all documents in 'requests' collection")
       console.log('\x1b[0m')
       exit()
     }
   })
   RequestGroup.deleteMany((err) => {
     if (err) {
-      console.error('\x1b[31m', "Failed to delete all documents in 'requestGroup' collection")
+      console.error('\x1b[31m', "Failed to delete all documents in 'requestGroups' collection")
+      console.log('\x1b[0m')
+      exit()
+    }
+  })
+  RequestType.deleteMany((err) => {
+    if (err) {
+      console.error('\x1b[31m', "Failed to delete all documents in 'requestTypes' collection")
       console.log('\x1b[0m')
       exit()
     }
@@ -44,7 +52,7 @@ connectDB(() => {
   console.log('\x1b[0m')
   const promises = []
   for (let i = 0; i < numGroups; i++) {
-    const requestTypes = []
+    const typeIDs = []
     for (let j = 0; j < numTypesPerGroup; j++) {
       const requestIDs = []
       for (let k = 0; k < numRequestsPerType; k++) {
@@ -65,15 +73,25 @@ connectDB(() => {
         promises.push(promise) // for tracking completion
       }
 
-      const type = {
+      const type = new RequestType({
+        _id: mongoose.Types.ObjectId(),
         name: faker.commerce.product(),
         requests: {
           fulfilled: [],
           deleted: [],
           open: requestIDs
         }
-      }
-      requestTypes.push(type)
+      })
+      typeIDs.push(type._id) // store IDs to allocate among groups + types
+      const promise = type.save().catch((err) => {
+        if (err) {
+          console.error('\x1b[31m', 'Attempted to seed type #' + j + ' for group ' + i + ' but failed:')
+          console.log('\x1b[0m')
+          console.error(err)
+          exit()
+        }
+      })
+      promises.push(promise) // for tracking completion
     }
 
     const group = new RequestGroup({
@@ -81,7 +99,7 @@ connectDB(() => {
       description: faker.lorem.sentence(),
       requirements: faker.lorem.sentence(),
       image: 'https://picsum.photos/200',
-      requestTypes: requestTypes
+      requestTypes: typeIDs
     })
     const promise = group.save().catch((err) => {
       if (err) {
