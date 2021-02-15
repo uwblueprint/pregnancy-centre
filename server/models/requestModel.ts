@@ -27,7 +27,7 @@ const requestSchema = new Schema({
   },
   date_fulfilled: {
     type: Date,
-    required: true,
+    required: false,
     default: undefined
   },
   deleted: {

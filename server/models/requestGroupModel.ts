@@ -1,7 +1,5 @@
 import { Document, model, Schema, Types } from 'mongoose'
 
-import { RequestTypeDocument, RequestTypeSchema } from './requestTypeSchema'
-
 interface RequestGroupInterface {
   _id: Types.ObjectId
   name: string
@@ -19,6 +17,11 @@ const RequestGroupSchema = new Schema({
     required: true,
     trim: true
   },
+  deleted: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   description: {
     type: String
   },
@@ -29,9 +32,7 @@ const RequestGroupSchema = new Schema({
     type: String
   },
   requestTypes: {
-    type: [RequestTypeSchema],
-    required: true,
-    default: undefined
+    type: [ { type: Types.ObjectId, ref: 'RequestType' } ]
   }
 })
 
