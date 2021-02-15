@@ -26,7 +26,7 @@ connectDB(() => {
     }
   })
 
-  const numRequests = 200
+  const numRequests = 1
   const numTagsPerRequest = 5
 
   console.log('\x1b[34m', 'Seeding ' + numRequests + ' requests with ' + numTagsPerRequest + ' tags each')

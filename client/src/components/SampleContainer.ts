@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 /* Imports from local files */
 import SampleComponent, { DispatchProps as SampleComponentDispatchProps, StateProps as SampleComponentStateProps } from "./SampleComponent";
 import { loadData } from "../data/actions";
-import Store from '../data/types/store'
+import { RootState } from '../data/reducers'
 
-const mapStateToProps = (store: Store): SampleComponentStateProps => {
+const mapStateToProps = (store: RootState): SampleComponentStateProps => {
   return {
     requests: store.requests.data,
   };
@@ -23,4 +23,4 @@ const mapDispatchToProps = (dispatch: Dispatch): SampleComponentDispatchProps =>
   );
 };
 
-export default connect<SampleComponentStateProps, SampleComponentDispatchProps>(mapStateToProps, mapDispatchToProps)(SampleComponent);
+export default connect<SampleComponentStateProps, SampleComponentDispatchProps, Record<string, unknown>, RootState>(mapStateToProps, mapDispatchToProps)(SampleComponent);

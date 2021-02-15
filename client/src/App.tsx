@@ -3,11 +3,11 @@ import React from "react";
 import "./App.css";
 import SampleContainer from "./components/SampleContainer";
 
-function App(): React.ReactNode {
+function App(): JSX.Element {
   return (
     <div className="App">
       <header className="App-header">
-        <SampleContainer />
+        <SampleContainer requests={[]} />
       </header>
     </div>
   );

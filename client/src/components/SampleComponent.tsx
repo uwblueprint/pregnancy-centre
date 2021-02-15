@@ -1,6 +1,6 @@
 /* Imports from packages */
 import { gql, useQuery } from "@apollo/client";
-import React from "react";
+import React, { FunctionComponent } from "react";
 
 import { loadData } from '../data/actions'
 import { removeTypeName } from "../data/utilities";
@@ -26,17 +26,17 @@ const sampleQuery = gql`
   }
 `;
 
-const SampleComponent = (props: Props): React.ReactNode => {
+const SampleComponent: FunctionComponent<Props> = (props: Props) => {
   const { loading, error, data } = useQuery(sampleQuery, {
-    onCompleted: (data: Array<Request>) => {
-      props.loadData(removeTypeName(data));
+    onCompleted: (data: { requests: Array<Request> }) => {
+      props.loadData(removeTypeName(data.requests));
     },
   });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
 
-  return <p>{(data as Array<Request>).toString()}</p>;
+  return <p>{JSON.stringify(data)}</p>;
 };
 
 export type { DispatchProps, Props, StateProps };

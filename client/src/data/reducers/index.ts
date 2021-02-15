@@ -8,6 +8,9 @@ import { combineReducers } from 'redux';
 /* Imports from local files */
 import requestsReducer from './requestsReducer';
 
-export default combineReducers({
+const rootReducer = combineReducers({
   requests: requestsReducer
 });
+
+export default rootReducer
+export type RootState = ReturnType<typeof rootReducer>

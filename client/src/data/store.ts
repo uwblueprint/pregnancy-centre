@@ -4,12 +4,12 @@ import thunk from "redux-thunk";
 
 /* Imports from local files */
 import reducers from "./reducers";
-import StoreType from './types/store'
+import { RootState } from '../data/reducers'
 
-const DEFAULT_STATE: StoreType = {
+const DEFAULT_STATE: RootState = {
   requests: { data: [] }
 };
 
-export default function configureStore(initialState: StoreType = DEFAULT_STATE): Store<StoreType> {
+export default function configureStore(initialState = DEFAULT_STATE): Store<RootState> {
   return createStore(reducers, initialState, applyMiddleware(thunk));
 }
