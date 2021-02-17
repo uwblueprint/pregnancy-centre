@@ -7,7 +7,7 @@ import { RequestsCache } from '../cache'
 
 // TODO: rewrite
 
-/*export default class RequestDataSource extends DataSource {
+export default class RequestDataSource extends DataSource {
   async getRequestById(rawId: string): Promise<RequestInterface> {
     const id = Types.ObjectId(rawId)
     let result
@@ -48,16 +48,12 @@ import { RequestsCache } from '../cache'
   requestReducer(request: RequestDocument): RequestInterface {
     return {
       _id: request._id,
-      archived: request.archived,
-      date_created: request.date_created,
-      deleted: request.deleted,
-      description: request.description,
-      fulfilled: request.fulfilled,
-      image: request.image,
-      name: request.name,
-      priority: request.priority,
       request_id: request.request_id,
-      tags: request.tags
+      client_id: request.client_id,
+      date_created: request.date_created,
+      date_fulfilled: request.date_fulfilled,
+      deleted: request.deleted,
+      fulfilled: request.fulfilled,
     }
   }
-}*/
+}

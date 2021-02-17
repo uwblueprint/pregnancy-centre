@@ -3,7 +3,7 @@ import { connectDB } from './mongoConnection'
 import dotenv from 'dotenv'
 
 import { config } from './config'
-// import RequestDataSource from './datasources/requestsDataSource'
+import RequestDataSource from './datasources/requestsDataSource'
 import { RequestsCache } from './cache'
 import { resolvers } from './resolvers'
 import { typeDefs } from './schema'
@@ -35,7 +35,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources: () => ({
-    // requests: new RequestDataSource() // REWRITE DATA SOURCE BEFORE USING
+    requests: new RequestDataSource() // REWRITE DATA SOURCE BEFORE USING
   })
 })
 
