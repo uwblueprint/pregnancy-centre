@@ -3,7 +3,7 @@ import { Types } from 'mongoose'
 
 import { Request, RequestDocument, RequestInterface } from '../models/requestModel'
 import { config } from '../config'
-import { RequestsCache } from '../cache'
+import { RequestsCache } from '../database/cache'
 
 // TODO: rewrite
 
