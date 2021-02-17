@@ -1,4 +1,6 @@
-import { LOAD_DATA } from "../types";
+/* Imports from local files */
+import { LOAD_DATA } from "../actionTypes";
+import Request from '../types/request'
 
 /**
  * Actions should be as light weight as possible. No asynchronous processes should be started in actions.
@@ -6,7 +8,12 @@ import { LOAD_DATA } from "../types";
  *
  * "uploads" the data taken as an input into the datastore
  */
-export const loadData = (data: any) => ({
+export interface RequestsAction {
+  type: string,
+  payload: Array<Request>
+}
+
+export const loadData = (data: Array<Request>): RequestsAction => ({
   type: LOAD_DATA,
   payload: data,
 });

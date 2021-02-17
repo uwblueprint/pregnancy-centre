@@ -1,16 +1,19 @@
+/* Imports from packages */
+import { bindActionCreators, Dispatch } from "redux";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
+/* Imports from local files */
+import SampleComponent, { DispatchProps as SampleComponentDispatchProps, StateProps as SampleComponentStateProps } from "./SampleComponent";
 import { loadData } from "../data/actions";
-import SampleComponent from "./SampleComponent";
+import { RootState } from '../data/reducers'
 
-const mapStateToProps = (store: any) => {
+const mapStateToProps = (store: RootState): SampleComponentStateProps => {
   return {
-    storeData: store.dataReducer.data,
+    requests: store.requests.data,
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch): SampleComponentDispatchProps => {
   return bindActionCreators(
     {
       // add other actions here
@@ -20,4 +23,4 @@ const mapDispatchToProps = (dispatch: any) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SampleComponent);
+export default connect<SampleComponentStateProps, SampleComponentDispatchProps, Record<string, unknown>, RootState>(mapStateToProps, mapDispatchToProps)(SampleComponent);
