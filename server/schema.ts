@@ -6,11 +6,11 @@ const typeDefs = gql`
     type Request {
         _id: ID
         request_id: String
+        client_id: String
         date_created: String
         date_fulfilled: String
         deleted: Boolean
         fulfilled: Boolean
-        tags: [Tag]
     }
     type RequestListing {
         openRequests: [ID]
