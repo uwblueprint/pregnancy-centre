@@ -1,4 +1,4 @@
-"# pregnancy-centre" 
+# pregnancy-centre
 
 ### Secret Manager
 Run the following commands from the repo root:
