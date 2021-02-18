@@ -1,0 +1,52 @@
+version: 2.1
+jobs:
+  lint-server:
+    docker:
+      - image: circleci/node
+    working_directory: ~/app/server
+    steps:
+      - checkout:
+          path: ~/app
+      - run: npm install
+      - run: npm run lint
+  lint-client:
+    docker:
+      - image: circleci/node
+    working_directory: ~/app/client
+    steps:
+      - checkout:
+          path: ~/app
+      - restore_cache:
+          keys:
+            - v1-deps-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run: npm run lint
+  build-client:
+    docker:
+      - image: circleci/node
+    working_directory: ~/app/client
+    steps:
+      - checkout:
+          path: ~/app
+      - restore_cache:
+          keys:
+            - v1-deps-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run: npm run build
+workflows:
+  server:
+    jobs:
+      - lint-server
+  client:
+    jobs:
+      - lint-client
+      - build-client
+  
