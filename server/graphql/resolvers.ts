@@ -1,4 +1,4 @@
-import { RequestInterface } from './models/requestModel'
+import { RequestInterface } from '../models/requestModel'
 
 const resolvers = {
   Query: {
