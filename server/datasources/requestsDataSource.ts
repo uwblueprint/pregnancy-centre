@@ -1,21 +1,24 @@
 import { DataSource } from 'apollo-datasource'
 import { Types } from 'mongoose'
+import dotenv from 'dotenv'
 
 import { Request, RequestDocument, RequestInterface } from '../models/requestModel'
-import { config } from '../config'
 import { RequestsCache } from '../database/cache'
+
+dotenv.config()
+const CACHING = process.env.CACHING == 'TRUE'
 
 export default class RequestDataSource extends DataSource {
   async getRequestById(rawId: string): Promise<RequestInterface> {
     const id = Types.ObjectId(rawId)
     let result
 
-    if (config.caching) {
+    if (CACHING) {
       result = RequestsCache.getData().filter(request => request._id.equals(id))[0]
     } else {
-      Request.findById(id).exec()
+      await Request.findById(id).exec()
         .then((res) => {
-          result = res[0]
+          result = res
         })
         .catch((err) => {
           console.error(err)
@@ -28,10 +31,10 @@ export default class RequestDataSource extends DataSource {
   async getRequests(): Promise<Array<RequestInterface>> {
     let result
 
-    if (config.caching) {
+    if (CACHING) {
       result = RequestsCache.getData()
     } else {
-      Request.find().exec()
+      await Request.find().exec()
         .then((res) => {
           result = res
         })
