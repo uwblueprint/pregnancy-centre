@@ -1,5 +1,5 @@
 import { Document, Model, Query } from 'mongoose'
-import { Request } from './models/requestModel'
+import { Request } from '../models/requestModel'
 
 class Cache {
   name: string;
