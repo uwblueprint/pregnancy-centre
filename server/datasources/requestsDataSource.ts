@@ -1,6 +1,6 @@
 import { DataSource } from 'apollo-datasource'
-import { Types } from 'mongoose'
 import dotenv from 'dotenv'
+import { Types } from 'mongoose'
 
 import { Request, RequestDocument, RequestInterface } from '../models/requestModel'
 import { RequestsCache } from '../database/cache'
