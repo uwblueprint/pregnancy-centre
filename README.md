@@ -1,6 +1,7 @@
 "# pregnancy-centre" 
 
 ### Secret Manager
+Run the following commands from the repo root:
 
 To populate local environment files with secrets from secret manager:
 `vault kv get -format=json kv/pregnancy-centre | python update_secret_files.py`
