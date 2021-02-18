@@ -3,7 +3,6 @@ import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent } from "react";
 
 import { loadData } from '../data/actions'
-import { removeTypeName } from "../data/utilities";
 import Request from "../data/types/request"
 
 interface StateProps {
@@ -21,7 +20,7 @@ const sampleQuery = gql`
   {
     requests {
       request_id
-      name
+      fulfilled
     }
   }
 `;
@@ -29,7 +28,7 @@ const sampleQuery = gql`
 const SampleComponent: FunctionComponent<Props> = (props: Props) => {
   const { loading, error, data } = useQuery(sampleQuery, {
     onCompleted: (data: { requests: Array<Request> }) => {
-      props.loadData(removeTypeName(data.requests));
+      props.loadData(data.requests);
     },
   });
 
