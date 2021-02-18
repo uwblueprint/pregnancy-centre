@@ -5,8 +5,6 @@ import { Request, RequestDocument, RequestInterface } from '../models/requestMod
 import { config } from '../config'
 import { RequestsCache } from '../cache'
 
-// TODO: rewrite
-
 export default class RequestDataSource extends DataSource {
   async getRequestById(rawId: string): Promise<RequestInterface> {
     const id = Types.ObjectId(rawId)
