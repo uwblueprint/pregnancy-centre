@@ -35,7 +35,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources: () => ({
-    requests: new RequestDataSource() // REWRITE DATA SOURCE BEFORE USING
+    requests: new RequestDataSource()
   })
 })
 
