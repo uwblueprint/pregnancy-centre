@@ -2,8 +2,8 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent } from "react";
 
-import { loadData } from '../data/actions'
-import Request from "../data/types/request"
+import { loadData } from '../../data/actions'
+import Request from "../../data/types/request"
 
 interface StateProps {
   requests: Array<Request>
