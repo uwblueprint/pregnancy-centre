@@ -3,7 +3,8 @@ import { connectDB } from './database/mongoConnection'
 import dotenv from 'dotenv'
 
 import RequestDataSource from './datasources/requestsDataSource'
-import { RequestsCache } from './database/cache'
+import RequestGroupDataSource from './datasources/requestGroupsDataSource'
+import { RequestsCache, RequestGroupsCache } from './database/cache'
 import { resolvers } from './graphql/resolvers'
 import { typeDefs } from './graphql/schema'
 
@@ -25,6 +26,7 @@ const PORT = process.env.PORT
 connectDB(() => {
   if (CACHING) {
     RequestsCache.init()
+    RequestGroupsCache.init()
   }
 })
 
@@ -36,7 +38,8 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources: () => ({
-    requests: new RequestDataSource()
+    requests: new RequestGroupDataSource(),
+    requestGroups: new RequestGroupDataSource(),
   })
 })
 

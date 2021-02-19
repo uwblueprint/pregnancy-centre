@@ -33,6 +33,8 @@ const typeDefs = gql`
     type Query {
         request(id: ID): Request
         requests: [Request]
+        requestGroup(id: ID): RequestGroup
+        requestGroups: [RequestGroup]
     }
 `
 
