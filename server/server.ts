@@ -1,12 +1,11 @@
 import { ApolloServer } from 'apollo-server'
-import { connectDB } from './mongoConnection'
+import { connectDB } from './database/mongoConnection'
 import dotenv from 'dotenv'
 
-import { config } from './config'
 import RequestDataSource from './datasources/requestsDataSource'
-import { RequestsCache } from './cache'
-import { resolvers } from './resolvers'
-import { typeDefs } from './schema'
+import { RequestsCache } from './database/cache'
+import { resolvers } from './graphql/resolvers'
+import { typeDefs } from './graphql/schema'
 
 // TODO: need to make script to build(compile) prod server and to run prod server
 
@@ -15,6 +14,8 @@ import { typeDefs } from './schema'
 // //-----------------------------------------------------------------------------
 
 dotenv.config()
+const CACHING = process.env.CACHING == 'TRUE'
+const PORT = process.env.PORT
 
 // -----------------------------------------------------------------------------
 // MONGODB CONNECTION AND DATA SOURCES FOR APOLLO
@@ -22,7 +23,7 @@ dotenv.config()
 
 // connect to MongoDB and setup data sources
 connectDB(() => {
-  if (config.caching) {
+  if (CACHING) {
     RequestsCache.init()
   }
 })
@@ -39,7 +40,6 @@ const server = new ApolloServer({
   })
 })
 
-const port = config.port
-server.listen({ port }).then(({ url }) => {
+server.listen({ port: PORT }).then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`)
 })

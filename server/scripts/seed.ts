@@ -2,11 +2,11 @@ import dotenv from 'dotenv'
 import { exit } from 'process'
 import faker from 'faker'
 
-import { connectDB } from './mongoConnection'
+import { connectDB } from '../database/mongoConnection'
 import mongoose from 'mongoose'
-import { Request } from './models/requestModel'
-import { RequestGroup } from './models/requestGroupModel'
-import { RequestType } from './models/requestTypeModel'
+import { Request } from '../models/requestModel'
+import { RequestGroup } from '../models/requestGroupModel'
+import { RequestType } from '../models/requestTypeModel'
 
 // -----------------------------------------------------------------------------
 // SEED REQUESTS/TAGS
