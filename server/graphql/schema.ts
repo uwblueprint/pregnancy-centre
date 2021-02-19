@@ -26,6 +26,7 @@ const typeDefs = gql`
         _id: ID
         name: String
         description: String
+        deleted: Boolean
         requirements: String
         image: String
         requestTypes: [RequestType]

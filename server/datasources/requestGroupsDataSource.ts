@@ -56,6 +56,7 @@ export default class RequestGroupDataSource extends DataSource {
       _id: requestGroup._id,
       name: requestGroup.name,
       description: requestGroup.description,
+      deleted: requestGroup.deleted,
       requirements: requestGroup.requirements,
       image: requestGroup.image,
       requestTypes: requestGroup.requestTypes,

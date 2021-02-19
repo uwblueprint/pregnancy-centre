@@ -4,6 +4,7 @@ interface RequestGroupInterface {
   _id: Types.ObjectId
   name: string
   description: string
+  deleted: boolean
   requirements: string
   image: string
   requestTypes: [Types.ObjectId]

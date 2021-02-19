@@ -1,5 +1,7 @@
 import { Document, model, Schema, Types } from 'mongoose'
 
+
+// TODO: Add `deleted` field to RequestTypeDocument and graphql schema
 interface RequestTypeDocument extends Document {
   _id: Types.ObjectId
   name: string
