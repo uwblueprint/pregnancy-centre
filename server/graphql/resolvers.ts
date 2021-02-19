@@ -1,5 +1,5 @@
-import { RequestInterface } from '../models/requestModel'
 import { RequestGroupInterface } from '../models/requestGroupModel'
+import { RequestInterface } from '../models/requestModel'
 
 const resolvers = {
   Query: {

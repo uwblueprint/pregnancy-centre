@@ -2,9 +2,9 @@ import { ApolloServer } from 'apollo-server'
 import { connectDB } from './database/mongoConnection'
 import dotenv from 'dotenv'
 
+import { RequestGroupsCache, RequestsCache } from './database/cache'
 import RequestDataSource from './datasources/requestsDataSource'
 import RequestGroupDataSource from './datasources/requestGroupsDataSource'
-import { RequestsCache, RequestGroupsCache } from './database/cache'
 import { resolvers } from './graphql/resolvers'
 import { typeDefs } from './graphql/schema'
 
@@ -38,7 +38,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources: () => ({
-    requests: new RequestGroupDataSource(),
+    requests: new RequestDataSource(),
     requestGroups: new RequestGroupDataSource(),
   })
 })
