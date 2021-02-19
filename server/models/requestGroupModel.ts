@@ -6,7 +6,7 @@ interface RequestGroupInterface {
   description: string
   requirements: string
   image: string
-  requestTypes: [RequestGroupDocument]
+  requestTypes: [Types.ObjectId]
 }
 
 type RequestGroupDocument = RequestGroupInterface & Document;
