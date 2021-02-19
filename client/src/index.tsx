@@ -11,7 +11,9 @@ import configureStore from "./data/store";
 
 const apolloClient = new ApolloClient({
   uri: `${process.env.REACT_APP_GRAPHQL_SERVER_URL}/graphql`,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    addTypename: false
+  }),
 });
 
 ReactDOM.render(
