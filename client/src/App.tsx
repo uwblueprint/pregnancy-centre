@@ -1,7 +1,7 @@
+import './App.scss';
 import React from "react";
 
-import "./App.css";
-import SampleContainer from "./components/SampleContainer";
+import SampleContainer from "./components/examples/SampleContainer";
 
 function App(): JSX.Element {
   return (
