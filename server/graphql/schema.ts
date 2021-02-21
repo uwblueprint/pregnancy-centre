@@ -13,9 +13,9 @@ const typeDefs = gql`
         fulfilled: Boolean
     }
     type RequestListing {
-        open: [ID]
-        fulfilled: [ID]
-        deleted: [ID]
+        open: [Request]
+        fulfilled: [Request]
+        deleted: [Request]
     }
     type RequestType {
         _id: ID
