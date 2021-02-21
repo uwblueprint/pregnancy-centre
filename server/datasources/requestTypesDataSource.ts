@@ -32,7 +32,7 @@ export default class RequestTypeDataSource extends DataSource {
         })
     }
 
-    return this.requestTypeReducer(result)
+    return result
   }
 
   async getAll(): Promise<Array<RequestTypeInterface>> {
@@ -50,20 +50,6 @@ export default class RequestTypeDataSource extends DataSource {
         })
     }
 
-    return Promise.all(result.map((requestType) => this.requestTypeReducer(requestType)))
-  }
-
-  async requestTypeReducer(requestType: RequestTypeDocument): Promise<RequestTypeInterface> {
-
-    return {
-      _id: requestType._id,
-      name: requestType.name,
-      deleted: requestType.deleted,
-      requests: {
-        open: await this.requestDataSource.getRequestsBatchByObjectId(requestType.requests.open),
-        fulfilled: await this.requestDataSource.getRequestsBatchByObjectId(requestType.requests.fulfilled),
-        deleted: await this.requestDataSource.getRequestsBatchByObjectId(requestType.requests.deleted)
-      }
-    }
+    return result
   }
 }

@@ -27,7 +27,7 @@ export default class RequestDataSource extends DataSource {
     return result
   }
 
-  async getRequests(): Promise<Array<RequestInterface>> {
+  async getAll(): Promise<Array<RequestInterface>> {
     let result
 
     if (CACHING) {
@@ -43,9 +43,5 @@ export default class RequestDataSource extends DataSource {
     }
 
     return result
-  }
-
-  async getRequestsBatchByObjectId(ids: Array<Types.ObjectId>): Promise<Array<RequestInterface>> {
-    return Promise.all(ids.map(async (id: Types.ObjectId): Promise<RequestInterface> => (this.getById(id))))
   }
 }
