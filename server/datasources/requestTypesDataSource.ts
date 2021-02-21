@@ -17,8 +17,7 @@ export default class RequestTypeDataSource extends DataSource {
     this.requestDataSource = new RequestDataSource
   }
 
-  async getRequestTypeById(rawId: string): Promise<RequestTypeInterface> {
-    const id = Types.ObjectId(rawId)
+  async getById(id: Types.ObjectId): Promise<RequestTypeInterface> {
     let result
 
     if (CACHING) {
@@ -36,7 +35,7 @@ export default class RequestTypeDataSource extends DataSource {
     return this.requestTypeReducer(result)
   }
 
-  async getRequestTypes(): Promise<Array<RequestTypeInterface>> {
+  async getAll(): Promise<Array<RequestTypeInterface>> {
     let result
 
     if (CACHING) {

@@ -9,11 +9,7 @@ dotenv.config()
 const CACHING = process.env.CACHING == 'TRUE'
 
 export default class RequestDataSource extends DataSource {
-  async getRequestById(rawId: string): Promise<RequestInterface> {
-    return this.getRequestByObjectId(Types.ObjectId(rawId))
-  }
-
-  async getRequestByObjectId(id: Types.ObjectId): Promise<RequestInterface> {
+  async getById(id: Types.ObjectId): Promise<RequestInterface> {
     let result
 
     if (CACHING) {
@@ -50,7 +46,7 @@ export default class RequestDataSource extends DataSource {
   }
 
   async getRequestsBatchByObjectId(ids: Array<Types.ObjectId>): Promise<Array<RequestInterface>> {
-    return Promise.all(ids.map(async (id: Types.ObjectId): Promise<RequestInterface> => (this.getRequestByObjectId(id))))
+    return Promise.all(ids.map(async (id: Types.ObjectId): Promise<RequestInterface> => (this.getById(id))))
   }
 
   requestReducer(request: RequestDocument): RequestInterface {

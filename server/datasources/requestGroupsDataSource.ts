@@ -8,14 +8,11 @@ import { RequestGroupsCache } from '../database/cache'
 dotenv.config()
 const CACHING = process.env.CACHING == 'TRUE'
 
-// TODO(meganniu): replace getRequestGroupById with getById
-// TODO(meganniu): replace getRequestGroups with getAll
 // TODO(meganniu): make factory class where generic is the mongoose model. factory class should implement getById and getAll
 // TODO(meganniu): stadardize plurality of variable/class names (request vs requests, requestGroup vs requestGroups)
 
 export default class RequestGroupDataSource extends DataSource {
-  async getRequestGroupById(rawId: string): Promise<RequestGroupInterface> {
-    const id = Types.ObjectId(rawId)
+  async getById(id: Types.ObjectId): Promise<RequestGroupInterface> {
     let result
 
     if (CACHING) {
@@ -33,7 +30,7 @@ export default class RequestGroupDataSource extends DataSource {
     return this.requestGroupReducer(result)
   }
 
-  async getRequestGroups(): Promise<Array<RequestGroupInterface>> {
+  async getAll(): Promise<Array<RequestGroupInterface>> {
     let result
 
     if (CACHING) {
