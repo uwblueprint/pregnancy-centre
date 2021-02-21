@@ -30,7 +30,7 @@ const typeDefs = gql`
         deleted: Boolean
         requirements: String
         image: String
-        requestTypes: [RequestType]
+        requestTypes: [ID]
     }
     type Query {
         request(id: ID): Request
