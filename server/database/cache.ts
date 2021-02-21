@@ -3,11 +3,11 @@ import { Request } from '../models/requestModel'
 import { RequestGroup } from '../models/requestGroupModel'
 import { RequestType } from '../models/requestTypeModel'
 
-class Cache {
+class Cache<DocumentType> {
   name: string;
   model: Model<Document>;
   query: Query<Array<Document>, Document>;
-  data: Array<Document>;
+  data: Array<DocumentType>;
 
   constructor(name: string, model: Model<Document>, query: Query<Array<Document>, Document>) {
     this.name = name
