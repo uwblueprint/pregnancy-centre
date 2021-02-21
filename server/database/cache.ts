@@ -1,7 +1,7 @@
 import { Document, Model, Query } from 'mongoose'
 import { Request } from '../models/requestModel'
-import { RequestType } from '../models/requestTypeModel'
 import { RequestGroup } from '../models/requestGroupModel'
+import { RequestType } from '../models/requestTypeModel'
 
 class Cache {
   name: string;

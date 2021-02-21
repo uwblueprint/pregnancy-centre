@@ -4,8 +4,8 @@ import dotenv from 'dotenv'
 
 import { RequestTypesCache, RequestsCache, RequestGroupsCache } from './database/cache'
 import RequestDataSource from './datasources/requestsDataSource'
-import RequestTypeDataSource from './datasources/requestTypesDataSource'
 import RequestGroupDataSource from './datasources/requestGroupsDataSource'
+import RequestTypeDataSource from './datasources/requestTypesDataSource'
 import { resolvers } from './graphql/resolvers'
 import { typeDefs } from './graphql/schema'
 
