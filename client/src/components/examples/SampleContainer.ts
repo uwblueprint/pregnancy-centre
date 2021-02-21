@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 
 /* Imports from local files */
 import SampleComponent, { DispatchProps as SampleComponentDispatchProps, StateProps as SampleComponentStateProps } from "./SampleComponent";
-import { loadData } from "../data/actions";
-import { RootState } from '../data/reducers'
+import { loadData } from "../../data/actions";
+import { RootState } from '../../data/reducers'
 
 const mapStateToProps = (store: RootState): SampleComponentStateProps => {
   return {

@@ -1,6 +1,7 @@
 import { Document, Model, Query } from 'mongoose'
 import { Request } from '../models/requestModel'
 import { RequestType } from '../models/requestTypeModel'
+import { RequestGroup } from '../models/requestGroupModel'
 
 class Cache {
   name: string;
@@ -37,5 +38,7 @@ class Cache {
 
 const RequestsCache = new Cache('Request', Request, Request.find())
 const RequestTypesCache = new Cache('RequestType', RequestType, RequestType.find())
+const RequestGroupsCache = new Cache('RequestGroup', RequestGroup, RequestGroup.find())
 
-export { Cache, RequestsCache, RequestTypesCache }
+export { Cache, RequestsCache, RequestGroupsCache, RequestTypesCache }
+

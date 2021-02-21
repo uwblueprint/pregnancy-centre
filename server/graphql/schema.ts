@@ -27,6 +27,7 @@ const typeDefs = gql`
         _id: ID
         name: String
         description: String
+        deleted: Boolean
         requirements: String
         image: String
         requestTypes: [RequestType]
@@ -36,6 +37,8 @@ const typeDefs = gql`
         requests: [Request]
         requestType(id: ID): RequestType
         requestTypes: [RequestType]
+        requestGroup(id: ID): RequestGroup
+        requestGroups: [RequestGroup]
     }
 `
 

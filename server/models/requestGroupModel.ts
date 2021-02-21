@@ -4,9 +4,10 @@ interface RequestGroupInterface {
   _id: Types.ObjectId
   name: string
   description: string
+  deleted: boolean
   requirements: string
   image: string
-  requestTypes: [RequestGroupDocument]
+  requestTypes: [Types.ObjectId]
 }
 
 type RequestGroupDocument = RequestGroupInterface & Document;
