@@ -27,7 +27,7 @@ export default class RequestGroupDataSource extends DataSource {
         })
     }
 
-    return this.requestGroupReducer(result)
+    return result
   }
 
   async getAll(): Promise<Array<RequestGroupInterface>> {
@@ -45,18 +45,6 @@ export default class RequestGroupDataSource extends DataSource {
         })
     }
 
-    return result.map((requestGroup) => this.requestGroupReducer(requestGroup))
-  }
-
-  requestGroupReducer(requestGroup: RequestGroupDocument): RequestGroupInterface {
-    return {
-      _id: requestGroup._id,
-      name: requestGroup.name,
-      description: requestGroup.description,
-      deleted: requestGroup.deleted,
-      requirements: requestGroup.requirements,
-      image: requestGroup.image,
-      requestTypes: requestGroup.requestTypes,
-    }
+    return result
   }
 }

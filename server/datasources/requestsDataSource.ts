@@ -24,7 +24,7 @@ export default class RequestDataSource extends DataSource {
         })
     }
 
-    return this.requestReducer(result)
+    return result
   }
 
   async getRequests(): Promise<Array<RequestInterface>> {
@@ -42,22 +42,10 @@ export default class RequestDataSource extends DataSource {
         })
     }
 
-    return result.map((request) => this.requestReducer(request))
+    return result
   }
 
   async getRequestsBatchByObjectId(ids: Array<Types.ObjectId>): Promise<Array<RequestInterface>> {
     return Promise.all(ids.map(async (id: Types.ObjectId): Promise<RequestInterface> => (this.getById(id))))
-  }
-
-  requestReducer(request: RequestDocument): RequestInterface {
-    return {
-      _id: request._id,
-      request_id: request.request_id,
-      client_id: request.client_id,
-      date_created: request.date_created,
-      date_fulfilled: request.date_fulfilled,
-      deleted: request.deleted,
-      fulfilled: request.fulfilled,
-    }
   }
 }
