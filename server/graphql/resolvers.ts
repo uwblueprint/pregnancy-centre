@@ -1,7 +1,7 @@
-import { Types } from 'mongoose'
 import { RequestGroupInterface } from '../models/requestGroupModel'
 import { RequestInterface } from '../models/requestModel'
 import { RequestTypeInterface } from '../models/requestTypeModel'
+import { Types } from 'mongoose'
 
 const resolvers = {
   Query: {

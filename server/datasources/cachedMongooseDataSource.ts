@@ -1,7 +1,6 @@
-import { DataSource } from 'apollo-datasource'
 import { Document, Types } from 'mongoose'
-
 import { Cache } from '../database/cache'
+import { DataSource } from 'apollo-datasource'
 
 export default class CachedMongooseDataSource<DocumentType extends Document> extends DataSource {
   cache: Cache<DocumentType>;

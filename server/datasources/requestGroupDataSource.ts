@@ -1,6 +1,6 @@
 import CachedMongooseDataSource from './cachedMongooseDataSource'
-import { RequestGroupDocument } from '../models/requestGroupModel'
 import { RequestGroupCache } from '../database/cache'
+import { RequestGroupDocument } from '../models/requestGroupModel'
 
 export default class RequestGroupDataSource extends CachedMongooseDataSource<RequestGroupDocument> {
   constructor() {
