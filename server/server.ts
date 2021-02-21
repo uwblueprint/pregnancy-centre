@@ -2,10 +2,10 @@ import { ApolloServer } from 'apollo-server'
 import { connectDB } from './database/mongoConnection'
 import dotenv from 'dotenv'
 
-import { RequestGroupsCache, RequestsCache, RequestTypesCache } from './database/cache'
-import RequestDataSource from './datasources/requestsDataSource'
-import RequestGroupDataSource from './datasources/requestGroupsDataSource'
-import RequestTypeDataSource from './datasources/requestTypesDataSource'
+import { RequestGroupCache, RequestCache, RequestTypeCache } from './database/cache'
+import RequestDataSource from './datasources/requestDataSource'
+import RequestGroupDataSource from './datasources/requestGroupDataSource'
+import RequestTypeDataSource from './datasources/requestTypeDataSource'
 import { resolvers } from './graphql/resolvers'
 import { typeDefs } from './graphql/schema'
 
@@ -16,7 +16,6 @@ import { typeDefs } from './graphql/schema'
 // //-----------------------------------------------------------------------------
 
 dotenv.config()
-const CACHING = process.env.CACHING == 'TRUE'
 const PORT = process.env.PORT
 
 // -----------------------------------------------------------------------------
@@ -25,11 +24,9 @@ const PORT = process.env.PORT
 
 // connect to MongoDB and setup data sources
 connectDB(() => {
-  if (CACHING) {
-    RequestsCache.init()
-    RequestTypesCache.init()
-    RequestGroupsCache.init()
-  }
+  RequestCache.init()
+  RequestTypeCache.init()
+  RequestGroupCache.init()
 })
 
 // -----------------------------------------------------------------------------
