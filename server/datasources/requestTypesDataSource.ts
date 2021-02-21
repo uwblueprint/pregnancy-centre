@@ -2,6 +2,7 @@ import { DataSource } from 'apollo-datasource'
 import dotenv from 'dotenv'
 import { Types } from 'mongoose'
 
+import RequestDataSource from './requestsDataSource'
 import { RequestType, RequestTypeDocument, RequestTypeInterface } from '../models/requestTypeModel'
 import { RequestTypesCache } from '../database/cache'
 
@@ -9,6 +10,13 @@ dotenv.config()
 const CACHING = process.env.CACHING == 'TRUE'
 
 export default class RequestTypeDataSource extends DataSource {
+  requestDataSource: RequestDataSource
+
+  constructor() {
+    super()
+    this.requestDataSource = new RequestDataSource
+  }
+
   async getRequestTypeById(rawId: string): Promise<RequestTypeInterface> {
     const id = Types.ObjectId(rawId)
     let result
@@ -43,19 +51,19 @@ export default class RequestTypeDataSource extends DataSource {
         })
     }
 
-    return result.map((requestType) => this.requestTypeReducer(requestType))
+    return Promise.all(result.map((requestType) => this.requestTypeReducer(requestType)))
   }
 
-  requestTypeReducer(requestType: RequestTypeDocument): RequestTypeInterface {
+  async requestTypeReducer(requestType: RequestTypeDocument): Promise<RequestTypeInterface> {
 
     return {
       _id: requestType._id,
       name: requestType.name,
       deleted: requestType.deleted,
       requests: {
-        open: requestType.requests.open,
-        fulfilled: requestType.requests.fulfilled,
-        deleted: requestType.requests.deleted
+        open: await this.requestDataSource.getRequestsBatchByObjectId(requestType.requests.open),
+        fulfilled: await this.requestDataSource.getRequestsBatchByObjectId(requestType.requests.fulfilled),
+        deleted: await this.requestDataSource.getRequestsBatchByObjectId(requestType.requests.deleted)
       }
     }
   }

@@ -10,7 +10,10 @@ const CACHING = process.env.CACHING == 'TRUE'
 
 export default class RequestDataSource extends DataSource {
   async getRequestById(rawId: string): Promise<RequestInterface> {
-    const id = Types.ObjectId(rawId)
+    return this.getRequestByObjectId(Types.ObjectId(rawId))
+  }
+
+  async getRequestByObjectId(id: Types.ObjectId): Promise<RequestInterface> {
     let result
 
     if (CACHING) {
@@ -44,6 +47,10 @@ export default class RequestDataSource extends DataSource {
     }
 
     return result.map((request) => this.requestReducer(request))
+  }
+
+  async getRequestsBatchByObjectId(ids: Array<Types.ObjectId>): Promise<Array<RequestInterface>> {
+    return Promise.all(ids.map(async (id: Types.ObjectId): Promise<RequestInterface> => (this.getRequestByObjectId(id))))
   }
 
   requestReducer(request: RequestDocument): RequestInterface {
