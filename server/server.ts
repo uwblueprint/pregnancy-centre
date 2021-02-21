@@ -2,7 +2,7 @@ import { ApolloServer } from 'apollo-server'
 import { connectDB } from './database/mongoConnection'
 import dotenv from 'dotenv'
 
-import { RequestTypesCache, RequestsCache, RequestGroupsCache } from './database/cache'
+import { RequestGroupsCache, RequestsCache, RequestTypesCache } from './database/cache'
 import RequestDataSource from './datasources/requestsDataSource'
 import RequestGroupDataSource from './datasources/requestGroupsDataSource'
 import RequestTypeDataSource from './datasources/requestTypesDataSource'

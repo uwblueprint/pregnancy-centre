@@ -2,8 +2,8 @@ import { DataSource } from 'apollo-datasource'
 import dotenv from 'dotenv'
 import { Types } from 'mongoose'
 
-import RequestDataSource from './requestsDataSource'
 import { RequestType, RequestTypeDocument, RequestTypeInterface } from '../models/requestTypeModel'
+import RequestDataSource from './requestsDataSource'
 import { RequestTypesCache } from '../database/cache'
 
 dotenv.config()
