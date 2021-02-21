@@ -1,16 +1,17 @@
 import { Document, model, Schema, Types } from 'mongoose'
 
-
-// TODO: Add `deleted` field to RequestTypeDocument and graphql schema
-interface RequestTypeDocument extends Document {
+interface RequestTypeInterface {
   _id: Types.ObjectId
   name: string
+  deleted: boolean
   requests: {
     open: [Types.ObjectId]
     fulfilled: [Types.ObjectId]
     deleted: [Types.ObjectId]
   }
 }
+
+type RequestTypeDocument = RequestTypeInterface & Document;
 
 const RequestTypeSchema = new Schema({
   name: {
@@ -37,4 +38,4 @@ const RequestTypeSchema = new Schema({
 
 const RequestType = model('RequestType', RequestTypeSchema)
 
-export { RequestType, RequestTypeDocument }
+export { RequestType, RequestTypeDocument, RequestTypeInterface};

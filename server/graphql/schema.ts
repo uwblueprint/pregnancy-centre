@@ -13,13 +13,14 @@ const typeDefs = gql`
         fulfilled: Boolean
     }
     type RequestListing {
-        openRequests: [ID]
-        fulfilledRequests: [ID]
-        deletedRequests: [ID]
+        open: [ID]
+        fulfilled: [ID]
+        deleted: [ID]
     }
     type RequestType {
         _id: ID
         name: String
+        deleted: Boolean
         requests: RequestListing
     }
     type RequestGroup {
@@ -29,11 +30,13 @@ const typeDefs = gql`
         deleted: Boolean
         requirements: String
         image: String
-        requestTypes: [RequestType]
+        requestTypes: [ID]
     }
     type Query {
         request(id: ID): Request
         requests: [Request]
+        requestType(id: ID): RequestType
+        requestTypes: [RequestType]
         requestGroup(id: ID): RequestGroup
         requestGroups: [RequestGroup]
     }
