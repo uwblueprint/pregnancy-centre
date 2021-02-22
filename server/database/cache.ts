@@ -1,13 +1,13 @@
 import { Document, Model, Query } from 'mongoose'
-import { Request } from '../models/requestModel'
-import { RequestGroup } from '../models/requestGroupModel'
-import { RequestType } from '../models/requestTypeModel'
+import { Request, RequestDocument } from '../models/requestModel'
+import { RequestGroup, RequestGroupDocument } from '../models/requestGroupModel'
+import { RequestType, RequestTypeDocument } from '../models/requestTypeModel'
 
-class Cache {
+class Cache<DocumentType extends Document> {
   name: string;
   model: Model<Document>;
   query: Query<Array<Document>, Document>;
-  data: Array<Document>;
+  data: Array<DocumentType>;
 
   constructor(name: string, model: Model<Document>, query: Query<Array<Document>, Document>) {
     this.name = name
@@ -17,8 +17,8 @@ class Cache {
 
   exec(): void {
     this.query.exec()
-      .then((data) => {
-        this.data = data
+      .then((data: Array<Document>) => {
+        this.data = data as Array<DocumentType>
         console.log('Finished caching ' + this.name + ' cache')
       })
       .catch((error) => {
@@ -27,18 +27,19 @@ class Cache {
   }
 
   init(): void {
+    console.log('Initializing ' + this.name + ' cache')
     this.exec()
     this.model.watch().on('change', this.exec)
   }
 
-  getData(): Array<Document> {
+  getData(): Array<DocumentType> {
     return this.data
   }
 }
 
-const RequestsCache = new Cache('Request', Request, Request.find())
-const RequestTypesCache = new Cache('RequestType', RequestType, RequestType.find())
-const RequestGroupsCache = new Cache('RequestGroup', RequestGroup, RequestGroup.find())
+const RequestCache = new Cache<RequestDocument>('Request', Request, Request.find())
+const RequestTypeCache = new Cache<RequestTypeDocument>('RequestType', RequestType, RequestType.find())
+const RequestGroupCache = new Cache<RequestGroupDocument>('RequestGroup', RequestGroup, RequestGroup.find())
 
-export { Cache, RequestsCache, RequestGroupsCache, RequestTypesCache }
+export { Cache, RequestCache, RequestGroupCache, RequestTypeCache }
 
