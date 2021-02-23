@@ -1,3 +1,5 @@
+import RequestType from './requestType'
+
 export default interface Request {
   _id?: string;
   name?: string;
@@ -5,5 +7,5 @@ export default interface Request {
   description?: string;
   requirements?: string;
   image?: string;
-  requestTypes?: [string];
+  requestTypes?: [RequestType];
 }
