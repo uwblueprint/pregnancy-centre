@@ -5,7 +5,7 @@ export const createNewAccount = async (
   password: string
 ): Promise<{ email: string; password: string }> => {
   //12 characters min., Contains: Upper, Lower, Number, Non-Alphanumeric
-  const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{12,})/;
+  const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^?&*])(?=.{12,})/;
   let errors = {
     email: "",
     password: "",
@@ -40,6 +40,8 @@ export const createNewAccount = async (
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
+        const user = firebase.auth().currentUser;
+        user?.sendEmailVerification();
         return { email: "", password: "" };
       })
       .catch((error) => {
