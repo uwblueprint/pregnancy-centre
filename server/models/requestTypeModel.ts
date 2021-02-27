@@ -12,16 +12,7 @@ interface RequestTypeInterface {
   }
 }
 
-type RequestTypeDocument = Document & {
-  _id: Types.ObjectId
-  name: string
-  deleted: boolean
-  requests: {
-    open: Array<Types.ObjectId>
-    fulfilled: Array<Types.ObjectId>
-    deleted: Array<Types.ObjectId>
-  }
-}
+type RequestTypeDocument = RequestTypeInterface & Document
 
 const RequestTypeSchema = new Schema({
   name: {
