@@ -1,5 +1,6 @@
-import "firebase/auth";
 import firebase from "firebase";
+//limit import to auth (keep comment to keep linter happy)
+import "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyApDXStJREUsZymQBGs4yJXi22wc3PBvSo",
