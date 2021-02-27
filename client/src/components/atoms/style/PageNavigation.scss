@@ -2,11 +2,6 @@
   @include transparent;
 }
 
-@mixin page-item-color($color) {
-  border: none;
-  border-radius: 50px;
-}
-
 .page-link {
   @include transparent;
 
