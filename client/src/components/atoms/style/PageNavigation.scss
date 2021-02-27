@@ -1,0 +1,47 @@
+.pagination {
+  @include transparent;
+}
+
+@mixin page-item-color($color) {
+  border: none;
+  border-radius: 50px;
+}
+
+.page-link {
+  @include transparent;
+
+  &:focus {
+    box-shadow: none !important;
+    border-color: transparent !important;
+  }
+}
+
+.page-item {
+  & a {
+    border-radius: 50px;
+  }
+
+  &:focus {
+    border-color: none;
+  }
+
+  &.active .page-link {
+    @include active-button;
+  }
+
+  &.inactive .page-link {
+    color: black;
+  }
+}
+
+.page-arrow {
+  & .page-link {
+    color: $button-background;
+    @include transparent;
+  }
+
+  &.disabled .page-link {
+    color: $button-disabled-background;
+    @include transparent;
+  }
+}

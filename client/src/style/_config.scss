@@ -1,0 +1,15 @@
+$button-background: #3e3e3e;
+$button-disabled-background: #b2b2b2;
+$button-text: white;
+$background: #e1e1e1;
+
+@mixin active-button() {
+    background-color: $button-background;
+    border-color: $button-background;
+    color: $button-text;
+}
+
+@mixin transparent() {
+    background: none;
+    border: none;
+}
