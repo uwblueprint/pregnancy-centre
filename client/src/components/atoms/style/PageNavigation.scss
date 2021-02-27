@@ -13,7 +13,8 @@
 
 .page-item {
   & a {
-    border-radius: 50px;
+    border-radius: 50%;
+    margin: 6px;
   }
 
   &:focus {
