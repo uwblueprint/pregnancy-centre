@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import Pagination from 'react-bootstrap/Pagination';
 
 interface Props {
