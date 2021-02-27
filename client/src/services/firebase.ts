@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
 //limit import to auth (keep comment to keep linter happy)
 import "firebase/auth";
 
