@@ -8,8 +8,7 @@ interface Props {
 }
 
 const RequestGroupListItem: FunctionComponent<Props> = (props: Props) => {
-
-  return <div className={"request-group-item" + (props.selected ? " selected" : "")}>
+  return <div className={"request-group-list-item" + (props.selected ? " selected" : "")}>
     <img src={props.imageURL}></img>
     <div className="request-group-info">
       <h1>{props.requestGroupName}</h1>
