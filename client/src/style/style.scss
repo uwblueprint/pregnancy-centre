@@ -1,2 +1,7 @@
 @import "config";
 @import "../components/atoms/style/index";
+@import "../components/organisms/style/index";
+
+body {
+  @include normal-text
+}

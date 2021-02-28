@@ -13,3 +13,24 @@ $background: #e1e1e1;
     background: none;
     border: none;
 }
+
+/* Text Config */
+$font-stack: Inter;
+$faded-text-color: #afafaf;
+$normal-text-color: black;
+
+@mixin text() {
+    font-family: $font-stack;
+    font-style: normal;
+    font-weight: normal;
+}
+
+@mixin normal-text() {
+    @include text;
+    color: $normal-text-color;
+}
+
+@mixin faded-text() {
+    @include text;
+    color: $faded-text-color;
+}
