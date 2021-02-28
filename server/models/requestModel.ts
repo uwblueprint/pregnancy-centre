@@ -2,10 +2,11 @@ import { Document, model, Schema, Types } from 'mongoose'
 
 interface RequestInterface {
   _id: Types.ObjectId
-  request_id: string
-  client_id: string
-  date_created: Date
-  date_fulfilled: Date
+  requestId: string
+  clientId: Types.ObjectId
+  dateUpdated: Date
+  dateCreated: Date
+  dateFulfilled: Date
   deleted: boolean
   fulfilled: boolean
 }
@@ -13,19 +14,24 @@ interface RequestInterface {
 type RequestDocument = RequestInterface & Document;
 
 const requestSchema = new Schema({
-  request_id: {
+  requestId: {
     type: String,
     required: true
   },
-  client_id: {
-    type: String
+  clientId: {
+    type: Types.ObjectId, ref: 'Client'
   },
-  date_created: {
+  dateUpdated: {
     type: Date,
     required: true,
     default: Date.now
   },
-  date_fulfilled: {
+  dateCreated: {
+    type: Date,
+    required: true,
+    default: Date.now
+  },
+  dateFulfilled: {
     type: Date,
     required: false,
     default: undefined

@@ -4,6 +4,7 @@ import faker from 'faker'
 
 import { connectDB } from '../database/mongoConnection'
 import mongoose from 'mongoose'
+import { Client } from '../models/clientModel'
 import { Request } from '../models/requestModel'
 import { RequestGroup } from '../models/requestGroupModel'
 import { RequestType } from '../models/requestTypeModel'
@@ -41,9 +42,17 @@ connectDB(() => {
       exit()
     }
   })
+  Client.deleteMany((err) => {
+    if (err) {
+      console.error('\x1b[31m', "Failed to delete all documents in 'client' collection")
+      console.log('\x1b[0m')
+      exit()
+    }
+  })
 
   faker.seed(2021)
 
+  const numClients = 50
   const numGroups = 5
   const numTypesPerGroup = 5
   const numRequestsPerType = 50
@@ -51,6 +60,27 @@ connectDB(() => {
   console.log('\x1b[34m', 'Seeding data')
   console.log('\x1b[0m')
   const promises = []
+
+  const clientIDs = []
+  for (let i = 0 ; i < numClients; i++) {
+    const client = new Client({
+      _id: mongoose.Types.ObjectId(),
+      clientId: faker.random.alphaNumeric(8),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName()
+    })
+    clientIDs.push(client._id) // store IDs to allocate among groups + types
+    const promise = client.save().catch((err) => {
+      if (err) {
+        console.error('\x1b[31m', 'Attempted to seed client # ' + i + ' but failed:')
+        console.log('\x1b[0m')
+        console.error(err)
+        exit()
+      }
+    })
+    promises.push(promise) // for tracking completion
+  }
+
   for (let i = 0; i < numGroups; i++) {
     const typeIDs = []
     for (let j = 0; j < numTypesPerGroup; j++) {
@@ -58,8 +88,8 @@ connectDB(() => {
       for (let k = 0; k < numRequestsPerType; k++) {
         const request = new Request({
           _id: mongoose.Types.ObjectId(),
-          request_id: faker.random.alphaNumeric(6),
-          client_id: faker.random.alphaNumeric(6)
+          requestId: faker.random.alphaNumeric(6),
+          clientId: faker.random.arrayElement(clientIDs)
         })
         requestIDs.push(request._id) // store IDs to allocate among groups + types
         const promise = request.save().catch((err) => {

@@ -3,6 +3,7 @@ import { Document, model, Schema, Types } from 'mongoose'
 interface RequestGroupInterface {
   _id: Types.ObjectId
   name: string
+  dateUpdated: Date,
   description: string
   deleted: boolean
   requirements: string
@@ -17,6 +18,11 @@ const RequestGroupSchema = new Schema({
     type: String,
     required: true,
     trim: true
+  },
+  dateUpdated: {
+    type: Date,
+    required: true,
+    default: Date.now()
   },
   deleted: {
     type: Boolean,

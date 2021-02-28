@@ -3,12 +3,19 @@ import { gql } from 'apollo-server'
 // TODO: date types
 
 const typeDefs = gql`
+    type Client {
+        _id: ID
+        clientId: String
+        firstName: String
+        lastName: String
+    }
     type Request {
         _id: ID
-        request_id: String
-        client_id: String
-        date_created: String
-        date_fulfilled: String
+        requestId: String
+        clientId: ID
+        dateUpdated: String
+        dateCreated: String
+        dateFulfilled: String
         deleted: Boolean
         fulfilled: Boolean
     }
@@ -20,12 +27,14 @@ const typeDefs = gql`
     type RequestType {
         _id: ID
         name: String
+        dateUpdated: String
         deleted: Boolean
         requests: RequestListing
     }
     type RequestGroup {
         _id: ID
         name: String
+        dateUpdated: String
         description: String
         deleted: Boolean
         requirements: String
@@ -33,6 +42,8 @@ const typeDefs = gql`
         requestTypes: [RequestType]
     }
     type Query {
+        client(id: ID): Client
+        clients(id: ID): [Client]
         request(id: ID): Request
         requests: [Request]
         requestType(id: ID): RequestType

@@ -1,4 +1,5 @@
 import { Document, Model, Query } from 'mongoose'
+import { Client, ClientDocument } from '../models/clientModel'
 import { Request, RequestDocument } from '../models/requestModel'
 import { RequestGroup, RequestGroupDocument } from '../models/requestGroupModel'
 import { RequestType, RequestTypeDocument } from '../models/requestTypeModel'
@@ -37,9 +38,10 @@ class Cache<DocumentType extends Document> {
   }
 }
 
+const ClientCache = new Cache<ClientDocument>('Client', Client, Client.find())
 const RequestCache = new Cache<RequestDocument>('Request', Request, Request.find())
 const RequestTypeCache = new Cache<RequestTypeDocument>('RequestType', RequestType, RequestType.find())
 const RequestGroupCache = new Cache<RequestGroupDocument>('RequestGroup', RequestGroup, RequestGroup.find())
 
-export { Cache, RequestCache, RequestGroupCache, RequestTypeCache }
+export { Cache, ClientCache, RequestCache, RequestGroupCache, RequestTypeCache }
 
