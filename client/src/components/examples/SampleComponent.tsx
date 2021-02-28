@@ -3,6 +3,7 @@ import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent } from "react";
 
 import { loadData } from '../../data/actions'
+import Navbar from '../organisms/Navbar'
 import Request from "../../data/types/request"
 
 interface StateProps {
@@ -35,7 +36,10 @@ const SampleComponent: FunctionComponent<Props> = (props: Props) => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
 
-  return <p>{JSON.stringify(data)}</p>;
+  return <React.Fragment>
+    <Navbar />
+    <p>{JSON.stringify(data)}</p>
+  </React.Fragment>;
 };
 
 export type { DispatchProps, Props, StateProps };
