@@ -5,3 +5,7 @@
 body {
   @include normal-text
 }
+
+img {
+  border-radius: $box-border-radius;
+}

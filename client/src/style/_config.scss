@@ -1,14 +1,9 @@
-$button-background: #3e3e3e;
-$button-disabled-background: #b2b2b2;
-$button-text: white;
+$box-border-radius: 4px;
+
+/* Element background color */
+
 $background: #e1e1e1;
-
-@mixin active-button() {
-    background-color: $button-background;
-    border-color: $button-background;
-    color: $button-text;
-}
-
+$selected-item-background: #f7f7f7;
 @mixin transparent() {
     background: none;
     border: none;
@@ -33,4 +28,16 @@ $normal-text-color: black;
 @mixin faded-text() {
     @include text;
     color: $faded-text-color;
+}
+
+/* Button Config */
+
+$button-background: #3e3e3e;
+$button-disabled-background: #b2b2b2;
+$button-text: white;
+
+@mixin active-button() {
+    background-color: $button-background;
+    border-color: $button-background;
+    color: $button-text;
 }
