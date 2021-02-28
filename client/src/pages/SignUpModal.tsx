@@ -46,7 +46,7 @@ function SignUpModal() {
                 <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <form onSubmit={handleClick}>
+                <form onSubmit={() => handleClick}>
                 <div>
                     <input
                         name="firstName"
