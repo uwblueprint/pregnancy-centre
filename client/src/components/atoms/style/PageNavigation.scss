@@ -1,0 +1,50 @@
+.pagination {
+  @include transparent;
+}
+
+.page-link {
+  @include transparent;
+
+  &:focus {
+    box-shadow: none !important;
+    border-color: transparent !important;
+  }
+}
+
+.page-item {
+  & a {
+    border-radius: 50%;
+    margin: 6px;
+  }
+
+  &:focus {
+    border-color: none;
+  }
+
+  &.active .page-link {
+    @include active-button;
+  }
+
+  &.inactive .page-link {
+    color: black;
+  }
+}
+
+.page-arrow {
+  width: 41px;
+  & .page-link {
+    color: $button-background;
+    @include transparent;
+  }
+
+  &.disabled {
+    &.next-arrow {
+      padding-left: 7px;
+    }
+    &.page-item {
+      color: $button-disabled-background;
+      align-self: center;
+      @include transparent;
+    }
+  }
+}
