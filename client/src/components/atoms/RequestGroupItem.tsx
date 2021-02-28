@@ -13,7 +13,7 @@ const RequestGroupItem: FunctionComponent<Props> = (props: Props) => {
     <img src={props.imageURL}></img>
     <div className="request-group-info">
       <h1>{props.requestGroupName}</h1>
-      <h2>{props.numItemsNeeded == 1 ? "1 item needed" : `${props.numItemsNeeded} items needed`}</h2>
+      <h2>{props.numItemsNeeded === 1 ? "1 item needed" : `${props.numItemsNeeded} items needed`}</h2>
     </div>
   </div>
 };
