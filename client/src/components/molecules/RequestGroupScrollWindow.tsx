@@ -15,7 +15,7 @@ export interface Props {
   onRequestGroupChange: (requestGroupId: string) => void
 }
 
-const RequestGroupList: FunctionComponent<Props> = (props: Props) => {
+const RequestGroupScrollWindow: FunctionComponent<Props> = (props: Props) => {
   const listIsEmpty = props.requestGroups.length <= 0;
   const [selectedRequestGroup, setSelectedRequestGroup] = useState(props.selectedRequestGroup);
 
@@ -37,4 +37,4 @@ const RequestGroupList: FunctionComponent<Props> = (props: Props) => {
   </div>
 };
 
-export default RequestGroupList;
+export default RequestGroupScrollWindow;
