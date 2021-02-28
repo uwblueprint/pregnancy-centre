@@ -3,17 +3,19 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyApDXStJREUsZymQBGs4yJXi22wc3PBvSo",
-  authDomain: "bp-pregnancy-centre.firebaseapp.com",
-  projectId: "bp-pregnancy-centre",
-  storageBucket: "bp-pregnancy-centre.appspot.com",
-  messagingSenderId: "907701825043",
-  appId: "1:907701825043:web:e967c13a3543cbd8a219e6",
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: `${process.env.FIREBASE_PROJECT_ID}.appspot.com`,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
 };
+
 try {
   firebase.initializeApp(firebaseConfig);
 } catch (err) {
-  if (!/already exists/.test(err.message)) {
+  //prevents console clutter on hot reload
+  if (err.code === "app/duplicate-app") {
     console.error("Firebase initialization error", err.stack);
   }
 }
