@@ -1,3 +1,4 @@
+import '../../pages/Modal.scss';
 import React, { useState } from 'react';
 import { useApolloClient } from "@apollo/client";
 import { useDispatch } from "react-redux";
@@ -11,21 +12,14 @@ function CommonModal(props: any) {
     const handleShow = () => setShow(true);
   
     return ( 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} centered={true} className="modal">
                 <Modal.Header closeButton>
-                <Modal.Title>{props.modalTitle}</Modal.Title>
                 </Modal.Header>
+                <div className="pc-icon"><img src="TPC_leaf.png"></img></div>
+                <Modal.Title>{props.modalTitle}</Modal.Title>
                 <Modal.Body>
                     {props.body}
                 </Modal.Body>
-                <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={handleClose}>
-                    Save Changes
-                </Button>
-                </Modal.Footer>
             </Modal>
     );
   }

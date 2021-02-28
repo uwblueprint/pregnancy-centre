@@ -1,8 +1,9 @@
+import './Modal.scss';
 import React, { useState } from 'react';
+import CommonModal from '../components/organisms/CommonModal';
 import { useApolloClient } from "@apollo/client";
 import { useDispatch } from "react-redux";
 
-import CommonModal from '../components/organisms/CommonModal';
 
 function SignUpModal() {
     
@@ -32,48 +33,46 @@ function SignUpModal() {
     const onChangePass = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     }
-    const modalTitle = "Modal Title";
+    const modalTitle = "Welcome to Employee Login";
     return (
         <CommonModal modalTitle={modalTitle} body={
-            <form onSubmit={handleClick}>
             <div>
-                <input
-                    name="firstName"
-                    placeholder="firstName"
-                    value={firstName}
-                    onChange={onChangeFirstName}
-                />
-            </div>
-            <div>
-                <input
-                    name="lastName"
-                    placeholder="lastName"
-                    value={lastName}
-                    onChange={onChangeLastName}
-                />
-            </div>
-            <div>
-            <input
-                name="email"
-                placeholder="email"
-                value={email}
-                onChange={onChangeEmail}
-            />
-            </div>
-            <div>
-            <input
-                type="password"
-                name="password"
-                placeholder="password"
-                value={password}
-                onChange={onChangePass}           
-            />
+                <form onSubmit={handleClick}>
+                
+                <div>
+                    <div className="text">
+                        Email address
+                    </div>
+                    <input
+                        name="email"
+                        placeholder="Enter your company email"
+                        value={email}
+                        className="input-field"
+                        onChange={onChangeEmail}
+                    />
+                </div>
+                <div>
+                    <div className="text">
+                        Password
+                    </div>
+                    <input
+                        type="password"
+                        name="password"
+                        className="input-field"
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={onChangePass}           
+                    />
 
+                </div>
+                <button role="link" className="button">
+                    Sign In
+                </button>
+            </form>
+            <div>
+                <p><a href='http://localhost:3000/' className="no-account">Don<span>&#39;</span>t have an account?</a></p>
             </div>
-            <button role="link">
-                Register
-            </button>
-        </form>}/>
+        </div>}/>
     );
   }
   
