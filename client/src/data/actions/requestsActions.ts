@@ -1,5 +1,5 @@
 /* Imports from local files */
-import { LOAD_DATA } from "../actionTypes";
+import { LOAD_REQUESTS} from "../actionTypes";
 import Request from '../types/request'
 
 /**
@@ -13,7 +13,7 @@ export interface RequestsAction {
   payload: Array<Request>
 }
 
-export const loadData = (data: Array<Request>): RequestsAction => ({
-  type: LOAD_DATA,
+export const loadRequests = (data: Array<Request>): RequestsAction => ({
+  type: LOAD_REQUESTS,
   payload: data,
 });

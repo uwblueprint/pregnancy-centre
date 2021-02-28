@@ -1,5 +1,5 @@
 /* Imports from local files */
-import { LOAD_DATA } from "../actionTypes";
+import { LOAD_REQUEST_GROUPS } from "../actionTypes";
 import RequestGroup from '../types/requestGroup'
 
 /**
@@ -13,7 +13,7 @@ export interface RequestGroupsAction {
   payload: Array<RequestGroup>
 }
 
-export const loadData = (data: Array<RequestGroup>): RequestGroupsAction => ({
-  type: LOAD_DATA,
+export const loadRequestGroups = (data: Array<RequestGroup>): RequestGroupsAction => ({
+  type: LOAD_REQUEST_GROUPS,
   payload: data,
 });

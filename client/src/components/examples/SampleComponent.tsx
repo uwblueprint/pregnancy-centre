@@ -3,7 +3,7 @@ import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent } from "react";
 
 import Footer from '../organisms/Footer'
-import { loadData } from '../../data/actions'
+import { loadRequestGroups } from '../../data/actions'
 import Navbar from '../organisms/Navbar'
 import Request from "../../data/types/request"
 import RequestGroup from '../../data/types/request'
@@ -13,7 +13,7 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  loadData: typeof loadData
+  loadRequestGroups: typeof loadRequestGroups,
 }
 
 type Props = StateProps & DispatchProps;
@@ -29,7 +29,7 @@ const sampleQuery = gql`
         requests {
           open {
             _id
-            client_id
+            clientId
           }
         }
       }
@@ -40,7 +40,7 @@ const sampleQuery = gql`
 const SampleComponent: FunctionComponent<Props> = (props: Props) => {
   const { loading, error, data } = useQuery(sampleQuery, {
     onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
-      props.loadData(data.requestGroups);
+      props.loadRequestGroups(data.requestGroups);
     },
   });
 

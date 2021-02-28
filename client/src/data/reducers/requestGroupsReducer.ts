@@ -1,5 +1,5 @@
 /* Imports from local files */
-import { LOAD_DATA } from "../actionTypes";
+import { LOAD_REQUEST_GROUPS } from "../actionTypes";
 import RequestGroup from '../types/requestGroup'
 import { RequestGroupsAction } from '../actions/'
 
@@ -18,7 +18,7 @@ const defaultState: RequestGroupsState = {
 export default (state = defaultState, action: RequestGroupsAction): RequestGroupsState => {
   switch (action.type) {
     // directly sets the global data to the payload as specified in the action
-    case LOAD_DATA:
+    case LOAD_REQUEST_GROUPS:
       return {
         data: action.payload,
       };
