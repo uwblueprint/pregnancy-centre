@@ -1,0 +1,33 @@
+.modal {
+  align-items: center;
+  text-align: center;
+
+  .button {
+    color: #ffffff;
+    background-color: #004D57;
+    border-radius: 4px;
+    padding: 5px 120px;
+    margin: 15px 8px;
+  }
+
+  .text {
+    margin: 20px 0px;
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  .link {
+    color: #004D57;
+  }
+}
+
+.modal-header {
+  border-bottom: 0 none;
+}
+
+.modal-footer {
+  border-top: 0 none;
+}

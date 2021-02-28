@@ -41,3 +41,8 @@ $button-text: white;
     border-color: $button-background;
     color: $button-text;
 }
+
+@mixin modal() {
+  align-items: center;
+  text-align: center;
+}
