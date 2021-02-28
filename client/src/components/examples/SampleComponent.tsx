@@ -2,6 +2,7 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent } from "react";
 
+import Footer from '../organisms/Footer'
 import { loadData } from '../../data/actions'
 import Navbar from '../organisms/Navbar'
 import Request from "../../data/types/request"
@@ -39,6 +40,7 @@ const SampleComponent: FunctionComponent<Props> = (props: Props) => {
   return <React.Fragment>
     <Navbar />
     <p>{JSON.stringify(data)}</p>
+    <Footer />
   </React.Fragment>;
 };
 
