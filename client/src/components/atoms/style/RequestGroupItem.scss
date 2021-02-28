@@ -1,0 +1,38 @@
+.request-group-item {
+  background-color: white;
+  border-radius: $box-border-radius;
+  width: 391px;
+  height: 118px;
+  padding: 18px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &.selected {
+    background-color: $selected-item-background;
+  }
+
+  & img {
+    width: 120px;
+    height: 90px;
+  }
+}
+
+.request-group-info {
+  padding: 15px;
+  background-color: inherit;
+
+  & h1 {
+    @include normal-text;
+    font-size: 20px;
+    line-height: 24px;
+    margin-bottom: 5px;
+  }
+
+  & h2 {
+    @include faded-text;
+    font-size: 16px;
+    line-height: 19px;
+  }
+}
