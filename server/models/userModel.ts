@@ -8,7 +8,7 @@ interface UserDocument extends Document {
   passwordSalt: string
   passwordHash: string
   accountType: number
-  verified: Boolean
+  verified: boolean
   verificationHash: string
 }
 

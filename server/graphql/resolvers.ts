@@ -7,7 +7,7 @@ import { Types } from 'mongoose'
 const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.requests.getById(Types.ObjectId(id)),
-    clients: (_, { id }, { dataSources }): ClientInterface => dataSources.requests.getAll(),
+    clients: (_, __, { dataSources }): ClientInterface => dataSources.requests.getAll(),
     request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getById(Types.ObjectId(id)),
     requests: (_, __, { dataSources }): Array<RequestInterface> => dataSources.requests.getAll(),
     requestType: (_, { id }, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(id)),

@@ -1,9 +1,10 @@
 import dotenv from 'dotenv'
 import { exit } from 'process'
 import faker from 'faker'
+import mongoose from 'mongoose'
 
 import { connectDB } from '../database/mongoConnection'
-import mongoose from 'mongoose'
+
 import { Client } from '../models/clientModel'
 import { Request } from '../models/requestModel'
 import { RequestGroup } from '../models/requestGroupModel'
