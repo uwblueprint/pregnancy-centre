@@ -7,7 +7,7 @@ interface Props {
   selected: boolean
 }
 
-const RequestGroupItem: FunctionComponent<Props> = (props: Props) => {
+const RequestGroupListItem: FunctionComponent<Props> = (props: Props) => {
 
   return <div className={"request-group-item" + (props.selected ? " selected" : "")}>
     <img src={props.imageURL}></img>
@@ -18,4 +18,4 @@ const RequestGroupItem: FunctionComponent<Props> = (props: Props) => {
   </div>
 };
 
-export default RequestGroupItem;
+export default RequestGroupListItem;
