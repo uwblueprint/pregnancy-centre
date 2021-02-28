@@ -1,2 +1,6 @@
 @import "config";
 @import "../components/atoms/style/index";
+
+img {
+  border-radius: $box-border-radius;
+}
