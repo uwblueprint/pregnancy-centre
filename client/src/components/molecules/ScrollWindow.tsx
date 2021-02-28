@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import RequestGroupItem from '../atoms/RequestGroupItem';
+import RequestGroupListItem from '../atoms/RequestGroupListItem';
 
 // RequestGroup defintion temporary until redux changes are merged
 export interface RequestGroup {
@@ -28,7 +28,7 @@ const RequestGroupList: FunctionComponent<Props> = (props: Props) => {
   return <div className="request-group-scroll-window">
     {!listIsEmpty && props.requestGroups.map((requestGroup: RequestGroup) =>
       <div className="request-group-list-item-wrapper" id={requestGroup.id} key={requestGroup.id} onClick={onClick}>
-        <RequestGroupItem
+        <RequestGroupListItem
           imageURL={requestGroup.image}
           requestGroupName={requestGroup.name}
           numItemsNeeded={requestGroup.numItemsNeeded}
