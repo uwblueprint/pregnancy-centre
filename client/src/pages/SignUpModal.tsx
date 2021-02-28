@@ -35,7 +35,7 @@ function SignUpModal() {
     }
     const modalTitle = "Welcome to Employee Login";
     return (
-        <CommonModal modalTitle={modalTitle} body={
+        <CommonModal title={modalTitle} body={
             <div>
                 <form onSubmit={handleClick}>
                 
