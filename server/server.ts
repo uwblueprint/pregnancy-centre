@@ -2,7 +2,8 @@ import { ApolloServer } from 'apollo-server'
 import { connectDB } from './database/mongoConnection'
 import dotenv from 'dotenv'
 
-import { RequestCache, RequestGroupCache, RequestTypeCache } from './database/cache'
+import { ClientCache, RequestCache, RequestGroupCache, RequestTypeCache } from './database/cache'
+import ClientDataSource from './datasources/clientDataSource'
 import RequestDataSource from './datasources/requestDataSource'
 import RequestGroupDataSource from './datasources/requestGroupDataSource'
 import RequestTypeDataSource from './datasources/requestTypeDataSource'
@@ -24,6 +25,7 @@ const PORT = process.env.PORT
 
 // connect to MongoDB and setup data sources
 connectDB(() => {
+  ClientCache.init()
   RequestCache.init()
   RequestTypeCache.init()
   RequestGroupCache.init()
@@ -37,6 +39,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources: () => ({
+    clients: new ClientDataSource(),
     requests: new RequestDataSource(),
     requestTypes: new RequestTypeDataSource(),
     requestGroups: new RequestGroupDataSource(),
