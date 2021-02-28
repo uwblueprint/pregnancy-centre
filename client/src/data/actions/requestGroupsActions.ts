@@ -1,0 +1,19 @@
+/* Imports from local files */
+import { LOAD_DATA } from "../actionTypes";
+import RequestGroup from '../types/requestGroup'
+
+/**
+ * Actions should be as light weight as possible. No asynchronous processes should be started in actions.
+ * This is why the data fetching was done prior to loading the data to the global store.
+ *
+ * "uploads" the data taken as an input into the datastore
+ */
+export interface RequestGroupsAction {
+  type: string,
+  payload: Array<RequestGroup>
+}
+
+export const loadData = (data: Array<RequestGroup>): RequestGroupsAction => ({
+  type: LOAD_DATA,
+  payload: data,
+});

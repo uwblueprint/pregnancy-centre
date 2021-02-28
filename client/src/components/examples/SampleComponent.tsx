@@ -6,9 +6,10 @@ import Footer from '../organisms/Footer'
 import { loadData } from '../../data/actions'
 import Navbar from '../organisms/Navbar'
 import Request from "../../data/types/request"
+import RequestGroup from '../../data/types/request'
 
 interface StateProps {
-  requests: Array<Request>
+  requestGroups: Array<RequestGroup>
 }
 
 interface DispatchProps {
@@ -20,16 +21,26 @@ type Props = StateProps & DispatchProps;
 //Edit the following as necessary according to backend gql schema/resolver
 const sampleQuery = gql`
   {
-    requests {
-      _id
+    requestGroups {
+      name
+      description
+      requestTypes {
+        name
+        requests {
+          open {
+            _id
+            client_id
+          }
+        }
+      }
     }
   }
 `;
 
 const SampleComponent: FunctionComponent<Props> = (props: Props) => {
   const { loading, error, data } = useQuery(sampleQuery, {
-    onCompleted: (data: { requests: Array<Request> }) => {
-      props.loadData(data.requests);
+    onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
+      props.loadData(data.requestGroups);
     },
   });
 

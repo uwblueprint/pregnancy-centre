@@ -9,7 +9,7 @@ import { RootState } from '../../data/reducers'
 
 const mapStateToProps = (store: RootState): SampleComponentStateProps => {
   return {
-    requests: store.requests.data,
+    requestGroups: store.requestGroups.data,
   };
 };
 

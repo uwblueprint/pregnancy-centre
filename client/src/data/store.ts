@@ -4,10 +4,10 @@ import thunk from "redux-thunk";
 
 /* Imports from local files */
 import reducers from "./reducers";
-import { RootState } from '../data/reducers'
+import { RootState } from './reducers'
 
 const DEFAULT_STATE: RootState = {
-  requests: { data: [] }
+  requestGroups: { data: [] }
 };
 
 export default function configureStore(initialState = DEFAULT_STATE): Store<RootState> {

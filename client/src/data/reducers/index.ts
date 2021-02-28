@@ -6,10 +6,11 @@
 import { combineReducers } from 'redux';
 
 /* Imports from local files */
-import requestsReducer from './requestsReducer';
+import requestGroupsReducer from './requestGroupsReducer'
+// import requestsReducer from './requestsReducer';
 
 const rootReducer = combineReducers({
-  requests: requestsReducer
+  requestGroups: requestGroupsReducer
 });
 
 export default rootReducer

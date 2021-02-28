@@ -1,6 +1,6 @@
 import RequestType from './requestType'
 
-export default interface Request {
+export default interface RequestGroup {
   _id?: string;
   name?: string;
   deleted?: boolean;
