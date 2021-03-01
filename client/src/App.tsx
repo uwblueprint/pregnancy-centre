@@ -8,9 +8,9 @@ function App(): JSX.Element {
   return (
     <Router>
       <Switch>
-        <Route path='/donation-guidelines' component={SampleContainer}></Route>
-        <Route path='/login' component={SampleContainer}></Route>
-        <Route path='/' component={SampleContainer}></Route>
+        <Route path='/donation-guidelines'><SampleContainer /></Route>
+        <Route path='/login'><SampleContainer /></Route>
+        <Route path='/'></Route>
       </Switch>
     </Router>
   );
