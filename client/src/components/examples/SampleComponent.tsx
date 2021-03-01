@@ -3,9 +3,7 @@ import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent } from "react";
 
 import DonorPage from '../layouts/DonorPage'
-import Footer from '../organisms/Footer'
 import { loadData } from '../../data/actions'
-import Navbar from '../organisms/Navbar'
 import Request from "../../data/types/request"
 
 interface StateProps {
