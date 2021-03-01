@@ -18,10 +18,28 @@ https://www.notion.so/uwblueprintexecs/Secret-Management-2d5b59ef0987415e93ec951
 - Running with Git Bash also works
 
 ### Deployment
-```
-heroku container:push tpc-web -a frozen-sands-75094
-```
+
+
+#### Client
+Tutorial: https://developer.okta.com/blog/2020/06/24/heroku-docker-react
 
 1. go to heroku dashboard
 2. go to the app (frozen-sands-75094) 
-3. enable the `tpc-web` dyno
+3. enable the `web` dyno
+
+
+Go to `/client`. Then run:
+```
+heroku container:push web -a frozen-sands-75094
+heroku container:release web -a frozen-sands-75094
+```
+
+Check logs:
+```
+heroku logs --tail -a frozen-sands-75094
+```
+
+### Server
+Tutorial: https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
+
+
