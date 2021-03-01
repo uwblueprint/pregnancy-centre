@@ -16,3 +16,12 @@ https://www.notion.so/uwblueprintexecs/Secret-Management-2d5b59ef0987415e93ec951
 - Having python 3 is a prerequisite, but you might have to use `python` instead of `python3` (this will depend on the user/OS)
 - For Windows 10 users, make sure to run cmd/powershell as admin
 - Running with Git Bash also works
+
+### Deployment
+```
+heroku container:push tpc-web -a frozen-sands-75094
+```
+
+1. go to heroku dashboard
+2. go to the app (frozen-sands-75094) 
+3. enable the `tpc-web` dyno
