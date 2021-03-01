@@ -1,15 +1,9 @@
-import React, { FunctionComponent, useState } from "react";
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
+import React, { FunctionComponent } from "react";
 
 import Footer from '../organisms/Footer'
 import Navbar from '../organisms/Navbar'
 
-interface Props {
-  children: React.ReactNode
-}
-
-const DonorPage: FunctionComponent<Props> = (props: Props) => {
+const DonorPage: FunctionComponent<Record<string, unknown>> = (props: React.PropsWithChildren<Record<string, unknown>>) => {
   return <div className="donor-page">
     <div className="donor-page-header"><Navbar /></div>
     <div className="donor-page-content" >{props.children}</div>
