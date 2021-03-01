@@ -1,0 +1,16 @@
+.homepage-banner {
+  // display: flex;
+  // justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  & img {
+    border-radius: 0;
+    padding: 0;
+  }
+}
+
+.banner-icon {
+  width: 32px;
+  height: 32px;
+}
