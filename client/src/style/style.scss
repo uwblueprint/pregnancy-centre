@@ -7,6 +7,10 @@ body {
   @include normal-text;
 }
 
+#root > div {
+  min-height: 100vh;
+}
+
 img {
   border-radius: $box-border-radius;
 }
