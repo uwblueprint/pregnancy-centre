@@ -31,13 +31,20 @@
 }
 
 .page-arrow {
+  width: 41px;
   & .page-link {
     color: $button-background;
     @include transparent;
   }
 
-  &.disabled .page-link {
-    color: $button-disabled-background;
-    @include transparent;
+  &.disabled {
+    &.next-arrow {
+      padding-left: 7px;
+    }
+    &.page-item {
+      color: $button-disabled-background;
+      align-self: center;
+      @include transparent;
+    }
   }
 }

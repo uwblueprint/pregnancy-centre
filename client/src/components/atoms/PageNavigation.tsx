@@ -20,33 +20,27 @@ const PageNavigation: FunctionComponent<Props> = (props: Props) => {
 
   }
 
-  const onSelectPrev = () => {
-    if (currentPage > 1) {
-      setNewPage(currentPage - 1)
-    }
-  }
-
-  const onSelectNext = () => {
-    if (currentPage < props.pages) {
-      setNewPage(currentPage + 1)
-    }
-  }
-
   return <React.Fragment>
     <Pagination >
-      <Pagination.Prev className={"page-arrow " + (currentPage <= 1 ? "disabled" : "")} onClick={onSelectPrev} />
+      <Pagination.Prev
+        disabled={currentPage <= 1}
+        className="page-arrow prev-arrow"
+        onClick={() => { setNewPage(currentPage - 1) }} />
       {
         Array.from(Array(props.pages).keys()).map((i: number) =>
           <Pagination.Item
             key={i}
-            className={currentPage == i + 1 ? "active" : "inactive"}
+            className={currentPage === i + 1 ? "active" : "inactive"}
             onClick={onPageSelect}
           >
             {i + 1}
 
           </Pagination.Item>)
       }
-      <Pagination.Next className={"page-arrow " + (currentPage >= props.pages ? "disabled" : "")} onClick={onSelectNext} />
+      <Pagination.Next
+        className="page-arrow next-arrow"
+        disabled={currentPage >= props.pages}
+        onClick={() => { setNewPage(currentPage + 1) }} />
     </Pagination>
   </React.Fragment>
 };
