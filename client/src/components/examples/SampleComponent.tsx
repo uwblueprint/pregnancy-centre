@@ -2,6 +2,7 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent } from "react";
 
+import DonorPage from '../layouts/DonorPage'
 import Footer from '../organisms/Footer'
 import { loadData } from '../../data/actions'
 import Navbar from '../organisms/Navbar'
@@ -21,7 +22,7 @@ type Props = StateProps & DispatchProps;
 const sampleQuery = gql`
   {
     requests {
-      request_id
+      _id
       fulfilled
     }
   }
@@ -38,9 +39,9 @@ const SampleComponent: FunctionComponent<Props> = (props: Props) => {
   if (error) return <p>Error!</p>;
 
   return <React.Fragment>
-    <Navbar />
-    <p>{JSON.stringify(data)}</p>
-    <Footer />
+    <DonorPage>
+      <p>{JSON.stringify(data)}</p>
+    </DonorPage>
   </React.Fragment>;
 };
 
