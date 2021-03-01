@@ -19,17 +19,9 @@ type Props = StateProps & DispatchProps;
 //Edit the following as necessary according to backend gql schema/resolver
 const sampleQuery = gql`
   {
-    requestGroups {
-      name
-      description
-      requestTypes {
-        name
-        requests {
-          open {
-            _id
-          }
-        }
-      }
+    requests {
+      _id
+      fulfilled
     }
   }
 `;
