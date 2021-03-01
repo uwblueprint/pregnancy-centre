@@ -11,6 +11,9 @@ $footer-lr-padding: 0 20px;
 }
 
 .footer-social-media-links {
+  display: flex;
+  align-items: center;
+
   border-top: $dividing-line;
   margin-top: 65px;
   padding: $footer-lr-padding;
@@ -20,6 +23,7 @@ $footer-lr-padding: 0 20px;
     @include normal-text;
     font-size: 14px;
     line-height: 17px;
+    margin: 0;
   }
 
   & a, & h1 {
@@ -30,6 +34,7 @@ $footer-lr-padding: 0 20px;
 .org-info {
   display: flex;
   justify-content: flex-start;
+
   padding: $footer-lr-padding;
   padding-top: 74px;
 
