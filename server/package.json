@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "build": "tsc -p .",
     "seed": "ts-node ./scripts/seed",
     "server": "nodemon server",
     "lint": "eslint . --ext .ts --ext .js --fix"
@@ -27,7 +28,6 @@
     "raw-body": "^2.4.0"
   },
   "devDependencies": {
-    "@types/mongoose": "^5.10.3",
     "@types/node": "^14.14.25",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
@@ -40,6 +40,6 @@
     "faker": "^5.3.1",
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1",
-    "typescript": "^4.1.3"
+    "typescript": "^4.2.2"
   }
 }
