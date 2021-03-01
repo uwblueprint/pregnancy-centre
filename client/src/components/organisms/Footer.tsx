@@ -32,7 +32,7 @@ const Footer: FunctionComponent = () => {
       </Row>
       <Row className="align-items-center footer-social-media-links">
         <h1>© 2021 The Pregnancy Centre</h1>
-        <a href="https://twitter.com/kwprc?lang=en"><img src={twitterLogo} /></a>
+        <a href="https://twitter.com/kwprc"><img src={twitterLogo} /></a>
         <a href="https://www.facebook.com/KWTPC/"><img src={facebookLogo} /></a>
       </Row>
     </Container>
