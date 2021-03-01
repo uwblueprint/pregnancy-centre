@@ -3,8 +3,6 @@ $footer-lr-padding: 0 20px;
 .footer.container-fluid {
   padding-left: 55px;
   padding-right: 55px;
-  // padding-top: 74px;
-  // padding-bottom: 45px;
 
   background-color: $selected-item-background;
   height: 338px;
@@ -26,7 +24,8 @@ $footer-lr-padding: 0 20px;
     margin: 0;
   }
 
-  & a, & h1 {
+  & a,
+  & h1 {
     padding-right: 32px;
   }
 }
@@ -40,7 +39,7 @@ $footer-lr-padding: 0 20px;
 
   & h1 {
     @include faded-text;
-    font-weight: 600;
+    @include heavy-text;
     font-size: 14px;
     line-height: 17px;
     letter-spacing: 0.05em;
