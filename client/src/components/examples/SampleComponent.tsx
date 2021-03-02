@@ -21,8 +21,7 @@ type Props = StateProps & DispatchProps;
 const sampleQuery = gql`
   {
     requests {
-      request_id
-      fulfilled
+      _id
     }
   }
 `;

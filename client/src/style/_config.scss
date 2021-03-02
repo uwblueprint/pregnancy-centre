@@ -47,3 +47,16 @@ $button-text: white;
     border-color: $button-background;
     color: $button-text;
 }
+
+/* Disable scrollbar for overflow */
+
+@mixin disable-scrollbar() {
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}

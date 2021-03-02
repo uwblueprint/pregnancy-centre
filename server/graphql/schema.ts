@@ -12,7 +12,7 @@ const typeDefs = gql`
     type Request {
         _id: ID
         requestId: String
-        clientId: ID
+        client: Client
         dateUpdated: String
         dateCreated: String
         dateFulfilled: String
@@ -30,6 +30,7 @@ const typeDefs = gql`
         dateUpdated: String
         deleted: Boolean
         requests: RequestListing
+        numOpen: Int
     }
     type RequestGroup {
         _id: ID
@@ -40,6 +41,7 @@ const typeDefs = gql`
         requirements: String
         image: String
         requestTypes: [RequestType]
+        numOpen: Int
     }
     type Query {
         client(id: ID): Client
