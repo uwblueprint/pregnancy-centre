@@ -28,7 +28,7 @@ const resolvers = {
     deleted: (parent, __, { dataSources }): Array<RequestInterface> => parent.deleted.map(id => dataSources.requests.getById(Types.ObjectId(id)))
   },
   Request: {
-    clientId: (parent, __, { dataSources }): Array<ClientInterface> => parent.open.map(id => dataSources.clients.getById(Types.ObjectId(id)))
+    client: (parent, __, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(parent.client))
   }
 }
 
