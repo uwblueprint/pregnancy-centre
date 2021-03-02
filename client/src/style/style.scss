@@ -3,6 +3,10 @@
 @import "../components/molecules/style/index";
 @import "../components/organisms/style/index";
 
+body {
+  @include normal-text
+}
+
 img {
   border-radius: $box-border-radius;
 }
