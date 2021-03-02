@@ -12,7 +12,7 @@ const typeDefs = gql`
     type Request {
         _id: ID
         requestId: String
-        clientId: ID
+        client: Client
         dateUpdated: String
         dateCreated: String
         dateFulfilled: String

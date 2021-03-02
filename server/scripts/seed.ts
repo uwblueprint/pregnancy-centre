@@ -90,7 +90,7 @@ connectDB(() => {
         const request = new Request({
           _id: mongoose.Types.ObjectId(),
           requestId: faker.random.alphaNumeric(6),
-          clientId: faker.random.arrayElement(clientIDs)
+          client: faker.random.arrayElement(clientIDs)
         })
         requestIDs.push(request._id) // store IDs to allocate among groups + types
         const promise = request.save().catch((err) => {
