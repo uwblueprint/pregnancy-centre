@@ -3,7 +3,7 @@ import { Document, model, Schema, Types } from 'mongoose'
 interface RequestInterface {
   _id: Types.ObjectId
   requestId: string
-  clientId: Types.ObjectId
+  client: Types.ObjectId
   dateUpdated: Date
   dateCreated: Date
   dateFulfilled: Date
@@ -18,7 +18,7 @@ const requestSchema = new Schema({
     type: String,
     required: true
   },
-  clientId: {
+  client: {
     type: Types.ObjectId, ref: 'Client'
   },
   dateUpdated: {
