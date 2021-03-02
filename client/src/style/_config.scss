@@ -1,5 +1,5 @@
 $box-border-radius: 4px;
-$dividing-line: 1px solid #E7E7E7;
+$dividing-line: 1px solid #e7e7e7;
 
 /* Element background color */
 
@@ -29,6 +29,11 @@ $normal-text-color: black;
 @mixin faded-text() {
     @include text;
     color: $faded-text-color;
+}
+
+@mixin heavy-text() {
+    @include text;
+    font-weight: 600;
 }
 
 /* Button Config */
