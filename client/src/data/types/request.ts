@@ -1,9 +1,10 @@
 export default interface Request {
   _id?: string;
-  request_id?: string;
-  client_id?: string;
-  date_created?: Date;
-  date_fulfilled?: Date;
+  requestId?: string;
+  clientId?: string;
+  dateUpdated?: Date;
+  dateCreated?: Date;
+  dateFulfilled?: Date;
   deleted?: boolean;
   fulfilled?: boolean;
 }
