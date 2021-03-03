@@ -29,7 +29,6 @@ const sampleQuery = gql`
         requests {
           open {
             _id
-            clientId
           }
         }
       }
