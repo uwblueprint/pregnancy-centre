@@ -1,18 +1,18 @@
 import React, { FunctionComponent } from "react";
 
+import RequestGroup from '../../data/types/requestGroup'
+
 interface Props {
-  imageURL: string,
-  requestGroupName: string, // TODO(meganniu): use RequestGroup object instead of passing RequestGroup fields
-  numItemsNeeded: number,
+  requestGroup: RequestGroup,
   selected: boolean
 }
 
 const RequestGroupListItem: FunctionComponent<Props> = (props: Props) => {
   return <div className={"request-group-list-item" + (props.selected ? " selected" : "")}>
-    <img src={props.imageURL}></img>
+    <img src={props.requestGroup.image}></img>
     <div className="request-group-info">
-      <h1>{props.requestGroupName}</h1>
-      <h2>{props.numItemsNeeded === 1 ? "1 item needed" : `${props.numItemsNeeded} items needed`}</h2>
+      <h1>{props.requestGroup.name}</h1>
+      <h2>{props.requestGroup.numOpen === 1 ? "1 item needed" : `${props.requestGroup.numOpen} items needed`}</h2>
     </div>
   </div>
 };
