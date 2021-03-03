@@ -1,6 +1,6 @@
 /* Imports from local files */
-import { LOAD_REQUESTS} from "../actionTypes";
-import Request from '../types/request'
+import { LOAD_REQUEST_GROUPS } from "../actionTypes";
+import RequestGroup from '../types/requestGroup'
 
 /**
  * Actions should be as light weight as possible. No asynchronous processes should be started in actions.
@@ -8,12 +8,12 @@ import Request from '../types/request'
  *
  * "uploads" the data taken as an input into the datastore
  */
-export interface RequestsAction {
+export interface RequestGroupsAction {
   type: string,
-  payload: Array<Request>
+  payload: Array<RequestGroup>
 }
 
-export const loadRequests = (data: Array<Request>): RequestsAction => ({
-  type: LOAD_REQUESTS,
+export const loadRequestGroups = (data: Array<RequestGroup>): RequestGroupsAction => ({
+  type: LOAD_REQUEST_GROUPS,
   payload: data,
 });

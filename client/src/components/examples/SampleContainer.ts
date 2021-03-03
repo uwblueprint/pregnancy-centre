@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 
 /* Imports from local files */
 import SampleComponent, { DispatchProps as SampleComponentDispatchProps, StateProps as SampleComponentStateProps } from "./SampleComponent";
-import { loadData } from "../../data/actions";
+import { loadRequestGroups } from "../../data/actions";
 import { RootState } from '../../data/reducers'
 
 const mapStateToProps = (store: RootState): SampleComponentStateProps => {
   return {
-    requests: store.requests.data,
+    requestGroups: store.requestGroups.data,
   };
 };
 
@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch: Dispatch): SampleComponentDispatchProps =>
   return bindActionCreators(
     {
       // add other actions here
-      loadData,
+      loadRequestGroups,
     },
     dispatch
   );

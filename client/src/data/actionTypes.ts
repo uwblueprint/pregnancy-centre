@@ -3,4 +3,5 @@
  * and import it in the relevant actions and reducers.
  */
 
-export const LOAD_DATA = "load_data";
+export const LOAD_REQUESTS = "load_requests";
+export const LOAD_REQUEST_GROUPS = "load_request_groups";
