@@ -5,7 +5,6 @@ import React, { FunctionComponent } from "react";
 import Footer from '../organisms/Footer'
 import { loadRequestGroups } from '../../data/actions'
 import Navbar from '../organisms/Navbar'
-import Request from "../../data/types/request"
 import RequestGroup from '../../data/types/request'
 
 interface StateProps {
