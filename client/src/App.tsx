@@ -22,7 +22,7 @@ function App(): JSX.Element {
         <Route path='/test'>
           <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23"/>
         </Route>
-        <Route path='/'></Route>
+        <Route path='/'><RequestGroupDonorView /></Route>
       </Switch>
     </Router>
   );
