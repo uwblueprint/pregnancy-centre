@@ -5,7 +5,6 @@ import React from "react";
 import ConfirmationModal from "./pages/ConfirmationModal";
 import DonorRequestGroupBrowser from './components/organisms/DonorRequestGroupBrowser'
 import EmailConfirmedModal from './pages/EmailConfirmedModal';
-import RequestGroupDonorView from './components/organisms/RequestGroupDonorView';
 import SampleContainer from "./components/examples/SampleContainer";
 import SignUpModal from "./pages/SignUpModal";
 
@@ -24,10 +23,7 @@ function App(): JSX.Element {
         <Route path='/signup' strict component={SignUpModal}></Route>
         {/* TODO(jlight99): delete /email-confirmed endpoint after logic for triggering the email confirmed modal has been added */}
         <Route path='/email-confirmed' strict component={EmailConfirmedModal}></Route>
-        <Route path='/test'>
-          <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23"/>
-        </Route>
-        <Route path='/'><DonorRequestGroupBrowser /></Route>
+        <Route path='/'><DonorRequestGroupView /></Route>
       </Switch>
     </Router>
     </span>
