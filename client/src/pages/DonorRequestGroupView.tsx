@@ -40,7 +40,7 @@ const DonorRequestView: FunctionComponent<Props> = (props: React.PropsWithChildr
     }
   }`
 
-  const { loading, error, data } = useQuery(query, {
+  useQuery(query, {
     onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
       props.loadRequestGroups(data.requestGroups);
     },
