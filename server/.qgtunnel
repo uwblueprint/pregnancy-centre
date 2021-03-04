@@ -1,0 +1,17 @@
+[qgtunnel.0]
+accept = "127.0.0.1:27017"
+connect = "cluster0-shard-00-02.gwbcg.mongodb.net:27017"
+encrypted = false
+transparent = true
+
+[qgtunnel.1]
+accept = "127.0.0.2:27017"
+connect = "cluster0-shard-00-00.gwbcg.mongodb.net:27017"
+encrypted = false
+transparent = true
+
+[qgtunnel.2]
+accept = "127.0.0.3:27017"
+connect = "cluster0-shard-00-01.gwbcg.mongodb.net:27017"
+encrypted = false
+transparent = true
