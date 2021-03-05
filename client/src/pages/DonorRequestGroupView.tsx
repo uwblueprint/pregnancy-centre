@@ -3,7 +3,7 @@ import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
 
-import { loadRequestGroups } from '../data/actions'
+import { loadRequestGroups, setDisplayRequestGroups } from '../data/actions'
 import RequestGroup from '../data/types/requestGroup'
 import RequestGroupList from '../components/organisms/RequestGroupList'
 import { RootState } from '../data/reducers'
@@ -13,18 +13,20 @@ import { RootState } from '../data/reducers'
 // import Row from 'react-bootstrap/Row'
 
 interface StateProps {
-  requestGroups: Array<RequestGroup>
+  requestGroups: Array<RequestGroup>,
+  displayRequestGroups: Array<RequestGroup>
 }
 
 interface DispatchProps {
   loadRequestGroups: typeof loadRequestGroups,
+  setDisplayRequestGroups: typeof setDisplayRequestGroups
 }
 
 
 type Props = StateProps & DispatchProps;
 
 const DonorRequestView: FunctionComponent<Props> = (props: React.PropsWithChildren<Props>) => {
-  const [selectedRequestGroup, setSelectedRequestGroup] = useState<string | undefined>(props.requestGroups.length <= 0 ? undefined : props.requestGroups[0]._id)
+  const [selectedRequestGroup, setSelectedRequestGroup] = useState<string | undefined>(props.displayRequestGroups.length <= 0 ? undefined : props.displayRequestGroups[0]._id)
 
   const query = gql`
   {
@@ -40,9 +42,21 @@ const DonorRequestView: FunctionComponent<Props> = (props: React.PropsWithChildr
     }
   }`
 
+  const sortRequestGroupsAlphabetically = (requestGroups: Array<RequestGroup>) => requestGroups.sort((rg1: RequestGroup, rg2: RequestGroup) => {
+    if (rg1.name && rg2.name && rg1.name < rg2.name) { return -1; }
+    if (rg1.name && rg2.name && rg1.name > rg2.name) { return 1; }
+    return 0;
+  });
+
   useQuery(query, {
     onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
+      // Clone state.data because sort occurs in-place.
+      const displayRequestGroups = sortRequestGroupsAlphabetically(data.requestGroups.map(requestGroup => ({...requestGroup})));
+
       props.loadRequestGroups(data.requestGroups);
+      props.setDisplayRequestGroups(displayRequestGroups);
+      console.log(displayRequestGroups[0])
+      setSelectedRequestGroup(displayRequestGroups.length <= 0 ? undefined : displayRequestGroups[0]._id)
     },
   });
 
@@ -56,6 +70,7 @@ const DonorRequestView: FunctionComponent<Props> = (props: React.PropsWithChildr
 const mapStateToProps = (store: RootState): StateProps => {
   return {
     requestGroups: store.requestGroups.data,
+    displayRequestGroups: store.requestGroups.displayData,
   };
 };
 
@@ -63,6 +78,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
   return bindActionCreators(
     {
       loadRequestGroups,
+      setDisplayRequestGroups
     },
     dispatch
   );
