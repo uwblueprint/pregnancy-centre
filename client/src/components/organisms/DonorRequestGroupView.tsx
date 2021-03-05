@@ -8,9 +8,9 @@ import RequestGroup from '../../data/types/requestGroup'
 import RequestGroupList from './RequestGroupList'
 import { RootState } from '../../data/reducers'
 
-// import Col from 'react-bootstrap/Col'
-// import Container from 'react-bootstrap/Container'
-// import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 
 interface StateProps {
   requestGroups: Array<RequestGroup>,
@@ -51,7 +51,7 @@ const DonorRequestView: FunctionComponent<Props> = (props: React.PropsWithChildr
   useQuery(query, {
     onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
       // Clone state.data because sort occurs in-place.
-      const displayRequestGroups = sortRequestGroupsAlphabetically(data.requestGroups.map(requestGroup => ({...requestGroup})));
+      const displayRequestGroups = sortRequestGroupsAlphabetically(data.requestGroups.map(requestGroup => ({ ...requestGroup })));
 
       props.loadRequestGroups(data.requestGroups);
       props.setDisplayRequestGroups(displayRequestGroups);
@@ -61,10 +61,17 @@ const DonorRequestView: FunctionComponent<Props> = (props: React.PropsWithChildr
   });
 
 
-  return <RequestGroupList
-    selectedRequestGroup={selectedRequestGroup}
-    onRequestGroupChange={(requestGroupdId: string) => { setSelectedRequestGroup(requestGroupdId) }}
-  />
+  return <Container className="donor-request-group-view" fluid>
+    <Row className="justify-content-start">
+      <Col md={4}>
+        <RequestGroupList
+          selectedRequestGroup={selectedRequestGroup}
+          onRequestGroupChange={(requestGroupdId: string) => { setSelectedRequestGroup(requestGroupdId) }}
+        />
+      </Col>
+      <Col md={8}></Col>
+    </Row>
+  </Container>
 };
 
 const mapStateToProps = (store: RootState): StateProps => {
