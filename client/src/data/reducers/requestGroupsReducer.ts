@@ -1,14 +1,16 @@
 /* Imports from local files */
-import { LOAD_REQUEST_GROUPS } from "../actionTypes";
+import { DEFINE_DISPLAY_REQUEST_GROUPS, LOAD_REQUEST_GROUPS } from "../actionTypes";
 import RequestGroup from '../types/requestGroup'
 import { RequestGroupsAction } from '../actions/'
 
 export interface RequestGroupsState {
-  data: Array<RequestGroup>
+  data: Array<RequestGroup>,
+  displayData: Array<RequestGroup>
 }
 
 const defaultState: RequestGroupsState = {
   data: [],
+  displayData: [] // Sorted and filtered data for user display.
 };
 
 /**
@@ -20,7 +22,14 @@ export default (state = defaultState, action: RequestGroupsAction): RequestGroup
     // directly sets the global data to the payload as specified in the action
     case LOAD_REQUEST_GROUPS:
       return {
-        data: action.payload,
+        ...state,
+        data: action.payload.requestGroups,
+      };
+    case DEFINE_DISPLAY_REQUEST_GROUPS:
+      return {
+        ...state,
+        // Clone state.data because state is read-only.
+        displayData: action.payload.defineDisplayRequestGroups(state.data.map(requestGroup => ({...requestGroup}))), 
       };
     default:
       return state;
