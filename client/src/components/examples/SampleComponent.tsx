@@ -4,7 +4,7 @@ import React, { FunctionComponent } from "react";
 
 import DonorPage from '../layouts/DonorPage'
 import { loadRequestGroups } from '../../data/actions'
-import RequestGroup from '../../data/types/request'
+import RequestGroup from "../../data/types/requestGroup"
 
 interface StateProps {
   requestGroups: Array<RequestGroup>
