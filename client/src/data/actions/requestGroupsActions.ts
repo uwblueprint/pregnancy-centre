@@ -1,5 +1,5 @@
 /* Imports from local files */
-import { DEFINE_DISPLAY_REQUEST_GROUPS, LOAD_REQUEST_GROUPS } from "../actionTypes";
+import { LOAD_REQUEST_GROUPS, SET_DISPLAY_REQUEST_GROUPS } from "../actionTypes";
 import RequestGroup from '../types/requestGroup'
 
 /**
@@ -11,23 +11,16 @@ import RequestGroup from '../types/requestGroup'
 export interface RequestGroupsAction {
   type: string,
   payload: {
-    requestGroups: Array<RequestGroup>,
-    defineDisplayRequestGroups: (requestGroups: Array<RequestGroup>) => Array<RequestGroup>
+    data: Array<RequestGroup>,
   }
 }
 
 export const loadRequestGroups = (data: Array<RequestGroup>): RequestGroupsAction => ({
   type: LOAD_REQUEST_GROUPS,
-  payload: { 
-    requestGroups: data, 
-    defineDisplayRequestGroups: (_: Array<RequestGroup>) => []
-  },
+  payload: { data },
 });
 
-export const defineDisplayRequestGroups = (defineDisplayRequestGroups: (requestGroups: Array<RequestGroup>) => Array<RequestGroup>): RequestGroupsAction => ({
-  type: DEFINE_DISPLAY_REQUEST_GROUPS,
-  payload: { 
-    requestGroups: [], 
-    defineDisplayRequestGroups 
-  },
+export const setDisplayRequestGroups = (displayRequestGroups: Array<RequestGroup>) => ({
+  type: SET_DISPLAY_REQUEST_GROUPS,
+  payload: { data: displayRequestGroups },
 });

@@ -1,5 +1,5 @@
 /* Imports from local files */
-import { DEFINE_DISPLAY_REQUEST_GROUPS, LOAD_REQUEST_GROUPS } from "../actionTypes";
+import { LOAD_REQUEST_GROUPS, SET_DISPLAY_REQUEST_GROUPS } from "../actionTypes";
 import RequestGroup from '../types/requestGroup'
 import { RequestGroupsAction } from '../actions/'
 
@@ -23,13 +23,12 @@ export default (state = defaultState, action: RequestGroupsAction): RequestGroup
     case LOAD_REQUEST_GROUPS:
       return {
         ...state,
-        data: action.payload.requestGroups,
+        data: action.payload.data,
       };
-    case DEFINE_DISPLAY_REQUEST_GROUPS:
+    case SET_DISPLAY_REQUEST_GROUPS:
       return {
         ...state,
-        // Clone state.data because state is read-only.
-        displayData: action.payload.defineDisplayRequestGroups(state.data.map(requestGroup => ({...requestGroup}))), 
+        displayData: action.payload.data, 
       };
     default:
       return state;
