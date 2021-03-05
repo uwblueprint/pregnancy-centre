@@ -20,7 +20,7 @@ export const loadRequestGroups = (data: Array<RequestGroup>): RequestGroupsActio
   payload: { data },
 });
 
-export const setDisplayRequestGroups = (displayRequestGroups: Array<RequestGroup>) => ({
+export const setDisplayRequestGroups = (displayRequestGroups: Array<RequestGroup>): RequestGroupsAction => ({
   type: SET_DISPLAY_REQUEST_GROUPS,
   payload: { data: displayRequestGroups },
 });
