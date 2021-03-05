@@ -3,10 +3,10 @@ import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
 
-import { loadRequestGroups, setDisplayRequestGroups } from '../data/actions'
-import RequestGroup from '../data/types/requestGroup'
-import RequestGroupList from '../components/organisms/RequestGroupList'
-import { RootState } from '../data/reducers'
+import { loadRequestGroups, setDisplayRequestGroups } from '../../data/actions'
+import RequestGroup from '../../data/types/requestGroup'
+import RequestGroupList from './RequestGroupList'
+import { RootState } from '../../data/reducers'
 
 // import Col from 'react-bootstrap/Col'
 // import Container from 'react-bootstrap/Container'
