@@ -3,15 +3,15 @@ import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent } from "react";
 
 import DonorPage from '../layouts/DonorPage'
-import { loadData } from '../../data/actions'
-import Request from "../../data/types/request"
+import { loadRequestGroups } from '../../data/actions'
+import RequestGroup from '../../data/types/request'
 
 interface StateProps {
-  requests: Array<Request>
+  requestGroups: Array<RequestGroup>
 }
 
 interface DispatchProps {
-  loadData: typeof loadData
+  loadRequestGroups: typeof loadRequestGroups,
 }
 
 type Props = StateProps & DispatchProps;
@@ -19,17 +19,25 @@ type Props = StateProps & DispatchProps;
 //Edit the following as necessary according to backend gql schema/resolver
 const sampleQuery = gql`
   {
-    requests {
-      _id
-      fulfilled
+    requestGroups {
+      name
+      description
+      requestTypes {
+        name
+        requests {
+          open {
+            _id
+          }
+        }
+      }
     }
   }
 `;
 
 const SampleComponent: FunctionComponent<Props> = (props: Props) => {
   const { loading, error, data } = useQuery(sampleQuery, {
-    onCompleted: (data: { requests: Array<Request> }) => {
-      props.loadData(data.requests);
+    onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
+      props.loadRequestGroups(data.requestGroups);
     },
   });
 
