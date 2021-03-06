@@ -78,7 +78,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                             <img src={requestGroupData.image}/>
                         </div>
                     </div>
-                    <RequestTypeList requestTypes={requestGroupData.requestTypes!}/>
+                    <RequestTypeList requestTypes={requestGroupData.requestTypes ? requestGroupData.requestTypes : []}/>
                 </div>
                 <div className="section" id="right">
                     <InfoBox 
@@ -90,7 +90,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                     <div id="description">
                         <InfoBox 
                             title="ITEM DESCRIPTION" 
-                            text={requestGroupData.description!}
+                            text={requestGroupData.description ? requestGroupData.description : ''}
                         />
                     </div>
                 </div>
