@@ -1,0 +1,14 @@
+.donor-request-group-view {
+  &-header {
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 34px;
+  }
+  &-content {
+    margin-top: 20px;
+    border-top: $dividing-line;
+  }
+  &-list {
+    border-right: $dividing-line;
+  }
+}
