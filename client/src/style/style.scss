@@ -4,7 +4,12 @@
 @import "../components/organisms/style/index";
 
 body {
-  @include normal-text
+  @include normal-text;
+  // prevent wrapping from hyphenating words
+  -webkit-hyphens: none;
+  -moz-hyphens:    none;
+  -ms-hyphens:     none;
+  hyphens:         none;
 }
 
 img {
