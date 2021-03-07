@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import moment from 'moment';
 
 import { Spinner } from 'react-bootstrap';
@@ -8,7 +8,6 @@ import InfoBox from '../molecules/InfoBox';
 import RequestTypeList from '../molecules/RequestTypeList';
 
 import RequestGroup from '../../data/types/requestGroup';
-import RequestType from '../../data/types/requestType';
 
 // TODO: figure out how to get nice formatting for item descriptions
 
