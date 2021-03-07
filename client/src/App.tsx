@@ -12,7 +12,7 @@ function App(): JSX.Element {
         <Route path='/donation-guidelines'><SampleContainer /></Route>
         <Route path='/login'><SampleContainer /></Route>
         <Route path='/test'>
-          <RequestGroupDonorView requestGroupId="test"/>
+          <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23"/>
         </Route>
         <Route path='/'></Route>
       </Switch>

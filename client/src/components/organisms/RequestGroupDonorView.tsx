@@ -1,3 +1,4 @@
+import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import moment from 'moment';
 
@@ -18,10 +19,34 @@ interface Props {
 const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
     const [requestGroupData, setRequestGroupData] = useState<RequestGroup | undefined>(undefined);
 
+    const query = gql`{
+        requestGroup(id: "${props.requestGroupId}") {
+            _id
+            name
+            dateUpdated
+            description
+            requirements
+            image
+            requestTypes {
+                _id
+                name
+                numOpen
+            }
+        }
+    }`;
+
+    useQuery(query, {
+        onCompleted: ( data: { requestGroup: RequestGroup }) => {
+            const res = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
+            setRequestGroupData(res);
+        }
+    });
+
     useEffect(() => {
         // fetch from store/graphql using props.requestGroupId
         if (requestGroupData === undefined) {
-            // dummy data
+
+            /*// dummy data
             const fetchedRequestTypes: RequestType[] = [
                 {
                     _id: "3",
@@ -55,7 +80,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                 requestTypes: fetchedRequestTypes
             };
 
-            setTimeout(() => {setRequestGroupData(fetchedRequestGroup)}, 3000);            
+            setTimeout(() => {setRequestGroupData(fetchedRequestGroup)}, 3000); */           
         }
     }, []);
 
