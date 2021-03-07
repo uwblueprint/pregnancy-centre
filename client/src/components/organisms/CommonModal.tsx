@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 
 import { Button, Modal } from 'react-bootstrap';
 
+import tpcLeaf from '../../assets/tpc-leaf.png';
+
 function CommonModal(props: any) {
   return (
     <Modal show={props.show} onHide={props.handleClose} centered={true} className="modal">
@@ -12,7 +14,7 @@ function CommonModal(props: any) {
       </Modal.Header>
       <Modal.Body>
         <div className="pc-icon">
-          <img src="TPC_leaf.png"></img>
+          <img src={tpcLeaf}></img>
         </div>
         <div className="title">
           {props.title}
