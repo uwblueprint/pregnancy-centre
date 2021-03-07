@@ -13,7 +13,7 @@ function App(): JSX.Element {
       <Switch>
         <Route path='/test' component={SampleContainer}></Route>
         <Route path='/signup' strict component={SignUpModal}></Route>
-        <Route path='/confirmation' component={ConfirmationModal}></Route>
+        <Route path='/confirmation' component={() => <ConfirmationModal email="anna@pregnancycentre.ca"/>}></Route>
       </Switch>
     </Router>
     </span>

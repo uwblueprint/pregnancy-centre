@@ -4,7 +4,7 @@ import CommonModal from '../components/organisms/CommonModal';
 
 function ConfirmationModal(props: any) {
   // TODO(ellen): email should be passed in from props
-  const [email, setEmail] = useState("anna@pregnancycentre.ca");
+  const [email, setEmail] = useState(props.email);
 
   return (
     <CommonModal title={"Confirm Your Email"} body={
