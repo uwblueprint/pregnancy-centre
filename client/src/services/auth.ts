@@ -69,9 +69,3 @@ export const handleVerifyEmail = async (
     });
   return error;
 };
-
-const URLParams = new URLSearchParams(window.location.href);
-const actionCode = URLParams.get("oobCode");
-if (actionCode) {
-  let confirmationErrors: Promise<string> = handleVerifyEmail(actionCode);
-}
