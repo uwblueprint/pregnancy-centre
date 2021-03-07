@@ -2,9 +2,14 @@
 @import "../components/atoms/style/index";
 @import "../components/molecules/style/index";
 @import "../components/organisms/style/index";
+@import "../components/layouts/style/index";
 
 body {
-  @include normal-text
+  @include normal-text;
+}
+
+#root > div {
+  min-height: 100vh;
 }
 
 img {
