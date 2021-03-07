@@ -24,7 +24,7 @@ interface DispatchProps {
 
 type Props = StateProps & DispatchProps;
 
-const DonorRequestView: FunctionComponent<Props> = (props: React.PropsWithChildren<Props>) => {
+const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWithChildren<Props>) => {
   const [selectedRequestGroup, setSelectedRequestGroup] = useState<string | undefined>(props.displayRequestGroups.length <= 0 ? undefined : props.displayRequestGroups[0]._id)
 
   const query = gql`
@@ -91,4 +91,4 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
   );
 };
 
-export default connect<StateProps, DispatchProps, Record<string, unknown>, RootState>(mapStateToProps, mapDispatchToProps)(DonorRequestView);
+export default connect<StateProps, DispatchProps, Record<string, unknown>, RootState>(mapStateToProps, mapDispatchToProps)(DonorRequestGroupBrowser);
