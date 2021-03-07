@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import React from "react";
 
 import SampleContainer from "./components/examples/SampleContainer";
+import SignUpModal from './pages/SignUpModal';
 
 function App(): JSX.Element {
   return (
@@ -10,6 +11,7 @@ function App(): JSX.Element {
       <Switch>
         <Route path='/donation-guidelines'><SampleContainer /></Route>
         <Route path='/login'><SampleContainer /></Route>
+        <Route path='/signup' strict component={SignUpModal}></Route>
         <Route path='/'></Route>
       </Switch>
     </Router>
