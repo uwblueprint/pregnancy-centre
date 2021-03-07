@@ -8,20 +8,46 @@
     border-radius: 4px;
     padding: 5px 120px;
     margin: 15px 8px;
+    margin-top: 50px;
   }
 
   .text {
     margin: 20px 0px;
+    margin-bottom: 10px;
+    margin-left: 40px;
+    text-align: left;
+  }
+
+  .pc-icon {
+    margin-bottom: 20px;
+  }
+
+  ::placeholder{
+    padding-left:10px;
   }
 
   .title {
     font-weight: bold;
     font-size: 1.2em;
+    margin-bottom: 40px;
   }
 
   .link {
     color: #004D57;
   }
+
+  .no-account {
+    color: #7D7D7D;
+  }
+  .input-field{
+    width: 390px;
+    height: 48.96px;
+    align-self: left;
+    border: 1px solid #E9E9E9;
+    box-sizing: border-box;
+    border-radius: 4px;
+  }
+  
 }
 
 .modal-header {

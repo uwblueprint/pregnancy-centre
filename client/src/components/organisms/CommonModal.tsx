@@ -1,3 +1,4 @@
+import '../../pages/Modal.scss';
 import React, { useState } from 'react';
 import { useApolloClient } from "@apollo/client";
 import { useDispatch } from "react-redux";
@@ -15,7 +16,7 @@ function CommonModal(props: any) {
       <Modal.Header closeButton>
       </Modal.Header>
       <Modal.Body>
-        <div>
+        <div className="pc-icon">
           <img src="TPC_leaf.png"></img>
         </div>
         <div className="title">
@@ -30,4 +31,3 @@ function CommonModal(props: any) {
 }
 
 export default CommonModal;
-
