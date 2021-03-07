@@ -63,7 +63,9 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
         <div className="request-group-view">
             {requestGroupData === undefined
             ?
-            <Spinner animation="border" role="status"/>
+            <div className="spinner"> 
+                <Spinner animation="border" role="status"/>
+            </div>
             :
             <div className="panel">
                 <div className="section" id="left">

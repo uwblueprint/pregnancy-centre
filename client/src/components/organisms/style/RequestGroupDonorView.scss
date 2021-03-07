@@ -1,5 +1,16 @@
 .request-group-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    height: 714px;
+
+    .spinner {
+        position: relative;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
     .panel {
         display: table;
