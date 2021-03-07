@@ -2,6 +2,7 @@ import './App.scss';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import React from "react";
 
+import ConfirmationModal from "./pages/ConfirmationModal";
 import SampleContainer from "./components/examples/SampleContainer";
 
 function App(): JSX.Element {
@@ -10,6 +11,8 @@ function App(): JSX.Element {
       <Switch>
         <Route path='/donation-guidelines'><SampleContainer /></Route>
         <Route path='/login'><SampleContainer /></Route>
+        {/* TODO: delete /confirmation endpoint after logic for triggering the confirmation modal upon signup has been added */}
+        <Route path='/confirmation' component={() => <ConfirmationModal email="anna@pregnancycentre.ca"/>}></Route>
         <Route path='/'></Route>
       </Switch>
     </Router>
