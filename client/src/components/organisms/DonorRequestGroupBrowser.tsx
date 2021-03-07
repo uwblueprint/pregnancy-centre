@@ -8,6 +8,7 @@ import Row from 'react-bootstrap/Row'
 
 import { loadRequestGroups, setDisplayRequestGroups } from '../../data/actions'
 import RequestGroup from '../../data/types/requestGroup'
+import RequestGroupDonorView from './RequestGroupDonorView'
 import RequestGroupList from './RequestGroupList'
 import { RootState } from '../../data/reducers'
 
@@ -69,7 +70,7 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
           onRequestGroupChange={(requestGroupdId: string) => { setSelectedRequestGroup(requestGroupdId) }}
         />
       </Col>
-      <Col md={8}></Col>
+      <Col md={8}><RequestGroupDonorView requestGroupId={selectedRequestGroup}/></Col>
     </Row>
   </Container>
 };
