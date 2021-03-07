@@ -24,6 +24,11 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
             // dummy data
             const fetchedRequestTypes: RequestType[] = [
                 {
+                    _id: "3",
+                    name: "4 year old",
+                    numOpen: 1
+                },
+                {
                     _id: "1",
                     name: "2 year old",
                     numOpen: 2
@@ -32,11 +37,6 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                     _id: "2",
                     name: "3 year old",
                     numOpen: 10
-                },
-                {
-                    _id: "3",
-                    name: "4 year old",
-                    numOpen: 1
                 },
                 {
                     _id: "4",
