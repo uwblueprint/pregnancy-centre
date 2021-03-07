@@ -6,9 +6,9 @@ export default interface RequestType {
   dateUpdated?: Date;
   deleted?: boolean;
   requests?: {
-      fulfilled?: [Request];
-      deleted?: [Request];
-      open?: [Request];
+      fulfilled?: Request[];
+      deleted?: Request[];
+      open?: Request[];
   };
   numOpen?: number
 }

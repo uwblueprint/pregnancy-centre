@@ -1,0 +1,29 @@
+.infoBox {
+    border: $border-line;
+    box-sizing: border-box;
+    border-radius: $box-border-radius;
+    width: 331px;
+    height: 100%;
+
+    .card-body {
+        padding: 24px;
+
+        .card-title {
+            @include section-header-text;
+            margin: 0;
+            padding-bottom: 12px;
+        }
+
+        .card-text {
+            @include normal-text;
+            font-size: 14px;
+            line-height: 20px;
+        }
+    }
+
+    button {
+        @include normal-button;
+        width: 100%;
+        padding: 11px;
+    }
+}

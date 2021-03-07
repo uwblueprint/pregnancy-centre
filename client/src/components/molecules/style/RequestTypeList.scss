@@ -1,0 +1,10 @@
+.request-type-list {
+    padding: 0;
+    h1 {
+        @include section-header-text;
+        padding-bottom: 4px;
+        margin: 0;
+    }
+
+    width: 514px;
+}
