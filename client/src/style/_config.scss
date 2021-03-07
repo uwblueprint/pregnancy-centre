@@ -48,10 +48,6 @@ $button-text: white;
     color: $button-text;
 }
 
-@mixin modal() {
-  align-items: center;
-  text-align: center;
-}
 /* Disable scrollbar for overflow */
 
 @mixin disable-scrollbar() {
