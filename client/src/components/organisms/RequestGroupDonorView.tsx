@@ -42,48 +42,6 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
         }
     });
 
-    useEffect(() => {
-        // fetch from store/graphql using props.requestGroupId
-        if (requestGroupData === undefined) {
-
-            /*// dummy data
-            const fetchedRequestTypes: RequestType[] = [
-                {
-                    _id: "3",
-                    name: "4 year old",
-                    numOpen: 1
-                },
-                {
-                    _id: "1",
-                    name: "2 year old",
-                    numOpen: 2
-                },
-                {
-                    _id: "2",
-                    name: "3 year old",
-                    numOpen: 10
-                },
-                {
-                    _id: "4",
-                    name: "Tub",
-                    numOpen: 8
-                }
-            ]
-
-            const fetchedRequestGroup: RequestGroup = {
-                _id: props.requestGroupId,
-                name: 'Bath tub',
-                dateUpdated: new Date('January 21, 2021'),
-                description: "This is a description of a bath tub. We need to set guideliens for this and potentially limit the amount of characters.",
-                requirements: "<ul><li>No damaged or missing parts</li><li>No mattress</li><li>Meets safety standards</li><li>Able to be dismantled</li></ul>",
-                image: "https://images.unsplash.com/photo-1609220361594-efc1c6c90b5d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
-                requestTypes: fetchedRequestTypes
-            };
-
-            setTimeout(() => {setRequestGroupData(fetchedRequestGroup)}, 3000); */           
-        }
-    }, []);
-
     return (
         <div className="request-group-view">
             {requestGroupData === undefined
