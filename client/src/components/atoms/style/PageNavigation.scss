@@ -22,7 +22,7 @@
   }
 
   &.active .page-link {
-    @include active-button;
+    @include normal-button;
   }
 
   &.inactive .page-link {

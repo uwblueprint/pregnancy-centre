@@ -1,0 +1,19 @@
+.request-type-list-item {
+    border-bottom: $border-line;
+    padding: 16px 0px;
+    line-height: 20px;
+
+    b {
+        @include bold-text;
+    }
+
+    #name {
+        display: block;
+        float: left;
+    }
+
+    #numOpen {
+        display: block;
+        float: right;
+    }
+}
