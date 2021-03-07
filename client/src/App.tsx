@@ -12,7 +12,7 @@ function App(): JSX.Element {
       <Router>
       <Switch>
         <Route path='/donation-guidelines'><SampleContainer /></Route>
-        <Route path='/login'><SampleContainer /></Route>
+        <Route path='/signup'><SignUpModal /></Route>
         <Route path='/'></Route>
       </Switch>
     </Router>

@@ -22,10 +22,6 @@
     margin-bottom: 20px;
   }
 
-  ::placeholder{
-    padding-left:10px;
-  }
-
   .title {
     font-weight: bold;
     font-size: 1.2em;
@@ -46,6 +42,8 @@
     border: 1px solid #E9E9E9;
     box-sizing: border-box;
     border-radius: 4px;
+    padding-left: 20px;
+    line-height: 0;
   }
   
 }

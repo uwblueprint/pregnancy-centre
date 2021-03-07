@@ -1,9 +1,9 @@
 import './Modal.scss';
 import React, { useState } from 'react';
 import CommonModal from '../components/organisms/CommonModal';
+import { createNewAccount } from '../services/auth';
 import { useApolloClient } from "@apollo/client";
 import { useDispatch } from "react-redux";
-
 
 function SignUpModal() {
     
@@ -16,6 +16,7 @@ function SignUpModal() {
   
     const handleClick = async (e:any) => { 
         e.preventDefault();
+        createNewAccount(email, password);
     };
 
     const onChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +34,7 @@ function SignUpModal() {
     const onChangePass = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     }
-    const modalTitle = "Welcome to Employee Login";
+    const modalTitle = "Create Your Account";
     return (
         <CommonModal title={modalTitle} body={
             <div>
@@ -46,6 +47,7 @@ function SignUpModal() {
                     <input
                         name="email"
                         placeholder="Enter your company email"
+                        type="text"
                         value={email}
                         className="input-field"
                         onChange={onChangeEmail}
@@ -66,7 +68,7 @@ function SignUpModal() {
 
                 </div>
                 <button role="link" className="button">
-                    Sign In
+                    Sign Up
                 </button>
             </form>
             <div>

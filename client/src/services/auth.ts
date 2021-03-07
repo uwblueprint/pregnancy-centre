@@ -45,7 +45,7 @@ export const createNewAccount = async (
         user?.sendEmailVerification();
         return { email: "", password: "" };
       })
-      .catch((error) => {
+      .catch((error: any) => {
         const code: keyof AuthErrorMessageInterface = error.code;
         return { email: AuthErrorMessage[code], password: "" };
       });
