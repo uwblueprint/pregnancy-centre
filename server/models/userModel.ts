@@ -3,15 +3,13 @@ import { StringDecoder } from 'string_decoder'
 
 interface UserDocument extends Document {
   _id: ObjectId
-  request_id: string
-  name: string
-  priority: number
-  date_created: Date
-  archived: boolean
-  deleted: boolean
-  fulfilled: boolean
-  description: string
-  image: StringDecoder
+  email: string
+  username: string
+  passwordSalt: string
+  passwordHash: string
+  accountType: number
+  verified: boolean
+  verificationHash: string
 }
 
 const userSchema = new Schema({
@@ -23,15 +21,15 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  password_salt: {
+  passwordSalt: {
     type: String,
     required: true
   },
-  password_hash: {
+  passwordHash: {
     type: String,
     required: true
   },
-  account_type: {
+  accountType: {
     type: Number
   },
   verified: {
@@ -39,7 +37,7 @@ const userSchema = new Schema({
     required: true,
     default: false
   },
-  verification_hash: {
+  verificationHash: {
     type: String
   }
 })
