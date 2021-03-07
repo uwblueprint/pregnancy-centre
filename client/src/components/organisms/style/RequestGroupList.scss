@@ -1,0 +1,11 @@
+.request-group-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 811px;
+
+  &-page-navigation{
+    margin-top: 30px;
+  }
+  
+}
