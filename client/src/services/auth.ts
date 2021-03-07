@@ -54,7 +54,9 @@ export const createNewAccount = async (
   return errors;
 };
 
-export const handleVerifyEmail = async (actionCode: string) => {
+export const handleVerifyEmail = async (
+  actionCode: string
+): Promise<string> => {
   let error: string = "";
   error = await firebase
     .auth()
@@ -65,4 +67,11 @@ export const handleVerifyEmail = async (actionCode: string) => {
     .catch((error) => {
       return error.code;
     });
+  return error;
 };
+
+const URLParams = new URLSearchParams(window.location.href);
+const actionCode = URLParams.get("oobCode");
+if (actionCode) {
+  let confirmationErrors: Promise<string> = handleVerifyEmail(actionCode);
+}
