@@ -1,0 +1,62 @@
+$footer-lr-padding: 0 20px;
+
+.footer.container-fluid {
+  padding-left: 55px;
+  padding-right: 55px;
+
+  background-color: $selected-item-background;
+  height: 338px;
+}
+
+.footer-social-media-links {
+  display: flex;
+  align-items: center;
+
+  border-top: $dividing-line;
+  margin-top: 65px;
+  padding: $footer-lr-padding;
+  padding-top: 27px;
+
+  & h1 {
+    @include normal-text;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 0;
+  }
+
+  & a,
+  & h1 {
+    padding-right: 32px;
+  }
+}
+
+.org-info {
+  display: flex;
+  justify-content: flex-start;
+
+  padding: $footer-lr-padding;
+  padding-top: 74px;
+
+  & h1 {
+    @include faded-text;
+    @include heavy-text;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.05em;
+  }
+
+  & p {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 1px;
+  }
+
+  & .col {
+    flex-grow: 0;
+    flex-basis: unset;
+    padding: 0;
+    margin: 0;
+    margin-right: 90px;
+    width: auto;
+  }
+}

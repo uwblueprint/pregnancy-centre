@@ -4,6 +4,7 @@ import { RequestInterface } from './requestModel'
 interface RequestTypeInterface {
   _id: Types.ObjectId
   name: string
+  dateUpdated: Date,
   deleted: boolean
   requests: {
     open: Array<RequestInterface>
@@ -18,6 +19,11 @@ const RequestTypeSchema = new Schema({
   name: {
     type: String,
     required: true
+  },
+  dateUpdated: {
+    type: Date,
+    required: true,
+    default: Date.now()
   },
   deleted: {
     type: Boolean,

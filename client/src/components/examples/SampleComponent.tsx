@@ -2,15 +2,16 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent } from "react";
 
-import { loadData } from '../../data/actions'
-import Request from "../../data/types/request"
+import DonorPage from '../layouts/DonorPage'
+import { loadRequestGroups } from '../../data/actions'
+import RequestGroup from '../../data/types/request'
 
 interface StateProps {
-  requests: Array<Request>
+  requestGroups: Array<RequestGroup>
 }
 
 interface DispatchProps {
-  loadData: typeof loadData
+  loadRequestGroups: typeof loadRequestGroups,
 }
 
 type Props = StateProps & DispatchProps;
@@ -18,24 +19,36 @@ type Props = StateProps & DispatchProps;
 //Edit the following as necessary according to backend gql schema/resolver
 const sampleQuery = gql`
   {
-    requests {
-      request_id
-      fulfilled
+    requestGroups {
+      name
+      description
+      requestTypes {
+        name
+        requests {
+          open {
+            _id
+          }
+        }
+      }
     }
   }
 `;
 
 const SampleComponent: FunctionComponent<Props> = (props: Props) => {
   const { loading, error, data } = useQuery(sampleQuery, {
-    onCompleted: (data: { requests: Array<Request> }) => {
-      props.loadData(data.requests);
+    onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
+      props.loadRequestGroups(data.requestGroups);
     },
   });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error!</p>;
 
-  return <p>{JSON.stringify(data)}</p>;
+  return <React.Fragment>
+    <DonorPage>
+      <p>{JSON.stringify(data)}</p>
+    </DonorPage>
+  </React.Fragment>;
 };
 
 export type { DispatchProps, Props, StateProps };

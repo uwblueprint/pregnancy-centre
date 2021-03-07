@@ -1,0 +1,9 @@
+.donor-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.donor-page-content {
+  flex-grow: 1;
+}
