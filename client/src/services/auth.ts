@@ -53,3 +53,16 @@ export const createNewAccount = async (
 
   return errors;
 };
+
+export const handleVerifyEmail = async (actionCode: string) => {
+  let error: string = "";
+  error = await firebase
+    .auth()
+    .applyActionCode(actionCode)
+    .then((resp: any) => {
+      return "";
+    })
+    .catch((error) => {
+      return error.code;
+    });
+};
