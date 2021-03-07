@@ -6,14 +6,17 @@ import { useApolloClient } from "@apollo/client";
 import { useDispatch } from "react-redux";
 
 function SignUpModal() {
-    
     const client = useApolloClient();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const dispatch = useDispatch();
-  
+    const [show, setShow] = useState(true);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const handleClick = async (e:any) => { 
         e.preventDefault();
         createNewAccount(email, password);
@@ -36,12 +39,12 @@ function SignUpModal() {
     }
     const modalTitle = "Create Your Account";
     return (
-        <CommonModal title={modalTitle} body={
+        <CommonModal title={modalTitle} show={show} handleClose={handleClose} body={
             <div>
                 <form onSubmit={handleClick}>
                 
                 <div>
-                    <div className="text">
+                    <div className="text signup">
                         Email address
                     </div>
                     <input
@@ -54,7 +57,7 @@ function SignUpModal() {
                     />
                 </div>
                 <div>
-                    <div className="text">
+                    <div className="text signup">
                         Password
                     </div>
                     <input

@@ -11,6 +11,9 @@ function App(): JSX.Element {
     <span>
       <Router>
       <Switch>
+        <Route path='/test' component={SampleContainer}></Route>
+        <Route path='/signup' strict component={SignUpModal}></Route>
+        <Route path='/confirmation' component={() => <ConfirmationModal email="anna@pregnancycentre.ca"/>}></Route>
         <Route path='/donation-guidelines'><SampleContainer /></Route>
         <Route path='/signup'><SignUpModal /></Route>
         <Route path='/'></Route>
