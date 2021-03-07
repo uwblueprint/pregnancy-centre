@@ -6,13 +6,8 @@ import { useDispatch } from "react-redux";
 import { Button, Modal } from 'react-bootstrap';
 
 function CommonModal(props: any) {
-  const [show, setShow] = useState(true);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   return (
-    <Modal show={show} onHide={handleClose} centered={true} className="modal">
+    <Modal show={props.show} onHide={props.handleClose} centered={true} className="modal">
       <Modal.Header closeButton>
       </Modal.Header>
       <Modal.Body>

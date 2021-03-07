@@ -3,11 +3,14 @@ import React, { useState } from 'react';
 import CommonModal from '../components/organisms/CommonModal';
 
 function ConfirmationModal(props: any) {
-  // TODO(ellen): email should be passed in from props
   const [email, setEmail] = useState(props.email);
+  const [show, setShow] = useState(true);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
-    <CommonModal title={"Confirm Your Email"} body={
+    <CommonModal show={show} title={"Confirm Your Email"} handleClose={handleClose} body={
       <span>
         <div className="text">
           We’ve just sent an email to the following email address.
@@ -21,7 +24,7 @@ function ConfirmationModal(props: any) {
         <div className="text">
           You’ll then be able to login as an employee.
         </div>
-        <button className="button">
+        <button className="button" onClick={handleClose}>
           I understand
         </button>
       </span>
