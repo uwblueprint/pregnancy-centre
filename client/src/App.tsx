@@ -23,7 +23,7 @@ function App(): JSX.Element {
         <Route path='/signup' strict component={SignUpModal}></Route>
         {/* TODO(jlight99): delete /email-confirmed endpoint after logic for triggering the email confirmed modal has been added */}
         <Route path='/email-confirmed' strict component={EmailConfirmedModal}></Route>
-        <Route path='/'><DonorRequestGroupView /></Route>
+        <Route path='/'><DonorRequestGroupBrowser /></Route>
       </Switch>
     </Router>
     </span>
