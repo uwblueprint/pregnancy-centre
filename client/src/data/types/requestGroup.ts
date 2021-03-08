@@ -8,6 +8,6 @@ export default interface RequestGroup {
   description?: string;
   requirements?: string;
   image?: string;
-  requestTypes?: [RequestType];
+  requestTypes?: RequestType[];
   numOpen?: number;
 }
