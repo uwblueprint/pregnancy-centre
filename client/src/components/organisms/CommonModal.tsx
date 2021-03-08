@@ -19,6 +19,9 @@ function CommonModal(props: any) {
         <div className="title">
           {props.title}
         </div>
+        <div className="subtitle">
+          {props.subtitle}
+        </div>
         {props.body}
       </Modal.Body>
       <Modal.Footer>

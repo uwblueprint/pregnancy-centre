@@ -28,6 +28,13 @@
   .title {
     font-weight: bold;
     font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;  
     margin-bottom: 40px;
   }
 
@@ -57,4 +64,8 @@
 
 .modal-footer {
   border-top: 0 none;
+}
+
+.pass-req{
+  text-align: center;
 }
