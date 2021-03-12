@@ -10,17 +10,16 @@ import RequestGroup from '../types/requestGroup'
  */
 export interface RequestGroupsAction {
   type: string,
-  payload: {
-    data: Array<RequestGroup>,
-  }
+  payload: Array<RequestGroup>,
+  
 }
 
 export const loadRequestGroups = (data: Array<RequestGroup>): RequestGroupsAction => ({
   type: LOAD_REQUEST_GROUPS,
-  payload: { data },
+  payload: data,
 });
 
-export const setDisplayRequestGroups = (displayRequestGroups: Array<RequestGroup>): RequestGroupsAction => ({
+export const setDisplayRequestGroups = (data: Array<RequestGroup>): RequestGroupsAction => ({
   type: SET_DISPLAY_REQUEST_GROUPS,
-  payload: { data: displayRequestGroups },
+  payload: data,
 });

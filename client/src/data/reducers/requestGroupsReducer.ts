@@ -23,12 +23,12 @@ export default (state = defaultState, action: RequestGroupsAction): RequestGroup
     case LOAD_REQUEST_GROUPS:
       return {
         ...state,
-        data: action.payload.data,
+        data: action.payload,
       };
     case SET_DISPLAY_REQUEST_GROUPS:
       return {
         ...state,
-        displayData: action.payload.data, 
+        displayData: action.payload, 
       };
     default:
       return state;
