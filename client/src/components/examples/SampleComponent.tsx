@@ -4,7 +4,7 @@ import React, { FunctionComponent } from "react";
 
 import DonorPage from '../layouts/DonorPage'
 import { loadRequestGroups } from '../../data/actions'
-import RequestGroup from "../../data/types/requestGroup"
+import RequestGroup from '../../data/types/request'
 
 interface StateProps {
   requestGroups: Array<RequestGroup>
@@ -19,9 +19,17 @@ type Props = StateProps & DispatchProps;
 //Edit the following as necessary according to backend gql schema/resolver
 const sampleQuery = gql`
   {
-    requests {
-      _id
-      fulfilled
+    requestGroups {
+      name
+      description
+      requestTypes {
+        name
+        requests {
+          open {
+            _id
+          }
+        }
+      }
     }
   }
 `;
