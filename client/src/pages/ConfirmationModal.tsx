@@ -1,6 +1,6 @@
 import './Modal.scss';
 import React, { useState } from 'react';
-import CommonModal from '../components/organisms/CommonModal';
+import CommonModal from '../components/organisms/Modal';
 
 function ConfirmationModal(props: any) {
   const [email, setEmail] = useState(props.email);

@@ -1,10 +1,6 @@
 import '../../pages/Modal.scss';
-import React, { useState } from 'react';
-import { useApolloClient } from "@apollo/client";
-import { useDispatch } from "react-redux";
-
-import { Button, Modal } from 'react-bootstrap';
-
+import React from 'react';
+import { Modal } from 'react-bootstrap';
 import tpcLeaf from '../../assets/tpc-leaf.png';
 
 function CommonModal(props: any) {

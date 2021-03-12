@@ -1,7 +1,7 @@
 import './Modal.scss';
 import { Button, OverlayTrigger, Popover } from 'react-bootstrap';
 import React, { useState } from 'react';
-import CommonModal from '../components/organisms/CommonModal';
+import CommonModal from '../components/organisms/Modal';
 import { createNewAccount } from '../services/auth';
 import { Redirect } from 'react-router-dom';
 import { useApolloClient } from "@apollo/client";
