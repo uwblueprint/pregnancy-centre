@@ -57,8 +57,7 @@ export const createNewAccount = async (
 export const handleVerifyEmail = async (
   actionCode: string
 ): Promise<string> => {
-  let error = "";
-  error = await firebase
+  let error = await firebase
     .auth()
     .applyActionCode(actionCode)
     .then((resp: any) => {
