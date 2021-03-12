@@ -43,6 +43,11 @@ const typeDefs = gql`
         requestTypes: [RequestType]
         numOpen: Int
     }
+    type CreateObjectResponse {
+        success: Boolean
+        message: String
+        id: ID
+    }
     type Query {
         client(id: ID): Client
         clients(id: ID): [Client]
@@ -52,6 +57,9 @@ const typeDefs = gql`
         requestTypes: [RequestType]
         requestGroup(id: ID): RequestGroup
         requestGroups: [RequestGroup]
+    }
+    type Mutation {
+        createRequestType(name: String): CreateObjectResponse
     }
 `
 
