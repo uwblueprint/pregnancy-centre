@@ -1,11 +1,14 @@
 import React, { FunctionComponent } from 'react';
-import { Card } from 'react-bootstrap';
+
+import { ButtonToolbarProps, Card } from 'react-bootstrap';
+
+import { Button } from '../atoms/Button';
+import type {ButtonProps} from '../atoms/Button';
 
 interface Props {
     title: string,
     text: string,
-    buttonText?: string,
-    buttonCallback?: () => void
+    buttonProps?: ButtonProps
 }
 
 const RequestTypeList: FunctionComponent<Props> = (props: Props) => {
@@ -18,10 +21,8 @@ const RequestTypeList: FunctionComponent<Props> = (props: Props) => {
                 <Card.Text>
                     {props.text}
                 </Card.Text>
-                {props.buttonText && props.buttonCallback &&
-                    <button onClick={props.buttonCallback}>
-                        {props.buttonText}
-                    </button>
+                {props.buttonProps &&
+                    <Button {...props.buttonProps}/>
                 }
             </Card.Body>
         </Card>
