@@ -59,7 +59,7 @@ const typeDefs = gql`
         requestGroups: [RequestGroup]
     }
     type Mutation {
-        createEmptyRequestType(name: String): CreateObjectResponse
+        createRequestType(name: String, open: [ID], fulfilled: [ID], deleted: [ID]): CreateObjectResponse
     }
 `
 

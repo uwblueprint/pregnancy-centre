@@ -2,6 +2,7 @@ import { ClientInterface } from '../models/clientModel'
 import { RequestGroupInterface } from '../models/requestGroupModel'
 import { RequestInterface } from '../models/requestModel'
 import { RequestTypeInterface } from '../models/requestTypeModel'
+import { ServerResponseInterface } from '../models/serverResponseModel'
 import { Types } from 'mongoose'
 
 const resolvers = {
@@ -16,7 +17,7 @@ const resolvers = {
     requestGroups: (_, __, { dataSources }): Array<RequestGroupInterface> => dataSources.requestGroups.getAll()
   },
   Mutation: {
-    createEmptyRequestType: (_, { name }, { dataSources }): any => dataSources.requestTypes.createEmptyRequestType(name)
+    createRequestType: (_, { name, open, fulfilled, deleted }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.createRequestType(name, open, fulfilled, deleted)
   },
   RequestGroup: {
     numOpen: (parent, __, { dataSources }): Number => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.open.length).reduce((total, num) => total + num),
