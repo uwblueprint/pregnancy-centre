@@ -1,13 +1,17 @@
-import '../../pages/Modal.scss';
-import React, { useState } from 'react';
-import { useApolloClient } from "@apollo/client";
-import { useDispatch } from "react-redux";
-
-import { Button, Modal } from 'react-bootstrap';
+import './style/Modal.scss';
+import { FunctionComponent } from 'react';
+import { Modal } from 'react-bootstrap';
 
 import tpcLeaf from '../../assets/tpc-leaf.png';
 
-function CommonModal(props: any) {
+interface Props {
+  title: string,
+  show: boolean,
+  handleClose: Function,
+  body: FunctionComponent
+}
+
+const CommonModal: FunctionComponent<Props> = (props: Props) => {
   return (
     <Modal show={props.show} onHide={props.handleClose} centered={true} className="modal">
       <Modal.Header closeButton>
