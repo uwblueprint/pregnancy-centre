@@ -8,7 +8,7 @@ interface Props {
   title: string;
   show: boolean;
   handleClose(): void;
-  body: any;
+  body: React.ReactElement<any>;
 }
 
 const CommonModal: FunctionComponent<Props> = (props: Props) => {
