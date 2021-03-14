@@ -8,14 +8,12 @@ class Cache<DocumentType extends Document> {
   name: string;
   model: Model<Document>;
   query: Query<Array<Document>, Document>;
-  bob: Query<Array<Document>, Document>;
   data: Array<DocumentType>;
 
   constructor(name: string, model: Model<Document>, query: Query<Array<Document>, Document>) {
     this.name = name
     this.model = model
     this.query = query
-    this.bob = query
   }
 
   exec(): void {
