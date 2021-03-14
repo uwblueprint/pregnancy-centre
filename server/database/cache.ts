@@ -19,8 +19,6 @@ class Cache<DocumentType extends Document> {
   }
 
   exec(): void {
-    console.log("bobo")
-    console.log(this.query? "ayay" : "nonon")
     this.query.exec()
       .then((data: Array<Document>) => {
         this.data = data as Array<DocumentType>
