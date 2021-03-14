@@ -33,7 +33,7 @@ const HomepageBanner: FunctionComponent = () => {
           </Col>
         </Row>
       </Col>
-      <Col md={5}>
+      <Col className="homepage-banner-image-container" md={5}>
         <img className="homepage-banner-image" src={BannerPicture} />
       </Col>
     </Row>
