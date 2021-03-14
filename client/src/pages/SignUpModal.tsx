@@ -8,7 +8,7 @@ const SignUpModal: FunctionComponent = () => {
 
     const handleClose = () => setShow(false);
 
-    const handleClick = async (e:any) => { 
+    const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
     };
 
