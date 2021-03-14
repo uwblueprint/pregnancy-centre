@@ -17,7 +17,8 @@ const resolvers = {
     requestGroups: (_, __, { dataSources }): Array<RequestGroupInterface> => dataSources.requestGroups.getAll()
   },
   Mutation: {
-    createRequestType: (_, { name, open, fulfilled, deleted }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.createRequestType(name, open, fulfilled, deleted)
+    createOrUpdateRequestType: (_, { newRequestType, id }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.createOrUpdateRequestType(newRequestType, id),
+    softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requestTypes.softDeleteRequestType(id)
   },
   RequestGroup: {
     numOpen: (parent, __, { dataSources }): Number => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.open.length).reduce((total, num) => total + num),

@@ -3,35 +3,24 @@ import { RequestTypeCache } from '../database/cache'
 import { RequestTypeDocument } from '../models/requestTypeModel'
 import { ServerResponseInterface } from '../models/serverResponseModel'
 
-import mongoose from 'mongoose'
+import { Types } from 'mongoose'
 
 export default class RequestTypeDataSource extends CachedMongooseDataSource<RequestTypeDocument> {
   constructor() {
     super(RequestTypeCache)
   }
-
-  async createRequestType(name: String, open: Array<String>, fulfilled: Array<String>, deleted: Array<String>): Promise<ServerResponseInterface> {
+  async softDeleteRequestType(id: Types.ObjectId) {
     const RequestType = this.cache.model
-    const id = mongoose.Types.ObjectId();
-    const type = new RequestType({
-      _id: id,
-      name: name,
-      requests: {
-        fulfilled: fulfilled,
-        deleted: deleted,
-        open: open
-      }
-    })
     try {
-      const requestType = await type.save().then(res => {
-        const response = {
-          "success": true,
-          "message": "RequestType sucessfully created",
-          "id": id 
-        }
-        return response
-      })
-      return requestType
+      const promise = RequestType.findByIdAndUpdate(id, {"deleted": true})
+        .then(res => {
+          return {
+            "success": true,
+            "message": "RequestType successfully deleted",
+            "id": id
+          }
+        })
+      return promise
     }
     catch(error) {
       console.log(error)
@@ -41,6 +30,51 @@ export default class RequestTypeDataSource extends CachedMongooseDataSource<Requ
         "id": id
       }
     }
-
+  }
+  async createOrUpdateRequestType(newRequestType: RequestTypeDocument, id: Types.ObjectId): Promise<ServerResponseInterface> {
+    const RequestType = this.cache.model
+    if(id) {
+      try {
+        const promise = await RequestType.findByIdAndUpdate(id, newRequestType, {upsert: true})
+          .then(res => {
+            return {
+              "success": true,
+              "message": "RequestType successfully updated",
+              "id": id
+            }
+          })
+        return promise
+      }
+      catch(error) {
+        console.log(error)
+        return {
+          "success": false,
+          "message": error._message,
+          "id": id
+        }
+      }
+    }
+    else {
+      const requestType = new RequestType(newRequestType)
+      try {
+        const promise = await requestType.save()
+          .then(res => {
+            return {
+              "success": true,
+              "message": "RequestType successfully created",
+              "id": res._id
+            }
+          })
+        return promise
+      }
+      catch(error) {
+        console.log(error)
+        return {
+          "success": false,
+          "message": error._message,
+          "id": id
+        }
+      }
+    }
   }
 }
