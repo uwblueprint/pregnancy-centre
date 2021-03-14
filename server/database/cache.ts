@@ -30,8 +30,7 @@ class Cache<DocumentType extends Document> {
   init(): void {
     console.log('Initializing ' + this.name + ' cache')
     this.exec()
-    this.model.watch().on('change', () => {
-      this.exec()})
+    this.model.watch().on('change', this.exec)
   }
 
   getData(): Array<DocumentType> {
