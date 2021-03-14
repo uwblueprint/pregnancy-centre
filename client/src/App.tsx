@@ -12,7 +12,7 @@ function App(): JSX.Element {
       <Switch>
         <Route path='/donation-guidelines'><SampleContainer /></Route>
         <Route path='/login'><SampleContainer /></Route>
-        {/* TODO: delete /confirmation endpoint after logic for triggering the confirmation modal upon signup has been added */}
+        {/* TODO(jlight99): delete /confirmation endpoint after logic for triggering the confirmation modal upon signup has been added */}
         <Route path='/confirmation' component={() => <ConfirmationModal email="anna@pregnancycentre.ca"/>}></Route>
         <Route path='/test'>
           <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23"/>
