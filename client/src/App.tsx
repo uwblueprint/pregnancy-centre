@@ -2,6 +2,7 @@ import "./App.scss";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
 
+import AuthTestComponent from './pages/AuthTestComponent';
 import ConfirmationModal from "./pages/ConfirmationModal";
 import EmailConfirmedModal from './pages/EmailConfirmedModal';
 import RequestGroupDonorView from './components/organisms/RequestGroupDonorView';
@@ -19,6 +20,7 @@ function App(): JSX.Element {
         <Route path='/signup' strict component={SignUpModal}></Route>
         {/* TODO(jlight99): delete /email-confirmed endpoint after logic for triggering the email confirmed modal has been added */}
         <Route path='/email-confirmed' strict component={EmailConfirmedModal}></Route>
+        <Route path='/verify-email' component={AuthTestComponent}></Route>
         <Route path='/test'>
           <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23"/>
         </Route>

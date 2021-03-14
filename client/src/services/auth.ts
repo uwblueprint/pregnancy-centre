@@ -60,7 +60,7 @@ export const handleVerifyEmail = async (
   const error = await firebase
     .auth()
     .applyActionCode(actionCode)
-    .then((resp: any) => {
+    .then(() => {
       return "";
     })
     .catch((err) => {
