@@ -2,16 +2,12 @@ import './Modal.scss';
 import React, { useState } from 'react';
 import CommonModal from '../components/organisms/Modal';
 import { useApolloClient } from "@apollo/client";
-import { useDispatch } from "react-redux";
 
 
 function SignUpModal() {
     const client = useApolloClient();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const dispatch = useDispatch();
     const [show, setShow] = useState(true);
 
     const handleClose = () => setShow(false);
@@ -20,14 +16,6 @@ function SignUpModal() {
     const handleClick = async (e:any) => { 
         e.preventDefault();
     };
-
-    const onChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFirstName(e.target.value);
-    };
-
-    const onChangeLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLastName(e.target.value);
-    }
 
     const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -73,7 +61,7 @@ function SignUpModal() {
                 </button>
             </form>
             <div>
-                <p><a href='http://localhost:3000/' className="no-account">Don<span>&#39;</span>t have an account?</a></p>
+                <p><a href='/' className="no-account">Don<span>&#39;</span>t have an account?</a></p>
             </div>
         </div>}/>
     );
