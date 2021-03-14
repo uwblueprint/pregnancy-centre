@@ -1,9 +1,18 @@
-import '../../pages/Modal.scss';
+import './style/Modal.scss';
+import React, { FunctionComponent } from 'react';
 import { Modal } from 'react-bootstrap';
-import React from 'react';
+
 import tpcLeaf from '../../assets/tpc-leaf.png';
 
-function CommonModal(props: any) {
+interface Props {
+  title: string;
+  subtitle: string;
+  show: boolean;
+  handleClose(): void;
+  body: React.ReactElement<any>;
+}
+
+const CommonModal: FunctionComponent<Props> = (props: Props) => {
   return (
     <Modal show={props.show} onHide={props.handleClose} centered={true} className="modal">
       <Modal.Header closeButton>

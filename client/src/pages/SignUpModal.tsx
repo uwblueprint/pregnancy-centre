@@ -14,7 +14,7 @@ function SignUpModal() {
     const [hasOneNumber, setHasOneNumber] = useState(false);
     const [hasOneSymbol, setHasOneSymbol] = useState(false);
     const [hasTwelveCharacterMin, setHasTwelveCharacterMin] = useState(false);
- 
+    const handleClose = () => setShow(false);
     const initialReq : string[] = ["at least 1 lowercase letter", "at least 1 uppercase letter","at least 1 number","at least 1 symbol","12 characters minimum" ]
     const [requirements, setRequirements] = useState(initialReq);
     const [show, setShow] = useState(true);
@@ -104,7 +104,7 @@ function SignUpModal() {
         return (<Redirect to="/test"/>)
     }
     return (
-        <CommonModal title={modalTitle} subtitle={subtitle} show={show} body={
+        <CommonModal title={modalTitle} subtitle={subtitle} show={show} handleClose={handleClose} body={
             <div>
                 <form onSubmit={handleClick}>
                 
