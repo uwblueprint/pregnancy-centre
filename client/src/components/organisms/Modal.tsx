@@ -1,6 +1,6 @@
 import '../../pages/Modal.scss';
-import React from 'react';
 import { Modal } from 'react-bootstrap';
+import React from 'react';
 import tpcLeaf from '../../assets/tpc-leaf.png';
 
 function CommonModal(props: any) {

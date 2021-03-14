@@ -1,35 +1,25 @@
 import './Modal.scss';
-import { Button, OverlayTrigger, Popover } from 'react-bootstrap';
-import React, { useState } from 'react';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 import CommonModal from '../components/organisms/Modal';
 import { createNewAccount } from '../services/auth';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { useApolloClient } from "@apollo/client";
-import { useDispatch } from "react-redux";
+import {useState} from 'react';
 
 function SignUpModal() {
-    const client = useApolloClient();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
     const [hasOneLowerCase, setHasOneLowerCase] = useState(false);
     const [hasOneUpperCase, setHasOneUpperCase] = useState(false);
     const [hasOneNumber, setHasOneNumber] = useState(false);
     const [hasOneSymbol, setHasOneSymbol] = useState(false);
     const [hasTwelveCharacterMin, setHasTwelveCharacterMin] = useState(false);
-    const oneLowerCase= /^(?=.*[a-z])/;
-    const oneUpperCase=/^(?=.*[A-Z])/;
-    const oneNumber=/^(?=.*[0-9])/;
-    const oneSymbol=/^(?=.*[*!@#$%^&(){}[\]:;<>,.?/~_+\-=|\\])/;
-    const twelveCharacterMin=/^(?=.{12,})/;
+ 
     const initialReq : string[] = ["at least 1 lowercase letter", "at least 1 uppercase letter","at least 1 number","at least 1 symbol","12 characters minimum" ]
     const [requirements, setRequirements] = useState(initialReq);
     const [show, setShow] = useState(true);
     const [redirectToHome, setRedirectToHome] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const requirementsAreFulfilled = !hasOneLowerCase || !hasOneUpperCase || !hasOneNumber || !hasOneSymbol || !hasTwelveCharacterMin;
 
     const handleClick = async (e:any) => { 
         e.preventDefault();
@@ -37,104 +27,64 @@ function SignUpModal() {
         setRedirectToHome(true);
     };
 
-    const onChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFirstName(e.target.value);
-    };
-
-    const onChangeLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLastName(e.target.value);
-    }
-
     const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
     };
-
+     
+    const requirementToTestMap = new Map ([
+        ['lowerCase', /^(?=.*[a-z])/],
+        ['upperCase', /^(?=.*[A-Z])/],
+        ['number', /^(?=.*[0-9])/],
+        ['symbol', /^(?=.*[*!@#$%^&(){}[\]:;<>,.?/~_+\-=|\\])/],
+        ['twelveCharacters', /^(?=.{12,})/]
+    ]);
+        
+    const requirementToStateSetterMap = new Map ([
+        ['lowerCase', setHasOneLowerCase],
+        ['upperCase', setHasOneUpperCase],
+        ['number', setHasOneNumber],
+        ['symbol', setHasOneSymbol],
+        ['twelveCharacters', setHasTwelveCharacterMin],
+    ]);
+        
+    const requirementToMessageMap = new Map ([
+        ['lowerCase', "at least 1 lowercase letter"],
+        ['upperCase', "at least 1 uppercase letter"],
+        ['number', "at least 1 number"],
+        ['symbol', 'at least 1 symbol'],
+        ['twelveCharacters', '12 characters minimum'],
+    ]);
+          
+          
     const onChangePass = (e: React.ChangeEvent<HTMLInputElement>) => {
         const password = e.target.value;
         const copy:string[]= requirements;
-        // checks each of the password requirements and updates the array
-        if (!oneLowerCase.test(password)) {
-            setHasOneLowerCase(false);
-            if (!copy.includes("at least 1 lowercase letter")){
-                copy.push("at least 1 lowercase letter");    
+        
+        requirementToTestMap.forEach((test, key) => {
+            const result = test.test(password)!; 
+            const message : string = requirementToMessageMap.get(key)!;
+            requirementToStateSetterMap.get(key)!(result)
+            
+            // if requirement not in string and not in array, push into array
+            if(!result && !copy.includes(message)){
+                copy.push(message);
+            }
+            // if requirement is in the string and the array has it, remove it from array
+            else if(result && copy.includes(message)){
+                const index = copy.indexOf(message);
+                copy.splice(index, 1); 
             }
             setRequirements(copy);
-        }else{
-            setHasOneLowerCase(true);
-            if (copy.includes("at least 1 lowercase letter")){
-                const index = copy.indexOf("at least 1 lowercase letter");
-                copy.splice(index, 1);  
-            }
-            setRequirements(copy);
-        }
+        });
 
-        if (!oneUpperCase.test(password)){
-            setHasOneUpperCase(false);
-            if (!copy.includes("at least 1 uppercase letter")){
-                copy.push("at least 1 uppercase letter");    
-            }
-            setRequirements(copy);
-        }else{
-            setHasOneUpperCase(true);
-            if (copy.includes("at least 1 uppercase letter")){
-                const index = copy.indexOf("at least 1 uppercase letter");
-                copy.splice(index, 1);  
-            }
-            setRequirements(copy);
-        }
-
-        if (!oneNumber.test(password)) {
-            setHasOneNumber(false);
-            if (!copy.includes("at least 1 number")){
-                copy.push("at least 1 number");    
-            }
-            setRequirements(copy);
-        }else{
-            setHasOneNumber(true);
-            if (copy.includes("at least 1 number")){
-                const index = copy.indexOf("at least 1 number");
-                copy.splice(index, 1);  
-            }
-            setRequirements(copy);
-        }
-     
-        if (!oneSymbol.test(password)){
-            setHasOneSymbol(false);
-            if (!copy.includes("at least 1 symbol")){
-                copy.push("at least 1 symbol");    
-            }
-            setRequirements(copy);
-        }else{
-            setHasOneSymbol(true);
-            if (copy.includes("at least 1 symbol")){
-                const index = copy.indexOf("at least 1 symbol");
-                copy.splice(index, 1);  
-            }
-            setRequirements(copy);
-        }
-
-        if (!twelveCharacterMin.test(password)){
-            setHasTwelveCharacterMin(false);
-            if (!copy.includes("12 characters minimum")){
-                copy.push("12 characters minimum");    
-            }
-            setRequirements(copy);
-        }else{
-            setHasTwelveCharacterMin(true);
-            if (copy.includes("12 characters minimum")){
-                const index = copy.indexOf("12 characters minimum");
-                copy.splice(index, 1);  
-            }
-            setRequirements(copy);
-        }
-        setPassword(e.target.value);
+        setPassword(password);
     }
 
     const modalTitle = "Create Your Account";
     const subtitle = "Register your email and create a password";
 
     const popover = (
-        <Popover id="popover-basic" show={!hasOneLowerCase || !hasOneUpperCase || !hasOneNumber || !hasOneSymbol || !hasTwelveCharacterMin}>
+        <Popover id="popover-basic" show={requirementsAreFulfilled}>
             <Popover.Title as="h3">Password Requirements</Popover.Title>
             <Popover.Content>
                 {
@@ -189,7 +139,7 @@ function SignUpModal() {
                         </OverlayTrigger>
                     </div>
                 </div>
-                <button role="link" className="button" disabled={!hasOneLowerCase || !hasOneUpperCase || !hasOneNumber || !hasOneSymbol || !hasTwelveCharacterMin}>
+                <button role="link" className="button" disabled={requirementsAreFulfilled}>
                     Sign Up
                 </button>
             </form>
