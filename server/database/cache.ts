@@ -8,23 +8,23 @@ class Cache<DocumentType extends Document> {
   name: string;
   model: Model<Document>;
   query: Query<Array<Document>, Document>;
+  exec: () => void;
   data: Array<DocumentType>;
 
   constructor(name: string, model: Model<Document>, query: Query<Array<Document>, Document>) {
     this.name = name
     this.model = model
     this.query = query
-  }
-
-  exec(): void {
-    this.query.exec()
-      .then((data: Array<Document>) => {
-        this.data = data as Array<DocumentType>
-        console.log('Finished caching ' + this.name + ' cache')
-      })
-      .catch((error) => {
-        console.error(`ERROR: Failed to fetch Requests from MongoDB\n${error}`)
-      })
+    this.exec = () => {
+      this.query.exec()
+        .then((data: Array<Document>) => {
+          this.data = data as Array<DocumentType>
+          console.log('Finished caching ' + this.name + ' cache')
+        })
+        .catch((error) => {
+          console.error(`ERROR: Failed to fetch Requests from MongoDB\n${error}`)
+        })
+    }
   }
 
   init(): void {
