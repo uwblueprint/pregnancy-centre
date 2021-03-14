@@ -1,12 +1,12 @@
 import './Modal.scss';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
+import React, { FunctionComponent } from 'react';
 import CommonModal from '../components/organisms/Modal';
 import { createNewAccount } from '../services/auth';
-import React from 'react';
 import { Redirect } from 'react-router-dom';
 import {useState} from 'react';
 
-function SignUpModal() {
+const SignUpModal: FunctionComponent = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [hasOneLowerCase, setHasOneLowerCase] = useState(false);
@@ -21,7 +21,7 @@ function SignUpModal() {
     const [redirectToHome, setRedirectToHome] = useState(false);
     const requirementsAreFulfilled = !hasOneLowerCase || !hasOneUpperCase || !hasOneNumber || !hasOneSymbol || !hasTwelveCharacterMin;
 
-    const handleClick = async (e:any) => { 
+    const handleClick = async (e: React.FormEvent<HTMLFormElement>) => { 
         e.preventDefault();
         createNewAccount(email, password);
         setRedirectToHome(true);
@@ -58,7 +58,7 @@ function SignUpModal() {
           
     const onChangePass = (e: React.ChangeEvent<HTMLInputElement>) => {
         const password = e.target.value;
-        const copy:string[]= requirements;
+        const copy: string[] = requirements;
         
         requirementToTestMap.forEach((test, key) => {
             const result = test.test(password)!; 
