@@ -1,9 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import CommonModal from '../components/organisms/Modal';
 
-interface Props {}
-
-const SignUpModal: FunctionComponent<Props> = (props: Props) => {
+const SignUpModal: FunctionComponent = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [show, setShow] = useState(true);
