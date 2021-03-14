@@ -1,17 +1,14 @@
-import './Modal.scss';
-import React, { useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import CommonModal from '../components/organisms/Modal';
-import { useApolloClient } from "@apollo/client";
 
+interface Props {}
 
-function SignUpModal() {
-    const client = useApolloClient();
+const SignUpModal: FunctionComponent<Props> = (props: Props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [show, setShow] = useState(true);
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     const handleClick = async (e:any) => { 
         e.preventDefault();
