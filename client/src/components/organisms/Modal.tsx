@@ -1,14 +1,14 @@
 import './style/Modal.scss';
-import { FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Modal } from 'react-bootstrap';
 
 import tpcLeaf from '../../assets/tpc-leaf.png';
 
 interface Props {
-  title: string,
-  show: boolean,
-  handleClose: Function,
-  body: FunctionComponent
+  title: string;
+  show: boolean;
+  handleClose(): void;
+  body: any;
 }
 
 const CommonModal: FunctionComponent<Props> = (props: Props) => {
