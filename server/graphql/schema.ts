@@ -43,7 +43,7 @@ const typeDefs = gql`
         requestTypes: [RequestType]
         numOpen: Int
     }
-    type CreateObjectResponse {
+    type ServerResponse {
         success: Boolean
         message: String
         id: ID
@@ -59,7 +59,18 @@ const typeDefs = gql`
         requestGroups: [RequestGroup]
     }
     type Mutation {
-        createRequestType(name: String, open: [ID], fulfilled: [ID], deleted: [ID]): CreateObjectResponse
+        createOrUpdateRequestType(newRequestType: RequestTypeInput, id: ID): ServerResponse
+        softDeleteRequestType(id: ID): ServerResponse
+    }
+    input RequestListingInput {
+        open: [ID]
+        fulfilled: [ID]
+        deleted: [ID]
+    }
+    input RequestTypeInput {
+        name: String
+        deleted: Boolean
+        requests: RequestListingInput
     }
 `
 
