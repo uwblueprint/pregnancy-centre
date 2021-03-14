@@ -11,6 +11,7 @@ const typeDefs = gql`
     }
     type Request {
         _id: ID
+        requestType: ID
         requestId: String
         client: Client
         dateUpdated: String
@@ -26,6 +27,7 @@ const typeDefs = gql`
     }
     type RequestType {
         _id: ID
+        requestGroup: ID
         name: String
         dateUpdated: String
         deleted: Boolean

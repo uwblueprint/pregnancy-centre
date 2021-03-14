@@ -14,6 +14,9 @@ interface RequestInterface {
 type RequestDocument = RequestInterface & Document;
 
 const requestSchema = new Schema({
+  requestType: {
+    type:  [ { type: Types.ObjectId, ref: 'RequestType' } ]
+  },
   requestId: {
     type: String,
     required: true
