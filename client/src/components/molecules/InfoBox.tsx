@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-import { ButtonToolbarProps, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 import { Button } from '../atoms/Button';
 import type {ButtonProps} from '../atoms/Button';
