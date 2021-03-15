@@ -29,6 +29,7 @@ module.exports = {
         "ignoreCase": true
       }
     ],
-    "@typescript-eslint/no-empty-function": "off"
+    "@typescript-eslint/no-empty-function": "off",
+    '@typescript-eslint/no-non-null-assertion': 'off'
   }
 };
