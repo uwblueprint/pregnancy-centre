@@ -10,10 +10,10 @@ export default class RequestTypeDataSource extends CachedMongooseDataSource<Requ
     super(RequestTypeCache)
   }
   
-  async createOrUpdateRequestType(newRequestType: RequestTypeDocument, id: Types.ObjectId): Promise<ServerResponseInterface> {
+  async createOrUpdateRequestType(requestType: RequestTypeDocument, id: Types.ObjectId): Promise<ServerResponseInterface> {
     const RequestType = this.cache.model
     if(id) {
-      const promise = await RequestType.findByIdAndUpdate(id, {...newRequestType, dateUpdated: Date.now()}, {upsert: true})
+      const promise = await RequestType.findByIdAndUpdate(id, {...requestType, dateUpdated: Date.now()}, {upsert: true})
         .then(res => {
           return {
             "success": true,
@@ -32,8 +32,8 @@ export default class RequestTypeDataSource extends CachedMongooseDataSource<Requ
       return promise
     }
     else {
-      const requestType = new RequestType(newRequestType)
-      const promise = await requestType.save()
+      const newRequestType = new RequestType(requestType)
+      const promise = await newRequestType.save()
         .then(res => {
           return {
             "success": true,
