@@ -10,46 +10,45 @@ export default class RequestTypeDataSource extends CachedMongooseDataSource<Requ
     super(RequestTypeCache)
   }
   
-  async createOrUpdateRequestType(requestType: RequestTypeDocument, id: Types.ObjectId): Promise<ServerResponseInterface> {
+  async createRequestType(requestType: RequestTypeDocument): Promise<ServerResponseInterface> {
     const RequestType = this.cache.model
-    if(id) {
-      const promise = await RequestType.findByIdAndUpdate(id, {...requestType, dateUpdated: Date.now()}, {upsert: true})
-        .then(res => {
-          return {
-            "success": true,
-            "message": "RequestType successfully updated",
-            "id": id
-          }
-        })
-        .catch(error => {
-          console.log(error)
-          return {
-            "success": false,
-            "message": error._message,
-            "id": id
-          }
-        })
-      return promise
-    }
-    else {
-      const newRequestType = new RequestType(requestType)
-      const promise = await newRequestType.save()
-        .then(res => {
-          return {
-            "success": true,
-            "message": "RequestType successfully created",
-            "id": res._id
-          }
-        })
-        .catch(error => {
-          console.log(error)
-          return {
-            "success": false,
-            "message": error._message,
-            "id": id
-          }
-        })
-      return promise
-    }
+    const newRequestType = new RequestType(requestType)
+    const promise = await newRequestType.save()
+      .then(res => {
+        return {
+          "success": true,
+          "message": "RequestType successfully created",
+          "id": res._id
+        }
+      })
+      .catch(error => {
+        console.log(error)
+        return {
+          "success": false,
+          "message": error._message,
+          "id": null 
+        }
+      })
+    return promise
+  }
+  async updateRequestType(requestType: RequestTypeDocument, id: Types.ObjectId): Promise<ServerResponseInterface> {
+    const RequestType = this.cache.model
+    const promise = await RequestType.findByIdAndUpdate(id, {...requestType, dateUpdated: Date.now()})
+      .then(res => {
+        return {
+          "success": true,
+          "message": "RequestType successfully updated",
+          "id": id
+        }
+      })
+      .catch(error => {
+        console.log(error)
+        return {
+          "success": false,
+          "message": error._message,
+          "id": id
+        }
+      })
+    return promise
   }
 }

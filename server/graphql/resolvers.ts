@@ -17,7 +17,8 @@ const resolvers = {
     requestGroups: (_, __, { dataSources }): Array<RequestGroupInterface> => dataSources.requestGroups.getAll()
   },
   Mutation: {
-    createOrUpdateRequestType: (_, { requestType, id }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.createOrUpdateRequestType(requestType, id),
+    createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.createRequestType(requestType),
+    updateRequestType: (_, { requestType, id }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.updateRequestType(requestType, id),
     softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requestTypes.softDeleteRequestType(id)
   },
   RequestGroup: {

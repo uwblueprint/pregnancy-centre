@@ -59,7 +59,8 @@ const typeDefs = gql`
         requestGroups: [RequestGroup]
     }
     type Mutation {
-        createOrUpdateRequestType(newRequestType: RequestTypeInput, id: ID): ServerResponse
+        createRequestType(requestType: RequestTypeInput): ServerResponse
+        updateRequestType(requestType: RequestTypeInput, id: ID): ServerResponse
         softDeleteRequestType(id: ID): ServerResponse
     }
     input RequestListingInput {
