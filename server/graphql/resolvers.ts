@@ -2,7 +2,7 @@ import { ClientInterface } from '../models/clientModel'
 import { RequestGroupInterface } from '../models/requestGroupModel'
 import { RequestInterface } from '../models/requestModel'
 import { RequestTypeInterface } from '../models/requestTypeModel'
-import { ServerResponseInterface } from '../models/serverResponseModel'
+import { ServerResponseInterface } from './serverResponse'
 import { Types } from 'mongoose'
 
 const resolvers = {
