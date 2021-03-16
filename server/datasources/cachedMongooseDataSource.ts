@@ -26,7 +26,7 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
       .then(res => {
         return {
           "success": true,
-          "message": this.cache.name + " successfully created",
+          "message": `${this.cache.name} successfully created`,
           "id": res._id
         }
       })
@@ -49,7 +49,7 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
       .then(res => {
         return {
           "success": true,
-          "message": this.cache.name + " successfully updated",
+          "message": `${this.cache.name} successfully updated`,
           "id": inputObject.id
         }
       })
@@ -65,12 +65,11 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
   }
   
   async softDelete(id: Types.ObjectId) {
-    const Request = this.cache.model
-    const promise = Request.findByIdAndUpdate(id, {"deleted": true})
+    const promise = this.cache.model.findByIdAndUpdate(id, {"deleted": true})
       .then(res => {
         return {
           "success": true,
-          "message": this.cache.name + " successfully soft deleted",
+          "message": `${this.cache.name} successfully soft deleted`,
           "id": id
         }
       })
