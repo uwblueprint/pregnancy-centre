@@ -31,7 +31,7 @@ export default class RequestTypeDataSource extends CachedMongooseDataSource<Requ
       });
   }
 
-  async softDeleteRequest(id: Types.ObjectId): Promise<ServerResponseInterface> {
+  async softDeleteRequestType(id: Types.ObjectId): Promise<ServerResponseInterface> {
     return await super.softDelete(id)
       .then(res => {
         return res
