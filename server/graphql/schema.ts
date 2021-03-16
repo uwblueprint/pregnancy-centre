@@ -63,7 +63,7 @@ const typeDefs = gql`
         updateRequestType(requestType: RequestTypeInput, id: ID): ServerResponse
         softDeleteRequestType(id: ID): ServerResponse
         createRequest(request: RequestInput): ServerResponse
-        updateRequest(request: RequestInput, id: ID): ServerResponse
+        updateRequest(request: RequestInput): ServerResponse
         softDeleteRequest(id: ID): ServerResponse
     }
     input RequestListingInput {
