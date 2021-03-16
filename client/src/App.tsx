@@ -7,12 +7,16 @@ import DonorRequestGroupBrowser from './components/organisms/DonorRequestGroupBr
 import EmailConfirmedModal from './pages/EmailConfirmedModal';
 import RequestGroupDonorView from './components/organisms/RequestGroupDonorView';
 import SampleContainer from "./components/examples/SampleContainer";
-import SignUpModal from './pages/SignUpModal';
+import SignUpModal from "./pages/SignUpModal";
 
 function App(): JSX.Element {
   return (
-    <Router>
+    <span>
+      <Router>
       <Switch>
+        
+        <Route path='/signup' strict component={SignUpModal}></Route>
+        <Route path='/confirmation' component={() => <ConfirmationModal email="anna@pregnancycentre.ca"/>}></Route>
         <Route path='/donation-guidelines'><SampleContainer /></Route>
         <Route path='/login'><SampleContainer /></Route>
         {/* TODO(jlight99): delete /confirmation endpoint after logic for triggering the confirmation modal upon signup has been added */}
@@ -26,6 +30,7 @@ function App(): JSX.Element {
         <Route path='/'><DonorRequestGroupBrowser /></Route>
       </Switch>
     </Router>
+    </span>
   );
 }
 

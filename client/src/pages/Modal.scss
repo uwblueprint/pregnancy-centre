@@ -25,13 +25,16 @@
     margin-bottom: 20px;
   }
 
-  ::placeholder{
-    padding-left:10px;
-  }
-
   .title {
     font-weight: bold;
     font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;  
     margin-bottom: 40px;
   }
 
@@ -49,8 +52,10 @@
     border: 1px solid #E9E9E9;
     box-sizing: border-box;
     border-radius: 4px;
+    padding-left: 20px;
+    line-height: 0;
   }
-
+  
 }
 
 .modal-header {
@@ -59,4 +64,8 @@
 
 .modal-footer {
   border-top: 0 none;
+}
+
+.pass-req{
+  text-align: center;
 }
