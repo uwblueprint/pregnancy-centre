@@ -12,27 +12,6 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
       this.cache = cache
   }
 
-  async softDeleteRequestType(id: Types.ObjectId) {
-    const RequestType = this.cache.model
-    const promise = RequestType.findByIdAndUpdate(id, {"deleted": true})
-      .then(res => {
-        return {
-          "success": true,
-          "message": "RequestType successfully deleted",
-          "id": id
-        }
-      })
-      .catch(error => {
-        console.log(error)
-        return {
-          "success": false,
-          "message": error._message,
-          "id": id
-        }
-      })
-    return promise
-  }
-
   getById(id: Types.ObjectId): DocumentType {
     return this.cache.getData().filter(request => request._id.equals(id))[0]
   }
