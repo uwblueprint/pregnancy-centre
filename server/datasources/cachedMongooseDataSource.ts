@@ -43,7 +43,8 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
 
   async update(request: Document): Promise<ServerResponseInterface> {
     const Request = this.cache.model
-    const promise = await Request.findByIdAndUpdate(request._id, {...request, dateUpdated: Date.now()})
+    const id = request._id;
+    const promise = await Request.findByIdAndUpdate(id, {...request, id, dateUpdated: Date.now()})
       .then(res => {
         return {
           "success": true,
@@ -61,7 +62,7 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
       })
     return promise
   }
-  
+
   async softDelete(id: Types.ObjectId) {
     const Request = this.cache.model
     const promise = Request.findByIdAndUpdate(id, {"deleted": true})

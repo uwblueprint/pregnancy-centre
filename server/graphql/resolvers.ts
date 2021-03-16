@@ -18,7 +18,7 @@ const resolvers = {
   },
   Mutation: {
     createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.createRequest(request),
-    updateRequest: (_, { request, id }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.updateRequest(request, id),
+    updateRequest: (_, { request, id }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.updateRequest(request),
     softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDeleteRequest(id)
   },
   RequestGroup: {
