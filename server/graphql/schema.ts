@@ -63,14 +63,8 @@ const typeDefs = gql`
         updateRequest(request: RequestInput, id: ID): ServerResponse
         softDeleteRequest(id: ID): ServerResponse
     }
-    input ClientInput {
-        _id: ID
-        clientId: String
-        firstName: String
-        lastName: String    
-    }
     input RequestInput {
-        client: ClientInput
+        client: ID
         requestId: String
         deleted: Boolean
         fulfilled: Boolean

@@ -9,65 +9,37 @@ export default class RequestDataSource extends CachedMongooseDataSource<RequestD
   constructor() {
     super(RequestCache)
   }
+  
   async createRequest(request: RequestDocument): Promise<ServerResponseInterface> {
-    const Request = this.cache.model
-    const newRequest = new Request(request)
-    const promise = await newRequest.save()
+    return await super.create(request)
       .then(res => {
-        return {
-          "success": true,
-          "message": "Request successfully created",
-          "id": res._id
-        }
+        return res
       })
       .catch(error => {
         console.log(error)
-        return {
-          "success": false,
-          "message": error._message,
-          "id": null 
-        }
-      })
-    return promise
+        return error
+      });
   }
-  async updateRequest(request: RequestDocument, id: Types.ObjectId): Promise<ServerResponseInterface> {
-    const Request = this.cache.model
-    const promise = await Request.findByIdAndUpdate(id, {...request, dateUpdated: Date.now()})
+  
+  async updateRequest(request: RequestDocument): Promise<ServerResponseInterface> {
+    return await super.update(request)
       .then(res => {
-        return {
-          "success": true,
-          "message": "Request successfully updated",
-          "id": id
-        }
+        return res
       })
       .catch(error => {
         console.log(error)
-        return {
-          "success": false,
-          "message": error._message,
-          "id": id
-        }
-      })
-    return promise
+        return error
+      });
   }
-  async softDeleteRequest(id: Types.ObjectId) {
-    const Request = this.cache.model
-    const promise = Request.findByIdAndUpdate(id, {"deleted": true})
+
+  async softDeleteRequest(id: Types.ObjectId): Promise<ServerResponseInterface> {
+    return await super.softDelete(id)
       .then(res => {
-        return {
-          "success": true,
-          "message": "Request successfully soft deleted",
-          "id": id
-        }
+        return res
       })
       .catch(error => {
         console.log(error)
-        return {
-          "success": false,
-          "message": error._message,
-          "id": id
-        }
-      })
-    return promise
+        return error
+      });
   }
 }
