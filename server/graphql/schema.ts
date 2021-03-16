@@ -60,7 +60,7 @@ const typeDefs = gql`
     }
     type Mutation {
         createRequestType(requestType: RequestTypeInput): ServerResponse
-        updateRequestType(requestType: RequestTypeInput, id: ID): ServerResponse
+        updateRequestType(requestType: RequestTypeInput): ServerResponse
         softDeleteRequestType(id: ID): ServerResponse
         createRequest(request: RequestInput): ServerResponse
         updateRequest(request: RequestInput): ServerResponse
