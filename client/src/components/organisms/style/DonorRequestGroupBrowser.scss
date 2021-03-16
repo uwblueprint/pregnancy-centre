@@ -1,0 +1,17 @@
+.donor-request-group-browser {
+  &-header {
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 34px;
+  }
+  &-content {
+    margin-top: 32px;
+    border-top: $border-line;
+  }
+  &-list {
+    border-right: $border-line;
+  }
+  &-indiv-view {
+    margin-top: 32px;
+  }
+}

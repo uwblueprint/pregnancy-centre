@@ -11,7 +11,7 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
   }
 
   getById(id: Types.ObjectId): DocumentType {
-    return this.cache.getData().filter(request => request._id.equals(id))[0]
+    return this.cache.getData().filter(request => request._id && request._id.equals(id))[0]
   }
 
   getAll(): Array<DocumentType> {
