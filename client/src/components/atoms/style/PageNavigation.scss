@@ -23,6 +23,7 @@
 
   &.active .page-link {
     @include normal-button;
+    border-radius: 50%;
   }
 
   &.inactive .page-link {

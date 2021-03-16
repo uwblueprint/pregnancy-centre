@@ -36,7 +36,7 @@ const RequestGroupList: FunctionComponent<Props> = (props: Props) => {
 
 const mapStateToProps = (store: RootState): StateProps => {
   return {
-    requestGroups: store.requestGroups.data,
+    requestGroups: store.requestGroups.displayData,
   };
 };
 
