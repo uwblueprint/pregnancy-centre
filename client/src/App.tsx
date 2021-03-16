@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
 
 import ConfirmationModal from "./pages/ConfirmationModal";
+import DonorRequestGroupBrowser from './components/organisms/DonorRequestGroupBrowser'
 import EmailConfirmedModal from './pages/EmailConfirmedModal';
 import RequestGroupDonorView from './components/organisms/RequestGroupDonorView';
 import SampleContainer from "./components/examples/SampleContainer";
