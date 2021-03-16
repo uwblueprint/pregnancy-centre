@@ -19,7 +19,10 @@ const resolvers = {
   Mutation: {
     createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.createRequestType(requestType),
     updateRequestType: (_, { requestType, id }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.updateRequestType(requestType, id),
-    softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requestTypes.softDeleteRequestType(id)
+    softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requestTypes.softDeleteRequestType(id),
+    createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.createRequest(request),
+    updateRequest: (_, { request, id }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.updateRequest(request, id),
+    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDeleteRequest(id)
   },
   RequestGroup: {
     numOpen: (parent, __, { dataSources }): Number => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.open.length).reduce((total, num) => total + num),
