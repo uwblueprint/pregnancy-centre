@@ -63,7 +63,7 @@ connectDB(() => {
   const promises = []
 
   const clientIDs = []
-  for (let i = 0 ; i < numClients; i++) {
+  for (let i = 0; i < numClients; i++) {
     const client = new Client({
       _id: mongoose.Types.ObjectId(),
       clientId: faker.random.alphaNumeric(8),
@@ -82,11 +82,10 @@ connectDB(() => {
     promises.push(promise) // for tracking completion
   }
 
-  for (let i = 0; i < numGroups; i++) {
-    const typeIDs = []
-    for (let j = 0; j < numTypesPerGroup; j++) {
-      const requestIDs = []
-      for (let k = 0; k < numRequestsPerType; k++) {
+  const requestIDs = []
+  for (let groupIdx = 0; groupIdx < numGroups; groupIdx++) {
+    for (let typeIdx = 0; typeIdx < numTypesPerGroup; typeIdx++) {
+      for (let requestIdx = 0; requestIdx < numRequestsPerType; requestIdx++) {
         const request = new Request({
           _id: mongoose.Types.ObjectId(),
           requestId: faker.random.alphaNumeric(6),
@@ -95,7 +94,7 @@ connectDB(() => {
         requestIDs.push(request._id) // store IDs to allocate among groups + types
         const promise = request.save().catch((err) => {
           if (err) {
-            console.error('\x1b[31m', 'Attempted to seed request # ' + k + ' for group ' + i + ', type ' + j + ' but failed:')
+            console.error('\x1b[31m', 'Attempted to seed request # ' + requestIdx + ' for group ' + groupIdx + ', type ' + typeIdx + ' but failed:')
             console.log('\x1b[0m')
             console.error(err)
             exit()
@@ -103,7 +102,12 @@ connectDB(() => {
         })
         promises.push(promise) // for tracking completion
       }
+    }
+  }
 
+  const typeIDs = []
+  for (let groupIdx = 0; groupIdx < numGroups; groupIdx++) {
+    for (let typeIdx = 0; typeIdx < numTypesPerGroup; typeIdx++) {
       const type = new RequestType({
         _id: mongoose.Types.ObjectId(),
         name: faker.commerce.product(),
@@ -111,12 +115,12 @@ connectDB(() => {
           fulfilled: [],
           deleted: [],
           open: requestIDs
-        }
+        },
       })
       typeIDs.push(type._id) // store IDs to allocate among groups + types
       const promise = type.save().catch((err) => {
         if (err) {
-          console.error('\x1b[31m', 'Attempted to seed type #' + j + ' for group ' + i + ' but failed:')
+          console.error('\x1b[31m', 'Attempted to seed type #' + typeIdx + ' for group ' + groupIdx + ' but failed:')
           console.log('\x1b[0m')
           console.error(err)
           exit()
@@ -124,7 +128,9 @@ connectDB(() => {
       })
       promises.push(promise) // for tracking completion
     }
+  }
 
+  for (let groupIdx = 0; groupIdx < numGroups; groupIdx++) {
     const group = new RequestGroup({
       name: faker.commerce.department(),
       description: faker.lorem.sentence(),
@@ -134,7 +140,7 @@ connectDB(() => {
     })
     const promise = group.save().catch((err) => {
       if (err) {
-        console.error('\x1b[31m', 'Attempted to seed group #' + i + ' but failed:')
+        console.error('\x1b[31m', 'Attempted to seed group #' + groupIdx + ' but failed:')
         console.log('\x1b[0m')
         console.error(err)
         exit()
