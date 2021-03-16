@@ -21,7 +21,7 @@ const resolvers = {
     updateRequestType: (_, { requestType, id }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.updateRequestType(requestType, id),
     softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requestTypes.softDeleteRequestType(id),
     createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.createRequest(request),
-    updateRequest: (_, { request, id }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.updateRequest(request, id),
+    updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.updateRequest(request),
     softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDeleteRequest(id)
   },
   RequestGroup: {

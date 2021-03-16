@@ -11,44 +11,34 @@ export default class RequestTypeDataSource extends CachedMongooseDataSource<Requ
   }
   
   async createRequestType(requestType: RequestTypeDocument): Promise<ServerResponseInterface> {
-    const RequestType = this.cache.model
-    const newRequestType = new RequestType(requestType)
-    const promise = await newRequestType.save()
+    return await super.create(requestType)
       .then(res => {
-        return {
-          "success": true,
-          "message": "RequestType successfully created",
-          "id": res._id
-        }
+        return res
       })
       .catch(error => {
         console.log(error)
-        return {
-          "success": false,
-          "message": error._message,
-          "id": null 
-        }
-      })
-    return promise
+        return error
+      });
   }
-  async updateRequestType(requestType: RequestTypeDocument, id: Types.ObjectId): Promise<ServerResponseInterface> {
-    const RequestType = this.cache.model
-    const promise = await RequestType.findByIdAndUpdate(id, {...requestType, dateUpdated: Date.now()})
+  async updateRequestType(requestType: RequestTypeDocument): Promise<ServerResponseInterface> {
+    return await super.update(requestType)
       .then(res => {
-        return {
-          "success": true,
-          "message": "RequestType successfully updated",
-          "id": id
-        }
+        return res
       })
       .catch(error => {
         console.log(error)
-        return {
-          "success": false,
-          "message": error._message,
-          "id": id
-        }
+        return error
+      });
+  }
+
+  async softDeleteRequest(id: Types.ObjectId): Promise<ServerResponseInterface> {
+    return await super.softDelete(id)
+      .then(res => {
+        return res
       })
-    return promise
+      .catch(error => {
+        console.log(error)
+        return error
+      });
   }
 }

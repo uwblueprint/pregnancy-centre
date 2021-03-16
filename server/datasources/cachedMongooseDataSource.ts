@@ -2,6 +2,7 @@ import { Document, Types } from 'mongoose'
 import { Cache } from '../database/cache'
 import { DataSource } from 'apollo-datasource'
 import { ServerResponseInterface } from '../graphql/serverResponse';
+import { UserInputError } from 'apollo-server-errors';
 
 export default class CachedMongooseDataSource<DocumentType extends Document> extends DataSource {
   cache: Cache<DocumentType>;
@@ -40,10 +41,9 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
     return this.cache.getData()
   }
 
-  async create(request: Document): Promise<ServerResponseInterface> {
-    const Request = this.cache.model
-    const newRequest = new Request(request)
-    const promise = await newRequest.save()
+  async create(inputObject: Document): Promise<ServerResponseInterface> {
+    const newObject = new this.cache.model(inputObject)
+    const promise = await newObject.save()
       .then(res => {
         return {
           "success": true,
@@ -62,14 +62,16 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
     return promise
   }
 
-  async update(request: Document): Promise<ServerResponseInterface> {
-    const Request = this.cache.model
-    const promise = await Request.findByIdAndUpdate(request._id, {...request, dateUpdated: Date.now()})
+  async update(inputObject: Document): Promise<ServerResponseInterface> {
+    if(!inputObject.id) {
+      throw new UserInputError('Missing argument value', { argumentName: 'id' })
+    }
+    const promise = await this.cache.model.findByIdAndUpdate(inputObject.id, {...inputObject, dateUpdated: Date.now()})
       .then(res => {
         return {
           "success": true,
           "message": this.cache.name + " successfully updated",
-          "id": request._id
+          "id": inputObject.id
         }
       })
       .catch(error => {
@@ -77,7 +79,7 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
         return {
           "success": false,
           "message": error._message,
-          "id": request._id
+          "id": inputObject.id
         }
       })
     return promise

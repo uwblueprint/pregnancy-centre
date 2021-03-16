@@ -72,6 +72,7 @@ const typeDefs = gql`
         deleted: [ID]
     }
     input RequestTypeInput {
+        id: ID
         name: String
         deleted: Boolean
         requests: RequestListingInput
