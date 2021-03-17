@@ -43,6 +43,11 @@ const typeDefs = gql`
         requestTypes: [RequestType]
         numOpen: Int
     }
+    type ServerResponse {
+        success: Boolean
+        message: String
+        id: ID
+    }
     type Query {
         client(id: ID): Client
         clients(id: ID): [Client]
@@ -52,6 +57,31 @@ const typeDefs = gql`
         requestTypes: [RequestType]
         requestGroup(id: ID): RequestGroup
         requestGroups: [RequestGroup]
+    }
+    type Mutation {
+        createRequestType(requestType: RequestTypeInput): ServerResponse
+        updateRequestType(requestType: RequestTypeInput): ServerResponse
+        softDeleteRequestType(id: ID): ServerResponse
+        createRequest(request: RequestInput): ServerResponse
+        updateRequest(request: RequestInput): ServerResponse
+        softDeleteRequest(id: ID): ServerResponse
+    }
+    input RequestListingInput {
+        open: [ID]
+        fulfilled: [ID]
+        deleted: [ID]
+    }
+    input RequestTypeInput {
+        id: ID
+        name: String
+        deleted: Boolean
+        requests: RequestListingInput
+    }
+    input RequestInput {
+        client: ID
+        requestId: String
+        deleted: Boolean
+        fulfilled: Boolean
     }
 `
 
