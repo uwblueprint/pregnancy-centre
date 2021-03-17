@@ -8,6 +8,7 @@ const typeDefs = gql`
         clientId: String
         firstName: String
         lastName: String
+        deleted: Boolean
     }
     type Request {
         _id: ID
@@ -68,6 +69,9 @@ const typeDefs = gql`
         createRequest(request: RequestInput): ServerResponse
         updateRequest(request: RequestInput): ServerResponse
         softDeleteRequest(id: ID): ServerResponse
+        createClient(client: ClientInput): ServerResponse
+        updateClient(client: ClientInput): ServerResponse
+        softDeleteClient(id: ID): ServerResponse
     }
     input RequestListingInput {
         open: [ID]
@@ -90,10 +94,17 @@ const typeDefs = gql`
         requests: RequestListingInput
     }
     input RequestInput {
+        id: ID
         client: ID
         requestId: String
         deleted: Boolean
         fulfilled: Boolean
+    }
+    input ClientInput {
+        id: ID
+        clientId: String
+        firstName: String
+        lastName: String
     }
 `
 
