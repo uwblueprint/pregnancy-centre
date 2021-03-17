@@ -5,6 +5,7 @@ import React from "react";
 import ConfirmationModal from "./pages/ConfirmationModal";
 import DonorRequestGroupBrowser from './components/organisms/DonorRequestGroupBrowser'
 import EmailConfirmedModal from './pages/EmailConfirmedModal';
+import PasswordResetEmailSentModal from "./pages/PasswordResetEmailSentModal";
 import RequestGroupDonorView from './components/organisms/RequestGroupDonorView';
 import SampleContainer from "./components/examples/SampleContainer";
 import SignUpModal from "./pages/SignUpModal";

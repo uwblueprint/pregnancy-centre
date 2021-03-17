@@ -8,15 +8,15 @@ const EmailConfirmedModal: FunctionComponent = () => {
   const handleClose = () => setShow(false);
 
   return (
-    <CommonModal show={show} title={"Email Confirmed"} subtitle={''} handleClose={handleClose} body={
+    <CommonModal show={show} title={"Email Sent"} subtitle={''} handleClose={handleClose} body={
       <span>
         <div className="text">
-          Your account has now been made. 
+            Check your email and click on the password reset link to reset the password to your account.
         <div className="text">
-          You can now log into your account with the button below or close this  window.        </div>
+            The link will expire after X days, after which you’ll have to request another reset link.</div>
         </div>
         <button className="button" onClick={handleClose}>
-          Log in
+          I understand
         </button>
       </span>
     }></CommonModal>
