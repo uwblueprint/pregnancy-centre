@@ -24,6 +24,7 @@ function App(): JSX.Element {
         <Route path='/signup' strict component={SignUpModal}></Route>
         {/* TODO(jlight99): delete /email-confirmed endpoint after logic for triggering the email confirmed modal has been added */}
         <Route path='/email-confirmed' strict component={EmailConfirmedModal}></Route>
+        <Route path='/password-reset-email-sent' strict component={PasswordResetEmailSentModal}></Route>
         <Route path='/test'>
           <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23"/>
         </Route>
