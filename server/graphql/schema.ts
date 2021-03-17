@@ -59,6 +59,9 @@ const typeDefs = gql`
         requestGroups: [RequestGroup]
     }
     type Mutation {
+        createRequestGroup(requestGroup: RequestGroupInput): ServerResponse
+        updateRequestGroup(requestGroup: RequestGroupInput): ServerResponse
+        softDeleteRequestGroup(id: ID): ServerResponse
         createRequestType(requestType: RequestTypeInput): ServerResponse
         updateRequestType(requestType: RequestTypeInput): ServerResponse
         softDeleteRequestType(id: ID): ServerResponse
@@ -70,6 +73,15 @@ const typeDefs = gql`
         open: [ID]
         fulfilled: [ID]
         deleted: [ID]
+    }
+    input RequestGroupInput {
+        id: ID
+        name: String
+        deleted: Boolean
+        description: String
+        requirements: String
+        image: String
+        requestTypes: [ID]
     }
     input RequestTypeInput {
         id: ID
