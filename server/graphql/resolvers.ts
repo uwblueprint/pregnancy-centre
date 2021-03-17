@@ -17,12 +17,12 @@ const resolvers = {
     requestGroups: (_, __, { dataSources }): Array<RequestGroupInterface> => dataSources.requestGroups.getAll()
   },
   Mutation: {
-    createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.createRequestType(requestType),
-    updateRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.updateRequestType(requestType),
-    softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requestTypes.softDeleteRequestType(id),
-    createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.createRequest(request),
-    updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.updateRequest(request),
-    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDeleteRequest(id)
+    createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.create(requestType),
+    updateRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.update(requestType),
+    softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requestTypes.softDelete(id),
+    createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.create(request),
+    updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.update(request),
+    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDelete(id)
   },
   RequestGroup: {
     numOpen: (parent, __, { dataSources }): Number => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.open.length).reduce((total, num) => total + num),

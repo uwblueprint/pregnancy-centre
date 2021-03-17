@@ -9,36 +9,4 @@ export default class RequestTypeDataSource extends CachedMongooseDataSource<Requ
   constructor() {
     super(RequestTypeCache)
   }
-  
-  async createRequestType(requestType: RequestTypeDocument): Promise<ServerResponseInterface> {
-    return await super.create(requestType)
-      .then(res => {
-        return res
-      })
-      .catch(error => {
-        console.log(error)
-        return error
-      });
-  }
-  async updateRequestType(requestType: RequestTypeDocument): Promise<ServerResponseInterface> {
-    return await super.update(requestType)
-      .then(res => {
-        return res
-      })
-      .catch(error => {
-        console.log(error)
-        return error
-      });
-  }
-
-  async softDeleteRequestType(id: Types.ObjectId): Promise<ServerResponseInterface> {
-    return await super.softDelete(id)
-      .then(res => {
-        return res
-      })
-      .catch(error => {
-        console.log(error)
-        return error
-      });
-  }
 }
