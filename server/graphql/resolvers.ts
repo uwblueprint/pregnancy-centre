@@ -25,7 +25,10 @@ const resolvers = {
     softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requestTypes.softDelete(id),
     createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.create(request),
     updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.update(request),
-    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDelete(id)
+    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDelete(id),
+    createClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.create(client),
+    updateClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.update(client),
+    softDeleteClient: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.clients.softDelete(id)
   },
   RequestGroup: {
     numOpen: (parent, __, { dataSources }): Number => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.open.length).reduce((total, num) => total + num),

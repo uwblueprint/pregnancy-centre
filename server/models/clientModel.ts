@@ -5,6 +5,7 @@ interface ClientInterface {
   clientId: string
   firstName: string
   lastName: string
+  deleted: boolean
 }
 
 type ClientDocument = ClientInterface & Document;
@@ -23,6 +24,11 @@ const ClientSchema = new Schema({
     type: String,
     required: true,
     trim: true
+  },
+  deleted: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 })
 
