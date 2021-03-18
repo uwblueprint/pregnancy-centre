@@ -59,7 +59,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                             {requestGroupData.name}
                         </h1>
                         <p id="date-updated">
-                            Last updated {moment(requestGroupData.dateUpdated).format('MMMM DD, YYYY')}
+                            Last updated {moment(requestGroupData.dateUpdated, "x").format('MMMM DD, YYYY')}
                         </p>
                         <div id="image">
                             <img src={requestGroupData.image}/>
