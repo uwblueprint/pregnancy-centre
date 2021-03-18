@@ -12,7 +12,7 @@ const typeDefs = gql`
     }
     type Request {
         _id: ID
-        requestType: ID
+        requestType: RequestType
         requestId: String
         client: Client
         dateUpdated: String
@@ -21,18 +21,13 @@ const typeDefs = gql`
         deleted: Boolean
         fulfilled: Boolean
     }
-    type RequestListing {
-        open: [Request]
-        fulfilled: [Request]
-        deleted: [Request]
-    }
     type RequestType {
         _id: ID
-        requestGroup: ID
+        requestGroup: RequestGroup
         name: String
         dateUpdated: String
         deleted: Boolean
-        requests: RequestListing
+        requests: [Request]
         numOpen: Int
     }
     type RequestGroup {
