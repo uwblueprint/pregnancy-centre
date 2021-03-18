@@ -31,7 +31,8 @@ const RequestTypeSchema = new Schema({
     default: false
   },
   requests: {
-    type: [{ type: Types.ObjectId, ref: 'Request' }]
+    type: [{ type: Types.ObjectId, ref: 'Request' }],
+    default: []
   }
 })
 
