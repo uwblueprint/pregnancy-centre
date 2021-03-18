@@ -16,6 +16,13 @@ import { RequestType } from '../models/requestTypeModel'
 
 dotenv.config()
 
+const numClients = 50
+const numGroups = 5
+const numTypesPerGroup = 5
+const numRequestsPerType = 50
+
+faker.seed(2021)
+
 const createClient = (clientIDs, clientIdx) => {
   const client = new Client({
     _id: mongoose.Types.ObjectId(),
@@ -130,13 +137,6 @@ connectDB(() => {
     }
   })
 
-  faker.seed(2021)
-
-  const numClients = 50
-  const numGroups = 5
-  const numTypesPerGroup = 5
-  const numRequestsPerType = 50
-
   console.log('\x1b[34m', 'Seeding data')
   console.log('\x1b[0m')
   const promises = []
@@ -155,11 +155,14 @@ connectDB(() => {
       const requestIDsForType = []
       for (let requestIdx = 0; requestIdx < numRequestsPerType; requestIdx++) {
         requestIDsForType.push(mongoose.Types.ObjectId())
-        promises.push(createRequest(requestIDsForType[requestIdx], clientIDs, typeIDsForGroup[typeIdx], requestIdx, groupIdx, typeIdx))
+        const requestPromise = createRequest(requestIDsForType[requestIdx], clientIDs, typeIDsForGroup[typeIdx], requestIdx, groupIdx, typeIdx)
+        promises.push(requestPromise)
       }
-      promises.push(createRequestType(typeIDsForGroup[typeIdx], requestIDsForType, groupID, typeIdx, groupIdx))
+      const requestTypePromise = createRequestType(typeIDsForGroup[typeIdx], requestIDsForType, groupID, typeIdx, groupIdx)
+      promises.push(requestTypePromise)
     }
-    promises.push(createRequestGroup(groupID, typeIDsForGroup, groupIdx))
+    const requestGroupPromise = createRequestGroup(groupID, typeIDsForGroup, groupIdx)
+    promises.push(requestGroupPromise)
   }
 
   Promise.all(promises).then(() => {
