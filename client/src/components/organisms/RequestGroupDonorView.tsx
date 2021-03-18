@@ -82,7 +82,6 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                                 console.log(e);
 
                                 setTimeout(() => {
-                                    console.log(e);
                                     button.textContent = "Send an email"; 
                                     button.classList.remove('alt-button')
                                 }, 5000);
