@@ -35,12 +35,10 @@ const resolvers = {
     requestTypes: (parent, __, { dataSources }): Array<RequestTypeInterface> => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)))
   },
   RequestType: {
-    numOpen: (parent, __, { dataSources }): Number => parent.requests.open.length,
-  },
-  RequestListing: {
-    open: (parent, __, { dataSources }): Array<RequestInterface> => parent.open.map(id => dataSources.requests.getById(Types.ObjectId(id))),
-    fulfilled: (parent, __, { dataSources }): Array<RequestInterface> => parent.fulfilled.map(id => dataSources.requests.getById(Types.ObjectId(id))),
-    deleted: (parent, __, { dataSources }): Array<RequestInterface> => parent.deleted.map(id => dataSources.requests.getById(Types.ObjectId(id)))
+    numOpen: (parent, __, { dataSources }): Number => parent.requests.map(id => dataSources.requests.getById(id)).reduce((total, request) => (request.deleted === false && request.fulfilled === false) ? total + 1 : total, 0),
+    openRequests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(id)).filter(request => request.fulfilled === false && request.deleted === false),
+    fulfilledRequests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(id)).filter(request => request.fulfilled === true),
+    deletedRequests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(id)).filter(request => request.deleted === true),
   },
   Request: {
     client: (parent, __, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(parent.client))

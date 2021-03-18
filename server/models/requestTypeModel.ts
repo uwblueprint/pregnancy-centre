@@ -5,12 +5,8 @@ interface RequestTypeInterface {
   _id: Types.ObjectId
   name: string
   dateUpdated: Date,
-  deleted: boolean
-  requests: {
-    open: Array<RequestInterface>
-    fulfilled: Array<RequestInterface>
-    deleted: Array<RequestInterface>
-  }
+  deleted: boolean,
+  requests: Array<RequestInterface>
 }
 
 type RequestTypeDocument = RequestTypeInterface & Document
@@ -31,18 +27,8 @@ const RequestTypeSchema = new Schema({
     default: false
   },
   requests: {
-    open: {
-      type: [{ type: Types.ObjectId, ref: 'Request' }],
-      default: []
-    },
-    fulfilled: {
-      type: [{ type: Types.ObjectId, ref: 'Request' }],
-      default: []
-    },
-    deleted: {
-      type: [{ type: Types.ObjectId, ref: 'Request' }],
-      default: []
-    }
+    type: [{ type: Types.ObjectId, ref: 'Request' }],
+    default: []
   }
 })
 
