@@ -23,6 +23,11 @@ const numRequestsPerType = 50
 
 faker.seed(2021)
 
+const requestGroupNames = ["Strollers", "Cribs", "Gates", "Monitors", "Bibs", "Clothes", "Chairs", "Seats", "Mats", "Toys", "Pacifiers", 
+                           "Dishes", "Slings", "Bags", "Books", "Electronics", "Yards", "Bassinets", "Bedding", "Machines", "Bottles", 
+                           "Cutlery", "Mobile", "Hygiene", "Storage"];
+const requestGroupImages = ["https://source.unsplash.com/RcgiSN482VI", "https://source.unsplash.com/7ydep8OEvbc", "https://source.unsplash.com/0hiUWSi7jvs"]
+
 const createSavePromise = (dbObject, msg) => {
   const promise = dbObject.save().catch((err) => {
     if (err) {
@@ -71,10 +76,10 @@ const createRequestType = (typeID, requestIDsForType, requestGroupID, errMsg) =>
 const createRequestGroup = (groupID, typeIDs, errMsg) => {
   const group = new RequestGroup({
     _id: groupID,
-    name: faker.commerce.department(),
+    name: faker.random.arrayElement(requestGroupNames),
     description: faker.lorem.sentence(),
     requirements: faker.lorem.sentence(),
-    image: 'https://picsum.photos/200',
+    image: faker.random.arrayElement(requestGroupImages),
   })
   return createSavePromise(group, errMsg)
 }
