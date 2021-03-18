@@ -2,6 +2,7 @@ import { Document, model, Schema, Types } from 'mongoose'
 
 interface RequestInterface {
   _id: Types.ObjectId
+  requestType: Types.ObjectId
   requestId: string
   client: Types.ObjectId
   dateUpdated: Date
@@ -15,7 +16,7 @@ type RequestDocument = RequestInterface & Document;
 
 const requestSchema = new Schema({
   requestType: {
-    type:  [ { type: Types.ObjectId, ref: 'RequestType' } ]
+    type:  { type: Types.ObjectId, ref: 'RequestType' }
   },
   requestId: {
     type: String,
