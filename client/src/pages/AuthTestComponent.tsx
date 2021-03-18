@@ -15,7 +15,7 @@ const AuthTestComponent: FunctionComponent = () => {
         handleVerifyEmail(actionCode)
           .then((err: string) => {
             setConfirmationErrors(err);
-            if (err === "") {
+            if (!err) {
               setShowEmailConfirmedModal(true);
             }
           })
