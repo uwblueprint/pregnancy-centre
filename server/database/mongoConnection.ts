@@ -11,6 +11,7 @@ const options = {
 }
 
 function connectDB(callback = () => { }): void {
+  mongoose.set('useFindAndModify', false)
   mongoose.connect(uri, options)
     .catch(error => {
       console.error('\x1b[31m', `Failed to connect to MongoDB\n${error}`)

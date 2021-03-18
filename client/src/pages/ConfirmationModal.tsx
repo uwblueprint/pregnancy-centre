@@ -1,4 +1,3 @@
-import '../components/organisms/style/Modal.scss';
 import React, { FunctionComponent, useState } from 'react';
 import CommonModal from '../components/organisms/Modal';
 
@@ -12,7 +11,7 @@ const ConfirmationModal: FunctionComponent<Props> = (props: Props) => {
   const handleClose = () => setShow(false);
 
   return (
-    <CommonModal show={show} title={"Confirm Your Email"} handleClose={handleClose} body={
+    <CommonModal show={show} title={"Confirm Your Email"} subtitle={''} handleClose={handleClose} body={
       <span>
         <div className="text">
           We’ve just sent an email to the following email address.

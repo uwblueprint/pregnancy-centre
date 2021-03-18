@@ -35,13 +35,16 @@ const RequestTypeSchema = new Schema({
   },
   requests: {
     open: {
-      type: [{ type: Types.ObjectId, ref: 'Request' }]
+      type: [{ type: Types.ObjectId, ref: 'Request' }],
+      default: []
     },
     fulfilled: {
-      type: [{ type: Types.ObjectId, ref: 'Request' }]
+      type: [{ type: Types.ObjectId, ref: 'Request' }],
+      default: []
     },
     deleted: {
-      type: [{ type: Types.ObjectId, ref: 'Request' }]
+      type: [{ type: Types.ObjectId, ref: 'Request' }],
+      default: []
     }
   }
 })

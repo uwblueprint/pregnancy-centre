@@ -6,9 +6,10 @@ import tpcLeaf from '../../assets/tpc-leaf.png';
 
 interface Props {
   title: string;
+  subtitle: string;
   show: boolean;
   handleClose(): void;
-  body: React.ReactElement<any>;
+  body: React.ReactNode;
 }
 
 const CommonModal: FunctionComponent<Props> = (props: Props) => {
@@ -22,6 +23,9 @@ const CommonModal: FunctionComponent<Props> = (props: Props) => {
         </div>
         <div className="title">
           {props.title}
+        </div>
+        <div className="subtitle">
+          {props.subtitle}
         </div>
         {props.body}
       </Modal.Body>
