@@ -23,7 +23,19 @@ const numRequestsPerType = 50
 
 faker.seed(2021)
 
-const createClient = (clientIDs, clientIdx) => {
+const createSavePromise = (dbObject, msg) => {
+  const promise = dbObject.save().catch((err) => {
+    if (err) {
+      console.error('\x1b[31m', msg)
+      console.log('\x1b[0m')
+      console.error(err)
+      exit()
+    }
+  })
+  return promise
+}
+
+const createClient = (clientIDs, errMsg) => {
   const client = new Client({
     _id: mongoose.Types.ObjectId(),
     clientId: faker.random.alphaNumeric(8),
@@ -31,36 +43,19 @@ const createClient = (clientIDs, clientIdx) => {
     lastName: faker.name.lastName()
   })
   clientIDs.push(client._id) // store IDs to allocate among groups + types
-  const promise = client.save().catch((err) => {
-    if (err) {
-      console.error('\x1b[31m', 'Attempted to seed client # ' + clientIdx + ' but failed:')
-      console.log('\x1b[0m')
-      console.error(err)
-      exit()
-    }
-  })
-  return promise
+  return createSavePromise(client, errMsg)
 }
 
-const createRequest = (requestID, clientIDs, requestTypeID, requestIdx, groupIdx, typeIdx) => {
+const createRequest = (requestID, clientIDs, requestTypeID, errMsg) => {
   const request = new Request({
     _id: requestID,
     requestId: faker.random.alphaNumeric(6),
     client: faker.random.arrayElement(clientIDs),
-    requestType: requestTypeID
   })
-  const promise = request.save().catch((err) => {
-    if (err) {
-      console.error('\x1b[31m', 'Attempted to seed request # ' + requestIdx + ' for group ' + groupIdx + ', type ' + typeIdx + ' but failed:')
-      console.log('\x1b[0m')
-      console.error(err)
-      exit()
-    }
-  })
-  return promise
+  return createSavePromise(request, errMsg)
 }
 
-const createRequestType = (typeID, requestIDsForType, requestGroupID, typeIdx, groupIdx) => {
+const createRequestType = (typeID, requestIDsForType, requestGroupID, errMsg) => {
   const type = new RequestType({
     _id: typeID,
     name: faker.commerce.product(),
@@ -69,37 +64,19 @@ const createRequestType = (typeID, requestIDsForType, requestGroupID, typeIdx, g
       deleted: [],
       open: requestIDsForType
     },
-    requestGroup: requestGroupID
   })
-  const promise = type.save().catch((err) => {
-    if (err) {
-      console.error('\x1b[31m', 'Attempted to seed type #' + typeIdx + ' for group ' + groupIdx + ' but failed:')
-      console.log('\x1b[0m')
-      console.error(err)
-      exit()
-    }
-  })
-  return promise
+  return createSavePromise(type, errMsg)
 }
 
-const createRequestGroup = (groupID, typeIDs, groupIdx) => {
+const createRequestGroup = (groupID, typeIDs, errMsg) => {
   const group = new RequestGroup({
     _id: groupID,
     name: faker.commerce.department(),
     description: faker.lorem.sentence(),
     requirements: faker.lorem.sentence(),
     image: 'https://picsum.photos/200',
-    requestTypes: typeIDs
   })
-  const promise = group.save().catch((err) => {
-    if (err) {
-      console.error('\x1b[31m', 'Attempted to seed group #' + groupIdx + ' but failed:')
-      console.log('\x1b[0m')
-      console.error(err)
-      exit()
-    }
-  })
-  return promise
+  return createSavePromise(group, errMsg)
 }
 
 // connect to DB, and on success, seed documents
@@ -143,31 +120,57 @@ connectDB(() => {
 
   const clientIDs = []
   for (let clientIdx = 0; clientIdx < numClients; clientIdx++) {
-    const clientPromise = createClient(clientIDs, clientIdx)
+    const clientErrMsg = 'Attempted to seed client # ' + clientIdx + ' but failed:'
+    const clientPromise = createClient(clientIDs, clientErrMsg)
     promises.push(clientPromise) // for tracking completion
   }
 
+  const groupIDs = []
+  const typeIDs = []
+  const requestIDs = []
   for (let groupIdx = 0; groupIdx < numGroups; groupIdx++) {
-    const groupID = mongoose.Types.ObjectId()
+    groupIDs.push(mongoose.Types.ObjectId())
     const typeIDsForGroup = []
+    const requestIDsForGroup = []
     for (let typeIdx = 0; typeIdx < numTypesPerGroup; typeIdx++) {
       typeIDsForGroup.push(mongoose.Types.ObjectId())
       const requestIDsForType = []
       for (let requestIdx = 0; requestIdx < numRequestsPerType; requestIdx++) {
         requestIDsForType.push(mongoose.Types.ObjectId())
-        const requestPromise = createRequest(requestIDsForType[requestIdx], clientIDs, typeIDsForGroup[typeIdx], requestIdx, groupIdx, typeIdx)
+        const requestErrMsg = 'Attempted to seed request # ' + requestIdx + ' for group ' + groupIdx + ', type ' + typeIdx + ' but failed:'
+        const requestPromise = createRequest(requestIDsForType[requestIdx], clientIDs, typeIDsForGroup[typeIdx], requestErrMsg)
         promises.push(requestPromise)
       }
-      const requestTypePromise = createRequestType(typeIDsForGroup[typeIdx], requestIDsForType, groupID, typeIdx, groupIdx)
+      requestIDsForGroup.push(requestIDsForType)
+      const requestTypeErrMsg = 'Attempted to seed type #' + typeIdx + ' for group ' + groupIdx + ' but failed:'
+      const requestTypePromise = createRequestType(typeIDsForGroup[typeIdx], requestIDsForType, groupIDs[groupIdx], requestTypeErrMsg)
       promises.push(requestTypePromise)
     }
-    const requestGroupPromise = createRequestGroup(groupID, typeIDsForGroup, groupIdx)
+    requestIDs.push(requestIDsForGroup)
+    typeIDs.push(typeIDsForGroup)
+    const requestGroupErrMsg = 'Attempted to seed group #' + groupIdx + ' but failed:'
+    const requestGroupPromise = createRequestGroup(groupIDs[groupIdx], typeIDsForGroup, requestGroupErrMsg)
     promises.push(requestGroupPromise)
   }
 
   Promise.all(promises).then(() => {
-    console.log('\x1b[34m', 'Finished seeding!')
-    console.log('\x1b[0m')
-    exit()
+    // update Request with its RequestType, RequestType with its RequestGroup, and RequestGroup with its RequestTypes
+    // note that this update takes place after the objects have all been created because the fields (requestType, requestGroup, requestTypes)
+    // are all references to DB objects, so the DB objects must exist before we can set these fields
+    const updatePromises = []
+    for (let groupIdx = 0; groupIdx < numGroups; groupIdx++) {
+      for (let typeIdx = 0; typeIdx < numTypesPerGroup; typeIdx++) {
+        for (let requestIdx = 0; requestIdx < numRequestsPerType; requestIdx++) {
+          updatePromises.push(Request.findByIdAndUpdate(requestIDs[groupIdx][typeIdx][requestIdx], {requestType: typeIDs[groupIdx][typeIdx]}))
+        }
+        updatePromises.push(RequestType.findByIdAndUpdate(typeIDs[groupIdx][typeIdx], {requestGroup: groupIDs[groupIdx]}))
+      }
+      updatePromises.push(RequestGroup.findByIdAndUpdate(groupIDs[groupIdx], {requestTypes: typeIDs[groupIdx]}))
+    }
+    Promise.all(updatePromises).then(() => {
+      console.log('\x1b[34m', 'Finished seeding!')
+      console.log('\x1b[0m')
+      exit()
+    })
   })
 })

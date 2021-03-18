@@ -4,6 +4,8 @@
 
 .page-link {
   @include transparent;
+  border-radius: 50%;
+  padding: 0 5px;
 
   &:focus {
     box-shadow: none !important;
@@ -12,8 +14,8 @@
 }
 
 .page-item {
+  margin-right: 15px;
   & a {
-    border-radius: 50%;
     margin: 6px;
   }
 
@@ -21,8 +23,12 @@
     border-color: none;
   }
 
-  &.active .page-link {
+  &.active {
     @include normal-button;
+    border-radius: 50%;
+    & .page-link {
+      background-color: unset;
+    }
   }
 
   &.inactive .page-link {
@@ -32,9 +38,14 @@
 
 .page-arrow {
   width: 41px;
+
   & .page-link {
     color: $button-background;
     @include transparent;
+  }
+
+  &.prev-arrow {
+    margin: 0;
   }
 
   &.disabled {

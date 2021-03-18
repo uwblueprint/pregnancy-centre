@@ -3,6 +3,7 @@
 @import "../components/molecules/style/index";
 @import "../components/organisms/style/index";
 @import "../components/layouts/style/index";
+@import "../pages/style/index";
 
 body {
   @include normal-text;

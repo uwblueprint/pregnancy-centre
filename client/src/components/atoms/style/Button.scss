@@ -1,0 +1,7 @@
+.button {
+    @include normal-button;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    padding: 11px;
+}

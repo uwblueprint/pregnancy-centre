@@ -5,17 +5,20 @@ import moment from 'moment';
 import { Spinner } from 'react-bootstrap';
 
 import InfoBox from '../molecules/InfoBox';
+import RequestGroup from '../../data/types/requestGroup';
 import RequestTypeList from '../molecules/RequestTypeList';
 
-import RequestGroup from '../../data/types/requestGroup';
+// TODO: rich text for descriptions (BLOCKER: how admin's will set descriptions)
+// TODO: get email from TPC and put here
 
-// TODO: figure out how to get nice formatting for item descriptions
 
 interface Props {
-    requestGroupId: string
+    requestGroupId?: string
 }
 
 const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
+    const emailAddress = "mail@example.com" // TODO: replace and see todo above
+
     const [requestGroupData, setRequestGroupData] = useState<RequestGroup | undefined>(undefined);
 
     const query = gql`{
@@ -68,8 +71,11 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                     <InfoBox 
                         title="HAVE A DONATION?" 
                         text="To arrange your donation, contact the Pregnancy Center directly at 514‑999‑9999 or send an email."
-                        buttonText="Send an email"
-                        buttonCallback={()=>{}}
+                        buttonProps = {{
+                            text: "Send an email",
+                            onClick: () => {window.location.href = "mailto:" + emailAddress},
+                            copyText: emailAddress
+                        }}
                     />
                     <div id="description">
                         <InfoBox 

@@ -6,10 +6,12 @@ dotenv.config()
 const uri = process.env.MONGO_URI
 const options = {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false // use MongoDB driver's findOneAndUpdate() instead of its findAndModify() function
 }
 
 function connectDB(callback = () => { }): void {
+  mongoose.set('useFindAndModify', false)
   mongoose.connect(uri, options)
     .catch(error => {
       console.error('\x1b[31m', `Failed to connect to MongoDB\n${error}`)
