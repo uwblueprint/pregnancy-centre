@@ -64,11 +64,7 @@ const createRequestType = (typeID, requestIDsForType, requestGroupID, errMsg) =>
   const type = new RequestType({
     _id: typeID,
     name: faker.commerce.product(),
-    requests: {
-      fulfilled: [],
-      deleted: [],
-      open: requestIDsForType
-    },
+    requests: requestIDsForType,
   })
   return createSavePromise(type, errMsg)
 }

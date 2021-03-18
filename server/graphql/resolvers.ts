@@ -35,16 +35,12 @@ const resolvers = {
     requestTypes: (parent, __, { dataSources }): Array<RequestTypeInterface> => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)))
   },
   RequestType: {
-    requestGroup: (parent, __, { dataSources }): RequestGroupInterface => dataSources.requestGroups.getById(Types.ObjectId(parent.requestGroup)),
-    numOpen: (parent, __, { dataSources }): Number => parent.requests.open.length
-  },
-  RequestListing: {
-    open: (parent, __, { dataSources }): Array<RequestInterface> => parent.open.map(id => dataSources.requests.getById(Types.ObjectId(id))),
-    fulfilled: (parent, __, { dataSources }): Array<RequestInterface> => parent.fulfilled.map(id => dataSources.requests.getById(Types.ObjectId(id))),
-    deleted: (parent, __, { dataSources }): Array<RequestInterface> => parent.deleted.map(id => dataSources.requests.getById(Types.ObjectId(id)))
+    requestGroup: (parent, __, { dataSources }): RequestGroupInterface => dataSources.requestGroups.getById(Types.ObjectId(parent.requestGroup.toString())),
+    numOpen: (parent, __, { dataSources }): Number => parent.requests.open.length,
+    requests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(Types.ObjectId(id)))
   },
   Request: {
-    requestType: (parent, __, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(parent.requestType)),
+    requestType: (parent, __, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(parent.requestType.toString())),
     client: (parent, __, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(parent.client))
   }
 }
