@@ -2,6 +2,7 @@ import { Document, model, Schema, Types } from 'mongoose'
 
 interface RequestInterface {
   _id: Types.ObjectId
+  requestType: Types.ObjectId
   requestId: string
   client: Types.ObjectId
   dateUpdated: Date

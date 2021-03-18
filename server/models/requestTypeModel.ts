@@ -3,6 +3,7 @@ import { RequestInterface } from './requestModel'
 
 interface RequestTypeInterface {
   _id: Types.ObjectId
+  requestGroup: Types.ObjectId
   name: string
   dateUpdated: Date,
   deleted: boolean
