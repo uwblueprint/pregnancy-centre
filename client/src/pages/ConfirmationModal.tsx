@@ -1,4 +1,3 @@
-import '../components/organisms/style/Modal.scss';
 import React, { FunctionComponent, useState } from 'react';
 import CommonModal from '../components/organisms/Modal';
 
