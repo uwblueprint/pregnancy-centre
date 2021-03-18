@@ -8,6 +8,7 @@ const typeDefs = gql`
         clientId: String
         firstName: String
         lastName: String
+        deleted: Boolean
     }
     type Request {
         _id: ID
@@ -43,6 +44,11 @@ const typeDefs = gql`
         requestTypes: [RequestType]
         numOpen: Int
     }
+    type ServerResponse {
+        success: Boolean
+        message: String
+        id: ID
+    }
     type Query {
         client(id: ID): Client
         clients(id: ID): [Client]
@@ -52,6 +58,53 @@ const typeDefs = gql`
         requestTypes: [RequestType]
         requestGroup(id: ID): RequestGroup
         requestGroups: [RequestGroup]
+    }
+    type Mutation {
+        createRequestGroup(requestGroup: RequestGroupInput): ServerResponse
+        updateRequestGroup(requestGroup: RequestGroupInput): ServerResponse
+        softDeleteRequestGroup(id: ID): ServerResponse
+        createRequestType(requestType: RequestTypeInput): ServerResponse
+        updateRequestType(requestType: RequestTypeInput): ServerResponse
+        softDeleteRequestType(id: ID): ServerResponse
+        createRequest(request: RequestInput): ServerResponse
+        updateRequest(request: RequestInput): ServerResponse
+        softDeleteRequest(id: ID): ServerResponse
+        createClient(client: ClientInput): ServerResponse
+        updateClient(client: ClientInput): ServerResponse
+        softDeleteClient(id: ID): ServerResponse
+    }
+    input RequestListingInput {
+        open: [ID]
+        fulfilled: [ID]
+        deleted: [ID]
+    }
+    input RequestGroupInput {
+        id: ID
+        name: String
+        deleted: Boolean
+        description: String
+        requirements: String
+        image: String
+        requestTypes: [ID]
+    }
+    input RequestTypeInput {
+        id: ID
+        name: String
+        deleted: Boolean
+        requests: RequestListingInput
+    }
+    input RequestInput {
+        id: ID
+        client: ID
+        requestId: String
+        deleted: Boolean
+        fulfilled: Boolean
+    }
+    input ClientInput {
+        id: ID
+        clientId: String
+        firstName: String
+        lastName: String
     }
 `
 

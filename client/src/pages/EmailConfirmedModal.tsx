@@ -7,7 +7,7 @@ const EmailConfirmedModal: FunctionComponent = () => {
   const handleClose = () => setShow(false);
 
   return (
-    <CommonModal show={show} title={"Email Confirmed"} handleClose={handleClose} body={
+    <CommonModal show={show} title={"Email Confirmed"} subtitle={''} handleClose={handleClose} body={
       <span>
         <div className="text">
           Your account has now been made. 

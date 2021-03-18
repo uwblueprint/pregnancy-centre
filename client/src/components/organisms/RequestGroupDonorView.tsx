@@ -13,7 +13,7 @@ import RequestTypeList from '../molecules/RequestTypeList';
 
 
 interface Props {
-    requestGroupId: string
+    requestGroupId?: string
 }
 
 const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {

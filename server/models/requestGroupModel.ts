@@ -39,7 +39,8 @@ const RequestGroupSchema = new Schema({
     type: String
   },
   requestTypes: {
-    type: [ { type: Types.ObjectId, ref: 'RequestType' } ]
+    type: [ { type: Types.ObjectId, ref: 'RequestType' } ],
+    default: []
   }
 })
 
