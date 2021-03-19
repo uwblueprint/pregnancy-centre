@@ -70,27 +70,31 @@ $section-header-text-color: #bbbbbb;
 $button-background: #3e3e3e;
 $button-disabled-background: #b2b2b2;
 
-@mixin normal-button() {
-    @include white-text;
+@mixin button-base() {
     font-size: 16px;
     font-weight: 400;
     line-height: 19px;
     text-align: center;
     border-width: 1px;
     border-radius: $box-border-radius;
+    box-shadow: none;
+}
+
+@mixin alt-button() {
+    @include button-base;
+    @include normal-text;
+    background-color: $background;
+    border-color: $button-background;
+}
+
+@mixin normal-button() {
+    @include button-base;
+    @include white-text;
     background-color: $button-background;
     border-color: $button-background;
-    box-shadow: none;
 
     &:hover, &:active, &:visited  {
-        @include normal-text;
-        background-color: $background;
-        border-color: $button-background;
-        box-shadow: none;
-    }
-
-    &:focus {
-        box-shadow: none;
+        @include alt-button;
     }
 }
 
