@@ -3,6 +3,7 @@ import { RequestInterface } from './requestModel'
 
 interface RequestTypeInterface {
   _id: Types.ObjectId
+  requestGroup: Types.ObjectId
   name: string
   dateUpdated: Date,
   deleted: boolean,
@@ -12,6 +13,9 @@ interface RequestTypeInterface {
 type RequestTypeDocument = RequestTypeInterface & Document
 
 const RequestTypeSchema = new Schema({
+  requestGroup: {
+    type:  { type: Types.ObjectId, ref: 'RequestGroup' }
+  },
   name: {
     type: String,
     required: true

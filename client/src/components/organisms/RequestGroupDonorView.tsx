@@ -59,7 +59,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                             {requestGroupData.name}
                         </h1>
                         <p id="date-updated">
-                            Last updated {moment(requestGroupData.dateUpdated).format('MMMM DD, YYYY')}
+                            Last updated {moment(requestGroupData.dateUpdated, "x").format('MMMM DD, YYYY')}
                         </p>
                         <div id="image">
                             <img src={requestGroupData.image}/>
@@ -73,7 +73,19 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                         text="To arrange your donation, contact the Pregnancy Center directly at 514‑999‑9999 or send an email."
                         buttonProps = {{
                             text: "Send an email",
-                            onClick: () => {window.location.href = "mailto:" + emailAddress},
+                            onClick: (e) => {
+                                console.log(e);
+                                const button = e.target as HTMLButtonElement;
+                                button.textContent = "Email copied";
+                                button.classList.add('alt-button');
+
+                                console.log(e);
+
+                                setTimeout(() => {
+                                    button.textContent = "Send an email"; 
+                                    button.classList.remove('alt-button')
+                                }, 5000);
+                            },
                             copyText: emailAddress
                         }}
                     />
