@@ -37,7 +37,7 @@ const resolvers = {
   RequestType: {
     numOpen: (parent, __, { dataSources }): Number => parent.requests.map(id => dataSources.requests.getById(id)).reduce((total, request) => (request.deleted === false && request.fulfilled === false) ? total + 1 : total, 0),
     openRequests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(id)).filter(request => request.fulfilled === false && request.deleted === false),
-    fulfilledRequests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(id)).filter(request => request.fulfilled === true),
+    fulfilledRequests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(id)).filter(request => request.fulfilled === true && request.deleted === false),
     deletedRequests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(id)).filter(request => request.deleted === true),
     requestGroup: (parent, __, { dataSources }): RequestGroupInterface => dataSources.requestGroups.getById(Types.ObjectId(parent.requestGroup.toString()))
   },
