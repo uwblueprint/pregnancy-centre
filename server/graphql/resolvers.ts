@@ -5,6 +5,21 @@ import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
 import { Types } from 'mongoose'
 
+const filterOpenRequests = (requests: Array<RequestInterface> ) => {
+  return requests.filter(request => request.fulfilled === false && request.deleted === false)
+}
+
+const filterFulfilledRequests = (requests: Array<RequestInterface> ) => {
+  return requests.filter(request => request.fulfilled === false && request.deleted === false)
+}
+const filterDeletedRequests = (requests: Array<RequestInterface> ) => {
+  return requests.filter(request => request.deleted === true)
+}
+
+const getRequestsById = (requestIds, dataSources) => {
+  return requestIds.map(id => dataSources.requests.getById(id))
+}
+
 const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
@@ -36,9 +51,10 @@ const resolvers = {
   },
   RequestType: {
     numOpen: (parent, __, { dataSources }): Number => parent.requests.map(id => dataSources.requests.getById(id)).reduce((total, request) => (request.deleted === false && request.fulfilled === false) ? total + 1 : total, 0),
-    openRequests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(id)).filter(request => request.fulfilled === false && request.deleted === false),
-    fulfilledRequests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(id)).filter(request => request.fulfilled === true && request.deleted === false),
-    deletedRequests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(id)).filter(request => request.deleted === true),
+    openRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterOpenRequests(getRequestsById(parent.requests, dataSources)),
+    fulfilledRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterFulfilledRequests(getRequestsById(parent.requests, dataSources)),
+    deletedRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterDeletedRequests(getRequestsById(parent.requests, dataSources)),
+    requests: (parent, __, { dataSources }): Array<RequestInterface> => getRequestsById(parent.requests, dataSources),
     requestGroup: (parent, __, { dataSources }): RequestGroupInterface => dataSources.requestGroups.getById(Types.ObjectId(parent.requestGroup.toString()))
   },
   Request: {
