@@ -12,6 +12,7 @@ const filterOpenRequests = (requests: Array<RequestInterface> ) => {
 const filterFulfilledRequests = (requests: Array<RequestInterface> ) => {
   return requests.filter(request => request.fulfilled === false && request.deleted === false)
 }
+
 const filterDeletedRequests = (requests: Array<RequestInterface> ) => {
   return requests.filter(request => request.deleted === true)
 }
