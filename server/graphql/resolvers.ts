@@ -31,12 +31,12 @@ const resolvers = {
     softDeleteClient: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.clients.softDelete(id)
   },
   RequestGroup: {
-    numOpen: (parent, __, { dataSources }): Number => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.open.length).reduce((total, num) => total + num, 0),
+    numOpen: (parent, __, { dataSources }): Number => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((total, num) => total + num, 0),
     requestTypes: (parent, __, { dataSources }): Array<RequestTypeInterface> => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)))
   },
   RequestType: {
     requestGroup: (parent, __, { dataSources }): RequestGroupInterface => dataSources.requestGroups.getById(Types.ObjectId(parent.requestGroup.toString())),
-    numOpen: (parent, __, { dataSources }): Number => parent.requests.open.length,
+    numOpen: (parent, __, { dataSources }): Number => parent.requests.length,
     requests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(Types.ObjectId(id)))
   },
   Request: {
