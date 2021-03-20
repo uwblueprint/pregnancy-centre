@@ -1,5 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
-import Pagination from 'react-bootstrap/Pagination';
+import React, { FunctionComponent } from "react";
 
 interface Props {
   totalNumItems: number,
