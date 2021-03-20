@@ -18,7 +18,7 @@ import { start } from 'repl'
 dotenv.config()
 
 const numClients = 50
-const numGroups = 5
+const numGroups = 25
 const numTypesPerGroup = 5
 const maxNumRequestsPerType = 50
 const probRequestDeleted = 0.05
