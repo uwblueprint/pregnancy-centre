@@ -2,7 +2,8 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 714px;
+    padding-right: 94px;
+    padding-left: 32px;
 
     .spinner {
         position: relative;
@@ -12,17 +13,20 @@
     }
 
     .panel {
-        display: table;
+        display: block;
+        align-items: center;
         width: 100%;
     }
 
     .section {
         &#left {
+            padding-top: 27px;
             float: left;
             width: 514px;
             padding-right: 16px;
         }
         &#right {
+            padding-top: 27px;
             float: right;
             width: 331px;
             padding-left: 16px;
@@ -59,7 +63,7 @@
 
     #description {
         padding-top: 20px;
-        height: 446px;
+        height: 468px;
 
         .card-text {
             padding-top: 8px;
