@@ -2,6 +2,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    max-width: 908px;
     padding-left: 32px;
 
     .spinner {
@@ -23,12 +24,21 @@
             float: left;
             width: 100%;
             padding-right: 16px;
+
+            .request-type-list {
+                max-width: 514px;
+            }
         }
         &#right {
             padding-top: 27px;
             float: right;
             width: 100%;
             padding-left: 16px;
+
+            .infoBox {
+                margin: 0 auto;
+                max-width: 331px;
+            }
         }
     }
 
@@ -48,7 +58,7 @@
 
     #image {
         padding: 16px 0px 24px;
-        // width: 513px;
+        max-width: 513px;
         height: 365px;
         border-radius: $box-border-radius;
         overflow: hidden;

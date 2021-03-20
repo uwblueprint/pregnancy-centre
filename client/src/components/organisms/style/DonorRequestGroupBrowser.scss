@@ -1,5 +1,5 @@
 .donor-request-group-browser {
-  padding-bottom: 33px;
+  padding-bottom: 35px;
 
   &-header {
     font-weight: bold;
@@ -12,6 +12,7 @@
   }
   &-list {
     border-right: $border-line;
+    padding-right: 32px;
   }
   
   .donor-request-group-browser-header {
