@@ -2,7 +2,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding-right: 94px;
     padding-left: 32px;
 
     .spinner {
@@ -22,13 +21,13 @@
         &#left {
             padding-top: 27px;
             float: left;
-            width: 514px;
+            width: 100%;
             padding-right: 16px;
         }
         &#right {
             padding-top: 27px;
             float: right;
-            width: 331px;
+            width: 100%;
             padding-left: 16px;
         }
     }
@@ -49,7 +48,7 @@
 
     #image {
         padding: 16px 0px 24px;
-        width: 513px;
+        // width: 513px;
         height: 365px;
         border-radius: $box-border-radius;
         overflow: hidden;
@@ -64,6 +63,7 @@
     #description {
         padding-top: 20px;
         height: 468px;
+        width: 100%;
 
         .card-text {
             padding-top: 8px;
