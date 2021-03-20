@@ -4,7 +4,16 @@ import BsNavbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import tpcLogo from '../../assets/tpc-logo.svg'
 
-const Navbar: FunctionComponent = () => {
+type Link = {
+  name: string,
+  link: string
+}
+
+interface Props {
+  links: Link[]
+}
+
+const Navbar: FunctionComponent<Props> = (props: Props) => {
   return <BsNavbar>
     <BsNavbar.Brand href="/">
       <img
@@ -13,6 +22,9 @@ const Navbar: FunctionComponent = () => {
       />
     </BsNavbar.Brand>
     <div className="navbar-links">
+      {props.links.map((link : Link) => {
+        <Nav.Link href={link.link}>{link.name}</Nav.Link>
+      })}
       <Nav.Link href="https://pregnancycentre.ca/">TPC Main Website</Nav.Link>
       <Nav.Link href="/donation-guidelines">How to Donate</Nav.Link>
       <Nav.Link href="/login">Organization Login</Nav.Link>
