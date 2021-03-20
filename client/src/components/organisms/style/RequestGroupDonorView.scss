@@ -1,5 +1,4 @@
 .request-group-view {
-    display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -14,8 +13,7 @@
 
     .panel {
         display: table;
-        width: 923px;
-        padding: 32px;
+        width: 100%;
     }
 
     .section {

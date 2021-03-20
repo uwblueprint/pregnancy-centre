@@ -70,7 +70,9 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
           onRequestGroupChange={(requestGroupdId: string) => { setSelectedRequestGroup(requestGroupdId) }}
         />
       </Col>
-      <Col className="donor-request-group-browser-indiv-view" md={8}><RequestGroupDonorView requestGroupId={selectedRequestGroup}/></Col>
+      <Col className="donor-request-group-browser-indiv-view" md={8}>
+        <RequestGroupDonorView requestGroupId={selectedRequestGroup}/>
+      </Col>
     </Row>
   </Container>
 };
