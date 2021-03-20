@@ -28,6 +28,9 @@ const typeDefs = gql`
         dateUpdated: String
         deleted: Boolean
         requests: [Request]
+        openRequests: [Request]
+        fulfilledRequests: [Request]
+        deletedRequests: [Request]
         numOpen: Int
     }
     type RequestGroup {
@@ -70,11 +73,6 @@ const typeDefs = gql`
         updateClient(client: ClientInput): ServerResponse
         softDeleteClient(id: ID): ServerResponse
     }
-    input RequestListingInput {
-        open: [ID]
-        fulfilled: [ID]
-        deleted: [ID]
-    }
     input RequestGroupInput {
         id: ID
         name: String
@@ -88,7 +86,7 @@ const typeDefs = gql`
         id: ID
         name: String
         deleted: Boolean
-        requests: RequestListingInput
+        requests: [ID]
     }
     input RequestInput {
         id: ID
