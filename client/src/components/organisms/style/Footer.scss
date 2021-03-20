@@ -71,7 +71,7 @@ $footer-lr-padding: 0 20px;
     @media (max-width: 1166px) {
       margin-right: 32px;
     }
-    @media (max-width: 992px) {
+    @media (max-width: 1066px) {
       margin-right: 12px;
     }
     @media (max-width: 860px) {
@@ -82,7 +82,7 @@ $footer-lr-padding: 0 20px;
 
   &.row div[class^="col"]:first-child {
     margin-right: 84px;
-    @media (max-width: 992px) {
+    @media (max-width: 1066px) {
       margin-right: 32px;
     }
     @media (max-width: 860px) {
