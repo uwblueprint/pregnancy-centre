@@ -39,7 +39,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
         }  
     `;
 
-    const { loading, error, data } = useQuery(query, {
+    const { loading, error } = useQuery(query, {
         variables: {id: props.requestGroupId,}, 
         onCompleted: ( data: { requestGroup: RequestGroup }) => {
             const res = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
