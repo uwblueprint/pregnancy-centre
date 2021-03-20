@@ -1,7 +1,7 @@
 $footer-lr-padding: 0 20px;
 
 .footer.container-fluid {
-  padding-left: 55px;
+  padding-left: 70px;
   padding-right: 55px;
 
   background-color: $selected-item-background;
@@ -13,9 +13,9 @@ $footer-lr-padding: 0 20px;
   align-items: center;
 
   border-top: $border-line;
-  margin-top: 65px;
+  margin-top: 62px;
   padding: $footer-lr-padding;
-  padding-top: 27px;
+  padding-top: 22px;
 
   & h1 {
     @include normal-text;
@@ -40,6 +40,8 @@ $footer-lr-padding: 0 20px;
   & h1 {
     @include faded-text;
     @include heavy-text;
+    padding-top: 7px;
+    padding-bottom: 2px;
     font-size: 14px;
     line-height: 17px;
     letter-spacing: 0.05em;
@@ -58,5 +60,9 @@ $footer-lr-padding: 0 20px;
     margin: 0;
     margin-right: 90px;
     width: auto;
+  }
+
+  &.row div[class^="col"]:first-child {
+    margin-right: 84px;
   }
 }
