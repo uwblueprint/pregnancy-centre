@@ -4,21 +4,64 @@
 
   .button {
     color: #ffffff;
-    background-color: #004D57;
+    background-color: #004d57;
     border-radius: 4px;
+    height: 48px;
     padding: 5px 120px;
     margin: 15px 8px;
-    margin-top: 50px;
+    // margin-top: 50px;
   }
 
-  .text {
-    margin: 20px 0px;
+  .row {
+    display: flex;
+    margin-left: 0px;
+    flex-direction: row;
+    justify-content: space-between;
   }
+
+  .row.bordered {
+    display: flex;
+    margin: 0px 40px;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid #e9e9e9;
+    border-radius: 4px;
+  }
+
+  // .text {
+  //   margin: 20px 0px;
+  // }
 
   .text.signup {
     margin-bottom: 10px;
-    margin-left: 40px;
+
     text-align: left;
+  }
+
+  .text.error {
+    text-align: right;
+    vertical-align: bottom;
+    line-height: 250%;
+    color: #dc3545;
+    font-size: 12px;
+    margin-right: 55px;
+    margin-bottom: 0px;
+  }
+
+  .text.redirect {
+    color: #7d7d7d;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 10px 0px 0px 0px;
+  }
+
+  .text.redirect.center {
+    text-align: center;
+  }
+
+  .text.redirect.right {
+    text-align: right;
+    margin-right: 40px;
   }
 
   .pc-icon {
@@ -34,28 +77,49 @@
   .subtitle {
     font-weight: normal;
     font-size: 16px;
-    line-height: 20px;  
+    line-height: 20px;
     margin-bottom: 40px;
   }
 
   .link {
-    color: #004D57;
+    color: #004d57;
   }
 
   .no-account {
-    color: #7D7D7D;
+    color: #7d7d7d;
   }
-  .input-field{
-    width: 390px;
+
+  .input-field {
+    width: 385px;
     height: 48.96px;
     align-self: left;
-    border: 1px solid #E9E9E9;
+    border: 1px solid #e9e9e9;
     box-sizing: border-box;
     border-radius: 4px;
     padding-left: 20px;
     line-height: 0;
   }
-  
+
+  .input-field.password {
+    border: none;
+    width: 325px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .input-field-btn {
+    width: 40px;
+    font-size: 24px;
+    text-align: center;
+    border: none;
+    margin: 2px 8px 0px 0px;
+    color: #adadad;
+    cursor: pointer;
+  }
+
+  .input-field.error {
+    border: 1px solid #dc3545;
+  }
 }
 
 .modal-header {
@@ -66,6 +130,6 @@
   border-top: 0 none;
 }
 
-.pass-req{
+.pass-req {
   text-align: center;
 }
