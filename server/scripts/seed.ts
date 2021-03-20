@@ -9,6 +9,7 @@ import { Client } from '../models/clientModel'
 import { Request } from '../models/requestModel'
 import { RequestGroup } from '../models/requestGroupModel'
 import { RequestType } from '../models/requestTypeModel'
+import { start } from 'repl'
 
 // -----------------------------------------------------------------------------
 // SEED REQUESTS/TAGS
@@ -17,9 +18,13 @@ import { RequestType } from '../models/requestTypeModel'
 dotenv.config()
 
 const numClients = 50
-const numGroups = 5
+const numGroups = 25
 const numTypesPerGroup = 5
-const numRequestsPerType = 50
+const maxNumRequestsPerType = 50
+const probRequestDeleted = 0.05
+const probRequestFulfilled = 0.2 // independent from probRequestDeleted
+const startDate = new Date(2019, 0,1)
+const endDate = new Date(Date.now())
 
 faker.seed(2021)
 
@@ -27,6 +32,11 @@ const requestGroupNames = ["Strollers", "Cribs", "Gates", "Monitors", "Bibs", "C
                            "Dishes", "Slings", "Bags", "Books", "Electronics", "Yards", "Bassinets", "Bedding", "Machines", "Bottles", 
                            "Cutlery", "Mobile", "Hygiene", "Storage"];
 const requestGroupImages = ["https://source.unsplash.com/RcgiSN482VI", "https://source.unsplash.com/7ydep8OEvbc", "https://source.unsplash.com/0hiUWSi7jvs"]
+
+const randomDate = (start = startDate, end = endDate) => {
+  const result = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
+  return result.getTime()
+}
 
 const createSavePromise = (dbObject, msg) => {
   const promise = dbObject.save().catch((err) => {
@@ -52,10 +62,21 @@ const createClient = (clientIDs, errMsg) => {
 }
 
 const createRequest = (requestID, clientIDs, requestTypeID, errMsg) => {
+  const isDeleted = Math.random() <= probRequestDeleted;
+  const isFulfilled = Math.random() <= probRequestFulfilled;
+  const dateCreated = randomDate()
+  const dateFulfilled = randomDate(new Date(dateCreated))
+  const dateUpdated = isFulfilled ? randomDate(new Date(dateFulfilled)) : randomDate(new Date(dateCreated))
+
   const request = new Request({
     _id: requestID,
     requestId: faker.random.alphaNumeric(6),
     client: faker.random.arrayElement(clientIDs),
+    deleted: isDeleted,
+    fulfilled: isFulfilled,
+    dateCreated: dateCreated,
+    dateFulfilled: isFulfilled ? dateFulfilled : undefined,
+    dateUpdated: (isFulfilled || isDeleted) ? dateUpdated : new Date(Date.now()).getTime()
   })
   return createSavePromise(request, errMsg)
 }
@@ -134,6 +155,8 @@ connectDB(() => {
     const typeIDsForGroup = []
     const requestIDsForGroup = []
     for (let typeIdx = 0; typeIdx < numTypesPerGroup; typeIdx++) {
+      const numRequestsPerType = Math.floor(Math.random() * maxNumRequestsPerType) // randomly choose number of requests for this requestType
+
       typeIDsForGroup.push(mongoose.Types.ObjectId())
       const requestIDsForType = []
       for (let requestIdx = 0; requestIdx < numRequestsPerType; requestIdx++) {
@@ -161,7 +184,7 @@ connectDB(() => {
     const updatePromises = []
     for (let groupIdx = 0; groupIdx < numGroups; groupIdx++) {
       for (let typeIdx = 0; typeIdx < numTypesPerGroup; typeIdx++) {
-        for (let requestIdx = 0; requestIdx < numRequestsPerType; requestIdx++) {
+        for (let requestIdx = 0; requestIdx < requestIDs[groupIdx][typeIdx].length; requestIdx++) {
           updatePromises.push(Request.findByIdAndUpdate(requestIDs[groupIdx][typeIdx][requestIdx], {requestType: typeIDs[groupIdx][typeIdx]}))
         }
         updatePromises.push(RequestType.findByIdAndUpdate(typeIDs[groupIdx][typeIdx], {requestGroup: groupIDs[groupIdx]}))
