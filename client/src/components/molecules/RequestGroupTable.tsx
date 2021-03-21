@@ -13,6 +13,14 @@ export interface Props {
 const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
     const [selectedRequestGroup, setSelectedRequestGroup] = useState("");
 
+    const updateSelectedRequestGroup = (requestGroup : RequestGroup | undefined) => {
+        if (requestGroup && requestGroup._id) {
+            setSelectedRequestGroup(requestGroup._id);
+        } else {
+            setSelectedRequestGroup("");
+        }
+    }
+
     return <div className="request-group-table">
         <Table>
             <thead>
@@ -39,7 +47,10 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                         }
                         return g1.name.toUpperCase() < g2.name?.toUpperCase() ? -1 : g1.name.toUpperCase() < g2.name?.toUpperCase() ? 1 : 0})
                     .map((requestGroup : RequestGroup) => {
-                    <tr key={ requestGroup._id } onClick={ () => { requestGroup._id ? setSelectedRequestGroup(requestGroup._id) : setSelectedRequestGroup("") } }>
+                    <tr key={ requestGroup._id } 
+                        onClick={() => {updateSelectedRequestGroup(requestGroup)}} 
+                        onMouseEnter={() => {updateSelectedRequestGroup(requestGroup)}}
+                        onMouseLeave={() => {updateSelectedRequestGroup(undefined)}}>
                         <td>{ requestGroup.name }{ selectedRequestGroup === requestGroup._id && <span className="edit-icon"/> }</td>
                         <td>{ requestGroup.numOpen }</td>
                         <td>
