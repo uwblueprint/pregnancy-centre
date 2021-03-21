@@ -10,6 +10,7 @@ interface RequestInterface {
   dateFulfilled: Date
   deleted: boolean
   fulfilled: boolean
+  quantity: number 
 }
 
 type RequestDocument = RequestInterface & Document;
@@ -49,6 +50,10 @@ const requestSchema = new Schema({
     type: Boolean,
     required: true,
     default: false
+  },
+  quantity: {
+    type: Number,
+    default: 1
   }
 })
 
