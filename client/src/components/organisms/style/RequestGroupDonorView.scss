@@ -67,4 +67,9 @@
             padding-top: 8px;
         }
     }
+
+    .alt-button {
+        @include alt-button;
+        width: 100%;
+    }
 }
