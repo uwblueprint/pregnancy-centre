@@ -7,7 +7,7 @@ interface Props {
 
 const RequestTypeDropdownList: FunctionComponent<Props> = (props: Props) => {
     return (
-        <div>
+        <div className="request-type-dropdown-list">
              {props.requestTypes.map((requestType) => <RequestTypeDropdown key={requestType} requestType={requestType}/>)}
              <RequestTypeDropdown requestType="400 ML"></RequestTypeDropdown>
         </div>
