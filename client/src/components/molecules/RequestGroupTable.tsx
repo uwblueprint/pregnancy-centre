@@ -26,7 +26,19 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                 </tr>
             </thead>
             <tbody>
-                {props.requestGroups.map((requestGroup : RequestGroup) => {
+                {props.requestGroups
+                    .sort((g1, g2) => {
+                        if (!g1 && !g2) {
+                            return 0;
+                        }
+                        if (!g1 || !g1.name) {
+                            return 1;
+                        }
+                        if (!g2 || !g2.name) {
+                            return -1;
+                        }
+                        return g1.name.toUpperCase() < g2.name?.toUpperCase() ? -1 : g1.name.toUpperCase() < g2.name?.toUpperCase() ? 1 : 0})
+                    .map((requestGroup : RequestGroup) => {
                     <tr key={ requestGroup._id } onClick={ () => { requestGroup._id ? setSelectedRequestGroup(requestGroup._id) : setSelectedRequestGroup("") } }>
                         <td>{ requestGroup.name }{ selectedRequestGroup === requestGroup._id && <span className="edit-icon"/> }</td>
                         <td>{ requestGroup.numOpen }</td>
