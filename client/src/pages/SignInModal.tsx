@@ -3,7 +3,6 @@ import React, { FunctionComponent } from "react";
 import CommonModal from "../components/organisms/Modal";
 // import { createNewAccount } from "../services/auth";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
-import { FormControl, InputGroup } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import { useState } from "react";
 
@@ -18,7 +17,7 @@ const SignInModal: FunctionComponent = () => {
 
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // createNewAccount(email, password); //Change to sign in via firebase
+    setErrors(errors); //Change to sign in via firebase
     setRedirect("/");
   };
 
