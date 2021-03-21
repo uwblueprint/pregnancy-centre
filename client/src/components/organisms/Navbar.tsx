@@ -23,11 +23,8 @@ const Navbar: FunctionComponent<Props> = (props: Props) => {
     </BsNavbar.Brand>
     <div className="navbar-links">
       {props.links.map((link : Link) => {
-        <Nav.Link href={link.link}>{link.name}</Nav.Link>
+        <Nav.Link key={link.name} href={link.link}>{link.name}</Nav.Link>
       })}
-      <Nav.Link href="https://pregnancycentre.ca/">TPC Main Website</Nav.Link>
-      <Nav.Link href="/donation-guidelines">How to Donate</Nav.Link>
-      <Nav.Link href="/login">Organization Login</Nav.Link>
     </div>
   </BsNavbar>
 };
