@@ -47,6 +47,10 @@ primary.dropdown-toggle {
 }
 
 .dropdown-menu{
+    &.show {
+        position: static !important;
+        float: none;
+    }
     padding-top: 0rem;
     border: unset;
     height: auto;
