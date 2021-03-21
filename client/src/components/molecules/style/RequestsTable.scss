@@ -1,0 +1,22 @@
+.request-list {
+    padding: 0;
+    h1 {
+        @include section-header-text;
+        padding-bottom: 4px;
+        margin: 0;
+    }
+    margin-left:-20px;
+    min-width: 1000px;
+    width: 1000px;
+}
+
+.request-table {
+    margin-top: 20px;
+    & td {
+      border-top: unset;
+    }
+    .center-row{
+        text-align: center;
+    }
+  }
+  
