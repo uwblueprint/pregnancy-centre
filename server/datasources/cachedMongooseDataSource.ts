@@ -64,7 +64,7 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
     return promise
   }
   
-  async softDelete(id: Types.ObjectId) {
+  async softDelete(id: Types.ObjectId): Promise<ServerResponseInterface> {
     const promise = this.cache.model.findByIdAndUpdate(id, {"deleted": true})
       .then(res => {
         return {
