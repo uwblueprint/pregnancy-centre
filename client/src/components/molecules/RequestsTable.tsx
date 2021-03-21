@@ -20,7 +20,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         <div className="request-list">
             <Table responsive className="request-table">
                 <thead>
-                <tr className="request-table center-row">
+                <tr className="request-table header-style">
                     {headingList.map((heading, index) => (
                     <th key={index}>{heading}</th>
                     ))}
@@ -28,7 +28,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                 </thead>
                 <tbody>
                     {dummyRequests.map((request, index)=> (
-                        <tr key={index} className="request-table center-row">
+                        <tr key={index} className="request-table row-style">
                             <td key={index}>
                             <div >
                                 <Form.Check type="checkbox" />
@@ -39,8 +39,8 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                             <td key={index}>{
                                 (new Date(parseInt(request.dateCreated))).toDateString()
                             }</td>
-                            <td><a href="/"><FaPen></FaPen></a></td>
-                            <td><a href="/"><FaTrashAlt></FaTrashAlt></a></td>
+                            <td><a className="request-table a" href="/"><FaPen></FaPen></a></td>
+                            <td><a className="request-table a" href="/"><FaTrashAlt></FaTrashAlt></a></td>
                         </tr>
                     ))}
                 </tbody>
