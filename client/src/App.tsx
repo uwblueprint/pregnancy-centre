@@ -1,11 +1,9 @@
 import "./App.scss";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
-
 import AuthTestComponent from "./pages/AuthTestComponent";
 import ConfirmationModal from "./pages/ConfirmationModal";
-import DonorHomepage from "./pages/DonorHomepage";
-import EmailConfirmedModal from "./pages/EmailConfirmedModal";
+import DonorHomepage from './pages/DonorHomepage'
 import PasswordResetEmailSentModal from "./pages/PasswordResetEmailSentModal";
 import RequestGroupDonorView from "./components/organisms/RequestGroupDonorView";
 import SampleContainer from "./components/examples/SampleContainer";
@@ -39,12 +37,6 @@ function App(): JSX.Element {
             )}
           ></Route>
           <Route path="/signup" strict component={SignUpModal}></Route>
-          {/* TODO(jlight99): delete /email-confirmed endpoint after logic for triggering the email confirmed modal has been added */}
-          <Route
-            path="/email-confirmed"
-            strict
-            component={EmailConfirmedModal}
-          ></Route>
           <Route path="/verify-email" component={AuthTestComponent}></Route>
           <Route
             path="/password-reset-email-sent"

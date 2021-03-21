@@ -5,6 +5,28 @@ import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
 import { Types } from 'mongoose'
 
+const softDeleteRequestTypeHelper = (id, dataSources): Promise<ServerResponseInterface> => {
+  const requestType = dataSources.requestTypes.getById(id)
+  requestType.requests.map(id => {dataSources.requests.softDelete(id)})
+  return dataSources.requestTypes.softDelete(id)
+}
+
+const filterOpenRequests = (requests: Array<RequestInterface> ) => {
+  return requests.filter(request => request.fulfilled === false && request.deleted === false)
+}
+
+const filterFulfilledRequests = (requests: Array<RequestInterface> ) => {
+  return requests.filter(request => request.fulfilled === false && request.deleted === false)
+}
+
+const filterDeletedRequests = (requests: Array<RequestInterface> ) => {
+  return requests.filter(request => request.deleted === true)
+}
+
+const getRequestsById = (requestIds, dataSources) => {
+  return requestIds.map(id => dataSources.requests.getById(id))
+}
+
 const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
@@ -19,10 +41,18 @@ const resolvers = {
   Mutation: {
     createRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestGroups.create(requestGroup),
     updateRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestGroups.update(requestGroup),
-    softDeleteRequestGroup: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestGroups.softDelete(id),
+    softDeleteRequestGroup: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
+      const requestGroup = dataSources.requestGroups.getById(id)
+      requestGroup.requestTypes.map(id => {
+        softDeleteRequestTypeHelper(id, dataSources)
+      })
+      return dataSources.requestGroups.softDelete(id)
+    },
     createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.create(requestType),
     updateRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.update(requestType),
-    softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requestTypes.softDelete(id),
+    softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
+      return softDeleteRequestTypeHelper(id, dataSources)
+    },
     createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.create(request),
     updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.update(request),
     softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDelete(id),
@@ -35,9 +65,12 @@ const resolvers = {
     requestTypes: (parent, __, { dataSources }): Array<RequestTypeInterface> => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)))
   },
   RequestType: {
-    requestGroup: (parent, __, { dataSources }): RequestGroupInterface => dataSources.requestGroups.getById(Types.ObjectId(parent.requestGroup.toString())),
-    numOpen: (parent, __, { dataSources }): Number => parent.requests.length,
-    requests: (parent, __, { dataSources }): Array<RequestInterface> => parent.requests.map(id => dataSources.requests.getById(Types.ObjectId(id)))
+    numOpen: (parent, __, { dataSources }): Number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,
+    openRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterOpenRequests(getRequestsById(parent.requests, dataSources)),
+    fulfilledRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterFulfilledRequests(getRequestsById(parent.requests, dataSources)),
+    deletedRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterDeletedRequests(getRequestsById(parent.requests, dataSources)),
+    requests: (parent, __, { dataSources }): Array<RequestInterface> => getRequestsById(parent.requests, dataSources),
+    requestGroup: (parent, __, { dataSources }): RequestGroupInterface => dataSources.requestGroups.getById(Types.ObjectId(parent.requestGroup.toString()))
   },
   Request: {
     requestType: (parent, __, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(parent.requestType.toString())),
