@@ -50,6 +50,7 @@ primary.dropdown-toggle {
     &.show {
         position: static !important;
         float: none;
+        margin-top: -30px;
     }
     padding-top: 0rem;
     border: unset;
