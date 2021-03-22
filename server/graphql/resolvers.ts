@@ -4,6 +4,7 @@ import { RequestInterface } from '../models/requestModel'
 import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
 import { Types } from 'mongoose'
+import { UserInputError } from 'apollo-server-errors'
 
 const softDeleteRequestTypeHelper = (id, dataSources): Promise<ServerResponseInterface> => {
   const requestType = dataSources.requestTypes.getById(id)
@@ -27,6 +28,52 @@ const getRequestsById = (requestIds, dataSources) => {
   return requestIds.map(id => dataSources.requests.getById(id))
 }
 
+const updateRequestGroupHelper = (requestGroup, dataSources, dateUpdated = Date.now()): Promise<ServerResponseInterface> => {
+  requestGroup.dateUpdated = dateUpdated;
+  return dataSources.requestGroups.update(requestGroup)
+    .then(res => {
+      return res
+    })
+    .catch(error => {
+      return error
+    })
+}
+
+const updateRequestTypeHelper = (requestType, dataSources, dateUpdated = Date.now()): Promise<ServerResponseInterface> => {
+  if(!requestType.id) {
+    throw new UserInputError('Missing argument value', { argumentName: 'id' })
+  }
+  const requestGroupId = dataSources.requestTypes.getById(requestType.id).requestGroup
+  requestType.dateUpdated = dateUpdated
+  return dataSources.requestTypes.update(requestType)
+    .then(res => {
+      const requestGroup = dataSources.requestGroups.getById(requestGroupId.toString())
+      updateRequestGroupHelper(requestGroup, dataSources, requestType.dateUpdated)
+      return res
+    })
+    .catch(error => {
+      return error
+    })
+}
+
+const updateRequestHelper = (request, dataSources): Promise<ServerResponseInterface> => {
+  if(!request.id) {
+    throw new UserInputError('Missing argument value', { argumentName: 'id' })
+  }
+  const requestTypeId = dataSources.requests.getById(request.id).requestType
+  request.dateUpdated = Date.now()
+  return dataSources.requests.update(request)
+    .then(res => {
+      const requestType = dataSources.requestTypes.getById(requestTypeId.toString())
+      console.log(requestType)
+      updateRequestTypeHelper(requestType, dataSources, request.dateUpdated)
+      return res
+    })
+    .catch(error => {
+      return error
+    })
+}
+
 const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
@@ -40,7 +87,9 @@ const resolvers = {
   },
   Mutation: {
     createRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestGroups.create(requestGroup),
-    updateRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestGroups.update(requestGroup),
+    updateRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => {
+      return updateRequestGroupHelper(requestGroup, dataSources)
+    },
     softDeleteRequestGroup: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
       const requestGroup = dataSources.requestGroups.getById(id)
       requestGroup.requestTypes.map(id => {
@@ -49,12 +98,16 @@ const resolvers = {
       return dataSources.requestGroups.softDelete(id)
     },
     createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.create(requestType),
-    updateRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.update(requestType),
+    updateRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => {
+      return updateRequestTypeHelper(requestType, dataSources)
+    },
     softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
       return softDeleteRequestTypeHelper(id, dataSources)
     },
     createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.create(request),
-    updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.update(request),
+    updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
+      return updateRequestHelper(request, dataSources)
+    },
     softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDelete(id),
     createClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.create(client),
     updateClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.update(client),
