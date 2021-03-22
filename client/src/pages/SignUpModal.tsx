@@ -36,82 +36,82 @@ const SignUpModal: FunctionComponent = () => {
       });
   };
 
-  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEmail(e.target.value);
-  };
-   
-  const requirementToTestMap = new Map ([
-      ['lowerCase', /^(?=.*[a-z])/],
-      ['upperCase', /^(?=.*[A-Z])/],
-      ['number', /^(?=.*[0-9])/],
-      ['symbol', /^(?=.*[*!@#$%^&(){}[\]:;<>,.?/~_+\-=|\\])/],
-      ['twelveCharacters', /^(?=.{12,})/]
-  ]);
-      
-  const requirementToStateSetterMap = new Map ([
-      ['lowerCase', setHasOneLowerCase],
-      ['upperCase', setHasOneUpperCase],
-      ['number', setHasOneNumber],
-      ['symbol', setHasOneSymbol],
-      ['twelveCharacters', setHasTwelveCharacterMin],
-  ]);
-      
-  const requirementToMessageMap = new Map ([
-      ['lowerCase', "at least 1 lowercase letter"],
-      ['upperCase', "at least 1 uppercase letter"],
-      ['number', "at least 1 number"],
-      ['symbol', 'at least 1 symbol'],
-      ['twelveCharacters', '12 characters minimum'],
-  ]);
+    const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
+    };
+    
+    const requirementToTestMap = new Map ([
+        ['lowerCase', /^(?=.*[a-z])/],
+        ['upperCase', /^(?=.*[A-Z])/],
+        ['number', /^(?=.*[0-9])/],
+        ['symbol', /^(?=.*[*!@#$%^&(){}[\]:;<>,.?/~_+\-=|\\])/],
+        ['twelveCharacters', /^(?=.{12,})/]
+    ]);
+        
+    const requirementToStateSetterMap = new Map ([
+        ['lowerCase', setHasOneLowerCase],
+        ['upperCase', setHasOneUpperCase],
+        ['number', setHasOneNumber],
+        ['symbol', setHasOneSymbol],
+        ['twelveCharacters', setHasTwelveCharacterMin],
+    ]);
+        
+    const requirementToMessageMap = new Map ([
+        ['lowerCase', "at least 1 lowercase letter"],
+        ['upperCase', "at least 1 uppercase letter"],
+        ['number', "at least 1 number"],
+        ['symbol', 'at least 1 symbol'],
+        ['twelveCharacters', '12 characters minimum'],
+    ]);
         
         
-  const onChangePass = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const password = e.target.value;
-      const copy: string[] = requirements;
-      
-      requirementToTestMap.forEach((test, key) => {
-          const result = test.test(password)!; 
-          const message : string = requirementToMessageMap.get(key)!;
-          requirementToStateSetterMap.get(key)!(result)
-          
-          // if requirement not in string and not in array, push into array
-          if(!result && !copy.includes(message)){
-              copy.push(message);
-          }
-          // if requirement is in the string and the array has it, remove it from array
-          else if(result && copy.includes(message)){
-              const index = copy.indexOf(message);
-              copy.splice(index, 1); 
-          }
-          setRequirements(copy);
-      });
+    const onChangePass = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const password = e.target.value;
+        const copy: string[] = requirements;
+        
+        requirementToTestMap.forEach((test, key) => {
+            const result = test.test(password)!; 
+            const message : string = requirementToMessageMap.get(key)!;
+            requirementToStateSetterMap.get(key)!(result)
+            
+            // if requirement not in string and not in array, push into array
+            if(!result && !copy.includes(message)){
+                copy.push(message);
+            }
+            // if requirement is in the string and the array has it, remove it from array
+            else if(result && copy.includes(message)){
+                const index = copy.indexOf(message);
+                copy.splice(index, 1); 
+            }
+            setRequirements(copy);
+        });
 
-      setPassword(password);
-  }
+        setPassword(password);
+    }
 
-  const modalTitle = "Create Your Account";
-  const subtitle = "Register your email and create a password";
+    const modalTitle = "Create Your Account";
+    const subtitle = "Register your email and create a password";
 
-  const popover = (
-      <Popover id="popover-basic" show={requirementsAreFulfilled}>
-          <Popover.Title as="h3">Password Requirements</Popover.Title>
-          <Popover.Content>
-              {
-                  requirements.length > 0 ?  
-                  <ul>
-                      {
-                      requirements.map((i) => <li key={i}>{i}</li>)
-                      }
-                  </ul>
-                  :
-                  <div className="text signup">Your password meets the requirements!</div>   
-              }
-          </Popover.Content>
-      </Popover>
-  );
-  if (redirect !== "") {
-    return <Redirect to={redirect} />;
-  }
+    const popover = (
+        <Popover id="popover-basic" show={requirementsAreFulfilled}>
+            <Popover.Title as="h3">Password Requirements</Popover.Title>
+            <Popover.Content>
+                {
+                    requirements.length > 0 ?  
+                    <ul>
+                        {
+                        requirements.map((i) => <li key={i}>{i}</li>)
+                        }
+                    </ul>
+                    :
+                    <div className="text signup">Your password meets the requirements!</div>   
+                }
+            </Popover.Content>
+        </Popover>
+    );
+    if (redirect !== "") {
+      return <Redirect to={redirect} />;
+    }
   return (
       <CommonModal title={modalTitle} subtitle={subtitle} show={show} handleClose={handleClose} body={
           <div>
