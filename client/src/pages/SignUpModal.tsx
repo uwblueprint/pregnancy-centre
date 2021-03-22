@@ -7,20 +7,20 @@ import { Redirect } from "react-router-dom";
 import { useState } from "react";
 
 const SignUpModal: FunctionComponent = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [hasOneLowerCase, setHasOneLowerCase] = useState(false);
-  const [hasOneUpperCase, setHasOneUpperCase] = useState(false);
-  const [hasOneNumber, setHasOneNumber] = useState(false);
-  const [hasOneSymbol, setHasOneSymbol] = useState(false);
-  const [hasTwelveCharacterMin, setHasTwelveCharacterMin] = useState(false);
-  const handleClose = () => setShow(false);
-  const initialReq : string[] = ["at least 1 lowercase letter", "at least 1 uppercase letter","at least 1 number","at least 1 symbol","12 characters minimum" ]
-  const [requirements, setRequirements] = useState(initialReq);
-  const [show, setShow] = useState(true);
-  const [redirect, setRedirect] = useState("");
-  const [errors, setErrors] = useState({ email: "", password: "" });
-  const requirementsAreFulfilled = !hasOneLowerCase || !hasOneUpperCase || !hasOneNumber || !hasOneSymbol || !hasTwelveCharacterMin;
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [hasOneLowerCase, setHasOneLowerCase] = useState(false);
+    const [hasOneUpperCase, setHasOneUpperCase] = useState(false);
+    const [hasOneNumber, setHasOneNumber] = useState(false);
+    const [hasOneSymbol, setHasOneSymbol] = useState(false);
+    const [hasTwelveCharacterMin, setHasTwelveCharacterMin] = useState(false);
+    const handleClose = () => setShow(false);
+    const initialReq : string[] = ["at least 1 lowercase letter", "at least 1 uppercase letter","at least 1 number","at least 1 symbol","12 characters minimum" ]
+    const [requirements, setRequirements] = useState(initialReq);
+    const [show, setShow] = useState(true);
+    const [redirect, setRedirect] = useState("");
+    const [errors, setErrors] = useState({ email: "", password: "" });
+    const requirementsAreFulfilled = !hasOneLowerCase || !hasOneUpperCase || !hasOneNumber || !hasOneSymbol || !hasTwelveCharacterMin;
 
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
