@@ -16,6 +16,7 @@ $selected-item-background: #f7f7f7;
 $font-stack: 'Inter', sans-serif;
 $faded-text-color: #afafaf;
 $alt-faded-text-color: #a3a3a3;
+$faded-modal-text-color: #7d7d7d;
 $normal-text-color: black;
 $white-text-color: white;
 $section-header-text-color: #bbbbbb;
@@ -113,3 +114,14 @@ $button-disabled-background: #b2b2b2;
 
 /* Tag Config */
 $tag-background: #ededed;
+
+/* Modal Config */
+$input-icon-color: #adadad;
+$tpc-green: #004d57;
+$input-border: #e9e9e9;
+$input-error: #dc3545;
+
+@mixin input-icon() {
+    color: $input-icon-color
+}
+
