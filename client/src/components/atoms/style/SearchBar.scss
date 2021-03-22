@@ -1,0 +1,16 @@
+.search-bar {
+    position: absolute;
+    width: 514px;
+    height: 40px;
+    left: 659px;
+    top: 139px;
+    padding: 10px;
+    
+    border: 1px solid #DCDCDC;
+    box-sizing: border-box;
+    border-radius: 4px;
+
+    background-image: url('../../../assets/search.svg');
+    background-repeat: no-repeat;
+    background-position: 488px 10px;
+}
