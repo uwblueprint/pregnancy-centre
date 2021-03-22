@@ -112,67 +112,67 @@ const SignUpModal: FunctionComponent = () => {
     if (redirect !== "") {
       return <Redirect to={redirect} />;
     }
-  return (
-      <CommonModal title={modalTitle} subtitle={subtitle} show={show} handleClose={handleClose} body={
-          <div>
-              <form onSubmit={handleClick}>
-              <div>
-              <div className="row">
-                <div className="text signup">Email Address</div>
-                <div className="text error">{errors.email}</div>
-              </div>
-              <input
-                name="email"
-                placeholder="Enter your company email"
-                type="text"
-                value={email}
-                className={errors.email ? "input-field error" : "input-field"}
-                onChange={onChangeEmail}
-              />
-            </div>
+    return (
+        <CommonModal title={modalTitle} subtitle={subtitle} show={show} handleClose={handleClose} body={
             <div>
-              <div className="row">
-                <div className="text signup">
-                  Password<div>{errors.password}</div>
+                <form onSubmit={handleClick}>
+                <div>
+                <div className="row">
+                  <div className="text signup">Email Address</div>
+                  <div className="text error">{errors.email}</div>
+                </div>
+                <input
+                  name="email"
+                  placeholder="Enter your company email"
+                  type="text"
+                  value={email}
+                  className={errors.email ? "input-field error" : "input-field"}
+                  onChange={onChangeEmail}
+                />
+              </div>
+              <div>
+                <div className="row">
+                  <div className="text signup">
+                    Password<div>{errors.password}</div>
+                  </div>
+                </div>
+
+                <div className="pass-req">
+                  <OverlayTrigger placement="bottom" overlay={popover}>
+                    <input
+                      type="password"
+                      name="password"
+                      className={
+                        errors.password ? "input-field error" : "input-field"
+                      }
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={onChangePass}
+                    />
+                  </OverlayTrigger>
                 </div>
               </div>
-
-              <div className="pass-req">
-                <OverlayTrigger placement="bottom" overlay={popover}>
-                  <input
-                    type="password"
-                    name="password"
-                    className={
-                      errors.password ? "input-field error" : "input-field"
-                    }
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={onChangePass}
-                  />
-                </OverlayTrigger>
-              </div>
-            </div>
-            <div style={{ height: 40 }} />
-            <button
-              role="link"
-              className="button"
-              disabled={requirementsAreFulfilled}
-            >
-              Sign Up
-            </button>
-            <div>
-              <div
-                onClick={() => {
-                  setRedirect("/login");
-                }}
-                className="text redirect center"
+              <div style={{ height: 40 }} />
+              <button
+                role="link"
+                className="button"
+                disabled={requirementsAreFulfilled}
               >
-                <u>{"Have an account?"}</u>
+                Sign Up
+              </button>
+              <div>
+                <div
+                  onClick={() => {
+                    setRedirect("/login");
+                  }}
+                  className="text redirect center"
+                >
+                  <u>{"Have an account?"}</u>
+                </div>
               </div>
-            </div>
-          </form>
-      </div>}/>
-  );
+            </form>
+        </div>}/>
+    );
 }
 
 export default SignUpModal;
