@@ -113,3 +113,26 @@ $button-disabled-background: #b2b2b2;
 
 /* Tag Config */
 $tag-background: #ededed;
+
+/* Table Config */
+/* Table Config */
+@mixin table-base {
+    font-family: "Inter";
+    margin-top: 20px;
+    .a{
+        color: #333333;
+        margin-left:-20px;
+    }
+    & td {
+      border-top: unset;
+    }
+    .row-style{
+        font-size: 16px;
+        text-align: center;
+    }
+    .header-style{
+        font-size: 14px;
+        text-align: center;
+        color: #969696;
+    }
+}
