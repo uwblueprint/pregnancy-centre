@@ -45,7 +45,7 @@ const SignInModal: FunctionComponent = () => {
         <div>
           <form onSubmit={handleClick}>
             <div>
-              <div className="text signup">Email address {}</div>
+              <div className="text signup">Email address</div>
               <input
                 name="email"
                 placeholder="Enter your company email"
@@ -88,7 +88,7 @@ const SignInModal: FunctionComponent = () => {
             >
               Forgot your password?
             </div>
-            <Spacer height = {15}/>
+            <Spacer height={15} />
             <button role="link" className="button">
               Sign in
             </button>

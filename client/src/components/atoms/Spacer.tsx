@@ -5,7 +5,7 @@ interface Props {
 }
 
 const Spacer: FunctionComponent<Props> = (props: Props) => {
-  return <div style = {{height: props.height}}/>
+    return <div style={{ height: props.height }} />
 };
 
 export default Spacer;
