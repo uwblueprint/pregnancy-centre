@@ -71,12 +71,11 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                     <div className="type-text">
                         {requestType}
                     </div>
-                    
+                    <span className="button-container">
+                        <a className="button-container edit" onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {onOpenEditRequestType(); e.stopPropagation();}}><FaPen/></a>
+                        <a className="button-container delete" onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {onOpenDeleteRequestType(); e.stopPropagation();}}><FaTrashAlt/></a>
+                    </span>
                 </Dropdown.Toggle>
-                <div className="button-container">
-                        <a className="button-container edit" onClick={onOpenEditRequestType}><FaPen/></a>
-                        <a className="button-container delete" onClick={onOpenDeleteRequestType}><FaTrashAlt/></a>
-                </div>
                 
                 <Dropdown.Menu>
                     <Dropdown.ItemText><RequestsTable requests={dummyRequests} /></Dropdown.ItemText>
