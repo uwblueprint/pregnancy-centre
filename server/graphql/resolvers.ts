@@ -4,75 +4,10 @@ import { RequestInterface } from '../models/requestModel'
 import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
 import { Types } from 'mongoose'
-import { UserInputError } from 'apollo-server-errors'
 
-const softDeleteRequestTypeHelper = (id, dataSources): Promise<ServerResponseInterface> => {
-  const requestType = dataSources.requestTypes.getById(id)
-  requestType.requests.map(id => {dataSources.requests.softDelete(id)})
-  return dataSources.requestTypes.softDelete(id)
-}
-
-const filterOpenRequests = (requests: Array<RequestInterface> ) => {
-  return requests.filter(request => request.fulfilled === false && request.deleted === false)
-}
-
-const filterFulfilledRequests = (requests: Array<RequestInterface> ) => {
-  return requests.filter(request => request.fulfilled === false && request.deleted === false)
-}
-
-const filterDeletedRequests = (requests: Array<RequestInterface> ) => {
-  return requests.filter(request => request.deleted === true)
-}
-
-const getRequestsById = (requestIds, dataSources) => {
-  return requestIds.map(id => dataSources.requests.getById(id))
-}
-
-const updateRequestGroupHelper = (requestGroup, dataSources, dateUpdated = Date.now()): Promise<ServerResponseInterface> => {
-  requestGroup.dateUpdated = dateUpdated;
-  return dataSources.requestGroups.update(requestGroup)
-    .then(res => {
-      return res
-    })
-    .catch(error => {
-      return error
-    })
-}
-
-const updateRequestTypeHelper = (requestType, dataSources, dateUpdated = Date.now()): Promise<ServerResponseInterface> => {
-  if(!requestType.id) {
-    throw new UserInputError('Missing argument value', { argumentName: 'id' })
-  }
-  const requestGroupId = dataSources.requestTypes.getById(requestType.id).requestGroup
-  requestType.dateUpdated = dateUpdated
-  return dataSources.requestTypes.update(requestType)
-    .then(res => {
-      const requestGroup = dataSources.requestGroups.getById(requestGroupId.toString())
-      updateRequestGroupHelper(requestGroup, dataSources, requestType.dateUpdated)
-      return res
-    })
-    .catch(error => {
-      return error
-    })
-}
-
-const updateRequestHelper = (request, dataSources): Promise<ServerResponseInterface> => {
-  if(!request.id) {
-    throw new UserInputError('Missing argument value', { argumentName: 'id' })
-  }
-  const requestTypeId = dataSources.requests.getById(request.id).requestType
-  request.dateUpdated = Date.now()
-  return dataSources.requests.update(request)
-    .then(res => {
-      const requestType = dataSources.requestTypes.getById(requestTypeId.toString())
-      console.log(requestType)
-      updateRequestTypeHelper(requestType, dataSources, request.dateUpdated)
-      return res
-    })
-    .catch(error => {
-      return error
-    })
-}
+import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, updateRequestHelper } from '../utils/request'
+import { softDeleteRequestTypeHelper, updateRequestTypeHelper } from '../utils/requestType'
+import { updateRequestGroupHelper } from '../utils/requestGroup'
 
 const resolvers = {
   Query: {

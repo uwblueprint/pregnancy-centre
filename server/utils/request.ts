@@ -1,0 +1,40 @@
+import { RequestInterface } from '../models/requestModel'
+import { ServerResponseInterface } from '../graphql/serverResponse'
+import { UserInputError } from 'apollo-server-errors'
+
+import { updateRequestTypeHelper } from './requestType'
+
+const filterOpenRequests = (requests: Array<RequestInterface> ) => {
+  return requests.filter(request => request.fulfilled === false && request.deleted === false)
+}
+
+const filterFulfilledRequests = (requests: Array<RequestInterface> ) => {
+  return requests.filter(request => request.fulfilled === false && request.deleted === false)
+}
+
+const filterDeletedRequests = (requests: Array<RequestInterface> ) => {
+  return requests.filter(request => request.deleted === true)
+}
+
+const getRequestsById = (requestIds, dataSources) => {
+  return requestIds.map(id => dataSources.requests.getById(id))
+}
+
+const updateRequestHelper = (request, dataSources): Promise<ServerResponseInterface> => {
+  if(!request.id) {
+    throw new UserInputError('Missing argument value', { argumentName: 'id' })
+  }
+  const requestTypeId = dataSources.requests.getById(request.id).requestType
+  request.dateUpdated = Date.now()
+  return dataSources.requests.update(request)
+    .then(res => {
+      const requestType = dataSources.requestTypes.getById(requestTypeId.toString())
+      updateRequestTypeHelper(requestType, dataSources, request.dateUpdated)
+      return res
+    })
+    .catch(error => {
+      return error
+    })
+}
+
+export { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, updateRequestHelper }
