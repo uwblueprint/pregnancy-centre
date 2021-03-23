@@ -1,6 +1,7 @@
 import { ServerResponseInterface } from '../graphql/serverResponse'
-import { UserInputError } from 'apollo-server-errors'
 import { updateRequestGroupHelper } from './requestGroup'
+
+import { UserInputError } from 'apollo-server-errors'
 
 const updateRequestTypeHelper = (requestType, dataSources, dateUpdated = Date.now()): Promise<ServerResponseInterface> => {
   if(!requestType.id) {
