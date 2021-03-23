@@ -7,6 +7,7 @@ import ConfirmationModal from "./pages/ConfirmationModal";
 import DonorHomepage from './pages/DonorHomepage'
 import PasswordResetEmailSentModal from "./pages/PasswordResetEmailSentModal";
 import RequestGroupDonorView from './components/organisms/RequestGroupDonorView';
+import RequestTypeDropdownList from "./components/organisms/RequestTypeDropdownList";
 import SampleContainer from "./components/examples/SampleContainer";
 import SignUpModal from "./pages/SignUpModal";
 
@@ -27,6 +28,7 @@ function App(): JSX.Element {
         <Route path='/test'>
           <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23"/>
         </Route>
+        <Route path='/requests'><RequestTypeDropdownList requestTypes={["250 ML (20)", "150 ML (20)"]}></RequestTypeDropdownList></Route>
         <Route path='/'><DonorHomepage /></Route>
       </Switch>
     </Router>

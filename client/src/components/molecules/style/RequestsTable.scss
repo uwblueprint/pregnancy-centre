@@ -1,0 +1,46 @@
+.request-list {
+    padding: 0;
+    h1 {
+        @include section-header-text;
+        padding-bottom: 4px;
+        margin: 0;
+    }
+    margin-left:-20px;
+    min-width: 1000px;
+    width: 1400px;
+}
+
+.request-table {
+    font-family: "Inter";
+    margin-top: 20px;
+    width:1400px;
+    margin-left: auto;
+    margin-right:auto;
+    .edit{
+        color: #333333;
+    }
+    .delete{
+        color: #333333;
+    }
+    & td {
+      border-top: unset;
+    }
+    .row-style{
+        font-size: 16px;
+        text-align: center;
+    }
+    .header-style{
+        font-size: 14px;
+        text-align: center;
+        color: #969696;
+    }
+  }
+
+  .btn-cont{
+    display:flex;
+    justify-content: flex-end;
+    position: absolute;
+    margin-left: 20px;
+  }
+
+  
