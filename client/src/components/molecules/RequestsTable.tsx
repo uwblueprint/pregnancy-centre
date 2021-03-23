@@ -39,8 +39,10 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                             <td key={index}>{
                                 (new Date(parseInt(request.dateCreated))).toDateString()
                             }</td>
-                            <td><a className="request-table a" href="/"><FaPen></FaPen></a></td>
-                            <td><a className="request-table a" href="/"><FaTrashAlt></FaTrashAlt></a></td>
+                            <div className="btn-cont">
+                                <td><a className="request-table edit" href="/"><FaPen></FaPen></a></td>
+                                <td><a className="request-table delete" href="/"><FaTrashAlt></FaTrashAlt></a></td>
+                            </div>
                         </tr>
                     ))}
                 </tbody>
