@@ -28,7 +28,7 @@ const SignUpModal: FunctionComponent = () => {
       .then((result) => {
         setErrors(result);
         if (result.email === "" && result.password === "") {
-          setRedirect("/"); //TODO: change this to admin view endpoint
+          setRedirect("/admin"); 
         }
       })
       .catch((err) => {

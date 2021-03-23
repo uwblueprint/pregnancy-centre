@@ -18,7 +18,7 @@ const SignInModal: FunctionComponent = () => {
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors(errors); //Change to sign in via firebase
-    setRedirect("/");
+    setRedirect("/admin");
   };
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
