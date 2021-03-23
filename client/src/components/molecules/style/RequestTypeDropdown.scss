@@ -16,24 +16,26 @@
 .type-text{
     flex:15;
 }
-.button-container{
-    flex:1;
-    color: #333333;
-    .edit{
-        margin-right:22px;
-        margin-left: 5px;
-    }
-    background-color: unset !important;
-}
-.type-text::after {
+
+.type-text::before {
     display: inline-block;
-    margin-left: 0.255em;
+    margin-right: 0.4em;
     vertical-align: 0.255em;
     content: "";
     border-top: 0.3em solid;
     border-right: 0.3em solid transparent;
     border-bottom: 0;
     border-left: 0.3em solid transparent;
+}
+
+.button-container{
+    flex:1;
+    color: #333333;
+    background-color: unset !important;
+}
+.button-container .edit{
+    margin-right:22px;
+    margin-left: 5px;
 }
 
 .dropdown-toggle::after {
@@ -94,4 +96,14 @@ primary.dropdown-toggle {
     padding-top: 0rem;
     border: unset;
     height: auto;
+}
+
+.too-long-container{
+    margin-top: 15px;
+    
+}
+
+.too-long-text{
+    font-size: 15px;
+    color: red;
 }
