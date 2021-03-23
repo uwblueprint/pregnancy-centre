@@ -1,10 +1,10 @@
 import "./Modal.scss";
 import { OverlayTrigger, Popover } from "react-bootstrap";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import CommonModal from "../components/organisms/Modal";
 import { createNewAccount } from "../services/auth";
 import { Redirect } from "react-router-dom";
-import { useState } from "react";
+import Spacer from "../components/atoms/Spacer";
 
 const SignUpModal: FunctionComponent = () => {
     const [email, setEmail] = useState("");
@@ -152,7 +152,7 @@ const SignUpModal: FunctionComponent = () => {
                   </OverlayTrigger>
                 </div>
               </div>
-              <div style={{ height: 40 }} />
+              <Spacer height = {40}/>
               <button
                 role="link"
                 className="button"

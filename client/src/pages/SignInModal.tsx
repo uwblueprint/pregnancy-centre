@@ -1,10 +1,10 @@
 import "./Modal.scss";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import CommonModal from "../components/organisms/Modal";
 // import { createNewAccount } from "../services/auth";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Redirect } from "react-router-dom";
-import { useState } from "react";
+import Spacer from "../components/atoms/Spacer";
 
 const SignInModal: FunctionComponent = () => {
   const [email, setEmail] = useState("");
@@ -88,7 +88,7 @@ const SignInModal: FunctionComponent = () => {
             >
               Forgot your password?
             </div>
-            <div style={{ height: 15 }} />
+            <Spacer height = {15}/>
             <button role="link" className="button">
               Sign in
             </button>
