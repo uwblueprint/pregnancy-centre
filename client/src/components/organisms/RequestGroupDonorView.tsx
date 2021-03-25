@@ -1,8 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import moment from 'moment';
 
-import { Spinner } from 'react-bootstrap';
+import { Col, Row, Spinner } from 'react-bootstrap';
 
 import InfoBox from '../molecules/InfoBox';
 import RequestGroup from '../../data/types/requestGroup';
@@ -21,31 +21,40 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
 
     const [requestGroupData, setRequestGroupData] = useState<RequestGroup | undefined>(undefined);
 
-    const query = gql`{
-        requestGroup(id: "${props.requestGroupId}") {
-            _id
-            name
-            dateUpdated
-            description
-            requirements
-            image
-            requestTypes {
+    const query = gql`
+        query FetchRequestGroup($id: ID!) {
+            requestGroup(id: $id) {
                 _id
                 name
-                numOpen
+                dateUpdated
+                description
+                requirements
+                image
+                requestTypes {
+                    _id
+                    name
+                    numOpen
+                }
             }
-        }
-    }`;
+        }  
+    `;
 
-    useQuery(query, {
+    const { loading, error } = useQuery(query, {
+        variables: {id: props.requestGroupId,}, 
         onCompleted: ( data: { requestGroup: RequestGroup }) => {
             const res = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
             setRequestGroupData(res);
         }
     });
 
+    useEffect(() => {
+        if (loading || error) {
+            setRequestGroupData(undefined);
+        }
+    }, [loading, error]);
+
     return (
-        <div className="request-group-view">
+        <Row className="request-group-view">
             {requestGroupData === undefined
             ?
             <div className="spinner"> 
@@ -53,7 +62,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
             </div>
             :
             <div className="panel">
-                <div className="section" id="left">
+                <Col className="section" id="left" md={7} sm={12}>
                     <div className="info">
                         <h1 id="header">
                             {requestGroupData.name}
@@ -66,8 +75,8 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                         </div>
                     </div>
                     <RequestTypeList requestTypes={requestGroupData.requestTypes ? requestGroupData.requestTypes : []}/>
-                </div>
-                <div className="section" id="right">
+                </Col>
+                <Col className="section" id="right" md={5} sm={12}>
                     <InfoBox 
                         title="HAVE A DONATION?" 
                         text="To arrange your donation, contact the Pregnancy Center directly at 514‑999‑9999 or send an email."
@@ -95,9 +104,9 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                             text={requestGroupData.description ? requestGroupData.description : ''}
                         />
                     </div>
-                </div>
+                </Col>
             </div>}
-        </div>
+        </Row>
     )
 }
 

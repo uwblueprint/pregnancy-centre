@@ -20,6 +20,7 @@ const typeDefs = gql`
         dateFulfilled: String
         deleted: Boolean
         fulfilled: Boolean
+        quantity: Int
     }
     type RequestType {
         _id: ID
@@ -94,6 +95,7 @@ const typeDefs = gql`
         requestId: String
         deleted: Boolean
         fulfilled: Boolean
+        quantity: Int
     }
     input ClientInput {
         id: ID

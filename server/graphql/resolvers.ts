@@ -5,6 +5,12 @@ import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
 import { Types } from 'mongoose'
 
+const softDeleteRequestTypeHelper = (id, dataSources): Promise<ServerResponseInterface> => {
+  const requestType = dataSources.requestTypes.getById(id)
+  requestType.requests.map(id => {dataSources.requests.softDelete(id)})
+  return dataSources.requestTypes.softDelete(id)
+}
+
 const filterOpenRequests = (requests: Array<RequestInterface> ) => {
   return requests.filter(request => request.fulfilled === false && request.deleted === false)
 }
@@ -35,10 +41,18 @@ const resolvers = {
   Mutation: {
     createRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestGroups.create(requestGroup),
     updateRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestGroups.update(requestGroup),
-    softDeleteRequestGroup: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestGroups.softDelete(id),
+    softDeleteRequestGroup: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
+      const requestGroup = dataSources.requestGroups.getById(id)
+      requestGroup.requestTypes.map(id => {
+        softDeleteRequestTypeHelper(id, dataSources)
+      })
+      return dataSources.requestGroups.softDelete(id)
+    },
     createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.create(requestType),
     updateRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.update(requestType),
-    softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requestTypes.softDelete(id),
+    softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
+      return softDeleteRequestTypeHelper(id, dataSources)
+    },
     createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.create(request),
     updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.update(request),
     softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDelete(id),
