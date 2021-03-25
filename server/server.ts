@@ -1,6 +1,6 @@
 import { ApolloServer, AuthenticationError } from "apollo-server-express";
 import { connectDB } from "./database/mongoConnection";
-import * as bodyParser from "body-parser-graphql";
+import { bodyParserGraphQL } from "body-parser-graphql";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -49,7 +49,13 @@ connectDB(() => {
 function gqlServer() {
   const app = express();
   app.use(cookieParser());
-  app.use(bodyParser.graphql());
+  app.use(bodyParserGraphQL());
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true,
+    })
+  );
   const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -59,11 +65,8 @@ function gqlServer() {
         req.cookies !== {} ? await getUser(req.cookies.session) : null;
       if (!user) throw new AuthenticationError("Authentication Error");
       console.log("log verified", user);
-      return {
-        ...req,
-        res,
-        user,
-      };
+      console.log(req.body);
+      return { req, res, user };
     },
     dataSources: () => ({
       clients: new ClientDataSource(),
@@ -107,6 +110,7 @@ function gqlServer() {
   server.applyMiddleware({
     app,
     path: "/",
+    // bodyParserConfig: false,
     cors: {
       origin: "http://localhost:3000",
       credentials: true,
