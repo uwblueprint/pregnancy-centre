@@ -1,5 +1,8 @@
 # pregnancy-centre
 
+### Set up
+Before running the server, go to the MongoDB Atlas web console and add you IP address to the Network Access List.
+
 ### Secret Manager
 Run the following commands from the repo root:
 
@@ -16,6 +19,7 @@ https://www.notion.so/uwblueprintexecs/Secret-Management-2d5b59ef0987415e93ec951
 - Having python 3 is a prerequisite, but you might have to use `python` instead of `python3` (this will depend on the user/OS)
 - For Windows 10 users, make sure to run cmd/powershell as admin
 - Running with Git Bash also works
+
 
 ### Deployment
 
@@ -89,4 +93,4 @@ gcloud beta run deploy tpc-server \
    --region=us-east1 
 ```
 
-Go to VPC Network in GCP console to find outbound static IP. Add the static IP to the MongoDB Atlas network allowlist.
+Go to VPC Network in GCP console to find outbound static IP. Add the static IP to the MongoDB Atlas Newtork Access List.
