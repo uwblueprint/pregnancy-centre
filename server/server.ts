@@ -1,7 +1,11 @@
 import { ApolloServer, AuthenticationError } from "apollo-server-express";
 import { connectDB } from "./database/mongoConnection";
+import * as bodyParser from "body-parser-graphql";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import { getUser } from "./auth/firebase";
 import * as admin from "firebase-admin";
 
 import {
@@ -42,42 +46,23 @@ connectDB(() => {
 // SERVER LAUNCH
 // -----------------------------------------------------------------------------
 
-const verify = async (idToken) => {
-  if (idToken) {
-    console.log(idToken);
-    var newToken = idToken.replace("Bearer ", "");
-    let header = await admin
-      .auth()
-      .verifyIdToken(newToken)
-      .then(function (decodedToken) {
-        return {
-          Authorization: "Bearer " + decodedToken,
-        };
-      })
-      .catch(function (error) {
-        console.log(error);
-        return null;
-      });
-    return header;
-  } else {
-    throw { message: "No Token" };
-  }
-};
-
 function gqlServer() {
   const app = express();
+  app.use(cookieParser());
+  app.use(bodyParser.graphql());
   const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: async ({ req, res }) => {
-      console.log(req.headers);
-      const verified = await verify(req.headers.Authorization);
-      if (!verified) throw new AuthenticationError("Authentication Error");
-      console.log("log verified", verified);
+      console.log("COOKIECOOKIE", req.cookies);
+      const user =
+        req.cookies !== {} ? await getUser(req.cookies.session) : null;
+      if (!user) throw new AuthenticationError("Authentication Error");
+      console.log("log verified", user);
       return {
-        headers: verified ? verified : "",
-        req,
+        ...req,
         res,
+        user,
       };
     },
     dataSources: () => ({
@@ -88,7 +73,45 @@ function gqlServer() {
     }),
   });
 
-  server.applyMiddleware({ app, path: "/", cors: true });
+  app.post("/sessionLogin", (req, res) => {
+    console.log(req.body);
+    // Get the ID token passed
+    const idToken = req.body.idToken.toString();
+    console.log(idToken);
+    // Set session expiration to 5 days.
+    const expiresIn = 60 * 60 * 24 * 5 * 1000;
+    // Create the session cookie. This will also verify the ID token in the process.
+    // The session cookie will have the same claims as the ID token.
+    // To only allow session cookie setting on recent sign-in, auth_time in ID token
+    // can be checked to ensure user was recently signed in before creating a session cookie.
+    admin
+      .auth()
+      .createSessionCookie(idToken, { expiresIn })
+      .then(
+        (sessionCookie) => {
+          // Set cookie policy for session cookie.
+          const options = {
+            maxAge: expiresIn,
+            httpOnly: true,
+            secure: true,
+          };
+          res.cookie("session", sessionCookie, options);
+          res.end(JSON.stringify({ status: "success" }));
+        },
+        (error) => {
+          res.status(401).send(error);
+        }
+      );
+  });
+
+  server.applyMiddleware({
+    app,
+    path: "/",
+    cors: {
+      origin: "http://localhost:3000",
+      credentials: true,
+    },
+  });
 
   return app;
 }
