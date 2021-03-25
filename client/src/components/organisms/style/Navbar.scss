@@ -1,6 +1,9 @@
 .navbar {
   height: 156px;
   padding-left: 80px;
+  @media (max-width: 992px) {
+    padding-left: 50px;
+  }
   padding-right: 45px;
   display: flex;
   justify-content: space-between;
