@@ -1,7 +1,6 @@
 import { bindActionCreators, Dispatch } from "redux"
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
-import Col from 'react-bootstrap/Col'
 import { connect } from "react-redux";
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -62,15 +61,19 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
 
 
   return <Container className="donor-request-group-browser" fluid>
-    <Row className="justify-content-center"><h1 className="donor-request-group-browser-header">Open Requests</h1></Row>
-    <Row className="justify-content-start donor-request-group-browser-content">
-      <Col className="donor-request-group-browser-list" md={4}>
+    <Row className="justify-content-center">
+      <h1 className="donor-request-group-browser-header">Open Requests</h1>
+    </Row>
+    <Row className="justify-content-center donor-request-group-browser-content">
+      <div className="donor-request-group-browser-list">
         <RequestGroupList
           selectedRequestGroup={selectedRequestGroup}
           onRequestGroupChange={(requestGroupdId: string) => { setSelectedRequestGroup(requestGroupdId) }}
         />
-      </Col>
-      <Col className="donor-request-group-browser-indiv-view" md={8}><RequestGroupDonorView requestGroupId={selectedRequestGroup}/></Col>
+      </div>
+      <div className="donor-request-group-browser-indiv-view">
+        <RequestGroupDonorView requestGroupId={selectedRequestGroup}/>
+      </div>
     </Row>
   </Container>
 };
