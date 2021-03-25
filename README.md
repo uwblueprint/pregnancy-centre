@@ -1,6 +1,6 @@
 # pregnancy-centre
 
-### Set up
+### Setup
 Before running the server, go to the MongoDB Atlas web console and add you IP address to the Network Access List.
 
 ### Secret Manager
@@ -22,7 +22,7 @@ https://www.notion.so/uwblueprintexecs/Secret-Management-2d5b59ef0987415e93ec951
 
 
 ### Deployment
-
+![Diagram of deployment architecture](images/TPC-Deployment-Architecture.png)
 
 #### Client
 Tutorial: https://firebase.google.com/docs/hosting/quickstart?authuser=1
