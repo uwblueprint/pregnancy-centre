@@ -1,0 +1,38 @@
+.simple-page-navigation {
+    @include normal-text;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: 0.1px;
+
+    b {
+        @include bold-text;
+    }
+
+    .page-arrow {
+        display: inline-block;
+        width: 11px;
+        height: 11px;
+        border: 2px solid #3E3E3E;
+        border-width: 0 3px 3px 0;
+        border-radius: 0 0.2rem;
+        cursor: pointer;
+
+        &.disabled {
+            border-color: #B7B7B7;
+        }
+    }
+
+    .prev-page-arrow {
+        padding-left: 16px;
+        .page-arrow {
+            transform: rotate(135deg);
+        }
+    }
+
+    .next-page-arrow {
+        padding-left: 21px;
+        .page-arrow {
+            transform: rotate(-45deg);
+        }
+    }
+}
