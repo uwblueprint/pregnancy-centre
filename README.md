@@ -21,6 +21,18 @@ https://www.notion.so/uwblueprintexecs/Secret-Management-2d5b59ef0987415e93ec951
 
 
 #### Client
+Tutorial: https://firebase.google.com/docs/hosting/quickstart?authuser=1
+
+Go to `/client`. Then run
+```
+npm run build
+firebase deploy --only hosting
+```
+
+Before building, ensure your `.env` has the correct values for production.
+
+====================
+
 Tutorial: https://developer.okta.com/blog/2020/06/24/heroku-docker-react
 
 1. go to heroku dashboard
@@ -40,6 +52,62 @@ heroku logs --tail -a frozen-sands-75094
 ```
 
 ### Server
+Tutorials:
++ https://firebase.google.com/docs/hosting/cloud-run?authuser=1#node.js 
+  + Deploy server using Google Cloud Run
+  + Route requests to server from Firebase IP
++ https://cloud.google.com/run/docs/configuring/static-outbound-ip
+  + Setting up static outbound IP
+
+Build Docker image and push to Google container registry. The name of the image is `gcr.io/bp-pregnancy-centre/tpc-server`. 
+Before building, ensure your `.env` has the correct values for production.
+```
+gcloud builds submit --tag gcr.io/bp-pregnancy-centre/tpc-server
+```
+
+Deploy built container using Google Cloud Run (if the service `tpc-server` already exists, a revision will be deployed). More info [here](https://cloud.google.com/run/docs/deploying#revision).
+```
+gcloud beta run deploy tpc-server \
+   --image=gcr.io/bp-pregnancy-centre/tpc-server \
+   --vpc-connector=tcp-server-connector \
+   --vpc-egress=all
+   --platform=managed
+   --region=us-east1
+```
+
+#### Set up static outbound IP
+
+Run
+```
+gcloud compute networks subnets create tpc-subnet --range=10.124.0.0/28 --network=default --region=us-east1
+
+gcloud beta compute networks vpc-access connectors create tcp-server-connector \
+  --region=us-east1 \
+  --subnet-project=bp-pregnancy-centre \
+  --subnet=tpc-subnet
+
+
+gcloud compute routers create tpc-server-router \
+  --network=default \
+  --region=us-east1
+
+gcloud compute addresses create tpc-server-outbound-ip --region=us-east1
+
+gcloud compute routers nats create tpc-server-nat \
+  --router=tpc-server-router \
+  --region=us-east1 \
+  --nat-custom-subnet-ip-ranges=tpc-subnet \
+  --nat-external-ip-pool=tpc-server-outbound-ip
+
+gcloud beta run deploy tpc-server \
+   --image=gcr.io/bp-pregnancy-centre/tpc-server \
+   --vpc-connector=tcp-server-connector \
+   --vpc-egress=all
+```
+
+Go to VPC Network in GCP console to find outbound static IP.
+===============================
+
 Tutorials: 
 + https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
 + https://medium.com/@VincentSchoener/development-with-docker-and-typescript-75956e1af4ca
