@@ -1,7 +1,6 @@
 FROM node:12.13.0 AS build
 WORKDIR /app
 
-COPY package.json package-lock.json .env ./
 COPY . ./
 RUN npm ci --only=production --silent
 RUN npm run build
