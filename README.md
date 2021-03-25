@@ -39,8 +39,10 @@ Tutorials:
 + https://cloud.google.com/run/docs/configuring/static-outbound-ip
   + Setting up static outbound IP
 
+Go to `/server`.
+
 Build Docker image and push to Google container registry. The name of the image is `gcr.io/bp-pregnancy-centre/tpc-server`. 
-Before building, ensure your `.env` has the correct values for production.
+Before building, ensure your `.env` has the correct values for production and remove `.env` from `server/.gitignore`.
 ```
 gcloud builds submit --tag gcr.io/bp-pregnancy-centre/tpc-server
 ```
