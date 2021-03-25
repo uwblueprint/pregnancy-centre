@@ -59,7 +59,7 @@ gcloud beta run deploy tpc-server \
 
 #### Set up static outbound IP
 
-Run
+Run the following commands:
 ```
 gcloud compute networks subnets create tpc-subnet --range=10.124.0.0/28 --network=default --region=us-east1
 
