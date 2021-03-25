@@ -1,0 +1,19 @@
+{
+  "hosting": {
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/graphql",
+        "run": {
+          "serviceId": "tpc-server",
+          "region": "us-east1"
+        }
+      }
+    ]
+  }
+}
