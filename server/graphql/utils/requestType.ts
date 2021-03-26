@@ -1,4 +1,4 @@
-import { ServerResponseInterface } from '../graphql/serverResponse'
+import { ServerResponseInterface } from '../serverResponse'
 import { updateRequestGroupHelper } from './requestGroup'
 
 import { UserInputError } from 'apollo-server-errors'

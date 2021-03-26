@@ -1,4 +1,4 @@
-import { ServerResponseInterface } from '../graphql/serverResponse'
+import { ServerResponseInterface } from '../serverResponse'
 
 const updateRequestGroupHelper = (requestGroup, dataSources, dateUpdated = Date.now()): Promise<ServerResponseInterface> => {
   requestGroup.dateUpdated = dateUpdated;

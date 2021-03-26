@@ -5,9 +5,9 @@ import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
 import { Types } from 'mongoose'
 
-import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, updateRequestHelper } from '../utils/request'
-import { softDeleteRequestTypeHelper, updateRequestTypeHelper } from '../utils/requestType'
-import { updateRequestGroupHelper } from '../utils/requestGroup'
+import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, updateRequestHelper } from './utils/request'
+import { softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
+import { updateRequestGroupHelper } from './utils/requestGroup'
 
 const resolvers = {
   Query: {

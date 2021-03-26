@@ -1,5 +1,5 @@
-import { RequestInterface } from '../models/requestModel'
-import { ServerResponseInterface } from '../graphql/serverResponse'
+import { RequestInterface } from '../../models/requestModel'
+import { ServerResponseInterface } from '../serverResponse'
 import { UserInputError } from 'apollo-server-errors'
 
 import { updateRequestTypeHelper } from './requestType'
