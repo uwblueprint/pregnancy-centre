@@ -64,7 +64,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     return (
         <div className="request-type-dropdown-container">
             <Dropdown 
-                title={"Request Type"} 
+                title={requestType} 
                 body={<RequestsTable requests={props.requests} />}
                 header={<span className="button-container">
                     <a className="button-container edit" onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {onOpenEditRequestType(); e.stopPropagation();}}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
