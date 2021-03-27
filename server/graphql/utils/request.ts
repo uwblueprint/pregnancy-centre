@@ -25,10 +25,9 @@ const updateRequestHelper = (request, dataSources): Promise<ServerResponseInterf
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
   }
   const requestTypeId = dataSources.requests.getById(request.id.toString()).requestType
-  request.dateUpdated = Date.now()
   return dataSources.requests.update(request)
     .then(res => {
-      updateRequestTypeHelper({"id": requestTypeId}, dataSources, request.dateUpdated)
+      updateRequestTypeHelper({"id": requestTypeId}, dataSources)
       return res
     })
     .catch(error => {

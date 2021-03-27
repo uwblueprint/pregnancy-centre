@@ -3,15 +3,14 @@ import { updateRequestGroupHelper } from './requestGroup'
 
 import { UserInputError } from 'apollo-server-errors'
 
-const updateRequestTypeHelper = (requestType, dataSources, dateUpdated = Date.now()): Promise<ServerResponseInterface> => {
+const updateRequestTypeHelper = (requestType, dataSources): Promise<ServerResponseInterface> => {
   if(!requestType.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
   }
   const requestGroupId = dataSources.requestTypes.getById(requestType.id.toString()).requestGroup
-  requestType.dateUpdated = dateUpdated
   return dataSources.requestTypes.update(requestType)
     .then(res => {
-      updateRequestGroupHelper({"id": requestGroupId}, dataSources, requestType.dateUpdated)
+      updateRequestGroupHelper({"id": requestGroupId}, dataSources)
       return res
     })
     .catch(error => {

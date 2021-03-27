@@ -50,6 +50,11 @@ const requestSchema = new Schema({
     required: true,
     default: false
   }
+}, {
+  timestamps: {
+    currentTime: Date.now,
+    updatedAt: 'dateUpdated'
+  }
 })
 
 const Request = model('Request', requestSchema)

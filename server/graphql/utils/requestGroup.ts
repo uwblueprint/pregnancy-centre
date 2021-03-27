@@ -1,7 +1,6 @@
 import { ServerResponseInterface } from '../serverResponse'
 
-const updateRequestGroupHelper = (requestGroup, dataSources, dateUpdated = Date.now()): Promise<ServerResponseInterface> => {
-  requestGroup.dateUpdated = dateUpdated;
+const updateRequestGroupHelper = (requestGroup, dataSources): Promise<ServerResponseInterface> => {
   return dataSources.requestGroups.update(requestGroup)
     .then(res => {
       return res
