@@ -7,12 +7,11 @@ const updateRequestTypeHelper = (requestType, dataSources, dateUpdated = Date.no
   if(!requestType.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
   }
-  const requestGroupId = dataSources.requestTypes.getById(requestType.id).requestGroup
+  const requestGroupId = dataSources.requestTypes.getById(requestType.id.toString()).requestGroup
   requestType.dateUpdated = dateUpdated
   return dataSources.requestTypes.update(requestType)
     .then(res => {
-      const requestGroup = dataSources.requestGroups.getById(requestGroupId.toString())
-      updateRequestGroupHelper(requestGroup, dataSources, requestType.dateUpdated)
+      updateRequestGroupHelper({"id": requestGroupId}, dataSources, requestType.dateUpdated)
       return res
     })
     .catch(error => {
