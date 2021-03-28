@@ -1,3 +1,4 @@
+import Client from "./client";
 import Request from './request'
 
 export default interface RequestType {
@@ -10,5 +11,6 @@ export default interface RequestType {
       deleted?: Request[];
       open?: Request[];
   };
-  numOpen?: number
+  numOpen?: number;
+  nextRecipient?: Client;
 }

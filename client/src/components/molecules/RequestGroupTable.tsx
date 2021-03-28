@@ -65,7 +65,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                 })}
                             </div>
                         </td>
-                        <td>TODO</td>
+                        <td>{ requestGroup.nextRecipient?.fullName }</td>
                         <td>{ moment(requestGroup.dateUpdated, "x").format('MMMM DD, YYYY') }</td>
                         <td><img src={ requestGroup.image }/></td>
                     </tr>
