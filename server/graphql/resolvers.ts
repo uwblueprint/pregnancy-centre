@@ -34,8 +34,22 @@ const nextRequestRequestTypeHelper = (requestIds, dataSources): RequestInterface
 }
 
 const nextRequestRequestGroupHelper = (requestTypeIds, dataSources): RequestInterface => {
-  const requests = requestTypeIds.map((id) => { nextRequestRequestTypeHelper(id, dataSources) })
-  requests.sort((request1, request2) => request1.dateCreated - request2.dateCreated)
+  const requests = requestTypeIds.map((id) => {
+    const requestType = dataSources.requestTypes.getById(id)
+    return nextRequestRequestTypeHelper(requestType.requests, dataSources)
+  })
+  requests.sort((request1, request2) => {
+    if (!request1 && !request2) {
+      return 0
+    }
+    if (!request1) {
+      return 1
+    }
+    if (!request2) {
+      return -1
+    }
+    return request1.dateCreated - request2.dateCreated
+  })
   return requests.length == 0 ? null : requests[0]
 }
 
