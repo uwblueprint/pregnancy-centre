@@ -85,6 +85,7 @@ const createRequestType = (typeID, requestIDsForType, requestGroupID, errMsg) =>
     _id: typeID,
     name: faker.commerce.product(),
     requests: requestIDsForType,
+    quantity: Math.floor(Math.random() * 15) + 1 
   })
   return createSavePromise(type, errMsg)
 }
