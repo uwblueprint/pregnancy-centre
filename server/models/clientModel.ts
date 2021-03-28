@@ -3,8 +3,7 @@ import { Document, model, Schema, Types } from 'mongoose'
 interface ClientInterface {
   _id: Types.ObjectId
   clientId: string
-  firstName: string
-  lastName: string
+  fullName: string
   deleted: boolean
 }
 
@@ -15,12 +14,7 @@ const ClientSchema = new Schema({
       type: String,
       required: true
   },
-  firstName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  lastName: {
+  fullName: {
     type: String,
     required: true,
     trim: true
