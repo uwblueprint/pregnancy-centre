@@ -54,8 +54,7 @@ const createClient = (clientIDs, errMsg) => {
   const client = new Client({
     _id: mongoose.Types.ObjectId(),
     clientId: faker.random.alphaNumeric(8),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName()
+    fullName: faker.name.firstName() + " " + faker.name.lastName()
   })
   clientIDs.push(client._id) // store IDs to allocate among groups + types
   return createSavePromise(client, errMsg)
