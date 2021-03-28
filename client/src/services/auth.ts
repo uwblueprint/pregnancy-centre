@@ -92,24 +92,47 @@ export const signIn = async (
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
-        firebase
+        const result = await firebase
           .auth()
           .currentUser?.getIdToken()
           .then(async (token) => {
-            return postToken(token)
-              .then(() => {
-                return { email: "", password: "" };
+            const res = await fetch(
+              `${process.env.REACT_APP_GRAPHQL_SERVER_URL}/sessionLogin`,
+              {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ idToken: token }),
+              }
+            )
+              .then((res) => {
+                return res?.status === 200
+                  ? { email: "", password: "" }
+                  : {
+                      email: "Something went wrong. Please try again.",
+                      password: "",
+                    };
               })
-              .catch(() => ({
-                email: "Something went wrong. Please try again.",
-                password: "",
-              }));
+              .catch(() => {
+                return {
+                  email: "Something went wrong. Please try again.",
+                  password: "",
+                };
+              });
+            return res;
           })
-          .catch(() => ({
+          .catch(() => {
+            return {
+              email: "Something went wrong. Please try again.",
+              password: "",
+            };
+          });
+        return (
+          result || {
             email: "Something went wrong. Please try again.",
             password: "",
-          }));
-        return { email: "", password: "" };
+          }
+        );
       })
       .catch((error) => {
         const code: keyof AuthErrorMessageInterface = error.code;
@@ -122,16 +145,3 @@ export const signIn = async (
   }
   return errors;
 };
-
-async function postToken(token: string) {
-  const body = JSON.stringify({ idToken: token });
-  return await fetch(
-    `${process.env.REACT_APP_GRAPHQL_SERVER_URL}/sessionLogin`,
-    {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body,
-    }
-  );
-}
