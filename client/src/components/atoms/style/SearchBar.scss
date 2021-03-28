@@ -1,5 +1,4 @@
 .search-bar {
-    position: absolute;
     width: 514px;
     height: 40px;
     left: 659px;
@@ -9,8 +8,8 @@
     border: 1px solid $searchbar-border;
     box-sizing: border-box;
     border-radius: 4px;
+}
 
-    background-image: url('../../../assets/search.svg');
-    background-repeat: no-repeat;
-    background-position: 488px 10px;
+.search-bar-icon {
+    margin-left: -25px;
 }

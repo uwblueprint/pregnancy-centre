@@ -16,6 +16,7 @@ const SearchBar: FunctionComponent<Props> = (props: Props) => {
   return <span>
     <form>
       <input className="search-bar" type="text" placeholder={props.defaultText} value={searchString} onChange={onSearchStringChange} />
+      <i className="bi-search search-bar-icon"></i>
     </form>
   </span>
 };
