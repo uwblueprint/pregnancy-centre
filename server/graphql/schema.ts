@@ -31,7 +31,8 @@ const typeDefs = gql`
         openRequests: [Request]
         fulfilledRequests: [Request]
         deletedRequests: [Request]
-        numOpen: Int
+        numOpen: Int,
+        nextRecipient: Client
     }
     type RequestGroup {
         _id: ID
@@ -42,7 +43,8 @@ const typeDefs = gql`
         requirements: String
         image: String
         requestTypes: [RequestType]
-        numOpen: Int
+        numOpen: Int,
+        nextRecipient: Client
     }
     type ServerResponse {
         success: Boolean

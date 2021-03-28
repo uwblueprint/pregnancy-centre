@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
-import { Table } from "react-bootstrap";
 import moment from 'moment';
+
+import { Table } from "react-bootstrap";
 
 import Tag from '../atoms/Tag'
 

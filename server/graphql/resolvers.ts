@@ -27,6 +27,18 @@ const getRequestsById = (requestIds, dataSources) => {
   return requestIds.map(id => dataSources.requests.getById(id))
 }
 
+const nextRequestRequestTypeHelper = (requestIds, dataSources): RequestInterface => {
+  const requests = requestIds.map((id) => dataSources.requests.getById(id)).filter(request => request.fulfilled === false && request.deleted === false);
+  requests.sort((request1, request2) => request1.dateCreated - request2.dateCreated)
+  return requests.length == 0 ? null : requests[0]
+}
+
+const nextRequestRequestGroupHelper = (requestTypeIds, dataSources): RequestInterface => {
+  const requests = requestTypeIds.map((id) => { nextRequestRequestTypeHelper(id, dataSources) })
+  requests.sort((request1, request2) => request1.dateCreated - request2.dateCreated)
+  return requests.length == 0 ? null : requests[0]
+}
+
 const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
@@ -62,10 +74,18 @@ const resolvers = {
   },
   RequestGroup: {
     numOpen: (parent, __, { dataSources }): Number => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((total, num) => total + num, 0),
+    nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
+      const nextRequest = nextRequestRequestGroupHelper(parent.requestTypes, dataSources)
+      return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
+    },
     requestTypes: (parent, __, { dataSources }): Array<RequestTypeInterface> => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)))
   },
   RequestType: {
     numOpen: (parent, __, { dataSources }): Number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,
+    nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
+      const nextRequest = nextRequestRequestTypeHelper(parent.requests, dataSources)
+      return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
+    },
     openRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterOpenRequests(getRequestsById(parent.requests, dataSources)),
     fulfilledRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterFulfilledRequests(getRequestsById(parent.requests, dataSources)),
     deletedRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterDeletedRequests(getRequestsById(parent.requests, dataSources)),
