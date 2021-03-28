@@ -11,6 +11,8 @@ import RequestGroupDonorView from './RequestGroupDonorView'
 import RequestGroupList from './RequestGroupList'
 import { RootState } from '../../data/reducers'
 
+import RequestGroupTable from "../molecules/RequestGroupTable"; // TODO: delete
+
 interface StateProps {
   requestGroups: Array<RequestGroup>,
   displayRequestGroups: Array<RequestGroup>
@@ -38,6 +40,12 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
       requirements
       image
       numOpen
+      nextRecipient {
+        fullName
+      }
+      requestTypes {
+        name
+      }
     }
   }`
 
@@ -54,7 +62,6 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
 
       props.loadRequestGroups(data.requestGroups);
       props.setDisplayRequestGroups(displayRequestGroups);
-      console.log(displayRequestGroups[0])
       setSelectedRequestGroup(displayRequestGroups.length <= 0 ? undefined : displayRequestGroups[0]._id)
     },
   });
@@ -74,6 +81,9 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
       <div className="donor-request-group-browser-indiv-view">
         <RequestGroupDonorView requestGroupId={selectedRequestGroup}/>
       </div>
+    </Row>
+    <Row className="justify-content-center">
+      <RequestGroupTable requestGroups={props.displayRequestGroups.length <= 0 ? undefined : props.displayRequestGroups}/>
     </Row>
   </Container>
 };
