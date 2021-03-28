@@ -1,0 +1,15 @@
+.search-bar {
+    width: 514px;
+    height: 40px;
+    left: 659px;
+    top: 139px;
+    padding: 10px;
+    
+    border: 1px solid $searchbar-border;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.search-bar-icon {
+    margin-left: -25px;
+}
