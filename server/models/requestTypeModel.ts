@@ -34,6 +34,11 @@ const RequestTypeSchema = new Schema({
     type: [{ type: Types.ObjectId, ref: 'Request' }],
     default: []
   }
+}, {
+  timestamps: {
+    currentTime: Date.now,
+    updatedAt: 'dateUpdated'
+  }
 })
 
 const RequestType = model('RequestType', RequestTypeSchema)

@@ -5,27 +5,9 @@ import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
 import { Types } from 'mongoose'
 
-const softDeleteRequestTypeHelper = (id, dataSources): Promise<ServerResponseInterface> => {
-  const requestType = dataSources.requestTypes.getById(id)
-  requestType.requests.map(id => {dataSources.requests.softDelete(id)})
-  return dataSources.requestTypes.softDelete(id)
-}
-
-const filterOpenRequests = (requests: Array<RequestInterface> ) => {
-  return requests.filter(request => request.fulfilled === false && request.deleted === false)
-}
-
-const filterFulfilledRequests = (requests: Array<RequestInterface> ) => {
-  return requests.filter(request => request.fulfilled === false && request.deleted === false)
-}
-
-const filterDeletedRequests = (requests: Array<RequestInterface> ) => {
-  return requests.filter(request => request.deleted === true)
-}
-
-const getRequestsById = (requestIds, dataSources) => {
-  return requestIds.map(id => dataSources.requests.getById(id))
-}
+import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, updateRequestHelper } from './utils/request'
+import { softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
+import { updateRequestGroupHelper } from './utils/requestGroup'
 
 const resolvers = {
   Query: {
@@ -40,7 +22,9 @@ const resolvers = {
   },
   Mutation: {
     createRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestGroups.create(requestGroup),
-    updateRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestGroups.update(requestGroup),
+    updateRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => {
+      return updateRequestGroupHelper(requestGroup, dataSources)
+    },
     softDeleteRequestGroup: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
       const requestGroup = dataSources.requestGroups.getById(id)
       requestGroup.requestTypes.map(id => {
@@ -49,12 +33,16 @@ const resolvers = {
       return dataSources.requestGroups.softDelete(id)
     },
     createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.create(requestType),
-    updateRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.update(requestType),
+    updateRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => {
+      return updateRequestTypeHelper(requestType, dataSources)
+    },
     softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
       return softDeleteRequestTypeHelper(id, dataSources)
     },
     createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.create(request),
-    updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.update(request),
+    updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
+      return updateRequestHelper(request, dataSources)
+    },
     softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDelete(id),
     createClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.create(client),
     updateClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.update(client),

@@ -45,7 +45,7 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
     if(!inputObject.id) {
       throw new UserInputError('Missing argument value', { argumentName: 'id' })
     }
-    const promise = await this.cache.model.findByIdAndUpdate(inputObject.id, {...inputObject, dateUpdated: Date.now()})
+    const promise = await this.cache.model.findByIdAndUpdate(inputObject.id.toString(), inputObject)
       .then(res => {
         return {
           "success": true,

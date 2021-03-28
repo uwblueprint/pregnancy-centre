@@ -42,6 +42,11 @@ const RequestGroupSchema = new Schema({
     type: [ { type: Types.ObjectId, ref: 'RequestType' } ],
     default: []
   }
+}, {
+  timestamps: {
+    currentTime: Date.now,
+    updatedAt: 'dateUpdated'
+  }
 })
 
 const RequestGroup = model('RequestGroup', RequestGroupSchema)
