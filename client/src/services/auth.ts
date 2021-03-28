@@ -100,13 +100,18 @@ export const signIn = async (
               .then(() => {
                 return { email: "", password: "" };
               })
-              .catch((err) => console.log(err));
+              .catch(() => ({
+                email: "Something went wrong. Please try again.",
+                password: "",
+              }));
           })
-          .catch((err) => console.log(err));
+          .catch(() => ({
+            email: "Something went wrong. Please try again.",
+            password: "",
+          }));
         return { email: "", password: "" };
       })
       .catch((error) => {
-        console.log(error);
         const code: keyof AuthErrorMessageInterface = error.code;
         return {
           email: code !== "auth/wrong-password" ? AuthErrorMessage[code] : "",
@@ -115,7 +120,6 @@ export const signIn = async (
         };
       });
   }
-  console.log(errors);
   return errors;
 };
 
