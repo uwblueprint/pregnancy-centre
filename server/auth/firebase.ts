@@ -9,7 +9,8 @@ admin.initializeApp({
 });
 
 export async function getUser(cookie) {
-  console.log(cookie);
+  console.log("HELLLOOOOOO");
+  console.log(typeof cookie);
   const user = await verifyUserSessionToken(cookie);
   return { id: user?.uid, admin: user?.admin };
 }
@@ -17,23 +18,12 @@ export async function getUser(cookie) {
 const verifyUserSessionToken = async (token) => {
   //Verify session cookies tokens with firebase admin.
   //This is a low overhead operation.
-  console.log(token);
   const user = await admin
     .auth()
     .verifySessionCookie(token, true /** checkRevoked */);
-  console.log(user);
   if (user.uid) {
-    console.log(user);
     return user;
   } else {
-    throw new AuthError({ message: "User Session Token Verification Error" });
+    throw new Error("User Session Token Verification Error");
   }
 };
-
-export class AuthError extends Error {
-  constructor(
-    error: { message: string; stack?: any } = { message: "Not authorized" }
-  ) {
-    super(error.message);
-  }
-}

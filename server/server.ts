@@ -31,6 +31,7 @@ import { typeDefs } from "./graphql/schema";
 
 dotenv.config();
 const PORT = process.env.PORT;
+const isProd = process.env.NODE_ENV !== "dev";
 
 // -----------------------------------------------------------------------------
 // MONGODB CONNECTION AND DATA SOURCES FOR APOLLO
@@ -69,7 +70,6 @@ async function gqlServer() {
         req.headers["content-type"].includes("application/graphql"))
     ) {
       const str = await raw(inflate(req), { encoding: "utf8" });
-      console.log(JSON.parse(str));
       req.body = JSON.parse(str);
     }
     await next();
@@ -108,18 +108,17 @@ async function gqlServer() {
     typeDefs,
     resolvers,
     context: async ({ req, res }) => {
-      if (process.env.NODE_ENV === "dev") {
-        return { req, res };
-      } else {
-        if (!req.cookies || !req.cookies.session)
+      if (!req.cookies || !req.cookies.session) {
+        if (isProd) {
           throw new AuthenticationError("Authentication Not Found");
-        const user = await getUser(req.cookies.session);
-        if (!user || !user.id)
-          throw new AuthenticationError("Authentication Error");
-        console.log("log verified", user);
-        console.log(req.body);
-        return { req, res };
+        } else {
+          return { req, res, user: null };
+        }
       }
+      const user = await getUser(req.cookies.session);
+      if ((!user || !user.id) && isProd)
+        throw new AuthenticationError("Authentication Error");
+      return { req, res, user };
     },
     dataSources: () => ({
       clients: new ClientDataSource(),
