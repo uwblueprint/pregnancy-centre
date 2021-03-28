@@ -92,12 +92,10 @@ export const signIn = async (
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
-        console.log("logged in");
         firebase
           .auth()
           .currentUser?.getIdToken()
           .then(async (token) => {
-            console.log(token);
             return postToken(token)
               .then(() => {
                 return { email: "", password: "" };
@@ -123,7 +121,6 @@ export const signIn = async (
 
 async function postToken(token: string) {
   const body = JSON.stringify({ idToken: token });
-  console.log(body);
   return await fetch(
     `${process.env.REACT_APP_GRAPHQL_SERVER_URL}/sessionLogin`,
     {
