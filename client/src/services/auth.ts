@@ -40,9 +40,9 @@ export const createNewAccount = async (
   if (!passwordRequirements.test(password)) {
     errors.password = AuthErrorMessage["invalid-password"];
   }
-  // if (!email.endsWith("@pregnancycentre.ca")) {
-  //   errors.email = AuthErrorMessage["invalid-domain"];
-  // }
+  if (!email.endsWith("@pregnancycentre.ca")) {
+    errors.email = AuthErrorMessage["invalid-domain"];
+  }
 
   if (!errors.email.length && !errors.password.length) {
     errors = await firebase
