@@ -1,11 +1,13 @@
 import { ApolloServer, AuthenticationError } from "apollo-server-express";
 import { connectDB } from "./database/mongoConnection";
-import { bodyParserGraphQL } from "body-parser-graphql";
+import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { getUser } from "./auth/firebase";
+import raw from "raw-body";
+import inflate from "inflation";
 import * as admin from "firebase-admin";
 
 import {
@@ -20,6 +22,7 @@ import RequestGroupDataSource from "./datasources/requestGroupDataSource";
 import RequestTypeDataSource from "./datasources/requestTypeDataSource";
 import { resolvers } from "./graphql/resolvers";
 import { typeDefs } from "./graphql/schema";
+import { bodyParserGraphQL } from "body-parser-graphql";
 
 // TODO: need to make script to build(compile) prod server and to run prod server
 
@@ -46,36 +49,36 @@ connectDB(() => {
 // SERVER LAUNCH
 // -----------------------------------------------------------------------------
 
-function gqlServer() {
+async function gqlServer() {
   const app = express();
   app.use(cookieParser());
-  app.use(bodyParserGraphQL());
+  app.use("/graphql", bodyParserGraphQL());
+  app.use("/sessionLogin", bodyParser.json({ strict: false, type: "*/*" }));
+  // app.use(
+  //   express.urlencoded({
+  //     extended: true,
+  //   })
+  // );
   app.use(
     cors({
       origin: "http://localhost:3000",
       credentials: true,
     })
   );
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: async ({ req, res }) => {
-      console.log("COOKIECOOKIE", req.cookies);
-      const user =
-        req.cookies !== {} ? await getUser(req.cookies.session) : null;
-      if (!user) throw new AuthenticationError("Authentication Error");
-      console.log("log verified", user);
-      console.log(req.body);
-      return { req, res, user };
-    },
-    dataSources: () => ({
-      clients: new ClientDataSource(),
-      requests: new RequestDataSource(),
-      requestTypes: new RequestTypeDataSource(),
-      requestGroups: new RequestGroupDataSource(),
-    }),
+  app.use(async (req, res, next) => {
+    if (
+      req.headers["content-type"] === "application/graphql" ||
+      req.headers["content-type"].includes("application/graphql")
+    ) {
+      const str = await raw(inflate(req), { encoding: "utf8" });
+      console.log(JSON.parse(str));
+      req.body = JSON.parse(str);
+    }
+    await next();
   });
-
+  // app.post("/graphql", (req) => {
+  //   console.log(req.body);
+  // });
   app.post("/sessionLogin", (req, res) => {
     console.log(req.body);
     // Get the ID token passed
@@ -107,18 +110,42 @@ function gqlServer() {
       );
   });
 
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: async ({ req, res }) => {
+      console.log("COOKIECOOKIE", req.cookies);
+      const user =
+        req.cookies !== {} ? await getUser(req.cookies.session) : null;
+      if (!user) throw new AuthenticationError("Authentication Error");
+      console.log("log verified", user);
+      console.log(req.body);
+      return { req, res, user };
+    },
+    dataSources: () => ({
+      clients: new ClientDataSource(),
+      requests: new RequestDataSource(),
+      requestTypes: new RequestTypeDataSource(),
+      requestGroups: new RequestGroupDataSource(),
+    }),
+  });
   server.applyMiddleware({
     app,
-    path: "/",
-    // bodyParserConfig: false,
+    path: "/graphql",
+    bodyParserConfig: { strict: false, type: "*/*" },
     cors: {
       origin: "http://localhost:3000",
       credentials: true,
     },
   });
 
-  return app;
+  // app.use("/graphql", express.json());
+
+  // await server.start();
+
+  app.listen({ port: PORT });
+  console.log(`🚀 Server ready at port ${PORT}`);
+  return { server, app };
 }
 
-gqlServer().listen({ port: PORT });
-console.log(`🚀 Server ready at port ${PORT}`);
+gqlServer();
