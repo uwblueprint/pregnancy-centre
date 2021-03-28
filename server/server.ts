@@ -1,14 +1,14 @@
 import { ApolloServer, AuthenticationError } from "apollo-server-express";
-import { connectDB } from "./database/mongoConnection";
+import * as admin from "firebase-admin";
 import bodyParser from "body-parser";
+import { connectDB } from "./database/mongoConnection";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { getUser } from "./auth/firebase";
-import raw from "raw-body";
 import inflate from "inflation";
-import * as admin from "firebase-admin";
+import raw from "raw-body";
 
 import {
   ClientCache,
@@ -22,7 +22,6 @@ import RequestGroupDataSource from "./datasources/requestGroupDataSource";
 import RequestTypeDataSource from "./datasources/requestTypeDataSource";
 import { resolvers } from "./graphql/resolvers";
 import { typeDefs } from "./graphql/schema";
-import { bodyParserGraphQL } from "body-parser-graphql";
 
 // TODO: need to make script to build(compile) prod server and to run prod server
 
@@ -52,23 +51,22 @@ connectDB(() => {
 async function gqlServer() {
   const app = express();
   app.use(cookieParser());
-  app.use("/graphql", bodyParserGraphQL());
   app.use("/sessionLogin", bodyParser.json({ strict: false, type: "*/*" }));
-  // app.use(
-  //   express.urlencoded({
-  //     extended: true,
-  //   })
-  // );
   app.use(
     cors({
       origin: "http://localhost:3000",
       credentials: true,
     })
   );
-  app.use(async (req, res, next) => {
+
+  //custom body parser for apolloClient GraphQL queries using CreateHTTPLink because express.json() is buggy
+  app.use("/graphql", async (req, res, next) => {
     if (
-      req.headers["content-type"] === "application/graphql" ||
-      req.headers["content-type"].includes("application/graphql")
+      req &&
+      req.headers &&
+      req.headers["content-type"] &&
+      (req.headers["content-type"] === "application/graphql" ||
+        req.headers["content-type"].includes("application/graphql"))
     ) {
       const str = await raw(inflate(req), { encoding: "utf8" });
       console.log(JSON.parse(str));
@@ -76,14 +74,10 @@ async function gqlServer() {
     }
     await next();
   });
-  // app.post("/graphql", (req) => {
-  //   console.log(req.body);
-  // });
+
   app.post("/sessionLogin", (req, res) => {
-    console.log(req.body);
     // Get the ID token passed
     const idToken = req.body.idToken.toString();
-    console.log(idToken);
     // Set session expiration to 5 days.
     const expiresIn = 60 * 60 * 24 * 5 * 1000;
     // Create the session cookie. This will also verify the ID token in the process.
@@ -114,13 +108,18 @@ async function gqlServer() {
     typeDefs,
     resolvers,
     context: async ({ req, res }) => {
-      console.log("COOKIECOOKIE", req.cookies);
-      const user =
-        req.cookies !== {} ? await getUser(req.cookies.session) : null;
-      if (!user) throw new AuthenticationError("Authentication Error");
-      console.log("log verified", user);
-      console.log(req.body);
-      return { req, res, user };
+      if (process.env.NODE_ENV === "dev") {
+        return { req, res };
+      } else {
+        if (!req.cookies || !req.cookies.session)
+          throw new AuthenticationError("Authentication Not Found");
+        const user = await getUser(req.cookies.session);
+        if (!user || !user.id)
+          throw new AuthenticationError("Authentication Error");
+        console.log("log verified", user);
+        console.log(req.body);
+        return { req, res };
+      }
     },
     dataSources: () => ({
       clients: new ClientDataSource(),
@@ -138,11 +137,6 @@ async function gqlServer() {
       credentials: true,
     },
   });
-
-  // app.use("/graphql", express.json());
-
-  // await server.start();
-
   app.listen({ port: PORT });
   console.log(`🚀 Server ready at port ${PORT}`);
   return { server, app };
