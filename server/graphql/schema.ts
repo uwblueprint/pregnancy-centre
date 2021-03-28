@@ -6,8 +6,7 @@ const typeDefs = gql`
     type Client {
         _id: ID
         clientId: String
-        firstName: String
-        lastName: String
+        fullName: String
         deleted: Boolean
     }
     type Request {
@@ -100,8 +99,7 @@ const typeDefs = gql`
     input ClientInput {
         id: ID
         clientId: String
-        firstName: String
-        lastName: String
+        fullName: String
     }
 `
 
