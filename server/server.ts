@@ -1,5 +1,5 @@
-import { ApolloServer, AuthenticationError } from "apollo-server-express";
 import * as admin from "firebase-admin";
+import { ApolloServer, AuthenticationError } from "apollo-server-express";
 import bodyParser from "body-parser";
 import { connectDB } from "./database/mongoConnection";
 import cookieParser from "cookie-parser";
