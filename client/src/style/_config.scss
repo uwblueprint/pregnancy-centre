@@ -117,6 +117,27 @@ $button-disabled-background: #b2b2b2;
 /* Tag Config */
 $tag-background: #ededed;
 
+/* Table Config */
+@mixin table-base {
+    font-family: "Inter";
+    margin-top: 20px;
+    .a{
+        color: #333333;
+    }
+    & td {
+      border-top: unset;
+    }
+    .row-style{
+        font-size: 16px;
+        text-align: center;
+    }
+    .header-style{
+        font-size: 14px;
+        text-align: center;
+        color: #969696;
+    }
+}
+
 /* Modal Config */
 $input-icon-color: #adadad;
 $tpc-green: #004d57;
@@ -126,3 +147,4 @@ $input-error: #dc3545;
 @mixin input-icon() {
   color: $input-icon-color;
 }
+
