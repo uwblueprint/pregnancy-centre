@@ -9,8 +9,6 @@ admin.initializeApp({
 });
 
 export async function getUser(cookie) {
-  console.log("HELLLOOOOOO");
-  console.log(typeof cookie);
   const user = await verifyUserSessionToken(cookie);
   return { id: user?.uid, admin: user?.admin };
 }
