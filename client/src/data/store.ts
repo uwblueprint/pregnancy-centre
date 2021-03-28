@@ -10,6 +10,9 @@ const DEFAULT_STATE: RootState = {
   requestGroups: { 
     data: [],
     displayData: []
+  },
+  requestGroup: {
+    data: []
   }
 };
 

@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import Dropdown from '../atoms/Dropdown';
+import RequestType from '../../data/types/requestType';
 import RequestTypeDropdown from '../molecules/RequestTypeDropdown';
 
 interface Props {
-    requestTypes: any[];
+    requestTypes: RequestType[] | undefined;
 }
 
 const RequestTypeDropdownList: FunctionComponent<Props> = (props: Props) => {

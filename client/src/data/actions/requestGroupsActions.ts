@@ -11,7 +11,6 @@ import RequestGroup from '../types/requestGroup'
 export interface RequestGroupsAction {
   type: string,
   payload: Array<RequestGroup>,
-  
 }
 
 export const loadRequestGroups = (data: Array<RequestGroup>): RequestGroupsAction => ({
