@@ -51,14 +51,14 @@ const resolvers = {
         })
     },
     updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
-        return updateRequestHelper(request, dataSources)
-        .then(res => {
-          return {
-            'success': true,
-            'message': 'Request successfully updated',
-            'id': res._id
-          }
-        })
+      return updateRequestHelper(request, dataSources)
+      .then(res => {
+        return {
+          'success': true,
+          'message': 'Request successfully updated',
+          'id': res._id
+        }
+      })
     },
     softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
       return dataSources.requests.softDelete(id)

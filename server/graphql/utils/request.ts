@@ -25,6 +25,9 @@ const updateRequestHelper = (request, dataSources): Promise<Document> => {
   if(!request.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
   }
+  if(request.fulfilled) {
+    request.dateFulfilled = Date.now()
+  }
   const requestTypeId = dataSources.requests.getById(request.id.toString()).requestType
   return dataSources.requests.update(request)
     .then(res => {
