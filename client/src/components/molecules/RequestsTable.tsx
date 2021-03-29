@@ -3,9 +3,9 @@ import { Button } from 'react-bootstrap';
 import { FaPen } from 'react-icons/fa';
 import { FaTrashAlt } from 'react-icons/fa';
 import  Form  from 'react-bootstrap/Form';
-import  Table  from 'react-bootstrap/Table';
-
+import moment from 'moment';
 import Request from '../../data/types/request';
+import  Table  from 'react-bootstrap/Table';
 
 
 interface Props {
@@ -38,7 +38,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                             <td>{5}</td>
                             <td>{
                                 // (new Date(1616993731)).toDateString()  this works!? but dates from seeder dont
-                                (new Date(request.dateCreated!)).toString()
+                                moment(request.dateCreated, "x").format('MMMM DD, YYYY')
                             }</td>
                             <div className="btn-cont">
                                 <td><a className="request-table edit" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">

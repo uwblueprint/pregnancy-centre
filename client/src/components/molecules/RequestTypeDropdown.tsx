@@ -14,7 +14,7 @@ interface Props {
 
 const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const mutation = gql`
-    mutation updateRequestType($requestType: RequestType){
+    mutation updateRequestType($requestType: RequestTypeInput){
         updateRequestType(requestType: $requestType){
           id
           success
@@ -28,7 +28,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const [editModalShow, setEditModalShow] = useState(false);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [isTooLong, setIsTooLong] = useState(false);
-    const [mutateRequestType, {data}] = useMutation(mutation);
+    const [mutateRequestType, {error,data}] = useMutation(mutation);
     const editModalTitle = "Edit Type";
     const deleteModalTitle = "Delete Type";
     const deleteModalSubtitle = "Are you sure you want to delete “250 ML” as a type in the group “Bottles”? This will delete all 20 requests within this type and cannot be undone."
@@ -44,8 +44,13 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
 
     const handleClick = async (e: React.FormEvent<HTMLFormElement>) => { 
         e.preventDefault();
-        // change requestType here 
-        mutateRequestType({variables:{requestType: requestType}})
+        // change requestType here
+        console.log(requestType); 
+        const id = requestType?._id;
+        const name = requestType?.name;
+        const deleted = requestType?.deleted;
+        mutateRequestType({variables:{requestType: {id, name, deleted}}});
+        if (error) console.log(error.graphQLErrors)
         setBackupRequestType(requestType);
     };
 

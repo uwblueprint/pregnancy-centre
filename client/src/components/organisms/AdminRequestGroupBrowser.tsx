@@ -58,13 +58,14 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
     }
     `;
     
-    useQuery(query, {
+    const {loading, error, data} = useQuery(query, {
       variables: { id: id },
       onCompleted: (data: { requestGroup: RequestGroup }) => {
           props.loadRequestGroup(data.requestGroup)
 
       },
     });
+    if (error) console.log(error.graphQLErrors);
     return (
       <div>
           <RequestTypeDropdownList requestTypes={props.requestGroup.requestTypes}></RequestTypeDropdownList>
