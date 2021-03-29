@@ -46,6 +46,7 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
       requestTypes {
         name
       }
+      hasAnyRequests
     }
   }`
 

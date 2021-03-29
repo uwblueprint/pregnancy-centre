@@ -44,6 +44,7 @@ const typeDefs = gql`
         image: String
         requestTypes: [RequestType]
         numOpen: Int,
+        hasAnyRequests: Boolean,
         nextRecipient: Client
     }
     type ServerResponse {

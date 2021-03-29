@@ -11,5 +11,6 @@ export default interface RequestGroup {
   image?: string;
   requestTypes?: RequestType[];
   numOpen?: number;
+  hasAnyRequests?: boolean;
   nextRecipient?: Client;
 }

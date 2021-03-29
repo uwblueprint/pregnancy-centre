@@ -75,7 +75,12 @@ const resolvers = {
     softDeleteClient: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.clients.softDelete(id)
   },
   RequestGroup: {
-    numOpen: (parent, __, { dataSources }): Number => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((total, num) => total + num, 0),
+    numOpen: (parent, __, { dataSources }): Number => 
+      parent.requestTypes.map(id => {
+        return filterOpenRequests(getRequestsById(dataSources.requestTypes.getById(Types.ObjectId(id)).requests, dataSources)).length
+      }).reduce((total, num) => total + num, 0),
+    hasAnyRequests: (parent, __, { dataSources }): Boolean => 
+      parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((notEmpty, len) => notEmpty || len > 0),
     nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
       const nextRequest = nextRequestRequestGroupHelper(parent.requestTypes, dataSources)
       return nextRequest ? dataSources.clients.getById(nextRequest.client) : null

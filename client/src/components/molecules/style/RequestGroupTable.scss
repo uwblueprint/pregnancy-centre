@@ -1,6 +1,7 @@
 .request-group-table {
     @include table-base;
     width: 100%;
+    overflow-x: auto;
 
     th:nth-child(1), td:nth-child(1) {
         padding-left: 80px;
@@ -12,6 +13,8 @@
     }
 
     tr td:first-child {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
         -moz-border-radius-topleft: 4px;
         -moz-border-radius-bottomleft: 4px;
         -webkit-border-top-left-radius: 4px;
@@ -20,26 +23,47 @@
     }
     
     tr td:last-child {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
         -moz-border-radius-topright: 4px;
         -moz-border-radius-bottomright: 4px;
         -webkit-border-top-right-radius: 4px;
         -webkit-border-bottom-right-radius: 4px;
     }
 
-    tr {
+    .data-row {
         i {
             visibility: hidden;
             padding-left: 10px;
             font-size: 16.52px;
         }
 
-        &.selected {
+        &:hover {
             background-color: $selected-item-background;
 
             i {
                 visibility: visible;
             }
         }
+    }
+
+    .name-col {
+        min-width: 202px;
+    }
+    .numOpen-col {
+        min-width: 146px;
+    }
+    .types-col {
+        min-width: 369px;
+    }
+    .nextRecipient-col {
+        min-width: 271px;
+    }
+    .date-col {
+        min-width: 212px;
+    }
+    .image-col {
+        min-width: 80px;
     }
 }
 

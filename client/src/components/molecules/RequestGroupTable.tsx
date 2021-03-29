@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent } from "react";
 import moment from 'moment';
 
 import { Table } from "react-bootstrap";
@@ -12,16 +12,6 @@ export interface Props {
 }
 
 const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
-    const [selectedRequestGroup, setSelectedRequestGroup] = useState("");
-
-    const updateSelectedRequestGroup = (requestGroup : RequestGroup | undefined) => {
-        if (requestGroup && requestGroup._id) {
-            setSelectedRequestGroup(requestGroup._id);
-        } else {
-            setSelectedRequestGroup("")
-        }
-    }
-
     return <div className="request-group-table">
         <Table>
             <thead>
@@ -52,17 +42,12 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                         return g1.name < g2.name ? -1 : 1})
                     .map((requestGroup : RequestGroup) => 
                         <> 
-                            <tr key={ requestGroup._id } 
-                                className={ selectedRequestGroup === requestGroup._id ? "selected" : "" }
-                                onClick={() => {updateSelectedRequestGroup(requestGroup)}} 
-                                onMouseEnter={() => {updateSelectedRequestGroup(requestGroup)}}
-                                onMouseLeave={() => {updateSelectedRequestGroup(undefined)}}>
-                                <td>{ requestGroup.name }<i className="bi bi-pencil"/></td>
-                                <td>{ requestGroup.numOpen }</td>
-                                <td>
+                            <tr key={ requestGroup._id } className="data-row">
+                                <td className="name-col">{ requestGroup.name }<i className="bi bi-pencil"/></td>
+                                <td className="numOpen-col">{ requestGroup.numOpen }</td>
+                                <td className="types-col">
                                     <div className="requestType-tag-list">
                                         { requestGroup.requestTypes && requestGroup.requestTypes.map((requestType) => {
-                                            console.log(requestType)
                                             if (requestType.name) {
                                                 return(
                                                     <span className="requestType-tag-list-item">
@@ -75,9 +60,9 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                         })}
                                     </div>
                                 </td>
-                                <td>{ requestGroup.nextRecipient ? requestGroup.nextRecipient.fullName : "N/A" }</td>
-                                <td>{ moment(requestGroup.dateUpdated, "x").format('MMMM DD, YYYY') }</td>
-                                <td>
+                                <td className="nextRecipient-col">{ requestGroup.nextRecipient ? requestGroup.nextRecipient.fullName : "N/A" }</td>
+                                <td className="date-col">{ requestGroup.hasAnyRequests ? moment(requestGroup.dateUpdated, "x").format('MMMM DD, YYYY') : "N/A" }</td>
+                                <td className="image-col">
                                     <div className="img-wrapper">
                                         <img src={ requestGroup.image }/>
                                     </div>
