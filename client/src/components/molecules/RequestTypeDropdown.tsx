@@ -54,7 +54,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const deleteModalTitle = "Delete Type";
     const deleteModalSubtitle = "Are you sure you want to delete "  + requestType!.name + " as a type in the group " + props.requestGroup!.name + "? This will delete all "+ getTotalQuantity() + " requests within this type and cannot be undone."
     
-    const tooLongMessage = "Type name cannot exceed 50 characters!";
+    const tooLongMessage = "Type name cannot exceed 40 characters!";
 
     const handleEditModalClose = () => {
         setRequestType(backupRequestType);
@@ -94,7 +94,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
 
     // user editing request type in modal
     const onEditRequestType = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.value.length > 50 ){
+        if (e.target.value.length > 40 ){
             setIsTooLong(true);
         } else {
             setIsTooLong(false);
