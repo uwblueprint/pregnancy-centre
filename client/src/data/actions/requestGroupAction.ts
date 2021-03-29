@@ -1,5 +1,5 @@
 import { LOAD_REQUEST_GROUP } from "../actionTypes";
-import RequestGroup from '../types/requestGroup'
+import RequestGroup from '../types/requestGroup';
 
 export interface RequestGroupAction {
   type: string,

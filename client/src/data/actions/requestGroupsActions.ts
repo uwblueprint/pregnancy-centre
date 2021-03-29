@@ -1,5 +1,5 @@
 /* Imports from local files */
-import { LOAD_REQUEST_GROUPS, SET_DISPLAY_REQUEST_GROUPS } from "../actionTypes";
+import { LOAD_REQUEST_GROUPS , SET_DISPLAY_REQUEST_GROUPS } from "../actionTypes";
 import RequestGroup from '../types/requestGroup'
 
 /**
