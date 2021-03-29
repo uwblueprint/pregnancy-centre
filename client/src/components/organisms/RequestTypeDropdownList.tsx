@@ -19,7 +19,7 @@ const RequestTypeDropdownList: FunctionComponent<Props> = (props: Props) => {
     return (
         <div className="request-type-dropdown-list">
             { props.requestTypes ? props.requestTypes.map(requestType => 
-                <RequestTypeDropdown key={requestType._id} requestType={requestType.name} requests={requestType.requests} />
+                <RequestTypeDropdown key={requestType._id} requestType={requestType} requests={requestType.requests} />
             ) : []}
         </div>
     )

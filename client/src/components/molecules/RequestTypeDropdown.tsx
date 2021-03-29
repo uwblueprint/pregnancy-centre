@@ -1,22 +1,34 @@
+import { gql, useMutation } from '@apollo/client';
 import React, { FunctionComponent, useState } from 'react';
 import CommonModal from '../organisms/Modal';
 import Dropdown from '../atoms/Dropdown';
+import Request from '../../data/types/request';
 import RequestsTable from './RequestsTable';
-import RequestType from '../../data/types/requestType'
+import RequestType from '../../data/types/requestType';
 
 interface Props {
     key?: string;
-    requestType?: string;
-    requests?: RequestType[];
+    requestType?: RequestType;
+    requests?: Request[];
 }
 
 const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
+    const mutation = gql`
+    mutation updateRequestType($requestType: RequestType){
+        updateRequestType(requestType: $requestType){
+          id
+          success
+          message
+        }
+      }
+    `;
+
     const [requestType, setRequestType] = useState(props.requestType);
     const [backupRequestType, setBackupRequestType] = useState(requestType);
     const [editModalShow, setEditModalShow] = useState(false);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [isTooLong, setIsTooLong] = useState(false);
-    
+    const [mutateRequestType, {data}] = useMutation(mutation);
     const editModalTitle = "Edit Type";
     const deleteModalTitle = "Delete Type";
     const deleteModalSubtitle = "Are you sure you want to delete “250 ML” as a type in the group “Bottles”? This will delete all 20 requests within this type and cannot be undone."
@@ -33,7 +45,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const handleClick = async (e: React.FormEvent<HTMLFormElement>) => { 
         e.preventDefault();
         // change requestType here 
-        
+        mutateRequestType({variables:{requestType: requestType}})
         setBackupRequestType(requestType);
     };
 
@@ -54,19 +66,19 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
 
     // user editing request type in modal
     const onEditRequestType = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newRequestType = e.target.value;
-        if (newRequestType.length > 50 ){
+        if (e.target.value.length > 50 ){
             setIsTooLong(true);
         } else {
             setIsTooLong(false);
-            setRequestType(e.target.value);
+            const newReqType  = {...requestType, name:e.target.value};
+            setRequestType(newReqType);
         }
     };
 
     return (
         <div className="request-type-dropdown-container">
             <Dropdown 
-                title={requestType ? requestType : ""} 
+                title={requestType?.name ? requestType.name : ""} 
                 body={<RequestsTable requests={props.requests ? props.requests : []} />}
                 header={<span className="button-container">
                     <a className="button-container edit" onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {onOpenEditRequestType(); e.stopPropagation();}}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
@@ -86,7 +98,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                                 name="requestType"
                                 placeholder="Edit Type"
                                 type="text"
-                                value={requestType}
+                                value={requestType?.name}
                                 className="input-field"
                                 onChange={onEditRequestType}
                             />
