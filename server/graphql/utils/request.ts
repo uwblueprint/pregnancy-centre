@@ -28,7 +28,30 @@ const updateRequestHelper = (request, dataSources): Promise<Document> => {
   if(request.fulfilled) {
     request.dateFulfilled = Date.now()
   }
-  const requestTypeId = dataSources.requests.getById(request.id.toString()).requestType
+  const currentRequest = dataSources.requests.getById(request.id.toString())
+  if(request.requestType) {
+
+    // If these throw, then there is nothing to revert and error should be returned to Apollo
+    const originalPreviousRequestType = dataSources.requestTypes.getById(currentRequest.requestType.toString())
+    const originalNewRequestType = dataSources.requestTypes.getById(request.requestType.toString())
+    try {
+      const previousRequestType = dataSources.requestTypes.getById(currentRequest.requestType.toString())
+      const newRequestType = dataSources.requestTypes.getById(request.requestType.toString())
+      previousRequestType.requests = previousRequestType.requests.filter(item => {
+        return !item.equals(request.id)
+      })
+      newRequestType.requests.push(currentRequest._id)
+      dataSources.requestTypes.update(newRequestType)
+      dataSources.requestTypes.update(previousRequestType)
+      
+      
+    }
+    catch(error) {
+      console.log(error)
+    }
+
+  }
+  const requestTypeId = currentRequest.requestType
   return dataSources.requests.update(request)
     .then(res => {
       updateRequestTypeHelper({"id": requestTypeId}, dataSources)

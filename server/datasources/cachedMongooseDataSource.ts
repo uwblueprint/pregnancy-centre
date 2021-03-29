@@ -35,7 +35,6 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
       throw new UserInputError('Missing argument value', { argumentName: 'id' })
     }
     this.getById(inputObject.id) // if id doesn't exist this will throw
-
     const promise = await this.cache.model.findByIdAndUpdate(inputObject.id.toString(), inputObject)
     return promise
   }
