@@ -12,7 +12,7 @@ const DEFAULT_STATE: RootState = {
     displayData: []
   },
   requestGroup: {
-    data: []
+    data: {} 
   }
 };
 

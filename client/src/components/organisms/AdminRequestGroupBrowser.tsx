@@ -8,8 +8,6 @@ import RequestTypeDropdownList from "./RequestTypeDropdownList";
 import { RootState } from '../../data/reducers'
 import { useParams } from "react-router";
 
-
-
 interface StateProps {
   requestGroup: RequestGroup
 }
@@ -27,9 +25,10 @@ type Props = StateProps & DispatchProps;
 
 const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWithChildren<Props>) => {
     //const [requestGroup, setRequestGroup] = useState<string | undefined>(props.requestGroup._id)
-    const {id} = useParams<ParamTypes>();
-    const query = gql`{
-        requestGroup(id: \`${id}\` ){
+    const { id } = useParams<ParamTypes>();
+    const query = gql`
+    query getRequestGroup($id: ID) {
+        requestGroup(id: $id){
         _id
         name
         deleted
@@ -59,34 +58,33 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
     }
     `;
     
-  
-  
     useQuery(query, {
+      variables: { id: id },
       onCompleted: (data: { requestGroup: RequestGroup }) => {
           props.loadRequestGroup(data.requestGroup)
 
       },
     });
-  
-  
     return (
-    <div>
-        <RequestTypeDropdownList requestTypes={props.requestGroup.requestTypes}></RequestTypeDropdownList>
-    </div>);
-  };
-  
-  const mapStateToProps = (store: RootState): StateProps => {
-    return {
-        requestGroup: store.requestGroup.data
-    };
-  };
-  
-  const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
-    return bindActionCreators(
-      {
-      },
-      dispatch
+      <div>
+          <RequestTypeDropdownList requestTypes={props.requestGroup.requestTypes}></RequestTypeDropdownList>
+      </div>
     );
+};
+  
+const mapStateToProps = (store: RootState): StateProps => {
+  return {
+      requestGroup: store.requestGroup.data
   };
+};
 
-  export default connect<StateProps, DispatchProps, Record<string, unknown>, RootState>(mapStateToProps, mapDispatchToProps)(AdminRequestGroupBrowser);
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
+  return bindActionCreators(
+    {
+      loadRequestGroup
+    },
+    dispatch
+  );
+};
+
+export default connect<StateProps, DispatchProps, Record<string, unknown>, RootState>(mapStateToProps, mapDispatchToProps)(AdminRequestGroupBrowser);

@@ -8,7 +8,7 @@ export interface RequestGroupsState {
 }
 
 const defaultState: RequestGroupsState = {
-  data: null
+  data: {}
 };
 
 /**

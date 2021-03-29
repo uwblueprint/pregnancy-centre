@@ -25,7 +25,7 @@ function App(): JSX.Element {
           {/* TODO(jlight99): delete /confirmation endpoint after logic for triggering the confirmation modal upon signup has been added */}
           <Route path='/confirmation' component={() => <ConfirmationModal email="anna@pregnancycentre.ca" />}></Route>
           <Route path='/signup' strict component={SignUpModal}></Route>
-          <Route path='/requests' strict><RequestTypeDropdownList requestTypes={["250 ML (20)", "150 ML (20)"]}></RequestTypeDropdownList></Route>
+          {/* <Route path='/requests' strict><RequestTypeDropdownList requestTypes={["250 ML (20)", "150 ML (20)"]}></RequestTypeDropdownList></Route> */}
           <Route path='/verify-email' component={AuthTestComponent}></Route>
           <Route path='/password-reset-email-sent' strict component={PasswordResetEmailSentModal}></Route>
           <Route path='/test'>

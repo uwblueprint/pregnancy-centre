@@ -27,16 +27,16 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                 </tr>
                 </thead>
                 <tbody>
-                    {props.requests.map((request, index)=> (
-                        <tr key={index} className="request-table row-style">
-                            <td key={index}>
+                    {props.requests.map((request)=> (
+                        <tr key={request._id} className="request-table row-style">
+                            <td>
                             <div >
                                 <Form.Check type="checkbox" />
                             </div>
                             </td>
-                            <td key={index}>{request.client.firstName +" "+ request.client.lastName}</td>
-                            <td key={index}>{5}</td>
-                            <td key={index}>{
+                            <td>{request.client.firstName +" "+ request.client.lastName}</td>
+                            <td>{5}</td>
+                            <td>{
                                 (new Date(parseInt(request.dateCreated))).toDateString()
                             }</td>
                             <div className="btn-cont">

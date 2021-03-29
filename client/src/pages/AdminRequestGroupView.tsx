@@ -9,8 +9,7 @@ import HomepageBanner from '../components/organisms/HomepageBanner'
 const AdminRequestGroupView: FunctionComponent = () => {
   return <Container className="donor-homepage" fluid>
     <DonorPage>
-      <Row><HomepageBanner /></Row>
-      <Row className="donor-homepage-request-groups-browser"><AdminRequestGroupBrowser /></Row>
+      <Row className="donor-homepage"><AdminRequestGroupBrowser /></Row>
     </DonorPage>
   </Container>;
 };
