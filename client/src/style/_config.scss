@@ -56,6 +56,14 @@ $section-header-text-color: #bbbbbb;
   letter-spacing: 0.05em;
 }
 
+@mixin table-text() {
+  @include text;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 18px;
+  letter-spacing: 0.2px;
+}
+
 @mixin heavy-text() {
   @include text;
   font-weight: 600;
@@ -122,19 +130,22 @@ $tag-background: #ededed;
     font-family: "Inter";
     margin-top: 20px;
     .a{
-        color: #333333;
+      color: #333333;
     }
     & td {
       border-top: unset;
     }
-    .row-style{
-        font-size: 16px;
-        text-align: center;
+    thead th {
+      @include heavy-text();
+      font-size: 14px;
+      line-height: 18px;
+      letter-spacing: 0.2px;
+      color: #969696;
+      padding: 16px 12px;
     }
-    .header-style{
-        font-size: 14px;
-        text-align: center;
-        color: #969696;
+    tbody tr {
+      @include table-text();
+      font-size: 16px;
     }
 }
 

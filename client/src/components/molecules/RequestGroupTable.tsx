@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 import moment from 'moment';
 
-import { Spinner, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 
 import Tag from '../atoms/Tag'
 
@@ -18,12 +18,12 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
         if (requestGroup && requestGroup._id) {
             setSelectedRequestGroup(requestGroup._id);
         } else {
-            setSelectedRequestGroup("");
+            setSelectedRequestGroup("")
         }
     }
 
     return <div className="request-group-table">
-        <Table>
+        <Table hover>
             <thead>
                 <tr>
                     <th>Title (A-Z)</th>
@@ -49,17 +49,22 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                         return g1.name < g2.name ? -1 : 1})
                     .map((requestGroup : RequestGroup) => 
                         <tr key={ requestGroup._id } 
+                            className={ selectedRequestGroup === requestGroup._id ? "selected" : "" }
                             onClick={() => {updateSelectedRequestGroup(requestGroup)}} 
                             onMouseEnter={() => {updateSelectedRequestGroup(requestGroup)}}
                             onMouseLeave={() => {updateSelectedRequestGroup(undefined)}}>
-                            <td>{ requestGroup.name }{ selectedRequestGroup === requestGroup._id && <span className="edit-icon"/> }</td>
+                            <td>{ requestGroup.name }{ selectedRequestGroup === requestGroup._id || <i className="bi bi-pencil"/> }</td>
                             <td>{ requestGroup.numOpen }</td>
                             <td>
                                 <div className="requestType-tag-list">
                                     { requestGroup.requestTypes && requestGroup.requestTypes.map((requestType) => {
                                         console.log(requestType)
                                         if (requestType.name) {
-                                            return(<Tag text={requestType.name}/>)
+                                            return(
+                                                <span className="requestType-tag-list-item">
+                                                    <Tag text={requestType.name}/>
+                                                </span>
+                                            )
                                         } else {
                                             return(<></>)
                                         }
@@ -68,17 +73,16 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                             </td>
                             <td>{ requestGroup.nextRecipient ? requestGroup.nextRecipient.fullName : "N/A" }</td>
                             <td>{ moment(requestGroup.dateUpdated, "x").format('MMMM DD, YYYY') }</td>
-                            <td><img src={ requestGroup.image }/></td>
+                            <td>
+                                <div className="img-wrapper">
+                                    <img src={ requestGroup.image }/>
+                                </div>
+                            </td>
                         </tr>
                     )}
                 </tbody>
             }
         </Table>
-        {props.requestGroups === undefined && 
-            <span className="spinner"> 
-                <Spinner animation="border" role="status"/>
-            </span>
-        }
         {props.requestGroups && props.requestGroups.length == 0 && 
             <span>There are no request groups. <a>Create one now</a></span>
         }

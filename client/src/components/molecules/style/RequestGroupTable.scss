@@ -1,0 +1,39 @@
+.request-group-table {
+    @include table-base;
+    width: 100%;
+
+    th:nth-child(1), td:nth-child(1) {
+        padding-left: 80px;
+    }
+
+    td {
+        height: 90px;
+        vertical-align: middle;
+    }
+
+    i {
+        font-size: 16.52px;
+    }
+}
+
+.requestType-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+
+    .requestType-tag-list-item {
+        padding: 3px;
+    }
+}
+
+.img-wrapper {
+    width: 80px;
+    height: 59px;
+    border-radius: $box-border-radius;
+    overflow: hidden;
+        
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
