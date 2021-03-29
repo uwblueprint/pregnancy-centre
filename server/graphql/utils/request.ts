@@ -27,7 +27,7 @@ const updateRequestHelper = (request, dataSources): Promise<Document> => {
   }
   const requestTypeId = dataSources.requests.getById(request.id.toString()).requestType
   return dataSources.requests.update(request)
-    .then((res: RequestInterface) => {
+    .then(res => {
       updateRequestTypeHelper({"id": requestTypeId}, dataSources)
       return res
     })
