@@ -32,6 +32,10 @@ import { typeDefs } from "./graphql/schema";
 dotenv.config();
 const PORT = process.env.PORT;
 const isProd = process.env.NODE_ENV !== "dev";
+const corsPolicy = {
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+};
 
 // -----------------------------------------------------------------------------
 // MONGODB CONNECTION AND DATA SOURCES FOR APOLLO
@@ -52,13 +56,11 @@ connectDB(() => {
 async function gqlServer() {
   const app = express();
   app.use(cookieParser());
-  app.use("/sessionLogin", bodyParser.json({ strict: false, type: "*/*" }));
   app.use(
-    cors({
-      origin: "http://localhost:3000",
-      credentials: true,
-    })
+    "/sessionLogin",
+    bodyParser.json({ strict: true, type: "application/json" })
   );
+  app.use(cors(corsPolicy));
 
   //custom body parser for apolloClient GraphQL queries using CreateHTTPLink because express.json() is buggy
   app.use("/graphql", async (req, res, next) => {
@@ -130,11 +132,8 @@ async function gqlServer() {
   server.applyMiddleware({
     app,
     path: "/graphql",
-    bodyParserConfig: { strict: false, type: "*/*" },
-    cors: {
-      origin: "http://localhost:3000",
-      credentials: true,
-    },
+    bodyParserConfig: { strict: true, type: "application/*" },
+    cors: corsPolicy,
   });
   app.listen({ port: PORT });
   console.log(`🚀 Server ready at port ${PORT}`);
