@@ -3,12 +3,14 @@ import React, { FunctionComponent, useState } from 'react';
 import CommonModal from '../organisms/Modal';
 import Dropdown from '../atoms/Dropdown';
 import Request from '../../data/types/request';
+import RequestGroup from '../../data/types/requestGroup';
 import RequestsTable from './RequestsTable';
 import RequestType from '../../data/types/requestType';
 
 interface Props {
     key?: string;
     requestType?: RequestType;
+    requestGroup?: RequestGroup;
     requests?: Request[];
 }
 
@@ -23,15 +25,34 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
       }
     `;
 
+    const softDelete = gql`
+    mutation deleteARequestType($id: ID){
+        softDeleteRequestType(id: $id){
+          id
+          success
+          message
+        }
+      }`;
+
     const [requestType, setRequestType] = useState(props.requestType);
     const [backupRequestType, setBackupRequestType] = useState(requestType);
     const [editModalShow, setEditModalShow] = useState(false);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [isTooLong, setIsTooLong] = useState(false);
     const [mutateRequestType, {error,data}] = useMutation(mutation);
+    const [mutateDeleteRequestType] = useMutation(softDelete);
+
+    const getTotalQuantity = () => {
+        let totalQuantity = 0;
+        requestType?.requests!.forEach(request => {
+            totalQuantity += request.quantity!
+        });
+        return totalQuantity;
+    }
+
     const editModalTitle = "Edit Type";
     const deleteModalTitle = "Delete Type";
-    const deleteModalSubtitle = "Are you sure you want to delete “250 ML” as a type in the group “Bottles”? This will delete all 20 requests within this type and cannot be undone."
+    const deleteModalSubtitle = "Are you sure you want to delete "  + requestType!.name + " as a type in the group " + props.requestGroup!.name + "? This will delete all "+ getTotalQuantity() + " requests within this type and cannot be undone."
     
     const tooLongMessage = "Type name cannot exceed 50 characters!";
 
@@ -56,6 +77,8 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
 
     const deleteRequestType = async () => {
         //delete requestType here
+        mutateDeleteRequestType({variables:{id:requestType?._id}});
+
     }
 
 
@@ -121,9 +144,11 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
             }/>
             <CommonModal title={deleteModalTitle} subtitle={deleteModalSubtitle} handleClose={handleDeleteModalClose} show={deleteModalShow} body={
                 <div>
-                    <button role="link" className="button" onClick={deleteRequestType}>
-                        Confirm
-                    </button>
+                    <form onSubmit={deleteRequestType}>
+                        <button role="link" className="button">
+                            Confirm
+                        </button>
+                    </form>
                 </div>
             }/>
             

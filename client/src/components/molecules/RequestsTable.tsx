@@ -35,7 +35,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                             </div>
                             </td>
                             <td>{request.client!.fullName}</td>
-                            <td>{5}</td>
+                            <td>{request.quantity}</td>
                             <td>{
                                 // (new Date(1616993731)).toDateString()  this works!? but dates from seeder dont
                                 moment(request.dateCreated, "x").format('MMMM DD, YYYY')

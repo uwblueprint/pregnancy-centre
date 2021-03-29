@@ -10,4 +10,5 @@ export default interface Request {
   deleted?: boolean;
   fulfilled?: boolean;
   requestType?: string;
+  quantity?: number;
 }

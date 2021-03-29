@@ -44,14 +44,15 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
           requests{
             _id
             requestId
-            client{
-              _id
-              fullName
-            }
             dateUpdated
             dateCreated
             dateFulfilled
-            deleted   
+            deleted 
+            quantity
+            client{
+              _id
+              fullName
+            }  
           }
         }
       }
@@ -68,7 +69,7 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
     if (error) console.log(error.graphQLErrors);
     return (
       <div>
-          <RequestTypeDropdownList requestTypes={props.requestGroup.requestTypes}></RequestTypeDropdownList>
+          <RequestTypeDropdownList requestGroup={props.requestGroup} requestTypes={props.requestGroup.requestTypes}></RequestTypeDropdownList>
       </div>
     );
 };
