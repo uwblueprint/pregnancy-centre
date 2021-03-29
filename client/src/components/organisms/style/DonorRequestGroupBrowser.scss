@@ -1,6 +1,11 @@
 .donor-request-group-browser {
-  padding-bottom: 35px;
+  width: 100%;
 
+  padding-bottom: 35px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  
   &-header {
     font-weight: bold;
     font-size: 28px;
@@ -9,10 +14,15 @@
   &-content {
     margin-top: 20px;
     border-top: $border-line;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
   &-list {
     border-right: $border-line;
-    padding-right: 32px;
   }
   
   .donor-request-group-browser-header {
@@ -21,5 +31,6 @@
 
   .donor-request-group-browser-indiv-view {
     padding: 0;
+    width: 65%;
   }
 }

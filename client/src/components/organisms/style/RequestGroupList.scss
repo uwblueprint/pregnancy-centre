@@ -4,8 +4,12 @@
   align-items: center;
   height: 811px;
 
-  &-page-navigation{
+  &-page-navigation {
     margin-top: 30px;
   }
-  
+
+  &-scroll-window {
+    border-bottom: $border-line;
+    padding-right: 32px;
+  }
 }

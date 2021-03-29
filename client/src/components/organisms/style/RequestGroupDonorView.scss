@@ -85,8 +85,12 @@
         }
     }
 
-    .alt-button {
+    & .button:hover {
         @include alt-button;
         width: 100%;
+    }
+
+    & .button {
+        @include tpc-green-button;
     }
 }

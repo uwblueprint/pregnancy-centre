@@ -109,6 +109,13 @@ $button-disabled-background: #b2b2b2;
   }
 }
 
+@mixin tpc-green-button(){
+  @include button-base;
+  @include white-text;
+  background-color: $tpc-green;
+  border-color: $tpc-green;
+}
+
 /* Disable scrollbar for overflow */
 
 @mixin disable-scrollbar() {

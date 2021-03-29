@@ -17,9 +17,10 @@ interface Props {
 }
 
 const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
-    const emailAddress = "mail@example.com" // TODO: replace and see todo above
+    const emailAddress = "reception@pregnancycentre.ca" // TODO: replace and see todo above
 
     const [requestGroupData, setRequestGroupData] = useState<RequestGroup | undefined>(undefined);
+    const [sendAnEmailBtnPressed, setSendAnEmailBtnPressed] = useState(false)
 
     const query = gql`
         query FetchRequestGroup($id: ID!) {
@@ -94,6 +95,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                                     button.textContent = "Send an email"; 
                                     button.classList.remove('alt-button')
                                 }, 5000);
+                                setSendAnEmailBtnPressed(true);
                             },
                             copyText: emailAddress
                         }}

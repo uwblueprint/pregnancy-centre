@@ -9,4 +9,8 @@
 .request-group-list-item-wrapper {
   padding: 3px 0px;
   border-bottom: $border-line;
+
+  &:last-child {
+    border-bottom: unset;
+  }
 }
