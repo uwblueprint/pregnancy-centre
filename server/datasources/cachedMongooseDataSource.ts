@@ -13,6 +13,10 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
   }
 
   getById(id: Types.ObjectId): DocumentType {
+    const res = this.cache.getData().filter(request => request._id && request._id.equals(id))
+    if(res.length === 0) {
+      throw new Error('Mongoose ObjectId not found')
+    }
     return this.cache.getData().filter(request => request._id && request._id.equals(id))[0]
   }
 
@@ -20,67 +24,25 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
     return this.cache.getData()
   }
 
-  async create(inputObject: Document): Promise<ServerResponseInterface> {
+  async create(inputObject: Document): Promise<Document> {
     const newObject = new this.cache.model(inputObject)
     const promise = await newObject.save()
-      .then(res => {
-        return {
-          "success": true,
-          "message": `${this.cache.name} successfully created`,
-          "id": res._id
-        }
-      })
-      .catch(error => {
-        console.log(error)
-        return {
-          "success": false,
-          "message": error._message,
-          "id": null 
-        }
-      })
     return promise
   }
 
-  async update(inputObject: Document): Promise<ServerResponseInterface> {
+  async update(inputObject: Document): Promise<Document> {
     if(!inputObject.id) {
       throw new UserInputError('Missing argument value', { argumentName: 'id' })
     }
+    this.getById(inputObject.id) // if id doesn't exist this will throw
+
     const promise = await this.cache.model.findByIdAndUpdate(inputObject.id.toString(), inputObject)
-      .then(res => {
-        return {
-          "success": true,
-          "message": `${this.cache.name} successfully updated`,
-          "id": inputObject.id
-        }
-      })
-      .catch(error => {
-        console.log(error)
-        return {
-          "success": false,
-          "message": error._message,
-          "id": inputObject.id
-        }
-      })
     return promise
   }
   
-  async softDelete(id: Types.ObjectId): Promise<ServerResponseInterface> {
+  async softDelete(id: Types.ObjectId): Promise<Document> {
+    this.getById(id) // throws if id doesn't exist
     const promise = this.cache.model.findByIdAndUpdate(id, {"deleted": true})
-      .then(res => {
-        return {
-          "success": true,
-          "message": `${this.cache.name} successfully soft deleted`,
-          "id": id
-        }
-      })
-      .catch(error => {
-        console.log(error)
-        return {
-          "success": false,
-          "message": error._message,
-          "id": id
-        }
-      })
     return promise
   }
 }

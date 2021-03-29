@@ -9,6 +9,7 @@ import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, get
 import { softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
 import { updateRequestGroupHelper } from './utils/requestGroup'
 
+
 const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
@@ -39,11 +40,36 @@ const resolvers = {
     softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
       return softDeleteRequestTypeHelper(id, dataSources)
     },
-    createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.create(request),
-    updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
-      return updateRequestHelper(request, dataSources)
+    createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
+      return dataSources.requests.create(request)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'Request successfully created',
+            'id': res._id
+          }
+        })
     },
-    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDelete(id),
+    updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
+        return updateRequestHelper(request, dataSources)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'Request successfully updated',
+            'id': res._id
+          }
+        })
+    },
+    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
+      return dataSources.requests.softDelete(id)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'Request successfully soft deleted',
+            'id': res._id
+          }
+        })
+    },
     createClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.create(client),
     updateClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.update(client),
     softDeleteClient: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.clients.softDelete(id)

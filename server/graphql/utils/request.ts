@@ -1,3 +1,4 @@
+import { Document } from 'mongoose'
 import { RequestInterface } from '../../models/requestModel'
 import { ServerResponseInterface } from '../serverResponse'
 import { UserInputError } from 'apollo-server-errors'
@@ -20,18 +21,15 @@ const getRequestsById = (requestIds, dataSources) => {
   return requestIds.map(id => dataSources.requests.getById(id))
 }
 
-const updateRequestHelper = (request, dataSources): Promise<ServerResponseInterface> => {
+const updateRequestHelper = (request, dataSources): Promise<Document> => {
   if(!request.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
   }
   const requestTypeId = dataSources.requests.getById(request.id.toString()).requestType
   return dataSources.requests.update(request)
-    .then(res => {
+    .then((res: RequestInterface) => {
       updateRequestTypeHelper({"id": requestTypeId}, dataSources)
       return res
-    })
-    .catch(error => {
-      return error
     })
 }
 

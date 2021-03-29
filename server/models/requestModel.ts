@@ -59,7 +59,8 @@ const requestSchema = new Schema({
 }, {
   timestamps: {
     currentTime: Date.now,
-    updatedAt: 'dateUpdated'
+    updatedAt: 'dateUpdated',
+    createdAt: 'dateCreated'
   }
 })
 
