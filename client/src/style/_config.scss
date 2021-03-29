@@ -132,20 +132,24 @@ $tag-background: #ededed;
 @mixin table-base {
     font-family: "Inter";
     margin-top: 20px;
+
     .a{
       color: #333333;
     }
+
     & td {
       border-top: unset;
     }
+
     thead th {
       @include heavy-text();
       font-size: 14px;
       line-height: 18px;
       letter-spacing: 0.2px;
       color: #969696;
-      padding: 16px 12px;
+      padding: 11px 12px;
     }
+
     tbody tr {
       @include table-text();
       font-size: 16px;

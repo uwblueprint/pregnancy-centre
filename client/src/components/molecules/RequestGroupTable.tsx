@@ -23,7 +23,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
     }
 
     return <div className="request-group-table">
-        <Table hover>
+        <Table>
             <thead>
                 <tr>
                     <th>Title (A-Z)</th>
@@ -36,6 +36,9 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
             </thead>
             {props.requestGroups !== undefined &&
                 <tbody>
+                    <tr className="spacing-row">
+                        <td/><td/><td/><td/><td/><td/>
+                    </tr>
                     {[...props.requestGroups].sort((g1, g2) => {
                         if (!g1 && !g2) {
                             return 0
@@ -48,37 +51,59 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                         }
                         return g1.name < g2.name ? -1 : 1})
                     .map((requestGroup : RequestGroup) => 
-                        <tr key={ requestGroup._id } 
-                            className={ selectedRequestGroup === requestGroup._id ? "selected" : "" }
-                            onClick={() => {updateSelectedRequestGroup(requestGroup)}} 
-                            onMouseEnter={() => {updateSelectedRequestGroup(requestGroup)}}
-                            onMouseLeave={() => {updateSelectedRequestGroup(undefined)}}>
-                            <td>{ requestGroup.name }{ selectedRequestGroup === requestGroup._id || <i className="bi bi-pencil"/> }</td>
-                            <td>{ requestGroup.numOpen }</td>
-                            <td>
-                                <div className="requestType-tag-list">
-                                    { requestGroup.requestTypes && requestGroup.requestTypes.map((requestType) => {
-                                        console.log(requestType)
-                                        if (requestType.name) {
-                                            return(
-                                                <span className="requestType-tag-list-item">
-                                                    <Tag text={requestType.name}/>
-                                                </span>
-                                            )
-                                        } else {
-                                            return(<></>)
-                                        }
-                                    })}
-                                </div>
-                            </td>
-                            <td>{ requestGroup.nextRecipient ? requestGroup.nextRecipient.fullName : "N/A" }</td>
-                            <td>{ moment(requestGroup.dateUpdated, "x").format('MMMM DD, YYYY') }</td>
-                            <td>
-                                <div className="img-wrapper">
-                                    <img src={ requestGroup.image }/>
-                                </div>
-                            </td>
-                        </tr>
+                        <> 
+                            <tr key={ requestGroup._id } 
+                                className={ selectedRequestGroup === requestGroup._id ? "selected" : "" }
+                                onClick={() => {updateSelectedRequestGroup(requestGroup)}} 
+                                onMouseEnter={() => {updateSelectedRequestGroup(requestGroup)}}
+                                onMouseLeave={() => {updateSelectedRequestGroup(undefined)}}>
+                                <td>{ requestGroup.name }<i className="bi bi-pencil"/></td>
+                                <td>{ requestGroup.numOpen }</td>
+                                <td>
+                                    <div className="requestType-tag-list">
+                                        { requestGroup.requestTypes && requestGroup.requestTypes.map((requestType) => {
+                                            console.log(requestType)
+                                            if (requestType.name) {
+                                                return(
+                                                    <span className="requestType-tag-list-item">
+                                                        <Tag text={requestType.name}/>
+                                                    </span>
+                                                )
+                                            } else {
+                                                return(<></>)
+                                            }
+                                        })}
+                                    </div>
+                                </td>
+                                <td>{ requestGroup.nextRecipient ? requestGroup.nextRecipient.fullName : "N/A" }</td>
+                                <td>{ moment(requestGroup.dateUpdated, "x").format('MMMM DD, YYYY') }</td>
+                                <td>
+                                    <div className="img-wrapper">
+                                        <img src={ requestGroup.image }/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr className="border-row">
+                                <td>
+                                    <div className="border-line"/>
+                                </td>
+                                <td>
+                                    <div className="border-line"/>
+                                </td>
+                                <td>
+                                    <div className="border-line"/>
+                                </td>
+                                <td>
+                                    <div className="border-line"/>
+                                </td>
+                                <td>
+                                    <div className="border-line"/>
+                                </td>
+                                <td>
+                                    <div className="border-line"/>
+                                </td>
+                            </tr>
+                        </>
                     )}
                 </tbody>
             }
