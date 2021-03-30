@@ -20,7 +20,7 @@ const getRequestsById = (requestIds, dataSources) => {
   return requestIds.map(id => dataSources.requests.getById(id))
 }
 
-const updateRequestHelper = async (request, dataSources): Promise<Document> => {
+const updateRequestHelper = (request, dataSources): Promise<Document> => {
   if(!request.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
   }
