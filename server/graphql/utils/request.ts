@@ -20,7 +20,7 @@ const getRequestsById = (requestIds, dataSources) => {
   return requestIds.map(id => dataSources.requests.getById(id))
 }
 
-const updateRequestHelper = (request, dataSources): Promise<Document> => {
+const updateRequestHelper = async (request, dataSources): Promise<Document> => {
   if(!request.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
   }
@@ -42,37 +42,46 @@ const updateRequestHelper = (request, dataSources): Promise<Document> => {
     request.dateFulfilled = Date.now()
   }
 
-  if(request.requestType) {
-    const oldRequestType = dataSources.requestTypes.getById(currentRequest.requestType.toString())
-    const newRequestType = dataSources.requestTypes.getById(request.requestType.toString())
-    oldRequestType.requests = oldRequestType.requests.filter(id => !id.equals(request.id))
-    newRequestType.requests.push(request.id)
-    dataSources.requestTypes.update(oldRequestType)
-    dataSources.requestTypes.update(newRequestType)
+  try {
 
-    currentRequest.requestType = request.requestType
+    if(request.requestType) {
+      const oldRequestType = dataSources.requestTypes.getById(currentRequest.requestType.toString())
+      const newRequestType = dataSources.requestTypes.getById(request.requestType.toString())
+      oldRequestType.requests = oldRequestType.requests.filter(id => !id.equals(request.id))
+      newRequestType.requests.push(request.id)
+      dataSources.requestTypes.update(oldRequestType)
+      dataSources.requestTypes.update(newRequestType)
+
+      currentRequest.requestType = request.requestType
+    }
+
+    const requestTypeId = currentRequest.requestType.toString()
+    return dataSources.requests.update(request)
+      .then(res => {
+        updateRequestTypeHelper({"id": requestTypeId}, dataSources)
+        return res
+      })
+      .catch(error => {
+        console.log(error);
+        // Reverting to original copies
+        dataSources.requests.update(currentRequestCopy)
+        if(request.requestType) {
+          dataSources.requestTypes.update(oldRequestTypeCopy)
+          dataSources.requestTypes.update(newRequestTypeCopy)
+        }
+        throw error
+      })
   }
-
-  const requestTypeId = currentRequest.requestType
-  return dataSources.requests.update(request)
-    .then(res => {
-      updateRequestTypeHelper({"id": requestTypeId}, dataSources)
-      return res
-    })
-    .catch(error => {
-      console.log(error);
-
-      // Reverting to original copies
-      dataSources.requests.update(currentRequestCopy)
-      if(request.requestType) {
-        dataSources.requestTypes.update(oldRequestTypeCopy)
-        dataSources.requestTypes.update(newRequestTypeCopy)
-      }
-      throw error
-
-    })
-
-
+  catch(error) {
+    console.log(error)
+    // Reverting to original copies
+    dataSources.requests.update(currentRequestCopy)
+    if(request.requestType) {
+      dataSources.requestTypes.update(oldRequestTypeCopy)
+      dataSources.requestTypes.update(newRequestTypeCopy)
+    }
+    throw error
+  }
 }
 
 export { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, updateRequestHelper }

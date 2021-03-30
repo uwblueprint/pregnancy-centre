@@ -1,13 +1,16 @@
-import { ServerResponseInterface } from '../serverResponse'
+import { Document } from 'mongoose'
+import { softDeleteRequestTypeHelper } from './requestType'
 
-const updateRequestGroupHelper = (requestGroup, dataSources): Promise<ServerResponseInterface> => {
+const updateRequestGroupHelper = (requestGroup, dataSources): Promise<Document> => {
   return dataSources.requestGroups.update(requestGroup)
-    .then(res => {
-      return res
-    })
-    .catch(error => {
-      return error
-    })
 }
 
-export { updateRequestGroupHelper }
+const softDeleteRequestGroupHelper = (id, dataSources) => {
+  const requestGroup = dataSources.requestGroups.getById(id)
+  requestGroup.requestTypes.map(id => {
+    softDeleteRequestTypeHelper(id, dataSources)
+  })
+  return dataSources.requestGroups.softDelete(id)
+}
+
+export { softDeleteRequestGroupHelper, updateRequestGroupHelper }

@@ -15,7 +15,7 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
   getById(id: Types.ObjectId): DocumentType {
     const res = this.cache.getData().filter(request => request._id && request._id.equals(id))
     if(res.length === 0) {
-      throw new Error('Mongoose ObjectId not found')
+      throw new Error(`Mongoose ${this.cache.name} ObjectId not found`)
     }
     return this.cache.getData().filter(request => request._id && request._id.equals(id))[0]
   }
