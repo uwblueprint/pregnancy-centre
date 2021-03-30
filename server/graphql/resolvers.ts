@@ -13,8 +13,8 @@ const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
     clients: (_, __, { dataSources }): Array<ClientInterface> => dataSources.clients.getAll(),
-    request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getById(Types.ObjectId(id)),
-    requests: (_, __, { dataSources }): Array<RequestInterface> => dataSources.requests.getAll(),
+    request: (_, { id }, { dataSources }): RequestInterface => {console.log("READING REQUEST"); return dataSources.requests.getById(Types.ObjectId(id))},
+    requests: (_, __, { dataSources }): Array<RequestInterface> => {console.log("READING REQUESTS"); return dataSources.requests.getAll()},
     requestType: (_, { id }, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(id)),
     requestTypes: (_, __, { dataSources }): Array<RequestTypeInterface> => dataSources.requestTypes.getAll(),
     requestGroup: (_, { id }, { dataSources }): RequestGroupInterface => dataSources.requestGroups.getById(Types.ObjectId(id)),
@@ -49,8 +49,21 @@ const resolvers = {
     softDeleteClient: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.clients.softDelete(id)
   },
   RequestGroup: {
-    numOpen: (parent, __, { dataSources }): Number => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((total, num) => total + num, 0),
-    requestTypes: (parent, __, { dataSources }): Array<RequestTypeInterface> => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)))
+    numOpen: (parent, __, { dataSources }): Number => {
+      return parent.requestTypes.map(id => {
+        return dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length
+      }).reduce((total, num) => total + num, 0)
+    }
+    ,
+    requestTypes: (parent, __, { dataSources }): Array<RequestTypeInterface> => {
+      console.log("--- STARTING PROCESSING NESTED REQUEST TYPES ---")
+      const ret = parent.requestTypes.map(id => {
+        console.log("PROCESSING NESTED REQUEST TYPE") 
+        return dataSources.requestTypes.getById(Types.ObjectId(id))
+      })
+      console.log("--- FINISHED PROCESSING NESTED REQUEST TYPES ---")
+      return ret
+    }
   },
   RequestType: {
     numOpen: (parent, __, { dataSources }): Number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,

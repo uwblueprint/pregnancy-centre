@@ -17,7 +17,12 @@ const filterDeletedRequests = (requests: Array<RequestInterface> ) => {
 }
 
 const getRequestsById = (requestIds, dataSources) => {
-  return requestIds.map(id => dataSources.requests.getById(id))
+  console.log("--- STARTING PROCESSING NESTED REQUESTS ---")
+  const ret = requestIds.map(id => {
+    console.log("GETTING NESTED REQUEST")
+    return dataSources.requests.getById(id)})
+  console.log("--- FINISHED PROCESSING NESTED REQUESTS ---")
+  return ret
 }
 
 const updateRequestHelper = (request, dataSources): Promise<ServerResponseInterface> => {

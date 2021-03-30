@@ -35,6 +35,39 @@ connectDB(() => {
 // SERVER LAUNCH
 // -----------------------------------------------------------------------------
 
+const timeTracking = {
+  // Fires whenever a GraphQL request is received from a client.
+  requestDidStart(requestContext) {
+    console.log('Request started!' +" @ " + (new Date()).toLocaleString("en-US"));
+
+    return {
+      // Fires whenever Apollo Server will parse a GraphQL
+      // request to create its associated document AST.
+      parsingDidStart(requestContext) {
+        console.log('Parsing started!' + " @ " + (new Date()).toLocaleString("en-US"));
+      },
+
+      // Fires whenever Apollo Server will validate a
+      // request's document AST against your GraphQL schema.
+      validationDidStart(requestContext) {
+        console.log('Validation started!' + " @ " + (new Date()).toLocaleString("en-US"));
+      },
+
+      executionDidStart(requestContext) {
+        console.log('Executing query!' + " @ " + (new Date()).toLocaleString("en-US"));
+      },
+
+      willResolveField(requestContext) {
+        console.log('Resolving field!' + " @ " + (new Date()).toLocaleString("en-US"));
+      },
+
+      willSendResponse(requestContext) {
+        console.log('Sending response!' + " @ " + (new Date()).toLocaleString("en-US"));
+      }
+    }
+  },
+};
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -43,7 +76,10 @@ const server = new ApolloServer({
     requests: new RequestDataSource(),
     requestTypes: new RequestTypeDataSource(),
     requestGroups: new RequestGroupDataSource(),
-  })
+  }),
+  plugins: [
+    timeTracking
+  ]
 })
 
 server.listen({ port: PORT }).then(({ url }) => {
