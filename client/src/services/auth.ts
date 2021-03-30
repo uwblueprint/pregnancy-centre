@@ -92,47 +92,7 @@ export const signIn = async (
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
-        const result = await firebase
-          .auth()
-          .currentUser?.getIdToken()
-          .then(async (token) => {
-            const res = await fetch(
-              `${process.env.REACT_APP_GRAPHQL_SERVER_URL}/sessionLogin`,
-              {
-                method: "POST",
-                credentials: "include",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ idToken: token }),
-              }
-            )
-              .then((res) => {
-                return res?.status === 200
-                  ? { email: "", password: "" }
-                  : {
-                      email: "Something went wrong. Please try again.",
-                      password: "",
-                    };
-              })
-              .catch(() => {
-                return {
-                  email: "Something went wrong. Please try again.",
-                  password: "",
-                };
-              });
-            return res;
-          })
-          .catch(() => {
-            return {
-              email: "Something went wrong. Please try again.",
-              password: "",
-            };
-          });
-        return (
-          result || {
-            email: "Something went wrong. Please try again.",
-            password: "",
-          }
-        );
+        return await postToken();
       })
       .catch((error) => {
         const code: keyof AuthErrorMessageInterface = error.code;
@@ -145,3 +105,34 @@ export const signIn = async (
   }
   return errors;
 };
+
+async function postToken() {
+  const errors = await firebase
+    .auth()
+    .currentUser?.getIdToken()
+    .then(async (token) => {
+      const res = await fetch(
+        `${process.env.REACT_APP_GRAPHQL_SERVER_URL}/sessionLogin`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idToken: token }),
+        }
+      );
+
+      return res?.status === 200
+        ? { email: "", password: "" }
+        : {
+            email: "Something went wrong. Please try again.",
+            password: " ",
+          };
+    });
+
+  return (
+    errors || {
+      email: "Something went wrong. Please try again.",
+      password: " ",
+    }
+  );
+}
