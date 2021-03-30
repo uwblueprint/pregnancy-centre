@@ -115,6 +115,13 @@
   .input-field.error {
     border: 1px solid $input-error;
   }
+
+  .input-field.password.error {
+    border: 1px solid $input-error;
+    width: 325px;
+    display: flex;
+    flex-direction: row;
+  }
 }
 
 .modal-header {
