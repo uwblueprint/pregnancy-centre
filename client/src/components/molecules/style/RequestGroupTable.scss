@@ -8,6 +8,7 @@
     }
 
     td {
+        word-wrap: break-word;
         height: 90px;
         vertical-align: middle;
     }
@@ -48,22 +49,22 @@
     }
 
     .name-col {
-        min-width: 202px;
+        max-width: 182px;
     }
     .numOpen-col {
-        min-width: 146px;
+        max-width: 106px;
     }
     .types-col {
-        min-width: 369px;
+        max-width: 330px;
     }
     .nextRecipient-col {
-        min-width: 271px;
+        max-width: 232px;
     }
     .date-col {
-        min-width: 212px;
+        max-width: 138px;
     }
     .image-col {
-        min-width: 80px;
+        max-width: 80px;
     }
 }
 

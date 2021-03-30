@@ -40,13 +40,6 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
       requirements
       image
       numOpen
-      nextRecipient {
-        fullName
-      }
-      requestTypes {
-        name
-      }
-      hasAnyRequests
     }
   }`
 
@@ -82,9 +75,6 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
       <div className="donor-request-group-browser-indiv-view">
         <RequestGroupDonorView requestGroupId={selectedRequestGroup}/>
       </div>
-    </Row>
-    <Row className="justify-content-center">
-      <RequestGroupTable requestGroups={props.displayRequestGroups.length <= 0 ? undefined : props.displayRequestGroups}/>
     </Row>
   </Container>
 };
