@@ -11,8 +11,6 @@ import RequestGroupDonorView from './RequestGroupDonorView'
 import RequestGroupList from './RequestGroupList'
 import { RootState } from '../../data/reducers'
 
-import RequestGroupTable from "../molecules/RequestGroupTable"; // TODO: delete
-
 interface StateProps {
   requestGroups: Array<RequestGroup>,
   displayRequestGroups: Array<RequestGroup>
