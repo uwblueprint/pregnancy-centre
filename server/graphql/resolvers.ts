@@ -6,8 +6,8 @@ import { ServerResponseInterface } from './serverResponse'
 import { Types } from 'mongoose'
 
 import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, updateRequestHelper } from './utils/request'
-import { softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
 import { softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
+import { softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
 
 
 const resolvers = {
