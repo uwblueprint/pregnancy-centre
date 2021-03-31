@@ -20,14 +20,22 @@ const getRequestsById = (requestIds, dataSources) => {
   return requestIds.map(id => dataSources.requests.getById(id))
 }
 
+const revertUpdates = (request, dataSources, currentRequestCopy, oldRequestTypeCopy, newRequestTypeCopy) => {
+  dataSources.requests.update(currentRequestCopy)
+  if(request.requestType) {
+    dataSources.requestTypes.update(oldRequestTypeCopy)
+    dataSources.requestTypes.update(newRequestTypeCopy)
+  }
+}
+
 const updateRequestHelper = (request, dataSources): Promise<Document> => {
   if(!request.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
   }
 
-  const currentRequestCopy = dataSources.requests.getById(request.id.toString()).toObject()
-  currentRequestCopy.id = currentRequestCopy._id
   const currentRequest = dataSources.requests.getById(request.id.toString())
+  const currentRequestCopy = currentRequest.toObject()
+  currentRequestCopy.id = currentRequestCopy._id
   let oldRequestTypeCopy, newRequestTypeCopy
 
   if(request.requestType) {
@@ -38,7 +46,7 @@ const updateRequestHelper = (request, dataSources): Promise<Document> => {
     newRequestTypeCopy.id = newRequestTypeCopy._id
   }
 
-  if(request.fulfilled === true) {
+  if(request.fulfilled === true && currentRequest.fulfilled === false) {
     request.dateFulfilled = Date.now()
   }
 
@@ -64,22 +72,24 @@ const updateRequestHelper = (request, dataSources): Promise<Document> => {
       .catch(error => {
         console.log(error);
         // Reverting to original copies
-        dataSources.requests.update(currentRequestCopy)
-        if(request.requestType) {
-          dataSources.requestTypes.update(oldRequestTypeCopy)
-          dataSources.requestTypes.update(newRequestTypeCopy)
-        }
+        revertUpdates(request, dataSources, currentRequestCopy, oldRequestTypeCopy, newRequestTypeCopy)
+        // dataSources.requests.update(currentRequestCopy)
+        // if(request.requestType) {
+        //   dataSources.requestTypes.update(oldRequestTypeCopy)
+        //   dataSources.requestTypes.update(newRequestTypeCopy)
+        // }
         throw error
       })
   }
   catch(error) {
     console.log(error)
     // Reverting to original copies
-    dataSources.requests.update(currentRequestCopy)
-    if(request.requestType) {
-      dataSources.requestTypes.update(oldRequestTypeCopy)
-      dataSources.requestTypes.update(newRequestTypeCopy)
-    }
+    revertUpdates(request, dataSources, currentRequestCopy, oldRequestTypeCopy, newRequestTypeCopy)
+    // dataSources.requests.update(currentRequestCopy)
+    // if(request.requestType) {
+    //   dataSources.requestTypes.update(oldRequestTypeCopy)
+    //   dataSources.requestTypes.update(newRequestTypeCopy)
+    // }
     throw error
   }
 }
