@@ -3,6 +3,14 @@ import { updateRequestGroupHelper } from './requestGroup'
 
 import { UserInputError } from 'apollo-server-errors'
 
+const revertUpdates = (requestType, dataSources, currentRequestTypeCopy, oldRequestGroupCopy, newRequestGroupCopy) => {
+  dataSources.requestTypes.update(currentRequestTypeCopy)
+  if(requestType.requestGroup) {
+    dataSources.requestGroups.update(oldRequestGroupCopy)
+    dataSources.requestGroups.update(newRequestGroupCopy)
+  }
+}
+
 const updateRequestTypeHelper = (requestType, dataSources): Promise<Document> => {
   if(!requestType.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
@@ -41,21 +49,13 @@ const updateRequestTypeHelper = (requestType, dataSources): Promise<Document> =>
       })
       .catch(error => {
         console.log(error)
-        dataSources.requestTypes.update(currentRequestTypeCopy)
-        if(requestType.requestGroup) {
-          dataSources.requestGroups.update(oldRequestGroupCopy)
-          dataSources.requestGroups.update(newRequestGroupCopy)
-        }
+        revertUpdates(requestType, dataSources, currentRequestTypeCopy, oldRequestGroupCopy, newRequestGroupCopy)
         throw error
       })
   }
   catch(error) {
       console.log(error)
-      dataSources.requestTypes.update(currentRequestTypeCopy)
-      if(requestType.requestGroup) {
-        dataSources.requestGroups.update(oldRequestGroupCopy)
-        dataSources.requestGroups.update(newRequestGroupCopy)
-      }
+      revertUpdates(requestType, dataSources, currentRequestTypeCopy, oldRequestGroupCopy, newRequestGroupCopy)
       throw error
   }
 }
