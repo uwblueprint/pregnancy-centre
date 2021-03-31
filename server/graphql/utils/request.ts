@@ -73,11 +73,6 @@ const updateRequestHelper = (request, dataSources): Promise<Document> => {
         console.log(error);
         // Reverting to original copies
         revertUpdates(request, dataSources, currentRequestCopy, oldRequestTypeCopy, newRequestTypeCopy)
-        // dataSources.requests.update(currentRequestCopy)
-        // if(request.requestType) {
-        //   dataSources.requestTypes.update(oldRequestTypeCopy)
-        //   dataSources.requestTypes.update(newRequestTypeCopy)
-        // }
         throw error
       })
   }
@@ -85,11 +80,6 @@ const updateRequestHelper = (request, dataSources): Promise<Document> => {
     console.log(error)
     // Reverting to original copies
     revertUpdates(request, dataSources, currentRequestCopy, oldRequestTypeCopy, newRequestTypeCopy)
-    // dataSources.requests.update(currentRequestCopy)
-    // if(request.requestType) {
-    //   dataSources.requestTypes.update(oldRequestTypeCopy)
-    //   dataSources.requestTypes.update(newRequestTypeCopy)
-    // }
     throw error
   }
 }
