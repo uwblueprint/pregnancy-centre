@@ -17,7 +17,7 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
     if(res.length === 0) {
       throw new Error(`Mongoose ${this.cache.name} ObjectId not found`)
     }
-    return this.cache.getData().filter(request => request._id && request._id.equals(id))[0]
+    return res[0]
   }
 
   getAll(): Array<DocumentType> {
