@@ -12,11 +12,15 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
       this.cache = cache
   }
 
-  getById(id: Types.ObjectId): DocumentType {
+  throwOnMissingObjectId(id: Types.ObjectId) {
     const res = this.cache.getData().filter(request => request._id && request._id.equals(id))
     if(res.length === 0) {
       throw new Error(`Mongoose ${this.cache.name} ObjectId not found`)
     }
+  }
+  getById(id: Types.ObjectId): DocumentType {
+    this.throwOnMissingObjectId(id)
+    const res = this.cache.getData().filter(request => request._id && request._id.equals(id))
     return res[0]
   }
 
@@ -34,13 +38,13 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
     if(!inputObject.id) {
       throw new UserInputError('Missing argument value', { argumentName: 'id' })
     }
-    this.getById(inputObject.id) // if id doesn't exist this will throw
+    this.throwOnMissingObjectId(inputObject.id) // if id doesn't exist this will throw
     const promise = await this.cache.model.findByIdAndUpdate(inputObject.id.toString(), inputObject)
     return promise
   }
   
   async softDelete(id: Types.ObjectId): Promise<Document> {
-    this.getById(id) // throws if id doesn't exist
+    this.throwOnMissingObjectId(id) // throws if id doesn't exist
     const promise = this.cache.model.findByIdAndUpdate(id, {"deleted": true})
     return promise
   }
