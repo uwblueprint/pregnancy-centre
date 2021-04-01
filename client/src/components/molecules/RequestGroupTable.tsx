@@ -16,18 +16,20 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
         <Table>
             <thead>
                 <tr>
+                    <th className="spacing-col"/>
                     <th>Title (A-Z)</th>
                     <th>Open Requests</th>
                     <th>Item Types</th>
                     <th>Next Recipient</th>
                     <th>Last Added</th>
                     <th></th>
+                    <th className="spacing-col"/>
                 </tr>
             </thead>
             {props.requestGroups !== undefined &&
                 <tbody>
                     <tr className="spacing-row">
-                        <td/><td/><td/><td/><td/><td/>
+                        <td/><td/><td/><td/><td/><td/><td/><td/>
                     </tr>
                     {[...props.requestGroups].sort((g1, g2) => {
                         if (!g1 && !g2) {
@@ -43,6 +45,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                     .map((requestGroup : RequestGroup) => 
                         <> 
                             <tr key={ requestGroup._id } className="data-row">
+                                <td className="spacing-col"/>
                                 <td className="name-col">{ requestGroup.name }</td>
                                 <td className="numOpen-col">{ requestGroup.numOpen }</td>
                                 <td className="types-col">
@@ -67,8 +70,10 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                         <img src={ requestGroup.image }/>
                                     </div>
                                 </td>
+                                <td className="spacing-col"/>
                             </tr>
                             <tr className="border-row">
+                                <td className="spacing-col"/>
                                 <td>
                                     <div className="border-line"/>
                                 </td>
@@ -87,6 +92,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                 <td>
                                     <div className="border-line"/>
                                 </td>
+                                <td className="spacing-col"/>
                             </tr>
                         </>
                     )}
