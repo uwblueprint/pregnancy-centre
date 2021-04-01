@@ -1,4 +1,5 @@
 import { bindActionCreators, Dispatch } from "redux"
+import { Col, Row } from "react-bootstrap";
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
@@ -36,6 +37,7 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
         requirements
         dateUpdated
         image
+        numOpen
         requestTypes{
           _id
           name
@@ -63,12 +65,19 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
       variables: { id: id },
       onCompleted: (data: { requestGroup: RequestGroup }) => {
           props.loadRequestGroup(data.requestGroup)
+          console.log(props.requestGroup)
 
       },
     });
     if (error) console.log(error.graphQLErrors);
     return (
       <div>
+          <Row>
+            <Col>
+              <h1>{props.requestGroup.name}</h1>
+              <p>Displaying {props.requestGroup.numOpen} total requests and {props.requestGroup.requestTypes?.length} types</p>
+            </Col>
+          </Row>
           <RequestTypeDropdownList requestGroup={props.requestGroup} requestTypes={props.requestGroup.requestTypes}></RequestTypeDropdownList>
       </div>
     );
