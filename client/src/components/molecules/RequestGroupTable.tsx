@@ -17,12 +17,12 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
             <thead>
                 <tr>
                     <th className="spacing-col"/>
-                    <th>Title (A-Z)</th>
-                    <th>Open Requests</th>
-                    <th>Item Types</th>
-                    <th>Next Recipient</th>
-                    <th>Last Added</th>
-                    <th></th>
+                    <th className="name-col"> Title (A-Z)</th>
+                    <th className="numOpen-col">Open Requests</th>
+                    <th className="types-col">Item Types</th>
+                    <th className="nextRecipient-col">Next Recipient</th>
+                    <th className="date-col">Last Added</th>
+                    <th className="image-col"></th>
                     <th className="spacing-col"/>
                 </tr>
             </thead>
