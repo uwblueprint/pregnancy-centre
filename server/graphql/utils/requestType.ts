@@ -4,6 +4,7 @@ import { updateRequestGroupHelper } from './requestGroup'
 import { UserInputError } from 'apollo-server-errors'
 
 const revertUpdates = (requestType, dataSources, currentRequestTypeCopy, oldRequestGroupCopy, newRequestGroupCopy) => {
+  console.log(currentRequestTypeCopy)
   dataSources.requestTypes.update(currentRequestTypeCopy)
   if(requestType.requestGroup) {
     dataSources.requestGroups.update(oldRequestGroupCopy)
@@ -11,14 +12,14 @@ const revertUpdates = (requestType, dataSources, currentRequestTypeCopy, oldRequ
   }
 }
 
-const updateRequestTypeHelper = (requestType, dataSources): Promise<Document> => {
+const updateRequestTypeHelper = async (requestType, dataSources): Promise<Document> => {
   if(!requestType.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
   }
 
-  const currentRequestTypeCopy = dataSources.requestTypes.getById(requestType.id.toString()).toObject()
-  currentRequestTypeCopy.id = currentRequestTypeCopy._id
   const currentRequestType = dataSources.requestTypes.getById(requestType.id.toString())
+  const currentRequestTypeCopy = currentRequestType.toObject()
+  currentRequestTypeCopy.id = currentRequestTypeCopy._id
   let oldRequestGroupCopy, newRequestGroupCopy
 
   if(requestType.requestGroup) {
@@ -35,10 +36,11 @@ const updateRequestTypeHelper = (requestType, dataSources): Promise<Document> =>
       const newRequestGroup = dataSources.requestGroups.getById(requestType.requestGroup.toString())
       oldRequestGroup.requestTypes = oldRequestGroup.requestTypes.filter(id => !id.equals(requestType.id))
       newRequestGroup.requestTypes.push(requestType.id)
-      dataSources.requestGroups.update(oldRequestGroup)
-      dataSources.requestGroups.update(newRequestGroup)
+      await dataSources.requestGroups.update(oldRequestGroup)
+      await dataSources.requestGroups.update(newRequestGroup)
 
       currentRequestType.requestGroup = requestType.requestGroup
+      requestType.requestGroup = Types.ObjectId(requestType.requestGroup)
     }
 
     const requestGroupId = currentRequestType.requestGroup.toString()

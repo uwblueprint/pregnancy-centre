@@ -1,4 +1,4 @@
-import { Document } from 'mongoose'
+import { Document, Types } from 'mongoose'
 import { RequestInterface } from '../../models/requestModel'
 import { UserInputError } from 'apollo-server-errors'
 
@@ -28,7 +28,7 @@ const revertUpdates = (request, dataSources, currentRequestCopy, oldRequestTypeC
   }
 }
 
-const updateRequestHelper = (request, dataSources): Promise<Document> => {
+const updateRequestHelper = async (request, dataSources): Promise<Document> => {
   if(!request.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
   }
@@ -57,10 +57,11 @@ const updateRequestHelper = (request, dataSources): Promise<Document> => {
       const newRequestType = dataSources.requestTypes.getById(request.requestType.toString())
       oldRequestType.requests = oldRequestType.requests.filter(id => !id.equals(request.id))
       newRequestType.requests.push(request.id)
-      dataSources.requestTypes.update(oldRequestType)
-      dataSources.requestTypes.update(newRequestType)
+      await dataSources.requestTypes.update(oldRequestType)
+      await dataSources.requestTypes.update(newRequestType)
 
       currentRequest.requestType = request.requestType
+      request.requestType = Types.ObjectId(request.requestType)
     }
 
     const requestTypeId = currentRequest.requestType.toString()
