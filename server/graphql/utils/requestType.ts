@@ -4,7 +4,6 @@ import { updateRequestGroupHelper } from './requestGroup'
 import { UserInputError } from 'apollo-server-errors'
 
 const revertUpdates = (requestType, dataSources, currentRequestTypeCopy, oldRequestGroupCopy, newRequestGroupCopy) => {
-  console.log(currentRequestTypeCopy)
   dataSources.requestTypes.update(currentRequestTypeCopy)
   if(requestType.requestGroup) {
     dataSources.requestGroups.update(oldRequestGroupCopy)
