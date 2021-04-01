@@ -1,24 +1,31 @@
 import "./Modal.scss";
+import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import React, { FunctionComponent, useState } from "react";
 import CommonModal from "../components/organisms/Modal";
-// import { createNewAccount } from "../services/auth";
-import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Redirect } from "react-router-dom";
+import { signIn } from "../services/auth";
 import Spacer from "../components/atoms/Spacer";
 
 const SignInModal: FunctionComponent = () => {
+  const initialErrors = { email: "", password: "" }
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleClose = () => setShow(false);
-  const [errors, setErrors] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState(initialErrors);
   const [show, setShow] = useState(true);
   const [hidePassword, setHidePassword] = useState(true);
   const [redirect, setRedirect] = useState("");
 
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setErrors(errors); //Change to sign in via firebase
-    setRedirect("/admin");
+    signIn(email, password).then((res) => {
+      setErrors(res)
+      if (!res.email.length && !res.password.length) {
+        setRedirect("/admin")
+      }
+    }).catch((err) => {
+      setErrors(err)
+    })
   };
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +52,10 @@ const SignInModal: FunctionComponent = () => {
         <div>
           <form onSubmit={handleClick}>
             <div>
-              <div className="text signup">Email address</div>
+              <div className="row">
+                <div className="text signup">Email Address</div>
+                <div className="text error">{errors.email}</div>
+              </div>
               <input
                 name="email"
                 placeholder="Enter your company email"
@@ -56,14 +66,19 @@ const SignInModal: FunctionComponent = () => {
               />
             </div>
             <div>
-              <div className="text signup">Password</div>
+              <div className="row">
+                <div className="text signup">
+                  Password
+                </div>
+                <div className="text error">{errors.password}</div>
+              </div>
               <div className="row bordered">
                 <input
                   type={hidePassword ? "password" : "text"}
                   name="password"
                   className={
                     errors.password
-                      ? "input-field error"
+                      ? "input-field password error"
                       : "input-field password"
                   }
                   placeholder="Enter your password"
@@ -103,7 +118,7 @@ const SignInModal: FunctionComponent = () => {
               </div>
             </div>
           </form>
-        </div>
+        </div >
       }
     />
   );

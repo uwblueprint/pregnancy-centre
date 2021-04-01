@@ -13,12 +13,18 @@
   "dependencies": {
     "apollo-datasource": "^0.7.3",
     "apollo-server": "^2.19.2",
+    "body-parser": "^1.19.0",
+    "body-parser-graphql": "^1.1.0",
+    "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
+    "firebase-admin": "^9.5.0",
     "graphql": "^15.5.0",
+    "inflation": "^2.0.0",
     "mongodb": "^3.6.4",
     "mongoose": "^5.11.15",
     "node": "^15.7.0",
-    "nodemailer": "^6.4.17"
+    "nodemailer": "^6.4.17",
+    "raw-body": "^2.4.0"
   },
   "devDependencies": {
     "@types/mongoose": "^5.10.3",
