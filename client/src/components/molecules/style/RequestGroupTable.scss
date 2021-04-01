@@ -32,20 +32,8 @@
         -webkit-border-bottom-right-radius: 4px;
     }
 
-    .data-row {
-        i {
-            visibility: hidden;
-            padding-left: 10px;
-            font-size: 16.52px;
-        }
-
-        &:hover {
-            background-color: $selected-item-background;
-
-            i {
-                visibility: visible;
-            }
-        }
+    .data-row:hover {
+        background-color: $selected-item-background;
     }
 
     .name-col {

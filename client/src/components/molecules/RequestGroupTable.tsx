@@ -43,7 +43,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                     .map((requestGroup : RequestGroup) => 
                         <> 
                             <tr key={ requestGroup._id } className="data-row">
-                                <td className="name-col">{ requestGroup.name }<i className="bi bi-pencil"/></td>
+                                <td className="name-col">{ requestGroup.name }</td>
                                 <td className="numOpen-col">{ requestGroup.numOpen }</td>
                                 <td className="types-col">
                                     <div className="requestType-tag-list">
