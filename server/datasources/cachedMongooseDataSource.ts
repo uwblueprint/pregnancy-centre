@@ -1,7 +1,6 @@
-import { Document, Types } from 'mongoose'
+import { ClientSession, Document, Types } from 'mongoose'
 import { Cache } from '../database/cache'
 import { DataSource } from 'apollo-datasource'
-import { ServerResponseInterface } from '../graphql/serverResponse';
 import { UserInputError } from 'apollo-server-errors';
 
 export default class CachedMongooseDataSource<DocumentType extends Document> extends DataSource {
@@ -12,12 +11,6 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
       this.cache = cache
   }
 
-  throwOnMissingObjectId(id: Types.ObjectId) {
-    const res = this.cache.getData().filter(request => request._id && request._id.equals(id))
-    if(res.length === 0) {
-      throw new Error(`Mongoose ${this.cache.name} ObjectId not found`)
-    }
-  }
   getById(id: Types.ObjectId): DocumentType {
     const res = this.cache.getData().filter(request => request._id && request._id.equals(id))
     if(res.length === 0) {
@@ -36,18 +29,16 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
     return promise
   }
 
-  async update(inputObject: Document): Promise<Document> {
+  async update(inputObject: Document, session: ClientSession): Promise<Document> {
     if(!inputObject.id) {
       throw new UserInputError('Missing argument value', { argumentName: 'id' })
     }
-    this.throwOnMissingObjectId(inputObject.id) // if id doesn't exist this will throw
-    const promise = await this.cache.model.findByIdAndUpdate(inputObject.id.toString(), inputObject)
+    const promise = await this.cache.model.findByIdAndUpdate(inputObject.id.toString(), inputObject, { session }).orFail()
     return promise
   }
   
-  async softDelete(id: Types.ObjectId): Promise<Document> {
-    this.throwOnMissingObjectId(id) // throws if id doesn't exist
-    const promise = this.cache.model.findByIdAndUpdate(id, {"deleted": true})
+  async softDelete(id: Types.ObjectId, session: ClientSession): Promise<Document> {
+    const promise = this.cache.model.findByIdAndUpdate(id, {"deleted": true}).orFail()
     return promise
   }
 }
