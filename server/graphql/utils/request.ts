@@ -56,7 +56,6 @@ const updateRequestHelper = async (request, dataSources): Promise<Document> => {
     return res
   }
   catch(err) {
-    console.log('Requests')
     console.log(err)
     await session.abortTransaction()
     session.endSession()

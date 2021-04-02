@@ -13,7 +13,7 @@ const updateRequestTypeHelper = async (requestType, dataSources): Promise<Docume
   const session = await mongoose.startSession()
   try {
     session.startTransaction()
-    const currentRequestType = dataSources.requestTypes.getById("606369c034278e104cb5fc2b")
+    const currentRequestType = dataSources.requestTypes.getById(requestType.id.toString())
     const requestGroupId = currentRequestType.requestGroup.toString()
     const res = await dataSources.requestTypes.update(requestType, session)
     if(requestType.requestGroup) {
