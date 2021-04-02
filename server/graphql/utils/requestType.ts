@@ -1,4 +1,5 @@
 import { Document, Types } from 'mongoose'
+import { softDeleteRequestHelper } from './request'
 import { updateRequestGroupHelper } from './requestGroup'
 
 import { UserInputError } from 'apollo-server-errors'
@@ -11,7 +12,7 @@ const updateRequestTypeHelper = async (requestType, dataSources): Promise<Docume
   }
   const session = await mongoose.startSession()
   try {
-    await session.startTransaction()
+    session.startTransaction()
     const currentRequestType = dataSources.requestTypes.getById("606369c034278e104cb5fc2b")
     const requestGroupId = currentRequestType.requestGroup.toString()
     const res = await dataSources.requestTypes.update(requestType, session)
@@ -39,10 +40,24 @@ const updateRequestTypeHelper = async (requestType, dataSources): Promise<Docume
   }
 }
 
-const softDeleteRequestTypeHelper = (id, dataSources): Promise<Document> => {
-  const requestType = dataSources.requestTypes.getById(id)
-  requestType.requests.map(id => {dataSources.requests.softDelete(id)})
-  return dataSources.requestTypes.softDelete(id)
+const softDeleteRequestTypeHelper = async (id, dataSources): Promise<Document> => {
+  const session = await mongoose.startSession()
+  try {
+    session.startTransaction()
+    const requestType = dataSources.requestTypes.getById(id)
+    const res = await dataSources.requestTypes.softDelete(id, session)
+    await requestType.requests.map(id => { softDeleteRequestHelper(id, dataSources) })
+    await session.commitTransaction()
+    session.endSession()
+    return res
+
+  }
+  catch(error) {
+    console.log(error)
+    await session.abortTransaction()
+    session.endSession()
+    throw error
+  }
 }
 
 export { softDeleteRequestTypeHelper, updateRequestTypeHelper }

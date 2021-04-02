@@ -38,7 +38,7 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
   }
   
   async softDelete(id: Types.ObjectId, session: ClientSession): Promise<Document> {
-    const promise = this.cache.model.findByIdAndUpdate(id, {"deleted": true}).orFail()
+    const promise = this.cache.model.findByIdAndUpdate(id, {"deleted": true}, { session }).orFail()
     return promise
   }
 }
