@@ -1,21 +1,9 @@
 import mongoose, { Document } from 'mongoose'
 import { softDeleteRequestTypeHelper } from './requestType'
 
-const updateRequestGroupHelper = async (requestGroup, dataSources): Promise<Document> => {
-  const session = await mongoose.startSession()
-  try {
-    session.startTransaction()
-    const res = await dataSources.requestGroups.update(requestGroup, session)
-    await session.commitTransaction()
-    return res
-  }
-  catch(error) {
-    console.log(error)
-    await session.abortTransaction()
-  }
-  finally {
-    session.endSession()
-  }
+const updateRequestGroupHelper = async (requestGroup, dataSources, session): Promise<Document> => {
+  const res = await dataSources.requestGroups.update(requestGroup, session)
+  return res
 }
 
 const softDeleteRequestGroupHelper = async (id, dataSources) => {

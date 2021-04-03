@@ -22,43 +22,30 @@ const getRequestsById = (requestIds, dataSources) => {
   return requestIds.map(id => dataSources.requests.getById(id))
 }
 
-const updateRequestHelper = async (request, dataSources): Promise<Document> => {
+const updateRequestHelper = async (request, dataSources, session): Promise<Document> => {
   if(!request.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
   }
-  const session = await mongoose.startSession()
-  try {
-    session.startTransaction()
-    const currentRequest = dataSources.requests.getById(request.id.toString())
-    const oldRequestTypeId = currentRequest.requestType.toString()
-    if(request.fulfilled === true && currentRequest.fulfilled === false) {
-      request.dateFulfilled = Date.now()
-    }
-    const res = await dataSources.requests.update(request, session)
-    if(request.requestType) {
-      const newRequestTypeId = request.requestType.toString()
-      const oldRequestType = dataSources.requestTypes.getById(oldRequestTypeId)
-      const newRequestType = dataSources.requestTypes.getById(request.requestType.toString())
-      oldRequestType.requests = oldRequestType.requests.filter(id => !id.equals(request.id))
-      newRequestType.requests.push(request.id)
-      await updateRequestTypeHelper({"id": oldRequestTypeId, "requests": oldRequestType.requests}, dataSources)
-      await updateRequestTypeHelper({"id": newRequestTypeId, "requests": newRequestType.requests}, dataSources)
-      request.requestType = Types.ObjectId(request.requestType)
-    }
-    else {
-      await updateRequestTypeHelper({"id": oldRequestTypeId}, dataSources)
-    }
-    await session.commitTransaction()
-    return res
+  const currentRequest = dataSources.requests.getById("606369c034278e104cb5fc30")
+  const oldRequestTypeId = currentRequest.requestType.toString()
+  if(request.fulfilled === true && currentRequest.fulfilled === false) {
+    request.dateFulfilled = Date.now()
   }
-  catch(err) {
-    console.log(err)
-    await session.abortTransaction()
-    throw err
+  if(request.requestType) {
+    const newRequestTypeId = request.requestType.toString()
+    const oldRequestType = dataSources.requestTypes.getById(oldRequestTypeId)
+    const newRequestType = dataSources.requestTypes.getById(newRequestTypeId)
+    oldRequestType.requests = oldRequestType.requests.filter(id => !id.equals(request.id))
+    newRequestType.requests.push(request.id)
+    await updateRequestTypeHelper({"id": oldRequestTypeId, "requests": oldRequestType.requests}, dataSources, session)
+    await updateRequestTypeHelper({"id": newRequestTypeId, "requests": newRequestType.requests}, dataSources, session)
+    request.requestType = Types.ObjectId(request.requestType)
   }
-  finally {
-    session.endSession()
+  else {
+    await updateRequestTypeHelper({"id": oldRequestTypeId}, dataSources, session)
   }
+  const res = await dataSources.requests.update(request, session)
+  return res
 }
 
 const softDeleteRequestHelper = async (id, dataSources) => {

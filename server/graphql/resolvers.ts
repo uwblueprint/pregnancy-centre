@@ -5,6 +5,8 @@ import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
 import { Types } from 'mongoose'
 
+import mongoose from 'mongoose'
+
 import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, updateRequestHelper } from './utils/request'
 import { softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
 import { softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
@@ -33,7 +35,7 @@ const resolvers = {
         })
     },
     updateRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => {
-      return updateRequestGroupHelper(requestGroup, dataSources)
+      return sessionHandler(session => updateRequestGroupHelper(requestGroup, dataSources, session))
         .then(res => {
           return {
             'success': true,
@@ -63,7 +65,7 @@ const resolvers = {
         })
     },
     updateRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => {
-      return updateRequestTypeHelper(requestType, dataSources)
+      return sessionHandler(session => updateRequestTypeHelper(requestType, dataSources, session))
         .then(res => {
           return {
             'success': true,
@@ -93,7 +95,8 @@ const resolvers = {
         })
     },
     updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
-      return updateRequestHelper(request, dataSources)
+      return sessionHandler((session) => updateRequestHelper(request, dataSources, session))
+      // return updateRequestHelper(request, dataSources)
       .then(res => {
         return {
           'success': true,
@@ -132,6 +135,36 @@ const resolvers = {
     requestType: (parent, __, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(parent.requestType.toString())),
     client: (parent, __, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(parent.client))
   }
+}
+
+const sessionHandler = async (fun) => {
+  const session = await mongoose.startSession()
+  let res = null
+  try {
+    await session.withTransaction(async () => {
+      res = await fun(session)
+    })
+  }
+  catch(error) {
+    console.log(error)
+    throw error
+  }
+  return res
+
+  // try {
+  //   session.startTransaction()
+  //   const res = await fun(session)
+  //   await session.commitTransaction()
+  //   return res
+  // }
+  // catch(error) {
+  //   console.log(error)
+  //   await session.abortTransaction()
+  //   throw error
+  // }
+  // finally {
+  //   session.endSession()
+  // }
 }
 
 export { resolvers }
