@@ -29,14 +29,15 @@ const updateRequestTypeHelper = async (requestType, dataSources): Promise<Docume
       await updateRequestGroupHelper({"id": requestGroupId}, dataSources)
     }
     await session.commitTransaction()
-    session.endSession()
     return res
   }
   catch(error) {
     console.log(error)
     await session.abortTransaction()
-    session.endSession()
     throw error
+  }
+  finally {
+    session.endSession()
   }
 }
 
@@ -48,15 +49,16 @@ const softDeleteRequestTypeHelper = async (id, dataSources): Promise<Document> =
     const res = await dataSources.requestTypes.softDelete(id, session)
     await requestType.requests.map(id => { softDeleteRequestHelper(id, dataSources) })
     await session.commitTransaction()
-    session.endSession()
     return res
 
   }
   catch(error) {
     console.log(error)
     await session.abortTransaction()
-    session.endSession()
     throw error
+  }
+  finally {
+    session.endSession()
   }
 }
 

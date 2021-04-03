@@ -7,12 +7,13 @@ const updateRequestGroupHelper = async (requestGroup, dataSources): Promise<Docu
     session.startTransaction()
     const res = await dataSources.requestGroups.update(requestGroup, session)
     await session.commitTransaction()
-    session.endSession()
     return res
   }
   catch(error) {
     console.log(error)
     await session.abortTransaction()
+  }
+  finally {
     session.endSession()
   }
 }
@@ -27,14 +28,15 @@ const softDeleteRequestGroupHelper = async (id, dataSources) => {
       softDeleteRequestTypeHelper(id, dataSources)
     })
     await session.commitTransaction()
-    session.endSession()
     return res
   }
   catch(error) {
     console.log(error)
     await session.abortTransaction()
-    session.endSession()
     throw error
+  }
+  finally {
+    session.endSession()
   }
 }
 
