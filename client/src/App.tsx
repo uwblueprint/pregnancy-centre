@@ -2,6 +2,7 @@ import "./App.scss";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
 
+import AdminHomepage from "./pages/AdminHomepage";
 import AuthTestComponent from "./pages/AuthTestComponent";
 import ConfirmationModal from "./pages/ConfirmationModal";
 import DonorHomepage from './pages/DonorHomepage'
@@ -25,6 +26,7 @@ function App(): JSX.Element {
           <Route path='/signup' strict component={SignUpModal}></Route>
           <Route path='/verify-email' component={AuthTestComponent}></Route>
           <Route path='/password-reset-email-sent' strict component={PasswordResetEmailSentModal}></Route>
+          <Route path='/admin' component={AdminHomepage}></Route>
           <Route path='/test'>
             <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
           </Route>
