@@ -1,7 +1,9 @@
+import Client from "./client";
+
 export default interface Request {
   _id?: string;
   requestId?: string;
-  clientId?: string;
+  client?: Client;
   dateUpdated?: Date;
   dateCreated?: Date;
   dateFulfilled?: Date;
