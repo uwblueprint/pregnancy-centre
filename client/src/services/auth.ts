@@ -5,15 +5,23 @@ interface AuthErrorMessageInterface {
   "auth/email-already-in-use": string;
   "invalid-domain": string;
   "invalid-password": string;
+  "auth/user-not-found": string;
+  "auth/wrong-password": string;
+  "empty-email": string;
+  "empty-password": string;
 }
 
 const AuthErrorMessage: AuthErrorMessageInterface = {
-  //firebase
+  //firebase (https://firebase.google.com/docs/reference/js/firebase.auth.Auth)
   "auth/invalid-email": "Invalid email.",
   "auth/email-already-in-use": "That email has already been registered.",
+  "auth/user-not-found": "No account with this email",
+  "auth/wrong-password": "Password is incorrect",
   //pre-firebase
   "invalid-domain": "Invalid email domain.",
   "invalid-password": "Please enter a valid password.",
+  "empty-email": "Please enter your email",
+  "empty-password": "Please enter your password",
 };
 
 export const createNewAccount = async (
@@ -68,3 +76,63 @@ export const handleVerifyEmail = async (
     });
   return error;
 };
+
+export const signIn = async (
+  email: string,
+  password: string
+): Promise<{ email: string; password: string }> => {
+  let errors = { email: "", password: "" };
+  if (!email.length || !password.length) {
+    errors = {
+      email: email.length ? "" : AuthErrorMessage["empty-email"],
+      password: password.length ? "" : AuthErrorMessage["empty-password"],
+    };
+  } else {
+    errors = await firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(async () => {
+        return await postToken();
+      })
+      .catch((error) => {
+        const code: keyof AuthErrorMessageInterface = error.code;
+        return {
+          email: code !== "auth/wrong-password" ? AuthErrorMessage[code] : "",
+          password:
+            code === "auth/wrong-password" ? AuthErrorMessage[code] : "",
+        };
+      });
+  }
+  return errors;
+};
+
+async function postToken() {
+  const errors = await firebase
+    .auth()
+    .currentUser?.getIdToken()
+    .then(async (token) => {
+      const res = await fetch(
+        `${process.env.REACT_APP_GRAPHQL_SERVER_URL}/sessionLogin`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idToken: token }),
+        }
+      );
+
+      return res?.status === 200
+        ? { email: "", password: "" }
+        : {
+            email: "Something went wrong. Please try again.",
+            password: " ",
+          };
+    });
+
+  return (
+    errors || {
+      email: "Something went wrong. Please try again.",
+      password: " ",
+    }
+  );
+}

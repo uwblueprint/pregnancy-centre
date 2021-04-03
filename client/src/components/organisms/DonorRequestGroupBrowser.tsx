@@ -54,7 +54,6 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
 
       props.loadRequestGroups(data.requestGroups);
       props.setDisplayRequestGroups(displayRequestGroups);
-      console.log(displayRequestGroups[0])
       setSelectedRequestGroup(displayRequestGroups.length <= 0 ? undefined : displayRequestGroups[0]._id)
     },
   });

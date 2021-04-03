@@ -1,7 +1,7 @@
 import "./App.scss";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
-
+import AdminHomepage from "./pages/AdminHomepage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView"
 import AuthTestComponent from "./pages/AuthTestComponent";
 import ConfirmationModal from "./pages/ConfirmationModal";
@@ -28,6 +28,7 @@ function App(): JSX.Element {
           {/* <Route path='/requests' strict><RequestTypeDropdownList requestTypes={["250 ML (20)", "150 ML (20)"]}></RequestTypeDropdownList></Route> */}
           <Route path='/verify-email' component={AuthTestComponent}></Route>
           <Route path='/password-reset-email-sent' strict component={PasswordResetEmailSentModal}></Route>
+          <Route path='/admin' component={AdminHomepage}></Route>
           <Route path='/test'>
             <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
           </Route>

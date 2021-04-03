@@ -1,3 +1,4 @@
+import Client from "./client";
 import RequestType from './requestType'
 
 export default interface RequestGroup {
@@ -10,4 +11,6 @@ export default interface RequestGroup {
   image?: string;
   requestTypes?: RequestType[];
   numOpen?: number;
+  hasAnyRequests?: boolean;
+  nextRecipient?: Client;
 }

@@ -1,3 +1,4 @@
+import Client from "./client";
 import Request from './request'
 
 export default interface RequestType {
@@ -5,7 +6,11 @@ export default interface RequestType {
   name?: string;
   dateUpdated?: Date;
   deleted?: boolean;
-  requests?: Request[];
-  requestGroup?: string;
-  numOpen?: number
+  requests?: {
+      fulfilled?: Request[];
+      deleted?: Request[];
+      open?: Request[];
+  };
+  numOpen?: number;
+  nextRecipient?: Client;
 }
