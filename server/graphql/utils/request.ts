@@ -31,10 +31,10 @@ const updateRequestHelper = async (request, dataSources): Promise<Document> => {
     session.startTransaction()
     const currentRequest = dataSources.requests.getById(request.id.toString())
     const requestTypeId = currentRequest.requestType.toString()
-    const res = await dataSources.requests.update(request, session)
     if(request.fulfilled === true && currentRequest.fulfilled === false) {
       request.dateFulfilled = Date.now()
     }
+    const res = await dataSources.requests.update(request, session)
     if(request.requestType) {
       const oldRequestType = dataSources.requestTypes.getById(requestTypeId)
       const newRequestType = dataSources.requestTypes.getById(request.requestType.toString())
