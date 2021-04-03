@@ -47,10 +47,6 @@ const updateRequestHelper = async (request, dataSources): Promise<Document> => {
     else {
       await updateRequestTypeHelper({"id": requestTypeId}, dataSources)
     }
-    let a = false
-    if(a) {
-      throw Error()
-    }
     await session.commitTransaction()
     session.endSession()
     return res
