@@ -96,7 +96,6 @@ const resolvers = {
     },
     updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
       return sessionHandler((session) => updateRequestHelper(request, dataSources, session))
-      // return updateRequestHelper(request, dataSources)
       .then(res => {
         return {
           'success': true,
@@ -149,22 +148,9 @@ const sessionHandler = async (fun) => {
     console.log(error)
     throw error
   }
-  return res
-
-  // try {
-  //   session.startTransaction()
-  //   const res = await fun(session)
-  //   await session.commitTransaction()
-  //   return res
-  // }
-  // catch(error) {
-  //   console.log(error)
-  //   await session.abortTransaction()
-  //   throw error
-  // }
-  // finally {
-  //   session.endSession()
-  // }
+  finally {
+    return res
+  }
 }
 
 export { resolvers }

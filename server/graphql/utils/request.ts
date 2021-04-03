@@ -26,7 +26,7 @@ const updateRequestHelper = async (request, dataSources, session): Promise<Docum
   if(!request.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
   }
-  const currentRequest = dataSources.requests.getById("606369c034278e104cb5fc30")
+  const currentRequest = dataSources.requests.getById(request.id.toString())
   const oldRequestTypeId = currentRequest.requestType.toString()
   if(request.fulfilled === true && currentRequest.fulfilled === false) {
     request.dateFulfilled = Date.now()
