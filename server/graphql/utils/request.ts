@@ -30,22 +30,23 @@ const updateRequestHelper = async (request, dataSources): Promise<Document> => {
   try {
     session.startTransaction()
     const currentRequest = dataSources.requests.getById(request.id.toString())
-    const requestTypeId = currentRequest.requestType.toString()
+    const oldRequestTypeId = currentRequest.requestType.toString()
     if(request.fulfilled === true && currentRequest.fulfilled === false) {
       request.dateFulfilled = Date.now()
     }
     const res = await dataSources.requests.update(request, session)
     if(request.requestType) {
-      const oldRequestType = dataSources.requestTypes.getById(requestTypeId)
+      const newRequestTypeId = request.requestType.toString()
+      const oldRequestType = dataSources.requestTypes.getById(oldRequestTypeId)
       const newRequestType = dataSources.requestTypes.getById(request.requestType.toString())
       oldRequestType.requests = oldRequestType.requests.filter(id => !id.equals(request.id))
       newRequestType.requests.push(request.id)
-      await updateRequestTypeHelper({"id": requestTypeId, "requests": oldRequestType.requests}, dataSources)
-      await updateRequestTypeHelper({"id": request.requestType.toString(), "requests": newRequestType.requests}, dataSources)
+      await updateRequestTypeHelper({"id": oldRequestTypeId, "requests": oldRequestType.requests}, dataSources)
+      await updateRequestTypeHelper({"id": newRequestTypeId, "requests": newRequestType.requests}, dataSources)
       request.requestType = Types.ObjectId(request.requestType)
     }
     else {
-      await updateRequestTypeHelper({"id": requestTypeId}, dataSources)
+      await updateRequestTypeHelper({"id": oldRequestTypeId}, dataSources)
     }
     await session.commitTransaction()
     return res
