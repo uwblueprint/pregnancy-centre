@@ -48,21 +48,9 @@ const updateRequestHelper = async (request, dataSources, session): Promise<Docum
   return res
 }
 
-const softDeleteRequestHelper = async (id, dataSources) => {
-  const session = await mongoose.startSession()
-  try {
-    session.startTransaction()
-    const res = await dataSources.requests.softDelete(id)
-    await session.commitTransaction()
-    return res
-  }
-  catch(error) {
-    console.log(error)
-    await session.abortTransaction()
-  }
-  finally {
-    session.endSession()
-  }
+const softDeleteRequestHelper = async (id, dataSources, session) => {
+  const res = await dataSources.requests.softDelete(id, session)
+  return res
 }
 
 export { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper }

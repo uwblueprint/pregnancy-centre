@@ -7,7 +7,7 @@ import { Types } from 'mongoose'
 
 import mongoose from 'mongoose'
 
-import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, updateRequestHelper } from './utils/request'
+import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper } from './utils/request'
 import { softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
 import { softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
 
@@ -45,7 +45,7 @@ const resolvers = {
         })
     },
     softDeleteRequestGroup: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
-      return softDeleteRequestGroupHelper(id, dataSources)
+      return sessionHandler(session => softDeleteRequestGroupHelper(id, dataSources, session))
         .then(res => {
           return {
             'success': true,
@@ -75,7 +75,7 @@ const resolvers = {
         })
     },
     softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
-      return softDeleteRequestTypeHelper(id, dataSources)
+      return sessionHandler(session => softDeleteRequestTypeHelper(id, dataSources, session))
         .then(res => {
           return {
             'success': true,
@@ -105,7 +105,7 @@ const resolvers = {
       })
     },
     softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
-      return dataSources.requests.softDelete(id)
+      return sessionHandler(session => softDeleteRequestHelper(id, dataSources, session))
         .then(res => {
           return {
             'success': true,
