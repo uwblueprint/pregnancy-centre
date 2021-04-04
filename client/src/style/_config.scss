@@ -47,6 +47,11 @@ $section-header-text-color: #bbbbbb;
   color: $alt-faded-text-color;
 }
 
+@mixin tpc-green-text() {
+  @include text;
+  color: $tpc-green;
+}
+
 @mixin section-header-text() {
   @include text;
   color: $section-header-text-color;
@@ -91,9 +96,9 @@ $button-disabled-background: #b2b2b2;
 
 @mixin alt-button() {
   @include button-base;
-  @include normal-text;
+  @include tpc-green-text;
   background-color: $background;
-  border-color: $button-background;
+  border-color: $tpc-green;
 }
 
 @mixin normal-button() {
