@@ -22,7 +22,7 @@
   }
   &-list {
     border-right: $border-line;
-    width: 31%;
+    min-width: 423px;
   }
   
   &-header {
@@ -31,7 +31,6 @@
 
   &-indiv-view {
     padding-top: 32px;
-    width: 69%;
     flex-grow: 1;
   }
 }
