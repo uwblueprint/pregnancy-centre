@@ -73,12 +73,13 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
         mutateRequestType({variables:{requestType: {id, name, deleted}}});
         if (error) console.log(error.graphQLErrors)
         setBackupRequestType(requestType);
+        setEditModalShow(false);
     };
 
     const deleteRequestType = async () => {
         //delete requestType here
         mutateDeleteRequestType({variables:{id:requestType?._id}});
-
+        setDeleteModalShow(false);
     }
 
     // when user clicks edit button request type

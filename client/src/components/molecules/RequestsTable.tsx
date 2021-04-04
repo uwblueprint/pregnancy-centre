@@ -11,7 +11,7 @@ interface Props {
 
 const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     const headingList = ['Fulfilled', 'Client Name', 'Quantity', 'Date Requested', '', ''];
-    const fulfillRequest = gql`
+    const updateRequest = gql`
     mutation updateRequest($request: RequestInput){
         updateRequest(request: $request){
           id
@@ -20,8 +20,17 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         }
       }
     `;
+    const softDeleteRequest = gql`
+    mutation deleteARequest($id: ID){
+        softDeleteRequest(id: $id){
+          id
+          success
+          message
+        }
+      }`;
     const [requests, setRequests] = useState(props.requests);
-    const [mutateRequest, {error,data}] = useMutation(fulfillRequest);
+    const [mutateRequest, {error,data}] = useMutation(updateRequest);
+    const [mutateDeleteRequest] = useMutation(softDeleteRequest);
     console.log(requests);
 
     const onFulfilledRequest = (index:number) => {
