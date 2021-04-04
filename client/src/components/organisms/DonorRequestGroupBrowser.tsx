@@ -2,7 +2,6 @@ import { bindActionCreators, Dispatch } from "redux"
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
-import Row from 'react-bootstrap/Row'
 
 import { loadRequestGroups, setDisplayRequestGroups } from '../../data/actions'
 import RequestGroup from '../../data/types/requestGroup'

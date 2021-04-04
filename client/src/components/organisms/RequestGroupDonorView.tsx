@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import moment from 'moment';
 
-import { Col, Row, Spinner } from 'react-bootstrap';
+import { Row, Spinner } from 'react-bootstrap';
 
 import InfoBox from '../molecules/InfoBox';
 import RequestGroup from '../../data/types/requestGroup';
@@ -20,7 +20,6 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
     const emailAddress = "reception@pregnancycentre.ca" // TODO: replace and see todo above
 
     const [requestGroupData, setRequestGroupData] = useState<RequestGroup | undefined>(undefined);
-    const [sendAnEmailBtnPressed, setSendAnEmailBtnPressed] = useState(false)
 
     const query = gql`
         query FetchRequestGroup($id: ID!) {
@@ -84,18 +83,14 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                         buttonProps = {{
                             text: "Send an email",
                             onClick: (e) => {
-                                console.log(e);
                                 const button = e.target as HTMLButtonElement;
                                 button.textContent = "Email copied";
                                 button.classList.add('alt-button');
-
-                                console.log(e);
 
                                 setTimeout(() => {
                                     button.textContent = "Send an email"; 
                                     button.classList.remove('alt-button')
                                 }, 5000);
-                                setSendAnEmailBtnPressed(true);
                             },
                             copyText: emailAddress
                         }}

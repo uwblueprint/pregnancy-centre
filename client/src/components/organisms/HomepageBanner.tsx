@@ -6,7 +6,6 @@ import RubberDuckIcon from '../../assets/rubber-duck-icon.svg'
 import StrollerIcon from '../../assets/stroller-icon.svg'
 
 import Col from 'react-bootstrap/Col'
-import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 
 const HomepageBanner: FunctionComponent = () => {
