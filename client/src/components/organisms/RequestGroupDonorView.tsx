@@ -63,7 +63,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
             </div>
             :
             <div className="panel">
-                <Col className="section" id="left" md={7} sm={12}>
+                <div className="section" id="left">
                     <div className="info">
                         <h1 id="header">
                             {requestGroupData.name}
@@ -76,8 +76,8 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                         </div>
                     </div>
                     <RequestTypeList requestTypes={requestGroupData.requestTypes ? requestGroupData.requestTypes : []}/>
-                </Col>
-                <Col className="section" id="right" md={5} sm={12}>
+                </div>
+                <div className="section" id="right">
                     <InfoBox 
                         title="HAVE A DONATION?" 
                         text="To arrange your donation, contact the Pregnancy Center directly at 514‑999‑9999 or send an email."
@@ -106,7 +106,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                             text={requestGroupData.description ? requestGroupData.description : ''}
                         />
                     </div>
-                </Col>
+                </div>
             </div>}
         </Row>
     )

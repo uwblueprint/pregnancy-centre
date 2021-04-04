@@ -59,10 +59,10 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
 
 
   return <div className="donor-request-group-browser">
-    <div className="justify-content-center">
+    <div>
       <h1 className="donor-request-group-browser-header">Open Requests</h1>
     </div>
-    <div className="justify-content-center donor-request-group-browser-content">
+    <div className="donor-request-group-browser-content">
       <div className="donor-request-group-browser-list">
         <RequestGroupList
           selectedRequestGroup={selectedRequestGroup}

@@ -1,7 +1,6 @@
 .donor-request-group-browser {
   width: 100%;
 
-  padding-bottom: 35px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -23,14 +22,16 @@
   }
   &-list {
     border-right: $border-line;
+    width: 31%;
   }
   
-  .donor-request-group-browser-header {
+  &-header {
     margin-bottom: 0;
   }
 
-  .donor-request-group-browser-indiv-view {
-    padding: 0;
-    width: 65%;
+  &-indiv-view {
+    padding-top: 32px;
+    width: 69%;
+    flex-grow: 1;
   }
 }
