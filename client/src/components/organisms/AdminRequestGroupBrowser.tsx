@@ -74,7 +74,7 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
     return (
       <div>
           <Row>
-            <Col>
+            <Col className="request-group-description">
               <h1>{props.requestGroup.name}</h1>
               <p>Displaying {props.requestGroup.numOpen} total requests and {props.requestGroup.requestTypes?.length} types</p>
             </Col>
