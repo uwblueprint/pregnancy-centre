@@ -87,6 +87,7 @@ const typeDefs = gql`
     }
     input RequestTypeInput {
         id: ID
+        requestGroup: ID
         name: String
         deleted: Boolean
         requests: [ID]
@@ -94,6 +95,7 @@ const typeDefs = gql`
     input RequestInput {
         id: ID
         client: ID
+        requestType: ID
         requestId: String
         deleted: Boolean
         fulfilled: Boolean

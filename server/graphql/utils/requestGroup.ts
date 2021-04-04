@@ -1,13 +1,31 @@
-import { ServerResponseInterface } from '../serverResponse'
+import mongoose, { Document } from 'mongoose'
+import { softDeleteRequestTypeHelper } from './requestType'
 
-const updateRequestGroupHelper = (requestGroup, dataSources): Promise<ServerResponseInterface> => {
-  return dataSources.requestGroups.update(requestGroup)
-    .then(res => {
-      return res
-    })
-    .catch(error => {
-      return error
-    })
+const updateRequestGroupHelper = async (requestGroup, dataSources, session): Promise<Document> => {
+  const res = await dataSources.requestGroups.update(requestGroup, session)
+  return res
 }
 
-export { updateRequestGroupHelper }
+const softDeleteRequestGroupHelper = async (id, dataSources) => {
+  const session = await mongoose.startSession()
+  try {
+    session.startTransaction()
+    const requestGroup = dataSources.requestGroups.getById(id)
+    const res = await dataSources.requestGroups.softDelete(id, session)
+    await requestGroup.requestTypes.map(id => {
+      softDeleteRequestTypeHelper(id, dataSources)
+    })
+    await session.commitTransaction()
+    return res
+  }
+  catch(error) {
+    console.log(error)
+    await session.abortTransaction()
+    throw error
+  }
+  finally {
+    session.endSession()
+  }
+}
+
+export { softDeleteRequestGroupHelper, updateRequestGroupHelper }

@@ -5,9 +5,12 @@ import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
 import { Types } from 'mongoose'
 
-import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, updateRequestHelper } from './utils/request'
+import mongoose from 'mongoose'
+
+import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper } from './utils/request'
+import { softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
 import { softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
-import { updateRequestGroupHelper } from './utils/requestGroup'
+
 
 const nextRequestRequestTypeHelper = (requestIds, dataSources): RequestInterface => {
   const requests = requestIds.map((id) => dataSources.requests.getById(id)).filter(request => request.fulfilled === false && request.deleted === false);
@@ -47,29 +50,96 @@ const resolvers = {
     requestGroups: (_, __, { dataSources }): Array<RequestGroupInterface> => dataSources.requestGroups.getAll()
   },
   Mutation: {
-    createRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestGroups.create(requestGroup),
+    createRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => {
+      return dataSources.requestGroups.create(requestGroup)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'RequestGroup successfully created',
+            'id': res._id
+          }
+        })
+    },
     updateRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => {
-      return updateRequestGroupHelper(requestGroup, dataSources)
+      return sessionHandler(session => updateRequestGroupHelper(requestGroup, dataSources, session))
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'RequestGroup successfully updated',
+            'id': res._id
+          }
+        })
     },
     softDeleteRequestGroup: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
-      const requestGroup = dataSources.requestGroups.getById(id)
-      requestGroup.requestTypes.map(id => {
-        softDeleteRequestTypeHelper(id, dataSources)
-      })
-      return dataSources.requestGroups.softDelete(id)
+      return softDeleteRequestGroupHelper(id, dataSources)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'RequestGroup successfully soft deleted',
+            'id': res._id
+          }
+        })
     },
-    createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.create(requestType),
+    createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => {
+      return dataSources.requestTypes.create(requestType)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'RequestType successfully created',
+            'id': res._id
+          }
+        })
+    },
     updateRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => {
-      return updateRequestTypeHelper(requestType, dataSources)
+      return sessionHandler(session => updateRequestTypeHelper(requestType, dataSources, session))
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'RequestType successfully updated',
+            'id': res._id
+          }
+        })
     },
     softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
       return softDeleteRequestTypeHelper(id, dataSources)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'RequestType successfully soft deleted',
+            'id': res._id
+          }
+        })
     },
-    createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.create(request),
+    createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
+      return dataSources.requests.create(request)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'Request successfully created',
+            'id': res._id
+          }
+        })
+    },
     updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
-      return updateRequestHelper(request, dataSources)
+      return sessionHandler((session) => updateRequestHelper(request, dataSources, session))
+      .then(res => {
+        return {
+          'success': true,
+          'message': 'Request successfully updated',
+          'id': res._id
+        }
+      })
     },
-    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDelete(id),
+    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
+      return softDeleteRequestHelper(id, dataSources)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'Request successfully soft deleted',
+            'id': res._id
+          }
+        })
+    },
     createClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.create(client),
     updateClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.update(client),
     softDeleteClient: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.clients.softDelete(id)
@@ -103,6 +173,22 @@ const resolvers = {
     requestType: (parent, __, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(parent.requestType.toString())),
     client: (parent, __, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(parent.client))
   }
+}
+
+const sessionHandler = async (operation) => {
+  const session = await mongoose.startSession()
+  let res = null
+  try {
+    await session.withTransaction(async () => {
+      res = await operation(session)
+    })
+  }
+  catch(error) {
+    console.log(error)
+    throw error
+  }
+  session.endSession()
+  return res
 }
 
 export { resolvers }
