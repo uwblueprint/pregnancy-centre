@@ -63,7 +63,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     };
     const handleDeleteModalClose = () => setDeleteModalShow(false);
 
-    const handleClick = async (e: React.FormEvent<HTMLFormElement>) => { 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => { 
         e.preventDefault();
         // change requestType here
         console.log(requestType); 
@@ -80,7 +80,6 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
         mutateDeleteRequestType({variables:{id:requestType?._id}});
 
     }
-
 
     // when user clicks edit button request type
     const onOpenEditRequestType = () => {
@@ -118,9 +117,10 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                     </svg></a>
                     </span>}
                 ></Dropdown>
+            {/*TODO: add edit request type and delete requesty type modals here */}
             <CommonModal title={editModalTitle} subtitle={""} handleClose={handleEditModalClose} show={editModalShow} body={
                 <div>
-                    <form onSubmit={handleClick}>
+                    <form onSubmit={handleSubmit}>
                         <div>
                             <input
                                 name="requestType"
