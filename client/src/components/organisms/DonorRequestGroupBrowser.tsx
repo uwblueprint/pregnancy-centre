@@ -58,7 +58,6 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
     },
   });
 
-
   return <Container className="donor-request-group-browser" fluid>
     <Row className="justify-content-center">
       <h1 className="donor-request-group-browser-header">Open Requests</h1>
