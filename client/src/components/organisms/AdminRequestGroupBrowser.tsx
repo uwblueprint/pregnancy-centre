@@ -49,7 +49,8 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
             dateUpdated
             dateCreated
             dateFulfilled
-            deleted 
+            deleted
+            fulfilled 
             quantity
             client{
               _id

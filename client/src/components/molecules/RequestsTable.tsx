@@ -1,21 +1,40 @@
-import React, { FunctionComponent } from 'react';
-import { Button } from 'react-bootstrap';
-import { FaPen } from 'react-icons/fa';
-import { FaTrashAlt } from 'react-icons/fa';
+import { gql, useMutation } from '@apollo/client';
+import React, { FunctionComponent,  useState } from 'react';
 import  Form  from 'react-bootstrap/Form';
 import moment from 'moment';
 import Request from '../../data/types/request';
 import  Table  from 'react-bootstrap/Table';
 
-
 interface Props {
-    requests: Request[]
+    requests: Request[];
 }
 
 const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     const headingList = ['Fulfilled', 'Client Name', 'Quantity', 'Date Requested', '', ''];
-    const dummyRequests = [{"_id": "605570e1acc0254a485e44c4","fulfilled": false,"client": {"firstName": "Willie",
-    "lastName": "Franecki"},"dateCreated": "1590740228592"}, {"_id": "605570e1acc0254a485e44c6","fulfilled": false,"client": {"firstName": "Emmie","lastName": "Bernier"},"dateCreated": "1564965009667"}];
+    const fulfillRequest = gql`
+    mutation updateRequest($request: RequestInput){
+        updateRequest(request: $request){
+          id
+          success
+          message
+        }
+      }
+    `;
+    const [requests, setRequests] = useState(props.requests);
+    const [mutateRequest, {error,data}] = useMutation(fulfillRequest);
+    console.log(requests);
+
+    const onFulfilledRequest = (index:number) => {
+        const requestsCopy = requests.slice();
+        const req = {...requestsCopy[index]};
+        req.fulfilled = !req.fulfilled;
+        requestsCopy[index]=req
+        setRequests(requestsCopy);
+        const id = req._id;
+        const requestId = req.requestId;
+        const fulfilled = req.fulfilled;
+        mutateRequest({variables:{request: {id, requestId, fulfilled}}});
+    }
     return (
         <div className="request-list">
             <Table responsive className="request-table">
@@ -27,16 +46,16 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                 </tr>
                 </thead>
                 <tbody>
-                    {props.requests.map((request)=> (
+                    {props.requests.map((request, index)=> (
                         <tr key={request._id} className="request-table row-style">
                             <td>
                             <div >
-                                <Form.Check type="checkbox" />
+                                <Form.Check type="checkbox" onClick={() => onFulfilledRequest(index)} defaultChecked={request.fulfilled}/>
                             </div>
                             </td>
-                            <td>{request.client!.fullName}</td>
-                            <td>{request.quantity}</td>
-                            <td>{
+                            <td style={requests[index].fulfilled ? {opacity: 0.2}:undefined}>{request.client!.fullName}</td>
+                            <td style={requests[index].fulfilled ? {opacity: 0.2}:undefined}>{request.quantity}</td>
+                            <td style={requests[index].fulfilled ? {opacity: 0.2}:undefined}>{
                                 moment(request.dateCreated, "x").format('MMMM DD, YYYY')
                             }</td>
                             <div className="btn-cont">
