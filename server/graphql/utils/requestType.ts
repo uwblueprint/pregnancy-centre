@@ -29,11 +29,26 @@ const updateRequestTypeHelper = async (requestType, dataSources, session): Promi
   return res
 }
 
-const softDeleteRequestTypeHelper = async (id, dataSources, session): Promise<Document> => {
+
+const softDeleteRequestTypeHelper = async (id, dataSources): Promise<Document> => {
+  const session = await mongoose.startSession()
+  try {
+    session.startTransaction()
     const requestType = dataSources.requestTypes.getById(id)
     const res = await dataSources.requestTypes.softDelete(id, session)
-    await requestType.requests.map(id => { softDeleteRequestHelper(id, dataSources, session) })
+    await requestType.requests.map(id => { softDeleteRequestHelper(id, dataSources) })
+    await session.commitTransaction()
     return res
+
+  }
+  catch(error) {
+    console.log(error)
+    await session.abortTransaction()
+    throw error
+  }
+  finally {
+    session.endSession()
+  }
 }
 
 export { softDeleteRequestTypeHelper, updateRequestTypeHelper }

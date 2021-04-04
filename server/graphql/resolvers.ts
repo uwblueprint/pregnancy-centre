@@ -45,7 +45,7 @@ const resolvers = {
         })
     },
     softDeleteRequestGroup: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
-      return sessionHandler(session => softDeleteRequestGroupHelper(id, dataSources, session))
+      return softDeleteRequestGroupHelper(id, dataSources)
         .then(res => {
           return {
             'success': true,
@@ -75,7 +75,7 @@ const resolvers = {
         })
     },
     softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
-      return sessionHandler(session => softDeleteRequestTypeHelper(id, dataSources, session))
+      return softDeleteRequestTypeHelper(id, dataSources)
         .then(res => {
           return {
             'success': true,
@@ -105,7 +105,7 @@ const resolvers = {
       })
     },
     softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
-      return sessionHandler(session => softDeleteRequestHelper(id, dataSources, session))
+      return softDeleteRequestHelper(id, dataSources)
         .then(res => {
           return {
             'success': true,
@@ -136,21 +136,20 @@ const resolvers = {
   }
 }
 
-const sessionHandler = async (fun) => {
+const sessionHandler = async (operation) => {
   const session = await mongoose.startSession()
   let res = null
   try {
     await session.withTransaction(async () => {
-      res = await fun(session)
+      res = await operation(session)
     })
   }
   catch(error) {
     console.log(error)
     throw error
   }
-  finally {
-    return res
-  }
+  session.endSession()
+  return res
 }
 
 export { resolvers }
