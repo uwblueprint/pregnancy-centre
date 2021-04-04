@@ -1,7 +1,6 @@
-import { Document, Types } from 'mongoose'
+import { ClientSession, Document, Types } from 'mongoose'
 import { Cache } from '../database/cache'
 import { DataSource } from 'apollo-datasource'
-import { ServerResponseInterface } from '../graphql/serverResponse';
 import { UserInputError } from 'apollo-server-errors';
 
 export default class CachedMongooseDataSource<DocumentType extends Document> extends DataSource {
@@ -13,74 +12,33 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
   }
 
   getById(id: Types.ObjectId): DocumentType {
-    return this.cache.getData().filter(request => request._id && request._id.equals(id))[0]
+    const res = this.cache.getData().filter(request => request._id && request._id.equals(id))
+    if(res.length === 0) {
+      throw new Error(`Mongoose ${this.cache.name} ObjectId not found`)
+    }
+    return res[0]
   }
 
   getAll(): Array<DocumentType> {
     return this.cache.getData()
   }
 
-  async create(inputObject: Document): Promise<ServerResponseInterface> {
+  async create(inputObject: Document): Promise<Document> {
     const newObject = new this.cache.model(inputObject)
     const promise = await newObject.save()
-      .then(res => {
-        return {
-          "success": true,
-          "message": `${this.cache.name} successfully created`,
-          "id": res._id
-        }
-      })
-      .catch(error => {
-        console.log(error)
-        return {
-          "success": false,
-          "message": error._message,
-          "id": null 
-        }
-      })
     return promise
   }
 
-  async update(inputObject: Document): Promise<ServerResponseInterface> {
+  async update(inputObject: Document, session: ClientSession): Promise<Document> {
     if(!inputObject.id) {
       throw new UserInputError('Missing argument value', { argumentName: 'id' })
     }
-    const promise = await this.cache.model.findByIdAndUpdate(inputObject.id.toString(), inputObject)
-      .then(res => {
-        return {
-          "success": true,
-          "message": `${this.cache.name} successfully updated`,
-          "id": inputObject.id
-        }
-      })
-      .catch(error => {
-        console.log(error)
-        return {
-          "success": false,
-          "message": error._message,
-          "id": inputObject.id
-        }
-      })
+    const promise = await this.cache.model.findByIdAndUpdate(inputObject.id.toString(), inputObject, { session }).orFail()
     return promise
   }
   
-  async softDelete(id: Types.ObjectId): Promise<ServerResponseInterface> {
-    const promise = this.cache.model.findByIdAndUpdate(id, {"deleted": true})
-      .then(res => {
-        return {
-          "success": true,
-          "message": `${this.cache.name} successfully soft deleted`,
-          "id": id
-        }
-      })
-      .catch(error => {
-        console.log(error)
-        return {
-          "success": false,
-          "message": error._message,
-          "id": id
-        }
-      })
+  async softDelete(id: Types.ObjectId, session: ClientSession): Promise<Document> {
+    const promise = this.cache.model.findByIdAndUpdate(id, {"deleted": true}, { session }).orFail()
     return promise
   }
 }

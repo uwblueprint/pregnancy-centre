@@ -11,7 +11,7 @@ interface Props {
     buttonProps?: ButtonProps
 }
 
-const RequestTypeList: FunctionComponent<Props> = (props: Props) => {
+const InfoBox: FunctionComponent<Props> = (props: Props) => {
     return (
         <Card className="infoBox">
             <Card.Body>
@@ -29,4 +29,4 @@ const RequestTypeList: FunctionComponent<Props> = (props: Props) => {
     )
 }
 
-export default RequestTypeList; 
+export default InfoBox; 
