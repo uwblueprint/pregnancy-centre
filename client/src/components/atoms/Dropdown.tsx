@@ -4,12 +4,14 @@ import React, { FunctionComponent, useState } from 'react';
 interface Props {
     title: string
     header?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>  
-    body: any
+    body: React.ReactElement<any>
 }
 
 const Dropdown:  FunctionComponent<Props> = (props: Props) => {
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen(!open);
+
+  console.log(typeof props.body)
     
   return (
       <div>
