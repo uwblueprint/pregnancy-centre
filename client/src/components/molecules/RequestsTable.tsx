@@ -20,17 +20,9 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         }
       }
     `;
-    const softDeleteRequest = gql`
-    mutation deleteARequest($id: ID){
-        softDeleteRequest(id: $id){
-          id
-          success
-          message
-        }
-      }`;
+
     const [requests, setRequests] = useState(props.requests);
-    const [mutateRequest, {error,data}] = useMutation(updateRequest);
-    const [mutateDeleteRequest] = useMutation(softDeleteRequest);
+    const [mutateRequest] = useMutation(updateRequest);
     console.log(requests);
 
     const onFulfilledRequest = (index:number) => {
