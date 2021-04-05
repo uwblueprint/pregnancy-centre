@@ -39,7 +39,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const [editModalShow, setEditModalShow] = useState(false);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [isTooLong, setIsTooLong] = useState(false);
-    const [mutateRequestType, {error,data}] = useMutation(mutation);
+    const [mutateRequestType, { error }] = useMutation(mutation);
     const [mutateDeleteRequestType] = useMutation(softDelete);
 
     const getTotalQuantity = () => {
