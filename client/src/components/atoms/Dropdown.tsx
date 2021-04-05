@@ -10,8 +10,6 @@ interface Props {
 const Dropdown:  FunctionComponent<Props> = (props: Props) => {
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen(!open);
-
-  console.log(typeof props.body)
     
   return (
       <div>
