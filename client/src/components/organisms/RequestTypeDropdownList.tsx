@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import Dropdown from '../atoms/Dropdown';
 import RequestGroup from '../../data/types/requestGroup';
 import RequestType from '../../data/types/requestType';
 import RequestTypeDropdown from '../molecules/RequestTypeDropdown';
