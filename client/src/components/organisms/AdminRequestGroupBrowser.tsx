@@ -1,7 +1,7 @@
 import { bindActionCreators, Dispatch } from "redux"
 import { Col, Row } from "react-bootstrap";
 import { gql, useQuery } from "@apollo/client";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent } from "react";
 import { connect } from "react-redux";
 import { loadRequestGroup } from '../../data/actions'
 import RequestGroup from '../../data/types/requestGroup'
@@ -9,7 +9,7 @@ import RequestTypeDropdownList from "./RequestTypeDropdownList";
 import { RootState } from '../../data/reducers'
 import { useParams } from "react-router";
 
-import { Dropdown, DropdownButton } from "react-bootstrap"
+import { Dropdown } from "react-bootstrap"
 
 interface StateProps {
   requestGroup: RequestGroup
@@ -27,7 +27,6 @@ type Props = StateProps & DispatchProps;
 
 
 const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWithChildren<Props>) => {
-    //const [requestGroup, setRequestGroup] = useState<string | undefined>(props.requestGroup._id)
     const { id } = useParams<ParamTypes>();
     const query = gql`
     query getRequestGroup($id: ID) {
@@ -64,7 +63,7 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
     }
     `;
     
-    const {loading, error, data} = useQuery(query, {
+    const { error } = useQuery(query, {
       variables: { id: id },
       onCompleted: (data: { requestGroup: RequestGroup }) => {
           props.loadRequestGroup(data.requestGroup)
