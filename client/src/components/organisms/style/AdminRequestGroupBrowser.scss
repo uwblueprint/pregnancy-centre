@@ -1,3 +1,31 @@
 .request-group-description {
     margin-left: 145px;
 }
+
+.btn, .btn:hover, .btn:focus, .btn:active, .show > .btn-primary.dropdown-toggle {
+    background-color: white;
+    color: #004D57;
+    border-color: #004D57;
+    height: 36px;
+    width: 60px;
+}
+
+.request-group-button {
+    float: right;
+    position: absolute;
+    left: 85%;
+
+    &-dropdown {
+        background-color: #f4f4f4;
+        border-radius: 4px;
+
+        &-item {
+            padding-top: 15px;
+        }
+    }
+}
+
+.buttonDiv {
+    position: relative;
+}
+

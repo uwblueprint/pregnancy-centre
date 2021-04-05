@@ -3,7 +3,7 @@ import React, { FunctionComponent, useState } from 'react';
 
 interface Props {
     title: string
-    header: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>  
+    header?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>  
     body: any
 }
 

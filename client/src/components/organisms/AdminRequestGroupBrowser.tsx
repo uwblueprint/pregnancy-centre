@@ -9,6 +9,8 @@ import RequestTypeDropdownList from "./RequestTypeDropdownList";
 import { RootState } from '../../data/reducers'
 import { useParams } from "react-router";
 
+import { Dropdown, DropdownButton } from "react-bootstrap"
+
 interface StateProps {
   requestGroup: RequestGroup
 }
@@ -78,8 +80,24 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
               <h1>{props.requestGroup.name}</h1>
               <p>Displaying {props.requestGroup.numOpen} total requests and {props.requestGroup.requestTypes?.length} types</p>
             </Col>
+            <Col>
+            <Dropdown className="request-group-button">
+              <Dropdown.Toggle>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots" viewBox="0 0 16 16">
+                  <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu align="right" className="request-group-button-dropdown">
+                <Dropdown.Item className="request-group-button-dropdown-item" onClick={() => {}}>Edit Group</Dropdown.Item>
+                <Dropdown.Item className="request-group-button-dropdown-item" onClick={() => {}}>Create New Type</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+
+            </Col>
+
           </Row>
-          <RequestTypeDropdownList requestGroup={props.requestGroup} requestTypes={props.requestGroup.requestTypes}></RequestTypeDropdownList>
+            <RequestTypeDropdownList requestGroup={props.requestGroup} requestTypes={props.requestGroup.requestTypes}></RequestTypeDropdownList>
       </div>
     );
 };

@@ -3,14 +3,13 @@ import AdminRequestGroupBrowser from '../components/organisms/AdminRequestGroupB
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 
-import DonorPage from '../components/layouts/DonorPage'
-import HomepageBanner from '../components/organisms/HomepageBanner'
+import AdminPage from '../components/layouts/AdminPage'
 
 const AdminRequestGroupView: FunctionComponent = () => {
   return <Container className="donor-homepage" fluid>
-    <DonorPage>
+    <AdminPage>
       <Row className="donor-homepage"><AdminRequestGroupBrowser /></Row>
-    </DonorPage>
+    </AdminPage>
   </Container>;
 };
 
