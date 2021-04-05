@@ -45,48 +45,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         mutateRequest({variables:{request: {id, requestId, fulfilled}}});
     }
 
-    const [editModalShow, setEditModalShow] = useState(false);
-    const [deleteModalShow, setDeleteModalShow] = useState(false);
-    const editModalTitle = "Edit Request";
-    const deleteModalTitle = "Delete Request";
-
-    const handleEditModalClose = () => {
-        setEditModalShow(false);
-    };
-    const handleDeleteModalClose = () => setDeleteModalShow(false);
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => { 
-        e.preventDefault();
-        // change request here
-        //const id = request?._id;
-        //const name = request?.name;
-        //const deleted = request?.deleted;
-        //mutateRequest({variables:{requestType: {id, name, deleted}}});
-        //if (error) console.log(error.graphQLErrors)
-        //setBackupRequestType(requestType);
-    };
-
-    const deleteRequest = async () => {
-        //delete request here
-        //mutateDeleteRequest({variables:{id:requestType?._id}});
-    }
-
-    // when user clicks edit button request type
-    const onOpenEditRequest = () => {
-        setEditModalShow(true);
-    }
-
-    // when user clicks delete button request type
-    const onOpenDeleteRequest = () => {
-        setDeleteModalShow(true);
-    }
-
-    // user editing request type in modal
-    const onEditRequest = (e: React.ChangeEvent<HTMLInputElement>) => {
-        //const newReqType  = {...request, name:e.target.value};
-        //setRequest(newReqType);     
-    };
-
+    
     return (
         <div className="request-list">
             <Table responsive className="request-table">
