@@ -22,9 +22,7 @@ const Navbar: FunctionComponent<Props> = (props: Props) => {
       />
     </BsNavbar.Brand>
     <div className="navbar-links">
-      {props.links.map((link : Link) => {
-        <Nav.Link href={link.link} key={link.name}>{link.name}</Nav.Link>
-      })}
+      {props.links.map((link: Link) => <Nav.Link href={link.link} key={link.name}>{link.name}</Nav.Link>)}
     </div>
   </BsNavbar>
 };
