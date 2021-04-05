@@ -9,7 +9,6 @@ import DonorHomepage from './pages/DonorHomepage'
 import PasswordResetEmailSentModal from "./pages/PasswordResetEmailSentModal";
 import React from "react";
 import RequestGroupDonorView from './components/organisms/RequestGroupDonorView';
-import RequestTypeDropdownList from "./components/organisms/RequestTypeDropdownList";
 import SampleContainer from "./components/examples/SampleContainer";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
