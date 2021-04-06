@@ -3,7 +3,6 @@ import React, { FunctionComponent, useState } from "react";
 import CommonModal from "../components/organisms/Modal";
 import { createNewAccount } from "../services/auth";
 import { Redirect } from "react-router-dom";
-import Spacer from "../components/atoms/Spacer";
 
 const SignUpModal: FunctionComponent = () => {
   const [email, setEmail] = useState("");
@@ -159,10 +158,9 @@ const SignUpModal: FunctionComponent = () => {
               </OverlayTrigger>
             </div>
           </div>
-          <Spacer height={40} />
           <button
             role="link"
-            className="button"
+            className="button signup"
             disabled={requirementsAreFulfilled}
           >
             Sign Up

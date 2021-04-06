@@ -3,7 +3,6 @@ import React, { FunctionComponent, useState } from "react";
 import CommonModal from "../components/organisms/Modal";
 import { Redirect } from "react-router-dom";
 import { signIn } from "../services/auth";
-import Spacer from "../components/atoms/Spacer";
 
 const SignInModal: FunctionComponent = () => {
   const initialErrors = { email: "", password: "" }
@@ -112,8 +111,7 @@ const SignInModal: FunctionComponent = () => {
             >
               Forgot your password?
             </div>
-            <Spacer height={15} />
-            <button role="link" className="button">
+            <button role="link" className="button signin">
               Sign in
             </button>
             <div>
