@@ -114,7 +114,6 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
                 <SimplePageNavigation
                     totalNumItems={requestGroups.length}
                     numItemsPerPage={numGroupsPerPage}
-                    pages={Math.ceil(requestGroups.length / numGroupsPerPage)}
                     currentPage={currentPage} // Indexing starting at 1.
                     onPageChange={handlePageChange}
                 />
