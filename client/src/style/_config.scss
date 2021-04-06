@@ -47,6 +47,11 @@ $section-header-text-color: #bbbbbb;
   color: $alt-faded-text-color;
 }
 
+@mixin tpc-green-text() {
+  @include text;
+  color: $tpc-green;
+}
+
 @mixin section-header-text() {
   @include text;
   color: $section-header-text-color;
@@ -91,9 +96,9 @@ $button-disabled-background: #b2b2b2;
 
 @mixin alt-button() {
   @include button-base;
-  @include normal-text;
+  @include tpc-green-text;
   background-color: $background;
-  border-color: $button-background;
+  border-color: $tpc-green;
 }
 
 @mixin normal-button() {
@@ -107,6 +112,13 @@ $button-disabled-background: #b2b2b2;
   &:visited {
     @include alt-button;
   }
+}
+
+@mixin tpc-green-button(){
+  @include button-base;
+  @include white-text;
+  background-color: $tpc-green;
+  border-color: $tpc-green;
 }
 
 /* Disable scrollbar for overflow */
@@ -160,6 +172,7 @@ $tag-background: #ededed;
 $input-icon-color: #adadad;
 $tpc-green: #004d57;
 $input-border: #e9e9e9;
+$disabled-text: #adadad;
 $input-error: #dc3545;
 
 @mixin input-icon() {

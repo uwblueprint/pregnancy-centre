@@ -7,7 +7,6 @@ const DonorPage: FunctionComponent<Record<string, unknown>> = (props: React.Prop
   return <div className="donor-page">
     <div className="donor-page-header">
       <Navbar links={ [ { name: "TPC Main Website", link: "https://pregnancycentre.ca/"  }, 
-                        { name: "How to Donate", link: "/donation-guidelines"  }, 
                         { name: "Organization Login", link: "/login" } ] } />
     </div>
     <div className="donor-page-content" >

@@ -1,4 +1,3 @@
-import './style/Modal.scss';
 import React, { FunctionComponent } from 'react';
 import { Modal } from 'react-bootstrap';
 

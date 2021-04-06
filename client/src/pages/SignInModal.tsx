@@ -1,4 +1,3 @@
-import "./Modal.scss";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import React, { FunctionComponent, useState } from "react";
 import CommonModal from "../components/organisms/Modal";
@@ -96,15 +95,15 @@ const SignInModal: FunctionComponent = () => {
                   name="password"
                   className={
                     errors.password
-                      ? "input-field password error"
-                      : "input-field password"
+                      ? "text-field password error"
+                      : "text-field password"
                   }
                   placeholder="Enter your password"
                   value={password}
                   onChange={onChangePass}
                 />
                 <div
-                  className="input-field-btn"
+                  className="text-field-btn"
                   onClick={() => {
                     setHidePassword(!hidePassword);
                   }}

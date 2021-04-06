@@ -1,4 +1,3 @@
-import "./Modal.scss";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import React, { FunctionComponent, useState } from "react";
 import CommonModal from "../components/organisms/Modal";
@@ -129,13 +128,13 @@ const SignUpModal: FunctionComponent = () => {
                 value={email}
                 className={
                   errors.email
-                    ? "input-field password error"
-                    : "input-field password"
+                    ? "text-field password error"
+                    : "text-field password"
                 }
                 onChange={onChangeEmail}
               />
                 <div
-                  className="input-field-alert"
+                  className="text-field-alert"
                 ><i className="bi bi-exclamation-circle alert-icon"></i></div>
               </div> :
               <input
@@ -143,7 +142,7 @@ const SignUpModal: FunctionComponent = () => {
                 placeholder="Enter your company email"
                 type="text"
                 value={email}
-                className="input-field"
+                className="text-field"
                 onChange={onChangeEmail}
               />}
           </div>
@@ -160,7 +159,7 @@ const SignUpModal: FunctionComponent = () => {
                   type="password"
                   name="password"
                   className={
-                    errors.password ? "input-field error" : "input-field"
+                    errors.password ? "text-field error" : "text-field"
                   }
                   placeholder="Enter your password"
                   value={password}
