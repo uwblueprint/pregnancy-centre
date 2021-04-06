@@ -1,5 +1,6 @@
 import "./App.scss";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import React from "react";
 
 import AdminHomepage from "./pages/AdminHomepage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView"
@@ -7,7 +8,6 @@ import AuthTestComponent from "./pages/AuthTestComponent";
 import ConfirmationModal from "./pages/ConfirmationModal";
 import DonorHomepage from './pages/DonorHomepage'
 import PasswordResetEmailSentModal from "./pages/PasswordResetEmailSentModal";
-import React from "react";
 import RequestGroupDonorView from './components/organisms/RequestGroupDonorView';
 import SampleContainer from "./components/examples/SampleContainer";
 import SignInModal from "./pages/SignInModal";
@@ -25,7 +25,6 @@ function App(): JSX.Element {
           {/* TODO(jlight99): delete /confirmation endpoint after logic for triggering the confirmation modal upon signup has been added */}
           <Route path='/confirmation' component={() => <ConfirmationModal email="anna@pregnancycentre.ca" />}></Route>
           <Route path='/signup' strict component={SignUpModal}></Route>
-          {/* <Route path='/requests' strict><RequestTypeDropdownList requestTypes={["250 ML (20)", "150 ML (20)"]}></RequestTypeDropdownList></Route> */}
           <Route path='/verify-email' component={AuthTestComponent}></Route>
           <Route path='/password-reset-email-sent' strict component={PasswordResetEmailSentModal}></Route>
           <Route path='/admin' component={AdminHomepage}></Route>
