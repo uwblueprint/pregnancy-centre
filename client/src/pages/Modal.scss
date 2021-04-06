@@ -84,25 +84,16 @@
     color: $faded-modal-text-color;
   }
 
-  .input-field {
+  .text-field {
     width: 385px;
     height: 48.96px;
-    align-self: left;
-    border: 1px solid $input-border;
-    box-sizing: border-box;
-    border-radius: 4px;
-    padding-left: 20px;
-    line-height: 0;
   }
 
-  .input-field.password {
-    border: none;
+  .text-field.password {
     width: 325px;
-    display: flex;
-    flex-direction: row;
   }
 
-  .input-field-btn {
+  .text-field-btn {
     @include input-icon;
     width: 40px;
     font-size: 24px;
@@ -112,15 +103,8 @@
     cursor: pointer;
   }
 
-  .input-field.error {
-    border: 1px solid $input-error;
-  }
-
-  .input-field.password.error {
-    border: 1px solid $input-error;
+  .text-field.password.error {
     width: 325px;
-    display: flex;
-    flex-direction: row;
   }
 }
 

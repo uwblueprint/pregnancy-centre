@@ -61,7 +61,7 @@ const SignInModal: FunctionComponent = () => {
                 placeholder="Enter your company email"
                 type="text"
                 value={email}
-                className={errors.email ? "input-field error" : "input-field"}
+                className={errors.email ? "text-field error" : "text-field"}
                 onChange={onChangeEmail}
               />
             </div>
@@ -78,15 +78,15 @@ const SignInModal: FunctionComponent = () => {
                   name="password"
                   className={
                     errors.password
-                      ? "input-field password error"
-                      : "input-field password"
+                      ? "text-field password error"
+                      : "text-field password"
                   }
                   placeholder="Enter your password"
                   value={password}
                   onChange={onChangePass}
                 />
                 <div
-                  className="input-field-btn"
+                  className="text-field-btn"
                   onClick={() => {
                     setHidePassword(!hidePassword);
                   }}
