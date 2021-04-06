@@ -11,7 +11,7 @@ import requestGroupsReducer from './requestGroupsReducer'
 
 const rootReducer = combineReducers({
   requestGroups: requestGroupsReducer,
-  requestGroup: requestGroupReducer
+  selectedRequestGroup: requestGroupReducer
 });
 
 export default rootReducer

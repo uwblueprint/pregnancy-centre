@@ -101,7 +101,7 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
   
 const mapStateToProps = (store: RootState): StateProps => {
   return {
-      requestGroup: store.requestGroup.data
+      requestGroup: store.selectedRequestGroup.data
   };
 };
 

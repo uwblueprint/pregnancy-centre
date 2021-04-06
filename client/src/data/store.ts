@@ -11,7 +11,7 @@ const DEFAULT_STATE: RootState = {
     data: [],
     displayData: []
   },
-  requestGroup: {
+  selectedRequestGroup: {
     data: {} 
   }
 };
