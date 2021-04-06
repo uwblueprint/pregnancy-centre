@@ -64,11 +64,12 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
     useQuery(query, {
         onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
             const displayRequestGroups = sortRequestGroupsAlphabetically(data.requestGroups.map(requestGroup => ({ ...requestGroup })));
-            setRequestGroups(displayRequestGroups.slice(
+            setRequestGroups(displayRequestGroups);
+            setDisplayRequestGroups(displayRequestGroups.slice(
                 (currentPage - 1) * numGroupsPerPage,
                 Math.min(
                     currentPage * numGroupsPerPage,
-                    props.displayRequestGroups.length > 0 ? (props.displayRequestGroups.length - 1) : Infinity
+                    displayRequestGroups.length > 0 ? displayRequestGroups.length : Infinity
                 )
             ));
             props.loadRequestGroups(data.requestGroups);
@@ -85,7 +86,13 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
             updatedRequestGroups = props.displayRequestGroups; 
         }
         setRequestGroups(updatedRequestGroups);
-        setDisplayRequestGroups(updatedRequestGroups.slice((currentPage - 1) * numGroupsPerPage, Math.min(currentPage * numGroupsPerPage, updatedRequestGroups.length - 1)));
+        setDisplayRequestGroups(updatedRequestGroups.slice(
+            (currentPage - 1) * numGroupsPerPage,
+            Math.min(
+                currentPage * numGroupsPerPage,
+                updatedRequestGroups.length > 0 ? updatedRequestGroups.length : Infinity
+            )
+        ));
     }
 
     const onCreateButtonClick = () => {
@@ -104,9 +111,9 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
             </span>
             <span className="page-navigation">
                 <SimplePageNavigation
-                    totalNumItems={displayRequestGroups.length}
+                    totalNumItems={requestGroups.length}
                     numItemsPerPage={numGroupsPerPage}
-                    pages={Math.ceil(displayRequestGroups.length / numGroupsPerPage)}
+                    pages={Math.ceil(requestGroups.length / numGroupsPerPage)}
                     currentPage={currentPage} // Indexing starting at 1.
                     onPageChange={handlePageChange}
                 />
