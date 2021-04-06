@@ -6,9 +6,9 @@ import AdminPage from '../components/layouts/AdminPage'
 import AdminRequestGroupBrowser from '../components/organisms/AdminRequestGroupBrowser';
 
 const AdminRequestGroupView: FunctionComponent = () => {
-  return <Container className="donor-homepage" fluid>
+  return <Container className="admin-homepage" fluid>
     <AdminPage>
-      <Row className="donor-homepage"><AdminRequestGroupBrowser /></Row>
+      <Row className="admin-homepage"><AdminRequestGroupBrowser /></Row>
     </AdminPage>
   </Container>;
 };
