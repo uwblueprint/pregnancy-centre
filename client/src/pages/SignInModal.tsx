@@ -63,13 +63,13 @@ const SignInModal: FunctionComponent = () => {
                   value={email}
                   className={
                     errors.email
-                      ? "input-field password error"
-                      : "input-field password"
+                      ? "text-field password error"
+                      : "text-field password"
                   }
                   onChange={onChangeEmail}
                 />
                   <div
-                    className="input-field-alert"
+                    className="text-field-alert"
                   ><i className="bi bi-exclamation-circle alert-icon"></i></div>
                 </div> :
                 <input
@@ -77,7 +77,7 @@ const SignInModal: FunctionComponent = () => {
                   placeholder="Enter your company email"
                   type="text"
                   value={email}
-                  className="input-field"
+                  className="text-field"
                   onChange={onChangeEmail}
                 />}
             </div>
