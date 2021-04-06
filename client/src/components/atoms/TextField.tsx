@@ -19,7 +19,6 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
       className={
         "text-field-input"
         + (props.isErroneous ? " error" : "")
-        + (props.type === "password" ? " password" : "")
       }
       placeholder={props.placeholder}
       value={props.input}
