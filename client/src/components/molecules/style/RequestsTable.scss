@@ -1,17 +1,10 @@
-.request-list {
-    padding: 0;
+.request-table {
+    @include table-base;
     h1 {
         @include section-header-text;
         padding-bottom: 4px;
         margin: 0;
     }
-    min-width: 1000px;
-    width: 1185px;
-}
-
-.request-table {
-    font-family: "Inter";
-    margin-top: 20px;
     width:1200px;
     margin-left: auto;
     margin-right:auto;
@@ -23,23 +16,27 @@
     }
     & td {
       border-top: unset;
+      padding: 0.6rem;
+      vertical-align: unset;
     }
     .row-style{
         font-size: 16px;
-        text-align: center;
+        text-align: left;
     }
     .header-style{
         font-size: 14px;
-        text-align: center;
+        text-align: left;
         color: #969696;
     }
-  }
-
-  .btn-cont{
-    display:flex;
-    justify-content: flex-end;
-    position: absolute;
-    margin-left: 20px;
+    .th{
+        font-weight:600;
+    }
+    .btn-cont{
+        display:flex;
+        justify-content: flex-end;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
   }
 
   

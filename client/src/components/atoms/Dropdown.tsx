@@ -3,7 +3,7 @@ import React, { FunctionComponent, useState } from 'react';
 
 interface Props {
     title: string
-    header?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>  
+    header?: React.ReactElement  
     body: React.ReactElement
 }
 
@@ -12,19 +12,18 @@ const Dropdown:  FunctionComponent<Props> = (props: Props) => {
   const toggle = () => setOpen(!open);
     
   return (
-      <div>
-        <div className="dd-wrapper">
+      <div className="dropdown">
+        <div className="dropdown-wrapper">
             <div
                 tabIndex={0}
-                className="dd-header"
+                className="dropdown-header"
                 role="button"
-                onKeyPress={() => toggle()}
                 onClick={() => toggle()}
             >
-                <div className="dd-header__title">
-                <p className="dd-header__title--bold">{props.title}</p>
+                <div className="dropdown-header__title">
+                <p className="dropdown-header__title--bold">{props.title}</p>
                 </div>
-                <div className="dd-header__action">
+                <div className="dropdown-header__action">
                     {props.header}
                 </div>
             </div>
