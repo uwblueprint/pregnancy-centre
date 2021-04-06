@@ -10,6 +10,13 @@
     outline-width: 0;
   }
 
+  &:disabled {
+    background: none;
+    &::placeholder{
+      color: $disabled-text;
+    }
+  }
+
   &.error {
     border: 1px solid $input-error;
   }
