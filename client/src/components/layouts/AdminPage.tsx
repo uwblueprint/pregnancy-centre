@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 import Footer from '../organisms/Footer'
 import Navbar from '../organisms/Navbar'
 
-const DonorPage: FunctionComponent<Record<string, unknown>> = (props: React.PropsWithChildren<Record<string, unknown>>) => {
+const AdminPage: FunctionComponent<Record<string, unknown>> = (props: React.PropsWithChildren<Record<string, unknown>>) => {
   return <div className="donor-page">
     <div className="donor-page-header">
       <Navbar links={ [ { name: "Donation Hub", link: "https://pregnancycentre.ca/"  }, 
@@ -18,4 +18,4 @@ const DonorPage: FunctionComponent<Record<string, unknown>> = (props: React.Prop
     </div>
 };
 
-export default DonorPage
+export default AdminPage
