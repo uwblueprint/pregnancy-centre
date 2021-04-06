@@ -93,14 +93,14 @@ const SignInModal: FunctionComponent = () => {
                   value={password}
                   onChange={onChangePass}
                 />
-                <div
+                {password && <div
                   className="text-field-btn"
                   onClick={() => {
                     setHidePassword(!hidePassword);
                   }}
                 >
                   {hidePassword ? <EyeFilled /> : <EyeInvisibleFilled />}
-                </div>
+                </div>}
               </div>
             </div>
             <div
