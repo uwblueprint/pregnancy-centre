@@ -12,6 +12,8 @@ import SampleContainer from "./components/examples/SampleContainer";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
+import AlertDialog from "./components/atoms/AlertDialog";
+
 function App(): JSX.Element {
   return (
     <span>
@@ -30,6 +32,8 @@ function App(): JSX.Element {
           <Route path='/test'>
             <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
           </Route>
+
+          <Route path='/alert'><AlertDialog dialogText="alert dialog" onExit={()=>{}} onStay={()=>{}}/></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>
