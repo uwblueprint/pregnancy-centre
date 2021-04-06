@@ -8,6 +8,7 @@ import RequestGroup from '../../data/types/requestGroup';
 import RequestGroupTable from "../molecules/RequestGroupTable";
 import { RootState } from '../../data/reducers'
 import SearchBar from "../atoms/SearchBar";
+import SimplePageNavigation from "../atoms/SimplePageNavigation";
 
 interface StateProps {
     requestGroups: Array<RequestGroup>,
@@ -22,7 +23,18 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithChildren<Props>) => {
-    const [requestGroups, setRequestGroups] = useState<Array<RequestGroup> | undefined>(props.displayRequestGroups);
+    // requestGroups are all the request groups that fit the search string
+    const [requestGroups, setRequestGroups] = useState<Array<RequestGroup>>(props.displayRequestGroups);
+    // displayRequestGroups is a subset of requestGroups, and represents all the request groups on the current page
+    const [displayRequestGroups, setDisplayRequestGroups] = useState<Array<RequestGroup>>(props.displayRequestGroups);
+    const [currentPage, setCurrentPage] = useState(1); // Indexing starting at 1.
+    const numGroupsPerPage = 20;
+
+    const handlePageChange = (newPage: number) => {
+        setCurrentPage(newPage);
+        setDisplayRequestGroups(requestGroups.slice((newPage - 1) * numGroupsPerPage, Math.min(newPage * numGroupsPerPage, requestGroups.length - 1)));
+    };
+
     const query = gql`
     {
       requestGroups {
@@ -52,19 +64,28 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
     useQuery(query, {
         onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
             const displayRequestGroups = sortRequestGroupsAlphabetically(data.requestGroups.map(requestGroup => ({ ...requestGroup })));
-            setRequestGroups(displayRequestGroups);
+            setRequestGroups(displayRequestGroups.slice(
+                (currentPage - 1) * numGroupsPerPage,
+                Math.min(
+                    currentPage * numGroupsPerPage,
+                    props.displayRequestGroups.length > 0 ? (props.displayRequestGroups.length - 1) : Infinity
+                )
+            ));
             props.loadRequestGroups(data.requestGroups);
             props.setDisplayRequestGroups(displayRequestGroups);
         },
     });
 
     const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        // if no search string entered, return all results
+        let updatedRequestGroups = [];
         if (event.target.value.length > 0) {
-            setRequestGroups(props.displayRequestGroups.filter(requestGroup => requestGroup.name == event.target.value));
+            updatedRequestGroups = props.displayRequestGroups.filter(requestGroup => requestGroup.name == event.target.value);
         } else {
-            setRequestGroups(props.displayRequestGroups);
+            // if no search string entered, return all results
+            updatedRequestGroups = props.displayRequestGroups; 
         }
+        setRequestGroups(updatedRequestGroups);
+        setDisplayRequestGroups(updatedRequestGroups.slice((currentPage - 1) * numGroupsPerPage, Math.min(currentPage * numGroupsPerPage, updatedRequestGroups.length - 1)));
     }
 
     const onCreateButtonClick = () => {
@@ -73,14 +94,24 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
 
     return (
         <span>
-            <span className="top-bar">
-                <span className="row">
-                    <span className="title">Request Groups</span>
-                    <SearchBar defaultText="Search for a group..." onSearchStringChange={onSearchStringChange} />
-                    <Button text="Create" copyText="Create" onClick={onCreateButtonClick} />
+            <span className="row">
+                <span className="title">Request Groups</span>
+                <span className="action-group">
+                    <span className="item"><SearchBar defaultText="Search for a group..." onSearchStringChange={onSearchStringChange} /></span>
+                    <span className="spacing"></span>
+                    <span className="item"><Button text="Create" copyText="Create" onClick={onCreateButtonClick} /></span>
                 </span>
             </span>
-            <RequestGroupTable requestGroups={requestGroups} />
+            <span className="page-navigation">
+                <SimplePageNavigation
+                    totalNumItems={displayRequestGroups.length}
+                    numItemsPerPage={numGroupsPerPage}
+                    pages={Math.ceil(displayRequestGroups.length / numGroupsPerPage)}
+                    currentPage={currentPage} // Indexing starting at 1.
+                    onPageChange={handlePageChange}
+                />
+            </span>
+            <RequestGroupTable requestGroups={displayRequestGroups} />
         </span>
     );
 };

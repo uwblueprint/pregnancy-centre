@@ -8,16 +8,21 @@
 
     color: #333333;
 
-    padding-left: 80px;
-}
-
-.top-bar {
-    display: flex;
+    padding-left: 95px;
 }
 
 .row {
     display: flex;
+    justify-content: space-between;
+}
+
+.action-group {
+    display: flex;
     flex-direction: row;
+}
+
+.action-group .spacing {
+    width: 27px;
 }
 
 .button {
@@ -40,4 +45,13 @@
 
     color: #FFFFFF;
 
+    margin-right: 80px;
+}
+
+.page-navigation {
+    display: block;
+    float: right;
+    margin-right: 69px;
+    margin-top: 24px;
+    margin-bottom: 21px;
 }
