@@ -1,4 +1,3 @@
-import "./Modal.scss";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import React, { FunctionComponent, useState } from "react";
 import CommonModal from "../components/organisms/Modal";

@@ -1,4 +1,3 @@
-import "./Modal.scss";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import React, { FunctionComponent, useState } from "react";
 import CommonModal from "../components/organisms/Modal";
