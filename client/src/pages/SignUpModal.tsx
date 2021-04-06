@@ -120,31 +120,22 @@ const SignUpModal: FunctionComponent = () => {
               <div className="text signup">Email Address</div>
               <div className="text error">{errors.email}</div>
             </div>
-            {errors.email ?
-              <div className={`row bordered error`}><input
-                name="email"
-                placeholder="Enter your company email"
-                type="text"
-                value={email}
-                className={
-                  errors.email
-                    ? "text-field password error"
-                    : "text-field password"
-                }
-                onChange={onChangeEmail}
-              />
-                <div
-                  className="text-field-alert"
-                ><i className="bi bi-exclamation-circle alert-icon"></i></div>
-              </div> :
-              <input
-                name="email"
-                placeholder="Enter your company email"
-                type="text"
-                value={email}
-                className="text-field"
-                onChange={onChangeEmail}
-              />}
+            <div className={errors.email && `row bordered error`}><input
+              name="email"
+              placeholder="Enter your company email"
+              type="text"
+              value={email}
+              className={
+                errors.email
+                  ? "text-field password error"
+                  : "text-field"
+              }
+              onChange={onChangeEmail}
+            />
+              <div
+                className={errors.email ? "text-field-alert" : "hidden"}
+              ><i className="bi bi-exclamation-circle alert-icon"></i></div>
+            </div>
           </div>
           <div>
             <div className="row">
