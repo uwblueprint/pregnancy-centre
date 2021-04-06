@@ -6,13 +6,12 @@ import RubberDuckIcon from '../../assets/rubber-duck-icon.svg'
 import StrollerIcon from '../../assets/stroller-icon.svg'
 
 import Col from 'react-bootstrap/Col'
-import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 
 const HomepageBanner: FunctionComponent = () => {
-  return <Container className="homepage-banner" fluid>
+  return <div className="homepage-banner">
     <Row className="justify-content-between">
-      <Col className="align-self-center homepage-banner-info" md={4}>
+      <Col className="align-self-center homepage-banner-info" md={5}>
         <h1>Support young families in the Waterloo Region with your donation today</h1>
         <p>Scroll below to find requested items by The Pregnancy Centre’s clients and arrange a donation</p>
         <Row className="homepage-banner-stats">
@@ -37,7 +36,7 @@ const HomepageBanner: FunctionComponent = () => {
         <img className="homepage-banner-image" src={BannerPicture} />
       </Col>
     </Row>
-  </Container>
+  </div>
 };
 
 export default HomepageBanner;
