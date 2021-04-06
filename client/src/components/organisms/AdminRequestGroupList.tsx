@@ -78,6 +78,7 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
     });
 
     const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setCurrentPage(1); // when search string changes, reset pagination
         let updatedRequestGroups = [];
         if (event.target.value.length > 0) {
             updatedRequestGroups = props.displayRequestGroups.filter(requestGroup => requestGroup.name == event.target.value);
