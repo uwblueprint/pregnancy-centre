@@ -72,12 +72,13 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
       },
     });
     if (error) console.log(error.graphQLErrors);
+    const numTypes = props.requestGroup.requestTypes ? props.requestGroup.requestTypes.reduce((total, requestType) => (requestType.deleted === false ? total + 1 : total), 0) : 0
     return (
       <div>
           <Row>
             <Col className="request-group-description">
               <h1>{props.requestGroup.name}</h1>
-              <p>Displaying {props.requestGroup.numOpen} total requests and {props.requestGroup.requestTypes?.length} types</p>
+              <p>Displaying {props.requestGroup.numOpen} total requests and {numTypes} types</p>
             </Col>
             <Col>
             <Dropdown className="request-group-button">
@@ -95,6 +96,7 @@ const AdminRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
 
           </Row>
             <RequestTypeDropdownList requestGroup={props.requestGroup} requestTypes={props.requestGroup.requestTypes}></RequestTypeDropdownList>
+
       </div>
     );
 };
