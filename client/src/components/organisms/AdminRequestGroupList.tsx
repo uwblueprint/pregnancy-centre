@@ -50,6 +50,7 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
         }
         requestTypes {
           name
+          deleted
         }
         hasAnyRequests
       }

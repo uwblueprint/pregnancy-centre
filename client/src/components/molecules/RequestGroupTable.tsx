@@ -50,17 +50,11 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                 <td className="numOpen-col">{ requestGroup.numOpen }</td>
                                 <td className="types-col">
                                     <div className="requestType-tag-list">
-                                        { requestGroup.requestTypes && requestGroup.requestTypes.map((requestType) => {
-                                            if (requestType.name) {
-                                                return(
+                                        { requestGroup.requestTypes && requestGroup.requestTypes.map((requestType) => (requestType.name && !requestType.deleted &&
                                                     <span className="requestType-tag-list-item">
                                                         <Tag text={requestType.name}/>
                                                     </span>
-                                                )
-                                            } else {
-                                                return(<></>)
-                                            }
-                                        })}
+                                        ))}
                                     </div>
                                 </td>
                                 <td className="nextRecipient-col">{ requestGroup.nextRecipient ? requestGroup.nextRecipient.fullName : "N/A" }</td>
