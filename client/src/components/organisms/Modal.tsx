@@ -13,7 +13,7 @@ interface Props {
 
 const CommonModal: FunctionComponent<Props> = (props: Props) => {
   return (
-    <Modal show={props.show} onHide={props.handleClose} centered={true} className="modal">
+    <Modal show={props.show} onHide={props.handleClose} centered={true} className="modal" dialogClassName="border-radius-12">
       <Modal.Header closeButton>
       </Modal.Header>
       <Modal.Body>
