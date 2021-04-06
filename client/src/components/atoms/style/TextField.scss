@@ -1,23 +1,45 @@
 .text-field {
-  align-self: left;
-  border: 1px solid $input-border;
-  box-sizing: border-box;
-  border-radius: 4px;
-  padding-left: 20px;
-  line-height: 0;
+  display: inline;
 
-  &:focus {
-    outline-width: 0;
+  & > * {
+    vertical-align: middle;
   }
 
-  &:disabled {
-    background: none;
-    &::placeholder{
-      color: $disabled-text;
+  &-input {
+    align-self: left;
+    border: 1px solid $input-border;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding-left: 20px;
+    line-height: 0;
+
+    &:focus {
+      outline-width: 0;
+    }
+
+    &:disabled {
+      background: none;
+      &::placeholder {
+        color: $disabled-text;
+      }
+    }
+
+    &.error {
+      border: 1px solid $input-error;
     }
   }
 
-  &.error {
-    border: 1px solid $input-error;
+  & i {
+    margin-left: -45px;
+    font-size: 30px;
+    color: $soft-black;
+
+    &.error {
+      color: $input-error;
+    }
+
+    &.disabled {
+      color: $input-icon-color;
+    }
   }
 }
