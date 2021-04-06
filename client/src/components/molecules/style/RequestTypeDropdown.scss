@@ -60,13 +60,6 @@
         font-weight: 600;
     }
     
-    primary.dropdown-toggle {
-        background-color: #EDEDED;
-        border-color: #EDEDED;
-        color: black;
-        font-weight: 600;
-    }
-    
     .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus {
         box-shadow: unset;
     }
