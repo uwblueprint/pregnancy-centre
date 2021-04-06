@@ -84,16 +84,16 @@
     color: $faded-modal-text-color;
   }
 
-  .text-field {
+  .text-field-input {
     width: 385px;
     height: 48.96px;
   }
 
-  .text-field.password {
+  .text-field-input.password {
     width: 325px;
   }
 
-  .text-field-btn {
+  .text-field-input-btn {
     @include input-icon;
     width: 40px;
     font-size: 24px;
@@ -103,7 +103,7 @@
     cursor: pointer;
   }
 
-  .text-field.password.error {
+  .text-field-input.password.error {
     width: 325px;
   }
 }

@@ -8,16 +8,17 @@ interface TextFieldProps {
   name: string,
   placeholder: string,
   type: "text" | "password",
+  iconClassName?: string
 }
 
 const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => {
-  return <React.Fragment>
+  return <div className="text-field">
     <input
       type={props.type}
       name={props.name}
       className={
-        "text-field" +
-        (props.isErroneous ? " error" : "")
+        "text-field-input"
+        + (props.isErroneous ? " error" : "")
         + (props.type === "password" ? " password" : "")
       }
       placeholder={props.placeholder}
@@ -25,7 +26,11 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
       onChange={props.onChange}
       disabled={props.isDisabled}
     />
-  </React.Fragment>
+    {props.iconClassName && <i className={props.iconClassName
+      + (props.isErroneous ? " error" : "")
+      + (props.isDisabled ? " disabled" : "")
+    }/>}
+  </div>
 };
 
 export { TextField };
