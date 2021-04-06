@@ -56,15 +56,33 @@ const SignInModal: FunctionComponent = () => {
                 <div className="text signup">Email Address</div>
                 <div className="text error">{errors.email}</div>
               </div>
-              <input
-                name="email"
-                placeholder="Enter your company email"
-                type="text"
-                value={email}
-                className={errors.email ? "input-field error" : "input-field"}
-                onChange={onChangeEmail}
-              />
+              {errors.email ?
+                <div className={`row bordered error`}><input
+                  name="email"
+                  placeholder="Enter your company email"
+                  type="text"
+                  value={email}
+                  className={
+                    errors.email
+                      ? "input-field password error"
+                      : "input-field password"
+                  }
+                  onChange={onChangeEmail}
+                />
+                  <div
+                    className="input-field-alert"
+                  ><i className="bi bi-exclamation-circle alert-icon"></i></div>
+                </div> :
+                <input
+                  name="email"
+                  placeholder="Enter your company email"
+                  type="text"
+                  value={email}
+                  className="input-field"
+                  onChange={onChangeEmail}
+                />}
             </div>
+
             <div>
               <div className="row">
                 <div className="text signup">
@@ -72,7 +90,7 @@ const SignInModal: FunctionComponent = () => {
                 </div>
                 <div className="text error">{errors.password}</div>
               </div>
-              <div className="row bordered">
+              <div className={`row bordered ${errors.password && "error"}`}>
                 <input
                   type={hidePassword ? "password" : "text"}
                   name="password"

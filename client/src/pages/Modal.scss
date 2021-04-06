@@ -28,6 +28,14 @@
     border-radius: 4px;
   }
 
+  .hidden {
+    display: none;
+  }
+
+  .row.bordered.error {
+    border: 1px solid $input-error;
+  }
+
   .text.signup {
     margin-bottom: 10px;
     text-align: left;
@@ -65,7 +73,7 @@
 
   .title {
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 24px;
     margin-bottom: 10px;
   }
 
@@ -94,6 +102,13 @@
     padding-left: 20px;
     line-height: 0;
   }
+  .input-field:placeholder-shown {
+    padding-left: 5px;
+  }
+
+  .alert-icon {
+    color: $input-error;
+  }
 
   .input-field.password {
     border: none;
@@ -112,12 +127,22 @@
     cursor: pointer;
   }
 
+  .input-field-alert {
+    @include input-icon;
+    width: 40px;
+
+    font-size: 24px;
+    text-align: center;
+    margin: 7px 7px 0px 0px;
+    border: none;
+  }
+
   .input-field.error {
     border: 1px solid $input-error;
   }
 
   .input-field.password.error {
-    border: 1px solid $input-error;
+    border: none;
     width: 325px;
     display: flex;
     flex-direction: row;
