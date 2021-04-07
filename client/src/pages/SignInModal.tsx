@@ -2,9 +2,9 @@ import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import React, { FunctionComponent, useState } from "react";
 import { Redirect } from "react-router-dom";
 
+import { AuthErrorMessage, signIn } from "../services/auth";
 import CommonModal from "../components/organisms/Modal";
 import ConfirmationModal from "./ConfirmationModal";
-import { signIn } from "../services/auth";
 
 const SignInModal: FunctionComponent = () => {
   const initialErrors = { email: "", password: "" }
@@ -24,7 +24,7 @@ const SignInModal: FunctionComponent = () => {
       if (!res.email.length && !res.password.length) {
         setRedirect("/admin")
       }
-      if (res.email === "unconfirmed-email") {
+      if (res.email === AuthErrorMessage["unconfirmed-email"]) {
         setConfirmationEmailSent(true)
       }
     }).catch((err) => {

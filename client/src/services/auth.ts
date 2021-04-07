@@ -12,7 +12,7 @@ interface AuthErrorMessageInterface {
   "unconfirmed-email": string;
 }
 
-const AuthErrorMessage: AuthErrorMessageInterface = {
+export const AuthErrorMessage: AuthErrorMessageInterface = {
   //firebase (https://firebase.google.com/docs/reference/js/firebase.auth.Auth)
   "auth/invalid-email": "Invalid email",
   "auth/email-already-in-use": "That email has already been registered",
@@ -99,7 +99,7 @@ export const signIn = async (
         if(user && !user.emailVerified){
           user?.sendEmailVerification();
           return {
-            email: "unconfirmed-email",
+            email: AuthErrorMessage["unconfirmed-email"],
             password: "",
           }
         }
