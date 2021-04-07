@@ -32,6 +32,7 @@ const AuthTestComponent: FunctionComponent = () => {
       {showEmailConfirmedModal && 
         <EmailConfirmedModal></EmailConfirmedModal>
       }
+      {(confirmationErrors !== '') && "Your email could not be confirmed."}
     </div>
   );
 }
