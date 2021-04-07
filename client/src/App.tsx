@@ -12,8 +12,6 @@ import SampleContainer from "./components/examples/SampleContainer";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
-import AlertDialog from "./components/atoms/AlertDialog";
-
 function App(): JSX.Element {
   return (
     <span>
