@@ -124,11 +124,7 @@ const SignUpModal: FunctionComponent = () => {
               placeholder="Enter your company email"
               type="text"
               value={email}
-              className={
-                errors.email
-                  ? "text-field password error"
-                  : "text-field"
-              }
+              className={errors.email ? "text-field-input password error" : "text-field-input"}
               onChange={onChangeEmail}
             />
               <div
@@ -149,7 +145,7 @@ const SignUpModal: FunctionComponent = () => {
                   type="password"
                   name="password"
                   className={
-                    errors.password ? "text-field error" : "text-field"
+                    errors.password ? "text-field-input error" : "text-field-input"
                   }
                   placeholder="Enter your password"
                   value={password}
