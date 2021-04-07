@@ -3,7 +3,6 @@ import React, { FunctionComponent, useState } from "react";
 import CommonModal from "../components/organisms/Modal";
 import { Redirect } from "react-router-dom";
 import { signIn } from "../services/auth";
-import Spacer from "../components/atoms/Spacer";
 
 const SignInModal: FunctionComponent = () => {
   const initialErrors = { email: "", password: "" }
@@ -55,15 +54,21 @@ const SignInModal: FunctionComponent = () => {
                 <div className="text signup">Email Address</div>
                 <div className="text error">{errors.email}</div>
               </div>
-              <input
+
+              <div className={errors.email && `row bordered error`}><input
                 name="email"
                 placeholder="Enter your company email"
                 type="text"
                 value={email}
-                className={errors.email ? "text-field-input error" : "text-field-input"}
+                className={errors.email ? "text-field-input password error" : "text-field-input"}
                 onChange={onChangeEmail}
               />
+                <div
+                  className={errors.email ? "text-field-input-alert" : "hidden"}
+                ><i className="bi bi-exclamation-circle alert-icon"></i></div>
+              </div>
             </div>
+
             <div>
               <div className="row">
                 <div className="text signup">
@@ -71,7 +76,7 @@ const SignInModal: FunctionComponent = () => {
                 </div>
                 <div className="text error">{errors.password}</div>
               </div>
-              <div className="row bordered">
+              <div className={`row bordered ${errors.password && "error"}`}>
                 <input
                   type={hidePassword ? "password" : "text"}
                   name="password"
@@ -102,8 +107,7 @@ const SignInModal: FunctionComponent = () => {
             >
               Forgot your password?
             </div>
-            <Spacer height={15} />
-            <button role="link" className="button">
+            <button role="link" className="button signin">
               Sign in
             </button>
             <div>

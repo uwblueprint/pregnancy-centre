@@ -13,13 +13,13 @@ interface AuthErrorMessageInterface {
 
 const AuthErrorMessage: AuthErrorMessageInterface = {
   //firebase (https://firebase.google.com/docs/reference/js/firebase.auth.Auth)
-  "auth/invalid-email": "Invalid email.",
-  "auth/email-already-in-use": "That email has already been registered.",
+  "auth/invalid-email": "Invalid email",
+  "auth/email-already-in-use": "That email has already been registered",
   "auth/user-not-found": "No account with this email",
   "auth/wrong-password": "Password is incorrect",
   //pre-firebase
-  "invalid-domain": "Invalid email domain.",
-  "invalid-password": "Please enter a valid password.",
+  "invalid-domain": "Invalid email domain",
+  "invalid-password": "Please enter a valid password",
   "empty-email": "Please enter your email",
   "empty-password": "Please enter your password",
 };

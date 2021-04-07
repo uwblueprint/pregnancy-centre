@@ -3,7 +3,6 @@ import React, { FunctionComponent, useState } from "react";
 import CommonModal from "../components/organisms/Modal";
 import { createNewAccount } from "../services/auth";
 import { Redirect } from "react-router-dom";
-import Spacer from "../components/atoms/Spacer";
 
 const SignUpModal: FunctionComponent = () => {
   const [email, setEmail] = useState("");
@@ -120,22 +119,26 @@ const SignUpModal: FunctionComponent = () => {
               <div className="text signup">Email Address</div>
               <div className="text error">{errors.email}</div>
             </div>
-            <input
+            <div className={errors.email && `row bordered error`}><input
               name="email"
               placeholder="Enter your company email"
               type="text"
               value={email}
-              className={errors.email ? "text-field-input error" : "text-field-input"}
+              className={errors.email ? "text-field-input password error" : "text-field-input"}
               onChange={onChangeEmail}
             />
+              <div
+                className={errors.email ? "text-field-input-alert" : "hidden"}
+              ><i className="bi bi-exclamation-circle alert-icon"></i></div>
+            </div>
           </div>
           <div>
             <div className="row">
               <div className="text signup">
-                Password<div>{errors.password}</div>
+                Password
               </div>
+              <div className="text error">{errors.password}</div>
             </div>
-
             <div className="pass-req">
               <OverlayTrigger placement="bottom" overlay={popover}>
                 <input
@@ -151,10 +154,9 @@ const SignUpModal: FunctionComponent = () => {
               </OverlayTrigger>
             </div>
           </div>
-          <Spacer height={40} />
           <button
             role="link"
-            className="button"
+            className="button signup"
             disabled={requirementsAreFulfilled}
           >
             Sign Up
