@@ -32,6 +32,11 @@ $section-header-text-color: #bbbbbb;
   color: $normal-text-color;
 }
 
+@mixin small-text(){
+  @include text;
+  font-size: 14px;
+}
+
 @mixin white-text() {
   @include text;
   color: $white-text-color;

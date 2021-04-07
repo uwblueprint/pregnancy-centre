@@ -3,7 +3,7 @@ import { TextField } from "./TextField";
 
 interface TextFieldWithActionProps {
   isErroneous: boolean,
-  onChange: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void,
+  onChange: (value: string) => any,
   showAction: boolean,
   placeholder: string,
   type: "text" | "password",
@@ -21,8 +21,8 @@ const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props:
         <TextField input={value} isDisabled={false} isErroneous={props.isErroneous} onChange={onTextChange} name="text-field-action" placeholder={props.placeholder} type={props.type} iconClassName={props.iconClassName} ></TextField>
         {props.showAction &&  
             <div>
-                <a onClick={props.onChange}>
-                    <div className="action">
+                <a onClick={()=>props.onChange(value)}>
+                    <div className={"action" + (props.isErroneous ? " error" : "")}>
                         <div className="action-string">{props.actionString}</div>
                         <div className="action-value"><span className="action-value-text">{value}</span></div>
                     </div>
