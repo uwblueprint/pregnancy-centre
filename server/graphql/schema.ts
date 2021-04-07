@@ -54,7 +54,8 @@ const typeDefs = gql`
     }
     type Query {
         client(id: ID): Client
-        clients(id: ID): [Client]
+        filterClient(id: ID, clientId: String, fullName: String, deleted: Boolean): [Client]
+        clients: [Client]
         request(id: ID): Request
         requests: [Request]
         requestType(id: ID): RequestType
