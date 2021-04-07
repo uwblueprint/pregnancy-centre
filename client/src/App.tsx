@@ -11,7 +11,6 @@ import RequestGroupDonorView from "./components/organisms/RequestGroupDonorView"
 import SampleContainer from "./components/examples/SampleContainer";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
-import { TagInput } from "./components/atoms/TagInput";
 import { TagInputContainer } from "./components/molecules/TagInputContainer";
 
 function App(): JSX.Element {

@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { TextField } from "./TextField";
 
 interface TextFieldWithActionProps {
   isErroneous: boolean,
-  onChange: (value: string) => void,
+  onChange: (value: string) => boolean,
   onSubmit: (value: string) => void,
   showAction: boolean,
   placeholder: string,
@@ -14,9 +14,11 @@ interface TextFieldWithActionProps {
 
 const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props: TextFieldWithActionProps) => {
     const [value, setValue] = useState("");
-    const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
-        props.onChange(value)
+    const onTextChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        await setValue(e.target.value);
+        console.log(value);
+        const isValid :boolean = props.onChange(value);
+        console.log(isValid);
     }
     return (
     <div className="text-field-with-action">

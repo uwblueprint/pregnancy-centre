@@ -6,33 +6,39 @@ interface TagInputContainerProps {
 }
 
 const TagInputContainer: FunctionComponent<TagInputContainerProps> = (props: TagInputContainerProps) => {
-    const [ tagStringsList, setTagStringsList ] = useState<string[]>(["random"]); 
+    const [ tagStringsList, setTagStringsList ] = useState<string[]>(["Anand"]); 
     const [ validInput, setValidInput ] = useState(true);
 
     const onChange = (value: string) => {
         if (!isValidInput(value)){
             setValidInput(false); 
+            return false
         } else{
             setValidInput(true);
+            return true
         }
     }
     const onSubmit = (value: string) => {
-        setTagStringsList([...tagStringsList, value]);
+        const input:string = value.trim();
+        setTagStringsList([...tagStringsList, input]);
     }
     const onDelete = (id:number) => {
         setTagStringsList(tagStringsList.filter((_,i) => i !== id));
     }
     const isValidInput = (value:string) => {
         // could be replaced with logic such as if value exists in list
-        if (value.length > 10 && value.length < 15){
-            return false; 
-        } else{
-            return true;
+        const input:string = value.trim();
+        //console.log(input);
+        if (value.length === 5){
+            return false;
         }
+        return true;
     };
 
     return (
-        <TagInput tagStrings={tagStringsList} onSubmit={(value)=> onSubmit(value)} onChange={(value)=>onChange(value)} onDelete={(id)=>onDelete(id)} validateInput={validInput}></TagInput>
+        <div style={{marginLeft: "20px", marginTop: "20px"}}>        
+            <TagInput tagStrings={tagStringsList} onSubmit={(value)=> onSubmit(value)} onChange={(value)=>onChange(value)} onDelete={(id)=>onDelete(id)} validateInput={validInput}></TagInput>
+        </div>
     );
 };
 

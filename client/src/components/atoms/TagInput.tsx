@@ -4,7 +4,7 @@ import { TextFieldWithAction } from "./TextFieldWithAction";
 
 interface TagInputProps {
     tagStrings: string[],
-    onChange: (value: string) => void,
+    onChange: (value: string) => boolean,
     onSubmit: (value: string) => void,
     onDelete: (id: number) => void,
     validateInput: boolean
