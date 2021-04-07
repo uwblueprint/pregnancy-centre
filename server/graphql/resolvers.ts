@@ -41,13 +41,13 @@ const nextRequestRequestGroupHelper = (requestTypeIds, dataSources): RequestInte
 const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
-    filterClient: (_, { id, clientId, fullName, deleted }, { dataSources }): Array<ClientInterface> => {
+    filterClients: (_, { filter }, { dataSources }): Array<ClientInterface> => {
       const clients = dataSources.clients.getAll()
 
-      return clients.filter((client) => (id ? client._id.equals(Types.ObjectId(id)) : true) 
-                                        && (clientId ? client.clientId === clientId : true)
-                                        && (fullName ? client.fullName === fullName : true)
-                                        && (deleted ? client.deleted === deleted : true))
+      return clients.filter((client) => (filter.id ? client._id.equals(Types.ObjectId(filter.id)) : true) 
+                                        && (filter.clientId ? client.clientId === filter.clientId : true)
+                                        && (filter.fullName ? client.fullName === filter.fullName : true)
+                                        && (filter.deleted ? client.deleted === filter.deleted : true))
     },
     clients: (_, __, { dataSources }): Array<ClientInterface> => dataSources.clients.getAll(),
     request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getById(Types.ObjectId(id)),

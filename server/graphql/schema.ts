@@ -54,7 +54,7 @@ const typeDefs = gql`
     }
     type Query {
         client(id: ID): Client
-        filterClient(id: ID, clientId: String, fullName: String, deleted: Boolean): [Client]
+        filterClients(filter: ClientInput): [Client]
         clients: [Client]
         request(id: ID): Request
         requests: [Request]
@@ -106,6 +106,7 @@ const typeDefs = gql`
         id: ID
         clientId: String
         fullName: String
+        deleted: Boolean
     }
 `
 
