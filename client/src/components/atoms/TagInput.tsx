@@ -1,12 +1,11 @@
 import React, { FunctionComponent, useState } from "react";
-import Tag from "./Tag";
-import { TextField } from "./TextField";
+import DeletableTag from "./DeletableTag";
 import { TextFieldWithAction } from "./TextFieldWithAction";
 
 interface TagInputProps {
     tagStrings: string[],
-    isErroneous: boolean,
     onChange: (value: string) => any,
+    onDelete: (id: number) => any,
     validateInput: boolean
 }
 
@@ -14,13 +13,12 @@ const TagInput: FunctionComponent<TagInputProps> = (props: TagInputProps) => {
     return (
         <div className="tag-input">
             <div className="text-field-action-container">            
-                <TextFieldWithAction isErroneous={props.isErroneous} onChange={(value: string)=> props.onChange(value)} showAction={props.validateInput} placeholder="Enter a new type" type="text" actionString="Add new type:" iconClassName="bi bi-arrow-return-left"></TextFieldWithAction>
+                <TextFieldWithAction isErroneous={(!props.validateInput)} onChange={(value: string)=> props.onChange(value)} showAction={props.validateInput} placeholder="Enter a new type" type="text" actionString="Add new type:" iconClassName="bi bi-arrow-return-left"></TextFieldWithAction>
             </div>
-            {props.validateInput && 
-                <div className="tag-list">
-                    {props.tagStrings.map((tag,index) => <div key={index} className="each-tag"><Tag text={tag}/></div>)}
-                </div>
-            }    
+            <div className="tag-list">
+                {props.tagStrings.map((tag,index) => <div key={index} className="each-tag"><DeletableTag id={index} text={tag} onDelete={(id)=> props.onDelete(id)}/></div>)}
+            </div>
+               
         </div>
     );
 };

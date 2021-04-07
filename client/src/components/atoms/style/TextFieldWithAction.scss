@@ -15,7 +15,6 @@
     .action-string{
         margin-right: 10px;
         padding-top:1px;
-        @include small-text();
     }
     .action-value{
         flex-grow:1; 
@@ -23,7 +22,6 @@
     .action-value-text{
         background-color: $tag-background;
         padding: 2px;
-        @include small-text();
     }
     & i {
         font-size: 16px;
