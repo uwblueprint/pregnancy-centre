@@ -14,12 +14,13 @@ interface TextFieldWithActionProps {
 
 const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props: TextFieldWithActionProps) => {
     const [value, setValue] = useState("");
-    const onTextChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        await setValue(e.target.value);
-        console.log(value);
-        const isValid :boolean = props.onChange(value);
-        console.log(isValid);
+    const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        setValue(newValue);
     }
+    useEffect(() => {
+        props.onChange(value);
+    });
     return (
     <div className="text-field-with-action">
         <TextField input={value} isDisabled={false} isErroneous={props.isErroneous} onChange={onTextChange} name="text-field-action" placeholder={props.placeholder} type={props.type} iconClassName={props.iconClassName} ></TextField>
