@@ -6,7 +6,7 @@ interface TagInputContainerProps {
 }
 
 const TagInputContainer: FunctionComponent<TagInputContainerProps> = (props: TagInputContainerProps) => {
-    const [ tagStringsList, setTagStringsList ] = useState<string[]>(["Anand"]); 
+    const [ tagStringsList, setTagStringsList ] = useState<string[]>(["Diapers"]); 
     const [ validInput, setValidInput ] = useState(true);
 
     const onChange = (value: string) => {
@@ -26,10 +26,9 @@ const TagInputContainer: FunctionComponent<TagInputContainerProps> = (props: Tag
         setTagStringsList(tagStringsList.filter((_,i) => i !== id));
     }
     const isValidInput = (value:string) => {
-        // could be replaced with logic such as if value exists in list
+        // could be replaced with any validation logic
         const input:string = value.trim();
-        //console.log(input);
-        if (value.length === 5){
+        if (tagStringsList.includes(input)){
             return false;
         }
         return true;
