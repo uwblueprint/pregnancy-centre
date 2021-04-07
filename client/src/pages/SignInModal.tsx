@@ -96,7 +96,7 @@ const SignInModal: FunctionComponent = () => {
                   }}
                 >
                   {hidePassword ? <EyeFilled /> : <EyeInvisibleFilled />}
-                </div>}
+                </div>
               </div>
             </div>
             <div
