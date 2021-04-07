@@ -1,0 +1,37 @@
+.alert-display-text {
+    font-weight: bold;
+}
+
+.alert-box {
+    border-radius: 4px;
+    width: 33%;
+    background-color: $alert-light-color;
+    color: $alert-dark-color;
+    padding: 10px 18px;
+    margin-left: 33%;
+}
+
+.alert-leave-button {
+    display: inline-block;
+    border-radius: 4px;
+    border: none;
+    background-color: $alert-dark-color;
+    color: $white-text-color;
+    padding: 6px 19px;
+}
+
+.alert-stay-button {
+    display: inline-block;
+    margin-left: 57%;
+    border-radius: 4px;
+    border: none;
+    background-color: $alert-light-color;
+    color: $alert-dark-color;
+    padding-right: 18px;
+    padding-bottom: 10px;
+}
+
+.alert-prompt {
+    margin-bottom: 0;
+}
+

@@ -33,7 +33,7 @@ function App(): JSX.Element {
             <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
           </Route>
 
-          <Route path='/alert'><AlertDialog dialogText="alert dialog" onExit={()=>{}} onStay={()=>{}}/></Route>
+          <Route path='/alert'><AlertDialog dialogText="This request has not been created yet." onExit={()=>{}} onStay={()=>{}}/></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>
