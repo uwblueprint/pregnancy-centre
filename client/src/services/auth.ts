@@ -42,8 +42,7 @@ export const createNewAccount = async (
   if (!passwordRequirements.test(password)) {
     errors.password = AuthErrorMessage["invalid-password"];
   }
-  // if (!email.endsWith("@pregnancycentre.ca")) {
-  if (!email.endsWith("@uwblueprint.org")) {
+  if (!email.endsWith("@pregnancycentre.ca")) {
     errors.email = AuthErrorMessage["invalid-domain"];
   }
 
