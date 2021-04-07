@@ -42,12 +42,18 @@ const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
     filterClients: (_, { filter }, { dataSources }): Array<ClientInterface> => {
-      const clients = dataSources.clients.getAll()
+      var filteredClients = dataSources.clients.getAll()
 
-      return clients.filter((client) => (filter.id ? client._id.equals(Types.ObjectId(filter.id)) : true) 
+      for (var property in filter) {
+        filteredClients = filteredClients.filter((client) => (client[property] ? client[property] === filter[property] : true))
+      }
+
+      /*return clients.filter((client) => (filter.id ? client._id.equals(Types.ObjectId(filter.id)) : true) 
                                         && (filter.clientId ? client.clientId === filter.clientId : true)
                                         && (filter.fullName ? client.fullName === filter.fullName : true)
                                         && (filter.deleted ? client.deleted === filter.deleted : true))
+                                        */
+      return filteredClients
     },
     clients: (_, __, { dataSources }): Array<ClientInterface> => dataSources.clients.getAll(),
     request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getById(Types.ObjectId(id)),
