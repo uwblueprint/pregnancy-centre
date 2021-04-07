@@ -44,8 +44,6 @@ const resolvers = {
     filterClient: (_, { id, clientId, fullName, deleted }, { dataSources }): Array<ClientInterface> => {
       const clients = dataSources.clients.getAll()
 
-      console.log(fullName)
-
       return clients.filter((client) => (id ? client._id.equals(Types.ObjectId(id)) : true) 
                                         && (clientId ? client.clientId === clientId : true)
                                         && (fullName ? client.fullName === fullName : true)
