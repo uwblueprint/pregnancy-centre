@@ -1,0 +1,15 @@
+.text-field-with-action{
+    .action{
+        display: flex;
+    }
+    .action-string{
+        margin-right: 10px;
+    }
+    .action-value{
+        flex-grow:1; 
+    }
+    .action-value-text{
+        background-color: $tag-background;
+        padding: 5px;
+    }
+}

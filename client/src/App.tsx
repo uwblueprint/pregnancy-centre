@@ -11,6 +11,7 @@ import RequestGroupDonorView from "./components/organisms/RequestGroupDonorView"
 import SampleContainer from "./components/examples/SampleContainer";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
+import { TagInput } from "./components/atoms/TagInput";
 
 function App(): JSX.Element {
   return (
@@ -18,6 +19,7 @@ function App(): JSX.Element {
       <Router>
         <Switch>
           <Route path='/signup' strict component={SignUpModal}></Route>
+          <Route path="/tag" component={TagInput}><TagInput tagStrings={['One Size', '300 ML']} isErroneous={true} onChange={()=>{}} validateInput={true}></TagInput></Route>
           <Route path='/donation-guidelines'><SampleContainer /></Route>
           {/* TODO(chamod-gamage): confirm what the routing behaviour will be for user signin sequence */}
           <Route path='/login'><SignInModal /></Route>
