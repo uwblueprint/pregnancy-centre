@@ -64,7 +64,7 @@ const SignInModal: FunctionComponent = () => {
                 onChange={onChangeEmail}
               />
                 <div
-                  className={errors.email ? "text-field-alert" : "hidden"}
+                  className={errors.email ? "text-field-input-alert" : "hidden"}
                 ><i className="bi bi-exclamation-circle alert-icon"></i></div>
               </div>
             </div>
