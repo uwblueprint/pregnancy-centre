@@ -9,6 +9,7 @@ interface AuthErrorMessageInterface {
   "auth/wrong-password": string;
   "empty-email": string;
   "empty-password": string;
+  "unconfirmed-email": string;
 }
 
 const AuthErrorMessage: AuthErrorMessageInterface = {
@@ -22,6 +23,7 @@ const AuthErrorMessage: AuthErrorMessageInterface = {
   "invalid-password": "Please enter a valid password",
   "empty-email": "Please enter your email",
   "empty-password": "Please enter your password",
+  "unconfirmed-email": "Please use the link sent to your email to confirm your account",
 };
 
 export const createNewAccount = async (
@@ -40,7 +42,8 @@ export const createNewAccount = async (
   if (!passwordRequirements.test(password)) {
     errors.password = AuthErrorMessage["invalid-password"];
   }
-  if (!email.endsWith("@pregnancycentre.ca")) {
+  // if (!email.endsWith("@pregnancycentre.ca")) {
+  if (!email.endsWith("@uwblueprint.org")) {
     errors.email = AuthErrorMessage["invalid-domain"];
   }
 
@@ -92,6 +95,15 @@ export const signIn = async (
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
+        const user = firebase.auth().currentUser;
+
+        if(user && !user.emailVerified){
+          user?.sendEmailVerification();
+          return {
+            email: "unconfirmed-email",
+            password: "",
+          }
+        }
         return await postToken();
       })
       .catch((error) => {
