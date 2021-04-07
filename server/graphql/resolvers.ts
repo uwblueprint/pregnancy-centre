@@ -48,11 +48,6 @@ const resolvers = {
         filteredClients = filteredClients.filter((client) => (client[property] ? client[property] === filter[property] : true))
       }
 
-      /*return clients.filter((client) => (filter.id ? client._id.equals(Types.ObjectId(filter.id)) : true) 
-                                        && (filter.clientId ? client.clientId === filter.clientId : true)
-                                        && (filter.fullName ? client.fullName === filter.fullName : true)
-                                        && (filter.deleted ? client.deleted === filter.deleted : true))
-                                        */
       return filteredClients
     },
     clients: (_, __, { dataSources }): Array<ClientInterface> => dataSources.clients.getAll(),
