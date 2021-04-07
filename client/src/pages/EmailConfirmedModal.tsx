@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import CommonModal from '../components/organisms/Modal';
+import AuthModal from '../components/organisms/AuthModal';
 
 const EmailConfirmedModal: FunctionComponent = () => {
   const [show, setShow] = useState(true);
@@ -7,18 +7,18 @@ const EmailConfirmedModal: FunctionComponent = () => {
   const handleClose = () => setShow(false);
 
   return (
-    <CommonModal show={show} title={"Email Confirmed"} subtitle={''} handleClose={handleClose} body={
+    <AuthModal show={show} title={"Email Confirmed"} subtitle={''} handleClose={handleClose} body={
       <span>
         <div className="text">
-          Your account has now been made. 
+          Your account has now been made.
         <div className="text">
-          You can now log into your account with the button below or close this  window.        </div>
+            You can now log into your account with the button below or close this  window.        </div>
         </div>
         <button className="button" onClick={handleClose}>
           Log in
         </button>
       </span>
-    }></CommonModal>
+    }></AuthModal>
   );
 }
 

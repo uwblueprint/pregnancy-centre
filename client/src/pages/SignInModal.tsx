@@ -1,6 +1,6 @@
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import React, { FunctionComponent, useState } from "react";
-import CommonModal from "../components/organisms/Modal";
+import AuthModal from "../components/organisms/AuthModal";
 import { Redirect } from "react-router-dom";
 import { signIn } from "../services/auth";
 
@@ -41,7 +41,7 @@ const SignInModal: FunctionComponent = () => {
     return <Redirect to={redirect} />;
   }
   return (
-    <CommonModal
+    <AuthModal
       title={modalTitle}
       subtitle={subtitle}
       show={show}

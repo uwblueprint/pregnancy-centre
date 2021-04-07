@@ -1,6 +1,6 @@
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import React, { FunctionComponent, useState } from "react";
-import CommonModal from "../components/organisms/Modal";
+import AuthModal from "../components/organisms/AuthModal";
 import { createNewAccount } from "../services/auth";
 import { Redirect } from "react-router-dom";
 
@@ -111,7 +111,7 @@ const SignUpModal: FunctionComponent = () => {
     return <Redirect to={redirect} />;
   }
   return (
-    <CommonModal title={modalTitle} subtitle={subtitle} show={show} handleClose={handleClose} body={
+    <AuthModal title={modalTitle} subtitle={subtitle} show={show} handleClose={handleClose} body={
       <div>
         <form onSubmit={handleClick}>
           <div>

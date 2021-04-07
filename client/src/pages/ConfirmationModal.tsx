@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import CommonModal from '../components/organisms/Modal';
+import AuthModal from '../components/organisms/AuthModal';
 
 interface Props {
   email: string;
@@ -11,7 +11,7 @@ const ConfirmationModal: FunctionComponent<Props> = (props: Props) => {
   const handleClose = () => setShow(false);
 
   return (
-    <CommonModal show={show} title={"Confirm Your Email"} subtitle={''} handleClose={handleClose} body={
+    <AuthModal show={show} title={"Confirm Your Email"} subtitle={''} handleClose={handleClose} body={
       <span>
         <div className="text">
           We’ve just sent an email to the following email address.
@@ -29,7 +29,7 @@ const ConfirmationModal: FunctionComponent<Props> = (props: Props) => {
           I understand
         </button>
       </span>
-    }></CommonModal>
+    }></AuthModal>
   );
 }
 
