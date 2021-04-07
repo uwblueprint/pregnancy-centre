@@ -1,4 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
+import { Redirect } from "react-router-dom";
+
 import CommonModal from '../components/organisms/Modal';
 
 interface Props {
@@ -6,12 +8,16 @@ interface Props {
 }
 
 const ConfirmationModal: FunctionComponent<Props> = (props: Props) => {
-  const [show, setShow] = useState(true);
+  const [redirect, setRedirect] = useState("");
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => setRedirect("/");
+
+  if (redirect !== "") {
+    return <Redirect to={redirect} />;
+  }
 
   return (
-    <CommonModal show={show} title={"Confirm Your Email"} subtitle={''} handleClose={handleClose} body={
+    <CommonModal show={true} title={"Confirm Your Email"} subtitle={''} handleClose={handleClose} body={
       <span>
         <div className="text">
           We’ve just sent an email to the following email address.
