@@ -42,9 +42,9 @@ const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
     filterClients: (_, { filter }, { dataSources }): Array<ClientInterface> => {
-      var filteredClients = dataSources.clients.getAll()
+      let filteredClients = dataSources.clients.getAll()
 
-      for (var property in filter) {
+      for (let property in filter) {
         filteredClients = filteredClients.filter((client) => (client[property] ? client[property] === filter[property] : true))
       }
 
