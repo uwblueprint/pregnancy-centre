@@ -4,8 +4,9 @@ import { TextFieldWithAction } from "./TextFieldWithAction";
 
 interface TagInputProps {
     tagStrings: string[],
-    onChange: (value: string) => any,
-    onDelete: (id: number) => any,
+    onChange: (value: string) => void,
+    onSubmit: (value: string) => void,
+    onDelete: (id: number) => void,
     validateInput: boolean
 }
 
@@ -13,7 +14,7 @@ const TagInput: FunctionComponent<TagInputProps> = (props: TagInputProps) => {
     return (
         <div className="tag-input">
             <div className="text-field-action-container">            
-                <TextFieldWithAction isErroneous={(!props.validateInput)} onChange={(value: string)=> props.onChange(value)} showAction={props.validateInput} placeholder="Enter a new type" type="text" actionString="Add new type:" iconClassName="bi bi-arrow-return-left"></TextFieldWithAction>
+                <TextFieldWithAction isErroneous={(!props.validateInput)} onSubmit={(value:string) => props.onSubmit(value)} onChange={(value: string)=> props.onChange(value)} showAction={props.validateInput} placeholder="Enter a new type" type="text" actionString="Add new type:" iconClassName="bi bi-arrow-return-left"></TextFieldWithAction>
             </div>
             <div className="tag-list">
                 {props.tagStrings.map((tag,index) => <div key={index} className="each-tag"><DeletableTag id={index} text={tag} onDelete={(id)=> props.onDelete(id)}/></div>)}

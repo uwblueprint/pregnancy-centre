@@ -4,7 +4,7 @@ import Tag from "./Tag";
 interface Props {
     id: number,
     text: string,
-    onDelete: (id: number) => any
+    onDelete: (id: number) => void
 }
 
 const DeletableTag: FunctionComponent<Props> = (props: Props) => {
