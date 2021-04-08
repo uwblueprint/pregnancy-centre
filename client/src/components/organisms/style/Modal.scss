@@ -2,9 +2,42 @@
   border-radius: 12px !important;
 }
 
+.modal-admin {
+  align-items: left;
+  text-align: left;
+  &-header {
+    padding: 32px 28px 0px 28px;
+    display: flex;
+    justify-content: space-between;
+    color: black !important;
+
+    .title {
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 0px !important;
+    }
+    .close {
+      border-bottom: none !important;
+      color: black;
+      font-size: 34px;
+      padding: 16px 12px 0px 16px;
+      cursor: pointer;
+    }
+  }
+}
+
 .modal {
   align-items: center;
   text-align: center;
+
+  .line {
+    margin: -10px 12px !important;
+    padding: 0px 0px 10px 0px !important;
+
+    align-items: center;
+    text-align: center;
+    align-self: center;
+  }
 
   .button {
     color: #ffffff;
@@ -153,6 +186,9 @@
 
 .modal-header {
   border-bottom: 0 none;
+  .close {
+    font-size: 34px;
+  }
 }
 
 .modal-footer {
