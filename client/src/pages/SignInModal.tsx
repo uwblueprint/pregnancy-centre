@@ -84,7 +84,7 @@ const SignInModal: FunctionComponent = () => {
                 </div>
                     <div className="text error">{errors.password}</div>
                   </div>
-                  <div className="row bordered">
+                  <div className={`row bordered ${errors.password && "error"}`}>
                     <input
                       type={hidePassword ? "password" : "text"}
                       name="password"
