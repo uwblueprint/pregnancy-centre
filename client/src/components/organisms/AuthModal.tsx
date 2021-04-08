@@ -12,7 +12,7 @@ interface Props {
 
 const AuthModal: FunctionComponent<Props> = (props: Props) => {
   return (
-    <CommonModal class="modal" show={props.show} handleClose={props.handleClose}>
+    <CommonModal class="modal" size="default" show={props.show} handleClose={props.handleClose}>
       <div className="pc-icon">
         <img src={tpcLeaf}></img>
       </div>

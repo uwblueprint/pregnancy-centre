@@ -7,11 +7,12 @@ interface Props {
   show: boolean;
   handleClose(): void;
   children: React.ReactNode;
+  size: "small" | "medium" | "large";
 }
 
 const AdminModal: FunctionComponent<Props> = (props: Props) => {
   return (
-    <CommonModal customClose class="modal-admin" show={props.show} handleClose={props.handleClose} header={<><div className="title">
+    <CommonModal customClose class="modal-admin" size={props.size} show={props.show} handleClose={props.handleClose} header={<><div className="title">
       {props.title}
     </div></>}>
       <>

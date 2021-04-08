@@ -29,12 +29,19 @@
 .modal {
   align-items: center;
   text-align: center;
-
   .line {
     margin: -10px 13px !important;
     padding: 0px 0px 10px 0px !important;
   }
-
+  &-sm {
+    max-width: 432px;
+  }
+  &-lg {
+    max-width: 513px;
+  }
+  &-xl {
+    max-width: 1063px;
+  }
   .button {
     color: #ffffff;
     background-color: $tpc-green;
