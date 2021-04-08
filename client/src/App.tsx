@@ -5,7 +5,6 @@ import React from "react";
 import AdminHomepage from "./pages/AdminHomepage";
 import AdminModal from "./components/organisms/AdminModal"
 import AuthTestComponent from "./pages/AuthTestComponent";
-import ConfirmationModal from "./pages/ConfirmationModal";
 import DonorHomepage from './pages/DonorHomepage'
 import PasswordResetEmailSentModal from "./pages/PasswordResetEmailSentModal";
 import RequestGroupDonorView from "./components/organisms/RequestGroupDonorView";
@@ -23,8 +22,6 @@ function App(): JSX.Element {
           <Route path='/donation-guidelines'><SampleContainer /></Route>
           {/* TODO(chamod-gamage): confirm what the routing behaviour will be for user signin sequence */}
           <Route path='/login'><SignInModal /></Route>
-          {/* TODO(jlight99): delete /confirmation endpoint after logic for triggering the confirmation modal upon signup has been added */}
-          <Route path='/confirmation' component={() => <ConfirmationModal email="anna@pregnancycentre.ca" />}></Route>
           <Route path='/signup' strict component={SignUpModal}></Route>
           <Route path='/verify-email' component={AuthTestComponent}></Route>
           <Route path='/password-reset-email-sent' strict component={PasswordResetEmailSentModal}></Route>
