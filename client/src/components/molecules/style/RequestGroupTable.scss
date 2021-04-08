@@ -37,8 +37,10 @@
         -webkit-border-bottom-right-radius: 4px;
     }
 
-    .data-row:hover :not(.spacing-col) {
-        background-color: $selected-item-background;
+    .data-row:hover {
+        td:not(.spacing-col)  {
+            background-color: $selected-item-background;
+        }
     }
 
     .spacing-col {
