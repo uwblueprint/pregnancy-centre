@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import CommonModal from "./Modal"
-import tpcLeaf from '../../assets/tpc-leaf.png';
 
 interface Props {
   title: string;
