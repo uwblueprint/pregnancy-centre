@@ -1,0 +1,8 @@
+.tooltip-inner {
+    background-color: $tooltip-background-color;
+    color: $tooltip-text-color
+}
+
+.bs-tooltip-right .arrow::before{
+    border-right-color: $tooltip-background-color;
+}

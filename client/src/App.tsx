@@ -12,6 +12,8 @@ import SampleContainer from "./components/examples/SampleContainer";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
+import Tooltip from './components/atoms/Tooltip'
+
 function App(): JSX.Element {
   return (
     <span>
@@ -30,6 +32,7 @@ function App(): JSX.Element {
           <Route path='/test'>
             <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
           </Route>
+          <Route path='/tooltip'><Tooltip tooltipText="this is tooltip longer text oh yayay asdfasdfasdfasdfas    " /></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>
