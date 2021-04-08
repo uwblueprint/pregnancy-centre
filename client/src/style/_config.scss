@@ -22,6 +22,7 @@ $white-text-color: white;
 $section-header-text-color: #bbbbbb;
 $tooltip-background-color: #efefef;
 $tooltip-text-color: #737b7d;
+$tooltip-trigger-color: #adadad;
 
 @mixin text() {
   font-family: $font-stack;

@@ -19,9 +19,9 @@ const Tooltipz: FunctionComponent<Props> = (props: Props) => {
         <div>
 
         <h1>hi this is pregnancy centre</h1>
-        <p>owow</p>
-        <OverlayTrigger placement="right" overlay={renderTooltip} >
-           <i className="bi bi-question-circle"></i>
+        <p>wow</p>
+        <OverlayTrigger placement="right-end" overlay={renderTooltip} trigger='click'>
+            <span className="tooltip-trigger"><i className="bi bi-question-circle"></i></span>
         </OverlayTrigger>
         </div> 
     )
