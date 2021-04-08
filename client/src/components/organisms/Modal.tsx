@@ -13,10 +13,12 @@ interface Props {
 
 
 const CommonModal: FunctionComponent<Props> = (props: Props) => {
+  const modalSize: "sm" | "lg" | "xl" = props.size === "small" ? "sm" : props.size === "medium" ? "lg" : "xl"
+
   return (
     <>
       {props.size !== "default" ?
-        <Modal show={props.show} onHide={props.handleClose} centered={true} className={props.class} size={props.size === "small" ? "sm" : props.size === "medium" ? "lg" : "xl"} dialogClassName="border-radius-12">
+        <Modal show={props.show} onHide={props.handleClose} centered={true} className={props.class} size={modalSize} dialogClassName="border-radius-12">
           <Modal.Header closeButton={!props.customClose} className={`${props.class}-header ${props.size}`} >{props.header}{props.customClose && <i onClick={props.handleClose} className={`bi bi-x ${props.class}-header close`}></i>}</Modal.Header>
           <Modal.Body>{props.children}</Modal.Body>
           <Modal.Footer />
