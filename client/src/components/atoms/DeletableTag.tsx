@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from "react";
-import Tag from "./Tag";
 
 interface Props {
     id: number,

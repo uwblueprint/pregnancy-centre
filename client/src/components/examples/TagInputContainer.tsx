@@ -36,7 +36,7 @@ const TagInputContainer: FunctionComponent<TagInputContainerProps> = (props: Tag
 
     return (
         <div style={{marginLeft: "20px", marginTop: "20px"}}>        
-            <TagInput tagStrings={tagStringsList} onSubmit={(value)=> onSubmit(value)} onChange={(value)=>onChange(value)} onDelete={(id)=>onDelete(id)} validateInput={validInput}></TagInput>
+            <TagInput tagStrings={tagStringsList} onSubmit={(value)=> onSubmit(value)} onChange={(value)=>onChange(value)} onDelete={(id)=>onDelete(id)} isErroneous={validInput}></TagInput>
         </div>
     );
 };

@@ -7,7 +7,7 @@ interface TextFieldWithActionProps {
   onSubmit: (value: string) => void,
   showAction: boolean,
   placeholder: string,
-  type: "text" | "password",
+  type: "text",
   actionString: string,
   iconClassName?: string
 }
