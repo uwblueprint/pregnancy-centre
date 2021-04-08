@@ -176,7 +176,7 @@ const SignUpModal: FunctionComponent = () => {
             </div>
           </form>
         </div>} />
-      {confirmationEmailSent && <ConfirmationModal email={email}></ConfirmationModal>}
+      {confirmationEmailSent && <ConfirmationModal email={email} resentEmail={true}></ConfirmationModal>}
     </React.Fragment>
   );
 }
