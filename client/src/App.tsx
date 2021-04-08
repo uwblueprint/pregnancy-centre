@@ -18,7 +18,7 @@ function App(): JSX.Element {
     <span>
       <Router>
         <Switch>
-          <Route path='/adminmodal' strict component={() => <AdminModal size="large" title="Create Type" handleClose={() => { console.log("HI") }} show >Create Type</AdminModal>}></Route>
+          <Route path='/adminmodal' strict component={() => <AdminModal size="medium" title="Create Request" handleClose={() => { console.log("HI") }} show ><></></AdminModal>}></Route>
           <Route path='/donation-guidelines'><SampleContainer /></Route>
           {/* TODO(chamod-gamage): confirm what the routing behaviour will be for user signin sequence */}
           <Route path='/login'><SignInModal /></Route>

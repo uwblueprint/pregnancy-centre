@@ -19,7 +19,7 @@ const CommonModal: FunctionComponent<Props> = (props: Props) => {
     <>
       {props.size !== "default" ?
         <Modal show={props.show} onHide={props.handleClose} centered={true} className={props.class} size={modalSize} dialogClassName="border-radius-12">
-          <Modal.Header closeButton={!props.customClose} className={`${props.class}-header ${props.size}`} >{props.header}{props.customClose && <i onClick={props.handleClose} className={`bi bi-x ${props.class}-header close`}></i>}</Modal.Header>
+          <Modal.Header closeButton={!props.customClose} className={`${props.class}-header-${props.size}`} >{props.header}{props.customClose && <i onClick={props.handleClose} className={`bi bi-x ${props.class}-header close ${props.size}`}></i>}</Modal.Header>
           <Modal.Body>{props.children}</Modal.Body>
           <Modal.Footer />
         </Modal> :

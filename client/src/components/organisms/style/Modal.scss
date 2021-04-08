@@ -6,15 +6,32 @@
   align-items: left;
   text-align: left;
   &-header {
-    padding: 32px 28px 0px 28px;
     display: flex;
     justify-content: space-between;
     color: black !important;
-
-    .title {
+    &-small {
+      padding: 32px 28px 0px 28px;
+    }
+    &-medium {
+      padding: 17px 13px 5px 65px;
+    }
+    &-large {
+      padding: 27px 23px 23px 70px;
+    }
+    &-title-small {
       font-weight: bold;
-      font-size: 20px;
+      font-size: 24px;
       margin-bottom: 0px !important;
+    }
+    &-title-medium {
+      font-weight: bold;
+      font-size: 24px;
+      margin: 43px 0px 0px 0px !important;
+    }
+    &-title-large {
+      font-weight: bold;
+      font-size: 24px;
+      margin: 27px 0px 0px 0px !important;
     }
     .close {
       border-bottom: none !important;
@@ -30,8 +47,19 @@
   align-items: center;
   text-align: center;
   .line {
-    margin: -10px 13px !important;
-    padding: 0px 0px 10px 0px !important;
+    height: 1px;
+    &-small {
+      margin: -10px 13px !important;
+      padding: 0px 0px 10px 0px !important;
+    }
+    &-medium {
+      margin: -10px 50px !important;
+      padding: 0px 0px 10px 0px !important;
+    }
+    &-large {
+      margin: -10px 55px !important;
+      padding: 0px 0px 10px 0px !important;
+    }
   }
   &-sm {
     max-width: 432px;
@@ -191,6 +219,16 @@
   border-bottom: 0 none;
   .close {
     font-size: 34px;
+    .small {
+      margin: 10px 0px 0px 0px;
+    }
+    .medium {
+      margin: 10px 0px 0px 0px;
+    }
+    .large {
+      padding: 1000px;
+      margin: 100px 100px 0px 0px !important;
+    }
   }
 }
 

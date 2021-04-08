@@ -11,11 +11,11 @@ interface Props {
 
 const AdminModal: FunctionComponent<Props> = (props: Props) => {
   return (
-    <CommonModal customClose class="modal-admin" size={props.size} show={props.show} handleClose={props.handleClose} header={<><div className="title">
+    <CommonModal customClose class="modal-admin" size={props.size} show={props.show} handleClose={props.handleClose} header={<><div className={`modal-admin-header-title-${props.size}`}>
       {props.title}
     </div></>}>
       <>
-        <hr className={"modal-admin-header line"} />
+        <hr className={`modal-admin line-${props.size}`} />
         {props.children}
       </>
     </CommonModal>
