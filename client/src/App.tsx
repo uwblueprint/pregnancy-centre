@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
 
 import AdminHomepage from "./pages/AdminHomepage";
+import AdminModal from "./components/organisms/AdminModal"
 import AuthTestComponent from "./pages/AuthTestComponent";
 import ConfirmationModal from "./pages/ConfirmationModal";
 import DonorHomepage from './pages/DonorHomepage'
@@ -12,12 +13,13 @@ import SampleContainer from "./components/examples/SampleContainer";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
+
 function App(): JSX.Element {
   return (
     <span>
       <Router>
         <Switch>
-          <Route path='/signup' strict component={SignUpModal}></Route>
+          <Route path='/adminmodal' strict component={() => <AdminModal size="large" title="Create Type" handleClose={() => { console.log("HI") }} show >Create Type</AdminModal>}></Route>
           <Route path='/donation-guidelines'><SampleContainer /></Route>
           {/* TODO(chamod-gamage): confirm what the routing behaviour will be for user signin sequence */}
           <Route path='/login'><SignInModal /></Route>
@@ -33,7 +35,7 @@ function App(): JSX.Element {
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>
-    </span>
+    </span >
   );
 }
 
