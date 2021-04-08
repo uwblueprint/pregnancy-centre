@@ -1,9 +1,10 @@
 import { bindActionCreators, Dispatch } from "redux"
 import { gql, useQuery } from "@apollo/client";
-import { loadRequestGroups, setDisplayRequestGroups } from '../../data/actions/requestGroupsActions';
 import React, { FunctionComponent, useState } from "react";
-import { Button } from "../atoms/Button";
 import { connect } from "react-redux";
+
+import { loadRequestGroups, setDisplayRequestGroups } from '../../data/actions/requestGroupsActions';
+import { Button } from "../atoms/Button";
 import RequestGroup from '../../data/types/requestGroup';
 import RequestGroupTable from "../molecules/RequestGroupTable";
 import { RootState } from '../../data/reducers'
@@ -81,7 +82,7 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
         setCurrentPage(1); // when search string changes, reset pagination
         let updatedRequestGroups = [];
         if (event.target.value.length > 0) {
-            updatedRequestGroups = props.displayRequestGroups.filter(requestGroup => requestGroup.name == event.target.value);
+            updatedRequestGroups = props.displayRequestGroups.filter(requestGroup => requestGroup?.name?.startsWith(event.target.value));
         } else {
             // if no search string entered, return all results
             updatedRequestGroups = props.displayRequestGroups; 
@@ -101,16 +102,16 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
     }
 
     return (
-        <span>
-            <span className="row">
+        <div className="admin-request-group-list">
+            <div className="row">
                 <span className="title">Request Groups</span>
                 <span className="action-group">
                     <span className="item"><SearchBar defaultText="Search for a group..." onSearchStringChange={onSearchStringChange} /></span>
                     <span className="spacing"></span>
                     <span className="item"><Button text="Create" copyText="Create" onClick={onCreateButtonClick} /></span>
                 </span>
-            </span>
-            <span className="page-navigation">
+            </div>
+            <div className="page-navigation">
                 <SimplePageNavigation
                     totalNumItems={requestGroups.length}
                     numItemsPerPage={numGroupsPerPage}
@@ -118,9 +119,9 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
                     currentPage={currentPage} // Indexing starting at 1.
                     onPageChange={handlePageChange}
                 />
-            </span>
+            </div>
             <RequestGroupTable requestGroups={displayRequestGroups} />
-        </span>
+        </div>
     );
 };
 
