@@ -1,9 +1,7 @@
 .border-radius-12 div {
   border-radius: 12px !important;
 }
-.bi-x {
-  color: black !important;
-}
+
 .modal-admin {
   align-items: left;
   text-align: left;
@@ -221,16 +219,8 @@
   border-bottom: 0 none;
   .close {
     font-size: 34px;
-    .small {
-      margin: 10px 0px 0px 0px;
-    }
-    .medium {
-      margin: 10px 0px 0px 0px;
-    }
-    .large {
-      padding: 1000px;
-      margin: 100px 100px 0px 0px !important;
-    }
+    color: black !important;
+    opacity: 1;
   }
 }
 
