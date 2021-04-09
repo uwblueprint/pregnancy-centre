@@ -9,26 +9,23 @@ interface Props {
 
 const ImageList: FunctionComponent<Props> = (props: Props) => {
   return (
-    <>
-      <br />
-      <div className="imagelist-container">
-        <ScrollWindow noBorder>
-          <Row noGutters className="imagelist img-grid">
-            {props.images.map((url: string) => {
-              return (
-                <div className="imagelist img-wrapper col-3" key={url}>
-                  <img
-                    onClick={props.onImageChange}
-                    className="imagelist img-wrapper img"
-                    src={url}
-                  />
-                </div>
-              );
-            })}
-          </Row>
-        </ScrollWindow>
-      </div>
-    </>
+    <div className="imagelist-container">
+      <ScrollWindow noBorder>
+        <Row noGutters className="imagelist img-grid">
+          {props.images.map((url: string) => {
+            return (
+              <div className="imagelist img-wrapper col-3" key={url}>
+                <img
+                  onClick={props.onImageChange}
+                  className="imagelist img-wrapper img"
+                  src={url}
+                />
+              </div>
+            );
+          })}
+        </Row>
+      </ScrollWindow>
+    </div>
   );
 };
 

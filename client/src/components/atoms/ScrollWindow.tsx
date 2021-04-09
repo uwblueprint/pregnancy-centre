@@ -7,7 +7,9 @@ interface Props {
 
 const ScrollWindow: FunctionComponent<Props> = (props: Props) => {
   return (
-    <div className={`scroll-window${props.noBorder && "-no-border"}`}>
+    <div
+      className={`scroll-window${props.noBorder && " scroll-window-no-border"}`}
+    >
       {console.log(props.noBorder)}
       {props.children}
     </div>
