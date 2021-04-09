@@ -41,6 +41,15 @@ const nextRequestRequestGroupHelper = (requestTypeIds, dataSources): RequestInte
 const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
+    filterClients: (_, { filter }, { dataSources }): Array<ClientInterface> => {
+      let filteredClients = dataSources.clients.getAll()
+
+      for (let property in filter) {
+        filteredClients = filteredClients.filter((client) => (client[property] ? client[property] === filter[property] : true))
+      }
+
+      return filteredClients
+    },
     clients: (_, __, { dataSources }): Array<ClientInterface> => dataSources.clients.getAll(),
     request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getById(Types.ObjectId(id)),
     requests: (_, __, { dataSources }): Array<RequestInterface> => dataSources.requests.getAll(),
