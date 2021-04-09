@@ -6,6 +6,10 @@
 
 .tooltip {
     transition: opacity 0.15s linear;
+
+    &.show {
+        opacity: 1.0;
+    }
 }
 
 .bs-tooltip-right .arrow::before{
