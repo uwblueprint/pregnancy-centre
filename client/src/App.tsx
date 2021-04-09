@@ -18,7 +18,6 @@ function App(): JSX.Element {
     <span>
       <Router>
         <Switch>
-          <Route path='/FormModal' strict component={() => <FormModal size="medium" title="Create Request" handleClose={() => { console.log("HI") }} show ><></></FormModal>}></Route>
           <Route path='/donation-guidelines'><SampleContainer /></Route>
           {/* TODO(chamod-gamage): confirm what the routing behaviour will be for user signin sequence */}
           <Route path='/login'><SignInModal /></Route>
