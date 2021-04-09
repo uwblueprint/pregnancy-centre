@@ -20,6 +20,8 @@ $faded-modal-text-color: #7d7d7d;
 $normal-text-color: black;
 $white-text-color: white;
 $section-header-text-color: #bbbbbb;
+$alert-light-color: #f8d7da;
+$alert-dark-color: #721c24;
 
 @mixin text() {
   font-family: $font-stack;
@@ -182,3 +184,8 @@ $tpc-green-hover: #00363e;
 
 /* TextField Config */
 $soft-black: #333333;
+
+
+/* ScrollWindow Config */
+$scroll-bar-color: #C4C4C4;
+$scroll-window-border: 1px solid #D7D7D7;

@@ -1,0 +1,25 @@
+.scroll-window {
+  width: 100%;
+  height: 100%;
+
+  overflow-y: scroll;
+  border: $scroll-window-border;
+  border-radius: 4px;
+
+  // Custom scrollbar only shows on Chrome, Edge, Safari and Opera
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: $scroll-bar-color;
+    border: 4px solid rgba(0, 0, 0, 0);
+    border-radius: 100px;
+    background-clip: padding-box;
+  }
+}
