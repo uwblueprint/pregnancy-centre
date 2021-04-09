@@ -1,6 +1,6 @@
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import React, { FunctionComponent, useState } from "react";
-import AuthModal from "../components/organisms/AuthModal";
+import LogoModal from "../components/organisms/LogoModal";
 import { Redirect } from "react-router-dom";
 
 import { AuthErrorMessage, signIn } from "../services/auth";
@@ -48,7 +48,7 @@ const SignInModal: FunctionComponent = () => {
   }
   return (
     <React.Fragment>
-      <AuthModal
+      <LogoModal
         title={modalTitle}
         subtitle={subtitle}
         show={!confirmationEmailSent}

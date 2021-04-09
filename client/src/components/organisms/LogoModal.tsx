@@ -10,7 +10,7 @@ interface Props {
   body: React.ReactNode;
 }
 
-const AuthModal: FunctionComponent<Props> = (props: Props) => {
+const LogoModal: FunctionComponent<Props> = (props: Props) => {
   return (
     <CommonModal class="modal" size="default" show={props.show} handleClose={props.handleClose}>
       <div className="pc-icon">
@@ -27,4 +27,4 @@ const AuthModal: FunctionComponent<Props> = (props: Props) => {
   );
 }
 
-export default AuthModal;
+export default LogoModal;

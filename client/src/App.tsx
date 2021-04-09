@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
 
 import AdminHomepage from "./pages/AdminHomepage";
-import AdminModal from "./components/organisms/AdminModal"
+import FormModal from "./components/organisms/FormModal"
 import AuthTestComponent from "./pages/AuthTestComponent";
 import DonorHomepage from './pages/DonorHomepage'
 import PasswordResetEmailSentModal from "./pages/PasswordResetEmailSentModal";
@@ -18,7 +18,7 @@ function App(): JSX.Element {
     <span>
       <Router>
         <Switch>
-          <Route path='/adminmodal' strict component={() => <AdminModal size="medium" title="Create Request" handleClose={() => { console.log("HI") }} show ><></></AdminModal>}></Route>
+          <Route path='/FormModal' strict component={() => <FormModal size="medium" title="Create Request" handleClose={() => { console.log("HI") }} show ><></></FormModal>}></Route>
           <Route path='/donation-guidelines'><SampleContainer /></Route>
           {/* TODO(chamod-gamage): confirm what the routing behaviour will be for user signin sequence */}
           <Route path='/login'><SignInModal /></Route>

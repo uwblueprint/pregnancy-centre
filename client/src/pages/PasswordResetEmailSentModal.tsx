@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import AuthModal from '../components/organisms/AuthModal';
+import LogoModal from '../components/organisms/LogoModal';
 
 const EmailConfirmedModal: FunctionComponent = () => {
   const [show, setShow] = useState(true);
@@ -7,7 +7,7 @@ const EmailConfirmedModal: FunctionComponent = () => {
   const handleClose = () => setShow(false);
 
   return (
-    <AuthModal show={show} title={"Email Sent"} subtitle={''} handleClose={handleClose} body={
+    <LogoModal show={show} title={"Email Sent"} subtitle={''} handleClose={handleClose} body={
       <span>
         <div className="text">
           Check your email and click on the password reset link to reset the password to your account.
@@ -19,7 +19,7 @@ const EmailConfirmedModal: FunctionComponent = () => {
           I understand
         </button>
       </span>
-    }></AuthModal>
+    }></LogoModal>
   );
 }
 

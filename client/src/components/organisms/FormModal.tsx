@@ -6,13 +6,14 @@ interface Props {
   show: boolean;
   handleClose(): void;
   children: React.ReactNode;
+  extraHeader?: React.ReactNode;
   size: "small" | "medium" | "large";
 }
 
-const AdminModal: FunctionComponent<Props> = (props: Props) => {
+const FormModal: FunctionComponent<Props> = (props: Props) => {
   return (
     <CommonModal customClose class="modal-admin" size={props.size} show={props.show} handleClose={props.handleClose} header={<><div className={`modal-admin-header-title-${props.size}`}>
-      {props.title}
+      {props.title}{props.extraHeader}
     </div></>}>
       <>
         <hr className={`modal-admin line-${props.size}`} />
@@ -22,4 +23,4 @@ const AdminModal: FunctionComponent<Props> = (props: Props) => {
   );
 }
 
-export default AdminModal;
+export default FormModal;

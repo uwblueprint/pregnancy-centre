@@ -2,7 +2,7 @@ import { OverlayTrigger, Popover } from "react-bootstrap";
 import React, { FunctionComponent, useState } from "react";
 import { Redirect } from "react-router-dom";
 
-import AuthModal from "../components/organisms/AuthModal";
+import LogoModal from "../components/organisms/LogoModal";
 import ConfirmationModal from "./ConfirmationModal";
 import { createNewAccount } from "../services/auth";
 
@@ -114,7 +114,7 @@ const SignUpModal: FunctionComponent = () => {
   }
   return (
     <React.Fragment>
-      <AuthModal title={modalTitle} subtitle={subtitle} show={!confirmationEmailSent} handleClose={handleClose} body={
+      <LogoModal title={modalTitle} subtitle={subtitle} show={!confirmationEmailSent} handleClose={handleClose} body={
         <div>
           <form onSubmit={handleClick}>
             <div>

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Redirect } from "react-router-dom";
 
-import AuthModal from '../components/organisms/AuthModal';
+import LogoModal from '../components/organisms/LogoModal';
 
 interface Props {
   email: string;
@@ -18,7 +18,7 @@ const ConfirmationModal: FunctionComponent<Props> = (props: Props) => {
   }
 
   return (
-    <AuthModal show={true} title={"Confirm Your Email"} subtitle={''} handleClose={handleClose} body={
+    <LogoModal show={true} title={"Confirm Your Email"} subtitle={''} handleClose={handleClose} body={
       <span>
         <div className="text">
           {props.resentEmail ?
@@ -38,7 +38,7 @@ const ConfirmationModal: FunctionComponent<Props> = (props: Props) => {
           I understand
         </button>
       </span>
-    }></AuthModal>
+    }></LogoModal>
   );
 }
 

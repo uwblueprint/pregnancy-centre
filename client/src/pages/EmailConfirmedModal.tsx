@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Redirect } from "react-router-dom";
 
-import AuthModal from '../components/organisms/AuthModal';
+import LogoModal from '../components/organisms/LogoModal';
 
 const EmailConfirmedModal: FunctionComponent = () => {
   const [redirect, setRedirect] = useState("");
@@ -11,7 +11,7 @@ const EmailConfirmedModal: FunctionComponent = () => {
   }
 
   return (
-    <AuthModal show={true} title={"Email Confirmed"} subtitle={''} handleClose={() => setRedirect("/")} body={
+    <LogoModal show={true} title={"Email Confirmed"} subtitle={''} handleClose={() => setRedirect("/")} body={
       <span>
         <div className="text">
           Your account has now been made.
@@ -22,7 +22,7 @@ const EmailConfirmedModal: FunctionComponent = () => {
           Log in
         </button>
       </span>
-    }></AuthModal>
+    }></LogoModal>
   );
 }
 
