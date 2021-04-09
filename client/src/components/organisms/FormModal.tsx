@@ -12,9 +12,9 @@ interface Props {
 
 const FormModal: FunctionComponent<Props> = (props: Props) => {
   return (
-    <CommonModal customClose class="modal-admin" size={props.size} show={props.show} handleClose={props.handleClose} header={<><div className={`modal-admin-header-title-${props.size}`}>
+    <CommonModal customClose class="modal-admin" size={props.size} show={props.show} handleClose={props.handleClose} header={<div className={`modal-admin-header-title-${props.size}`}>
       {props.title}{props.extraHeader}
-    </div></>}>
+    </div>}>
       <>
         <hr className={`modal-admin line-${props.size}`} />
         {props.children}

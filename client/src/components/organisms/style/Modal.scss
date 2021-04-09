@@ -1,7 +1,9 @@
 .border-radius-12 div {
   border-radius: 12px !important;
 }
-
+.bi-x {
+  color: black !important;
+}
 .modal-admin {
   align-items: left;
   text-align: left;
@@ -19,23 +21,23 @@
       padding: 27px 23px 23px 70px;
     }
     &-title-small {
-      font-weight: bold;
+      font-weight: 600;
       font-size: 24px;
       margin-bottom: 0px !important;
     }
     &-title-medium {
-      font-weight: bold;
+      font-weight: 600;
       font-size: 24px;
       margin: 43px 0px 0px 0px !important;
     }
     &-title-large {
-      font-weight: bold;
+      font-weight: 600;
       font-size: 24px;
       margin: 27px 0px 0px 0px !important;
     }
     .close {
       border-bottom: none !important;
-      color: black;
+      color: black !important;
       font-size: 34px;
       padding: 16px 12px 0px 16px;
       cursor: pointer;
