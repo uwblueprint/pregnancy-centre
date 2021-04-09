@@ -1,0 +1,19 @@
+.imagelist {
+  &-container {
+    width: 360px;
+    height: 130px;
+  }
+  .img-grid {
+    height: 69px;
+  }
+  .img-wrapper {
+    // overflow: visible;
+    height: 69px;
+    img {
+      border-radius: $box-border-radius;
+      width: 80px;
+      height: 59px;
+      object-fit: cover;
+    }
+  }
+}
