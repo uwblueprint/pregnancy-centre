@@ -15,7 +15,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     <div className="imagepicker">
       <Row className="toprow">
         <div className="imagepicker-title">Image</div>
-        {isErroneous && (
+        {isErroneous && !selected.length && (
           <div className="text-error">Please select an image</div>
         )}
       </Row>
