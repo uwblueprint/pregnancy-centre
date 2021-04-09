@@ -5,6 +5,7 @@ import ScrollWindow from "./ScrollWindow";
 interface Props {
   onImageChange(url: string): void;
   images: string[];
+  selected: string;
 }
 
 const ImageList: FunctionComponent<Props> = (props: Props) => {
@@ -15,11 +16,21 @@ const ImageList: FunctionComponent<Props> = (props: Props) => {
           {props.images.map((url: string) => {
             return (
               <div className="imagelist img-wrapper col-3" key={url}>
-                <img
-                  onClick={() => props.onImageChange(url)}
-                  className="imagelist img-wrapper img"
-                  src={url}
-                />
+                <div className={"imagelist img-wrapper-overlay"}>
+                  <img
+                    onClick={() => props.onImageChange(url)}
+                    className={
+                      "imagelist img-wrapper img" +
+                      (props.selected === url && " selected")
+                    }
+                    src={url}
+                  />
+                  {props.selected === url && (
+                    <div className={"imagelist check"}>
+                      <i className="bi bi-check"></i>
+                    </div>
+                  )}
+                </div>
               </div>
             );
           })}
