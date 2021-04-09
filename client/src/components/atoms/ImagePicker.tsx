@@ -12,7 +12,7 @@ interface Props {
 const ImagePicker: FunctionComponent<Props> = (props: Props) => {
   const { selected, images, onImageChange, isErroneous } = props;
   return (
-    <div className="imagepicker" style={{ margin: 40, width: 350 }}>
+    <div className="imagepicker">
       <Row className="toprow">
         <div className="imagepicker-title">Image</div>
         {isErroneous && (
