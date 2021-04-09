@@ -10,7 +10,6 @@ const ScrollWindow: FunctionComponent<Props> = (props: Props) => {
     <div
       className={`scroll-window${props.noBorder && " scroll-window-no-border"}`}
     >
-      {console.log(props.noBorder)}
       {props.children}
     </div>
   );
