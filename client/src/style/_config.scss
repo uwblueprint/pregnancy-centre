@@ -23,6 +23,8 @@ $section-header-text-color: #bbbbbb;
 $tooltip-background-color: #efefef;
 $tooltip-text-color: #737b7d;
 $tooltip-trigger-color: #adadad;
+$alert-light-color: #f8d7da;
+$alert-dark-color: #721c24;
 
 @mixin text() {
   font-family: $font-stack;
@@ -185,3 +187,8 @@ $tpc-green-hover: #00363e;
 
 /* TextField Config */
 $soft-black: #333333;
+
+
+/* ScrollWindow Config */
+$scroll-bar-color: #C4C4C4;
+$scroll-window-border: 1px solid #D7D7D7;
