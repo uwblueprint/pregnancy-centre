@@ -5,26 +5,20 @@ interface Props {
     tooltipText: string
 }
 
-
-const Tooltipz: FunctionComponent<Props> = (props: Props) => {
-    
+const CustomTooltip: FunctionComponent<Props> = (props: Props) => {
     const renderTooltip = (p: Record<string, unknown>) => {
         return <Tooltip id='button-tooltip' {... p} >
             {props.tooltipText}
         </Tooltip>
-
     }
 
     return (
-        <div>
-
-        <h1>hi this is pregnancy centre</h1>
-        <p>wow</p>
-        <OverlayTrigger placement="right-end" overlay={renderTooltip} trigger='click'>
-            <span className="tooltip-trigger"><i className="bi bi-question-circle"></i></span>
+        <OverlayTrigger placement="right-end" overlay={renderTooltip} transition={false}>
+            {({ ref, ...triggerHandler }) => (
+                <span className="tooltip-trigger" {...triggerHandler} ref={ref}><i className="bi bi-question-circle"></i></span>
+            )}
         </OverlayTrigger>
-        </div> 
     )
 }
 
-export default Tooltipz;
+export default CustomTooltip;

@@ -1,6 +1,11 @@
 .tooltip-inner {
     background-color: $tooltip-background-color;
-    color: $tooltip-text-color
+    color: $tooltip-text-color;
+    text-align: left;
+}
+
+.tooltip {
+    transition: opacity 0.15s linear;
 }
 
 .bs-tooltip-right .arrow::before{
