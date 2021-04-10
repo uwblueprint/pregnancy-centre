@@ -144,8 +144,8 @@ const ResetPasswordModal: FunctionComponent = () => {
                       onClick={() => {
                         setHidePassword(!hidePassword);
                         }}
-                    >{hidePassword ? <EyeFilled /> : <EyeInvisibleFilled />}
-                    </div>
+                      >{hidePassword ? <EyeFilled /> : <EyeInvisibleFilled />}
+                      </div>
                     */}
                   </div>
                     
