@@ -11,6 +11,8 @@ import SampleContainer from "./components/examples/SampleContainer";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
+import FormItem from './components/molecules/FormItem'
+
 function App(): JSX.Element {
   return (
     <span>
@@ -27,6 +29,12 @@ function App(): JSX.Element {
           <Route path='/test'>
             <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
           </Route>
+          <Route path='/formitem'>
+            <FormItem 
+              formItemName="Group Name" 
+              errorString="" isDisabled={false} 
+              onInputChange={()=>{}}
+              /></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>
