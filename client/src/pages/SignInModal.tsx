@@ -80,8 +80,8 @@ const SignInModal: FunctionComponent = () => {
                 <div>
                   <div className="row">
                     <div className="text signup">
-                      Password
-                </div>
+                      Password 
+                    </div>
                     <div className="text error">{errors.password}</div>
                   </div>
                   <div className={`row bordered ${errors.password && "error"}`}>
