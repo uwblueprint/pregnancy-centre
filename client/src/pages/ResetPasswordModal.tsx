@@ -1,11 +1,11 @@
-import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import React, { FunctionComponent, useState } from "react";
 import { Redirect } from "react-router-dom";
 
-import CommonModal from "../components/organisms/Modal";
 import ConfirmationModal from "./ConfirmationModal";
 import { createNewAccount } from "../services/auth";
+import LogoModal from "../components/organisms/LogoModal";
+import { TextField } from "../components/atoms/TextField"
 
 const ResetPasswordModal: FunctionComponent = () => {
   const [email, setEmail] = useState("");
@@ -112,10 +112,11 @@ const ResetPasswordModal: FunctionComponent = () => {
   }
   return (
     <React.Fragment>
-      <CommonModal title={modalTitle} subtitle={subtitle} show={!confirmationEmailSent} handleClose={handleClose} body={
-        <div>
+      <div className="reset-password-modal">
+      <LogoModal title={modalTitle} subtitle={subtitle} show={!confirmationEmailSent} handleClose={handleClose} body={
+        <div className="reset-password-modal">
           <form onSubmit={handleClick}>
-            
+
             <div>
               <div className="row">
                 <div className="text signup">
@@ -126,31 +127,23 @@ const ResetPasswordModal: FunctionComponent = () => {
               <div className="pass-req">
                 <OverlayTrigger placement="bottom" overlay={popover}>
                   <div>
-                    <input
-                      type={hidePassword ? "password" : "text"}
-                      name="password"
-                      className={
-                        errors.password 
-                          ? "text-field-input error" 
-                          : "text-field-input"
-                      }
-                      placeholder="Enter your password"
-                      value={password}
+                    <TextField
+                      input={password}
+                      isErroneous={errors.password !== ""}
+                      isDisabled={false}
                       onChange={onChangePass}
-                    />
-                    {/**
-                     <div
-                      className="text-field-input-btn"
-                      onClick={() => {
+                      name="password"
+                      placeholder="Enter your password"
+                      type={hidePassword ? "password" : "text"}
+                      iconClassName={hidePassword ? "bi bi-eye-fill" : "bi bi-eye-slash"}
+                      onIconClick={() => {
                         setHidePassword(!hidePassword);
-                        }}
-                      >{hidePassword ? <EyeFilled /> : <EyeInvisibleFilled />}
-                      </div>
-                    */}
+                      }}
+                    >
+                    </TextField>
                   </div>
-                    
                 </OverlayTrigger>
-                </div>
+              </div>
             </div>
             <button
               role="link"
@@ -170,6 +163,7 @@ const ResetPasswordModal: FunctionComponent = () => {
           </form>
         </div>} />
       {confirmationEmailSent && <ConfirmationModal email={email} resentEmail={true}></ConfirmationModal>}
+      </div>
     </React.Fragment>
   );
 }
