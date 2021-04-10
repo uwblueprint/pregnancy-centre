@@ -3,12 +3,11 @@ import React, { FunctionComponent, useState } from "react";
 import { Redirect } from "react-router-dom";
 
 import ConfirmationModal from "./ConfirmationModal";
-import { createNewAccount } from "../services/auth";
 import LogoModal from "../components/organisms/LogoModal";
 import { TextField } from "../components/atoms/TextField"
 
 const ResetPasswordModal: FunctionComponent = () => {
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
   const [hasOneLowerCase, setHasOneLowerCase] = useState(false);
@@ -20,22 +19,17 @@ const ResetPasswordModal: FunctionComponent = () => {
   const initialReq: string[] = ["at least 1 lowercase letter", "at least 1 uppercase letter", "at least 1 number", "at least 1 symbol", "12 characters minimum"]
   const [requirements, setRequirements] = useState(initialReq);
   const [redirect, setRedirect] = useState("");
-  const [errors, setErrors] = useState({ email: "", password: "" });
-  const [confirmationEmailSent, setConfirmationEmailSent] = useState(false);
+  // const [errors, setErrors] = useState({ email: "", password: "" });
+  // const [confirmationEmailSent, setConfirmationEmailSent] = useState(false);
   const requirementsAreFulfilled = !hasOneLowerCase || !hasOneUpperCase || !hasOneNumber || !hasOneSymbol || !hasTwelveCharacterMin;
 
+  const email = "";
+  const errors = { email: "", password: "" };
+  const confirmationEmailSent = false;
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createNewAccount(email, password)
-      .then((result) => {
-        setErrors(result);
-        if (result.email === "" && result.password === "") {
-          setConfirmationEmailSent(true);
-        }
-      })
-      .catch((err) => {
-        setErrors(err);
-      });
+    // TODO(bonnie-chin): get user from oobcode in URL
+    // TODO(bonnie-chin): reset user password
   };
 
   const requirementToTestMap = new Map([
