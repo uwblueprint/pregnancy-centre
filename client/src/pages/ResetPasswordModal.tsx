@@ -107,56 +107,56 @@ const ResetPasswordModal: FunctionComponent = () => {
   return (
     <React.Fragment>
       <div className="reset-password-modal">
-      <LogoModal title={modalTitle} subtitle={subtitle} show={!confirmationEmailSent} handleClose={handleClose} body={
-        <div className="reset-password-modal">
-          <form onSubmit={handleClick}>
+        <LogoModal title={modalTitle} subtitle={subtitle} show={!confirmationEmailSent} handleClose={handleClose} body={
+          <div className="reset-password-modal">
+            <form onSubmit={handleClick}>
 
-            <div>
-              <div className="row">
-                <div className="text signup">
-                  Password
+              <div>
+                <div className="row">
+                  <div className="text signup">
+                    Password
               </div>
-                <div className="text error">{errors.password}</div>
+                  <div className="text error">{errors.password}</div>
+                </div>
+                <div className="pass-req">
+                  <OverlayTrigger placement="bottom" overlay={popover}>
+                    <div>
+                      <TextField
+                        input={password}
+                        isErroneous={errors.password !== ""}
+                        isDisabled={false}
+                        onChange={onChangePass}
+                        name="password"
+                        placeholder="Enter your password"
+                        type={hidePassword ? "password" : "text"}
+                        iconClassName={hidePassword ? "bi bi-eye-fill" : "bi bi-eye-slash"}
+                        onIconClick={() => {
+                          setHidePassword(!hidePassword);
+                        }}
+                      >
+                      </TextField>
+                    </div>
+                  </OverlayTrigger>
+                </div>
               </div>
-              <div className="pass-req">
-                <OverlayTrigger placement="bottom" overlay={popover}>
-                  <div>
-                    <TextField
-                      input={password}
-                      isErroneous={errors.password !== ""}
-                      isDisabled={false}
-                      onChange={onChangePass}
-                      name="password"
-                      placeholder="Enter your password"
-                      type={hidePassword ? "password" : "text"}
-                      iconClassName={hidePassword ? "bi bi-eye-fill" : "bi bi-eye-slash"}
-                      onIconClick={() => {
-                        setHidePassword(!hidePassword);
-                      }}
-                    >
-                    </TextField>
-                  </div>
-                </OverlayTrigger>
-              </div>
-            </div>
-            <button
-              role="link"
-              className="button signup"
-            >
-              Reset password
-              </button>
-            <div>
-              <div
-                onClick={() => {
-                  setRedirect("/login");
-                }}
-                className="text redirect center"
+              <button
+                role="link"
+                className="button signup"
               >
+                Reset password
+              </button>
+              <div>
+                <div
+                  onClick={() => {
+                    setRedirect("/login");
+                  }}
+                  className="text redirect center"
+                >
+                </div>
               </div>
-            </div>
-          </form>
-        </div>} />
-      {confirmationEmailSent && <ConfirmationModal email={email} resentEmail={true}></ConfirmationModal>}
+            </form>
+          </div>} />
+        {confirmationEmailSent && <ConfirmationModal email={email} resentEmail={true}></ConfirmationModal>}
       </div>
     </React.Fragment>
   );
