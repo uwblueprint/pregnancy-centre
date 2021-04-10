@@ -123,8 +123,9 @@ const ResetPasswordModal: FunctionComponent = () => {
               </div>
                 <div className="text error">{errors.password}</div>
               </div>
-              <div className={`row bordered ${errors.password && "error"}`}>
+              <div className="pass-req">
                 <OverlayTrigger placement="bottom" overlay={popover}>
+                  <div>
                     <input
                       type={hidePassword ? "password" : "text"}
                       name="password"
@@ -137,8 +138,19 @@ const ResetPasswordModal: FunctionComponent = () => {
                       value={password}
                       onChange={onChangePass}
                     />
+                    {/**
+                     <div
+                      className="text-field-input-btn"
+                      onClick={() => {
+                        setHidePassword(!hidePassword);
+                        }}
+                    >{hidePassword ? <EyeFilled /> : <EyeInvisibleFilled />}
+                    </div>
+                    */}
+                  </div>
+                    
                 </OverlayTrigger>
-              </div>
+                </div>
             </div>
             <button
               role="link"
