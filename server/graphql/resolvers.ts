@@ -156,10 +156,10 @@ const resolvers = {
   },
   RequestType: {
     numOpen: (parent, __, { dataSources }): Number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,
-    nextRecipient: (parent, __, { dataSources }): ClientInterface => {
+    nextRecipient: (parent, __, { dataSources, authenticateUser }): ClientInterface => authenticateUser().then(() => {
       const nextRequest = nextRequestRequestTypeHelper(parent.requests, dataSources)
       return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
-    },
+    }),
     openRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterOpenRequests(getRequestsById(parent.requests, dataSources)),
     fulfilledRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterFulfilledRequests(getRequestsById(parent.requests, dataSources)),
     deletedRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterDeletedRequests(getRequestsById(parent.requests, dataSources)),
@@ -168,7 +168,7 @@ const resolvers = {
   },
   Request: {
     requestType: (parent, __, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(parent.requestType.toString())),
-    client: (parent, __, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(parent.client))
+    client: (parent, __, { dataSources, authenticateUser }): ClientInterface => authenticateUser().then(() => dataSources.clients.getById(Types.ObjectId(parent.client)))
   }
 }
 

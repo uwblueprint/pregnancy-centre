@@ -12,10 +12,10 @@ const authenticateUser = (user: User, isProd: boolean) => {
 }
 
 // Authenticate a user before executing a function
-const authUserBeforeExecFunc = (func, user: User, isProd: boolean) => {
+const checkUserAuthThenRunFunc = (func, user: User, isProd: boolean) => {
   authenticateUser(user, isProd)
   
   return func()
 }
 
-export { authUserBeforeExecFunc }
+export { checkUserAuthThenRunFunc }
