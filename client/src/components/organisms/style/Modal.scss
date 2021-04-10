@@ -2,10 +2,73 @@
   border-radius: 12px !important;
 }
 
+.modal-admin {
+  align-items: left;
+  text-align: left;
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    &-small {
+      padding: 32px 28px 0px 28px;
+    }
+    &-medium {
+      padding: 17px 13px 5px 65px;
+    }
+    &-large {
+      padding: 27px 23px 23px 70px;
+    }
+    &-title-small {
+      font-weight: 600;
+      font-size: 24px;
+      margin-bottom: 0px !important;
+    }
+    &-title-medium {
+      font-weight: 600;
+      font-size: 24px;
+      margin: 43px 0px 0px 0px !important;
+    }
+    &-title-large {
+      font-weight: 600;
+      font-size: 24px;
+      margin: 27px 0px 0px 0px !important;
+    }
+    .close {
+      border-bottom: none !important;
+      color: black !important;
+      font-size: 34px;
+      padding: 16px 12px 0px 16px;
+      cursor: pointer;
+    }
+  }
+}
+
 .modal {
   align-items: center;
   text-align: center;
-
+  .line {
+    height: 1px;
+    &-small {
+      margin: -10px 13px !important;
+      padding: 0px 0px 10px 0px !important;
+    }
+    &-medium {
+      margin: -10px 50px !important;
+      padding: 0px 0px 10px 0px !important;
+    }
+    &-large {
+      margin: -10px 55px !important;
+      padding: 0px 0px 10px 0px !important;
+    }
+  }
+  &-sm {
+    max-width: 432px;
+  }
+  &-lg {
+    max-width: 513px;
+  }
+  &-xl {
+    max-width: 1063px;
+  }
   .button {
     color: #ffffff;
     background-color: $tpc-green;
@@ -153,6 +216,11 @@
 
 .modal-header {
   border-bottom: 0 none;
+  .close {
+    font-size: 34px;
+    color: black !important;
+    opacity: 1;
+  }
 }
 
 .modal-footer {
