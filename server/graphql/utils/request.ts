@@ -1,7 +1,7 @@
 import { ClientSession, Document, Types } from 'mongoose'
-import { RequestInterface } from '../../models/requestModel'
 import { UserInputError } from 'apollo-server-errors'
 
+import { RequestInterface } from '../../models/requestModel'
 import { updateRequestTypeHelper } from './requestType'
 
 import mongoose from 'mongoose'
