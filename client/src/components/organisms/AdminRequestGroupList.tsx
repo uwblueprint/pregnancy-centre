@@ -61,7 +61,8 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
 
     useQuery(query, {
         onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
-            const displayRequestGroups = sortRequestGroupsAlphabetically(data.requestGroups.map(requestGroup => ({ ...requestGroup })));
+            // sort fetched request groups alphabetically and filter out deleted request groups
+            const displayRequestGroups = sortRequestGroupsAlphabetically(data.requestGroups.map(requestGroup => ({ ...requestGroup }))).filter(requestGroup => !requestGroup.deleted);
             props.loadRequestGroups(data.requestGroups);
             props.setDisplayRequestGroups(displayRequestGroups);
         },
@@ -72,10 +73,10 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
         setCurrentPage(1); // when search string changes, reset pagination
         let updatedRequestGroups = [];
         if (event.target.value.length > 0) {
-            updatedRequestGroups = props.displayRequestGroups.filter(requestGroup => requestGroup?.name?.startsWith(event.target.value));
+            updatedRequestGroups = props.requestGroups.filter(requestGroup => requestGroup?.name?.startsWith(event.target.value));
         } else {
             // if no search string entered, return all results
-            updatedRequestGroups = props.displayRequestGroups; 
+            updatedRequestGroups = props.requestGroups;
         }
         props.setDisplayRequestGroups(updatedRequestGroups);
     }
@@ -96,7 +97,7 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
             </div>
             <div className="page-navigation">
                 <SimplePageNavigation
-                    totalNumItems={props.requestGroups.filter(requestGroup => requestGroup?.name?.startsWith(searchString)).length}
+                    totalNumItems={props.displayRequestGroups.length}
                     numItemsPerPage={numGroupsPerPage}
                     currentPage={currentPage} // Indexing starting at 1.
                     onPageChange={handlePageChange}
