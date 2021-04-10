@@ -45,6 +45,7 @@ Tutorials:
 
 1. Go to `/server`.
 2. Ensure your `.env` has the correct values for production.
+  + We must have `NODE_ENV=production` or else all requests will be unauthenticated and graphql errors will include a stacktrace.
 3. Remove `.env` from `server/.gitignore` (or else the build will fail.)
 4. Build Docker image and push to Google container registry. The name of the image is `gcr.io/bp-pregnancy-centre/tpc-server`. 
 ```
