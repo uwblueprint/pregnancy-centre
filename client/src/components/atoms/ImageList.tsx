@@ -10,23 +10,23 @@ interface Props {
 
 const ImageList: FunctionComponent<Props> = (props: Props) => {
   return (
-    <div className="imagelist-container">
+    <div className="image-list-container">
       <ScrollWindow noBorder>
-        <Row noGutters className="imagelist img-grid">
+        <Row noGutters className="image-list img-grid">
           {props.images.map((url: string) => {
             return (
-              <div className="imagelist img-wrapper col-3" key={url}>
-                <div className={"imagelist img-wrapper-overlay"}>
+              <div className="image-list img-wrapper col-3" key={url}>
+                <div className={"image-list img-wrapper-overlay"}>
                   <img
                     onClick={() => props.onImageChange(url)}
                     className={
-                      "imagelist img-wrapper img" +
+                      "image-list img-wrapper img" +
                       (props.selected === url && " selected")
                     }
                     src={url}
                   />
                   {props.selected === url && (
-                    <div className={"imagelist check"}>
+                    <div className={"image-list check"}>
                       <i className="bi bi-check"></i>
                     </div>
                   )}
