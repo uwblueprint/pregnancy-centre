@@ -17,4 +17,14 @@ const createClientHelper = async (client, dataSources, session): Promise<ClientD
   return dataSources.clients.create(client, session)
 }
 
-export { createClientHelper, getClientsByFullName, getClientByFullNameOrCreate }
+const filterClients = (filter, dataSources) => {
+  let filteredClients = dataSources.clients.getAll()
+
+  for (let property in filter) {
+    filteredClients = filteredClients.filter((client) => (client[property] ? client[property] === filter[property] : true))
+  }
+
+  return filteredClients
+}
+
+export { createClientHelper, getClientsByFullName, getClientByFullNameOrCreate, filterClients }

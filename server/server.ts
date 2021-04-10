@@ -109,19 +109,23 @@ async function gqlServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: async ({ req, res }) => {
-      if (!req.cookies || !req.cookies.session) {
-        if (isProd) {
-          throw new AuthenticationError("Authentication Not Found");
-        } else {
+    context: async ({ req, res }) => ({
+      authenticateUser: async () => {
+        if(!isProd){
           return { req, res, user: null };
         }
+
+        if (!req.cookies || !req.cookies.session) {
+          throw new AuthenticationError("Authentication Not Found");
+        }
+
+        const user = await getUser(req.cookies.session);
+        if (!user || !user.id)
+          throw new AuthenticationError("Authentication Error");
+
+        return { req, res, user };
       }
-      const user = await getUser(req.cookies.session);
-      if ((!user || !user.id) && isProd)
-        throw new AuthenticationError("Authentication Error");
-      return { req, res, user };
-    },
+    }),
     dataSources: () => ({
       clients: new ClientDataSource(),
       requests: new RequestDataSource(),
@@ -129,14 +133,17 @@ async function gqlServer() {
       requestGroups: new RequestGroupDataSource(),
     }),
   });
+
   server.applyMiddleware({
     app,
     path: "/graphql",
     bodyParserConfig: { strict: true, type: "application/*" },
     cors: corsPolicy,
   });
+
   app.listen({ port: PORT });
   console.log(`🚀 Server ready at port ${PORT}`);
+  
   return { server, app };
 }
 
