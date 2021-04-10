@@ -1,5 +1,5 @@
 import * as admin from "firebase-admin";
-import { ApolloServer, AuthenticationError } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
 import bodyParser from "body-parser";
 import { connectDB } from "./database/mongoConnection";
 import cookieParser from "cookie-parser";
@@ -22,6 +22,7 @@ import RequestGroupDataSource from "./datasources/requestGroupDataSource";
 import RequestTypeDataSource from "./datasources/requestTypeDataSource";
 import { resolvers } from "./graphql/resolvers";
 import { typeDefs } from "./graphql/schema";
+import User from "./auth/user"
 
 // TODO: need to make script to build(compile) prod server and to run prod server
 
@@ -110,17 +111,14 @@ async function gqlServer() {
     typeDefs,
     resolvers,
     context: async ({ req, res }) => {
-      if (!req.cookies || !req.cookies.session) {
-        if (isProd) {
-          throw new AuthenticationError("Authentication Not Found");
-        } else {
-          return { req, res, user: null };
+      let user: null | User = null;
+      if (req.cookies && req.cookies.session) {
+        user = await getUser(req.cookies.session);
+        if (!user || !user.id) {
+          user = null;
         }
       }
-      const user = await getUser(req.cookies.session);
-      if ((!user || !user.id) && isProd)
-        throw new AuthenticationError("Authentication Error");
-      return { req, res, user };
+      return { req, res, user, isProd };
     },
     dataSources: () => ({
       clients: new ClientDataSource(),
@@ -129,14 +127,17 @@ async function gqlServer() {
       requestGroups: new RequestGroupDataSource(),
     }),
   });
+
   server.applyMiddleware({
     app,
     path: "/graphql",
     bodyParserConfig: { strict: true, type: "application/*" },
     cors: corsPolicy,
   });
+
   app.listen({ port: PORT });
   console.log(`🚀 Server ready at port ${PORT}`);
+  
   return { server, app };
 }
 

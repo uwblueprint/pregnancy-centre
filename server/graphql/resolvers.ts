@@ -85,7 +85,7 @@ const resolvers = {
           }
         })
     },
-    softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
+    softDeleteRequestType: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
       return softDeleteRequestTypeHelper(id, dataSources)
         .then(res => {
           return {
@@ -107,15 +107,15 @@ const resolvers = {
     }),
     updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
       return sessionHandler((session) => updateRequestHelper(request, dataSources, session))
-      .then(res => {
-        return {
-          'success': true,
-          'message': 'Request successfully updated',
-          'id': res._id
-        }
-      })
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'Request successfully updated',
+            'id': res._id
+          }
+        })
     },
-    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
+    softDeleteRequest: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
       return softDeleteRequestHelper(id, dataSources)
         .then(res => {
           return {
@@ -156,7 +156,7 @@ const resolvers = {
   },
   RequestType: {
     numOpen: (parent, __, { dataSources }): Number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,
-    nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
+    nextRecipient: (parent, __, { dataSources }): ClientInterface => {
       const nextRequest = nextRequestRequestTypeHelper(parent.requests, dataSources)
       return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
     },

@@ -1,5 +1,7 @@
 import * as admin from "firebase-admin";
 
+import User from "./user"
+
 admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
@@ -8,7 +10,7 @@ admin.initializeApp({
   }),
 });
 
-export async function getUser(cookie) {
+export async function getUser(cookie): Promise<User> {
   const user = await verifyUserSessionToken(cookie);
   return { id: user?.uid, admin: user?.admin };
 }
