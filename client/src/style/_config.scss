@@ -20,6 +20,11 @@ $faded-modal-text-color: #7d7d7d;
 $normal-text-color: black;
 $white-text-color: white;
 $section-header-text-color: #bbbbbb;
+$tooltip-background-color: #efefef;
+$tooltip-text-color: #737b7d;
+$tooltip-trigger-color: #adadad;
+$alert-light-color: #f8d7da;
+$alert-dark-color: #721c24;
 
 @mixin text() {
   font-family: $font-stack;
