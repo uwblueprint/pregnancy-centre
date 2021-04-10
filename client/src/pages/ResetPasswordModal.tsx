@@ -137,7 +137,6 @@ const ResetPasswordModal: FunctionComponent = () => {
                       value={password}
                       onChange={onChangePass}
                     />
-                    
                 </OverlayTrigger>
               </div>
             </div>
