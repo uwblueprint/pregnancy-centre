@@ -24,16 +24,12 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithChildren<Props>) => {
-    // requestGroups are all the request groups that fit the search string
-    const [requestGroups, setRequestGroups] = useState<Array<RequestGroup>>(props.displayRequestGroups);
-    // displayRequestGroups is a subset of requestGroups, and represents all the request groups on the current page
-    const [displayRequestGroups, setDisplayRequestGroups] = useState<Array<RequestGroup>>(props.displayRequestGroups);
     const [currentPage, setCurrentPage] = useState(1); // Indexing starting at 1.
+    const [searchString, setSearchString] = useState("");
     const numGroupsPerPage = 20;
 
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage);
-        setDisplayRequestGroups(requestGroups.slice((newPage - 1) * numGroupsPerPage, Math.min(newPage * numGroupsPerPage, requestGroups.length - 1)));
     };
 
     const query = gql`
@@ -66,20 +62,13 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
     useQuery(query, {
         onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
             const displayRequestGroups = sortRequestGroupsAlphabetically(data.requestGroups.map(requestGroup => ({ ...requestGroup })));
-            setRequestGroups(displayRequestGroups);
-            setDisplayRequestGroups(displayRequestGroups.slice(
-                (currentPage - 1) * numGroupsPerPage,
-                Math.min(
-                    currentPage * numGroupsPerPage,
-                    displayRequestGroups.length > 0 ? displayRequestGroups.length : Infinity
-                )
-            ));
             props.loadRequestGroups(data.requestGroups);
             props.setDisplayRequestGroups(displayRequestGroups);
         },
     });
 
     const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchString(event.target.value);
         setCurrentPage(1); // when search string changes, reset pagination
         let updatedRequestGroups = [];
         if (event.target.value.length > 0) {
@@ -88,14 +77,7 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
             // if no search string entered, return all results
             updatedRequestGroups = props.displayRequestGroups; 
         }
-        setRequestGroups(updatedRequestGroups);
-        setDisplayRequestGroups(updatedRequestGroups.slice(
-            (currentPage - 1) * numGroupsPerPage,
-            Math.min(
-                currentPage * numGroupsPerPage,
-                updatedRequestGroups.length > 0 ? updatedRequestGroups.length : Infinity
-            )
-        ));
+        props.setDisplayRequestGroups(updatedRequestGroups);
     }
 
     const onCreateButtonClick = () => {
@@ -114,13 +96,17 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
             </div>
             <div className="page-navigation">
                 <SimplePageNavigation
-                    totalNumItems={requestGroups.length}
+                    totalNumItems={props.requestGroups.filter(requestGroup => requestGroup?.name?.startsWith(searchString)).length}
                     numItemsPerPage={numGroupsPerPage}
                     currentPage={currentPage} // Indexing starting at 1.
                     onPageChange={handlePageChange}
                 />
             </div>
-            <RequestGroupTable requestGroups={displayRequestGroups} />
+            <RequestGroupTable requestGroups={props.displayRequestGroups.slice((currentPage - 1) * numGroupsPerPage,
+                Math.min(
+                    currentPage * numGroupsPerPage,
+                    props.displayRequestGroups.length > 0 ? props.displayRequestGroups.length : Infinity
+                ))} />
         </div>
     );
 };

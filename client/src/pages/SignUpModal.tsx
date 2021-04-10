@@ -1,10 +1,10 @@
-import "./Modal.scss";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import React, { FunctionComponent, useState } from "react";
-import CommonModal from "../components/organisms/Modal";
-import { createNewAccount } from "../services/auth";
 import { Redirect } from "react-router-dom";
-import Spacer from "../components/atoms/Spacer";
+
+import ConfirmationModal from "./ConfirmationModal";
+import { createNewAccount } from "../services/auth";
+import LogoModal from "../components/organisms/LogoModal";
 
 const SignUpModal: FunctionComponent = () => {
   const [email, setEmail] = useState("");
@@ -14,12 +14,12 @@ const SignUpModal: FunctionComponent = () => {
   const [hasOneNumber, setHasOneNumber] = useState(false);
   const [hasOneSymbol, setHasOneSymbol] = useState(false);
   const [hasTwelveCharacterMin, setHasTwelveCharacterMin] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => setRedirect("/");
   const initialReq: string[] = ["at least 1 lowercase letter", "at least 1 uppercase letter", "at least 1 number", "at least 1 symbol", "12 characters minimum"]
   const [requirements, setRequirements] = useState(initialReq);
-  const [show, setShow] = useState(true);
   const [redirect, setRedirect] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "" });
+  const [confirmationEmailSent, setConfirmationEmailSent] = useState(false);
   const requirementsAreFulfilled = !hasOneLowerCase || !hasOneUpperCase || !hasOneNumber || !hasOneSymbol || !hasTwelveCharacterMin;
 
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,7 +28,7 @@ const SignUpModal: FunctionComponent = () => {
       .then((result) => {
         setErrors(result);
         if (result.email === "" && result.password === "") {
-          setRedirect("/admin");
+          setConfirmationEmailSent(true);
         }
       })
       .catch((err) => {
@@ -113,65 +113,71 @@ const SignUpModal: FunctionComponent = () => {
     return <Redirect to={redirect} />;
   }
   return (
-    <CommonModal title={modalTitle} subtitle={subtitle} show={show} handleClose={handleClose} body={
-      <div>
-        <form onSubmit={handleClick}>
-          <div>
-            <div className="row">
-              <div className="text signup">Email Address</div>
-              <div className="text error">{errors.email}</div>
-            </div>
-            <input
-              name="email"
-              placeholder="Enter your company email"
-              type="text"
-              value={email}
-              className={errors.email ? "input-field error" : "input-field"}
-              onChange={onChangeEmail}
-            />
-          </div>
-          <div>
-            <div className="row">
-              <div className="text signup">
-                Password<div>{errors.password}</div>
+    <React.Fragment>
+      <LogoModal title={modalTitle} subtitle={subtitle} show={!confirmationEmailSent} handleClose={handleClose} body={
+        <div>
+          <form onSubmit={handleClick}>
+            <div>
+              <div className="row">
+                <div className="text signup">Email Address</div>
+                <div className="text error">{errors.email}</div>
+              </div>
+              <div className={errors.email && `row bordered error`}><input
+                name="email"
+                placeholder="Enter your company email"
+                type="text"
+                value={email}
+                className={errors.email ? "text-field-input password error" : "text-field-input"}
+                onChange={onChangeEmail}
+              />
+                <div
+                  className={errors.email ? "text-field-input-alert" : "hidden"}
+                ><i className="bi bi-exclamation-circle alert-icon"></i></div>
               </div>
             </div>
-
-            <div className="pass-req">
-              <OverlayTrigger placement="bottom" overlay={popover}>
-                <input
-                  type="password"
-                  name="password"
-                  className={
-                    errors.password ? "input-field error" : "input-field"
-                  }
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={onChangePass}
-                />
-              </OverlayTrigger>
+            <div>
+              <div className="row">
+                <div className="text signup">
+                  Password
+              </div>
+                <div className="text error">{errors.password}</div>
+              </div>
+              <div className="pass-req">
+                <OverlayTrigger placement="bottom" overlay={popover}>
+                  <input
+                    type="password"
+                    name="password"
+                    className={
+                      errors.password ? "text-field-input error" : "text-field-input"
+                    }
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={onChangePass}
+                  />
+                </OverlayTrigger>
+              </div>
             </div>
-          </div>
-          <Spacer height={40} />
-          <button
-            role="link"
-            className="button"
-            disabled={requirementsAreFulfilled}
-          >
-            Sign Up
-              </button>
-          <div>
-            <div
-              onClick={() => {
-                setRedirect("/login");
-              }}
-              className="text redirect center"
+            <button
+              role="link"
+              className="button signup"
+              disabled={requirementsAreFulfilled}
             >
-              <u>{"Have an account?"}</u>
+              Sign Up
+              </button>
+            <div>
+              <div
+                onClick={() => {
+                  setRedirect("/login");
+                }}
+                className="text redirect center"
+              >
+                <u>{"Have an account?"}</u>
+              </div>
             </div>
-          </div>
-        </form>
-      </div>} />
+          </form>
+        </div>} />
+      {confirmationEmailSent && <ConfirmationModal email={email} resentEmail={true}></ConfirmationModal>}
+    </React.Fragment>
   );
 }
 

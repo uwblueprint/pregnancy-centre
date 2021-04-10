@@ -1,20 +1,29 @@
 import React, { FunctionComponent, useState } from 'react';
-import CommonModal from '../components/organisms/Modal';
+import { Redirect } from "react-router-dom";
+
+import LogoModal from '../components/organisms/LogoModal';
 
 interface Props {
   email: string;
+  resentEmail: boolean;
 }
 
 const ConfirmationModal: FunctionComponent<Props> = (props: Props) => {
-  const [show, setShow] = useState(true);
+  const [redirect, setRedirect] = useState("");
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => setRedirect("/");
+
+  if (redirect !== "") {
+    return <Redirect to={redirect} />;
+  }
 
   return (
-    <CommonModal show={show} title={"Confirm Your Email"} subtitle={''} handleClose={handleClose} body={
+    <LogoModal show={true} title={"Confirm Your Email"} subtitle={''} handleClose={handleClose} body={
       <span>
         <div className="text">
-          We’ve just sent an email to the following email address.
+          {props.resentEmail ?
+            "We've just resent a confirmation email to the following address."
+            : "We’ve just sent an email to the following email address."}
         </div>
         <div className="text link">
           {props.email}
@@ -29,7 +38,7 @@ const ConfirmationModal: FunctionComponent<Props> = (props: Props) => {
           I understand
         </button>
       </span>
-    }></CommonModal>
+    }></LogoModal>
   );
 }
 

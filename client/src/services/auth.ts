@@ -9,19 +9,21 @@ interface AuthErrorMessageInterface {
   "auth/wrong-password": string;
   "empty-email": string;
   "empty-password": string;
+  "unconfirmed-email": string;
 }
 
-const AuthErrorMessage: AuthErrorMessageInterface = {
+export const AuthErrorMessage: AuthErrorMessageInterface = {
   //firebase (https://firebase.google.com/docs/reference/js/firebase.auth.Auth)
-  "auth/invalid-email": "Invalid email.",
-  "auth/email-already-in-use": "That email has already been registered.",
+  "auth/invalid-email": "Invalid email",
+  "auth/email-already-in-use": "That email has already been registered",
   "auth/user-not-found": "No account with this email",
   "auth/wrong-password": "Password is incorrect",
   //pre-firebase
-  "invalid-domain": "Invalid email domain.",
-  "invalid-password": "Please enter a valid password.",
+  "invalid-domain": "Invalid email domain",
+  "invalid-password": "Please enter a valid password",
   "empty-email": "Please enter your email",
   "empty-password": "Please enter your password",
+  "unconfirmed-email": "Please use the link sent to your email to confirm your account",
 };
 
 export const createNewAccount = async (
@@ -92,6 +94,15 @@ export const signIn = async (
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
+        const user = firebase.auth().currentUser;
+
+        if(user && !user.emailVerified){
+          user?.sendEmailVerification();
+          return {
+            email: AuthErrorMessage["unconfirmed-email"],
+            password: "",
+          }
+        }
         return await postToken();
       })
       .catch((error) => {
