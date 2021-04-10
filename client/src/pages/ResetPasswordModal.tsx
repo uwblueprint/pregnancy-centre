@@ -143,9 +143,8 @@ const ResetPasswordModal: FunctionComponent = () => {
             <button
               role="link"
               className="button signup"
-              disabled={requirementsAreFulfilled}
             >
-              Sign Up
+              Reset password
               </button>
             <div>
               <div
@@ -154,7 +153,6 @@ const ResetPasswordModal: FunctionComponent = () => {
                 }}
                 className="text redirect center"
               >
-                <u>{"Have an account?"}</u>
               </div>
             </div>
           </form>
