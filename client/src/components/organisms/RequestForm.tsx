@@ -374,7 +374,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                   initialText={requestGroup && requestGroup.name ? requestGroup.name : ""}
                   placeholderText="Select a group"
                   searchPlaceholderText="Search for a group"
-                  dropdownItems={requestGroupsMap ? [...requestGroupsMap.keys()] : []} // Pass the name of all request groups
+                  dropdownItemsText={requestGroupsMap ? [...requestGroupsMap.keys()] : []} // Pass the name of all request groups
                   isErroneous={requestGroupError !== "" && requestGroupInput === ""}
                   isDisabled={false}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onRequestGroupInputChange(e.target.value) }}
@@ -403,7 +403,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                   initialText={requestType && requestType.name ? requestType.name : ""}
                   placeholderText={requestGroup === null ? "Select a group first" : "Search or create a type"}
                   searchPlaceholderText="Search for a type"
-                  dropdownItems={requestTypesMap ? [...requestTypesMap.keys()] : []} // Pass the name of all request groups
+                  dropdownItemsText={requestTypesMap ? [...requestTypesMap.keys()] : []} // Pass the name of all request groups
                   isErroneous={requestTypeError !== "" && requestTypeInput === ""}
                   isDisabled={requestGroup === null}
                   isEmpty={requestType === null}

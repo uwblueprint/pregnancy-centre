@@ -7,7 +7,8 @@ interface Props {
   initialText: string;
   placeholderText: string;
   searchPlaceholderText: string;
-  dropdownItems: Array<string>;
+  dropdownItems?: Array<React.ReactNode>,
+  dropdownItemsText: Array<string>;
   isErroneous: boolean;
   isDisabled: boolean;
   isEmpty?: boolean;
@@ -32,7 +33,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
     setSearchString(event.target.value);
     if (
       event.target.value.length > 0 &&
-      props.dropdownItems.filter((item) =>
+      props.dropdownItemsText.filter((item) =>
         item
           .toLocaleLowerCase()
           .startsWith(event.target.value.toLocaleLowerCase())
@@ -54,7 +55,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
 
   useEffect(() => {
     if (props.isEmpty) {
-      
+
       setSearchString("");
     }
   }, [props.isEmpty]);
@@ -95,15 +96,29 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
           autocompleteOff={true}
         ></TextField>
       </div>
+      {dropdownExpanded && noItems &&
+        <div className="no-items-found">
+          <span className="not-exist-msg">This group does not exist</span>
+          <span className="create-group"><a><span>Create a new group</span><i className="bi bi-arrow-right-short"></i></a></span>
+        </div>
+      }
+      {dropdownExpanded && !noItems &&
+        <ScrollWindow>
+          <div className="dropdown-header">{props.placeholderText}</div>
+          {props.dropdownItemsText.filter(item => item.startsWith(searchString)).map((item, idx) =>
+            <div className={"dropdown-item" + (props.dropdownItems ? " tag" : "")} key={item} onClick={() => onSelectedItemChange(item)}>{props.dropdownItems ? props.dropdownItems[idx] : item}</div>
+          )}
+        </ScrollWindow>
+      }
       {dropdownExpanded && (
         <span ref={dropdownReference}>
-          {noItems || props.dropdownItems?.length === 0 ? (
+          {noItems || props.dropdownItemsText?.length === 0 ? (
             props.noItemsAction
           ) : (
               <div>
                 <ScrollWindow>
                   <div className="dropdown-header">{props.placeholderText}</div>
-                  {props.dropdownItems
+                  {props.dropdownItemsText
                     .filter((item) =>
                       filterEnabled
                         ? item
@@ -129,7 +144,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
         </span>
       )}
     </div>
-  );
+  )
 };
 
 export default SearchableDropdown;

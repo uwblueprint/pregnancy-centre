@@ -30,9 +30,16 @@
 
     padding: 8px 13px;
     height: 37px;
+    // height: 30px;
 
     &:last-child {
       margin-bottom: 8px;
+    }
+
+  
+    &.tag {
+        padding: 0;
+        margin: 9px 13px;
     }
   }
 
