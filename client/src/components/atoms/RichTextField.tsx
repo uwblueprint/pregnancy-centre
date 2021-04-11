@@ -5,6 +5,9 @@ import ScrollWindow from './ScrollWindow';
 
 interface Props {
     initialContent: string // content in the stringified form of a ContentState (i.e. derived from using RichTextField)
+                           // this should not be reactive! (not updated onChange)
+                           // how to use: for editing pre-existing content (e.g. on editing a requestGroup's description),
+                           //             pass the previous description into initialContent
     defaultText: string // text to show if no content in input field
     onChange: (content : string) => void // called with stringified form of current ContentState
     isErroneous: boolean // for styling when the input is erroneous
@@ -15,7 +18,7 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
     const [editorState, setEditorState] = React.useState(
         props.initialContent ?
         EditorState.createWithContent(convertFromRaw(JSON.parse(props.initialContent))) :
-        EditorState.createWithContent(ContentState.createFromText(props.defaultText)))
+        EditorState.createEmpty())
 
     const { hasCommandModifier } = KeyBindingUtil; // utility
     // for each key input, map keys to commands conditionally
@@ -43,42 +46,18 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
         return getDefaultKeyBinding(e) // standard input (e.g. typing "e" inputs "e" at cursor, backspace deletes char before cursor)
     }
 
-    function clearState(currentState: EditorState) {
-        const blocks = currentState.getCurrentContent().getBlockMap().toList()
-        // select entire contents
-        const allSelection = editorState.getSelection().merge({
-            anchorKey: blocks.first().get('key'),
-            anchorOffset: 0,
-            focusKey: blocks.last().get('key'),
-            focusOffset: blocks.last().getLength(),
-        })
-        // remove contents
-        const newContent = Modifier.removeRange(editorState.getCurrentContent(), allSelection, 'backward')
-
-        // update editorState and reset selection to very start of content
-        const clearedState = EditorState.push(currentState, newContent, 'remove-range')
-        setEditorState(EditorState.forceSelection(clearedState, newContent.getSelectionAfter()))
-    }
-
     function onChange(state: EditorState) {
-        // check if we started with defaultText
-        if (!active && !props.initialContent) { 
-            // clear default text
-            clearState(state)
-            // user is now typing content, so this is active
+        // if user is typing content, so this is active
+        if (!active) {
             setActive(true)
-            return
         }
 
         // check if we are already typing (we are active) and state has no text
-        if (active && !state.getCurrentContent().hasText()) {
+        if (active && (!state.getCurrentContent().hasText() && state.getCurrentContent().getFirstBlock().getType() === 'unstyled')) {
             // if so, we made the content empty, so add back the default text
-            props.onChange(JSON.stringify(convertToRaw(state.getCurrentContent())));
-            setEditorState(EditorState.createWithContent(ContentState.createFromText(props.defaultText)))
             setActive(false)
-            return
         }
-
+        
         props.onChange(JSON.stringify(convertToRaw(state.getCurrentContent())));
         setEditorState(state);
     }
@@ -144,7 +123,7 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
     }
 
     return (
-        <div className={"richtext-field" + (!active ? " default" : "") + (props.isErroneous ? " error" : "")}>
+        <div className={"richtext-field" + (props.isErroneous ? " error" : "")}>
             <div className="richtext-field-controls">
                 <button onMouseDown={(e) => handleControlMouseDown(e, RichUtils.toggleInlineStyle(editorState, 'BOLD'))}>
                     <i className="bi bi-type-bold"/>
@@ -154,6 +133,11 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
                 </button>
             </div>
             <div className="richtext-field-input">
+                {!active && 
+                    <span className="richtext-default-text">
+                        {props.defaultText}
+                    </span>
+                }
                 <ScrollWindow>
                     <Editor editorState={editorState} onChange={onChange} handleKeyCommand={handleKeyCommand} keyBindingFn={keyBindings}/>
                 </ScrollWindow>

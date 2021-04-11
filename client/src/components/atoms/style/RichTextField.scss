@@ -40,6 +40,16 @@
     height: 220px;
     max-height: 220px;
     overflow-y: hidden;
+    
+    .richtext-default-text {
+        @include normal-text;
+        position: absolute;
+        font-size: 14px;
+        line-height: 21px;
+        color: $grey-text-color;
+        padding: 12px 22px 0 22px;
+        color: $dark-border-color;
+    }
 
     .scroll-window {
         border: none;
@@ -51,10 +61,6 @@
         line-height: 21px;
         color: $grey-text-color;
         padding: 12px 22px 0 22px;
-
-        .default & {
-            color: $dark-border-color;
-        }
 
         .error & {
             @include error-text;
