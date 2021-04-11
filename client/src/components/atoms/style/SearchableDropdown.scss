@@ -28,9 +28,8 @@
     font-size: 14px;
     line-height: 20px;
 
-    padding: 8px 13px;
-    height: 37px;
-    // height: 30px;
+		padding: 8px 13px;
+		height: 37px;
 
     &:last-child {
       margin-bottom: 8px;
@@ -38,8 +37,9 @@
 
   
     &.tag {
-        padding: 0;
-        margin: 9px 13px;
+      padding: 0;
+      margin: 5px 13px;
+      background: white;
     }
   }
 
@@ -64,6 +64,11 @@
       font-size: 12px;
       line-height: 14.52px;
       color: $tpc-green;
+
+			margin-left: 70px;
+      vertical-align: middle;
+      float: right;
+			line-height: 27px;
 
       & i {
         font-size: 18px;

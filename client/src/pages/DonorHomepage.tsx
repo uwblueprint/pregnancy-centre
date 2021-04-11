@@ -7,7 +7,7 @@ import DonorRequestGroupBrowser from '../components/organisms/DonorRequestGroupB
 import HomepageBanner from '../components/organisms/HomepageBanner'
 // TODO(ellen): this is testing code, delete before landing
 import SearchableDropdown from '../components/atoms/SearchableDropdown';
-import { TagProps } from '../components/atoms/Tag';
+import { Tag } from '../components/atoms/Tag';
 
 const DonorHomepage: FunctionComponent = () => {
   const onDropdownChange = () => {}
@@ -18,6 +18,8 @@ const DonorHomepage: FunctionComponent = () => {
         initialText=""
         placeholderText="Select a group"
         searchPlaceholderText="Search for a group"
+        noResultsText="This group does not exist"
+        noResultsActionText="Create a new group"
         dropdownItemsText={["Bassinets", "Bottles", "Books", "Cribs", "Doorknobs"]}
         isErroneous={false}
         isDisabled={false}
@@ -29,8 +31,10 @@ const DonorHomepage: FunctionComponent = () => {
         initialText=""
         placeholderText="Select or create a type"
         searchPlaceholderText="Search for a type"
-        dropdownItemsText={["125mL", "250mL", "500mL"]}
-        dropdownTags={[{text: "125mL"}, {text: "250mL"}, {text: "500mL"}]}
+        noResultsText="This type does not exist"
+        noResultsActionText="Create a new type"
+        dropdownItemsText={[]}
+        dropdownTags={[{text: "125mL"}, {text: "225mL"}, {text: "250mL"}, {text: "500mL"}]}
         isErroneous={false}
         isDisabled={false}
         onChange={onDropdownChange}
