@@ -13,7 +13,7 @@ interface Props {
 }
 const Bob: FunctionComponent<Props> = (props: Props) => {
   return (
-    <input type="text" style={{width: '300px'}} disabled={props.isDisabled}/>
+    <input type="text" style={{width: '300px', height: '45px'}} disabled={props.isDisabled}/>
   )
 }
 
@@ -23,7 +23,7 @@ const DonorHomepage: FunctionComponent = () => {
       <Row><HomepageBanner /></Row>
       <FormItem 
                 formItemName="Group Name" 
-                errorString="" 
+                errorString="Please enter a group name" 
                 isDisabled={false} 
                 inputComponent={<Bob isDisabled={false}/>}
                 tooltipText="Groups describe overall cateogry of item such as stroller crib bed"

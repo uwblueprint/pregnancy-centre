@@ -13,6 +13,7 @@
     }
     &-bottom {
         text-align: left;
+        position: relative;
     }
     &-error-text {
         color: $input-error;
@@ -25,5 +26,6 @@
         color: $input-error;
         font-size: 22px;
         position: absolute;
+        margin-top: 5px;
     }
 }
