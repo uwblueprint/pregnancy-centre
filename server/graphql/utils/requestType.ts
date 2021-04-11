@@ -1,10 +1,15 @@
-import { Document, Types } from 'mongoose'
+import mongoose, { Document, Types } from 'mongoose'
+import { UserInputError } from 'apollo-server-errors'
+
+import { RequestInterface } from '../../models/requestModel'
 import { softDeleteRequestHelper } from './request'
 import { updateRequestGroupHelper } from './requestGroup'
 
-import { UserInputError } from 'apollo-server-errors'
-
-import mongoose from 'mongoose'
+const nextRequestRequestTypeHelper = (requestIds, dataSources): RequestInterface => {
+  const requests = requestIds.map((id) => dataSources.requests.getById(id)).filter(request => request.fulfilled === false && request.deleted === false);
+  requests.sort((request1, request2) => request1.dateCreated - request2.dateCreated)
+  return requests.length == 0 ? null : requests[0]
+}
 
 const updateRequestTypeHelper = async (requestType, dataSources, session): Promise<Document> => {
   if(!requestType.id) {
@@ -51,4 +56,4 @@ const softDeleteRequestTypeHelper = async (id, dataSources): Promise<Document> =
   }
 }
 
-export { softDeleteRequestTypeHelper, updateRequestTypeHelper }
+export { nextRequestRequestTypeHelper, softDeleteRequestTypeHelper, updateRequestTypeHelper }
