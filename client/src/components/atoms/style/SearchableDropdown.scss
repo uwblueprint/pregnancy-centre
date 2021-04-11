@@ -27,9 +27,8 @@
 		font-size: 14px;
 		line-height: 20px;
 
-    padding-top: 5px;
-    padding-left: 13px;
-		height: 30px;
+		padding: 8px 13px;
+		height: 37px;
 
     &:last-child {
       margin-bottom: 8px;
@@ -37,7 +36,8 @@
 
     &.tag {
       padding: 0;
-      margin: 9px 13px;
+      margin: 5px 13px;
+      background: white;
     }
 	}
 
@@ -57,9 +57,11 @@
 		.create-group {
 			@include normal-text;
 			font-size: 12px;
-			line-height: 14.52px;
 			color: $tpc-green;
 			margin-left: 70px;
+      vertical-align: middle;
+      float: right;
+			line-height: 27px;
 
 			& i {
 				font-size: 18px;

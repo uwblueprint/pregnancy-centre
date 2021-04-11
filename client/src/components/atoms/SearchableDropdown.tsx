@@ -6,6 +6,8 @@ import { TextField } from "../atoms/TextField";
 interface Props {
   placeholderText: string,
   searchPlaceholderText: string,
+  noResultsText: string,
+  noResultsActionText: string,
   dropdownItemsText: Array<string>,
   dropdownTags?: Array<TagProps>,
   isErroneous: boolean,
@@ -60,8 +62,8 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
       </div>
       {dropdownExpanded && noItems &&
         <div className="no-items-found">
-          <span className="not-exist-msg">This group does not exist</span>
-          <span className="create-group"><a><span>Create a new group</span><i className="bi bi-arrow-right-short"></i></a></span>
+          <span className="not-exist-msg">{props.noResultsText}</span>
+          <span className="create-group"><a><span>{props.noResultsActionText}</span><i className="bi bi-arrow-right-short"></i></a></span>
         </div>
       }
       {dropdownExpanded && !noItems &&

@@ -20,6 +20,8 @@ const DonorHomepage: FunctionComponent = () => {
       <SearchableDropdown
         placeholderText="Select a group"
         searchPlaceholderText="Search for a group"
+        noResultsText="This group does not exist"
+        noResultsActionText="Create a new group"
         dropdownItemsText={["Bassinets", "Bottles", "Books", "Cribs", "Doorknobs"]}
         isErroneous={false}
         onChange={onDropdownChange}
@@ -27,8 +29,10 @@ const DonorHomepage: FunctionComponent = () => {
       <SearchableDropdown
         placeholderText="Select or create a type"
         searchPlaceholderText="Search for a type"
-        dropdownItemsText={["125mL", "250mL", "500mL"]}
-        dropdownTags={[{text: "125mL"}, {text: "250mL"}, {text: "500mL"}]}
+        noResultsText="This type does not exist"
+        noResultsActionText="Create a new type"
+        dropdownItemsText={[]}
+        dropdownTags={[{text: "125mL"}, {text: "225mL"}, {text: "250mL"}, {text: "500mL"}]}
         isErroneous={false}
         onChange={onDropdownChange}
       />
