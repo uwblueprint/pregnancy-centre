@@ -29,7 +29,6 @@ function App(): JSX.Element {
     <span>
       <Router>
         <Switch>
-          <Route path='/signup' strict component={SignUpModal}></Route>
           <Route path='/donation-guidelines'><SampleContainer /></Route>
           {/* TODO(chamod-gamage): confirm what the routing behaviour will be for user signin sequence */}
           <Route path='/login'><SignInModal /></Route>
@@ -51,7 +50,7 @@ function App(): JSX.Element {
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>
-    </span>
+    </span >
   );
 }
 
