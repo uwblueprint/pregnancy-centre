@@ -19,8 +19,10 @@ const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props:
         setValue(newValue);
     }
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if( e.key == 'Enter' ){    
-            props.onSubmit(value);
+        if( e.key == 'Enter' ){
+            if (value !== ""){
+                props.onSubmit(value);
+            }    
             setValue("");
         }
     }
@@ -35,7 +37,7 @@ const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props:
         {props.showAction &&  
             <div>
                 <a onClick={()=>{
-                    props.onSubmit(value);
+                    if (value !== ""){props.onSubmit(value);}
                     setValue("");
                     }}>
                     <div className={"action" + (props.isErroneous ? " error" : "")}>
