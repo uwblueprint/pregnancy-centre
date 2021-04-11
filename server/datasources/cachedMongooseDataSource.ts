@@ -24,9 +24,9 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
     return this.cache.getData()
   }
 
-  async create(inputObject: Document): Promise<Document> {
+  async create(inputObject: Document, session: ClientSession): Promise<Document> {
     const newObject = new this.cache.model(inputObject)
-    const promise = await newObject.save()
+    const promise = await newObject.save({ session })
     return promise
   }
 

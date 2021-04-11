@@ -11,6 +11,21 @@ const nextRequestRequestTypeHelper = (requestIds, dataSources): RequestInterface
   return requests.length == 0 ? null : requests[0]
 }
 
+const createRequestTypeHelper = async (requestType, dataSources, session): Promise<Document> => {
+  if(requestType.id) {
+    throw new UserInputError('Invalid parameter', { argumentName: 'id'})
+  }
+  if(!requestType.requestGroup) {
+    throw new UserInputError('Missing argument value', { argumentName: 'requestGroup'})
+  }
+  const newRequestType = await dataSources.requestTypes.create(requestType, session)
+  const requestGroup = dataSources.requestGroups.getById(requestType.requestGroup.toString())
+  requestGroup.requestTypes.push(newRequestType._id)
+  await dataSources.requestGroups.update(requestGroup)
+  return newRequestType
+}
+
+
 const updateRequestTypeHelper = async (requestType, dataSources, session): Promise<Document> => {
   if(!requestType.id) {
     throw new UserInputError('Missing argument value', { argumentName: 'id' })
@@ -56,4 +71,4 @@ const softDeleteRequestTypeHelper = async (id, dataSources): Promise<Document> =
   }
 }
 
-export { nextRequestRequestTypeHelper, softDeleteRequestTypeHelper, updateRequestTypeHelper }
+export { createRequestTypeHelper, nextRequestRequestTypeHelper, softDeleteRequestTypeHelper, updateRequestTypeHelper }
