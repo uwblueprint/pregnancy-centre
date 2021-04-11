@@ -20,9 +20,6 @@ $faded-modal-text-color: #7d7d7d;
 $normal-text-color: black;
 $white-text-color: white;
 $section-header-text-color: #bbbbbb;
-$tooltip-background-color: #efefef;
-$tooltip-text-color: #737b7d;
-$tooltip-trigger-color: #adadad;
 $alert-light-color: #f8d7da;
 $alert-dark-color: #721c24;
 
@@ -179,7 +176,6 @@ $tpc-green: #004d57;
 $input-border: #e9e9e9;
 $disabled-text: #adadad;
 $input-error: #dc3545;
-$faint-input-error: #e7b0b5;
 $tpc-green-hover: #00363e;
 
 @mixin input-icon() {
@@ -189,7 +185,7 @@ $tpc-green-hover: #00363e;
 /* TextField Config */
 $soft-black: #333333;
 
-/* ScrollWindow Config */
-$scroll-bar-color: #c4c4c4;
-$scroll-window-border: 1px solid #d7d7d7;
 
+/* ScrollWindow Config */
+$scroll-bar-color: #C4C4C4;
+$scroll-window-border: 1px solid #D7D7D7;
