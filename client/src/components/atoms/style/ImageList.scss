@@ -1,0 +1,39 @@
+.image-list {
+  &-container {
+    width: 368px;
+    height: 130px;
+  }
+  .img-grid {
+    height: 69px;
+  }
+  .check {
+    color: white;
+    font-size: 44px;
+    position: absolute;
+    margin: 0px 18px;
+  }
+  .img-wrapper {
+    height: 69px;
+    &-overlay {
+      height: 59px;
+      float: right;
+      background-color: black;
+      border-radius: $box-border-radius;
+    }
+    img {
+      float: right;
+      border-radius: $box-border-radius;
+      width: 80px;
+      height: 59px;
+      cursor: pointer;
+      object-fit: cover;
+      opacity: 0.7;
+      &:hover {
+        opacity: 1;
+      }
+      .selected {
+        opacity: 0.3;
+      }
+    }
+  }
+}
