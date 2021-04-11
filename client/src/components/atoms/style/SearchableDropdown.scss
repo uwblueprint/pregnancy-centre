@@ -23,6 +23,11 @@
 
 		padding: 8px 13px;
 		height: 30px;
+
+        &.tag {
+            padding: 0;
+            margin: 9px 13px;
+        }
 	}
 
 	.no-items-found {

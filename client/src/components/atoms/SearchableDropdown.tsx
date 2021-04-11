@@ -5,7 +5,8 @@ import { TextField } from "../atoms/TextField";
 interface Props {
   placeholderText: string,
   searchPlaceholderText: string,
-  dropdownItems: Array<string>,
+  dropdownItems?: Array<React.ReactNode>,
+  dropdownItemsText: Array<string>,
   isErroneous: boolean,
   onChange: React.ChangeEventHandler<HTMLInputElement>,
 }
@@ -18,7 +19,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(event);
     setSearchString(event.target.value);
-    if (event.target.value.length > 0 && props.dropdownItems.filter(item => item.startsWith(event.target.value)).length == 0) {
+    if (event.target.value.length > 0 && props.dropdownItemsText.filter(item => item.startsWith(event.target.value)).length == 0) {
       setNoItems(true);
     } else {
       setNoItems(false);
@@ -53,8 +54,8 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
       {dropdownExpanded && !noItems &&
         <ScrollWindow>
           <div className="dropdown-header">{props.placeholderText}</div>
-          {props.dropdownItems.filter(item => item.startsWith(searchString)).map(item =>
-            <div className="dropdown-item" key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
+          {props.dropdownItemsText.filter(item => item.startsWith(searchString)).map((item, idx) =>
+            <div className={"dropdown-item" + (props.dropdownItems ? " tag" : "")} key={item} onClick={() => onSelectedItemChange(item)}>{props.dropdownItems ? props.dropdownItems[idx] : item}</div>
           )}
         </ScrollWindow>
       }
