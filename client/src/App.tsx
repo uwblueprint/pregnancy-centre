@@ -11,6 +11,7 @@ import SampleContainer from "./components/examples/SampleContainer";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
+
 function App(): JSX.Element {
   return (
     <span>
