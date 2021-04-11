@@ -20,10 +20,12 @@ const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props:
     }
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if( e.key == 'Enter' ){
-            if (value !== ""){
-                props.onSubmit(value);
-            }    
-            setValue("");
+            if (props.showAction){
+                if (value !== ""){
+                    props.onSubmit(value);
+                    setValue(""); 
+                }
+            }
         }
     }
     useEffect(() => {
