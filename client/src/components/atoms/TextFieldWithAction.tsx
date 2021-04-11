@@ -36,7 +36,7 @@ const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props:
         <div onKeyDown={handleKeyDown}>        
             <TextField input={value} isDisabled={false} isErroneous={props.isErroneous} onChange={onTextChange} name="text-field-action" placeholder={props.placeholder} type={props.type} iconClassName={props.iconClassName} ></TextField>
         </div>
-        {props.showAction &&  
+        {props.showAction && value!=="" && 
             <div>
                 <a onClick={()=>{
                     if (value !== ""){props.onSubmit(value);}
