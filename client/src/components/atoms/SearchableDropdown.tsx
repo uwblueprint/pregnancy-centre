@@ -13,7 +13,6 @@ interface Props {
 const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   const [searchString, setSearchString] = useState("");
   const [dropdownExpanded, setDropdownExpanded] = useState(false);
-  const [selectedItem, setSelectedItem] = useState("");
   const [noItems, setNoItems] = useState(false);
 
   const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +26,6 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   }
 
   const onSelectedItemChange = (item: string) => {
-    setSelectedItem(item);
     setSearchString(item);
     setDropdownExpanded(false);
   }
