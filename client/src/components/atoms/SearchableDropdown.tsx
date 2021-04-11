@@ -70,10 +70,10 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
         <ScrollWindow>
           <div className="dropdown-header">{props.placeholderText}</div>
           {props.dropdownTags && props.dropdownTags.filter(item => item.text.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item =>
-            <div className="dropdown-item tag" key={item.text} onClick={() => onSelectedItemChange(item.text)}><Tag text={item.text} small/></div>
+            <div className="dropdown-item dropdown-tag" key={item.text} onClick={() => onSelectedItemChange(item.text)}><Tag text={item.text} dropdownItem/></div>
           )}
           {!props.dropdownTags && props.dropdownItemsText.filter(item => item.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item =>
-            <div className={"dropdown-item"} key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
+            <div className="dropdown-item" key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
           )}
         </ScrollWindow>
       }

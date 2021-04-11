@@ -1,13 +1,14 @@
 .tag {
-    display: block;
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
-    width: fit-content;
-    padding: 11px 15px;
-    background-color: $tag-background;
-    border-radius: 4px;
+  display: block;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 11px 15px;
+  background-color: $tag-background;
+  border-radius: 4px;
 
-    .small {
-        padding: 6.65px 12.5px;
-    }
+  &.dropdownItem {
+    padding: 6.65px 12.5px;
+    background-color: $dropdown-tag-background;
+  }
 }
