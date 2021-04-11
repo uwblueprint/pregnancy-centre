@@ -23,7 +23,7 @@ const DonorHomepage: FunctionComponent = () => {
       <Row><HomepageBanner /></Row>
       <FormItem 
                 formItemName="Group Name" 
-                errorString="Please enter a group name" 
+                errorString="" 
                 isDisabled={false} 
                 inputComponent={<Bob isDisabled={false}/>}
                 tooltipText="Groups describe overall cateogry of item such as stroller crib bed"
