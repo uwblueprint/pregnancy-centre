@@ -1,9 +1,9 @@
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import React, { FunctionComponent, useState } from "react";
+import LogoModal from "../components/organisms/LogoModal";
 import { Redirect } from "react-router-dom";
 
 import { AuthErrorMessage, signIn } from "../services/auth";
-import CommonModal from "../components/organisms/Modal";
 import ConfirmationModal from "./ConfirmationModal";
 
 const SignInModal: FunctionComponent = () => {
@@ -48,7 +48,7 @@ const SignInModal: FunctionComponent = () => {
   }
   return (
     <React.Fragment>
-      <CommonModal
+      <LogoModal
         title={modalTitle}
         subtitle={subtitle}
         show={!confirmationEmailSent}

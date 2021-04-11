@@ -1,14 +1,13 @@
-import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 import React, { FunctionComponent, useState } from "react";
 import { Redirect } from "react-router-dom";
 
-import CommonModal from "../components/organisms/Modal";
 import ConfirmationModal from "./ConfirmationModal";
-import { createNewAccount } from "../services/auth";
+import LogoModal from "../components/organisms/LogoModal";
+import { TextField } from "../components/atoms/TextField"
 
 const ResetPasswordModal: FunctionComponent = () => {
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
   const [hasOneLowerCase, setHasOneLowerCase] = useState(false);
@@ -20,22 +19,17 @@ const ResetPasswordModal: FunctionComponent = () => {
   const initialReq: string[] = ["at least 1 lowercase letter", "at least 1 uppercase letter", "at least 1 number", "at least 1 symbol", "12 characters minimum"]
   const [requirements, setRequirements] = useState(initialReq);
   const [redirect, setRedirect] = useState("");
-  const [errors, setErrors] = useState({ email: "", password: "" });
-  const [confirmationEmailSent, setConfirmationEmailSent] = useState(false);
+  // const [errors, setErrors] = useState({ email: "", password: "" });
+  // const [confirmationEmailSent, setConfirmationEmailSent] = useState(false);
   const requirementsAreFulfilled = !hasOneLowerCase || !hasOneUpperCase || !hasOneNumber || !hasOneSymbol || !hasTwelveCharacterMin;
 
+  const email = "";
+  const errors = { email: "", password: "" };
+  const confirmationEmailSent = false;
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createNewAccount(email, password)
-      .then((result) => {
-        setErrors(result);
-        if (result.email === "" && result.password === "") {
-          setConfirmationEmailSent(true);
-        }
-      })
-      .catch((err) => {
-        setErrors(err);
-      });
+    // TODO(bonnie-chin): get user from oobcode in URL
+    // TODO(bonnie-chin): reset user password
   };
 
   const requirementToTestMap = new Map([
@@ -112,64 +106,58 @@ const ResetPasswordModal: FunctionComponent = () => {
   }
   return (
     <React.Fragment>
-      <CommonModal title={modalTitle} subtitle={subtitle} show={!confirmationEmailSent} handleClose={handleClose} body={
-        <div>
-          <form onSubmit={handleClick}>
-            
-            <div>
-              <div className="row">
-                <div className="text signup">
-                  Password
+      <div className="reset-password-modal">
+        <LogoModal title={modalTitle} subtitle={subtitle} show={!confirmationEmailSent} handleClose={handleClose} body={
+          <div className="reset-password-modal">
+            <form onSubmit={handleClick}>
+
+              <div>
+                <div className="row">
+                  <div className="text signup">
+                    Password
               </div>
-                <div className="text error">{errors.password}</div>
-              </div>
-              <div className="pass-req">
-                <OverlayTrigger placement="bottom" overlay={popover}>
-                  <div>
-                    <input
-                      type={hidePassword ? "password" : "text"}
-                      name="password"
-                      className={
-                        errors.password 
-                          ? "text-field-input error" 
-                          : "text-field-input"
-                      }
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={onChangePass}
-                    />
-                    {/**
-                     <div
-                      className="text-field-input-btn"
-                      onClick={() => {
-                        setHidePassword(!hidePassword);
-                        }}
-                      >{hidePassword ? <EyeFilled /> : <EyeInvisibleFilled />}
-                      </div>
-                    */}
-                  </div>
-                    
-                </OverlayTrigger>
+                  <div className="text error">{errors.password}</div>
                 </div>
-            </div>
-            <button
-              role="link"
-              className="button signup"
-            >
-              Reset password
-              </button>
-            <div>
-              <div
-                onClick={() => {
-                  setRedirect("/login");
-                }}
-                className="text redirect center"
-              >
+                <div className="pass-req">
+                  <OverlayTrigger placement="bottom" overlay={popover}>
+                    <div>
+                      <TextField
+                        input={password}
+                        isErroneous={errors.password !== ""}
+                        isDisabled={false}
+                        onChange={onChangePass}
+                        name="password"
+                        placeholder="Enter your password"
+                        type={hidePassword ? "password" : "text"}
+                        iconClassName={hidePassword ? "bi bi-eye-fill" : "bi bi-eye-slash"}
+                        onIconClick={() => {
+                          setHidePassword(!hidePassword);
+                        }}
+                      >
+                      </TextField>
+                    </div>
+                  </OverlayTrigger>
+                </div>
               </div>
-            </div>
-          </form>
-        </div>} />
-      {confirmationEmailSent && <ConfirmationModal email={email} resentEmail={true}></ConfirmationModal>}
+              <button
+                role="link"
+                className="button signup"
+              >
+                Reset password
+              </button>
+              <div>
+                <div
+                  onClick={() => {
+                    setRedirect("/login");
+                  }}
+                  className="text redirect center"
+                >
+                </div>
+              </div>
+            </form>
+          </div>} />
+        {confirmationEmailSent && <ConfirmationModal email={email} resentEmail={true}></ConfirmationModal>}
+      </div>
     </React.Fragment>
   );
 }

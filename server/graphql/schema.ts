@@ -80,7 +80,6 @@ const typeDefs = gql`
     input RequestGroupInput {
         id: ID
         name: String
-        deleted: Boolean
         description: String
         requirements: String
         image: String
@@ -90,7 +89,6 @@ const typeDefs = gql`
         id: ID
         requestGroup: ID
         name: String
-        deleted: Boolean
         requests: [ID]
     }
     input RequestInput {
@@ -98,7 +96,6 @@ const typeDefs = gql`
         client: ID
         requestType: ID
         requestId: String
-        deleted: Boolean
         fulfilled: Boolean
         quantity: Int
     }
@@ -106,7 +103,6 @@ const typeDefs = gql`
         id: ID
         clientId: String
         fullName: String
-        deleted: Boolean
     }
 `
 
