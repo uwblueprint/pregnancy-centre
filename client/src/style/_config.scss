@@ -37,6 +37,11 @@ $alert-dark-color: #721c24;
   color: $normal-text-color;
 }
 
+@mixin small-text(){
+  @include text;
+  font-size: 14px;
+}
+
 @mixin white-text() {
   @include text;
   color: $white-text-color;
