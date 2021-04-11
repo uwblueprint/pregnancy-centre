@@ -7,7 +7,7 @@ import DonorRequestGroupBrowser from '../components/organisms/DonorRequestGroupB
 import HomepageBanner from '../components/organisms/HomepageBanner'
 // TODO(ellen): this is testing code, delete before landing
 import SearchableDropdown from '../components/atoms/SearchableDropdown';
-import Tag from '../components/atoms/Tag';
+import { TagProps } from '../components/atoms/Tag';
 
 const DonorHomepage: FunctionComponent = () => {
   // TODO(ellen): this is testing code, delete before landing
@@ -29,7 +29,7 @@ const DonorHomepage: FunctionComponent = () => {
         placeholderText="Select or create a type"
         searchPlaceholderText="Search for a type"
         dropdownItemsText={["125mL", "250mL", "500mL"]}
-        dropdownItems={[<Tag small text="125mL" key="125mL"/>, <Tag small text="250mL" key="250mL"/>, <Tag small text="500mL" key="500mL"/>]}
+        dropdownTags={[{text: "125mL"}, {text: "250mL"}, {text: "500mL"}]}
         isErroneous={false}
         onChange={onDropdownChange}
       />

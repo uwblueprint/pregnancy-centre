@@ -2,8 +2,7 @@ import React, { FunctionComponent } from "react";
 import moment from 'moment';
 
 import { Table } from "react-bootstrap";
-
-import Tag from '../atoms/Tag'
+import { Tag } from '../atoms/Tag'
 
 import RequestGroup from '../../data/types/requestGroup'
 
