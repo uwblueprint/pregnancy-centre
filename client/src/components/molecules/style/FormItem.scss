@@ -1,12 +1,24 @@
 .form-item {
+    width: 350px;
+
+    &-disabled {
+        color: $disabled-text;
+    }
     &-top {
-        margin-bottom: 11px;
+        margin-bottom: 7px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 500px;
     }
     &-error-text {
-
+        color: $input-error;
+        font-size: 12px;
+        vertical-align: bottom;
+        line-height: 250%;
+        margin-right: 90px;
+    }
+    &-error-icon {
+        margin-left: 10px;
+        color: $input-error;
     }
 }
