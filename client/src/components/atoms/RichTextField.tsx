@@ -4,10 +4,10 @@ import React, { FunctionComponent, useState } from 'react';
 import ScrollWindow from './ScrollWindow';
 
 interface Props {
-    initialContent: string
-    defaultText: string
-    onChange: (content : string) => void
-    isErroneous: boolean
+    initialContent: string // content in the stringified form of a ContentState (i.e. derived from using RichTextField)
+    defaultText: string // text to show if no content in input field
+    onChange: (content : string) => void // called with stringified form of current ContentState
+    isErroneous: boolean // for styling when the input is erroneous
 }
 
 const RichTextField: FunctionComponent<Props> = (props: Props) => {
@@ -17,50 +17,62 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
         EditorState.createWithContent(convertFromRaw(JSON.parse(props.initialContent))) :
         EditorState.createWithContent(ContentState.createFromText(props.defaultText)))
 
-    const { hasCommandModifier } = KeyBindingUtil;
+    const { hasCommandModifier } = KeyBindingUtil; // utility
+    // for each key input, map keys to commands conditionally
     function keyBindings(e : React.KeyboardEvent): string | null {
         const selection = editorState.getSelection()
         const block = editorState.getCurrentContent().getBlockForKey(selection.getAnchorKey())
     
+        // CTRL+B (or CMD+B on Mac)
         if (e.key === "b" && hasCommandModifier(e)) {
             return 'bold'
         }
     
+        // If we are entering a space " " that is the second character in the block and the first character is "-"
+        // then make this block an unordered list if it is not already one
         if (e.key === " " && selection.getAnchorOffset() === 1 && block.getText().trim().charAt(0) === "-" && block.getType() !== 'unordered-list-item') {
             return 'make-list'
         }
     
+        // If we are hitting backspace on an empty block with styling, we want the block to be reset to default styling
+        // E.g.: backspace on an empty unordered list removes the list, backspace once more then can remove the block
         if (e.key === "Backspace" && block.getType() !== 'unstyled' && block.getText().length === 0) {
             return 'remove-block-styling'
         }
         
-        return getDefaultKeyBinding(e)
+        return getDefaultKeyBinding(e) // standard input (e.g. typing "e" inputs "e" at cursor, backspace deletes char before cursor)
     }
 
     function clearState(currentState: EditorState) {
         const blocks = currentState.getCurrentContent().getBlockMap().toList()
+        // select entire contents
         const allSelection = editorState.getSelection().merge({
             anchorKey: blocks.first().get('key'),
             anchorOffset: 0,
             focusKey: blocks.last().get('key'),
             focusOffset: blocks.last().getLength(),
         })
+        // remove contents
         const newContent = Modifier.removeRange(editorState.getCurrentContent(), allSelection, 'backward')
 
+        // update editorState and reset selection to very start of content
         const clearedState = EditorState.push(currentState, newContent, 'remove-range')
         setEditorState(EditorState.forceSelection(clearedState, newContent.getSelectionAfter()))
     }
 
     function onChange(state: EditorState) {
-        // check if we started with defaultText, if so clear state
+        // check if we started with defaultText
         if (!active && !props.initialContent) { 
+            // clear default text
             clearState(state)
+            // user is now typing content, so this is active
             setActive(true)
             return
         }
 
         // check if we are already typing (we are active) and state has no text
         if (active && !state.getCurrentContent().hasText()) {
+            // if so, we made the content empty, so add back the default text
             props.onChange(JSON.stringify(convertToRaw(state.getCurrentContent())));
             setEditorState(EditorState.createWithContent(ContentState.createFromText(props.defaultText)))
             setActive(false)
@@ -71,11 +83,15 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
         setEditorState(state);
     }
 
+    // NOTE: to simplify how this works, the logic for when each command comes into play
+    //       is almost entirely in keyBindings
     function handleKeyCommand(command : string, state : EditorState ) {
         const selection = state.getSelection()
         const block = editorState.getCurrentContent().getBlockForKey(selection.getAnchorKey())
 
         if (command === 'bold') {
+            // sets selection to 'BOLD' style, or if nothing is selected, the
+            // internal style (for new input) is set to 'BOLD'
             onChange(RichUtils.toggleInlineStyle(state, 'BOLD'))
             return 'handled'
         } 
@@ -83,7 +99,9 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
         if (command === 'make-list') {
             let modifiedContent = state.getCurrentContent()
 
+            // if the first character is "-", we have to remove this before making the block an unordered list
             if (block.getText().trim().charAt(0) === "-") {
+                // select first char
                 const replacementRange = new SelectionState({
                     anchorKey: selection.getAnchorKey(),
                     anchorOffset: 0,
@@ -91,11 +109,14 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
                     focusOffset: 1
                 })
 
+                // remove first char
                 modifiedContent = Modifier.replaceText(state.getCurrentContent(), replacementRange, "")
             }
             
+            // modify state to reflect we deleted a character and then change current block to unordered list
             const modifiedState = RichUtils.toggleBlockType(EditorState.push(state, modifiedContent, 'delete-character'), 'unordered-list-item')
 
+            // select start of this new unordered list
             const newSelection = new SelectionState({
                 anchorKey: modifiedState.getSelection().getAnchorKey(),
                 anchorOffset: 0,
@@ -103,6 +124,7 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
                 focusOffset: 0
             })
 
+            // update state with this selection and modifications to the state
             onChange(EditorState.forceSelection(modifiedState, newSelection))
             return 'handled'
         }
@@ -115,15 +137,9 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
         return 'not-handled'
     }
 
+    // called by buttons (via onMouseDown) that act as controls for the field
     function handleControlMouseDown(e : React.MouseEvent<HTMLElement>, modifiedState : EditorState) {
         e.preventDefault()
-        
-        const nextEditorState = EditorState.acceptSelection(
-            modifiedState,
-            modifiedState.getSelection().merge({
-                hasFocus: true
-            })
-        );
         onChange(modifiedState)
     }
 
