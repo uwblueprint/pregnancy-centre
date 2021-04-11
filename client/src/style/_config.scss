@@ -84,6 +84,13 @@ $alert-dark-color: #721c24;
   font-weight: 800;
 }
 
+@mixin light-text() {
+  @include text;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
 /* Button Config */
 
 $button-background: #3e3e3e;

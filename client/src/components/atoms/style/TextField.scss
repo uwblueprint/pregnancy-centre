@@ -12,6 +12,8 @@
     border-radius: 4px;
     padding-left: 19px;
     line-height: 0;
+    width: 373px;
+    height: 45px;
 
     &:focus {
       outline-width: 0;
@@ -30,8 +32,8 @@
   }
 
   & i {
-    margin-left: -45px;
-    font-size: 30px;
+    margin-left: -20px;
+    font-size: 10px;
     color: $soft-black;
 
     &.error {
