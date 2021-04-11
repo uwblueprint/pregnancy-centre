@@ -1,0 +1,59 @@
+.richtext-field {
+    width: 484px;
+    height: 252px;
+    margin-left: 500px;
+    overflow: hidden;
+
+    background-color: $background;
+    border: 1px solid $dark-border-color;
+    box-sizing: border-box;
+    border-radius: 4px 4px 0 0;
+
+    &.error {
+        border-color: $error-color;
+    }
+}
+
+.richtext-field-controls {
+    width: 100%;
+    border-bottom: 1px solid $window-border-color;
+
+    .error & {
+        border-color: $error-color;
+    }
+
+    button {
+        width: 32px;
+        height: 32px;
+        background-color: transparent;
+        border: none;
+        border-right: 1px solid $window-border-color;
+
+        i {
+            width: 12px;
+            height: 12px;
+        }
+    }
+}
+
+.richtext-field-input {
+    height: 220px;
+    max-height: 220px;
+    overflow-y: hidden;
+
+    .public-DraftEditor-content {
+        @include normal-text;
+        font-size: 14px;
+        line-height: 21px;
+        color: $grey-text-color;
+        padding: 12px 22px 0 22px;
+
+        .default & {
+            color: $dark-border-color;
+        }
+
+        .error & {
+            @include error-text;
+        }
+    }
+}
