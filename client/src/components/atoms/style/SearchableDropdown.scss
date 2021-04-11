@@ -1,6 +1,8 @@
 .searchable-dropdown {
 		width: 374px;
 		height: 146px;
+		margin-bottom: 100px;
+		margin-left: 20px;
 
 	.dropdown-header {
 		@include normal-text;
@@ -22,5 +24,31 @@
 		padding: 8px 13px;
 		height: 30px;
 	}
+
+	.no-items-found {
+		width: 100%;
+	
+		border: $scroll-window-border;
+		border-radius: 4px;
+		padding: 14px;
+
+		.not-exist-msg {
+			@include normal-text;
+			font-size: 12px;
+			line-height: 20px;
+		}
+
+		.create-group {
+			@include normal-text;
+			font-size: 12px;
+			line-height: 14.52px;
+			color: $tpc-green;
+			margin-left: 70px;
+
+			& i {
+				font-size: 18px;
+				vertical-align: middle;
+			}
+		}
+	}
 }
-  

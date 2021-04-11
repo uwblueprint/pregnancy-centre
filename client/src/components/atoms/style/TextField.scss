@@ -7,20 +7,27 @@
 
   &-input {
     align-self: left;
-    border: 1px solid $input-border;
+    border: 1px solid $textfield-input-border;
     box-sizing: border-box;
     border-radius: 4px;
-    padding-left: 19px;
+    padding-left: 12px;
     line-height: 0;
     width: 373px;
     height: 45px;
 
     &:focus {
       outline-width: 0;
+      border: 1px solid $soft-black;
     }
 
     &:disabled {
       background: none;
+      &::placeholder {
+        color: $disabled-text;
+      }
+    }
+
+    &.disabled {
       &::placeholder {
         color: $disabled-text;
       }

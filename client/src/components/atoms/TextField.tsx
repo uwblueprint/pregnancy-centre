@@ -2,8 +2,8 @@ import React, { FunctionComponent } from "react";
 
 interface TextFieldProps {
   input: string,
-  isDisabled: boolean, // the entire text field is disabled (can't enter input + icon greyed out)
-  isDisabledIcon?: boolean, // grey out the icon, but still enable editing input
+  isDisabled: boolean, // the entire text field is disabled (can't enter input + everything greyed out)
+  isDisabledUI?: boolean, // grey out the icon and placeholder, but still enable editing input
   isErroneous: boolean,
   onChange: React.ChangeEventHandler<HTMLInputElement>,
   name: string,
@@ -20,6 +20,7 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
       className={
         "text-field-input"
         + (props.isErroneous ? " error" : "")
+        + (props.isDisabledUI ? " disabled" : "")
       }
       placeholder={props.placeholder}
       value={props.input}
@@ -28,7 +29,7 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
     />
     {props.iconClassName && <i className={props.iconClassName
       + (props.isErroneous ? " error" : "")
-      + (props.isDisabled || props.isDisabledIcon ? " disabled" : "")
+      + (props.isDisabled || props.isDisabledUI ? " disabled" : "")
     }/>}
   </div>
 };

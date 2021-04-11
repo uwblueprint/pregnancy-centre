@@ -4,6 +4,7 @@ import { TextField } from "../atoms/TextField";
 
 interface Props {
   placeholderText: string,
+  searchPlaceholderText: string,
   dropdownItems: Array<string>,
   isErroneous: boolean,
   onChange: React.ChangeEventHandler<HTMLInputElement>,
@@ -13,10 +14,16 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   const [searchString, setSearchString] = useState("");
   const [dropdownExpanded, setDropdownExpanded] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
+  const [noItems, setNoItems] = useState(false);
 
   const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchString(event.target.value);
     props.onChange(event);
+    setSearchString(event.target.value);
+    if (event.target.value.length > 0 && props.dropdownItems.filter(item => item.startsWith(event.target.value)).length == 0) {
+      setNoItems(true);
+    } else {
+      setNoItems(false);
+    }
   }
 
   const onSelectedItemChange = (item: string) => {
@@ -30,18 +37,24 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
         <TextField
           input={searchString}
           isDisabled={false}
-          isDisabledIcon={dropdownExpanded}
+          isDisabledUI={dropdownExpanded}
           isErroneous={props.isErroneous}
           onChange={onSearchStringChange}
           name="SearchableDropdown"
-          placeholder={props.placeholderText}
+          placeholder={dropdownExpanded ? props.searchPlaceholderText : props.placeholderText}
           type="text"
           iconClassName="bi bi-caret-down-fill"
         ></TextField>
       </div>
-      {dropdownExpanded &&
+      {dropdownExpanded && noItems &&
+        <div className="no-items-found">
+          <span className="not-exist-msg">This group does not exist</span>
+          <span className="create-group"><a><span>Create a new group</span><i className="bi bi-arrow-right-short"></i></a></span>
+        </div>
+      }
+      {dropdownExpanded && !noItems &&
         <ScrollWindow>
-          <div className="dropdown-header">Select a group</div>
+          <div className="dropdown-header">{props.placeholderText}</div>
           {props.dropdownItems.filter(item => item.startsWith(searchString)).map(item =>
             <div className="dropdown-item" key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
           )}

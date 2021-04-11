@@ -19,7 +19,8 @@ const DonorHomepage: FunctionComponent = () => {
       {/* TODO(ellen): this is testing code, delete before landing */}
       <SearchableDropdown
         placeholderText="Select a group"
-        dropdownItems={["Bassinets", "Bottles", "Books", "Cribs"]}
+        searchPlaceholderText="Search for a group"
+        dropdownItems={["Bassinets", "Bottles", "Books", "Cribs", "Doorknobs"]}
         isErroneous={false}
         onChange={onDropdownChange}
       />
