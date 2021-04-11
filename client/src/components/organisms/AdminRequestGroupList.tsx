@@ -24,7 +24,6 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithChildren<Props>) => {
-    const [requestGroups, setRequestGroups] = useState<Array<RequestGroup>>(props.displayRequestGroups);
     const [currentPage, setCurrentPage] = useState(1); // Indexing starting at 1.
     const numGroupsPerPage = 20;
 
@@ -63,9 +62,8 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
         onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
             // sort fetched request groups alphabetically and filter out deleted request groups
             const displayRequestGroups = sortRequestGroupsAlphabetically(data.requestGroups.map(requestGroup => ({ ...requestGroup }))).filter(requestGroup => !requestGroup.deleted);
-            props.loadRequestGroups(data.requestGroups);
+            props.loadRequestGroups(displayRequestGroups);
             props.setDisplayRequestGroups(displayRequestGroups);
-            setRequestGroups(displayRequestGroups);
         },
     });
 
@@ -73,10 +71,10 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
         setCurrentPage(1); // when search string changes, reset pagination
         let updatedRequestGroups = [];
         if (event.target.value.length > 0) {
-            updatedRequestGroups = requestGroups.filter(requestGroup => requestGroup?.name?.startsWith(event.target.value));
+            updatedRequestGroups = props.requestGroups.filter(requestGroup => requestGroup?.name?.startsWith(event.target.value));
         } else {
             // if no search string entered, return all results
-            updatedRequestGroups = requestGroups;
+            updatedRequestGroups = props.requestGroups;
         }
         props.setDisplayRequestGroups(updatedRequestGroups);
     }
