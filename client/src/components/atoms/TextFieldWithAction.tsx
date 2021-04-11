@@ -18,17 +18,25 @@ const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props:
         const newValue = e.target.value;
         setValue(newValue);
     }
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if( e.key == 'Enter' ){    
+            props.onSubmit(value);
+            setValue("");
+        }
+    }
     useEffect(() => {
         props.onChange(value);
     });
     return (
     <div className="text-field-with-action">
-        <TextField input={value} isDisabled={false} isErroneous={props.isErroneous} onChange={onTextChange} name="text-field-action" placeholder={props.placeholder} type={props.type} iconClassName={props.iconClassName} ></TextField>
+        <div onKeyDown={handleKeyDown}>        
+            <TextField input={value} isDisabled={false} isErroneous={props.isErroneous} onChange={onTextChange} name="text-field-action" placeholder={props.placeholder} type={props.type} iconClassName={props.iconClassName} ></TextField>
+        </div>
         {props.showAction &&  
             <div>
                 <a onClick={()=>{
-                    setValue("");
                     props.onSubmit(value);
+                    setValue("");
                     }}>
                     <div className={"action" + (props.isErroneous ? " error" : "")}>
                         <div className="action-string">{props.actionString}</div>

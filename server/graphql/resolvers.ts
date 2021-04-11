@@ -1,46 +1,30 @@
+import { Types } from 'mongoose'
+
+/* Models */
 import { ClientInterface } from '../models/clientModel'
 import { RequestGroupInterface } from '../models/requestGroupModel'
 import { RequestInterface } from '../models/requestModel'
 import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
-import { Types } from 'mongoose'
 
-import mongoose from 'mongoose'
-
+/* Helper functions */
 import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper } from './utils/request'
-import { softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
-import { softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
-
-
-const nextRequestRequestTypeHelper = (requestIds, dataSources): RequestInterface => {
-  const requests = requestIds.map((id) => dataSources.requests.getById(id)).filter(request => request.fulfilled === false && request.deleted === false);
-  requests.sort((request1, request2) => request1.dateCreated - request2.dateCreated)
-  return requests.length == 0 ? null : requests[0]
-}
-
-const nextRequestRequestGroupHelper = (requestTypeIds, dataSources): RequestInterface => {
-  const requests = requestTypeIds.map((id) => {
-    const requestType = dataSources.requestTypes.getById(id)
-    return nextRequestRequestTypeHelper(requestType.requests, dataSources)
-  })
-  requests.sort((request1, request2) => {
-    if (!request1 && !request2) {
-      return 0
-    }
-    if (!request1) {
-      return 1
-    }
-    if (!request2) {
-      return -1
-    }
-    return request1.dateCreated - request2.dateCreated
-  })
-  return requests.length == 0 ? null : requests[0]
-}
+import { nextRequestRequestGroupHelper, softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
+import { nextRequestRequestTypeHelper, softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
+import { sessionHandler } from '../database/session'
 
 const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
+    filterClients: (_, { filter }, { dataSources }): Array<ClientInterface> => {
+      let filteredClients = dataSources.clients.getAll()
+
+      for (let property in filter) {
+        filteredClients = filteredClients.filter((client) => (client[property] ? client[property] === filter[property] : true))
+      }
+
+      return filteredClients
+    },
     clients: (_, __, { dataSources }): Array<ClientInterface> => dataSources.clients.getAll(),
     request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getById(Types.ObjectId(id)),
     requests: (_, __, { dataSources }): Array<RequestInterface> => dataSources.requests.getAll(),
@@ -173,22 +157,6 @@ const resolvers = {
     requestType: (parent, __, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(parent.requestType.toString())),
     client: (parent, __, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(parent.client))
   }
-}
-
-const sessionHandler = async (operation) => {
-  const session = await mongoose.startSession()
-  let res = null
-  try {
-    await session.withTransaction(async () => {
-      res = await operation(session)
-    })
-  }
-  catch(error) {
-    console.log(error)
-    throw error
-  }
-  session.endSession()
-  return res
 }
 
 export { resolvers }
