@@ -12,6 +12,7 @@ import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
 import FormItem from './components/molecules/FormItem'
+import Modal from './components/organisms/Modal'
 
 import { FunctionComponent } from 'react'
 
@@ -40,13 +41,15 @@ function App(): JSX.Element {
             <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
           </Route>
           <Route path='/formitem'>
-            <FormItem 
-              formItemName="Group Name" 
-              errorString="Please enter group" 
-              isDisabled={false} 
-              inputComponent={<Bob isDisabled={false}/>}
-              tooltipText="Groups describe overall cateogry of item such as stroller crib bed"
-              /></Route>
+              <FormItem 
+                formItemName="Group Name" 
+                errorString="Please enter a group name" 
+                isDisabled={false} 
+                inputComponent={<Bob isDisabled={false}/>}
+                tooltipText="Groups describe overall cateogry of item such as stroller crib bed"
+              />
+
+              </Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>

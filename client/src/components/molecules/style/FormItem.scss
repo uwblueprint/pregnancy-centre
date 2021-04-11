@@ -5,17 +5,19 @@
         color: $disabled-text;
     }
     &-top {
-        margin-bottom: 7px;
+        margin-bottom: 11px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+    }
+    &-bottom {
+        text-align: left;
     }
     &-error-text {
         color: $input-error;
         font-size: 12px;
         vertical-align: bottom;
-        line-height: 250%;
-        margin-right: 90px;
+        padding-top: 5px;
     }
     &-error-icon {
         margin-left: 10px;
