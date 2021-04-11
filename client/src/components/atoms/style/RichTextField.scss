@@ -41,6 +41,10 @@
     max-height: 220px;
     overflow-y: hidden;
 
+    .scroll-window {
+        border: none;
+    }
+
     .public-DraftEditor-content {
         @include normal-text;
         font-size: 14px;
@@ -55,5 +59,9 @@
         .error & {
             @include error-text;
         }
+    }
+
+    .DraftEditor-editorContainer {
+        border: none;
     }
 }
