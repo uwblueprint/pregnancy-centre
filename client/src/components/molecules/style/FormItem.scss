@@ -1,0 +1,12 @@
+.form-item {
+    &-top {
+        margin-bottom: 11px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 500px;
+    }
+    &-error-text {
+
+    }
+}

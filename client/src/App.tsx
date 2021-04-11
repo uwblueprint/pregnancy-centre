@@ -13,6 +13,17 @@ import SignUpModal from "./pages/SignUpModal";
 
 import FormItem from './components/molecules/FormItem'
 
+import { FunctionComponent } from 'react'
+
+interface Props {
+  isDisabled: boolean;
+}
+const Bob: FunctionComponent<Props> = (props: Props) => {
+  return (
+    <input type="text" disabled={props.isDisabled}/>
+  )
+}
+
 function App(): JSX.Element {
   return (
     <span>
@@ -32,8 +43,10 @@ function App(): JSX.Element {
           <Route path='/formitem'>
             <FormItem 
               formItemName="Group Name" 
-              errorString="" isDisabled={false} 
-              onInputChange={()=>{}}
+              errorString="Please enter group" 
+              isDisabled={false} 
+              inputComponent={<Bob isDisabled={false}/>}
+              tooltipText="Groups describe overall cateogry of item such as stroller crib bed"
               /></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
