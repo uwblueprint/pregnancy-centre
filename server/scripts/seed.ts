@@ -2,7 +2,6 @@ import dotenv from 'dotenv'
 import { exit } from 'process'
 import faker from 'faker'
 import mongoose from 'mongoose'
-import { convertToRaw, ContentState, EditorState } from 'draft-js'
 
 import { connectDB } from '../database/mongoConnection'
 
