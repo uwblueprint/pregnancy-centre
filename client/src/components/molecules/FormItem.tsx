@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef } from 'react'
+import React, { FunctionComponent } from 'react'
 
 import Tooltip from '../atoms/Tooltip'
 
