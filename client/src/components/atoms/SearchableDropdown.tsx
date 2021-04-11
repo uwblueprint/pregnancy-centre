@@ -19,6 +19,9 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
 
   const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(event);
+    if (!dropdownExpanded) {
+        setDropdownExpanded(true);
+    }
     setSearchString(event.target.value);
     if (event.target.value.length > 0) {
         if (props.dropdownTags) {
@@ -41,7 +44,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   }
 
   return <div className="searchable-dropdown">
-      <div onClick={() => {setDropdownExpanded(!dropdownExpanded)}} style={{ marginBottom: "5px"}}>
+      <div className="textfield" onClick={() => {setDropdownExpanded(!dropdownExpanded)}}>
         <TextField
           input={searchString}
           isDisabled={false}
@@ -52,6 +55,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
           placeholder={dropdownExpanded ? props.searchPlaceholderText : props.placeholderText}
           type="text"
           iconClassName="bi bi-caret-down-fill"
+          showRedErrorText={true}
         ></TextField>
       </div>
       {dropdownExpanded && noItems &&
@@ -63,10 +67,10 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
       {dropdownExpanded && !noItems &&
         <ScrollWindow>
           <div className="dropdown-header">{props.placeholderText}</div>
-          {props.dropdownTags && props.dropdownTags.filter(item => item.text.startsWith(searchString)).map(item =>
+          {props.dropdownTags && props.dropdownTags.filter(item => item.text.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item =>
             <div className="dropdown-item tag" key={item.text} onClick={() => onSelectedItemChange(item.text)}><Tag text={item.text} small/></div>
           )}
-          {!props.dropdownTags && props.dropdownItemsText.filter(item => item.startsWith(searchString)).map(item =>
+          {!props.dropdownTags && props.dropdownItemsText.filter(item => item.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item =>
             <div className={"dropdown-item"} key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
           )}
         </ScrollWindow>

@@ -1,8 +1,14 @@
 .searchable-dropdown {
-		width: 374px;
-		height: 146px;
-		margin-bottom: 100px;
-		margin-left: 20px;
+  width: 374px;
+  height: 146px;
+  margin-bottom: 100px;
+  margin-left: 20px;
+
+  .textfield {
+    margin-bottom: 5px;
+    width: 373px;
+    height: 45px;
+  }
 
 	.dropdown-header {
 		@include normal-text;
@@ -21,13 +27,18 @@
 		font-size: 14px;
 		line-height: 20px;
 
-		padding: 8px 13px;
+    padding-top: 5px;
+    padding-left: 13px;
 		height: 30px;
 
-        &.tag {
-            padding: 0;
-            margin: 9px 13px;
-        }
+    &:last-child {
+      margin-bottom: 8px;
+    }
+
+    &.tag {
+      padding: 0;
+      margin: 9px 13px;
+    }
 	}
 
 	.no-items-found {

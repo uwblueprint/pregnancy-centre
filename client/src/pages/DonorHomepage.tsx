@@ -7,7 +7,6 @@ import DonorRequestGroupBrowser from '../components/organisms/DonorRequestGroupB
 import HomepageBanner from '../components/organisms/HomepageBanner'
 // TODO(ellen): this is testing code, delete before landing
 import SearchableDropdown from '../components/atoms/SearchableDropdown';
-import { TagProps } from '../components/atoms/Tag';
 
 const DonorHomepage: FunctionComponent = () => {
   // TODO(ellen): this is testing code, delete before landing
