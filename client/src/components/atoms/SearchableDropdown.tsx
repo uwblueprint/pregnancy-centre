@@ -1,4 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
+
+import { Tag, TagProps } from "../atoms/Tag";
 import ScrollWindow from "../atoms/ScrollWindow";
 import { TextField } from "../atoms/TextField";
 import { useComponentVisible } from "../utils/hooks";
@@ -7,7 +9,7 @@ interface Props {
   initialText: string;
   placeholderText: string;
   searchPlaceholderText: string;
-  dropdownItems?: Array<React.ReactNode>,
+  dropdownTags?: Array<TagProps>,
   dropdownItemsText: Array<string>;
   isErroneous: boolean;
   isDisabled: boolean;
@@ -31,15 +33,23 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
       setDropdownExpanded(true);
     }
     setSearchString(event.target.value);
-    if (
-      event.target.value.length > 0 &&
-      props.dropdownItemsText.filter((item) =>
-        item
-          .toLocaleLowerCase()
-          .startsWith(event.target.value.toLocaleLowerCase())
-      ).length == 0
-    ) {
-      setNoItems(true);
+    if (event.target.value.length > 0) {
+        if (props.dropdownTags) {
+            if (props.dropdownTags.filter(item => item.text.startsWith(event.target.value)).length == 0) {
+                setNoItems(true);
+            }
+        } else {
+          if (
+            event.target.value.length > 0 &&
+            props.dropdownItemsText.filter((item) =>
+              item
+                .toLocaleLowerCase()
+                .startsWith(event.target.value.toLocaleLowerCase())
+            ).length == 0
+          ) {
+            setNoItems(true);
+          }
+        }
     } else {
       setNoItems(false);
     }
@@ -105,8 +115,11 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
       {dropdownExpanded && !noItems &&
         <ScrollWindow>
           <div className="dropdown-header">{props.placeholderText}</div>
-          {props.dropdownItemsText.filter(item => item.startsWith(searchString)).map((item, idx) =>
-            <div className={"dropdown-item" + (props.dropdownItems ? " tag" : "")} key={item} onClick={() => onSelectedItemChange(item)}>{props.dropdownItems ? props.dropdownItems[idx] : item}</div>
+          {props.dropdownTags && props.dropdownTags.filter(item => item.text.startsWith(searchString)).map(item =>
+            <div className="dropdown-item tag" key={item.text} onClick={() => onSelectedItemChange(item.text)}><Tag text={item.text} small/></div>
+          )}
+          {!props.dropdownTags && props.dropdownItemsText.filter(item => item.startsWith(searchString)).map(item =>
+            <div className={"dropdown-item"} key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
           )}
         </ScrollWindow>
       }
