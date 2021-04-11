@@ -17,8 +17,11 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
 
   const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(event);
+    if (!dropdownExpanded) {
+        setDropdownExpanded(true);
+    }
     setSearchString(event.target.value);
-    if (event.target.value.length > 0 && props.dropdownItems.filter(item => item.startsWith(event.target.value)).length == 0) {
+    if (event.target.value.length > 0 && props.dropdownItems.filter(item => item.toLocaleLowerCase().startsWith(event.target.value.toLocaleLowerCase())).length == 0) {
       setNoItems(true);
     } else {
       setNoItems(false);
@@ -31,7 +34,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   }
 
   return <div className="searchable-dropdown">
-      <div onClick={() => {setDropdownExpanded(!dropdownExpanded)}} style={{ marginBottom: "5px"}}>
+      <div className="textfield" onClick={() => {setDropdownExpanded(!dropdownExpanded)}}>
         <TextField
           input={searchString}
           isDisabled={false}
@@ -42,6 +45,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
           placeholder={dropdownExpanded ? props.searchPlaceholderText : props.placeholderText}
           type="text"
           iconClassName="bi bi-caret-down-fill"
+          showRedErrorText={true}
         ></TextField>
       </div>
       {dropdownExpanded && noItems &&
@@ -53,7 +57,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
       {dropdownExpanded && !noItems &&
         <ScrollWindow>
           <div className="dropdown-header">{props.placeholderText}</div>
-          {props.dropdownItems.filter(item => item.startsWith(searchString)).map(item =>
+          {props.dropdownItems.filter(item => item.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item =>
             <div className="dropdown-item" key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
           )}
         </ScrollWindow>
