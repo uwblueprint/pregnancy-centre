@@ -1,13 +1,9 @@
-import { bindActionCreators, Dispatch } from "redux"
 import { Col, Row, Spinner } from "react-bootstrap";
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { connect } from "react-redux";
 import { Dropdown } from "react-bootstrap"
-import { loadRequestGroup } from '../../data/actions'
 import RequestGroup from '../../data/types/requestGroup'
 import RequestTypeDropdownList from "./RequestTypeDropdownList";
-import { RootState } from '../../data/reducers'
 import { useParams } from "react-router";
 
 interface ParamTypes {
@@ -57,7 +53,6 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
       variables: { id: id },
       onCompleted: (data: { requestGroup: RequestGroup }) => {
         const res = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
-        console.log(res);
         setRequestGroup(res);
       },
     });
@@ -65,7 +60,6 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
     if (error) console.log(error.graphQLErrors);
     useEffect(() => {
       if (requestGroup !== undefined){
-        console.log(requestGroup);
         setNumTypes(requestGroup!.requestTypes ? requestGroup!.requestTypes.reduce((total, requestType) => (requestType.deleted === false ? total + 1 : total), 0) : 0);  
       }
     }, [requestGroup]);

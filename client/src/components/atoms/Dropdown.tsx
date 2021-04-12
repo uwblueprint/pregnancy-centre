@@ -1,4 +1,3 @@
-import './style/Dropdown.scss';
 import React, { FunctionComponent, useState } from 'react';
 
 interface Props {

@@ -40,7 +40,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         <div className="request-list">
             <Table responsive className="request-table">
                 <thead>
-                <tr className="request-table header-style">
+                <tr >
                     {headingList.map((heading, index) => (
                     <th key={index} className="request-table th">{heading}</th>
                     ))}
@@ -48,7 +48,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                 </thead>
                 <tbody>
                     {props.requests.map((request, index)=> (
-                        <tr key={request._id} className="request-table row-style">
+                        <tr key={request._id} >
                             <td>
                             <div >
                                 <Form.Check type="checkbox" onClick={() => onFulfilledRequest(index)} defaultChecked={request.fulfilled}/>
