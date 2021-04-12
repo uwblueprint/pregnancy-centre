@@ -1,7 +1,8 @@
 import { ClientSession, Document, Types } from 'mongoose'
-import { Cache } from '../database/cache'
 import { DataSource } from 'apollo-datasource'
 import { UserInputError } from 'apollo-server-errors';
+
+import { Cache } from '../database/cache'
 
 export default class CachedMongooseDataSource<DocumentType extends Document> extends DataSource {
   cache: Cache<DocumentType>;

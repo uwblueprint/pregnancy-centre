@@ -37,6 +37,11 @@ $alert-dark-color: #721c24;
   color: $normal-text-color;
 }
 
+@mixin small-text(){
+  @include text;
+  font-size: 14px;
+}
+
 @mixin white-text() {
   @include text;
   color: $white-text-color;
@@ -185,6 +190,7 @@ $input-icon-color: #adadad;
 $tpc-green: #004d57;
 $input-border: #e9e9e9;
 $disabled-text: #adadad;
+$faint-input-error: #e7b0b5;
 $input-error: #dc3545;
 $tpc-green-hover: #00363e;
 
@@ -197,5 +203,5 @@ $soft-black: #333333;
 $textfield-input-border: #797979;
 
 /* ScrollWindow Config */
-$scroll-bar-color: #C4C4C4;
-$scroll-window-border: 1px solid #D7D7D7;
+$scroll-bar-color: #c4c4c4;
+$scroll-window-border: 1px solid #d7d7d7;
