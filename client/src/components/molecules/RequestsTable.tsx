@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
-import React, { FunctionComponent,  useState } from 'react';
+import React, { FunctionComponent,  useEffect,  useState } from 'react';
 import  Form  from 'react-bootstrap/Form';
 import moment from 'moment';
 import  Table  from 'react-bootstrap/Table';
@@ -23,6 +23,41 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     `;
 
     const [requests, setRequests] = useState(props.requests);
+    
+    useEffect(() => {
+        // Your code here
+        const nonFulfilledRequests = requests.filter(request => {
+            if (request !== undefined){
+                if (request.fulfilled === false){
+                    return request;
+                }
+            }
+        });
+        const fulfilledRequests = requests.filter(request => {
+            if (request !== undefined){
+                if (request.fulfilled === true){
+                    return request;
+                }
+            }
+        });
+        
+        nonFulfilledRequests.sort((a, b)=> {
+            return (a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf());
+        });
+            
+    
+        fulfilledRequests.sort((a, b)=> {
+            return (a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf());
+        });
+     
+    
+        const sortedRequests : Request[] = nonFulfilledRequests!.concat(fulfilledRequests!) as Request[];
+        setRequests(sortedRequests);
+        console.log(requests)
+      }, []);
+      
+     //console.log(sortedRequests);
+
     const [mutateRequest] = useMutation(updateRequest);
     const onFulfilledRequest = (index: number) => {
         const requestsCopy = requests.slice();
@@ -47,7 +82,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                 </tr>
                 </thead>
                 <tbody>
-                    {props.requests.map((request, index)=> (
+                    {requests.map((request, index)=> (
                         request.deleted === false ?
                         <tr key={request._id} >
                             <td>
