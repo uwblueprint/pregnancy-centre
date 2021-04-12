@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import CommonModal from "./Modal"
 
 interface Props {
+  class: string;
   title: string;
   show: boolean;
   handleClose(): void;
@@ -12,7 +13,7 @@ interface Props {
 
 const FormModal: FunctionComponent<Props> = (props: Props) => {
   return (
-    <CommonModal customClose class="modal-admin" size={props.size} show={props.show} handleClose={props.handleClose} header={<div className={`modal-admin-header-title-${props.size}`}>
+    <CommonModal customClose class={"modal-admin " + props.class} size={props.size} show={props.show} handleClose={props.handleClose} header={<div className={`modal-admin-header-title-${props.size}`}>
       {props.title}{props.extraHeader}
     </div>}>
       <>
