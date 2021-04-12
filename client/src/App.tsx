@@ -7,6 +7,7 @@ import AuthTestComponent from "./pages/AuthTestComponent";
 import DonorHomepage from './pages/DonorHomepage'
 import PasswordResetEmailSentModal from "./pages/PasswordResetEmailSentModal";
 import RequestGroupDonorView from "./components/organisms/RequestGroupDonorView";
+import ResetPasswordModal from "./pages/ResetPasswordModal"
 import SampleContainer from "./components/examples/SampleContainer";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
@@ -23,6 +24,7 @@ function App(): JSX.Element {
           <Route path='/signup' strict component={SignUpModal}></Route>
           <Route path='/verify-email' component={AuthTestComponent}></Route>
           <Route path='/password-reset-email-sent' strict component={PasswordResetEmailSentModal}></Route>
+          <Route path='/reset-password' strict component={ResetPasswordModal}></Route>
           <Route path='/admin' component={AdminHomepage}></Route>
           <Route path='/test'>
             <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
