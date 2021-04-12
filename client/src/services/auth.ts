@@ -88,6 +88,19 @@ export const createNewAccount = async (
   return errors;
 };
 
+export const handlePasswordReset = async (
+  actionCode: string,
+  newPassword: string
+): Promise<boolean> => {
+  const error = await firebase
+    .auth()
+    .confirmPasswordReset(actionCode, newPassword)
+    .then(() => true)
+    .catch(() => false)
+
+  return error;
+}
+
 export const handleVerifyEmail = async (
   actionCode: string
 ): Promise<string> => {

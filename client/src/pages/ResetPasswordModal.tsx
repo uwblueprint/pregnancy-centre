@@ -4,12 +4,12 @@ import { Redirect } from "react-router-dom";
 
 import { allRequirementMessagesInOrder, validatePasswordAndUpdateRequirementSetters } from '../services/auth'
 import ConfirmationModal from "./ConfirmationModal";
+import { handlePasswordReset } from "../services/auth";
 import LogoModal from "../components/organisms/LogoModal";
-import { TextField } from "../components/atoms/TextField"
+import { TextField } from "../components/atoms/TextField";
 
 const ResetPasswordModal: FunctionComponent = () => {
-  // const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(""); // can we put these all in an array somehow?????
   const [hidePassword, setHidePassword] = useState(true);
   const [hasOneLowerCase, setHasOneLowerCase] = useState(false);
   const [hasOneUpperCase, setHasOneUpperCase] = useState(false);
@@ -19,17 +19,30 @@ const ResetPasswordModal: FunctionComponent = () => {
   const handleClose = () => setRedirect("/");
   const [requirements, setRequirements] = useState(allRequirementMessagesInOrder);
   const [redirect, setRedirect] = useState("");
-  // const [errors, setErrors] = useState({ email: "", password: "" });
-  // const [confirmationEmailSent, setConfirmationEmailSent] = useState(false);
-  const requirementsAreFulfilled = !hasOneLowerCase || !hasOneUpperCase || !hasOneNumber || !hasOneSymbol || !hasTwelveCharacterMin;
+  const [passwordResetAttempted, setPasswordResetAttempted] = useState(false);
+  const [passwordResetSuccessful, setPasswordResetSuccessful] = useState(false);
 
-  const email = "";
   const errors = { email: "", password: "" };
-  const confirmationEmailSent = false;
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO(bonnie-chin): get user from oobcode in URL
-    // TODO(bonnie-chin): reset user password
+    if (requirements.length == 0) {
+      const URLParams = new URLSearchParams(window.location.href);
+      const actionCode = URLParams.get("oobCode");
+      console.log(actionCode);
+      if (actionCode) {
+        handlePasswordReset(actionCode, password)
+          .then((resp: boolean) => {
+            console.log(resp);
+            if (resp) {
+              setPasswordResetSuccessful(true);
+            } else {
+              setPasswordResetSuccessful(false);
+            }
+            setPasswordResetAttempted(true);
+          })
+      }
+
+    }
   };
 
   const requirementToStateSetterMap = new Map([
@@ -45,12 +58,12 @@ const ResetPasswordModal: FunctionComponent = () => {
     setRequirements(validatePasswordAndUpdateRequirementSetters(password, requirementToStateSetterMap));
     setPassword(password);
   }
-
+  
   const modalTitle = "Reset Your Password";
   const subtitle = "Enter a new password to continue";
 
   const popover = (
-    <Popover id="popover-basic" show={requirementsAreFulfilled}>
+    <Popover id="popover-basic" show={requirements.length > 0}>
       <Popover.Title as="h3">Password Requirements</Popover.Title>
       <Popover.Content>
         {
@@ -61,7 +74,9 @@ const ResetPasswordModal: FunctionComponent = () => {
               }
             </ul>
             :
-            <div className="text signup">Your password meets the requirements!</div>
+            <div className="text signup">
+              Your password meets the requirements!
+            </div>
         }
       </Popover.Content>
     </Popover>
@@ -72,7 +87,7 @@ const ResetPasswordModal: FunctionComponent = () => {
   return (
     <React.Fragment>
       <div className="reset-password-modal">
-        <LogoModal title={modalTitle} subtitle={subtitle} show={!confirmationEmailSent} handleClose={handleClose} body={
+        <LogoModal title={modalTitle} subtitle={subtitle} show={!passwordResetAttempted} handleClose={handleClose} body={
           <div className="reset-password-modal">
             <form onSubmit={handleClick}>
 
@@ -112,16 +127,30 @@ const ResetPasswordModal: FunctionComponent = () => {
               </button>
               <div>
                 <div
-                  onClick={() => {
-                    setRedirect("/login");
-                  }}
+                  
                   className="text redirect center"
                 >
                 </div>
               </div>
             </form>
           </div>} />
-        {confirmationEmailSent && <ConfirmationModal email={email} resentEmail={true}></ConfirmationModal>}
+        <LogoModal show={passwordResetAttempted && passwordResetSuccessful} title={"Password Reset Successful"} subtitle={''} handleClose={() => setRedirect("/")} body={
+          <span>
+            <div className="text">
+              Your password has now been changed. You may now close this window or login with your new password using the button below.
+            </div>
+            <button className="button" onClick={() => setRedirect("/login")}>
+              Log in
+        </button>
+          </span>
+        } />
+        <LogoModal show={passwordResetAttempted && !passwordResetSuccessful} title={"Password Reset Error"} subtitle={''} handleClose={() => setRedirect("/")} body={
+          <span>
+            <div className="text">
+              Sorry about that, looks like there was an error in resetting your password!
+            </div>
+          </span>
+        } />
       </div>
     </React.Fragment>
   );
