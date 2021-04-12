@@ -125,10 +125,14 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
     return (
         <div className={"richtext-field" + (props.isErroneous ? " error" : "")}>
             <div className="richtext-field-controls">
-                <button onMouseDown={(e) => handleControlMouseDown(e, RichUtils.toggleInlineStyle(editorState, 'BOLD'))}>
+                <button 
+                    onMouseDown={(e) => handleControlMouseDown(e, RichUtils.toggleInlineStyle(editorState, 'BOLD'))} 
+                    onClick={(e) => {e.preventDefault()}}>
                     <i className="bi bi-type-bold"/>
                 </button>
-                <button onMouseDown={(e) => handleControlMouseDown(e, RichUtils.toggleBlockType(editorState, 'unordered-list-item'))}>
+                <button 
+                    onMouseDown={(e) => handleControlMouseDown(e, RichUtils.toggleBlockType(editorState, 'unordered-list-item'))} 
+                    onClick={(e) => {e.preventDefault()}}>
                     <i className="bi bi-list-ul"/>
                 </button>
             </div>
