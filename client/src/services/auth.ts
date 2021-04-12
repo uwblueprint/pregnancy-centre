@@ -49,6 +49,8 @@ export const allRequirementMessagesInOrder: Array<string> =
     if (!msg) return "";
     return msg
   })
+  
+const emailDomain = "@pregnancycentre.ca";
 
 export const createNewAccount = async (
   email: string,
@@ -66,7 +68,7 @@ export const createNewAccount = async (
   if (!passwordRequirements.test(password)) {
     errors.password = AuthErrorMessage["invalid-password"];
   }
-  if (!email.endsWith("@pregnancycentre.ca")) {
+  if (!email.endsWith(emailDomain)) {
     errors.email = AuthErrorMessage["invalid-domain"];
   }
 
@@ -87,6 +89,28 @@ export const createNewAccount = async (
 
   return errors;
 };
+
+export const sendPasswordResetEmail = async (email: string): Promise<string> => {
+  if (email.length === 0) {
+    return AuthErrorMessage["empty-email"]; 
+  }
+
+  if (!email.endsWith(emailDomain)) {
+    return AuthErrorMessage["invalid-domain"];
+  }
+
+  const error = await firebase
+    .auth()
+    .sendPasswordResetEmail(email)
+    .then(() => "")
+    .catch((err) => {
+      const code: keyof AuthErrorMessageInterface = err.code;
+      return AuthErrorMessage[code];
+
+    });
+
+  return error;
+}
 
 export const handleVerifyEmail = async (
   actionCode: string
