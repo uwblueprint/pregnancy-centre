@@ -2,6 +2,7 @@ import { OverlayTrigger, Popover } from "react-bootstrap";
 import React, { FunctionComponent, useState } from "react";
 import { Redirect } from "react-router-dom";
 
+import { allRequirementMessagesInOrder, validatePasswordAndUpdateRequirementSetters } from '../services/auth'
 import ConfirmationModal from "./ConfirmationModal";
 import LogoModal from "../components/organisms/LogoModal";
 import { TextField } from "../components/atoms/TextField"
@@ -16,8 +17,7 @@ const ResetPasswordModal: FunctionComponent = () => {
   const [hasOneSymbol, setHasOneSymbol] = useState(false);
   const [hasTwelveCharacterMin, setHasTwelveCharacterMin] = useState(false);
   const handleClose = () => setRedirect("/");
-  const initialReq: string[] = ["at least 1 lowercase letter", "at least 1 uppercase letter", "at least 1 number", "at least 1 symbol", "12 characters minimum"]
-  const [requirements, setRequirements] = useState(initialReq);
+  const [requirements, setRequirements] = useState(allRequirementMessagesInOrder);
   const [redirect, setRedirect] = useState("");
   // const [errors, setErrors] = useState({ email: "", password: "" });
   // const [confirmationEmailSent, setConfirmationEmailSent] = useState(false);
@@ -32,14 +32,6 @@ const ResetPasswordModal: FunctionComponent = () => {
     // TODO(bonnie-chin): reset user password
   };
 
-  const requirementToTestMap = new Map([
-    ['lowerCase', /^(?=.*[a-z])/],
-    ['upperCase', /^(?=.*[A-Z])/],
-    ['number', /^(?=.*[0-9])/],
-    ['symbol', /^(?=.*[*!@#$%^&(){}[\]:;<>,.?/~_+\-=|\\])/],
-    ['twelveCharacters', /^(?=.{12,})/]
-  ]);
-
   const requirementToStateSetterMap = new Map([
     ['lowerCase', setHasOneLowerCase],
     ['upperCase', setHasOneUpperCase],
@@ -48,36 +40,9 @@ const ResetPasswordModal: FunctionComponent = () => {
     ['twelveCharacters', setHasTwelveCharacterMin],
   ]);
 
-  const requirementToMessageMap = new Map([
-    ['lowerCase', "at least 1 lowercase letter"],
-    ['upperCase', "at least 1 uppercase letter"],
-    ['number', "at least 1 number"],
-    ['symbol', 'at least 1 symbol'],
-    ['twelveCharacters', '12 characters minimum'],
-  ]);
-
-
   const onChangePass = (e: React.ChangeEvent<HTMLInputElement>) => {
     const password = e.target.value;
-    const copy: string[] = requirements;
-
-    requirementToTestMap.forEach((test, key) => {
-      const result = test.test(password)!;
-      const message: string = requirementToMessageMap.get(key)!;
-      requirementToStateSetterMap.get(key)!(result)
-
-      // if requirement not in string and not in array, push into array
-      if (!result && !copy.includes(message)) {
-        copy.push(message);
-      }
-      // if requirement is in the string and the array has it, remove it from array
-      else if (result && copy.includes(message)) {
-        const index = copy.indexOf(message);
-        copy.splice(index, 1);
-      }
-      setRequirements(copy);
-    });
-
+    setRequirements(validatePasswordAndUpdateRequirementSetters(password, requirementToStateSetterMap));
     setPassword(password);
   }
 

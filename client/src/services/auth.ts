@@ -26,6 +26,30 @@ export const AuthErrorMessage: AuthErrorMessageInterface = {
   "unconfirmed-email": "Please use the link sent to your email to confirm your account",
 };
 
+export const requirementToTestMap: Array<{ req: string, test: RegExp }> = [
+  { req: 'lowerCase', test: /^(?=.*[a-z])/ },
+  { req: 'upperCase', test: /^(?=.*[A-Z])/ },
+  { req: 'number', test: /^(?=.*[0-9])/ },
+  { req: 'symbol', test: /^(?=.*[*!@#$%^&(){}[\]:;<>,.?/~_+\-=|\\])/ },
+  { req: 'twelveCharacters', test: /^(?=.{12,})/ }
+];
+
+export const requirementToMessageMap = new Map([
+  ['lowerCase', "at least 1 lowercase letter"],
+  ['upperCase', "at least 1 uppercase letter"],
+  ['number', "at least 1 number"],
+  ['symbol', 'at least 1 symbol'],
+  ['twelveCharacters', '12 characters minimum'],
+]);
+
+// Requirement messages in the order of requirementToTestMap
+export const allRequirementMessagesInOrder: Array<string> =
+  requirementToTestMap.map(({ req }) => {
+    const msg = requirementToMessageMap.get(req);
+    if (!msg) return "";
+    return msg
+  })
+
 export const createNewAccount = async (
   email: string,
   password: string
@@ -96,7 +120,7 @@ export const signIn = async (
       .then(async () => {
         const user = firebase.auth().currentUser;
 
-        if(user && !user.emailVerified){
+        if (user && !user.emailVerified) {
           user?.sendEmailVerification();
           return {
             email: AuthErrorMessage["unconfirmed-email"],
@@ -135,9 +159,9 @@ async function postToken() {
       return res?.status === 200
         ? { email: "", password: "" }
         : {
-            email: "Something went wrong. Please try again.",
-            password: " ",
-          };
+          email: "Something went wrong. Please try again.",
+          password: " ",
+        };
     });
 
   return (
@@ -146,4 +170,19 @@ async function postToken() {
       password: " ",
     }
   );
+}
+
+export const validatePasswordAndUpdateRequirementSetters = (password: string, requirementToSetterMap: Map<string, (state: boolean) => void>): Array<string> => {
+  const missingRequirements: Array<string> = [];
+
+  requirementToTestMap.forEach(({ req, test }) => {
+    const result = test.test(password)
+    if (result === false) {
+      const reqMsg = requirementToMessageMap.get(req);
+      if (reqMsg) { missingRequirements.push(reqMsg) }
+    }
+    requirementToSetterMap.get(req)!(result)
+  });
+
+  return missingRequirements
 }
