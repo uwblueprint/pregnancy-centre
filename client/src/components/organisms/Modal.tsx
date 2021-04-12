@@ -24,10 +24,10 @@ const CommonModal: FunctionComponent<Props> = (props: Props) => {
   }
 
   return (
-    <Modal show={props.show} onHide={props.handleClose} centered={true} className={props.class} size={props.size === "default" ? undefined : modalSize} dialogClassName="border-radius-12">
-      <Modal.Header closeButton={!props.customClose} className={`${props.class}-header` + (props.size === "default" ? "" : `-${props.size}`)} >{props.header}{props.customClose && <i onClick={props.handleClose} className={`bi bi-x ${props.class}-header close` + (props.size === "default" ? "" : ` ${props.size}`)}></i>}</Modal.Header>
-      <Modal.Body className={`${props.class}-body`} >{props.children}</Modal.Body>
-      <Modal.Footer />
+    <Modal show={props.show} onHide={props.handleClose} centered={true} className={"common-modal " + props.class} size={props.size === "default" ? undefined : modalSize} >
+        <Modal.Header closeButton={!props.customClose} className={`${props.class}-header` + (props.size === "default" ? "" : `-${props.size}`)} >{props.header}{props.customClose && <i onClick={props.handleClose} className={`bi bi-x ${props.class}-header close` + (props.size === "default" ? "" : ` ${props.size}`)}></i>}</Modal.Header>
+        <Modal.Body className={`${props.class}-body`} >{props.children}</Modal.Body>
+        <Modal.Footer />
     </Modal>
   );
 }
