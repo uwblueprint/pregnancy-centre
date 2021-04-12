@@ -46,6 +46,11 @@ $window-border-color: #d7d7d7;
   @include text;
   color: $error-text-color;
 }
+  
+@mixin small-text(){
+  @include text;
+  font-size: 14px;
+}
 
 @mixin white-text() {
   @include text;
