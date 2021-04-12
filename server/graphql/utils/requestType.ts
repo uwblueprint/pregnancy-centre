@@ -21,7 +21,7 @@ const createRequestTypeHelper = async (requestType, dataSources, session): Promi
   const newRequestType = await dataSources.requestTypes.create(requestType, session)
   const requestGroup = dataSources.requestGroups.getById(requestType.requestGroup.toString())
   requestGroup.requestTypes.push(newRequestType._id)
-  await dataSources.requestGroups.update(requestGroup)
+  await dataSources.requestGroups.update(requestGroup, session)
   return newRequestType
 }
 

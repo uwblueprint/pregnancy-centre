@@ -32,7 +32,7 @@ const createRequestHelper = async (request, dataSources, session): Promise<Docum
   const newRequest = await dataSources.requests.create(request, session)
   const requestType = dataSources.requestTypes.getById(request.requestType.toString())
   requestType.requests.push(newRequest._id)
-  await dataSources.requestTypes.update(requestType)
+  await dataSources.requestTypes.update(requestType, session)
   return newRequest
 }
 
