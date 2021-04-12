@@ -6,18 +6,20 @@ interface TagInputProps {
     tagStrings: string[],
     onChange: (value: string) => boolean,
     onSubmit: (value: string) => void,
-    onDelete: (id: number) => void,
-    isErroneous: boolean
+    onDelete: (value: string) => void,
+    isErroneous: boolean,
+    placeholder: string,
+    actionString: string
 }
 
 const TagInput: FunctionComponent<TagInputProps> = (props: TagInputProps) => {
     return (
         <div className="tag-input">
             <div className="text-field-action-container">            
-                <TextFieldWithAction isErroneous={(!props.isErroneous)} onSubmit={(value:string) => props.onSubmit(value)} onChange={(value: string)=> props.onChange(value)} showAction={props.isErroneous} placeholder="Enter a new type" type="text" actionString="Add new type:" iconClassName="bi bi-arrow-return-left"></TextFieldWithAction>
+                <TextFieldWithAction isErroneous={(!props.isErroneous)} onSubmit={(value:string) => props.onSubmit(value)} onChange={(value: string)=> props.onChange(value)} showAction={props.isErroneous} placeholder={props.placeholder} type="text" actionString={props.actionString} iconClassName="bi bi-arrow-return-left"></TextFieldWithAction>
             </div>
             <div className="tag-list">
-                {props.tagStrings.map((tag,index) => <div key={index} className="each-tag"><DeletableTag id={index} text={tag} onDelete={(id)=> props.onDelete(id)}/></div>)}
+                {props.tagStrings.map((tag,index) => <div key={index} className="each-tag"><DeletableTag text={tag} onDelete={props.onDelete}/></div>)}
             </div>
                
         </div>
