@@ -1,16 +1,24 @@
 .request-group-form {
   &-modal {
+    &-body {
+      padding: 0px 69px 40px 75px;
+    }
     &-content {
       display: flex;
       flex-direction: row;
+      justify-content: space-between;
     }
     &-panel {
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       // &#left {
       // }
       // &#right {
       // }
+      & .form-item {
+        margin-top: 31px;
+      }
     }
   }
 }
