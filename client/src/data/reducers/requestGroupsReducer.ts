@@ -18,6 +18,7 @@ const defaultState: RequestGroupsState = {
  * these replacements should be immutable.
  */
 export default (state = defaultState, action: RequestGroupsAction): RequestGroupsState => {
+  let dataCopy = state.data;
   switch (action.type) {
     // directly sets the global data to the payload as specified in the action
     case LOAD_REQUEST_GROUPS:
@@ -31,7 +32,6 @@ export default (state = defaultState, action: RequestGroupsAction): RequestGroup
         displayData: action.payload.requestGroups ? action.payload.requestGroups : [],
       };
     case UPSERT_REQUEST_GROUP:
-      let dataCopy = state.data;
       
       if (action.payload.requestGroup) {
         const targetRequestGroup: RequestGroup = action.payload.requestGroup;
