@@ -36,9 +36,9 @@
     &.error {
       border: 1px solid $input-error;
       &.red-error-text {
-        color: $input-error;
+        color: $faint-input-error;
         &::placeholder {
-          color: $input-error;
+          color: $faint-input-error;
         }
       }
     }

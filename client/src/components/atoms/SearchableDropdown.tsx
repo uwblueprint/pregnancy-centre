@@ -48,19 +48,21 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
           showRedErrorText={true}
         ></TextField>
       </div>
-      {dropdownExpanded && noItems &&
+      {dropdownExpanded && <span>
+        {noItems ?
         <div className="no-items-found">
           <span className="not-exist-msg">This group does not exist</span>
           <span className="create-group"><a><span>Create a new group</span><i className="bi bi-arrow-right-short"></i></a></span>
         </div>
-      }
-      {dropdownExpanded && !noItems &&
+        :
         <ScrollWindow>
           <div className="dropdown-header">{props.placeholderText}</div>
           {props.dropdownItems.filter(item => item.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item =>
             <div className="dropdown-item" key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
           )}
         </ScrollWindow>
+        }
+        </span>
       }
   </div>
 };
