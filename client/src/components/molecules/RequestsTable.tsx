@@ -48,6 +48,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                 </thead>
                 <tbody>
                     {props.requests.map((request, index)=> (
+                        request.deleted === false ?
                         <tr key={request._id} >
                             <td>
                             <div >
@@ -66,7 +67,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                                 <td><a className="request-table edit" href="/"><i className="bi bi-pencil"></i></a></td>
                                 <td><a className="request-table delete" href="/"><i className="bi bi-trash"></i></a></td>
                             </div></td>
-                        </tr>
+                        </tr> : undefined
                     ))}
                 </tbody>
             </Table>
