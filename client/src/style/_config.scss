@@ -19,7 +19,7 @@ $alt-faded-text-color: #a3a3a3;
 $grey-text-color: #333333;
 $faded-modal-text-color: #7d7d7d;
 $normal-text-color: black;
-$error-text-color: #e7b0b5;
+$error-faded-color: #e7b0b5;
 $white-text-color: white;
 $section-header-text-color: #bbbbbb;
 $tooltip-background-color: #efefef;
@@ -44,7 +44,7 @@ $window-border-color: #d7d7d7;
 
 @mixin error-text() {
   @include text;
-  color: $error-text-color;
+  color: $error-faded-color;
 }
   
 @mixin small-text(){
