@@ -1,5 +1,5 @@
 /* Imports from local files */
-import { LOAD_REQUEST_GROUPS, SET_DISPLAY_REQUEST_GROUPS } from "../actionTypes";
+import { LOAD_REQUEST_GROUPS, SET_DISPLAY_REQUEST_GROUPS, UPSERT_REQUEST_GROUP } from "../actionTypes";
 import RequestGroup from '../types/requestGroup'
 import { RequestGroupsAction } from '../actions/'
 
@@ -23,12 +23,36 @@ export default (state = defaultState, action: RequestGroupsAction): RequestGroup
     case LOAD_REQUEST_GROUPS:
       return {
         ...state,
-        data: action.payload,
+        data: action.payload.requestGroups ? action.payload.requestGroups : [],
       };
     case SET_DISPLAY_REQUEST_GROUPS:
       return {
         ...state,
-        displayData: action.payload, 
+        displayData: action.payload.requestGroups ? action.payload.requestGroups : [],
+      };
+    case UPSERT_REQUEST_GROUP:
+      let dataCopy = state.data;
+      
+      if (action.payload.requestGroup) {
+        const targetRequestGroup: RequestGroup = action.payload.requestGroup;
+
+        let found = false;
+        dataCopy = dataCopy.map((requestGroup: RequestGroup) => {
+          if (requestGroup._id && requestGroup._id === targetRequestGroup._id) {
+            found = true;
+            return targetRequestGroup;
+          }
+          return requestGroup;
+        })
+
+        if (!found) {
+          dataCopy.push(targetRequestGroup)
+        }
+      }
+
+      return {
+        ...state,
+        data: dataCopy,
       };
     default:
       return state;
