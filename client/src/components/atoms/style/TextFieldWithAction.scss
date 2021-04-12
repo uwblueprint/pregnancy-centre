@@ -1,26 +1,21 @@
 .text-field-with-action{
     @include text();
     & .text-field-input {
-        width: 300px;
+        width: 100%;
         height:40px;
-        margin-bottom: 10px;
-        border: 1px solid#333333;
-        &.error {
-            border: 1px solid $input-error;
-        }
     }
     .text-field i {
         margin-left: -30px;
     }
     .action{
+        margin-top: 10px;
         display: inline-flex;
         &.error {
-            border: 1px solid $input-error;
-            padding:5px;
+            border: 1px solid $error-faded-color;
         }
         border: 1px solid #e9e9e9;
         border-radius: 4px;
-        width: 300px;
+        width: 100%;
         height:40px;
         line-height: 40px;
         padding-left: 19px;

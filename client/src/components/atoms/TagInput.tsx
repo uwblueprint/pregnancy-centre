@@ -16,7 +16,7 @@ const TagInput: FunctionComponent<TagInputProps> = (props: TagInputProps) => {
     return (
         <div className="tag-input">
             <div className="text-field-action-container">            
-                <TextFieldWithAction isErroneous={(!props.isErroneous)} onSubmit={(value:string) => props.onSubmit(value)} onChange={(value: string)=> props.onChange(value)} showAction={props.isErroneous} placeholder={props.placeholder} type="text" actionString={props.actionString} iconClassName="bi bi-arrow-return-left"></TextFieldWithAction>
+                <TextFieldWithAction isErroneous={props.isErroneous} onSubmit={(value:string) => props.onSubmit(value)} onChange={(value: string)=> props.onChange(value)} placeholder={props.placeholder} type="text" actionString={props.actionString} iconClassName="bi bi-arrow-return-left"></TextFieldWithAction>
             </div>
             <div className="tag-list">
                 {props.tagStrings.map((tag,index) => <div key={index} className="each-tag"><DeletableTag text={tag} onDelete={props.onDelete}/></div>)}
