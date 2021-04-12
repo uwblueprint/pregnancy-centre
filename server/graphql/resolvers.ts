@@ -109,7 +109,7 @@ const resolvers = {
           }
         })
     },
-    softDeleteRequestType: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
+    softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
       return softDeleteRequestTypeHelper(id, dataSources)
         .then(res => {
           return {
@@ -131,15 +131,15 @@ const resolvers = {
     },
     updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
       return sessionHandler((session) => updateRequestHelper(request, dataSources, session))
-        .then(res => {
-          return {
-            'success': true,
-            'message': 'Request successfully updated',
-            'id': res._id
-          }
-        })
+      .then(res => {
+        return {
+          'success': true,
+          'message': 'Request successfully updated',
+          'id': res._id
+        }
+      })
     },
-    softDeleteRequest: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
+    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
       return softDeleteRequestHelper(id, dataSources)
         .then(res => {
           return {
@@ -151,24 +151,16 @@ const resolvers = {
     },
     createClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.create(client),
     updateClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.update(client),
-    softDeleteClient: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.softDelete(id)
+    softDeleteClient: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.clients.softDelete(id)
   },
   RequestGroup: {
-    numOpen: (parent, __, { dataSources }): Number => {
-      const openRequestsInRequestTypes = parent.requestTypes.map(id => {
+    numOpen: (parent, __, { dataSources }): Number => 
+      parent.requestTypes.map(id => {
         return filterOpenRequests(getRequestsById(dataSources.requestTypes.getById(Types.ObjectId(id)).requests, dataSources)).length
-      })
-
-      if (openRequestsInRequestTypes.length == 0) return 0;
-      return openRequestsInRequestTypes.reduce((total, num) => total + num, 0)
-    },
-    hasAnyRequests: (parent, __, { dataSources }): Boolean => {
-      const requestTypes = parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length)
-
-      if (requestTypes.length == 0) return false;
-      return requestTypes.reduce((notEmpty, len) => notEmpty || len > 0)
-    },
-    nextRecipient: (parent, __, { dataSources }): ClientInterface => {
+      }).reduce((total, num) => total + num, 0),
+    hasAnyRequests: (parent, __, { dataSources }): Boolean => 
+      parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((notEmpty, len) => notEmpty || len > 0),
+    nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
       const nextRequest = nextRequestRequestGroupHelper(parent.requestTypes, dataSources)
       return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
     },
@@ -176,7 +168,7 @@ const resolvers = {
   },
   RequestType: {
     numOpen: (parent, __, { dataSources }): Number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,
-    nextRecipient: (parent, __, { dataSources }): ClientInterface => {
+    nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
       const nextRequest = nextRequestRequestTypeHelper(parent.requests, dataSources)
       return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
     },
@@ -200,7 +192,7 @@ const sessionHandler = async (operation) => {
       res = await operation(session)
     })
   }
-  catch (error) {
+  catch(error) {
     console.log(error)
     throw error
   }
