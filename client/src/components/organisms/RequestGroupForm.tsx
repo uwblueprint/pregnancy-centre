@@ -1,5 +1,3 @@
-import { bindActionCreators, Dispatch } from "redux";
-import { gql, useQuery } from "@apollo/client";
 import { bindActionCreators, Dispatch } from "redux"
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
