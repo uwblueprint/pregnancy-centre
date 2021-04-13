@@ -2,11 +2,12 @@ import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import moment from 'moment';
 
-import { Col, Row, Spinner } from 'react-bootstrap';
+import { Row, Spinner } from 'react-bootstrap';
 
 import InfoBox from '../molecules/InfoBox';
 import RequestGroup from '../../data/types/requestGroup';
 import RequestTypeList from '../molecules/RequestTypeList';
+import RichTextDisplay from "../atoms/RichTextDisplay";
 
 // TODO: rich text for descriptions (BLOCKER: how admin's will set descriptions)
 // TODO: get email from TPC and put here
@@ -17,7 +18,7 @@ interface Props {
 }
 
 const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
-    const emailAddress = "mail@example.com" // TODO: replace and see todo above
+    const emailAddress = "reception@pregnancycentre.ca" // TODO: replace and see todo above
 
     const [requestGroupData, setRequestGroupData] = useState<RequestGroup | undefined>(undefined);
 
@@ -62,33 +63,30 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
             </div>
             :
             <div className="panel">
-                <Col className="section" id="left" md={7} sm={12}>
+                <div className="section" id="left">
                     <div className="info">
                         <h1 id="header">
                             {requestGroupData.name}
                         </h1>
                         <p id="date-updated">
-                            Last updated {moment(requestGroupData.dateUpdated, "x").format('MMMM DD, YYYY')}
+                            Last added {moment(requestGroupData.dateUpdated, "x").format('MMMM DD, YYYY')}
                         </p>
                         <div id="image">
                             <img src={requestGroupData.image}/>
                         </div>
                     </div>
                     <RequestTypeList requestTypes={requestGroupData.requestTypes ? requestGroupData.requestTypes : []}/>
-                </Col>
-                <Col className="section" id="right" md={5} sm={12}>
+                </div>
+                <div className="section" id="right">
                     <InfoBox 
                         title="HAVE A DONATION?" 
-                        text="To arrange your donation, contact the Pregnancy Center directly at 514‑999‑9999 or send an email."
+                        text="To arrange your donation, contact the Pregnancy Center directly at 519-886-4001 or send an email."
                         buttonProps = {{
                             text: "Send an email",
                             onClick: (e) => {
-                                console.log(e);
                                 const button = e.target as HTMLButtonElement;
                                 button.textContent = "Email copied";
                                 button.classList.add('alt-button');
-
-                                console.log(e);
 
                                 setTimeout(() => {
                                     button.textContent = "Send an email"; 
@@ -99,12 +97,11 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                         }}
                     />
                     <div id="description">
-                        <InfoBox 
-                            title="ITEM DESCRIPTION" 
-                            text={requestGroupData.description ? requestGroupData.description : ''}
-                        />
+                        <InfoBox title="ITEM DESCRIPTION">
+                            {requestGroupData.description && <RichTextDisplay content={requestGroupData.description}/>}
+                        </InfoBox>
                     </div>
-                </Col>
+                </div>
             </div>}
         </Row>
     )

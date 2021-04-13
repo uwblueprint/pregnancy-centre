@@ -1,0 +1,8 @@
+.richtext-display {
+    .public-DraftEditor-content {
+        @include normal-text;
+        font-size: 14px;
+        line-height: 21px;
+        color: $grey-text-color;
+    }
+}

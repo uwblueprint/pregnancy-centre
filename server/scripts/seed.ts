@@ -9,7 +9,6 @@ import { Client } from '../models/clientModel'
 import { Request } from '../models/requestModel'
 import { RequestGroup } from '../models/requestGroupModel'
 import { RequestType } from '../models/requestTypeModel'
-import { start } from 'repl'
 
 // -----------------------------------------------------------------------------
 // SEED REQUESTS/TAGS
@@ -20,7 +19,7 @@ dotenv.config()
 const numClients = 50
 const numGroups = 25
 const numTypesPerGroup = 5
-const maxNumRequestsPerType = 50
+const maxNumRequestsPerType = 10
 const probRequestDeleted = 0.05
 const probRequestFulfilled = 0.2 // independent from probRequestDeleted
 const startDate = new Date(2019, 0,1)
@@ -94,7 +93,8 @@ const createRequestGroup = (groupID, typeIDs, errMsg) => {
   const group = new RequestGroup({
     _id: groupID,
     name: faker.random.arrayElement(requestGroupNames),
-    description: faker.lorem.sentence(),
+    // description is in the format specified by DraftJS
+    description: '{"blocks":[{"key":"bv0s8","text":"' + faker.lorem.sentence() + '","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
     requirements: faker.lorem.sentence(),
     image: faker.random.arrayElement(requestGroupImages),
   })

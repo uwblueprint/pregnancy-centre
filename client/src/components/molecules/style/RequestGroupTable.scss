@@ -37,8 +37,10 @@
         -webkit-border-bottom-right-radius: 4px;
     }
 
-    .data-row:hover :not(.spacing-col) {
-        background-color: $selected-item-background;
+    .data-row:hover {
+        td:not(.spacing-col)  {
+            background-color: $selected-item-background;
+        }
     }
 
     .spacing-col {
@@ -107,5 +109,14 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+}
+
+.no-groups-msg {
+    margin-left: 80px;
+
+    .create-group-link {
+        @include bold-text;
+        color: $tpc-green;
     }
 }

@@ -7,20 +7,24 @@ import type {ButtonProps} from '../atoms/Button';
 
 interface Props {
     title: string,
-    text: string,
+    text?: string,
+    children?: React.ReactNode,
     buttonProps?: ButtonProps
 }
 
-const RequestTypeList: FunctionComponent<Props> = (props: Props) => {
+const InfoBox: FunctionComponent<Props> = (props: Props) => {
     return (
         <Card className="infoBox">
             <Card.Body>
                 <Card.Title>
                     {props.title}
                 </Card.Title>
-                <Card.Text>
-                    {props.text}
-                </Card.Text>
+                {props.text &&
+                    <Card.Text>
+                        {props.text}
+                    </Card.Text>
+                }
+                {props.children}
                 {props.buttonProps &&
                     <Button {...props.buttonProps}/>
                 }
@@ -29,4 +33,4 @@ const RequestTypeList: FunctionComponent<Props> = (props: Props) => {
     )
 }
 
-export default RequestTypeList; 
+export default InfoBox; 

@@ -21,10 +21,12 @@ const RequestGroupList: FunctionComponent<Props> = (props: Props) => {
   const [currentPage, setCurrentPage] = useState(1) // Indexing starting at 1.
 
   return <div className="request-group-list">
-    <RequestGroupScrollWindow
-      requestGroups={props.requestGroups.slice((currentPage - 1) * numGroupsPerPage, Math.min(currentPage * numGroupsPerPage, props.requestGroups.length - 1))}
-      selectedRequestGroup={props.selectedRequestGroup}
-      onRequestGroupChange={props.onRequestGroupChange} />
+    <div className="request-group-list-scroll-window">
+      <RequestGroupScrollWindow
+        requestGroups={props.requestGroups.slice((currentPage - 1) * numGroupsPerPage, Math.min(currentPage * numGroupsPerPage, props.requestGroups.length - 1))}
+        selectedRequestGroup={props.selectedRequestGroup}
+        onRequestGroupChange={props.onRequestGroupChange} />
+    </div>
     <div className="request-group-list-page-navigation">
       <PageNavigation
         pages={pages}

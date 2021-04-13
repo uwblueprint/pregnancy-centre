@@ -17,11 +17,12 @@ type RequestDocument = RequestInterface & Document;
 
 const requestSchema = new Schema({
   requestType: {
-    type:  { type: Types.ObjectId, ref: 'RequestType' }
+    type: Types.ObjectId, ref: 'RequestType'
   },
   requestId: {
     type: String,
-    required: true
+    required: true,
+    default: ''
   },
   client: {
     type: Types.ObjectId, ref: 'Client'
@@ -59,7 +60,8 @@ const requestSchema = new Schema({
 }, {
   timestamps: {
     currentTime: Date.now,
-    updatedAt: 'dateUpdated'
+    updatedAt: 'dateUpdated',
+    createdAt: 'dateCreated'
   }
 })
 

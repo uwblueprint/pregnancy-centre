@@ -2,8 +2,6 @@ import { bindActionCreators, Dispatch } from "redux"
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
 
 import { loadRequestGroups, setDisplayRequestGroups } from '../../data/actions'
 import RequestGroup from '../../data/types/requestGroup'
@@ -59,11 +57,11 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
   });
 
 
-  return <Container className="donor-request-group-browser" fluid>
-    <Row className="justify-content-center">
+  return <div className="donor-request-group-browser">
+    <div>
       <h1 className="donor-request-group-browser-header">Open Requests</h1>
-    </Row>
-    <Row className="justify-content-center donor-request-group-browser-content">
+    </div>
+    <div className="donor-request-group-browser-content">
       <div className="donor-request-group-browser-list">
         <RequestGroupList
           selectedRequestGroup={selectedRequestGroup}
@@ -71,10 +69,10 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
         />
       </div>
       <div className="donor-request-group-browser-indiv-view">
-        <RequestGroupDonorView requestGroupId={selectedRequestGroup}/>
+        <RequestGroupDonorView requestGroupId={selectedRequestGroup} />
       </div>
-    </Row>
-  </Container>
+    </div>
+  </div>
 };
 
 const mapStateToProps = (store: RootState): StateProps => {

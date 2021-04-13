@@ -1,43 +1,30 @@
+import { Types } from 'mongoose'
+
+/* Models */
 import { ClientInterface } from '../models/clientModel'
 import { RequestGroupInterface } from '../models/requestGroupModel'
 import { RequestInterface } from '../models/requestModel'
 import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
-import { Types } from 'mongoose'
 
-import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, updateRequestHelper } from './utils/request'
-import { softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
-import { updateRequestGroupHelper } from './utils/requestGroup'
-
-const nextRequestRequestTypeHelper = (requestIds, dataSources): RequestInterface => {
-  const requests = requestIds.map((id) => dataSources.requests.getById(id)).filter(request => request.fulfilled === false && request.deleted === false);
-  requests.sort((request1, request2) => request1.dateCreated - request2.dateCreated)
-  return requests.length == 0 ? null : requests[0]
-}
-
-const nextRequestRequestGroupHelper = (requestTypeIds, dataSources): RequestInterface => {
-  const requests = requestTypeIds.map((id) => {
-    const requestType = dataSources.requestTypes.getById(id)
-    return nextRequestRequestTypeHelper(requestType.requests, dataSources)
-  })
-  requests.sort((request1, request2) => {
-    if (!request1 && !request2) {
-      return 0
-    }
-    if (!request1) {
-      return 1
-    }
-    if (!request2) {
-      return -1
-    }
-    return request1.dateCreated - request2.dateCreated
-  })
-  return requests.length == 0 ? null : requests[0]
-}
+/* Helper functions */
+import { createRequestHelper, filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper } from './utils/request'
+import { createRequestTypeHelper, nextRequestRequestTypeHelper, softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
+import { nextRequestRequestGroupHelper, softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
+import { sessionHandler } from '../database/session'
 
 const resolvers = {
   Query: {
     client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
+    filterClients: (_, { filter }, { dataSources }): Array<ClientInterface> => {
+      let filteredClients = dataSources.clients.getAll()
+
+      for (let property in filter) {
+        filteredClients = filteredClients.filter((client) => (client[property] ? client[property] === filter[property] : true))
+      }
+
+      return filteredClients
+    },
     clients: (_, __, { dataSources }): Array<ClientInterface> => dataSources.clients.getAll(),
     request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getById(Types.ObjectId(id)),
     requests: (_, __, { dataSources }): Array<RequestInterface> => dataSources.requests.getAll(),
@@ -47,29 +34,96 @@ const resolvers = {
     requestGroups: (_, __, { dataSources }): Array<RequestGroupInterface> => dataSources.requestGroups.getAll()
   },
   Mutation: {
-    createRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestGroups.create(requestGroup),
+    createRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => {
+      return dataSources.requestGroups.create(requestGroup)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'RequestGroup successfully created',
+            'id': res._id
+          }
+        })
+    },
     updateRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => {
-      return updateRequestGroupHelper(requestGroup, dataSources)
+      return sessionHandler(session => updateRequestGroupHelper(requestGroup, dataSources, session))
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'RequestGroup successfully updated',
+            'id': res._id
+          }
+        })
     },
     softDeleteRequestGroup: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
-      const requestGroup = dataSources.requestGroups.getById(id)
-      requestGroup.requestTypes.map(id => {
-        softDeleteRequestTypeHelper(id, dataSources)
-      })
-      return dataSources.requestGroups.softDelete(id)
+      return softDeleteRequestGroupHelper(id, dataSources)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'RequestGroup successfully soft deleted',
+            'id': res._id
+          }
+        })
     },
-    createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requestTypes.create(requestType),
+    createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => {
+      return sessionHandler(session => createRequestTypeHelper(requestType, dataSources, session))
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'RequestType successfully created',
+            'id': res._id
+          }
+        })
+    },
     updateRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => {
-      return updateRequestTypeHelper(requestType, dataSources)
+      return sessionHandler(session => updateRequestTypeHelper(requestType, dataSources, session))
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'RequestType successfully updated',
+            'id': res._id
+          }
+        })
     },
     softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
       return softDeleteRequestTypeHelper(id, dataSources)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'RequestType successfully soft deleted',
+            'id': res._id
+          }
+        })
     },
-    createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => dataSources.requests.create(request),
+    createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
+      return sessionHandler((session) => createRequestHelper(request, dataSources, session))
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'Request successfully created',
+            'id': res._id
+          }
+        })
+    },
     updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
-      return updateRequestHelper(request, dataSources)
+      return sessionHandler((session) => updateRequestHelper(request, dataSources, session))
+      .then(res => {
+        return {
+          'success': true,
+          'message': 'Request successfully updated',
+          'id': res._id
+        }
+      })
     },
-    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.requests.softDelete(id),
+    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
+      return softDeleteRequestHelper(id, dataSources)
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'Request successfully soft deleted',
+            'id': res._id
+          }
+        })
+    },
     createClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.create(client),
     updateClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.update(client),
     softDeleteClient: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.clients.softDelete(id)
@@ -80,7 +134,7 @@ const resolvers = {
         return filterOpenRequests(getRequestsById(dataSources.requestTypes.getById(Types.ObjectId(id)).requests, dataSources)).length
       }).reduce((total, num) => total + num, 0),
     hasAnyRequests: (parent, __, { dataSources }): Boolean => 
-      parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((notEmpty, len) => notEmpty || len > 0),
+      parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((notEmpty, len) => notEmpty || len > 0, false),
     nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
       const nextRequest = nextRequestRequestGroupHelper(parent.requestTypes, dataSources)
       return nextRequest ? dataSources.clients.getById(nextRequest.client) : null

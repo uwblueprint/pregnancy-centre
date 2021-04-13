@@ -54,7 +54,8 @@ const typeDefs = gql`
     }
     type Query {
         client(id: ID): Client
-        clients(id: ID): [Client]
+        filterClients(filter: ClientInput): [Client]
+        clients: [Client]
         request(id: ID): Request
         requests: [Request]
         requestType(id: ID): RequestType
@@ -79,7 +80,6 @@ const typeDefs = gql`
     input RequestGroupInput {
         id: ID
         name: String
-        deleted: Boolean
         description: String
         requirements: String
         image: String
@@ -87,15 +87,15 @@ const typeDefs = gql`
     }
     input RequestTypeInput {
         id: ID
+        requestGroup: ID
         name: String
-        deleted: Boolean
         requests: [ID]
     }
     input RequestInput {
         id: ID
         client: ID
+        requestType: ID
         requestId: String
-        deleted: Boolean
         fulfilled: Boolean
         quantity: Int
     }

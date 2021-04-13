@@ -16,6 +16,7 @@
     "apollo-link-http": "^1.5.17",
     "bootstrap": "^4.6.0",
     "bootstrap-icons": "^1.4.0",
+    "draft-js": "^0.11.7",
     "firebase": "^8.2.9",
     "graphql": "^15.5.0",
     "moment": "^2.29.1",
@@ -58,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "@types/draft-js": "^0.11.1",
     "@types/react-copy-to-clipboard": "^5.0.0",
     "@types/react-router-dom": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
