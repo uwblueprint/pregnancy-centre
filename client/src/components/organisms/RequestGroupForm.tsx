@@ -186,11 +186,13 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   }
 
   const onDescriptionChange = (newDescription: string) => {
+    setChangeMade(true);
     setDescription(newDescription)
     setDescriptionError(getDescriptionError(description))
   }
 
   const onImageChange = (newImage: string) => {
+    setChangeMade(true);
     setImageError(getImageError(newImage))
     if (images.find((imageUrl) => imageUrl === newImage)) {
       setImage(newImage)
