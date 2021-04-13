@@ -11,9 +11,6 @@
 
   .tag {
     padding: 6.65px 12.5px;
-    &:hover {
-      background-color: $tag-background-hover;
-    }
   }
 
   .textfield {
@@ -52,6 +49,9 @@
 
       &:hover {
         background-color: $tag-background;
+        .tag {
+          background-color: $tag-background-hover;
+        }
       }
     }
   }
