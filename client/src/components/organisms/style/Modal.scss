@@ -42,7 +42,7 @@
   }
 }
 
-.logo-modal {
+.modal {
   align-items: center;
   text-align: center;
   .line {
@@ -69,6 +69,12 @@
   &-xl {
     max-width: 1063px;
   }
+}
+
+.logo-modal {
+  align-items: center;
+  text-align: center;
+
   .button {
     color: #ffffff;
     background-color: $tpc-green;
