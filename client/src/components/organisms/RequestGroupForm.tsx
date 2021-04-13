@@ -100,6 +100,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     });
   }
 
+  /* Functions for RequestGroup's Name*/
   const getNameError = (name: string): string => {
     if (name.length === 0) {
       return "Please enter a group name";
@@ -114,6 +115,17 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     return "";
   }
 
+  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const newName: string = event.target.value;
+
+    setChangeMade(true);
+    setName(newName);
+    setNameError(getNameError(newName))
+  }
+
+  /* Functions for RequestGroup's RequestTypes */
+
   const getInputRequestTypeNameError = (inputRequestTypeName: string): string => {
     if (requestTypeNames.find(requestTypeName => requestTypeName === inputRequestTypeName)) {
       return "There is already a type with this name";
@@ -122,43 +134,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       return "Type name cannot exceed 40 characters";
     }
     return "";
-  }
-
-  const getRequestTypeNamesError = (requestTypes: Array<string>): string => {
-    if (requestTypes.length === 0) {
-
-      return "Please create at least 1 type";
-    }
-    return "";
-  }
-
-  const getDescriptionError = (description: string) => {
-    if (!description) {
-      return "Please enter a description";
-    }
-
-    const editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(description)))
-    if (!editorState.getCurrentContent().hasText()) {
-      return "Please enter a description";
-    }
-
-    return "";
-  }
-
-  const getImageError = (image: string) => {
-    if (image === "") {
-      return "Please select an image";
-    }
-    return "";
-  }
-
-  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    const newName: string = event.target.value;
-
-    setChangeMade(true);
-    setName(newName);
-    setNameError(getNameError(newName))
   }
 
   const onAddRequestType = (newRequestTypeName: string) => {
@@ -185,10 +160,40 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     return true;
   }
 
+  const getRequestTypeNamesError = (requestTypes: Array<string>): string => {
+    if (requestTypes.length === 0) {
+
+      return "Please create at least 1 type";
+    }
+    return "";
+  }
+
+  /* Functions for RequestGroup's Description */
+  const getDescriptionError = (description: string) => {
+    if (!description) {
+      return "Please enter a description";
+    }
+
+    const editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(description)))
+    if (!editorState.getCurrentContent().hasText()) {
+      return "Please enter a description";
+    }
+
+    return "";
+  }
+
   const onDescriptionChange = (newDescription: string) => {
     setChangeMade(true);
     setDescription(newDescription)
     setDescriptionError(getDescriptionError(description))
+  }
+
+  /* Functions for RequestGroup's Image */
+  const getImageError = (image: string) => {
+    if (image === "") {
+      return "Please select an image";
+    }
+    return "";
   }
 
   const onImageChange = (newImage: string) => {
