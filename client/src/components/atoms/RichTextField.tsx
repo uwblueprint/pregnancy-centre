@@ -1,5 +1,5 @@
-import { ContentState, convertFromRaw, convertToRaw, Editor, EditorState, getDefaultKeyBinding, KeyBindingUtil, Modifier, RichUtils, SelectionState } from 'draft-js';
-import React, { FunctionComponent, useState } from 'react';
+import { convertFromRaw, convertToRaw, Editor, EditorState, getDefaultKeyBinding, KeyBindingUtil, Modifier, RichUtils, SelectionState } from 'draft-js';
+import React, { FunctionComponent } from 'react';
 
 import ScrollWindow from './ScrollWindow';
 

@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react";
 import ImageList from "./ImageList";
-import Row from "react-bootstrap/Row";
 
 interface Props {
   onImageChange(url: string): void;
