@@ -198,7 +198,6 @@ $tag-background: #ededed;
 /* Modal Config */
 $input-icon-color: #adadad;
 $tpc-green: #004d57;
-$input-border: #e9e9e9;
 $disabled-text: #adadad;
 $input-error: $error-color;
 $faint-input-error: #e7b0b5;
@@ -215,7 +214,7 @@ $dark-border: 1px solid $dark-border-color;
 
 /* ScrollWindow Config */
 $scroll-bar-color: #c4c4c4;
-$scroll-window-border: 1px solid $window-border-color;
+$window-border: 1px solid $window-border-color;
 
 /* AuthModal Config */
 $auth-modal-content-width: 385px;

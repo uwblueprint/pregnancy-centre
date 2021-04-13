@@ -21,12 +21,14 @@ $request-group-form-input-width: 373px;
       }
     }
 
+    .text-field-input {
+      width: $request-group-form-input-width;
+      height: 45px;
+      
+      
+    }
+
     .text-field-form-item {
-      input {
-        width: $request-group-form-input-width;
-        height: 45px;
-        border: $dark-border;
-      }
       .form-item-top {
         width: $request-group-form-input-width;
       }
@@ -38,10 +40,7 @@ $request-group-form-input-width: 373px;
     .tag-input-form-item {
       .tag-input {
         width: $request-group-form-input-width;
-        & input {
-          height: 45px;
-          border: $dark-border;
-        }
+        
       }
       .form-item-top {
         width: $request-group-form-input-width;
@@ -83,6 +82,8 @@ $request-group-form-input-width: 373px;
     &-footer {
       & .button {
         float: right;
+        padding: 12px 33px;
+
         background-color: $tpc-green;
         &:hover {
           background-color: $tpc-green-hover;
