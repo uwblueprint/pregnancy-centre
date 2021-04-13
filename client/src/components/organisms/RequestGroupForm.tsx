@@ -270,7 +270,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             <div className="tag-input-form-item">
               <FormItem
                 formItemName="Item Types"
-                instructions="If no types are applicable,  create a universal type such as “One Size”"
+                instructions="If no types are applicable, create a universal type such as “One Size”"
                 errorString={requestTypesError}
                 isDisabled={false}
                 tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
