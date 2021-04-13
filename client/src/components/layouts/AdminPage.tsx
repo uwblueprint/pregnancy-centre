@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react";
 
-import Footer from '../organisms/Footer'
 import Navbar from '../organisms/Navbar'
 
 const AdminPage: FunctionComponent<Record<string, unknown>> = (props: React.PropsWithChildren<Record<string, unknown>>) => {
@@ -11,9 +10,6 @@ const AdminPage: FunctionComponent<Record<string, unknown>> = (props: React.Prop
     </div>
     <div className="donor-page-content" >
       {props.children}
-    </div>
-    <div className="donor-page-footer">
-        <Footer/>
     </div>
     </div>
 };
