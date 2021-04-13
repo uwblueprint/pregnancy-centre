@@ -235,12 +235,15 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   }
 
 
+  const formTitle = props.operation === "create" ? "Create Request Group" : "Edit Request Group";
+  const formButtonText = props.operation === "create" ? "Create request group" : "Edit request group";
+
   return <div className="request-group-form">
     <FormModal
       class="request-group-form-modal"
       show={true}
       handleClose={handleClose}
-      title={props.operation === "create" ? "Create Request Group" : "Edit Request Group"}
+      title={formTitle}
       size="large">
       {showAlertDialog &&
         <AlertDialog
@@ -326,7 +329,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         </div>
         <div className="request-group-form-modal-footer">
           <Button
-            text={props.operation === "create" ? "Create request group" : "Edit request group"}
+            text={formButtonText}
             copyText=""
           />
         </div>
