@@ -11,9 +11,6 @@ const DEFAULT_STATE: RootState = {
     data: [],
     displayData: []
   },
-  selectedRequestGroup: {
-    data: {} 
-  }
 };
 
 export default function configureStore(initialState = DEFAULT_STATE): Store<RootState> {
