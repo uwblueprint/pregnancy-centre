@@ -27,11 +27,9 @@ const ResetPasswordModal: FunctionComponent = () => {
     if (requirements.length == 0) {
       const URLParams = new URLSearchParams(window.location.href);
       const actionCode = URLParams.get("oobCode");
-      console.log(actionCode);
       if (actionCode) {
         handlePasswordReset(actionCode, password)
           .then((resp: boolean) => {
-            console.log(resp);
             if (resp) {
               setPasswordResetSuccessful(true);
             } else {
@@ -118,18 +116,11 @@ const ResetPasswordModal: FunctionComponent = () => {
                   </OverlayTrigger>
                 </div>
               </div>
-              <button
-                role="link"
-                className="button signup"
-              >
+              <button role="link"className="button signup">
                 Reset password
               </button>
               <div>
-                <div
-                  
-                  className="text redirect center"
-                >
-                </div>
+                <div className="text redirect center"></div>
               </div>
             </form>
           </div>} />
@@ -140,7 +131,7 @@ const ResetPasswordModal: FunctionComponent = () => {
             </div>
             <button className="button" onClick={() => setRedirect("/login")}>
               Log in
-        </button>
+            </button>
           </span>
         } />
         <LogoModal show={passwordResetAttempted && !passwordResetSuccessful} title={"Password Reset Error"} subtitle={''} handleClose={() => setRedirect("/")} body={
