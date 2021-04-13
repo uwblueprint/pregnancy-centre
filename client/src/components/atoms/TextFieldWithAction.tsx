@@ -44,7 +44,7 @@ const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props:
                     }}>
                     <div className={"action" + (props.isErroneous ? " error" : "")}>
                         <div className="action-string">{props.actionString}</div>
-                        <div className="action-value"><span className="action-value-text">{value}</span></div>
+                        <div className="action-value"><span className="action-value-text">{value.substring(0,40)}</span></div>
                     </div>
                 </a>
             </div>
