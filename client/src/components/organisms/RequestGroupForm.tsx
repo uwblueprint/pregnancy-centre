@@ -204,7 +204,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const tempImageError = getImageError(image);
     const tempRequestTypesError = getRequestTypeNamesError(requestTypeNames);
 
-    if (tempNameError === "" && tempDescriptionError === "" && tempImageError === "" && tempRequestTypesError === "") {
+    if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
       // do mutation
 
       props.handleClose()
