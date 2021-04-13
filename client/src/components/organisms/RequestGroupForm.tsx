@@ -15,7 +15,6 @@ import { RootState } from '../../data/reducers'
 import { TagInput } from '../atoms/TagInput'
 import { TextField } from '../atoms/TextField'
 import { upsertRequestGroup } from '../../data/actions'
-// import Tooltip from '../atoms/Tooltip'
 
 interface StateProps {
   requestGroups: Array<RequestGroup>
@@ -75,7 +74,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   }`
 
   if (props.requestGroupId) {
-    const { loading, error } = useQuery(requestGroupQuery, {
+    useQuery(requestGroupQuery, {
       variables: { id: props.requestGroupId, },
       onCompleted: (data: { requestGroup: RequestGroup }) => {
         const res: RequestGroup = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
@@ -256,6 +255,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 formItemName="Group Name"
                 errorString={nameError}
                 isDisabled={false}
+                tooltipText="Groups describe the overall category of an item, such as stroller, crib, or bed."
                 inputComponent={<TextField
                   name="name"
                   placeholder="Enter a group name"
@@ -274,6 +274,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 instructions="If no types are applicable,  create a universal type such as “One Size”"
                 errorString={requestTypesError}
                 isDisabled={false}
+                tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
                 inputComponent={
                   <TagInput
                     tagStrings={requestTypeNames}
