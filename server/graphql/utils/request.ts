@@ -1,7 +1,7 @@
 import { ClientSession, Document, Types } from 'mongoose'
-import { RequestInterface } from '../../models/requestModel'
 import { UserInputError } from 'apollo-server-errors'
 
+import { RequestInterface } from '../../models/requestModel'
 import { updateRequestTypeHelper } from './requestType'
 
 import mongoose from 'mongoose'
@@ -20,6 +20,20 @@ const filterDeletedRequests = (requests: Array<RequestInterface> ) => {
 
 const getRequestsById = (requestIds, dataSources) => {
   return requestIds.map(id => dataSources.requests.getById(id))
+}
+
+const createRequestHelper = async (request, dataSources, session): Promise<Document> => {
+  if(request.id) {
+    throw new UserInputError('Invalid parameter', { argumentName: 'id'})
+  }
+  if(!request.requestType) {
+    throw new UserInputError('Missing argument value', { argumentName: 'requestType'})
+  }
+  const newRequest = await dataSources.requests.create(request, session)
+  const requestType = dataSources.requestTypes.getById(request.requestType.toString())
+  requestType.requests.push(newRequest._id)
+  await dataSources.requestTypes.update(requestType, session)
+  return newRequest
 }
 
 const updateRequestHelper = async (request, dataSources, session): Promise<Document> => {
@@ -65,4 +79,4 @@ const softDeleteRequestHelper = async (id, dataSources) => {
   }
 }
 
-export { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper }
+export { createRequestHelper, filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper }

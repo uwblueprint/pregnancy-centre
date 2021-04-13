@@ -61,6 +61,8 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
     useQuery(query, {
         onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
             // sort fetched request groups alphabetically and filter out deleted request groups
+            console.log("got request groups!");
+            console.log(data.requestGroups);
             const displayRequestGroups = sortRequestGroupsAlphabetically(data.requestGroups.map(requestGroup => ({ ...requestGroup }))).filter(requestGroup => !requestGroup.deleted);
             props.loadRequestGroups(displayRequestGroups);
             props.setDisplayRequestGroups(displayRequestGroups);

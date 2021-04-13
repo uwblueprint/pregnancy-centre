@@ -80,8 +80,8 @@ const SignInModal: FunctionComponent = () => {
                 <div>
                   <div className="row">
                     <div className="text signup">
-                      Password
-                </div>
+                      Password 
+                    </div>
                     <div className="text error">{errors.password}</div>
                   </div>
                   <div className={`row bordered ${errors.password && "error"}`}>
@@ -101,8 +101,7 @@ const SignInModal: FunctionComponent = () => {
                       className="text-field-input-btn"
                       onClick={() => {
                         setHidePassword(!hidePassword);
-                      }}
-                    >
+                      }}>
                       {hidePassword ? <EyeFilled /> : <EyeInvisibleFilled />}
                     </div>
                   </div>
@@ -111,7 +110,7 @@ const SignInModal: FunctionComponent = () => {
               <div
                 className="text redirect right"
                 onClick={() => {
-                  console.log("TODO: setRedirect('/password reset link')");
+                  setRedirect('/email-password-reset');
                 }}
               >
                 Forgot your password?

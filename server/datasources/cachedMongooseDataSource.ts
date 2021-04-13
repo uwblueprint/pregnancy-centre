@@ -1,7 +1,8 @@
 import { ClientSession, Document, Types } from 'mongoose'
-import { Cache } from '../database/cache'
 import { DataSource } from 'apollo-datasource'
 import { UserInputError } from 'apollo-server-errors';
+
+import { Cache } from '../database/cache'
 
 export default class CachedMongooseDataSource<DocumentType extends Document> extends DataSource {
   cache: Cache<DocumentType>;
@@ -23,9 +24,9 @@ export default class CachedMongooseDataSource<DocumentType extends Document> ext
     return this.cache.getData()
   }
 
-  async create(inputObject: Document): Promise<Document> {
+  async create(inputObject: Document, session: ClientSession): Promise<Document> {
     const newObject = new this.cache.model(inputObject)
-    const promise = await newObject.save()
+    const promise = await newObject.save({ session })
     return promise
   }
 

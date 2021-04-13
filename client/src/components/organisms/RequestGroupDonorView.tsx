@@ -7,6 +7,7 @@ import { Row, Spinner } from 'react-bootstrap';
 import InfoBox from '../molecules/InfoBox';
 import RequestGroup from '../../data/types/requestGroup';
 import RequestTypeList from '../molecules/RequestTypeList';
+import RichTextDisplay from "../atoms/RichTextDisplay";
 
 // TODO: rich text for descriptions (BLOCKER: how admin's will set descriptions)
 // TODO: get email from TPC and put here
@@ -96,10 +97,9 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                         }}
                     />
                     <div id="description">
-                        <InfoBox 
-                            title="ITEM DESCRIPTION" 
-                            text={requestGroupData.description ? requestGroupData.description : ''}
-                        />
+                        <InfoBox title="ITEM DESCRIPTION">
+                            {requestGroupData.description && <RichTextDisplay content={requestGroupData.description}/>}
+                        </InfoBox>
                     </div>
                 </div>
             </div>}
