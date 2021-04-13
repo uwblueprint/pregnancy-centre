@@ -35,9 +35,12 @@ $request-group-form-input-width: 373px;
     }
 
     .tag-input-form-item {
-      input {
+      .tag-input {
         width: $request-group-form-input-width;
-        height: 45px;
+        & input {
+          height: 45px;
+        }
+        
       }
       .form-item-top {
         width: $request-group-form-input-width;
@@ -46,7 +49,46 @@ $request-group-form-input-width: 373px;
         width: $request-group-form-input-width;
       }
       .form-item-error-icon {
-        margin-top: 8px;
+        margin-top: 5px;
+      }
+    }
+
+    .imagepicker-form-item {
+      .imagepicker-preview {
+        width: 348px;
+        height: 248px;
+        margin-left: 7px;
+      }
+
+      .form-item-top {
+        width: 348px;
+        margin-left: 7px;
+      }
+
+      .form-item-error-icon {
+        margin-right: -40px;
+      } 
+    }
+
+    .richtext-field-form-item {
+      & .richtext-field {
+        width: 484px;
+        height: 252px;
+      }
+
+      .form-item-top {
+        width: 484px;
+      }
+    }
+
+    &-footer {
+      & .button {
+        float: right;
+        background-color: $tpc-green;
+        &:hover {
+          background-color: $tpc-green-hover;
+          color: $white-text-color;
+        }
       }
     }
   }
