@@ -110,7 +110,7 @@ const SignInModal: FunctionComponent = () => {
               <div
                 className="text redirect right"
                 onClick={() => {
-                  console.log("TODO: setRedirect('/password reset link')");
+                  setRedirect('/email-password-reset');
                 }}
               >
                 Forgot your password?

@@ -29,7 +29,7 @@ const ConfirmationModal: FunctionComponent<Props> = (props: Props) => {
           {props.email}
         </div>
         <div className="text">
-          You’ll have X time to open the confirmation link in the email to confirm that you own the email address.
+          You’ll have 3 days to open the confirmation link in the email to confirm that you own the email address.
         </div>
         <div className="text">
           You’ll then be able to login as an employee.
