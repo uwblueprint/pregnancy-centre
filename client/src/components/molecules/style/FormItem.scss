@@ -1,6 +1,4 @@
 .form-item {
-    // width: 350px;
-
     &-disabled {
         color: $disabled-text;
     }
@@ -8,7 +6,6 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        // width: 300px;
     }
     &-instructions {
         color: $disabled-text;
@@ -19,8 +16,9 @@
     }
     &-bottom {
         text-align: left;
-        position: relative;
         margin-top: 11px;
+        display: flex;
+        flex-direction: row;
     }
     &-error-text {
         color: $input-error;
@@ -33,7 +31,5 @@
         margin-left: 10px;
         color: $input-error;
         font-size: 22px;
-        position: absolute;
-        margin-top: 5px;
     }
 }
