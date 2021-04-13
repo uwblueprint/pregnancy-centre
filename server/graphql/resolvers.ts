@@ -8,9 +8,9 @@ import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
 
 /* Helper functions */
-import { filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper } from './utils/request'
+import { createRequestHelper, filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper } from './utils/request'
+import { createRequestTypeHelper, nextRequestRequestTypeHelper, softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
 import { nextRequestRequestGroupHelper, softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
-import { nextRequestRequestTypeHelper, softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
 import { sessionHandler } from '../database/session'
 
 const resolvers = {
@@ -65,7 +65,7 @@ const resolvers = {
         })
     },
     createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => {
-      return dataSources.requestTypes.create(requestType)
+      return sessionHandler(session => createRequestTypeHelper(requestType, dataSources, session))
         .then(res => {
           return {
             'success': true,
@@ -95,7 +95,7 @@ const resolvers = {
         })
     },
     createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
-      return dataSources.requests.create(request)
+      return sessionHandler((session) => createRequestHelper(request, dataSources, session))
         .then(res => {
           return {
             'success': true,
@@ -134,7 +134,7 @@ const resolvers = {
         return filterOpenRequests(getRequestsById(dataSources.requestTypes.getById(Types.ObjectId(id)).requests, dataSources)).length
       }).reduce((total, num) => total + num, 0),
     hasAnyRequests: (parent, __, { dataSources }): Boolean => 
-      parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((notEmpty, len) => notEmpty || len > 0),
+      parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((notEmpty, len) => notEmpty || len > 0, false),
     nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
       const nextRequest = nextRequestRequestGroupHelper(parent.requestTypes, dataSources)
       return nextRequest ? dataSources.clients.getById(nextRequest.client) : null

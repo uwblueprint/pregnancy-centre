@@ -16,8 +16,10 @@ $selected-item-background: #f7f7f7;
 $font-stack: "Inter", sans-serif;
 $faded-text-color: #afafaf;
 $alt-faded-text-color: #a3a3a3;
+$grey-text-color: #333333;
 $faded-modal-text-color: #7d7d7d;
 $normal-text-color: black;
+$error-text-color: #e7b0b5;
 $white-text-color: white;
 $section-header-text-color: #bbbbbb;
 $tooltip-background-color: #efefef;
@@ -25,6 +27,9 @@ $tooltip-text-color: #737b7d;
 $tooltip-trigger-color: #adadad;
 $alert-light-color: #f8d7da;
 $alert-dark-color: #721c24;
+$error-color: #dc3545;
+$dark-border-color: #797979;
+$window-border-color: #d7d7d7;
 
 @mixin text() {
   font-family: $font-stack;
@@ -37,6 +42,11 @@ $alert-dark-color: #721c24;
   color: $normal-text-color;
 }
 
+@mixin error-text() {
+  @include text;
+  color: $error-text-color;
+}
+  
 @mixin small-text(){
   @include text;
   font-size: 14px;
@@ -163,7 +173,7 @@ $tag-background: #ededed;
   margin-top: 20px;
 
   .a {
-    color: #333333;
+    color: $grey-text-color;
   }
 
   & td {
@@ -190,8 +200,8 @@ $input-icon-color: #adadad;
 $tpc-green: #004d57;
 $input-border: #e9e9e9;
 $disabled-text: #adadad;
+$input-error: $error-color;
 $faint-input-error: #e7b0b5;
-$input-error: #dc3545;
 $tpc-green-hover: #00363e;
 
 @mixin input-icon() {
@@ -204,4 +214,4 @@ $textfield-input-border: #797979;
 
 /* ScrollWindow Config */
 $scroll-bar-color: #c4c4c4;
-$scroll-window-border: 1px solid #d7d7d7;
+$scroll-window-border: 1px solid $window-border-color;

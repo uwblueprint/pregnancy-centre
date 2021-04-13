@@ -14,7 +14,7 @@ type RequestTypeDocument = RequestTypeInterface & Document
 
 const RequestTypeSchema = new Schema({
   requestGroup: {
-    type:  { type: Types.ObjectId, ref: 'RequestGroup' }
+    type: Types.ObjectId, ref: 'RequestGroup'
   },
   name: {
     type: String,
