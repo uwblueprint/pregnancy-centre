@@ -1,4 +1,6 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import ScrollWindow from "../atoms/ScrollWindow";
+import { TextField } from "../atoms/TextField";
 
 interface Props {
   defaultValue: number,
@@ -9,18 +11,48 @@ interface Props {
 
 const InfiniteDropdown: FunctionComponent<Props> = (props: Props) => {
   const [selectedNumber, setSelectedNumber] = useState(-1);
+  const [dropdownExpanded, setDropdownExpanded] = useState(false);
+  const [noItems, setNoItems] = useState(false);
+  const nums : Array<number> = [];
+
+  useEffect(() => {
+    for (let i = 0; i < 1000; i++) {
+      nums.push(i);
+    }
+  }, [nums]);
 
   const onSelectChange = (num: number) => {
     setSelectedNumber(num);
+    setDropdownExpanded(false);
     props.onChange(num);
   }
 
-  return <span>
-    <form>
-      <input className="search-bar" type="text" placeholder={props.defaultText} value={searchString} onChange={onSearchStringChange} />
-      <i className="bi-search search-bar-icon"></i>
-    </form>
-  </span>
+  const onChangeDummy = (event: React.ChangeEvent<HTMLInputElement>) => {
+  }
+
+  return <div className="searchable-dropdown">
+      <div className="textfield" onClick={() => {setDropdownExpanded(!dropdownExpanded)}}>
+        <TextField
+          input={selectedNumber + ""}
+          isDisabled={true}
+          isDisabledUI={dropdownExpanded}
+          isErroneous={props.isErroneous}
+          onChange={onChangeDummy}
+          name="SearchableDropdown"
+          placeholder={props.defaultValue + ""}
+          type="text"
+          iconClassName="bi bi-caret-down-fill"
+          showRedErrorText={true}
+        ></TextField>
+        {dropdownExpanded &&
+            <ScrollWindow>
+                {nums.map(item =>
+                  <div className="dropdown-item" key={item} onClick={() => onSelectChange(item)}>{item}</div>
+                )}
+            </ScrollWindow>
+        }
+      </div>
+  </div>
 };
 
 export default InfiniteDropdown;
