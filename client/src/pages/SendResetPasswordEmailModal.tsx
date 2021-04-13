@@ -42,7 +42,7 @@ const SendResetPasswordEmailModal: FunctionComponent = () => {
         body={
           <div className="send-reset-password-email-modal">
             <p className="send-reset-password-email-modal-instructions">
-              If your email is registered we’ll  send a password reset link to the email address below where you can set a new password.
+              If your email is registered we’ll send a password reset link to the email address below where you can set a new password.
               </p>
             <form onSubmit={handleSubmit}>
               <div>
@@ -81,7 +81,7 @@ const SendResetPasswordEmailModal: FunctionComponent = () => {
           </div >
           <button className="button" onClick={handleClose}>
             I understand
-        </button>
+          </button>
         </span >
       } />
     </>

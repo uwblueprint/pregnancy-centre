@@ -106,7 +106,6 @@ export const sendPasswordResetEmail = async (email: string): Promise<string> => 
     .catch((err) => {
       const code: keyof AuthErrorMessageInterface = err.code;
       return AuthErrorMessage[code];
-
     });
 
   return error;
