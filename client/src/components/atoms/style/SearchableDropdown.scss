@@ -11,7 +11,9 @@
 
   .tag {
     padding: 6.65px 12.5px;
-    background-color: $dropdown-tag-background;
+    &:hover {
+      background-color: $tag-background-hover;
+    }
   }
 
   .textfield {
@@ -47,6 +49,10 @@
     &.dropdown-tag {
       height: 45px;
       padding-top: 6px;
+
+      &:hover {
+        background-color: $tag-background;
+      }
     }
   }
 
