@@ -13,7 +13,6 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
   const { selected, images, onImageChange, isErroneous } = props;
   return (
     <div className="imagepicker">
-      {isErroneous && <i className="bi bi-exclamation-circle alert-icon"></i>}
       <div className={`imagepicker-preview`}>
         {selected.length ? (
           <img src={selected} />
