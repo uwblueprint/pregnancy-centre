@@ -8,13 +8,8 @@ import LogoModal from "../components/organisms/LogoModal";
 import { TextField } from "../components/atoms/TextField";
 
 const ResetPasswordModal: FunctionComponent = () => {
-  const [password, setPassword] = useState(""); // can we put these all in an array somehow?????
+  const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
-  // const [hasOneLowerCase, setHasOneLowerCase] = useState(false);
-  // const [hasOneUpperCase, setHasOneUpperCase] = useState(false);
-  // const [hasOneNumber, setHasOneNumber] = useState(false);
-  // const [hasOneSymbol, setHasOneSymbol] = useState(false);
-  // const [hasTwelveCharacterMin, setHasTwelveCharacterMin] = useState(false);
   const handleClose = () => setRedirect("/");
   const [requirements, setRequirements] = useState(allRequirementMessagesInOrder);
   const [redirect, setRedirect] = useState("");
@@ -41,14 +36,6 @@ const ResetPasswordModal: FunctionComponent = () => {
 
     }
   };
-
-  // const requirementToStateSetterMap = new Map([
-  //   ['lowerCase', setHasOneLowerCase],
-  //   ['upperCase', setHasOneUpperCase],
-  //   ['number', setHasOneNumber],
-  //   ['symbol', setHasOneSymbol],
-  //   ['twelveCharacters', setHasTwelveCharacterMin],
-  // ]);
 
   const onChangePass = (e: React.ChangeEvent<HTMLInputElement>) => {
     const password = e.target.value;
