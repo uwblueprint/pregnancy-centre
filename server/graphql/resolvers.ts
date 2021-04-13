@@ -134,7 +134,7 @@ const resolvers = {
         return filterOpenRequests(getRequestsById(dataSources.requestTypes.getById(Types.ObjectId(id)).requests, dataSources)).length
       }).reduce((total, num) => total + num, 0),
     hasAnyRequests: (parent, __, { dataSources }): Boolean => 
-      parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((notEmpty, len) => notEmpty || len > 0),
+      parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((notEmpty, len) => notEmpty || len > 0, false),
     nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
       const nextRequest = nextRequestRequestGroupHelper(parent.requestTypes, dataSources)
       return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
