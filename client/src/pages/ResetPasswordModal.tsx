@@ -87,12 +87,11 @@ const ResetPasswordModal: FunctionComponent = () => {
         <LogoModal title={modalTitle} subtitle={subtitle} show={!passwordResetAttempted} handleClose={handleClose} body={
           <div className="reset-password-modal">
             <form onSubmit={handleClick}>
-
               <div>
                 <div className="row">
                   <div className="text signup">
                     Password
-              </div>
+                  </div>
                   <div className="text error">{errors.password}</div>
                 </div>
                 <div className="pass-req">
@@ -119,9 +118,6 @@ const ResetPasswordModal: FunctionComponent = () => {
               <button role="link"className="button signup">
                 Reset password
               </button>
-              <div>
-                <div className="text redirect center"></div>
-              </div>
             </form>
           </div>} />
         <LogoModal show={passwordResetAttempted && passwordResetSuccessful} title={"Password Reset Successful"} subtitle={''} handleClose={() => setRedirect("/")} body={
