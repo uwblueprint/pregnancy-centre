@@ -42,7 +42,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const [image, setImage] = useState("")
   const [requestTypesToIdMap, setRequestTypesToIdMap] = useState(new Map<string, string>())
   const [requestTypeNames, setRequestTypeNames] = useState<Array<string>>([])
-  // const [inputRequestTypeName, setInputRequestTypeName] = useState("")
   const [nameError, setNameError] = useState("")
   const [descriptionError, setDescriptionError] = useState("")
   const [imageError, setImageError] = useState("")
