@@ -36,7 +36,7 @@ const RequestGroupFormContainer: FunctionComponent<Props> = (props: Props) => {
     },
   });
 
-  return (<>{show && <RequestGroupForm handleClose={() => setShow(false)} operation="edit" />}</>)
+  return (<>{show && <RequestGroupForm handleClose={() => setShow(false)} operation="create" />}</>)
 
 };
 

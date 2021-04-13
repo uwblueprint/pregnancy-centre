@@ -1,7 +1,10 @@
 import { bindActionCreators, Dispatch } from "redux";
 import { gql, useQuery } from "@apollo/client";
+import { bindActionCreators, Dispatch } from "redux"
+import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { Spinner } from 'react-bootstrap';
 
 import AlertDialog from "../atoms/AlertDialog";
 import { Button } from "../atoms/Button";
@@ -48,6 +51,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const [descriptionError, setDescriptionError] = useState("");
   const [imageError, setImageError] = useState("");
   const [requestTypesError, setRequestTypesError] = useState("");
+  const [loadingRequestGroup, setLoadingRequestGroup] = useState(props.operation === "edit")
 
   useEffect(() => {
     async function getImages() {
@@ -56,10 +60,59 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     getImages();
   }, []);
 
+  const createRequestGroupMutation = gql`
+  mutation CreateRequestGroup(
+    $name: String!
+    $description: String!
+    $image: String!
+    $requestTypeNames: [String!]!
+  ) {
+    createRequestGroup(requestGroup: {
+      name: $name
+      description: $description
+      image: $image
+      requestTypeNames: $requestTypeNames
+    }) {
+      success
+      message
+      id
+    }
+  }`
+
+  const updateRequestGroupMutation = gql`
+  mutation UpdateRequestGroup(
+    $id: ID!, 
+    $name: String!, 
+    $description: String!,
+    $image: String!
+    $requestTypeNames: [String!]!
+  ) {
+    updateRequestGroup(requestGroup: {
+      id: $id
+      name: $name
+      description: $description
+      image: $image
+      requestTypeNames: $requestTypeNames
+    }) {
+      success
+      message
+      id
+    }
+  }`
+
+  const [createRequestGroup] = useMutation(createRequestGroupMutation);
+  const [updateRequestGroup] = useMutation(updateRequestGroupMutation);
+
+
   const requestGroupQuery = gql`
-    query FetchRequestGroup($id: ID!) {
-      requestGroup(id: $id) {
-        id
+  query FetchRequestGroup($id: ID!) {
+    requestGroup(id: $id) {
+      _id
+      name
+      description
+      image
+      requestTypes {
+        _id
         name
         description
         image
@@ -72,26 +125,35 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     }
   `;
 
-  if (props.requestGroupId) {
-    useQuery(requestGroupQuery, {
-      variables: { id: props.requestGroupId },
+  if (props.operation === "edit") {
+    const { loading } = useQuery(requestGroupQuery, {
+      variables: { id: props.requestGroupId, },
+      fetchPolicy: 'network-only',
       onCompleted: (data: { requestGroup: RequestGroup }) => {
-        const res: RequestGroup = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
-
-        setInitialRequestGroup(res);
-        setName(res.name ? res.name : "");
-        setDescription(res.description ? res.description : "");
-        setImage(res.image ? res.image : "");
+        const retrievedRequestGroup: RequestGroup = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
+        
+        setInitialRequestGroup(retrievedRequestGroup)
+        setName(retrievedRequestGroup.name ? retrievedRequestGroup.name : "")
+        setDescription(retrievedRequestGroup.description ? retrievedRequestGroup.description : "")
+        setImage(retrievedRequestGroup.image ? retrievedRequestGroup.image : "")
 
         setRequestTypeNames(
-          res.requestTypes
-            ? res.requestTypes
-                .filter((requestType) => requestType.name)
-                .map((requestType) => requestType.name as string)
+          retrievedRequestGroup.requestTypes ?
+            retrievedRequestGroup.requestTypes
+              .filter((requestType) => requestType.name && !requestType.deleted)
+              .map((requestType) => requestType.name as string)
             : []
-        );
-      },
+        )
+      }
+
+
     });
+
+    useEffect(() => {
+      if (!loading) {
+        setLoadingRequestGroup(false)
+      }
+    }, [loading])
   }
 
   /* Functions for RequestGroup's Name*/
@@ -228,23 +290,23 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const tempImageError = updateImageError(image);
     const tempRequestTypesError = updateRequestTypeNamesError(requestTypeNames);
 
-    if (
-      !tempNameError &&
-      !tempDescriptionError &&
-      !tempImageError &&
-      !tempRequestTypesError
-    ) {
-      // do mutation
-      props.handleClose();
+    if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
+      if (props.operation === "create") {
+
+        createRequestGroup({ variables: { name, description, image, requestTypeNames } })
+          .catch((err) => { console.log(err) })
+      }
+      else {
+
+        updateRequestGroup({ variables: { id: props.requestGroupId, name, description, image, requestTypeNames } })
+          .catch((err) => { console.log(err) })
+      }
+
+      props.handleClose()
     }
   };
 
   const handleClose = () => {
-    // id: ID
-    // name: String
-    // description: String
-    // image: String
-    // requestTypes: [ID]
     if (changeMade) {
       setShowAlertDialog(true);
     } else {
@@ -252,34 +314,29 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     }
   };
 
-  const formTitle =
-    props.operation === "create"
-      ? "Create Request Group"
-      : "Edit Request Group";
-  const formButtonText =
-    props.operation === "create"
-      ? "Create request group"
-      : "Edit request group";
+  const formTitle = props.operation === "create" ? "Create Request Group" : "Edit Request Group";
+  const formButtonText = props.operation === "create" ? "Create request group" : "Edit request group";
 
-  return (
-    <div className="request-group-form">
-      <FormModal
-        class="request-group-form-modal"
-        show={true}
-        handleClose={handleClose}
-        title={formTitle}
-        size="large"
-      >
-        {showAlertDialog && (
-          <AlertDialog
-            dialogText="You have unsaved changes to this group."
-            onExit={props.handleClose}
-            onStay={() => {
-              setShowAlertDialog(false);
-            }}
-          />
-        )}
-        <form onSubmit={onSubmit}>
+  return <div className="request-group-form">
+    <FormModal
+      class="request-group-form-modal"
+      show={true}
+      handleClose={handleClose}
+      title={formTitle}
+      size="large">
+      {showAlertDialog &&
+        <AlertDialog
+          dialogText="You have unsaved changes to this group."
+          onExit={props.handleClose}
+          onStay={() => { setShowAlertDialog(false) }} />
+      }
+      {loadingRequestGroup
+        ? <div className="request-group-form-modal-loading-content">
+          <div className="spinner">
+            <Spinner animation="border" role="status" />
+          </div>
+        </div>
+        : <form onSubmit={onSubmit}>
           <div className="request-group-form-modal-content">
             <div className="request-group-form-modal-panel" id="left">
               <div className="text-field-form-item">
@@ -329,11 +386,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                   isDisabled={false}
                   inputComponent={
                     <RichTextField
-                      initialContent={
-                        initialRequestGroup && initialRequestGroup.description
-                          ? initialRequestGroup.description
-                          : ""
-                      }
+                      initialContent={initialRequestGroup && initialRequestGroup.description ? initialRequestGroup.description : ""}
                       defaultText="Enter group description here"
                       onChange={onDescriptionChange}
                       onEmpty={onDecriptionEmpty}
@@ -362,12 +415,14 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             </div>
           </div>
           <div className="request-group-form-modal-footer">
-            <Button text={formButtonText} copyText="" />
+            <Button
+              text={formButtonText}
+              copyText=""
+            />
           </div>
-        </form>
-      </FormModal>
-    </div>
-  );
+        </form>}
+    </FormModal>
+  </div >
 };
 
 const mapStateToProps = (store: RootState): StateProps => {
