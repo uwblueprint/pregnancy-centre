@@ -120,6 +120,8 @@ export const signIn = async (
   email: string,
   password: string
 ): Promise<{ email: string; password: string }> => {
+  console.log(email)
+  console.log(password)
   let errors = { email: "", password: "" };
   if (!email.length || !password.length) {
     errors = {
@@ -185,7 +187,8 @@ async function postToken() {
   );
 }
 
-export const validatePasswordAndUpdateRequirementSetters = (password: string, requirementToSetterMap: Map<string, (state: boolean) => void>): Array<string> => {
+
+export const validatePasswordAndUpdateRequirementSetters = (password: string, requirementToSetterMap?: Map<string, (state: boolean) => void>): Array<string> => {
   const missingRequirements: Array<string> = [];
 
   requirementToTestMap.forEach(({ req, test }) => {
@@ -194,7 +197,9 @@ export const validatePasswordAndUpdateRequirementSetters = (password: string, re
       const reqMsg = requirementToMessageMap.get(req);
       if (reqMsg) { missingRequirements.push(reqMsg) }
     }
-    requirementToSetterMap.get(req)!(result)
+    if (requirementToSetterMap) {
+      requirementToSetterMap.get(req)!(result)
+    }
   });
 
   return missingRequirements
