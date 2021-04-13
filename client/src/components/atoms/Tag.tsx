@@ -1,14 +1,13 @@
 import React, { FunctionComponent } from "react";
 
-interface TagProps {
+interface Props {
   text: string,
 }
 
-const Tag: FunctionComponent<TagProps> = (props: TagProps) => {
+const Tag: FunctionComponent<Props> = (props: Props) => {
   return <span className="tag">
     {props.text}
   </span>
 };
 
-export { Tag };
-export type { TagProps };
+export default Tag;

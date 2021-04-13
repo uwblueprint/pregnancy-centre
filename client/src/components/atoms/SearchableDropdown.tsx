@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 
 import ScrollWindow from "../atoms/ScrollWindow";
-import { Tag, TagProps } from "../atoms/Tag";
+import { Tag } from "../atoms/Tag";
 import { TextField } from "../atoms/TextField";
 import { useComponentVisible } from "../utils/hooks";
 
@@ -115,7 +115,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
             <div className="dropdown-header">{props.placeholderText}</div>
             {props.dropdownItems.filter(item => item.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item => {
               if (props.isTagDropdown) {
-                return <div className="dropdown-item dropdown-tag" key={item} onClick={() => onSelectedItemChange(item)}><Tag text={item}/></div>;
+                return <div className="dropdown-item dropdown-tag" key={item} onClick={() => onSelectedItemChange(item)}><Tag text={item} /></div>;
               } else {
                 return <div className="dropdown-item" key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>;
               }
