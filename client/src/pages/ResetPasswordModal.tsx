@@ -115,7 +115,7 @@ const ResetPasswordModal: FunctionComponent = () => {
                   </OverlayTrigger>
                 </div>
               </div>
-              <button role="link"className="button signup">
+              <button role="link"className="button reset-pass">
                 Reset password
               </button>
             </form>
