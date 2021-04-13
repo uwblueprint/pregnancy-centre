@@ -120,8 +120,6 @@ export const signIn = async (
   email: string,
   password: string
 ): Promise<{ email: string; password: string }> => {
-  console.log(email)
-  console.log(password)
   let errors = { email: "", password: "" };
   if (!email.length || !password.length) {
     errors = {

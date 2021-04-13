@@ -20,7 +20,6 @@ const SignInModal: FunctionComponent = () => {
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signIn(email, password).then((res) => {
-      console.log(res)
       setErrors(res)
       if (!res.email.length && !res.password.length) {
         setRedirect("/admin")
