@@ -90,6 +90,20 @@ export const createNewAccount = async (
   return errors;
 };
 
+
+export const handlePasswordReset = async (
+  actionCode: string,
+  newPassword: string
+): Promise<boolean> => {
+  const error = await firebase
+    .auth()
+    .confirmPasswordReset(actionCode, newPassword)
+    .then(() => true)
+    .catch(() => false)
+ 
+  return error;
+}
+
 export const sendPasswordResetEmail = async (email: string): Promise<string> => {
   if (email.length === 0) {
     return AuthErrorMessage["empty-email"]; 
@@ -195,7 +209,8 @@ async function postToken() {
   );
 }
 
-export const validatePasswordAndUpdateRequirementSetters = (password: string, requirementToSetterMap: Map<string, (state: boolean) => void>): Array<string> => {
+
+export const validatePasswordAndUpdateRequirementSetters = (password: string, requirementToSetterMap?: Map<string, (state: boolean) => void>): Array<string> => {
   const missingRequirements: Array<string> = [];
 
   requirementToTestMap.forEach(({ req, test }) => {
@@ -204,7 +219,9 @@ export const validatePasswordAndUpdateRequirementSetters = (password: string, re
       const reqMsg = requirementToMessageMap.get(req);
       if (reqMsg) { missingRequirements.push(reqMsg) }
     }
-    requirementToSetterMap.get(req)!(result)
+    if (requirementToSetterMap) {
+      requirementToSetterMap.get(req)!(result)
+    }
   });
 
   return missingRequirements
