@@ -10,7 +10,7 @@ import { ServerResponseInterface } from './serverResponse'
 /* Helper functions */
 import { createRequestHelper, filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper } from './utils/request'
 import { createRequestTypeHelper, nextRequestRequestTypeHelper, softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
-import { nextRequestRequestGroupHelper, softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
+import { createRequestGroupHelper, nextRequestRequestGroupHelper, softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
 import { sessionHandler } from '../database/session'
 
 const resolvers = {
@@ -35,7 +35,7 @@ const resolvers = {
   },
   Mutation: {
     createRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => {
-      return dataSources.requestGroups.create(requestGroup)
+      return sessionHandler(session => createRequestGroupHelper(requestGroup, dataSources, session))
         .then(res => {
           return {
             'success': true,

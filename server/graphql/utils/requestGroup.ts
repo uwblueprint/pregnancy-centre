@@ -1,7 +1,8 @@
 import mongoose, { Document } from 'mongoose'
 
-import { nextRequestRequestTypeHelper, softDeleteRequestTypeHelper } from './requestType'
+import { createRequestTypeHelper, nextRequestRequestTypeHelper, softDeleteRequestTypeHelper } from './requestType'
 import { RequestInterface } from '../../models/requestModel'
+import { RequestTypeDocument } from '../../models/requestTypeModel'
 
 const nextRequestRequestGroupHelper = (requestTypeIds, dataSources): RequestInterface => {
   const requests = requestTypeIds.map((id) => {
@@ -23,6 +24,24 @@ const nextRequestRequestGroupHelper = (requestTypeIds, dataSources): RequestInte
   return requests.length == 0 ? null : requests[0]
 }
 
+
+const createRequestGroupHelper = async (requestGroup, dataSources, session): Promise<Document> => {
+  const newRequestGroup = await dataSources.requestGroups.create(requestGroup, session)
+
+  newRequestGroup.id = newRequestGroup._id
+  if (requestGroup.requestTypeNames) {
+    const requestTypePromises: Array<Promise<RequestTypeDocument>> = requestGroup.requestTypeNames.map((requestTypeName) => {
+      return dataSources.requestTypes.create({ name: requestTypeName, requestGroup: newRequestGroup.id }, session)
+    })
+
+    await Promise.all(requestTypePromises).then((requestTypes: Array<RequestTypeDocument>) => {
+      newRequestGroup.requestTypes = requestTypes.map((requestType) => requestType._id)
+      return dataSources.requestGroups.update(newRequestGroup, session)
+    })
+  }
+
+  return newRequestGroup
+}
 
 const updateRequestGroupHelper = async (requestGroup, dataSources, session): Promise<Document> => {
   const res = await dataSources.requestGroups.update(requestGroup, session)
@@ -51,4 +70,4 @@ const softDeleteRequestGroupHelper = async (id, dataSources) => {
   }
 }
 
-export { nextRequestRequestGroupHelper, softDeleteRequestGroupHelper, updateRequestGroupHelper }
+export { createRequestGroupHelper, nextRequestRequestGroupHelper, softDeleteRequestGroupHelper, updateRequestGroupHelper }
