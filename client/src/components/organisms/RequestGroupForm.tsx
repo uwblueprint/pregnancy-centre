@@ -1,5 +1,4 @@
 import { bindActionCreators, Dispatch } from "redux"
-import { convertFromRaw, EditorState } from 'draft-js';
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
