@@ -8,7 +8,8 @@ interface TextFieldProps {
   name: string,
   placeholder: string,
   type: "text" | "password",
-  iconClassName?: string
+  iconClassName?: string,
+  onIconClick?: React.MouseEventHandler<HTMLElement>
 }
 
 const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => {
@@ -25,10 +26,12 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
       onChange={props.onChange}
       disabled={props.isDisabled}
     />
-    {props.iconClassName && <i className={props.iconClassName
-      + (props.isErroneous ? " error" : "")
-      + (props.isDisabled ? " disabled" : "")
-    }/>}
+    {props.iconClassName && <i
+      onClick={props.onIconClick ? props.onIconClick : () => {}}
+      className={props.iconClassName
+        + (props.isErroneous ? " error" : "")
+        + (props.isDisabled ? " disabled" : "")
+      } />}
   </div>
 };
 

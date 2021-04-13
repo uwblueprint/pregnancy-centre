@@ -1,0 +1,31 @@
+.form-item {
+    width: 350px;
+
+    &-disabled {
+        color: $disabled-text;
+    }
+    &-top {
+        margin-bottom: 11px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 300px;
+    }
+    &-bottom {
+        text-align: left;
+        position: relative;
+    }
+    &-error-text {
+        color: $input-error;
+        font-size: 12px;
+        vertical-align: bottom;
+        padding-top: 5px;
+    }
+    &-error-icon {
+        margin-left: 10px;
+        color: $input-error;
+        font-size: 22px;
+        position: absolute;
+        margin-top: 5px;
+    }
+}
