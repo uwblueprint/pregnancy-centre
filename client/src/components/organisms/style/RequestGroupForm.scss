@@ -40,7 +40,6 @@ $request-group-form-input-width: 373px;
         & input {
           height: 45px;
         }
-        
       }
       .form-item-top {
         width: $request-group-form-input-width;
@@ -65,7 +64,7 @@ $request-group-form-input-width: 373px;
 
       .form-item-error-icon {
         margin-right: -40px;
-      } 
+      }
     }
 
     .richtext-field-form-item {
@@ -88,6 +87,11 @@ $request-group-form-input-width: 373px;
           color: $white-text-color;
         }
       }
+    }
+
+    .alert-dialog {
+      margin-left: 18%;
+      margin-top: -100px;
     }
   }
 }
