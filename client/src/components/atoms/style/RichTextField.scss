@@ -15,7 +15,7 @@
 
 .richtext-field-controls {
     width: 100%;
-    border-bottom: 1px solid $window-border-color;
+    border-bottom: $dark-border;
 
     .error & {
         border-color: $error-color;
@@ -26,7 +26,7 @@
         height: 32px;
         background-color: transparent;
         border: none;
-        border-right: 1px solid $window-border-color;
+        border-right: $dark-border;
 
         i {
             width: 12px;
