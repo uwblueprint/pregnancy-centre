@@ -102,6 +102,42 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const [createRequestGroup] = useMutation(createRequestGroupMutation);
   const [updateRequestGroup] = useMutation(updateRequestGroupMutation);
 
+  const createRequestGroupMutation = gql`
+  mutation CreateRequestGroup($name: String!, $description: String!, $image: String!) {
+    createRequestGroup(requestGroup: {
+      name: $name,
+      description: $description,
+      image: $image
+    }) {
+      success
+      message
+      id
+    }
+  }`
+
+  const createRequestTypeMutation = gql`
+  mutation CreateRequestType($name: String!, $requestGroupId: ID!) {
+    createRequestType(requestType: {
+      name: $name,
+      requestGroup: $requestGroupId,
+    }) {
+      success
+      message
+      id
+    }
+  }`
+
+  const updateRequestGroupMutation = gql`
+  mutation FetchRequestGroup($id: ID!, $requestTypes: [ID!]!) {
+    updateRequestGroup(requestGroup: {
+      id: $id,
+      requestTypes: $requestTypes
+    }) {
+      success
+      message
+      id
+    }
+  }`
 
   const requestGroupQuery = gql`
   query FetchRequestGroup($id: ID!) {
