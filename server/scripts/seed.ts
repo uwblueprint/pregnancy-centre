@@ -19,7 +19,7 @@ dotenv.config()
 const numClients = 50
 const numGroups = 25
 const numTypesPerGroup = 5
-const maxNumRequestsPerType = 50
+const maxNumRequestsPerType = 10
 const probRequestDeleted = 0.05
 const probRequestFulfilled = 0.2 // independent from probRequestDeleted
 const startDate = new Date(2019, 0,1)
