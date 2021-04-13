@@ -78,6 +78,7 @@ $section-header-text-color: #bbbbbb;
 
 $button-background: #3e3e3e;
 $button-disabled-background: #b2b2b2;
+$admin-request-group-browser-button-color: #fbfbfb;
 
 @mixin button-base() {
   font-size: 16px;
@@ -166,3 +167,6 @@ $input-error: #dc3545;
   color: $input-icon-color;
 }
 
+/* Dropdown Config */
+$admin-request-group-browser-dropdown-color: #f4f4f4;
+$admin-request-group-browser-dropdown-shadow-color: #dbdbdb;

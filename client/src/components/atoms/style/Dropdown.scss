@@ -15,11 +15,7 @@
      font-family: 'Inter';
      .dropdown-header {
         background-color: white;
-        border-color: #ccc;
-        border-radius: 4px;
-        border-style: solid;
-        border-width: 1px;
-        box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+        border: unset;
         display: flex;
         justify-content: space-between;
         cursor: pointer;

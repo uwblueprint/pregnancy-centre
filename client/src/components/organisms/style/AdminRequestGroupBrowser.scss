@@ -3,9 +3,9 @@
 }
 
 .btn, .btn:hover, .btn:focus, .btn:active, .show > .btn-primary.dropdown-toggle {
-    background-color: #fbfbfb;
-    color: #004D57;
-    border-color: #004D57;
+    background-color: $admin-request-group-browser-button-color;
+    color: $tpc-green;
+    border-color: $tpc-green;
     height: 36px;
     width: 60px;
 }
@@ -16,9 +16,9 @@
     left: 85%;
 
     &-dropdown {
-        background-color: #f4f4f4;
+        background-color: $admin-request-group-browser-dropdown-color;
         border-radius: 4px;
-        box-shadow: 0 4px 3px #dbdbdb; 
+        box-shadow: 0 4px 3px $admin-request-group-browser-dropdown-shadow-color; 
 
         &-item {
             padding-top: 15px;
