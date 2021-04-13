@@ -40,7 +40,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [image, setImage] = useState("")
-  const [requestTypesToIdMap, setRequestTypesToIdMap] = useState(new Map<string, string>())
   const [requestTypeNames, setRequestTypeNames] = useState<Array<string>>([])
   const [nameError, setNameError] = useState("")
   const [descriptionError, setDescriptionError] = useState("")
@@ -82,12 +81,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         setName(res.name ? res.name : "")
         setDescription(res.description ? res.description : "")
         setImage(res.image ? res.image : "")
-
-        res.requestTypes?.forEach((requestType) => {
-          if (requestType.name && requestType._id) {
-            setRequestTypesToIdMap(requestTypesToIdMap.set(requestType.name, requestType._id))
-          }
-        })
 
         setRequestTypeNames(
           res.requestTypes ?
@@ -174,11 +167,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       return "Please enter a description";
     }
 
-    const editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(description)))
-    if (!editorState.getCurrentContent().hasText()) {
-      return "Please enter a description";
-    }
-
     return "";
   }
 
@@ -186,6 +174,10 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     setChangeMade(true);
     setDescription(newDescription)
     setDescriptionError(getDescriptionError(description))
+  }
+
+  const onDecriptionEmpty = () => {
+    onDescriptionChange("")
   }
 
   /* Functions for RequestGroup's Image */
@@ -213,7 +205,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
     if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
       // do mutation
-
       props.handleClose()
     }
     else {
@@ -308,6 +299,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                     initialContent={initialRequestGroup && initialRequestGroup.description ? initialRequestGroup.description : ""}
                     defaultText="Enter group description here"
                     onChange={onDescriptionChange}
+                    onEmpty={onDecriptionEmpty}
                     isErroneous={descriptionError !== ""}
                   />
                 }
