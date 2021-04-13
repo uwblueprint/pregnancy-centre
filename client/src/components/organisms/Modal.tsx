@@ -3,11 +3,14 @@ import { Modal } from 'react-bootstrap';
 interface Props {
   show: boolean;
   handleClose(): void;
-  children: React.ReactNode;
-  class: string;
+  children?: React.ReactNode;
+  class?: string;
+  title?: string;
+  subtitle?: string;
+  body?: React.ReactNode;
   header?: React.ReactNode;
   customClose?: boolean;
-  size: "small" | "medium" | "large" | "default";
+  size?: "small" | "medium" | "large" | "default";
 }
 
 
