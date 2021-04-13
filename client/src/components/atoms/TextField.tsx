@@ -14,6 +14,7 @@ interface TextFieldProps {
   type: "text" | "password",
   iconClassName?: string,
   onIconClick?: React.MouseEventHandler<HTMLElement>
+  autocompleteOff?: boolean,
 }
 
 const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => {
@@ -31,6 +32,7 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
       value={props.input}
       onChange={props.onChange}
       disabled={props.isDisabled}
+      autoComplete={props.autocompleteOff ? "off" : "on"}
     />
     {props.iconClassName && <i
       onClick={props.onIconClick ? props.onIconClick : () => {}}

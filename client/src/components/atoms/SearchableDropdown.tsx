@@ -46,6 +46,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
           type="text"
           iconClassName="bi bi-caret-down-fill"
           showRedErrorText={true}
+          autocompleteOff={true}
         ></TextField>
       </div>
       {dropdownExpanded && <span>
@@ -55,12 +56,14 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
           <span className="create-group"><a><span>Create a new group</span><i className="bi bi-arrow-right-short"></i></a></span>
         </div>
         :
-        <ScrollWindow>
-          <div className="dropdown-header">{props.placeholderText}</div>
-          {props.dropdownItems.filter(item => item.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item =>
-            <div className="dropdown-item" key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
-          )}
-        </ScrollWindow>
+        <div>
+          <ScrollWindow>
+            <div className="dropdown-header">{props.placeholderText}</div>
+            {props.dropdownItems.filter(item => item.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item =>
+              <div className="dropdown-item" key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
+            )}
+          </ScrollWindow>
+        </div>
         }
         </span>
       }
