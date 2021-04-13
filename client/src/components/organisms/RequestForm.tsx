@@ -374,7 +374,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                   initialText={requestGroup && requestGroup.name ? requestGroup.name : ""}
                   placeholderText="Select a group"
                   searchPlaceholderText="Search for a group"
-                  dropdownItemsText={requestGroupsMap ? [...requestGroupsMap.keys()] : []} // Pass the name of all request groups
+                  dropdownItems={requestGroupsMap ? [...requestGroupsMap.keys()] : []} // Pass the name of all request groups
                   isErroneous={requestGroupError !== "" && requestGroupInput === ""}
                   isDisabled={false}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onRequestGroupInputChange(e.target.value) }}
@@ -390,6 +390,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                   </div>)}
                   noResultsText=""
                   noResultsActionText=""
+                  isTagDropdown={false}
                 />
               }
             />
@@ -405,7 +406,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                   initialText={requestType && requestType.name ? requestType.name : ""}
                   placeholderText={requestGroup === null ? "Select a group first" : "Search or create a type"}
                   searchPlaceholderText="Search for a type"
-                  dropdownItemsText={requestTypesMap ? [...requestTypesMap.keys()] : []} // Pass the name of all request groups
+                  dropdownItems={requestTypesMap ? [...requestTypesMap.keys()] : []} // Pass the name of all request groups
                   isErroneous={requestTypeError !== "" && requestTypeInput === ""}
                   isDisabled={requestGroup === null}
                   isEmpty={requestType === null}
@@ -416,6 +417,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                   </div>)}
                   noResultsText=""
                   noResultsActionText=""
+                  isTagDropdown={false}
                 />
               }
             />

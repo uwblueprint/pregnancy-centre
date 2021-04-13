@@ -11,14 +11,15 @@ interface Props {
   searchPlaceholderText: string;
   noResultsText: string,
   noResultsActionText: string,
-  dropdownTags?: Array<TagProps>,
-  dropdownItemsText: Array<string>;
-  isErroneous: boolean;
   isDisabled: boolean;
   isEmpty?: boolean;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
   onSelect: (item: string) => void;
   noItemsAction: React.ReactNode;
+  isTagDropdown: boolean, // todo think of name
+  dropdownItems: Array<string>,
+  //   dropdownTags?: Array<TagProps>,
+  isErroneous: boolean,
+  onChange: React.ChangeEventHandler<HTMLInputElement>,
 }
 
 const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
@@ -36,22 +37,17 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
     }
     setSearchString(event.target.value);
     if (event.target.value.length > 0) {
-        if (props.dropdownTags) {
-            if (props.dropdownTags.filter(item => item.text.startsWith(event.target.value)).length == 0) {
-                setNoItems(true);
-            }
-        } else {
-          if (
-            event.target.value.length > 0 &&
-            props.dropdownItemsText.filter((item) =>
-              item
-                .toLocaleLowerCase()
-                .startsWith(event.target.value.toLocaleLowerCase())
-            ).length == 0
-          ) {
-            setNoItems(true);
-          }
-        }
+      if (
+        event.target.value.length > 0 &&
+        props.dropdownItems.filter((item) =>
+          item
+            .toLocaleLowerCase()
+            .startsWith(event.target.value.toLocaleLowerCase())
+        ).length == 0
+      ) {
+        setNoItems(true);
+      }
+
     } else {
       setNoItems(false);
     }
@@ -115,25 +111,27 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
         </div>
       }
       {dropdownExpanded && !noItems &&
-        <ScrollWindow>
-          <div className="dropdown-header">{props.placeholderText}</div>
-          {props.dropdownTags && props.dropdownTags.filter(item => item.text.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item =>
-            <div className="dropdown-item dropdown-tag" key={item.text} onClick={() => onSelectedItemChange(item.text)}><Tag text={item.text} dropdownItem/></div>
-          )}
-          {!props.dropdownTags && props.dropdownItemsText.filter(item => item.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item =>
-            <div className="dropdown-item" key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
-          )}
-        </ScrollWindow>
+        <div className="scroll-window1">
+          <ScrollWindow>
+            <div className="dropdown-header">{props.placeholderText}</div>
+            {props.isTagDropdown && props.dropdownItems.filter(item => item.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item =>
+              <div className="dropdown-item dropdown-tag tag" key={item} onClick={() => onSelectedItemChange(item)}><Tag text={item} /></div>
+            )}
+            {!props.isTagDropdown && props.dropdownItems.filter(item => item.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item =>
+              <div className="dropdown-item" key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
+            )}
+          </ScrollWindow>
+        </div>
       }
       {dropdownExpanded && (
         <span ref={dropdownReference}>
-          {noItems || props.dropdownItemsText?.length === 0 ? (
+          {noItems || props.dropdownItems?.length === 0 ? (
             props.noItemsAction
           ) : (
               <div>
                 <ScrollWindow>
                   <div className="dropdown-header">{props.placeholderText}</div>
-                  {props.dropdownItemsText
+                  {props.dropdownItems
                     .filter((item) =>
                       filterEnabled
                         ? item
