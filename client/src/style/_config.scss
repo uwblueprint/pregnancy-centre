@@ -99,6 +99,13 @@ $window-border-color: #d7d7d7;
   font-weight: 800;
 }
 
+@mixin light-text() {
+  @include text;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
 /* Button Config */
 
 $button-background: #3e3e3e;
@@ -203,6 +210,7 @@ $tpc-green-hover: #00363e;
 
 /* TextField Config */
 $soft-black: #333333;
+$textfield-input-border: #797979;
 
 /* ScrollWindow Config */
 $scroll-bar-color: #c4c4c4;
