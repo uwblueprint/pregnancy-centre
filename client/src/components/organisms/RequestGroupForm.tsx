@@ -79,6 +79,15 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     }
   }`
 
+  const deleteRequestTypeMutation = gql`
+  mutation DeleteRequestType($id: ID!) {
+    deleteRequestType(id: $id) {
+      success
+      message
+      id
+    }
+  }`
+
   const updateRequestGroupMutation = gql`
   mutation UpdateRequestGroup(
     $id: ID!, 
