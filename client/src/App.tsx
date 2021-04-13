@@ -31,7 +31,7 @@ function App(): JSX.Element {
           <Route path='/test'>
             <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
           </Route>
-          <Route path='/admin-group-view/:id'><AdminRequestGroupView /></Route>
+          <Route path='/request-group/:id'><AdminRequestGroupView /></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>
