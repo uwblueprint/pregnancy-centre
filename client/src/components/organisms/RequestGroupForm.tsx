@@ -290,6 +290,13 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           .catch((err) => { console.log(err) })
       }
       else {
+        // requestTypesToIdMap maps RequestTypes names that existed initially to their corresponding IDs
+        let requestTypesToIdMap = new Map([])
+        if (initialRequestGroup && initialRequestGroup.requestTypes) {
+          requestTypesToIdMap = new Map(initialRequestGroup.requestTypes
+            .filter((requestType) => (requestType.name && requestType._id))
+            .map((requestType) => [requestType.name, requestType._id]))
+        }
 
         updateRequestGroup({ variables: { id: props.requestGroupId, name, description, image, requestTypeNames } })
           .then(()=>{
