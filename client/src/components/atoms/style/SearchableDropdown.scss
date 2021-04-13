@@ -15,24 +15,24 @@
   }
 
   .dropdown-header {
-	@include normal-text;
-	font-weight: 500;
-	font-size: 12px;
-	line-height: 20px;
-	color: $disabled-text;
+    @include normal-text;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 20px;
+    color: $disabled-text;
 
-	width: 100%;
-	height: 30px;
-	padding: 8px 14px;
+    width: 100%;
+    height: 30px;
+    padding: 8px 14px;
   }
 
   .dropdown-item {
-	@include normal-text;
-	font-size: 14px;
-	line-height: 20px;
+    @include normal-text;
+    font-size: 14px;
+    line-height: 20px;
 
-	padding: 8px 13px;
-	height: 37px;
+    padding: 8px 13px;
+    height: 37px;
 
     &:last-child {
       margin-bottom: 8px;
@@ -40,29 +40,29 @@
   }
 
   .no-items-found {
-	width: 100%;
-	
-	border: $scroll-window-border;
-	border-radius: 4px;
-	padding: 14px;
+    width: 100%;
 
-	.not-exist-msg {
-	  @include normal-text;
-	  font-size: 12px;
-	  line-height: 20px;
-	}
+    border: $scroll-window-border;
+    border-radius: 4px;
+    padding: 14px;
 
-	.create-group {
-	  @include normal-text;
-	  font-size: 12px;
-	  line-height: 14.52px;
-	  color: $tpc-green;
-	  margin-left: 70px;
+    .not-exist-msg {
+      @include normal-text;
+      font-size: 12px;
+      line-height: 20px;
+    }
 
-	  & i {
-		font-size: 18px;
-		vertical-align: middle;
-	  }
-	}
+    .create-group {
+      @include normal-text;
+      font-size: 12px;
+      line-height: 14.52px;
+      color: $tpc-green;
+      margin-left: 70px;
+
+      & i {
+        font-size: 18px;
+        vertical-align: middle;
+      }
+    }
   }
 }
