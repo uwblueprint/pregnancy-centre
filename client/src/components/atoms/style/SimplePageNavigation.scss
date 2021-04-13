@@ -8,17 +8,22 @@
         @include bold-text;
     }
 
+    .page-number-disabled {
+        visibility: hidden;
+    }
+
     .page-arrow {
         display: inline-block;
         width: 11px;
         height: 11px;
-        border: 2px solid #3E3E3E;
+        border: 2px solid $page-arrow-color;
         border-width: 0 3px 3px 0;
         border-radius: 0 0.2rem;
         cursor: pointer;
 
         &.disabled {
-            border-color: #B7B7B7;
+            border-color: $page-arrow-disabled-color;
+            cursor: default;
         }
     }
 
@@ -30,7 +35,7 @@
     }
 
     .next-page-arrow {
-        padding-left: 21px;
+        padding-left: 18px;
         .page-arrow {
             transform: rotate(-45deg);
         }

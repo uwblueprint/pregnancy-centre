@@ -1,0 +1,57 @@
+.admin-request-group-list {
+    .title {
+        @include heavy-text;
+        font-size: 24px;
+        line-height: 32px;
+        letter-spacing: 0.2px;
+    
+        color: $dark-gray;
+    
+        padding-left: 95px;
+    }
+    
+    .row {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .action-group {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .action-group .spacing {
+        width: 27px;
+    }
+    
+    .button {
+        @include normal-button;
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
+        width: 160px;
+        height: 40px;
+        display: flex-end;
+    
+        background: $tpc-green;
+        border-radius: 4px;
+    
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        text-align: center;
+        letter-spacing: 0.1px;
+    
+        color: white;
+    
+        margin-right: 80px;
+    }
+    
+    .page-navigation {
+        display: block;
+        float: right;
+        margin-right: 69px;
+        margin-top: 24px;
+        margin-bottom: 21px;
+    }    
+}
