@@ -5,12 +5,13 @@ import Row from 'react-bootstrap/Row'
 import DonorPage from '../components/layouts/DonorPage'
 import DonorRequestGroupBrowser from '../components/organisms/DonorRequestGroupBrowser'
 import HomepageBanner from '../components/organisms/HomepageBanner'
-// TODO(ellen): this is testing code, delete before landing
 import SearchableDropdown from '../components/atoms/SearchableDropdown';
-import { Tag } from '../components/atoms/Tag';
 
 const DonorHomepage: FunctionComponent = () => {
-  const onDropdownChange = () => {}
+  const onDropdownChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("dropdown change: " + event.target.value);
+  }
+
   return <Container className="donor-homepage" fluid>
     <DonorPage>
       {/* TODO(ellen): this is testing code, delete before landing */}
@@ -20,7 +21,7 @@ const DonorHomepage: FunctionComponent = () => {
         searchPlaceholderText="Search for a group"
         noResultsText="This group does not exist"
         noResultsActionText="Create a new group"
-        dropdownItemsText={["Bassinets", "Bottles", "Books", "Cribs", "Doorknobs"]}
+        dropdownItems={["Bassinets", "Bottles", "Books", "Cribs", "Doorknobs"]}
         isErroneous={false}
         isDisabled={false}
         onChange={onDropdownChange}
@@ -33,8 +34,8 @@ const DonorHomepage: FunctionComponent = () => {
         searchPlaceholderText="Search for a type"
         noResultsText="This type does not exist"
         noResultsActionText="Create a new type"
-        dropdownItemsText={[]}
-        dropdownTags={[{text: "125mL"}, {text: "225mL"}, {text: "250mL"}, {text: "500mL"}]}
+        dropdownItems={["125mL", "225mL", "250mL", "500mL"]}
+        isTagDropdown={true}
         isErroneous={false}
         isDisabled={false}
         onChange={onDropdownChange}
