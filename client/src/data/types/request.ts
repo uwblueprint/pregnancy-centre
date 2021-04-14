@@ -1,4 +1,5 @@
 import Client from "./client";
+import RequestType from "./requestType";
 
 export default interface Request {
   _id?: string;
@@ -9,6 +10,6 @@ export default interface Request {
   dateFulfilled?: Date;
   deleted?: boolean;
   fulfilled?: boolean;
-  requestType?: string;
+  requestType?: RequestType;
   quantity?: number;
 }
