@@ -1,5 +1,12 @@
-.request-group-description {
-    margin-left: 145px;
+.request-group {
+
+    &-description {
+        margin-left: 145px;
+    }
+
+    &-title {
+        font-weight: 600;
+    }
 }
 
 .btn, .btn:hover, .btn:focus, .btn:active, .show > .btn-primary.dropdown-toggle {

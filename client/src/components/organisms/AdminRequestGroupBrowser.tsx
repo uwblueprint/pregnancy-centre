@@ -73,7 +73,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
         (<div>
           <Row>
             <Col className="request-group-description">
-              <h1>{requestGroup!.name}</h1>
+              <h1 className="request-group-title">{requestGroup!.name}</h1>
               <p>Displaying {requestGroup!.numOpen} total requests and {numTypes} types</p>
             </Col>
             <Col>
