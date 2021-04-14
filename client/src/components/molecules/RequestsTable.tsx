@@ -64,13 +64,21 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         if(req.fulfilled === false) {
             req.fulfilled = true
             requestsCopy.splice(index, 1)
-            requestsCopy.push(req)
+            let i = requestsCopy.length - 1;
+            for(; i > -1; --i) {
+                if(requestsCopy[i].fulfilled === false) break
+                else if(requestsCopy[i]!.dateCreated!.valueOf() < req!.dateCreated!.valueOf()) break
+            }
+            requestsCopy.splice(i + 1, 0, req)
         }
         else {
             req.fulfilled = false;
             requestsCopy.splice(index, 1)
             let i = 0
-            for(; i < requestsCopy.length; ++i) if(requestsCopy[i].fulfilled === true) break
+            for(; i < requestsCopy.length; ++i) {
+                if(requestsCopy[i].fulfilled === true) break
+                else if(requestsCopy[i]!.dateCreated!.valueOf() > req!.dateCreated!.valueOf()) break
+            }
             requestsCopy.splice(i, 0, req)
         }
         setRequests(requestsCopy);
