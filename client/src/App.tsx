@@ -13,7 +13,8 @@ import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
-import RequestGroupFormContainer from './components/examples/RequestGroupFormContainer'
+import CreateRequestGroupFormContainer from './components/examples/CreateRequestGroupFormContainer'
+import EditRequestGroupFormContainer from './components/examples/EditRequestGroupFormContainer'
 
 
 function App(): JSX.Element {
@@ -33,7 +34,8 @@ function App(): JSX.Element {
             <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
           </Route>
           <Route path='/request-group/:id'><AdminRequestGroupView /></Route>
-          <Route path='/request-group-form' component={RequestGroupFormContainer}></Route>
+          <Route path='/create-request-group-form' component={CreateRequestGroupFormContainer}></Route>
+          <Route path='/edit-request-group-form' component={EditRequestGroupFormContainer}></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>

@@ -84,6 +84,7 @@ const typeDefs = gql`
         requirements: String
         image: String
         requestTypes: [ID]
+        requestTypeNames: [String]
     }
     input RequestTypeInput {
         id: ID
