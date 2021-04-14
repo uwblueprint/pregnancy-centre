@@ -27,13 +27,24 @@ $request-form-input-width: 373px;
       margin: 0;
     }
 
-    .text-field-form-item {
-      .form-item-top {
-        width: $request-form-input-width;
-      }
-      .form-item-error-icon {
-        margin-top: 8px;
-      }
+    .form-item-top {
+      width: $request-form-input-width;
+    }
+
+    .form-item-error-icon {
+      margin-top: 8px;
+    }
+
+    .text-field-form-item {  
+      
+    }
+
+    .searchable-dropdown-form-item {
+
+    }
+
+    .searchable-tag-dropdown-form-item {
+
     }
 
     input[type="number"]::-webkit-inner-spin-button,
