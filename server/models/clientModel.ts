@@ -11,8 +11,7 @@ type ClientDocument = ClientInterface & Document;
 
 const ClientSchema = new Schema({
   clientId: {
-      type: String,
-      required: true
+    type: String,
   },
   fullName: {
     type: String,
