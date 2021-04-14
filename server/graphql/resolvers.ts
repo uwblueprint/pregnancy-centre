@@ -11,6 +11,7 @@ import { ServerResponseInterface } from './serverResponse'
 import { createRequestGroupHelper, nextRequestRequestGroupHelper, softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
 import { createRequestHelper, filterDeletedRequests, filterFulfilledRequests, filterOpenRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper } from './utils/request'
 import { createRequestTypeHelper, nextRequestRequestTypeHelper, softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
+import { createClientHelper } from './utils/client'
 import { sessionHandler } from '../database/session'
 
 const resolvers = {
@@ -124,7 +125,19 @@ const resolvers = {
           }
         })
     },
-    createClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.create(client),
+    createClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => {
+      return sessionHandler((session) => createClientHelper(client, dataSources, session))
+      .then(res => {
+        return {
+          'success': true,
+          'message': 'Client succesfully updated',
+          'id': res._id
+        }
+      })
+    },
+
+    // TODO: Create helper functions for updateClient and softDeleteClient
+    // TODO: Wrap updateClient and softDeleteClient helpers in sessionHandler
     updateClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.update(client),
     softDeleteClient: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.clients.softDelete(id)
   },
