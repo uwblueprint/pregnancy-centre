@@ -42,21 +42,6 @@ $request-form-input-width: 373px;
       margin: 0;
     }
 
-    .tag-input-form-item {
-      .tag-input {
-        width: $request-form-input-width;
-      }
-      .form-item-top {
-        width: $request-form-input-width;
-      }
-      .action {
-        width: $request-form-input-width;
-      }
-      .form-item-error-icon {
-        margin-top: 5px;
-      }
-    }
-
     &-footer {
       padding-right: 60px;
       margin-top: 35px;
