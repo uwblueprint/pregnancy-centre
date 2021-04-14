@@ -142,7 +142,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
       const requestGroups: Array<RequestGroup> = JSON.parse(JSON.stringify(data.requestGroups)); // deep-copy since data object is frozen
 
-      setRequestGroupsMap(new Map(
+      const map = new Map(
         requestGroups.reduce((entries, requestGroup) => {
           if (requestGroup && requestGroup.name) {
             entries.push([requestGroup.name, requestGroup])
@@ -150,7 +150,19 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           return entries
         },
           [] as Array<[string, RequestGroup]>))
-      )
+      console.log(requestGroups)
+      console.log(map)
+      console.log(map.keys)
+      setRequestGroupsMap(map)
+      // setRequestGroupsMap(new Map(
+      //   requestGroups.reduce((entries, requestGroup) => {
+      //     if (requestGroup && requestGroup.name) {
+      //       entries.push([requestGroup.name, requestGroup])
+      //     }
+      //     return entries
+      //   },
+      //     [] as Array<[string, RequestGroup]>))
+      // )
 
       // For the edit request form, check that we're not waiting for the request to load before setting loading = false
       if (!(props.operation === 'edit' && !initialRequest)) {
@@ -276,6 +288,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const newRequestType = requestTypesMap.get(newRequestTypeName)
 
     setChangeMade(true);
+    setRequestType(newRequestType ? newRequestType : null)
     updateRequestTypeError(newRequestType)
     return true;
   }
@@ -404,12 +417,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       handleClose={handleClose}
       title={formTitle}
       size="medium">
-      {showAlertDialog &&
-        <AlertDialog
-          dialogText="This request has not been created yet."
-          onExit={props.handleClose}
-          onStay={() => { setShowAlertDialog(false) }} />
-      }
       {loading
         ? <div className="request-form-modal-loading-content">
           <div className="spinner">
@@ -417,6 +424,12 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           </div>
         </div>
         : <form onSubmit={onSubmit} className="request-form-modal-content">
+          {showAlertDialog &&
+            <AlertDialog
+              dialogText="This request has not been created yet."
+              onExit={props.handleClose}
+              onStay={() => { setShowAlertDialog(false) }} />
+          }
           <div className="searchable-dropdown-form-item">
             <FormItem
               formItemName="Group"
@@ -427,7 +440,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 <SearchableDropdown
                   placeholderText="Select a group"
                   searchPlaceholderText="Search for a group"
-                  dropdownItems={requestGroupsMap ? Object.keys(requestGroupsMap) : []} // Pass the name of all request groups
+                  dropdownItems={requestGroupsMap ? [...requestGroupsMap.keys()] : []} // Pass the name of all request groups
                   isErroneous={requestGroupError !== ""}
                   isDisabled={false}
                   onSelect={onRequestGroupChange}
@@ -445,7 +458,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 <SearchableDropdown
                   placeholderText={requestGroup === null ? "Select a group first" : "Search or create a type"}
                   searchPlaceholderText="Search for a type"
-                  dropdownItems={requestTypesMap ? Object.keys(requestTypesMap) : []} // Pass the name of all request groups
+                  dropdownItems={requestTypesMap ? [...requestTypesMap.keys()] : []} // Pass the name of all request groups
                   isErroneous={requestTypeError !== ""}
                   isDisabled={requestGroup === null}
                   onSelect={onRequestTypeChange}
@@ -455,18 +468,18 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           </div>
           <div className="infinite-dropdown-form-item">
             <FormItem
-              formItemName="Quantity"
+              formItemName="Item Quantity"
               errorString="" // No errors for quantity
               isDisabled={false}
               inputComponent={
                 <TextField
-                  input={quantity.toString()}
+                  input={quantity}
                   isDisabled={false}
                   isErroneous={false}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => onQuantityChange(parseInt(e.target.value))}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onQuantityChange(parseInt(e.target.value)) }}
                   name="quantity"
                   placeholder=""
-                  type="text"
+                  type="number"
                 />
               }
             />

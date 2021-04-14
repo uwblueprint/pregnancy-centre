@@ -2,25 +2,16 @@ $request-form-input-width: 373px;
 
 .request-form {
   position: absolute;
-  
+
   &-modal {
-    &-body {
-      padding: 0px 70px 40px 70px;
-      border-radius: unset;
-    }
     &-content {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
-    &-panel {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
 
-      & .form-item {
-        margin-top: 31px;
-      }
+    & .form-item {
+      margin-top: 23px;
     }
 
     .line-medium {
@@ -45,6 +36,12 @@ $request-form-input-width: 373px;
       }
     }
 
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
     .tag-input-form-item {
       .tag-input {
         width: $request-form-input-width;
@@ -61,6 +58,9 @@ $request-form-input-width: 373px;
     }
 
     &-footer {
+      padding-right: 60px;
+      margin-top: 35px;
+      margin-bottom: 30px;
       & .button {
         float: right;
         padding: 12px 33px;
@@ -74,7 +74,9 @@ $request-form-input-width: 373px;
     }
 
     .alert-dialog {
-      margin-top: -230px;
+      position: fixed;
+      left: 12px;
+      margin-top: -250px;
     }
 
     &-loading-content {
