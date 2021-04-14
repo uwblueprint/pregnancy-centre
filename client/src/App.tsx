@@ -15,6 +15,7 @@ import SignUpModal from "./pages/SignUpModal";
 
 import CreateRequestFormContainer from './components/examples/CreateRequestFormContainer'
 import CreateRequestGroupFormContainer from './components/examples/CreateRequestGroupFormContainer'
+import EditRequestFormContainer from './components/examples/EditRequestFormContainer'
 import EditRequestGroupFormContainer from './components/examples/EditRequestGroupFormContainer'
 
 function App(): JSX.Element {
@@ -37,6 +38,7 @@ function App(): JSX.Element {
           <Route path='/create-request-group-form' component={CreateRequestGroupFormContainer}></Route>
           <Route path='/edit-request-group-form' component={EditRequestGroupFormContainer}></Route>
           <Route path='/create-request-form' component={CreateRequestFormContainer}></Route>
+          <Route path='/edit-request-form' component={EditRequestFormContainer}></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>
