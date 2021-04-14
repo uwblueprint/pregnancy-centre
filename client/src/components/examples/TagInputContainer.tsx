@@ -5,7 +5,7 @@ interface TagInputContainerProps {
     name: string
 }
 
-const TagInputContainer: FunctionComponent<TagInputContainerProps> = (props: TagInputContainerProps) => {
+const TagInputContainer: FunctionComponent<TagInputContainerProps> = () => {
     const [tagStringsList, setTagStringsList] = useState<string[]>(["Diapers"]);
     const [validInput, setValidInput] = useState(true);
 
