@@ -1,4 +1,3 @@
-import { bindActionCreators, Dispatch } from "redux"
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Spinner } from 'react-bootstrap';
@@ -8,13 +7,10 @@ import { Button } from '../atoms/Button'
 import Client from '../../data/types/client'
 import FormItem from '../molecules/FormItem'
 import FormModal from './FormModal'
-import ImagePicker from '../atoms/ImagePicker'
 import Request from '../../data/types/request'
 import RequestGroup from '../../data/types/requestGroup'
 import RequestType from '../../data/types/requestType'
-import RichTextField from '../atoms/RichTextField'
-import { RootState } from '../../data/reducers'
-import { TagInput } from '../atoms/TagInput'
+import SearchableDropdown from '../atoms/SearchableDropdown'
 import { TextField } from '../atoms/TextField'
 
 
@@ -28,29 +24,29 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const [initialRequest, setInitialRequest] = useState<Request | null>(null)
   const [showAlertDialog, setShowAlertDialog] = useState(false)
   const [changeMade, setChangeMade] = useState(false)
-  const [requestGroups, setRequestGroups] = usState<Array<RequestGroup> | null>(null)
+  const [requestGroupsMap, setRequestGroupsMap] = useState<Map<string, RequestGroup> | null>(null)
+  const [requestTypesMap, setRequestTypesMap] = useState<Map<string, RequestType> | null>(null)
   const [requestGroup, setRequestGroup] = useState<RequestGroup | null>(null)
   const [requestType, setRequestType] = useState<RequestType | null>(null)
   const [quantity, setQuantity] = useState<number>(1)
-  const [client, setClient] = useState<Client | null>(null)
+  const [clientName, setClientName] = useState("")
   const [requestGroupError, setRequestGroupError] = useState("")
   const [requestTypeError, setRequestTypeError] = useState("")
-  const [quantityError, setQuantityError] = useState("")
-  const [clientError, setClientError] = useState("")
-  const [loadingRequest, setLoadingRequest] = useState(props.operation === "edit")
+  const [clientNameError, setClientNameError] = useState("")
+  const [loading, setLoading] = useState(true)
 
   const createRequestMutation = gql`
   mutation CreateRequest(
     $requestType: ID!
     $quantity: Int!
-    $clientName: String!
+    $clientName: ID!
   ) {
-    createRequestGroup(requestGroup: {
+    createRequest(request: {
       name: $name
       description: $description
       image: $image
       requestTypeNames: $requestTypeNames
-      clientName: $clientName
+      client: $client
     }) {
       success
       message
@@ -60,11 +56,33 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
   const updateRequestMutation = gql`
   mutation UpdateRequest(
-    requestType: $requestType
-    quantity: $quantity
-    clientName: $clientName
+    $id: ID!
+    $requestType: ID!
+    $quantity: Int!
+    $client: ID!
+    $clientName: ID!
   ) {
-    updateRequestGroup(request: {
+    updateRequest(request: {
+      id: $id
+      requestType: $requestType
+      quantity: $quantity
+      client: $client
+      clientName: $clientName
+    }) {
+      success
+      message
+      id
+    }
+  }`
+
+  const updateRequestWithDifferentClientMutation = gql`
+  mutation UpdateRequest(
+    $id: ID!
+    $requestType: ID!
+    $quantity: Int!
+    $clientName: ID!
+  ) {
+    updateRequest(request: {
       id: $id
       requestType: $requestType
       quantity: $quantity
@@ -76,20 +94,35 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     }
   }`
 
-  const getRequestTypesInRequestGroup = gql`
-  query FetchRequestGroup($id: ID!) {
-    requestGroup(id: $id) {
-      requestTypes {
-        _id
-        name
-        deleted
-      }
-    }
-  }
-  `
+  // const fetchMatchingClientsQuery = gql`
+  // query FetchClients(
+  //   $fullname: String!
+  // ) {
+  //   filterClients(client: {
+  //     fullname: $fullname
+  //   }) {
+  //     client {
+  //       _id
+  //     }
+  //   }
+  // }`
+
+  // const getRequestTypesInRequestGroup = gql`
+  // query FetchRequestGroup($id: ID!) {
+  //   requestGroup(id: $id) {
+  //     requestTypes {
+  //       _id
+  //       name
+  //       deleted
+  //     }
+  //   }
+  // }
+  // `
 
   const [createRequest] = useMutation(createRequestMutation);
   const [updateRequest] = useMutation(updateRequestMutation);
+  const [updateRequestWithDifferentClient] = useMutation(updateRequestWithDifferentClientMutation);
+  // const [fetchMatchingClients, { data: matchingClients, loading: loadingMatchingClients, error: matchingClientsError }] = useLazyQuery(fetchMatchingClientsQuery);
 
 
   const fetchRequestGroups = gql`
@@ -97,28 +130,40 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     requestGroups {
       _id
       name
+      requestTypes {
+        _id
+        name
+      }
     }
   }`
 
-  const { loading } = useQuery(fetchRequestGroups, {
-    variables: { id: props.requestId, },
+  useQuery(fetchRequestGroups, {
     fetchPolicy: 'network-only',
-    onCompleted: (data: { rawRequest: Request }) => {
-      const request: Request = JSON.parse(JSON.stringify(data.rawRequest)); // deep-copy since data object is frozen
+    onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
+      const requestGroups: Array<RequestGroup> = JSON.parse(JSON.stringify(data.requestGroups)); // deep-copy since data object is frozen
 
-      setInitialRequest(request)
-      setRequestGroup(request.requestType.requestGroup)
-      setRequestType(request.requestType)
-      setQuantity(request.quantity)
-      setClient(request.client)
+      setRequestGroupsMap(new Map(
+        requestGroups.reduce((entries, requestGroup) => {
+          if (requestGroup && requestGroup.name) {
+            entries.push([requestGroup.name, requestGroup])
+          }
+          return entries
+        },
+          [] as Array<[string, RequestGroup]>))
+      )
+
+      // For the edit request form, check that we're not waiting for the request to load before setting loading = false
+      if (!(props.operation === 'edit' && !initialRequest)) {
+        setLoading(false)
+      }
     }
   });
 
-  useEffect(() => {
-    if (!loading) {
-      setLoadingRequest(false)
-    }
-  }, [loading, initialRequest])
+  // useEffect(() => {
+  //   if (!loadingRequestGroups && ) {
+  //     setLoadingRequest(false)
+  //   }
+  // }, [loadingRequestGroups])
 
   const fetchRequest = gql`
   query FetchRequest($id: ID!) {
@@ -131,10 +176,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         requestGroup {
           _id
           name
-          requestTypes{
-            _id
-            name
-          }
         }
       }
       client {
@@ -145,29 +186,52 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   }`
 
   if (props.operation === "edit") {
-    const { loading } = useQuery(fetchRequest, {
+    useQuery(fetchRequest, {
       variables: { id: props.requestId, },
       fetchPolicy: 'network-only',
       onCompleted: (data: { rawRequest: Request }) => {
         const request: Request = JSON.parse(JSON.stringify(data.rawRequest)); // deep-copy since data object is frozen
 
         setInitialRequest(request)
-        setRequestGroup(request.requestType.requestGroup)
-        setRequestType(request.requestType)
-        setQuantity(request.quantity)
-        setClient(request.client)
+        setRequestGroup(request.requestType && request.requestType.requestGroup ? request.requestType.requestGroup : null)
+        setRequestType(request.requestType ? request.requestType : null)
+        setQuantity(request.quantity ? request.quantity : 1)
+        setClientName(request.client && request.client.fullName ? request.client.fullName : "")
+
+        // Check that requestGroups are loaded before setting loading = false
+        if (requestGroupsMap) {
+          setLoading(false)
+        }
       }
     });
 
     useEffect(() => {
-      if (!loading) {
-        setLoadingRequest(false)
+      if (requestGroupsMap
+        && initialRequest
+        && initialRequest.requestType
+        && initialRequest.requestType.requestGroup
+        && initialRequest.requestType.requestGroup.requestTypes
+      ) {
+        updateRequestTypesMap(initialRequest.requestType.requestGroup.requestTypes);
       }
-    }, [loading])
+    }, [requestGroupsMap, initialRequest])
+  }
+
+  /* Functions for RequestTypesMap */
+  const updateRequestTypesMap = (requestTypes: Array<RequestType>) => {
+    setRequestTypesMap(new Map(
+      requestTypes.reduce((entries, requestType) => {
+        if (requestType && requestType.name) {
+          entries.push([requestType.name, requestType])
+        }
+        return entries
+      },
+        [] as Array<[string, RequestType]>)
+    ))
   }
 
   /* Functions for Request's RequestGroup */
-  const updateRequestGroupError = (requestGroup: RequestGroup): string => {
+  const updateRequestGroupError = (requestGroup: RequestGroup | null | undefined): string => {
     let error = ""
     if (!requestGroup) {
       error = "Please select a group";
@@ -177,121 +241,147 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     return error;
   }
 
-  const onRequestGroupChange = (newRequestGroup) => {
+  const onRequestGroupChange = (newRequestGroupName: string) => {
+    if (!requestGroupsMap) return;
+    const newRequestGroup = requestGroupsMap.get(newRequestGroupName);
+
     setChangeMade(true);
-    setRequestGroup(newRequestGroup);
-    updateRequestGroupError(newRequestGroup)
+    updateRequestGroupError(newRequestGroup);
+    setRequestGroup(newRequestGroup ? newRequestGroup : null);
+
+    if (newRequestGroup
+      && (!requestGroup || newRequestGroupName !== requestGroup.name)
+      && newRequestGroup.requestTypes) {
+      // If a new request group is chosen, change the request types map
+      updateRequestTypesMap(newRequestGroup.requestTypes);
+    }
   }
 
   /* Functions for Request's RequestType */
 
-  const updateInputRequestTypeNameError = (inputRequestTypeName: string): string => {
+  const updateRequestTypeError = (requestType: RequestType | null | undefined): string => {
     let error = ""
-    if (requestTypeNames.find(requestTypeName => requestTypeName === inputRequestTypeName)) {
-      error = "There is already a type with this name";
-    }
-    else if (inputRequestTypeName.length > 40) {
-      error = "Type name cannot exceed 40 characters";
+
+    // Error if requestTypesMap is loaded and no requestType is chosen
+    if (!requestType && requestTypesMap) {
+      error = "Please select a type";
     }
 
-    setRequestTypesError(error);
+    setRequestTypeError(error);
     return error;
   }
 
-  const updateRequestTypeNamesError = (requestTypes: Array<string>): string => {
-    let error = ""
-    if (requestTypes.length === 0) {
-      error = "Please create at least 1 type";
-    }
-
-    setRequestTypesError(error);
-    return error;
-  }
-
-  const onAddRequestType = (newRequestTypeName: string) => {
-    const error = updateInputRequestTypeNameError(newRequestTypeName);
-
-    if (error === "") {
-      setRequestTypeNames(requestTypeNames.concat([newRequestTypeName]));
-    }
-    setChangeMade(true);
-  }
-
-  const onDeleteRequestType = (targetRequestTypeName: string) => {
-    const newRequestTypeNames = requestTypeNames.filter((requestTypeName) => requestTypeName !== targetRequestTypeName);
+  const onRequestTypeChange = (newRequestTypeName: string) => {
+    if (!requestTypesMap) return;
+    const newRequestType = requestTypesMap.get(newRequestTypeName)
 
     setChangeMade(true);
-    setRequestTypeNames(newRequestTypeNames);
-    updateRequestTypeNamesError(newRequestTypeNames)
-  }
-
-  const onInputRequestTypeNameChange = (requestTypeName: string) => {
-    setChangeMade(true);
-    updateInputRequestTypeNameError(requestTypeName)
+    updateRequestTypeError(newRequestType)
     return true;
   }
 
   /* Functions for Request's Quantity */
-  const updateDescriptionError = (description: string) => {
-    let error = ""
-    if (!description) {
-      error = "Please enter a description";
-    }
+  // const updateQuantityError = (quantity: number) => {
+  //   let error = ""
+  //   if (!description) {
+  //     error = "Please enter a description";
+  //   }
 
-    setDescriptionError(error)
-    return error;
-  }
+  //   setDescriptionError(error)
+  //   return error;
+  // }
 
-  const onDescriptionChange = (newDescription: string) => {
+  const onQuantityChange = (newQuantity: number) => {
     setChangeMade(true);
-    setDescription(newDescription)
-    updateDescriptionError(description)
-  }
-
-  const onDecriptionEmpty = () => {
-    onDescriptionChange("")
+    setQuantity(newQuantity)
+    // updateDescriptionError(description)
   }
 
   /* Functions for Request's Client */
-  const updateImageError = (image: string) => {
+  const updateClientNameError = (clientName: string) => {
     let error = ""
-    if (image === "") {
-      error = "Please select an image";
+    if (clientName === "") {
+      error = "Please enter a first name";
     }
 
-    setImageError(error)
+    setClientNameError(error)
     return error;
   }
 
-  const onImageChange = (newImage: string) => {
+  const onClientNameChange = (newClientName: string) => {
     setChangeMade(true);
-    updateImageError(newImage)
-    if (images.find((imageUrl) => imageUrl === newImage)) {
-      setImage(newImage)
-    }
+    updateClientNameError(newClientName)
+    setClientName(newClientName)
   }
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const tempNameError = updateNameError(name);
-    const tempDescriptionError = updateDescriptionError(description);
-    const tempImageError = updateImageError(image);
-    const tempRequestTypesError = updateRequestTypeNamesError(requestTypeNames);
+    const tempRequestGroupError = updateRequestGroupError(requestGroup)
+    const tempRequestTypeError = updateRequestTypeError(requestType)
+    const tempClientNameError = updateClientNameError(clientName)
 
-    if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
-      if (props.operation === "create") {
-
-        createRequestGroup({ variables: { name, description, image, requestTypeNames } })
-          .catch((err) => { console.log(err) })
-      }
-      else {
-
-        updateRequestGroup({ variables: { id: props.requestGroupId, name, description, image, requestTypeNames } })
-          .catch((err) => { console.log(err) })
-      }
-
+    if (!tempRequestGroupError && !tempRequestTypeError && !tempClientNameError) {
       props.handleClose()
     }
+
+    // if (!tempRequestGroupError && !tempRequestTypeError && !tempClientNameError) {
+    //   // fetchClients({ variables: { fullName: clientName } }).then(() => {
+    //   //   if (props.operation === "create") {
+    //   //     return createRequest({ variables: { name, description, image, requestTypeNames } })
+    //   //   }
+    //   //   return updateRequest({ variables: { id: props.requestGroupId, name, description, image, requestTypeNames } })
+    //   // }).catch((err) => { console.log(err) })
+    //   if (props.operation === "create") {
+    //     createRequest({
+    //       variables: {
+    //         requestType: requestType._id,
+    //         quantity,
+    //         clientName
+    //       }
+    //     })
+    //       .catch((err) => { console.log(err) })
+    //   }
+    //   else {
+    //     // Edit request
+    //     const clientChanged = !(clientName === initialRequest.client.fullName)
+    //     updateRequest({
+    //       variables: {
+    //         id: initialRequest._id,
+    //         requestType: requestType._id,
+    //         quantity,
+    //         client: !clientChanged ? initialRequest.client._id : undefined,
+    //         clientName: clientChanged ? clientName : undefined,
+    //       }
+    //     })
+    //       .catch((err) => { console.log(err) })
+
+    //     // if (clientName === initialRequest.client.fullName) {
+    //     //   // Client on request is unchanged
+    //     //   updateRequest({
+    //     //     variables: {
+    //     //       id: initialRequest._id,
+    //     //       requestType: requestType._id,
+    //     //       quantity,
+    //     //       client: initialRequest.client._id
+    //     //     }
+    //     //   })
+    //     //     .catch((err) => { console.log(err) })
+    //     // } else {
+    //     //   updateRequest({
+    //     //     variables: {
+    //     //       id: initialRequest._id,
+    //     //       requestType: requestType._id,
+    //     //       quantity,
+    //     //       clientName
+    //     //     }
+    //     //   })
+    //     //     .catch((err) => { console.log(err) })
+    //     // }
+    //   }
+
+
+    //   props.handleClose()
+    // }
   }
 
   const handleClose = () => {
@@ -304,106 +394,102 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   }
 
 
-  const formTitle = props.operation === "create" ? "Create Request Group" : "Edit Request Group";
-  const formButtonText = props.operation === "create" ? "Create request group" : "Edit request group";
+  const formTitle = props.operation === "create" ? "Create Request" : "Edit Request";
+  const formButtonText = props.operation === "create" ? "Create request" : "Edit request";
 
-  return <div className="request-group-form">
+  return <div className="request-form">
     <FormModal
-      class="request-group-form-modal"
+      class="request-form-modal"
       show={true}
       handleClose={handleClose}
       title={formTitle}
-      size="large">
+      size="medium">
       {showAlertDialog &&
         <AlertDialog
-          dialogText="You have unsaved changes to this group."
+          dialogText="This request has not been created yet."
           onExit={props.handleClose}
           onStay={() => { setShowAlertDialog(false) }} />
       }
-      {loadingRequestGroup
-        ? <div className="request-group-form-modal-loading-content">
+      {loading
+        ? <div className="request-form-modal-loading-content">
           <div className="spinner">
             <Spinner animation="border" role="status" />
           </div>
         </div>
-        : <form onSubmit={onSubmit}>
-          <div className="request-group-form-modal-content">
-            <div className="request-group-form-modal-panel" id="left">
-              <div className="text-field-form-item">
-                <FormItem
-                  formItemName="Group Name"
-                  errorString={nameError}
+        : <form onSubmit={onSubmit} className="request-form-modal-content">
+          <div className="searchable-dropdown-form-item">
+            <FormItem
+              formItemName="Group"
+              errorString={requestGroupError}
+              isDisabled={false}
+              tooltipText="Groups describe the overall category of an item, such as stroller, crib, or bed."
+              inputComponent={
+                <SearchableDropdown
+                  placeholderText="Select a group"
+                  searchPlaceholderText="Search for a group"
+                  dropdownItems={requestGroupsMap ? Object.keys(requestGroupsMap) : []} // Pass the name of all request groups
+                  isErroneous={requestGroupError !== ""}
                   isDisabled={false}
-                  tooltipText="Groups describe the overall category of an item, such as stroller, crib, or bed."
-                  inputComponent={<TextField
-                    name="name"
-                    placeholder="Enter a group name"
-                    type="text"
-                    input={name}
-                    isDisabled={false}
-                    isErroneous={nameError !== ""}
-                    onChange={onNameChange}
-                  />
-                  }
+                  onSelect={onRequestGroupChange}
                 />
-              </div>
-              <div className="tag-input-form-item">
-                <FormItem
-                  formItemName="Item Types"
-                  instructions="If no types are applicable, create a universal type such as “One Size”"
-                  errorString={requestTypesError}
-                  isDisabled={false}
-                  tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
-                  inputComponent={
-                    <TagInput
-                      tagStrings={requestTypeNames}
-                      placeholder="Enter a new type"
-                      actionString="Add new type:"
-                      isErroneous={requestTypesError !== ""}
-                      onChange={onInputRequestTypeNameChange}
-                      onSubmit={onAddRequestType}
-                      onDelete={onDeleteRequestType}
-                    />
-                  }
-                />
-              </div>
-              <div className="richtext-field-form-item">
-                <FormItem
-                  formItemName="Description & Requirements"
-                  instructions="Formatting Tip: Ctrl-B to bold, “-” + Space to create a bullet point"
-                  errorString={descriptionError}
-                  isDisabled={false}
-                  inputComponent={
-                    <RichTextField
-                      initialContent={initialRequestGroup && initialRequestGroup.description ? initialRequestGroup.description : ""}
-                      defaultText="Enter group description here"
-                      onChange={onDescriptionChange}
-                      onEmpty={onDecriptionEmpty}
-                      isErroneous={descriptionError !== ""}
-                    />
-                  }
-                />
-              </div>
-            </div>
-            <div className="request-group-form-modal-panel" id="right">
-              <div className="imagepicker-form-item">
-                <FormItem
-                  formItemName="Image"
-                  errorString={imageError}
-                  isDisabled={false}
-                  inputComponent={
-                    <ImagePicker
-                      onImageChange={onImageChange}
-                      images={images}
-                      selected={image}
-                      isErroneous={imageError !== ""}
-                    />
-                  }
-                />
-              </div>
-            </div>
+              }
+            />
           </div>
-          <div className="request-group-form-modal-footer">
+          <div className="searchable-tag-dropdown-form-item">
+            <FormItem
+              formItemName="Type"
+              errorString={requestTypeError}
+              isDisabled={requestGroup === null} // Enable request type dropdown if a request group is selected
+              tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
+              inputComponent={
+                <SearchableDropdown
+                  placeholderText={requestGroup === null ? "Select a group first" : "Search or create a type"}
+                  searchPlaceholderText="Search for a type"
+                  dropdownItems={requestTypesMap ? Object.keys(requestTypesMap) : []} // Pass the name of all request groups
+                  isErroneous={requestTypeError !== ""}
+                  isDisabled={requestGroup === null}
+                  onSelect={onRequestTypeChange}
+                />
+              }
+            />
+          </div>
+          <div className="infinite-dropdown-form-item">
+            <FormItem
+              formItemName="Quantity"
+              errorString="" // No errors for quantity
+              isDisabled={false}
+              inputComponent={
+                <TextField
+                  input={quantity.toString()}
+                  isDisabled={false}
+                  isErroneous={false}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => onQuantityChange(parseInt(e.target.value))}
+                  name="quantity"
+                  placeholder=""
+                  type="text"
+                />
+              }
+            />
+          </div>
+          <div className="text-field-form-item">
+            <FormItem
+              formItemName="Client Full Name"
+              errorString={clientNameError}
+              isDisabled={false}
+              inputComponent={
+                <TextField
+                  input={clientName}
+                  isDisabled={false}
+                  isErroneous={clientNameError !== ""}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => onClientNameChange(e.target.value)}
+                  name="client-name"
+                  placeholder="ex. Julia Michaels"
+                  type="text"
+                />
+              }
+            />
+          </div>
+          <div className="request-form-modal-footer">
             <Button
               text={formButtonText}
               copyText=""
@@ -412,21 +498,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         </form>}
     </FormModal>
   </div >
-};
-
-const mapStateToProps = (store: RootState): StateProps => {
-  return {
-    requestGroups: store.requestGroups.data,
-  };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
-  return bindActionCreators(
-    {
-      upsertRequestGroup
-    },
-    dispatch
-  );
 };
 
 export default RequestGroupForm;
