@@ -24,9 +24,6 @@ const getRequestsById = (requestIds, dataSources) => {
 }
 
 const createRequestHelper = async (request, dataSources, session): Promise<Document> => {
-  if(request.id) {
-    throw new UserInputError('Invalid parameter', { argumentName: 'id'})
-  }
   if(!request.requestType) {
     throw new UserInputError('Missing argument value', { argumentName: 'requestType'})
   }
