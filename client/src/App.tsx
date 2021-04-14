@@ -12,6 +12,8 @@ import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
+import RequestGroupFormContainer from './components/examples/RequestGroupFormContainer'
+
 
 function App(): JSX.Element {
   return (
@@ -29,6 +31,7 @@ function App(): JSX.Element {
           <Route path='/test'>
             <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
           </Route>
+          <Route path='/request-group-form' component={RequestGroupFormContainer}></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>

@@ -1,0 +1,100 @@
+$request-group-form-input-width: 373px;
+
+.request-group-form {
+  &-modal {
+    &-body {
+      padding: 0px 69px 40px 75px;
+      border-radius: unset;
+    }
+    &-content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    &-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      & .form-item {
+        margin-top: 31px;
+      }
+    }
+
+    .text-field-input {
+      width: $request-group-form-input-width;
+      height: 45px;
+      
+      
+    }
+
+    .text-field-form-item {
+      .form-item-top {
+        width: $request-group-form-input-width;
+      }
+      .form-item-error-icon {
+        margin-top: 8px;
+      }
+    }
+
+    .tag-input-form-item {
+      .tag-input {
+        width: $request-group-form-input-width;
+        
+      }
+      .form-item-top {
+        width: $request-group-form-input-width;
+      }
+      .action {
+        width: $request-group-form-input-width;
+      }
+      .form-item-error-icon {
+        margin-top: 5px;
+      }
+    }
+
+    .imagepicker-form-item {
+      .imagepicker-preview {
+        margin-left: 7px;
+      }
+
+      .form-item-top {
+        width: 348px;
+        margin-left: 7px;
+      }
+
+      .form-item-error-icon {
+        margin-right: -40px;
+      }
+    }
+
+    .richtext-field-form-item {
+      & .richtext-field {
+        width: 484px;
+        height: 252px;
+      }
+
+      .form-item-top {
+        width: 484px;
+      }
+    }
+
+    &-footer {
+      & .button {
+        float: right;
+        padding: 12px 33px;
+
+        background-color: $tpc-green;
+        &:hover {
+          background-color: $tpc-green-hover;
+          color: $white-text-color;
+        }
+      }
+    }
+
+    .alert-dialog {
+      margin-left: 18%;
+      margin-top: -100px;
+    }
+  }
+}

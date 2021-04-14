@@ -1,31 +1,35 @@
 .form-item {
-    width: 350px;
-
     &-disabled {
         color: $disabled-text;
     }
     &-top {
-        margin-bottom: 11px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 300px;
+    }
+    &-instructions {
+        color: $disabled-text;
+        font-size: 14px;
+        line-height: 15px;
+        text-align: left;
+        margin-top: 8px;
     }
     &-bottom {
         text-align: left;
-        position: relative;
+        margin-top: 11px;
+        display: flex;
+        flex-direction: row;
     }
     &-error-text {
         color: $input-error;
         font-size: 12px;
         vertical-align: bottom;
         padding-top: 5px;
+        text-align: right;
     }
     &-error-icon {
         margin-left: 10px;
         color: $input-error;
         font-size: 22px;
-        position: absolute;
-        margin-top: 5px;
     }
 }

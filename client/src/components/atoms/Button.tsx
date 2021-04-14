@@ -4,7 +4,7 @@ import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 interface ButtonProps {
     text: string,
-    onClick: React.MouseEventHandler<HTMLButtonElement>,
+    onClick?: React.MouseEventHandler<HTMLButtonElement>,
     copyText: string
 }
 
