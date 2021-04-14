@@ -93,18 +93,20 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   }
 
   /* Functions for RequestGroup's Name*/
-  const getNameError = (name: string): string => {
+  const updateNameError = (name: string): string => {
+    let error = ""
     if (name.length === 0) {
-      return "Please enter a group name";
+      error = "Please enter a group name";
     }
     if (name.length > 20) {
-      return "Group name cannot exceed 20 characters";
+      error = "Group name cannot exceed 20 characters";
     }
     if (props.requestGroups.find((requestGroup) => requestGroup.name === name && requestGroup._id !== props.requestGroupId)) {
-      return "There is already a group with this name";
+      error = "There is already a group with this name";
     }
 
-    return "";
+    setNameError(error)
+    return error;
   }
 
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,29 +115,41 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
     setChangeMade(true);
     setName(newName);
-    setNameError(getNameError(newName))
+    updateNameError(newName)
   }
 
   /* Functions for RequestGroup's RequestTypes */
 
-  const getInputRequestTypeNameError = (inputRequestTypeName: string): string => {
+  const updateInputRequestTypeNameError = (inputRequestTypeName: string): string => {
+    let error = ""
     if (requestTypeNames.find(requestTypeName => requestTypeName === inputRequestTypeName)) {
-      return "There is already a type with this name";
+      error = "There is already a type with this name";
     }
     else if (inputRequestTypeName.length > 40) {
-      return "Type name cannot exceed 40 characters";
+      error = "Type name cannot exceed 40 characters";
     }
-    return "";
+
+    setRequestTypesError(error);
+    return error;
+  }
+
+  const updateRequestTypeNamesError = (requestTypes: Array<string>): string => {
+    let error = ""
+    if (requestTypes.length === 0) {
+      error = "Please create at least 1 type";
+    }
+
+    setRequestTypesError(error);
+    return error;
   }
 
   const onAddRequestType = (newRequestTypeName: string) => {
-    const error = getInputRequestTypeNameError(newRequestTypeName);
+    const error = updateInputRequestTypeNameError(newRequestTypeName);
 
     if (error === "") {
       setRequestTypeNames(requestTypeNames.concat([newRequestTypeName]));
     }
     setChangeMade(true);
-    setRequestTypesError(error);
   }
 
   const onDeleteRequestType = (targetRequestTypeName: string) => {
@@ -143,36 +157,30 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
     setChangeMade(true);
     setRequestTypeNames(newRequestTypeNames);
-    setRequestTypesError(getRequestTypeNamesError(newRequestTypeNames))
+    updateRequestTypeNamesError(newRequestTypeNames)
   }
 
   const onInputRequestTypeNameChange = (requestTypeName: string) => {
     setChangeMade(true);
-    setRequestTypesError(getInputRequestTypeNameError(requestTypeName))
+    updateInputRequestTypeNameError(requestTypeName)
     return true;
   }
 
-  const getRequestTypeNamesError = (requestTypes: Array<string>): string => {
-    if (requestTypes.length === 0) {
-
-      return "Please create at least 1 type";
-    }
-    return "";
-  }
-
   /* Functions for RequestGroup's Description */
-  const getDescriptionError = (description: string) => {
+  const updateDescriptionError = (description: string) => {
+    let error = ""
     if (!description) {
-      return "Please enter a description";
+      error = "Please enter a description";
     }
 
-    return "";
+    setDescriptionError(error)
+    return error;
   }
 
   const onDescriptionChange = (newDescription: string) => {
     setChangeMade(true);
     setDescription(newDescription)
-    setDescriptionError(getDescriptionError(description))
+    updateDescriptionError(description)
   }
 
   const onDecriptionEmpty = () => {
@@ -180,16 +188,19 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   }
 
   /* Functions for RequestGroup's Image */
-  const getImageError = (image: string) => {
+  const updateImageError = (image: string) => {
+    let error = ""
     if (image === "") {
-      return "Please select an image";
+      error ="Please select an image";
     }
-    return "";
+
+    setImageError(error)
+    return error;
   }
 
   const onImageChange = (newImage: string) => {
     setChangeMade(true);
-    setImageError(getImageError(newImage))
+    updateImageError(newImage)
     if (images.find((imageUrl) => imageUrl === newImage)) {
       setImage(newImage)
     }
@@ -197,21 +208,14 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const tempNameError = getNameError(name);
-    const tempDescriptionError = getDescriptionError(description);
-    const tempImageError = getImageError(image);
-    const tempRequestTypesError = getRequestTypeNamesError(requestTypeNames);
+    const tempNameError = updateNameError(name);
+    const tempDescriptionError = updateDescriptionError(description);
+    const tempImageError = updateImageError(image);
+    const tempRequestTypesError = updateRequestTypeNamesError(requestTypeNames);
 
     if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
       // do mutation
       props.handleClose()
-    }
-    else {
-      setNameError(tempNameError);
-      setDescriptionError(tempDescriptionError);
-      setImageError(tempImageError);
-
-      setRequestTypesError(tempRequestTypesError);
     }
   }
 

@@ -54,11 +54,14 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
         }
 
         let emptyContent = false;
-        // check if we are already typing (we are active) and state has no text
-        if (active && (!state.getCurrentContent().hasText() && state.getCurrentContent().getFirstBlock().getType() === 'unstyled')) {
-            // if so, we made the content empty, so add back the default text
-            setActive(false)
+        // check if state has no text
+        if ((!state.getCurrentContent().hasText() && state.getCurrentContent().getFirstBlock().getType() === 'unstyled')) {
             emptyContent = true;
+            // check if we are already typing (we are active) and 
+            if (active) {
+                // if so, we made the content empty, so add back the default text
+                setActive(false)
+            }
         }
 
         if (props.onEmpty && emptyContent) {
