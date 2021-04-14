@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from "react";
 
 import BannerPicture from '../../assets/homepage-banner.svg'
-import PacifierIcon from '../../assets/pacifier-icon.svg'
-import RubberDuckIcon from '../../assets/rubber-duck-icon.svg'
-import StrollerIcon from '../../assets/stroller-icon.svg'
+// import PacifierIcon from '../../assets/pacifier-icon.svg'
+// import RubberDuckIcon from '../../assets/rubber-duck-icon.svg'
+// import StrollerIcon from '../../assets/stroller-icon.svg'
 
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
