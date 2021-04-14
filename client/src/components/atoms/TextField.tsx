@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 interface TextFieldProps {
-  input: string,
+  input: string | number,
   isDisabled: boolean, // the entire text field is disabled (can't enter input + everything greyed out)
   isDisabledUI?: boolean, // grey out the icon and placeholder, but still enable editing input
   isErroneous: boolean,
@@ -11,7 +11,7 @@ interface TextFieldProps {
   onChange: React.ChangeEventHandler<HTMLInputElement>,
   name: string,
   placeholder: string,
-  type: "text" | "password",
+  type: "text" | "password" | "number",
   iconClassName?: string,
   onIconClick?: React.MouseEventHandler<HTMLElement>
   autocompleteOff?: boolean,
