@@ -78,7 +78,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
             </Col>
             <Col>
             <Dropdown className="request-group-button">
-              <Dropdown.Toggle>
+              <Dropdown.Toggle bsPrefix="custom">
                 <i className="bi bi-three-dots"></i>
               </Dropdown.Toggle>
 
