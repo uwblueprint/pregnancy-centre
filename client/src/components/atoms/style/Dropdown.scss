@@ -28,7 +28,7 @@
         margin-top: 15px;
         margin-right:0px;
       }
-      &__title--bold::before {
+      &__title--bold-open::before {
         display: inline-block;
         margin-right: 0.4em;
         vertical-align: 0.255em;
@@ -38,8 +38,24 @@
         border-bottom: 0;
         border-left: 0.3em solid transparent;
       }
+      &__title--bold-closed::before {
+        display: inline-block;
+        margin-right: 0.4em;
+        vertical-align: 0.255em;
+        content: "";
+        border-top: 0;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0.3em solid;
+        border-left: 0.3em solid transparent;
+      }
 
-       &__title--bold {
+       &__title--bold-open {
+         font-weight: 600;
+         margin-top:15px;
+         color: #000000;
+         font-size: 16px;
+       }
+       &__title--bold-closed {
          font-weight: 600;
          margin-top:15px;
          color: #000000;

@@ -20,7 +20,7 @@ const Dropdown:  FunctionComponent<Props> = (props: Props) => {
                 onClick={() => toggle()}
             >
                 <div className="dropdown-header__title">
-                <p className="dropdown-header__title--bold">{props.title}</p>
+                <p className={"dropdown-header__title--bold-" + (open ? "open" : "closed")}>{props.title}</p>
                 </div>
                 <div className="dropdown-header__action">
                     {props.header}
