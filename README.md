@@ -50,7 +50,7 @@ Tutorials:
 ```
 gcloud builds submit --tag gcr.io/bp-pregnancy-centre/tpc-server
 ```
-5. Add `.env` back to `server/.gitignore`.
+5. Add `.env` back to `server/.gitignore`. (Be safe, don't leak secrets!)
 6. Deploy built container using Google Cloud Run (if the service `tpc-server` already exists, a revision will be deployed). More info [here](https://cloud.google.com/run/docs/deploying#revision).
 ```
 gcloud beta run deploy tpc-server \
