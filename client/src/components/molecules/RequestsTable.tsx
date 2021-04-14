@@ -53,7 +53,6 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     
         const sortedRequests : Request[] = nonFulfilledRequests!.concat(fulfilledRequests!) as Request[];
         setRequests(sortedRequests);
-        console.log(requests)
       }, []);
       
      //console.log(sortedRequests);
@@ -62,8 +61,18 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     const onFulfilledRequest = (index: number) => {
         const requestsCopy = requests.slice();
         const req = {...requestsCopy[index]};
-        req.fulfilled = !req.fulfilled;
-        requestsCopy[index]=req
+        if(req.fulfilled === false) {
+            req.fulfilled = true
+            requestsCopy.splice(index, 1)
+            requestsCopy.push(req)
+        }
+        else {
+            req.fulfilled = false;
+            requestsCopy.splice(index, 1)
+            let i = 0
+            for(; i < requestsCopy.length; ++i) if(requestsCopy[i].fulfilled === true) break
+            requestsCopy.splice(i, 0, req)
+        }
         setRequests(requestsCopy);
         const id = req._id;
         const requestId = req.requestId;
