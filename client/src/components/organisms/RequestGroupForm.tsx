@@ -112,15 +112,10 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       requestTypes {
         _id
         name
-        description
-        image
-        requestTypes {
-          id
-          name
-          deleted
-        }
+        deleted
       }
     }
+  }
   `;
 
   if (props.operation === "edit") {
