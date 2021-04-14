@@ -2,7 +2,7 @@ import firebase from "./firebase";
 
 export const storage = firebase.storage();
 
-export const getFilesFromFolder = async (folder: string) => {
+export async function getFilesFromFolder(folder: string) {
   const folderRef = storage.ref(folder);
   const images = await folderRef
     .listAll()
@@ -14,7 +14,7 @@ export const getFilesFromFolder = async (folder: string) => {
             .then(function (url) {
               return url;
             })
-            .catch(function (error) {
+            .catch(function () {
               return "";
             });
         })
@@ -22,9 +22,9 @@ export const getFilesFromFolder = async (folder: string) => {
         return val;
       });
     })
-    .catch((err) => {
+    .catch(() => {
       return [""];
     });
 
   return images;
-};
+}
