@@ -3,6 +3,7 @@ import ScrollWindow from "../atoms/ScrollWindow";
 import { TextField } from "../atoms/TextField";
 
 interface Props {
+  initialText: string,
   placeholderText: string,
   searchPlaceholderText: string,
   dropdownItems: Array<string>,
@@ -14,7 +15,7 @@ interface Props {
 }
 
 const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
-  const [searchString, setSearchString] = useState("");
+  const [searchString, setSearchString] = useState(props.initialText);
   const [dropdownExpanded, setDropdownExpanded] = useState(false);
   const [noItems, setNoItems] = useState(false);
 
