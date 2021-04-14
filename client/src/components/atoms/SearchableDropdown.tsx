@@ -7,7 +7,9 @@ interface Props {
   searchPlaceholderText: string,
   dropdownItems: Array<string>,
   isErroneous: boolean,
-  onChange: React.ChangeEventHandler<HTMLInputElement>,
+  isDisabled: boolean,
+  onChange?: React.ChangeEventHandler<HTMLInputElement>,
+  onSelect: (item: string) => void,
 }
 
 const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
@@ -16,9 +18,12 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   const [noItems, setNoItems] = useState(false);
 
   const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.onChange(event);
+    if (props.onChange) {
+      props.onChange(event);
+    }
+
     if (!dropdownExpanded) {
-        setDropdownExpanded(true);
+      setDropdownExpanded(true);
     }
     setSearchString(event.target.value);
     if (event.target.value.length > 0 && props.dropdownItems.filter(item => item.toLocaleLowerCase().startsWith(event.target.value.toLocaleLowerCase())).length == 0) {
@@ -29,28 +34,29 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   }
 
   const onSelectedItemChange = (item: string) => {
+    props.onSelect(item);
     setSearchString(item);
     setDropdownExpanded(false);
   }
 
   return <div className="searchable-dropdown">
-      <div className="textfield" onClick={() => {setDropdownExpanded(!dropdownExpanded)}}>
-        <TextField
-          input={searchString}
-          isDisabled={false}
-          isDisabledUI={dropdownExpanded}
-          isErroneous={props.isErroneous}
-          onChange={onSearchStringChange}
-          name="SearchableDropdown"
-          placeholder={dropdownExpanded ? props.searchPlaceholderText : props.placeholderText}
-          type="text"
-          iconClassName="bi bi-caret-down-fill"
-          showRedErrorText={true}
-          autocompleteOff={true}
-        ></TextField>
-      </div>
-      {dropdownExpanded && <span>
-        {noItems ?
+    <div className="textfield" onClick={() => { setDropdownExpanded(!dropdownExpanded && !props.isDisabled) }}>
+      <TextField
+        input={searchString}
+        isDisabled={props.isDisabled}
+        isDisabledUI={dropdownExpanded}
+        isErroneous={props.isErroneous}
+        onChange={onSearchStringChange}
+        name="SearchableDropdown"
+        placeholder={dropdownExpanded ? props.searchPlaceholderText : props.placeholderText}
+        type="text"
+        iconClassName="bi bi-caret-down-fill"
+        showRedErrorText={true}
+        autocompleteOff={true}
+      ></TextField>
+    </div>
+    {dropdownExpanded && <span>
+      {noItems ?
         <div className="no-items-found">
           <span className="not-exist-msg">This group does not exist</span>
           <span className="create-group"><a><span>Create a new group</span><i className="bi bi-arrow-right-short"></i></a></span>
@@ -64,9 +70,9 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
             )}
           </ScrollWindow>
         </div>
-        }
-        </span>
       }
+    </span>
+    }
   </div>
 };
 

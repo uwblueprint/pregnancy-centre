@@ -20,14 +20,9 @@
       border-color: $tpc-green;
     }
 
-    &:disabled {
+    &:disabled, &.disabled  {
+      border-color: $disabled-input-border-color;
       background: none;
-      &::placeholder {
-        color: $disabled-text;
-      }
-    }
-
-    &.disabled {
       &::placeholder {
         color: $disabled-text;
       }
