@@ -23,16 +23,17 @@
   }
 
   &-preview {
-    margin: 0px 0px 14px 8px;
-    height: 262px;
-    width: 350px;
+    margin-bottom: 14px;
+    height: 248px;
+    width: 348px;
     display: flex;
 
     font-size: 24px;
 
     img {
-      height: 262px;
-      width: 350px;
+      height: 248px;
+      width: 348px;
+      object-fit: cover;
     }
     .unselected {
       width: 100%;

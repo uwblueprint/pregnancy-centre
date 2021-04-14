@@ -33,6 +33,7 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
       onChange={props.onChange}
       disabled={props.isDisabled}
       autoComplete={props.autocompleteOff ? "off" : "on"}
+      onKeyDown={(e: React.KeyboardEvent) => { if (e.key == 'Enter') { e.preventDefault() } }}
     />
     {props.iconClassName && <i
       onClick={props.onIconClick ? props.onIconClick : () => {}}

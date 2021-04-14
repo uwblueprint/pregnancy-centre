@@ -1,4 +1,6 @@
 .tooltip-inner {
+    @include normal-text;
+    padding: 10px 20px;
     background-color: $tooltip-background-color;
     color: $tooltip-text-color;
     text-align: left;

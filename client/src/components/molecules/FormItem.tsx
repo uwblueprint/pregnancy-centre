@@ -8,6 +8,7 @@ interface Props {
     isDisabled: boolean;
     inputComponent: React.ReactNode;
     tooltipText?: string;
+    instructions?: string;
 }
 
 const FormItem: FunctionComponent<Props> = (props: Props) => {
@@ -18,10 +19,15 @@ const FormItem: FunctionComponent<Props> = (props: Props) => {
             <div className="form-item-top">
                 <span className={props.isDisabled ? "form-item-disabled" : undefined}>
                     {props.formItemName}
-                    {props.tooltipText && <Tooltip tooltipText={props.tooltipText}/>}
+                    {props.tooltipText && <Tooltip tooltipText={props.tooltipText} />}
                 </span>
                 {isError && <span className="form-item-error-text">{props.errorString}</span>}
             </div>
+            {props.instructions &&
+                <div className="form-item-instructions">
+                    {props.instructions}
+                </div>
+            }
             <div className="form-item-bottom">
                 {props.inputComponent}
                 {isError && <i className="form-item-error-icon bi bi-exclamation-circle alert-icon"></i>}
