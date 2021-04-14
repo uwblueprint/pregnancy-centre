@@ -1,0 +1,104 @@
+.request-type-dropdown-container{
+    margin-left: 150px;
+    margin-top: 16px;
+    width: 1200px;
+    .request-type-dropdown{
+        background-color: #EDEDED;
+        border-color: #EDEDED;
+        color: black;
+        font-weight: 600;
+        width: 1400px;
+        text-align: left;
+        padding-left: 20px;
+        display:flex;
+    }
+    
+    .type-text{
+        flex:15;
+    }
+    
+    .type-text::before {
+        display: inline-block;
+        margin-right: 0.4em;
+        vertical-align: 0.255em;
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+    }
+    
+    .button-container{
+        flex:1;
+        color: #333333;
+        background-color: unset !important;
+        font-size: 20px;
+    }
+    .button-container .edit{
+        margin-right:22px;
+        margin-left: 5px;
+    }
+    
+    .dropdown-toggle::after {
+        display: unset;
+        margin-left: unset;
+        vertical-align: unset;
+        content: unset;
+        border-top: unset;
+        border-right: unset;
+        border-bottom: unset;
+        border-left: unset;
+    }
+    
+    .button-container{
+        background-color: #EDEDED;
+        border-color: #EDEDED;
+    }
+    
+    .btn-primary:hover {
+        background-color: lightgray;
+        border-color: lightgray;
+        color: black;
+        font-weight: 600;
+    }
+    
+    .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus {
+        box-shadow: unset;
+    }
+    
+    .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+        background-color: lightgray;
+        border-color: lightgray;
+        color: black;
+        font-weight: 600;
+    }
+    
+    .btn-primary:focus, .btn-primary.focus {
+        background-color: #EDEDED;
+        border-color: #EDEDED;
+        color: black;
+        font-weight: 600;
+        box-shadow: unset;
+    }
+    
+    .dropdown-menu{
+        &.show {
+            position: static !important;
+            float: none;
+            margin-top: -30px;
+        }
+        padding-top: 0rem;
+        border: unset;
+        height: auto;
+    }
+    
+    .too-long-container{
+        margin-top: 15px;
+        
+    }
+    
+    .too-long-text{
+        font-size: 15px;
+        color: red;
+    }
+}

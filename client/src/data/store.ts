@@ -10,7 +10,7 @@ const DEFAULT_STATE: RootState = {
   requestGroups: { 
     data: [],
     displayData: []
-  }
+  },
 };
 
 export default function configureStore(initialState = DEFAULT_STATE): Store<RootState> {

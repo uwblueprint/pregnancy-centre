@@ -1,0 +1,39 @@
+.request-group {
+
+    &-description {
+        margin-left: 145px;
+    }
+
+    &-title {
+        font-weight: 600;
+    }
+}
+
+.btn, .btn:hover, .btn:focus, .btn:active, .show > .btn-primary.dropdown-toggle {
+    background-color: $admin-request-group-browser-button-color;
+    color: $tpc-green;
+    border-color: $tpc-green;
+    height: 36px;
+    width: 60px;
+}
+
+.request-group-button {
+    float: right;
+    position: absolute;
+    left: 85%;
+
+    &-dropdown {
+        background-color: $admin-request-group-browser-dropdown-color;
+        border-radius: 4px;
+        box-shadow: 0 4px 3px $admin-request-group-browser-dropdown-shadow-color; 
+
+        &-item {
+            padding-top: 15px;
+        }
+    }
+}
+
+.buttonDiv {
+    position: relative;
+}
+

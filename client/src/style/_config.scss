@@ -110,6 +110,7 @@ $window-border-color: #d7d7d7;
 
 $button-background: #3e3e3e;
 $button-disabled-background: #b2b2b2;
+$admin-request-group-browser-button-color: #fbfbfb;
 
 @mixin button-base() {
   font-size: 16px;
@@ -207,6 +208,9 @@ $tpc-green-hover: #00363e;
   color: $input-icon-color;
 }
 
+/* Dropdown Config */
+$admin-request-group-browser-dropdown-color: #f4f4f4;
+$admin-request-group-browser-dropdown-shadow-color: #dbdbdb;
 /* TextField Config */
 $soft-black: #333333;
 $textfield-input-border: #797979;

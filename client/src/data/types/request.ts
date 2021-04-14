@@ -9,4 +9,6 @@ export default interface Request {
   dateFulfilled?: Date;
   deleted?: boolean;
   fulfilled?: boolean;
+  requestType?: string;
+  quantity?: number;
 }

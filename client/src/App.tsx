@@ -3,9 +3,10 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
 
 import AdminHomepage from "./pages/AdminHomepage";
+import AdminRequestGroupView from "./pages/AdminRequestGroupView"
 import AuthTestComponent from "./pages/AuthTestComponent";
 import DonorHomepage from './pages/DonorHomepage'
-import RequestGroupDonorView from "./components/organisms/RequestGroupDonorView";
+import RequestGroupDonorView from './components/organisms/RequestGroupDonorView';
 import ResetPasswordModal from "./pages/ResetPasswordModal"
 import SampleContainer from "./components/examples/SampleContainer";
 import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
@@ -31,6 +32,7 @@ function App(): JSX.Element {
           <Route path='/test'>
             <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
           </Route>
+          <Route path='/request-group/:id'><AdminRequestGroupView /></Route>
           <Route path='/request-group-form' component={RequestGroupFormContainer}></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
