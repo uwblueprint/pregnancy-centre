@@ -4,7 +4,6 @@ import { Spinner } from 'react-bootstrap';
 
 import AlertDialog from '../atoms/AlertDialog'
 import { Button } from '../atoms/Button'
-import Client from '../../data/types/client'
 import FormItem from '../molecules/FormItem'
 import FormModal from './FormModal'
 import Request from '../../data/types/request'
@@ -57,14 +56,12 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     $id: ID!
     $requestType: ID!
     $quantity: Int!
-    $client: ID!
     $clientName: String!
   ) {
     updateRequest(request: {
       id: $id
       requestType: $requestType
       quantity: $quantity
-      client: $client
       clientFullName: $clientName
     }) {
       success
@@ -73,55 +70,8 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     }
   }`
 
-  const updateRequestWithDifferentClientMutation = gql`
-  mutation UpdateRequest(
-    $id: ID!
-    $requestType: ID!
-    $quantity: Int!
-    $clientName: ID!
-  ) {
-    updateRequest(request: {
-      id: $id
-      requestType: $requestType
-      quantity: $quantity
-      clientName: $clientName
-    }) {
-      success
-      message
-      id
-    }
-  }`
-
-  // const fetchMatchingClientsQuery = gql`
-  // query FetchClients(
-  //   $fullname: String!
-  // ) {
-  //   filterClients(client: {
-  //     fullname: $fullname
-  //   }) {
-  //     client {
-  //       _id
-  //     }
-  //   }
-  // }`
-
-  // const getRequestTypesInRequestGroup = gql`
-  // query FetchRequestGroup($id: ID!) {
-  //   requestGroup(id: $id) {
-  //     requestTypes {
-  //       _id
-  //       name
-  //       deleted
-  //     }
-  //   }
-  // }
-  // `
-
   const [createRequest] = useMutation(createRequestMutation);
   const [updateRequest] = useMutation(updateRequestMutation);
-  const [updateRequestWithDifferentClient] = useMutation(updateRequestWithDifferentClientMutation);
-  // const [fetchMatchingClients, { data: matchingClients, loading: loadingMatchingClients, error: matchingClientsError }] = useLazyQuery(fetchMatchingClientsQuery);
-
 
   const fetchRequestGroups = gql`
   query FetchRequestGroups {
@@ -172,7 +122,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       }
       client {
         _id
-        name
+        fullName
       }
     }
   }`
@@ -181,8 +131,8 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     useQuery(fetchRequest, {
       variables: { id: props.requestId, },
       fetchPolicy: 'network-only',
-      onCompleted: (data: { rawRequest: Request }) => {
-        const request: Request = JSON.parse(JSON.stringify(data.rawRequest)); // deep-copy since data object is frozen
+      onCompleted: (data: { request: Request }) => {
+        const request: Request = JSON.parse(JSON.stringify(data.request)); // deep-copy since data object is frozen
 
         setInitialRequest(request)
         setRequestGroup(request.requestType && request.requestType.requestGroup ? request.requestType.requestGroup : null)
@@ -203,8 +153,8 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         && initialRequest.requestType
         && initialRequest.requestType.requestGroup
         && initialRequest.requestType.requestGroup.name
-        && initialRequest.requestType.requestGroup.requestTypes
       ) {
+        // When all request groups and the initial request is fetched, construct requestTypesMap
         const initialRequestGroupRequestTypes = requestGroupsMap.get(initialRequest.requestType.requestGroup.name)?.requestTypes
         if (initialRequestGroupRequestTypes) {
           updateRequestTypesMap(initialRequestGroupRequestTypes);
@@ -215,7 +165,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
   /* Functions for RequestTypesMap */
   const updateRequestTypesMap = (requestTypes: Array<RequestType>) => {
-    console.log(requestTypes)
     setRequestTypesMap(new Map(
       requestTypes.reduce((entries, requestType) => {
         if (requestType && requestType.name) {
@@ -250,7 +199,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       // check that new request group is not the same as the previously selected request group
       && (!requestGroup || newRequestGroupName !== requestGroup.name)
       && newRequestGroup.requestTypes) {
-      console.log("HERE")
       // If a new request group is chosen, change the request types map
       updateRequestTypesMap(newRequestGroup.requestTypes);
       setRequestType(null)
@@ -330,12 +278,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const tempClientNameError = updateClientNameError(clientName)
 
     if (!tempRequestGroupError && !tempRequestTypeError && !tempClientNameError) {
-      // fetchClients({ variables: { fullName: clientName } }).then(() => {
-      //   if (props.operation === "create") {
-      //     return createRequest({ variables: { name, description, image, requestTypeNames } })
-      //   }
-      //   return updateRequest({ variables: { id: props.requestGroupId, name, description, image, requestTypeNames } })
-      // }).catch((err) => { console.log(err) })
       if (props.operation === "create") {
         if (requestType) {
           createRequest({
@@ -351,44 +293,17 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       else {
         // Edit request
         if (initialRequest && initialRequest.client && requestType) {
-          const clientChanged = !(clientName === initialRequest.client.fullName)
           updateRequest({
             variables: {
               id: initialRequest._id,
               requestType: requestType._id,
               quantity,
-              client: !clientChanged ? initialRequest.client._id : undefined,
-              clientName: clientChanged ? clientName : undefined,
+              clientName,
             }
-          })
+          }).then((res) => { console.log(res) })
             .catch((err) => { console.log(err) })
         }
-
-        // if (clientName === initialRequest.client.fullName) {
-        //   // Client on request is unchanged
-        //   updateRequest({
-        //     variables: {
-        //       id: initialRequest._id,
-        //       requestType: requestType._id,
-        //       quantity,
-        //       client: initialRequest.client._id
-        //     }
-        //   })
-        //     .catch((err) => { console.log(err) })
-        // } else {
-        //   updateRequest({
-        //     variables: {
-        //       id: initialRequest._id,
-        //       requestType: requestType._id,
-        //       quantity,
-        //       clientName
-        //     }
-        //   })
-        //     .catch((err) => { console.log(err) })
-        // }
       }
-
-
       props.handleClose()
     }
   }
@@ -434,6 +349,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               tooltipText="Groups describe the overall category of an item, such as stroller, crib, or bed."
               inputComponent={
                 <SearchableDropdown
+                  initialText={requestGroup && requestGroup.name ? requestGroup.name : ""}
                   placeholderText="Select a group"
                   searchPlaceholderText="Search for a group"
                   dropdownItems={requestGroupsMap ? [...requestGroupsMap.keys()] : []} // Pass the name of all request groups
@@ -453,6 +369,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
               inputComponent={
                 <SearchableDropdown
+                  initialText={requestType && requestType.name ? requestType.name : ""}
                   placeholderText={requestGroup === null ? "Select a group first" : "Search or create a type"}
                   searchPlaceholderText="Search for a type"
                   dropdownItems={requestTypesMap ? [...requestTypesMap.keys()] : []} // Pass the name of all request groups
