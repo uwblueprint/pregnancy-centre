@@ -73,6 +73,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
 
     return (
         <div className="request-list">
+            { requests.length === 0 ? <p className="request-table-empty-message">There are currently no requests in this type</p> : 
             <Table responsive className="request-table">
                 <thead>
                 <tr >
@@ -106,6 +107,8 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                     ))}
                 </tbody>
             </Table>
+            }
+
             {/* TODO: Add Edit and Delete Request Modals here*/}
         </div>
     )
