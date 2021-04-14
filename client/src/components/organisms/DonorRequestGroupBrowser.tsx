@@ -59,7 +59,7 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
 
   return <div className="donor-request-group-browser">
     <div>
-      <h1 className="donor-request-group-browser-header">Open Requests</h1>
+      <h1 className="donor-request-group-browser-header">Current Needs</h1>
     </div>
     <div className="donor-request-group-browser-content">
       <div className="donor-request-group-browser-list">
