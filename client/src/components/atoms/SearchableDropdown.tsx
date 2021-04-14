@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import ScrollWindow from "../atoms/ScrollWindow";
 import { TextField } from "../atoms/TextField";
 
@@ -8,7 +8,8 @@ interface Props {
   dropdownItems: Array<string>,
   isErroneous: boolean,
   isDisabled: boolean,
-  onChange?: React.ChangeEventHandler<HTMLInputElement>,
+  isEmpty?: boolean,
+  onChange: React.ChangeEventHandler<HTMLInputElement>,
   onSelect: (item: string) => void,
 }
 
@@ -18,9 +19,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   const [noItems, setNoItems] = useState(false);
 
   const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (props.onChange) {
       props.onChange(event);
-    }
 
     if (!dropdownExpanded) {
       setDropdownExpanded(true);
@@ -38,6 +37,12 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
     setSearchString(item);
     setDropdownExpanded(false);
   }
+
+  useEffect(() => {
+    if (props.isEmpty) {
+      setSearchString("")
+    }
+  }, [props.isEmpty])
 
   return <div className="searchable-dropdown">
     <div className="textfield" onClick={() => { setDropdownExpanded(!dropdownExpanded && !props.isDisabled) }}>
