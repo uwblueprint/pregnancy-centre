@@ -16,7 +16,7 @@ interface DispatchProps {
 type Props = DispatchProps
 
 
-const RequestGroupFormContainer: FunctionComponent<Props> = (props: Props) => {
+const EditRequestGroupFormContainer: FunctionComponent<Props> = (props: Props) => {
   const [show, setShow] = useState(true);
 
   const query = gql`
@@ -36,8 +36,7 @@ const RequestGroupFormContainer: FunctionComponent<Props> = (props: Props) => {
     },
   });
 
-  return (<>{show && <RequestGroupForm handleClose={() => setShow(false)} operation="edit" />}</>)
-
+  return (<>{show && <RequestGroupForm handleClose={() => setShow(false)} operation="edit" requestGroupId="607663bb2cbfaf98de609fa3" />}</>)
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
@@ -49,5 +48,5 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
   );
 };
 
-export default connect<Record<string, unknown>, DispatchProps, Record<string, unknown>, RootState>(null, mapDispatchToProps)(RequestGroupFormContainer);
+export default connect<Record<string, unknown>, DispatchProps, Record<string, unknown>, RootState>(null, mapDispatchToProps)(EditRequestGroupFormContainer);
 

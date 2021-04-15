@@ -2,6 +2,7 @@ $request-group-form-input-width: 373px;
 
 .request-group-form {
   &-modal {
+
     &-body {
       padding: 0px 69px 40px 75px;
       border-radius: unset;
@@ -24,8 +25,6 @@ $request-group-form-input-width: 373px;
     .text-field-input {
       width: $request-group-form-input-width;
       height: 45px;
-      
-      
     }
 
     .text-field-form-item {
@@ -95,6 +94,17 @@ $request-group-form-input-width: 373px;
     .alert-dialog {
       margin-left: 18%;
       margin-top: -100px;
+    }
+
+    &-loading-content {
+      min-height: 650px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .spinner {
+      align-self: center;
     }
   }
 }

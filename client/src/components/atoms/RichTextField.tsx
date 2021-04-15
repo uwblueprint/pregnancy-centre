@@ -16,6 +16,7 @@ interface Props {
 
 const RichTextField: FunctionComponent<Props> = (props: Props) => {
     const [active, setActive] = React.useState(false) // whether we have entered any content beyond the default text
+    const [changeMade, setChangeMade] = React.useState(false)
     const [editorState, setEditorState] = React.useState(
         props.initialContent ?
             EditorState.createWithContent(convertFromRaw(JSON.parse(props.initialContent))) :
@@ -48,6 +49,10 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
     }
 
     function onChange(state: EditorState) {
+        if (!changeMade) {
+            setChangeMade(true)
+        }
+
         // if user is typing content, so this is active
         if (!active) {
             setActive(true)
@@ -149,7 +154,8 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
                 </button>
             </div>
             <div className="richtext-field-input">
-                {!active &&
+                {/* Do not display default text if there is initial content and no change is made */}
+                {!active && !(props.initialContent && !changeMade) &&
                     <span className="richtext-default-text">
                         {props.defaultText}
                     </span>

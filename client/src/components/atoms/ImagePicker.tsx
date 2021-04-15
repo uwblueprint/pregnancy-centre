@@ -21,11 +21,13 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
           </div>
         )}
       </div>
-      <ImageList
-        selected={selected}
-        images={images}
-        onImageChange={onImageChange}
-      />
+      {images.length > 1 && (
+        <ImageList
+          selected={selected}
+          images={images}
+          onImageChange={onImageChange}
+        />
+      )}
     </div>
   );
 };

@@ -8,9 +8,9 @@ import { RequestTypeInterface } from '../models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
 
 /* Helper functions */
-import { createRequestHelper, filterDeletedRequests, filterOpenRequests, filterFulfilledRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper } from './utils/request'
+import { createRequestGroupHelper, nextRequestRequestGroupHelper, softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
+import { createRequestHelper, filterDeletedRequests, filterFulfilledRequests, filterOpenRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper } from './utils/request'
 import { createRequestTypeHelper, nextRequestRequestTypeHelper, softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
-import { nextRequestRequestGroupHelper, softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
 import { sessionHandler } from '../database/session'
 
 const resolvers = {
@@ -19,7 +19,7 @@ const resolvers = {
     filterClients: (_, { filter }, { dataSources }): Array<ClientInterface> => {
       let filteredClients = dataSources.clients.getAll()
 
-      for (let property in filter) {
+      for (const property in filter) {
         filteredClients = filteredClients.filter((client) => (client[property] ? client[property] === filter[property] : true))
       }
 
@@ -35,7 +35,7 @@ const resolvers = {
   },
   Mutation: {
     createRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => {
-      return dataSources.requestGroups.create(requestGroup)
+      return sessionHandler(session => createRequestGroupHelper(requestGroup, dataSources, session))
         .then(res => {
           return {
             'success': true,
@@ -129,11 +129,11 @@ const resolvers = {
     softDeleteClient: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.clients.softDelete(id)
   },
   RequestGroup: {
-    numOpen: (parent, __, { dataSources }): Number => 
+    numOpen: (parent, __, { dataSources }): number => 
       parent.requestTypes.map(id => {
         return filterOpenRequests(getRequestsById(dataSources.requestTypes.getById(Types.ObjectId(id)).requests, dataSources)).length
       }).reduce((total, num) => total + num, 0),
-    hasAnyRequests: (parent, __, { dataSources }): Boolean => 
+    hasAnyRequests: (parent, __, { dataSources }): boolean => 
       parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((notEmpty, len) => notEmpty || len > 0, false),
     nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
       const nextRequest = nextRequestRequestGroupHelper(parent.requestTypes, dataSources)
@@ -142,7 +142,7 @@ const resolvers = {
     requestTypes: (parent, __, { dataSources }): Array<RequestTypeInterface> => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)))
   },
   RequestType: {
-    numOpen: (parent, __, { dataSources }): Number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,
+    numOpen: (parent, __, { dataSources }): number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,
     nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
       const nextRequest = nextRequestRequestTypeHelper(parent.requests, dataSources)
       return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
