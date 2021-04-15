@@ -2,14 +2,12 @@ import { gql, useMutation } from '@apollo/client';
 import React, { FunctionComponent, useState } from 'react';
 import CommonModal from '../organisms/Modal';
 import Dropdown from '../atoms/Dropdown';
+import FormModal from '../organisms/FormModal';
 import Request from '../../data/types/request';
 import RequestGroup from '../../data/types/requestGroup';
 import RequestsTable from './RequestsTable';
 import RequestType from '../../data/types/requestType';
 
-import FormModal from '../organisms/FormModal';
-
-import { Button } from '../atoms/Button';
 
 interface Props {
     key?: string;
@@ -56,8 +54,6 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
 
     const editModalTitle = "Edit Type";
     const deleteModalTitle = "Delete Type";
-    const deleteModalSubtitle = `Are you sure you want to delete "${requestType!.name}" as a type in the group "${props.requestGroup!.name}"? This will delete all ${getTotalQuantity()} requests within this type and cannot be undone.`
-    
     const tooLongMessage = "Type name cannot exceed 40 characters!";
 
     const handleEditModalClose = () => {
