@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import ScrollWindow from "../atoms/ScrollWindow";
 import { TextField } from "../atoms/TextField";
+import { useComponentVisible } from "../utils/hooks";
 
 interface Props {
   initialText: string;
@@ -12,13 +13,17 @@ interface Props {
   isEmpty?: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onSelect: (item: string) => void;
+  noItemsAction: React.ReactNode;
 }
 
 const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   const [searchString, setSearchString] = useState(props.initialText);
-  const [dropdownExpanded, setDropdownExpanded] = useState(false);
+  const [selectedString, setSelectedString] = useState("");
+  const { ref: dropdownReference, isComponentVisible: dropdownExpanded, setIsComponentVisible: setDropdownExpanded } = useComponentVisible(false);
+  // const [dropdownExpanded, setDropdownExpanded] = useState(false);
   const [noItems, setNoItems] = useState(false);
   const [filterEnabled, setFilterEnabled] = useState(false);
+
   const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(event);
     setFilterEnabled(true);
@@ -42,6 +47,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
 
   const onSelectedItemChange = (item: string) => {
     props.onSelect(item);
+    setSelectedString(item);
     setSearchString(item);
     setFilterEnabled(false);
     setDropdownExpanded(false);
@@ -52,6 +58,16 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
       setSearchString("");
     }
   }, [props.isEmpty]);
+
+  useEffect(() => {
+    if (!dropdownExpanded) {
+      setFilterEnabled(false)
+      setSearchString(selectedString)
+      if (selectedString) {
+        props.onSelect(selectedString);
+      }
+    }
+  }, [dropdownExpanded])
 
   return (
     <div className="searchable-dropdown">
@@ -80,44 +96,36 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
         ></TextField>
       </div>
       {dropdownExpanded && (
-        <span>
+        <span ref={dropdownReference}>
           {noItems ? (
-            <div className="no-items-found">
-              <span className="not-exist-msg">This group does not exist</span>
-              <span className="create-group">
-                <a>
-                  <span>Create a new group</span>
-                  <i className="bi bi-arrow-right-short"></i>
-                </a>
-              </span>
-            </div>
+            props.noItemsAction
           ) : (
-            <div>
-              <ScrollWindow>
-                <div className="dropdown-header">{props.placeholderText}</div>
-                {props.dropdownItems
-                  .filter((item) =>
-                    filterEnabled
-                      ? item
+              <div>
+                <ScrollWindow>
+                  <div className="dropdown-header">{props.placeholderText}</div>
+                  {props.dropdownItems
+                    .filter((item) =>
+                      filterEnabled
+                        ? item
                           .toLocaleLowerCase()
                           .startsWith(searchString.toLocaleLowerCase())
-                      : item.length > 0
-                  )
-                  .sort(function (a, b) {
-                    return a.toLowerCase().localeCompare(b.toLowerCase());
-                  })
-                  .map((item) => (
-                    <div
-                      className="dropdown-item"
-                      key={item}
-                      onClick={() => onSelectedItemChange(item)}
-                    >
-                      {item}
-                    </div>
-                  ))}
-              </ScrollWindow>
-            </div>
-          )}
+                        : item.length > 0
+                    )
+                    .sort(function (a, b) {
+                      return a.toLowerCase().localeCompare(b.toLowerCase());
+                    })
+                    .map((item) => (
+                      <div
+                        className="dropdown-item"
+                        key={item}
+                        onClick={() => onSelectedItemChange(item)}
+                      >
+                        {item}
+                      </div>
+                    ))}
+                </ScrollWindow>
+              </div>
+            )}
         </span>
       )}
     </div>

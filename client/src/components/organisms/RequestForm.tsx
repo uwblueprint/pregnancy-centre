@@ -27,10 +27,13 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const [requestTypesMap, setRequestTypesMap] = useState<Map<string, RequestType> | null>(null)
   const [requestGroup, setRequestGroup] = useState<RequestGroup | null>(null)
   const [requestType, setRequestType] = useState<RequestType | null>(null)
+  const [requestGroupInput, setRequestGroupInputGroup] = useState("")
+  const [requestTypeInput, setRequestTypeInputGroup] = useState("")
   const [quantity, setQuantity] = useState<number>(1)
   const [clientName, setClientName] = useState("")
   const [requestGroupError, setRequestGroupError] = useState("")
   const [requestTypeError, setRequestTypeError] = useState("")
+  const [quantityError, setQuantityError] = useState("")
   const [clientNameError, setClientNameError] = useState("")
   const [loading, setLoading] = useState(true)
 
@@ -212,6 +215,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
   const onRequestGroupInputChange = (newRequestGroupInput: string) => {
     setChangeMade(true);
+    setRequestGroupInputGroup(newRequestGroupInput)
     if (!newRequestGroupInput) {
       onRequestGroupChange("")
     }
@@ -243,14 +247,26 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
   const onRequestTypeInputChange = (newRequestTypeInput: string) => {
     setChangeMade(true);
+    setRequestTypeInputGroup(newRequestTypeInput)
     if (!newRequestTypeInput) {
       onRequestTypeChange("")
     }
   }
 
   /* Functions for Request's Quantity */
+  const updateQuantityError = (newQuantity: number) => {
+    let error = ""
+    if (!newQuantity) {
+      error = "Please enter a number greater or equal to 1"
+    }
+
+    setQuantityError(error);
+    return error
+  }
+
   const onQuantityChange = (newQuantity: number) => {
     setChangeMade(true);
+    updateQuantityError(newQuantity)
     setQuantity(newQuantity)
   }
 
@@ -275,9 +291,10 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     e.preventDefault();
     const tempRequestGroupError = updateRequestGroupError(requestGroup)
     const tempRequestTypeError = updateRequestTypeError(requestType)
+    const tempQuantityNameError = updateQuantityError(quantity)
     const tempClientNameError = updateClientNameError(clientName)
 
-    if (!tempRequestGroupError && !tempRequestTypeError && !tempClientNameError) {
+    if (!tempRequestGroupError && !tempRequestTypeError && !tempQuantityNameError && !tempClientNameError) {
       if (props.operation === "create") {
         if (requestType) {
           createRequest({
@@ -353,10 +370,19 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                   placeholderText="Select a group"
                   searchPlaceholderText="Search for a group"
                   dropdownItems={requestGroupsMap ? [...requestGroupsMap.keys()] : []} // Pass the name of all request groups
-                  isErroneous={requestGroupError !== ""}
+                  isErroneous={requestGroupError !== "" && requestGroupInput === ""}
                   isDisabled={false}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onRequestGroupInputChange(e.target.value) }}
                   onSelect={onRequestGroupChange}
+                  noItemsAction={(<div className="no-items-found">
+                    <span className="not-exist-msg">This group does not exist</span>
+                    {/* <span className="create-group">
+                      <a>
+                        <span>Create a new group</span>
+                        <i className="bi bi-arrow-right-short"></i>
+                      </a>
+                    </span> */}
+                  </div>)}
                 />
               }
             />
@@ -373,11 +399,14 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                   placeholderText={requestGroup === null ? "Select a group first" : "Search or create a type"}
                   searchPlaceholderText="Search for a type"
                   dropdownItems={requestTypesMap ? [...requestTypesMap.keys()] : []} // Pass the name of all request groups
-                  isErroneous={requestTypeError !== ""}
+                  isErroneous={requestTypeError !== "" && requestTypeInput === ""}
                   isDisabled={requestGroup === null}
                   isEmpty={requestType === null}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onRequestTypeInputChange(e.target.value) }}
                   onSelect={onRequestTypeChange}
+                  noItemsAction={(<div className="no-items-found">
+                    <span className="not-exist-msg">This type does not exist</span>
+                  </div>)}
                 />
               }
             />
@@ -385,13 +414,13 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           <div className="infinite-dropdown-form-item">
             <FormItem
               formItemName="Item Quantity"
-              errorString="" // No errors for quantity
+              errorString={quantityError}
               isDisabled={false}
               inputComponent={
                 <TextField
                   input={quantity.toString()}
                   isDisabled={false}
-                  isErroneous={false}
+                  isErroneous={quantityError !== ""}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onQuantityChange(parseInt(e.target.value)) }}
                   name="quantity"
                   placeholder=""
