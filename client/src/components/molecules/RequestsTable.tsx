@@ -65,8 +65,6 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         setRequests(sortedRequests);
       }, []);
       
-     //console.log(sortedRequests);
-    
     const [mutateDeleteRequest] = useMutation(softDeleteRequest)   
     const [mutateRequest] = useMutation(updateRequest);
     const onSoftDeleteRequest = (index: number) => {
