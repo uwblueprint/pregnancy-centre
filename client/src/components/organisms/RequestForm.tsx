@@ -124,7 +124,7 @@ const RequestForm: FunctionComponent<Props> = (props: Props) => {
     onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
       const requestGroups: Array<RequestGroup> = JSON.parse(
         JSON.stringify(data.requestGroups)
-      ); // deep-copy since data object is frozen
+      ); //deep-copy since data object is frozen
 
       const map = new Map(
         requestGroups.reduce((entries, requestGroup) => {
