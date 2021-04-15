@@ -21,8 +21,6 @@ const requestSchema = new Schema({
   },
   requestId: {
     type: String,
-    required: true,
-    default: ''
   },
   client: {
     type: Types.ObjectId, ref: 'Client'

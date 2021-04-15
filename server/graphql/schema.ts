@@ -99,6 +99,7 @@ const typeDefs = gql`
         requestId: String
         fulfilled: Boolean
         quantity: Int
+        clientFullName: String
     }
     input ClientInput {
         id: ID

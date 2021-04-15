@@ -1,6 +1,7 @@
-import { ClientSession, Document, Types } from 'mongoose'
+import { Document, Types } from 'mongoose'
 import { UserInputError } from 'apollo-server-errors'
 
+import { getClientByFullNameOrCreate } from './client'
 import { RequestInterface } from '../../models/requestModel'
 import { updateRequestTypeHelper } from './requestType'
 
@@ -23,12 +24,15 @@ const getRequestsById = (requestIds, dataSources) => {
 }
 
 const createRequestHelper = async (request, dataSources, session): Promise<Document> => {
-  if(request.id) {
-    throw new UserInputError('Invalid parameter', { argumentName: 'id'})
-  }
   if(!request.requestType) {
     throw new UserInputError('Missing argument value', { argumentName: 'requestType'})
   }
+
+  if (request.clientFullName) {
+    const client = await getClientByFullNameOrCreate(request.clientFullName, dataSources, session)
+    request.client = client._id
+  }
+
   const newRequest = await dataSources.requests.create(request, session)
   const requestType = dataSources.requestTypes.getById(request.requestType.toString())
   requestType.requests.push(newRequest._id)
@@ -58,6 +62,12 @@ const updateRequestHelper = async (request, dataSources, session): Promise<Docum
   else {
     await updateRequestTypeHelper({"id": oldRequestTypeId}, dataSources, session)
   }
+
+  if (request.clientFullName) {
+    const client = await getClientByFullNameOrCreate(request.clientFullName, dataSources, session)
+    request.client = client._id
+  }
+
   const res = await dataSources.requests.update(request, session)
   return res
 }
