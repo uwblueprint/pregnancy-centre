@@ -143,18 +143,24 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                 </div>
             }/>
             <FormModal 
-                class=""
+                class="request-type-form-modal"
                 title={deleteModalTitle}
                 handleClose={handleDeleteModalClose}
                 show={deleteModalShow}
                 size="small">
                 <form onSubmit={deleteRequestType}>
-                    <div>{deleteModalSubtitle}</div>
+                    <div className="request-type-form-modal-contents">{deleteModalSubtitle}</div>
                     <div className="request-group-form-modal-footer">
-                        <Button
+                        {/* <Button
                         text="Confirm"
                         copyText=""
                         />
+                        <Button
+                        text="Cancel"
+                        copyText=""
+                        /> */}
+                        <button className="request-type-form-modal-confirm" onClick={()=>{}}>Confirm</button>
+                        <button className="request-type-form-modal-cancel" onClick={()=>{}}>Cancel</button>
                     </div>
 
                 </form>

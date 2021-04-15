@@ -102,3 +102,39 @@
         color: red;
     }
 }
+
+.request-type-form-modal {
+    &-confirm {
+        @include normal-button;
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
+        width: fit-content;
+        padding: 11px;
+        color: white;
+        background-color: $tpc-green;
+        float: right;
+        padding: 15px 25px;
+        margin-right: 20px;
+    }
+    &-cancel {
+        @include normal-button;
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
+        width: fit-content;
+        padding: 11px;
+        color: $tpc-green;
+        background-color: white;
+        float: right;
+        border: none;
+        padding: 15px 25px;
+        margin-right: 20px;
+    }
+    .modal-header {
+        padding-left: 25px;
+        padding-bottom: 0;
+    }
+
+    &-contents {
+        margin: 20px 10px 35px 10px;
+    }
+}
