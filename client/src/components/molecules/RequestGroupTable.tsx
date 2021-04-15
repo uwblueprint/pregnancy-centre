@@ -49,7 +49,6 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                 key={ requestGroup._id } 
                                 className="data-row" 
                                 onClick={() => {
-                                    console.log('clicked ' + requestGroup._id)
                                     history.push('/request-group/' + requestGroup._id)
                                 }
                                 }>
