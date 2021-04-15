@@ -76,7 +76,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
       setEditModalShow(false)
     };
 
-    const onChange = () => {
+    const onEditComplete = () => {
       window.location.reload();
     }
 
@@ -109,7 +109,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
           </Row>
           {
             editModalShow &&
-            <RequestGroupForm onChange={()=>onChange()} handleClose={handleEditModalClose} requestGroupId={requestGroup._id} operation="edit"></RequestGroupForm>
+            <RequestGroupForm onSubmitComplete={()=>onEditComplete()} handleClose={handleEditModalClose} requestGroupId={requestGroup._id} operation="edit"></RequestGroupForm>
           }
           <RequestTypeDropdownList requestGroup={requestGroup} requestTypes={requestGroup!.requestTypes}></RequestTypeDropdownList> </div>
         )}

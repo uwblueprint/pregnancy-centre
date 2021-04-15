@@ -28,7 +28,7 @@ interface DispatchProps {
 type Props = StateProps &
   DispatchProps & {
     handleClose: () => void;
-    onChange: () => void;
+    onSubmitComplete: () => void;
     requestGroupId?: string;
     operation: "create" | "edit";
   };
@@ -293,14 +293,11 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       else {
 
         updateRequestGroup({ variables: { id: props.requestGroupId, name, description, image, requestTypeNames } })
-          .then((res)=>{
-            console.log(res);
+          .then(()=>{
             props.onChange();
           })
           .catch((err) => { console.log(err) })
-        //props.onChange();
       }
-
       props.handleClose()
     }
   };
