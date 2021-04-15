@@ -5,6 +5,7 @@ import moment from 'moment';
 import  Table  from 'react-bootstrap/Table';
 
 import Request from '../../data/types/request';
+import RequestForm from "../organisms/RequestForm";
 
 interface Props {
     requests: Request[];
@@ -12,6 +13,8 @@ interface Props {
 }
 
 const RequestsTable: FunctionComponent<Props> = (props: Props) => {
+    const [ requestSelectedForEditing, setRequestSelectedForEditing ] = useState("")
+
     const headingList = ['Fulfilled', 'Client Name', 'Quantity', 'Date Requested', ''];
     const updateRequest = gql`
     mutation updateRequest($request: RequestInput){
@@ -108,6 +111,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
 
     return (
         <div className="request-list">
+            { requestSelectedForEditing && <RequestForm handleClose={() => setRequestSelectedForEditing("")} operation="edit" requestId={requestSelectedForEditing} /> }
             { requests.length === 0 ? <p className="request-table-empty-message">There are currently no requests in this type</p> : 
             <Table responsive className="request-table">
                 <thead>
@@ -135,7 +139,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                                 moment(request.dateCreated, "x").format('MMMM DD, YYYY')
                             }</td>
                             <td><div className="btn-cont">
-                                <td><a className="request-table edit" href="/"><i className="bi bi-pencil"></i></a></td>
+                                <td><a className="request-table edit" onClick={() => { if(request._id) { setRequestSelectedForEditing(request._id) }}}><i className="bi bi-pencil"></i></a></td>
                                 <td><a className="request-table delete" onClick={() => onSoftDeleteRequest(index)}><i className="bi bi-trash"></i></a></td>
                             </div></td>
                         </tr> : undefined

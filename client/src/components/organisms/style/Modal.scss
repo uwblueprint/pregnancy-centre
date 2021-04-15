@@ -9,7 +9,10 @@
     display: flex;
     justify-content: space-between;
     &-small {
-      padding: 32px 28px 0px 28px;
+      padding: 0px 28px 8px 28px;
+      &.modal-header{
+        padding-top: 20px;
+      }
     }
     &-medium {
       padding: 0 13px 5px 67px;
@@ -54,7 +57,7 @@
   .line {
     height: 1px;
     &-small {
-      margin: -10px 13px !important;
+      margin: 3px 0px !important;
       padding: 0px 0px 10px 0px !important;
     }
     &-medium {
