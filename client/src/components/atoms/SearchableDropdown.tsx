@@ -18,10 +18,10 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   const [searchString, setSearchString] = useState(props.initialText);
   const [dropdownExpanded, setDropdownExpanded] = useState(false);
   const [noItems, setNoItems] = useState(false);
-
+  const [filterEnabled, setFilterEnabled] = useState(false);
   const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(event);
-
+    setFilterEnabled(true);
     if (!dropdownExpanded) {
       setDropdownExpanded(true);
     }
@@ -43,6 +43,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   const onSelectedItemChange = (item: string) => {
     props.onSelect(item);
     setSearchString(item);
+    setFilterEnabled(false);
     setDropdownExpanded(false);
   };
 
@@ -96,9 +97,11 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
                 <div className="dropdown-header">{props.placeholderText}</div>
                 {props.dropdownItems
                   .filter((item) =>
-                    item
-                      .toLocaleLowerCase()
-                      .startsWith(searchString.toLocaleLowerCase())
+                    filterEnabled
+                      ? item
+                          .toLocaleLowerCase()
+                          .startsWith(searchString.toLocaleLowerCase())
+                      : item.length > 0
                   )
                   .map((item) => (
                     <div
