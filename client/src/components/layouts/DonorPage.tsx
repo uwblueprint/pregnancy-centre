@@ -6,7 +6,7 @@ import Navbar from '../organisms/Navbar'
 const DonorPage: FunctionComponent<Record<string, unknown>> = (props: React.PropsWithChildren<Record<string, unknown>>) => {
   return <div className="donor-page">
     <div className="donor-page-header">
-      <Navbar links={ [ { name: "TPC Main Website", link: "https://pregnancycentre.ca/"  }, 
+      <Navbar links={ [ { name: "Back to Main Website", link: "https://pregnancycentre.ca/"  }, 
                         { name: "Organization Login", link: "/login" } ] } />
     </div>
     <div className="donor-page-content" >
