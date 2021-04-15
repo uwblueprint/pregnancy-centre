@@ -8,6 +8,7 @@ import FormItem from "../molecules/FormItem";
 import FormModal from "./FormModal";
 import Request from "../../data/types/request";
 import RequestGroup from "../../data/types/requestGroup";
+import RequestGroupForm from "./RequestGroupForm";
 import RequestType from "../../data/types/requestType";
 import SearchableDropdown from "../atoms/SearchableDropdown";
 import { TextField } from "../atoms/TextField";
@@ -19,7 +20,7 @@ interface Props {
   operation: "create" | "edit";
 }
 
-const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
+const RequestForm: FunctionComponent<Props> = (props: Props) => {
   const [initialRequest, setInitialRequest] = useState<Request | null>(null);
   const [showAlertDialog, setShowAlertDialog] = useState(false);
   const [changeMade, setChangeMade] = useState(false);
@@ -42,7 +43,10 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const [quantityError, setQuantityError] = useState("");
   const [clientNameError, setClientNameError] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const [
+    showCreateRequestGroupModal,
+    setShowCreateRequestGroupModal,
+  ] = useState(false);
   const createRequestMutation = gql`
     mutation CreateRequest(
       $requestType: ID!
@@ -131,7 +135,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         }, [] as Array<[string, RequestGroup]>)
       );
       setRequestGroupsMap(map);
-
       // For the edit request form, check that we're not waiting for the request to load before setting loading = false
       if (!(props.operation === "edit" && !initialRequest)) {
         setLoading(false);
@@ -390,6 +393,18 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
   return (
     <div className="request-form">
+      {showCreateRequestGroupModal && (
+        <RequestGroupForm
+          onSubmitComplete={() => {
+            window.location.reload();
+          }}
+          handleClose={() => {
+            setShowCreateRequestGroupModal(false);
+          }}
+          operation="create"
+        />
+      )}
+
       <FormModal
         class="request-form-modal"
         show={true}
@@ -443,12 +458,17 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         <span className="not-exist-msg">
                           This group does not exist
                         </span>
-                        {/* <span className="create-group">
+                        <span
+                          className="create-group"
+                          onClick={() => {
+                            setShowCreateRequestGroupModal(true);
+                          }}
+                        >
                           <a>
                             <span>Create a new group</span>
                             <i className="bi bi-arrow-right-short"></i>
                           </a>
-                        </span> */}
+                        </span>
                       </div>
                     }
                   />
@@ -545,4 +565,4 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   );
 };
 
-export default RequestGroupForm;
+export default RequestForm;
