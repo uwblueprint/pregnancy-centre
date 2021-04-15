@@ -18,9 +18,8 @@ interface Props {
 
 const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   const [searchString, setSearchString] = useState(props.initialText);
-  const [selectedString, setSelectedString] = useState("");
+  const [selectedString, setSelectedString] = useState(props.initialText);
   const { ref: dropdownReference, isComponentVisible: dropdownExpanded, setIsComponentVisible: setDropdownExpanded } = useComponentVisible(false);
-  // const [dropdownExpanded, setDropdownExpanded] = useState(false);
   const [noItems, setNoItems] = useState(false);
   const [filterEnabled, setFilterEnabled] = useState(false);
 
@@ -55,6 +54,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
 
   useEffect(() => {
     if (props.isEmpty) {
+      
       setSearchString("");
     }
   }, [props.isEmpty]);
