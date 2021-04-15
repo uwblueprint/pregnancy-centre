@@ -72,6 +72,11 @@ $window-border-color: #d7d7d7;
   color: $tpc-green;
 }
 
+@mixin error-text() {
+  @include text;
+  color: $error-color;
+}
+
 @mixin section-header-text() {
   @include text;
   color: $section-header-text-color;
