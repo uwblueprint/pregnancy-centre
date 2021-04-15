@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 import { ApolloServer } from "apollo-server-express";
+import { AuthenticationError } from "apollo-server-express";
 import bodyParser from "body-parser";
 import { connectDB } from "./database/mongoConnection";
 import cookieParser from "cookie-parser";
@@ -110,16 +111,23 @@ async function gqlServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: async ({ req, res }) => {
-      let user: null | User = null;
-      if (req.cookies && req.cookies.session) {
-        user = await getUser(req.cookies.session);
-        if (!user || !user.id) {
-          user = null;
+    context: async ({ req, res }) => ({
+      authenticateUser: async () => {
+        if (!isProd) {
+          return { req, res, user: null };
         }
+
+        if (!req.cookies || !req.cookies.session) {
+          throw new AuthenticationError("Authentication Not Found");
+        }
+
+        const user = await getUser(req.cookies.session);
+        if (!user || !user.id)
+          throw new AuthenticationError("Authentication Error");
+
+        return { req, res, user };
       }
-      return { req, res, user, isProd };
-    },
+    }),
     dataSources: () => ({
       clients: new ClientDataSource(),
       requests: new RequestDataSource(),
@@ -137,7 +145,7 @@ async function gqlServer() {
 
   app.listen({ port: PORT });
   console.log(`🚀 Server ready at port ${PORT}`);
-  
+
   return { server, app };
 }
 
