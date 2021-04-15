@@ -13,7 +13,7 @@ const HomepageBanner: FunctionComponent = () => {
     <Row className="justify-content-between">
       <Col className="align-self-center homepage-banner-info" md={5}>
         <h1>Help women and families in Kitchener-Waterloo thrive with your donation today</h1>
-        <p>Scroll to see our clients&#39; current needs and arrange a donation</p>
+        <p style={{width: '80%'}}>Scroll to see our clients&#39; current needs and arrange a donation</p>
         {/* <Row className="homepage-banner-stats">
           <Col className="homepage-banner-stat">
             <img className="homepage-banner-icon" src={StrollerIcon} />
