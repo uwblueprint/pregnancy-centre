@@ -16,8 +16,8 @@ import { sessionHandler } from '../database/session'
 
 const resolvers = {
   Query: {
-    client: (_, { id }, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(id)),
-    filterClients: (_, { filter }, { dataSources }): Array<ClientInterface> => {
+    client: (_, { id }, { dataSources, authenticateUser }): ClientInterface => authenticateUser().then(() => dataSources.clients.getById(Types.ObjectId(id))),
+    filterClients: (_, { filter }, { dataSources, authenticateUser }): Array<ClientInterface> => authenticateUser().then(() => {
       let filteredClients = dataSources.clients.getAll()
 
       for (const property in filter) {
@@ -25,8 +25,8 @@ const resolvers = {
       }
 
       return filteredClients
-    },
-    clients: (_, __, { dataSources }): Array<ClientInterface> => dataSources.clients.getAll(),
+    }),
+    clients: (_, __, { dataSources, authenticateUser }): Array<ClientInterface> => authenticateUser().then(() => dataSources.clients.getAll()),
     request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getById(Types.ObjectId(id)),
     requests: (_, __, { dataSources }): Array<RequestInterface> => dataSources.requests.getAll(),
     requestType: (_, { id }, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(id)),
@@ -35,7 +35,7 @@ const resolvers = {
     requestGroups: (_, __, { dataSources }): Array<RequestGroupInterface> => dataSources.requestGroups.getAll()
   },
   Mutation: {
-    createRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => {
+    createRequestGroup: (_, { requestGroup }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> => authenticateUser().then(() => {
       return sessionHandler(session => createRequestGroupHelper(requestGroup, dataSources, session))
         .then(res => {
           return {
@@ -44,8 +44,8 @@ const resolvers = {
             'id': res._id
           }
         })
-    },
-    updateRequestGroup: (_, { requestGroup }, { dataSources }): Promise<ServerResponseInterface> => {
+    }),
+    updateRequestGroup: (_, { requestGroup }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
       return sessionHandler(session => updateRequestGroupHelper(requestGroup, dataSources, session))
         .then(res => {
           return {
@@ -54,8 +54,8 @@ const resolvers = {
             'id': res._id
           }
         })
-    },
-    softDeleteRequestGroup: (_, { id }, { dataSources }): Promise<ServerResponseInterface> => {
+    }),
+    softDeleteRequestGroup: (_, { id }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
       return softDeleteRequestGroupHelper(id, dataSources)
         .then(res => {
           return {
@@ -64,8 +64,8 @@ const resolvers = {
             'id': res._id
           }
         })
-    },
-    createRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => {
+    }),
+    createRequestType: (_, { requestType }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> => authenticateUser().then(() => {
       return sessionHandler(session => createRequestTypeHelper(requestType, dataSources, session))
         .then(res => {
           return {
@@ -74,8 +74,8 @@ const resolvers = {
             'id': res._id
           }
         })
-    },
-    updateRequestType: (_, { requestType }, { dataSources }): Promise<ServerResponseInterface> => {
+    }),
+    updateRequestType: (_, { requestType }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
       return sessionHandler(session => updateRequestTypeHelper(requestType, dataSources, session))
         .then(res => {
           return {
@@ -84,8 +84,8 @@ const resolvers = {
             'id': res._id
           }
         })
-    },
-    softDeleteRequestType: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
+    }),
+    softDeleteRequestType: (_, { id }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
       return softDeleteRequestTypeHelper(id, dataSources)
         .then(res => {
           return {
@@ -94,8 +94,8 @@ const resolvers = {
             'id': res._id
           }
         })
-    },
-    createRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
+    }),
+    createRequest: (_, { request }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> => authenticateUser().then(() => {
       return sessionHandler((session) => createRequestHelper(request, dataSources, session))
         .then(res => {
           return {
@@ -104,18 +104,18 @@ const resolvers = {
             'id': res._id
           }
         })
-    },
-    updateRequest: (_, { request }, { dataSources }): Promise<ServerResponseInterface> => {
+    }),
+    updateRequest: (_, { request }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
       return sessionHandler((session) => updateRequestHelper(request, dataSources, session))
-      .then(res => {
-        return {
-          'success': true,
-          'message': 'Request successfully updated',
-          'id': res._id
-        }
-      })
-    },
-    softDeleteRequest: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => {
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'Request successfully updated',
+            'id': res._id
+          }
+        })
+    }),
+    softDeleteRequest: (_, { id }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
       return softDeleteRequestHelper(id, dataSources)
         .then(res => {
           return {
@@ -124,42 +124,42 @@ const resolvers = {
             'id': res._id
           }
         })
-    },
-    createClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => {
+    }),
+    createClient: (_, { client }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> => authenticateUser().then(() => {
       return sessionHandler((session) => createClientHelper(client, dataSources, session))
-      .then(res => {
-        return {
-          'success': true,
-          'message': 'Client succesfully updated',
-          'id': res._id
-        }
-      })
-    },
+        .then(res => {
+          return {
+            'success': true,
+            'message': 'Client succesfully updated',
+            'id': res._id
+          }
+        })
+    }),
 
     // TODO: Create helper functions for updateClient and softDeleteClient
     // TODO: Wrap updateClient and softDeleteClient helpers in sessionHandler
-    updateClient: (_, { client }, { dataSources }): Promise<ServerResponseInterface> => dataSources.clients.update(client),
-    softDeleteClient: (_, { id }, { dataSources}): Promise<ServerResponseInterface> => dataSources.clients.softDelete(id)
+    updateClient: (_, { client }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> => authenticateUser().then(() => dataSources.clients.update(client)),
+    softDeleteClient: (_, { id }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> => authenticateUser().then(() => dataSources.clients.softDelete(id))
   },
   RequestGroup: {
-    numOpen: (parent, __, { dataSources }): number => 
+    numOpen: (parent, __, { dataSources }): number =>
       parent.requestTypes.map(id => {
         return filterOpenRequests(getRequestsById(dataSources.requestTypes.getById(Types.ObjectId(id)).requests, dataSources)).length
       }).reduce((total, num) => total + num, 0),
-    hasAnyRequests: (parent, __, { dataSources }): boolean => 
+    hasAnyRequests: (parent, __, { dataSources }): boolean =>
       parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((notEmpty, len) => notEmpty || len > 0, false),
-    nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
+    nextRecipient: (parent, __, { dataSources, authenticateUser }): ClientInterface =>  authenticateUser().then(() => {
       const nextRequest = nextRequestRequestGroupHelper(parent.requestTypes, dataSources)
       return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
-    },
+    }),
     requestTypes: (parent, __, { dataSources }): Array<RequestTypeInterface> => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)))
   },
   RequestType: {
-    numOpen: (parent, __, { dataSources }): number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,
-    nextRecipient: (parent, __, { dataSources }): ClientInterface => { 
+    numOpen: (parent, __, { dataSources }): Number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,
+    nextRecipient: (parent, __, { dataSources, authenticateUser }): ClientInterface => authenticateUser().then(() => {
       const nextRequest = nextRequestRequestTypeHelper(parent.requests, dataSources)
       return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
-    },
+    }),
     openRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterOpenRequests(getRequestsById(parent.requests, dataSources)),
     fulfilledRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterFulfilledRequests(getRequestsById(parent.requests, dataSources)),
     deletedRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterDeletedRequests(getRequestsById(parent.requests, dataSources)),
@@ -168,7 +168,7 @@ const resolvers = {
   },
   Request: {
     requestType: (parent, __, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(parent.requestType.toString())),
-    client: (parent, __, { dataSources }): ClientInterface => dataSources.clients.getById(Types.ObjectId(parent.client))
+    client: (parent, __, { dataSources, authenticateUser }): ClientInterface => authenticateUser().then(() => dataSources.clients.getById(Types.ObjectId(parent.client)))
   }
 }
 
