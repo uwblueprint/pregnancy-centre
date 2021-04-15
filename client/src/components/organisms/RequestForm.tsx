@@ -101,7 +101,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           return entries
         },
           [] as Array<[string, RequestGroup]>))
-      setRequestGroupsMap(map)
+      //setRequestGroupsMap(map)
 
       // For the edit request form, check that we're not waiting for the request to load before setting loading = false
       if (!(props.operation === 'edit' && !initialRequest)) {
@@ -375,7 +375,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onRequestGroupInputChange(e.target.value) }}
                   onSelect={onRequestGroupChange}
                   noItemsAction={(<div className="no-items-found">
-                    <span className="not-exist-msg">This group does not exist</span>
+                    <span className="not-exist-msg">{requestGroupsMap?.size === 0 ? "There are no request groups" : "This group does not exist"}</span>
                     {/* <span className="create-group">
                       <a>
                         <span>Create a new group</span>
