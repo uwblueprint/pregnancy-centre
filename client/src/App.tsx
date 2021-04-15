@@ -8,6 +8,7 @@ import AuthAction from "./pages/AuthAction";
 import DonorHomepage from './pages/DonorHomepage'
 import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
+import SignUpModal from "./pages/SignUpModal";
 
 function App(): JSX.Element {
   return (
