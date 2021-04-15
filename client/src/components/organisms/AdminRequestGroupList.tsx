@@ -2,14 +2,15 @@ import { bindActionCreators, Dispatch } from "redux"
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
+import { Dropdown } from "react-bootstrap";
 
 import { loadRequestGroups, setDisplayRequestGroups } from '../../data/actions/requestGroupsActions';
-import { Button } from "../atoms/Button";
 import RequestGroup from '../../data/types/requestGroup';
 import RequestGroupTable from "../molecules/RequestGroupTable";
 import { RootState } from '../../data/reducers'
 import SearchBar from "../atoms/SearchBar";
 import SimplePageNavigation from "../atoms/SimplePageNavigation";
+
 
 interface StateProps {
     requestGroups: Array<RequestGroup>,
@@ -82,10 +83,6 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
         props.setDisplayRequestGroups(updatedRequestGroups);
     }
 
-    const onCreateButtonClick = () => {
-        console.log("create button clicked");
-    }
-
     return (
         <div className="admin-request-group-list">
             <div className="row">
@@ -93,7 +90,19 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
                 <span className="action-group">
                     <span className="item"><SearchBar defaultText="Search for a group..." onSearchStringChange={onSearchStringChange} /></span>
                     <span className="spacing"></span>
-                    <span className="item"><Button text="Create" copyText="Create" onClick={onCreateButtonClick} /></span>
+                    <span className="item">
+                        <Dropdown className="admin-group-button">
+                            <Dropdown.Toggle bsPrefix="custom">
+                                Create
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu align="right" className="admin-group-button-dropdown">
+                                <Dropdown.Item className="admin-group-button-dropdown-item" onClick={() => {}}>New request</Dropdown.Item>
+                                <Dropdown.Item className="admin-group-button-dropdown-item" onClick={() => {}}>New group</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </span>
+                    {/* <span className="item"><Button text="Create" copyText="Create" onClick={onCreateButtonClick} /></span> */}
                 </span>
             </div>
             <div className="page-navigation">

@@ -18,6 +18,7 @@
     .action-group {
         display: flex;
         flex-direction: row;
+        margin-right: 50px;
     }
     
     .action-group .spacing {
@@ -47,6 +48,29 @@
         margin-right: 80px;
     }
     
+   .btn, .btn:hover, .btn:focus, .btn:active, .show > .btn-primary.dropdown-toggle {
+        background-color: $tpc-green;
+        color: $white;
+        height: 39px;
+        width: 150px;
+        margin-right: 50px;
+    }
+
+    .admin-group-button {
+        &-dropdown {
+            background-color: $admin-request-group-browser-dropdown-color;
+            border-radius: 4px;
+            box-shadow: 0 4px 3px $admin-request-group-browser-dropdown-shadow-color; 
+            border: none;
+            &-item {
+                padding-top: 15px;
+            }
+        }
+
+        .dropdown-menu {
+            margin-top: 8px;
+        }
+    } 
     .page-navigation {
         display: block;
         float: right;
