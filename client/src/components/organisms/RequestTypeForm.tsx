@@ -10,7 +10,7 @@ import { TextField } from '../atoms/TextField'
 
 interface Props {
   handleClose: () => void
-  handleSubmit: (newRequestTypeName: string) => void
+  onSubmit: (newRequestTypeName: string) => void
   requestType?: RequestType
   requestGroup: RequestGroup
   operation: "create" | "edit"
@@ -26,8 +26,14 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
   const createForm = props.operation === "create";
 
   const createRequestTypeMutation = gql`
-  mutation CreateRequestType($name: String!) {
-    createRequestType(requestType: { name: $name }) {
+  mutation CreateRequestType(
+    $name: String!
+    $requestGroup: ID!
+  ) {
+    createRequestType(requestType: { 
+      name: $name 
+      requestGroup: $requestGroup
+    }) {
       success
       message
       id
@@ -86,6 +92,7 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
         createRequestType({
           variables: {
             name: requestType,
+            requestGroup: props.requestGroup._id
           }
         }).then((res) => { console.log(res) })
           .catch((err) => { console.log(err) })
@@ -93,7 +100,7 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
       }
       else {
         // Edit request type
-        if (props.requestType && props.requestType._id) {
+        if (props.requestType) {
           updateRequestType({
             variables: {
               id: props.requestType._id,
@@ -103,7 +110,7 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
             .catch((err) => { console.log(err) })
         }
       }
-      props.handleSubmit(requestType)
+      props.onSubmit(requestType)
     }
   }
 

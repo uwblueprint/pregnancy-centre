@@ -41,7 +41,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
         return totalQuantity;
     }
 
-    const handleEditModalSubmit = (newRequestTypeName: string) => {
+    const onEditModalSubmit = (newRequestTypeName: string) => {
         if (requestType) {
             const requestTypeCopy = requestType
             requestTypeCopy.name = newRequestTypeName
@@ -87,7 +87,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
             ></Dropdown>
             {editModalShow && props.requestGroup && <RequestTypeForm
                 handleClose={() => setEditModalShow(false)}
-                handleSubmit={handleEditModalSubmit}
+                onSubmit={onEditModalSubmit}
                 requestType={requestType}
                 requestGroup={props.requestGroup}
                 operation="edit"

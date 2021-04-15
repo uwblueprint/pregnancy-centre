@@ -2,10 +2,12 @@ import { Col, Row, Spinner } from "react-bootstrap";
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap"
+import { useParams } from "react-router";
+
 import RequestGroup from '../../data/types/requestGroup';
 import RequestGroupForm from "./RequestGroupForm";
 import RequestTypeDropdownList from "./RequestTypeDropdownList";
-import { useParams } from "react-router";
+import RequestTypeForm from "./RequestTypeForm";
 
 interface ParamTypes {
     id: string
@@ -15,7 +17,8 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
     const { id } = useParams<ParamTypes>();
     const [requestGroup, setRequestGroup] = useState<RequestGroup|undefined>(undefined);
     const [numTypes, setNumTypes] = useState(0);
-    const [editModalShow, setEditModalShow] = useState(false);
+    const [showEditGroupModal, setShowEditGroupModal] = useState(false);
+    const [showCreateTypeModal, setShowCreateTypeModal] = useState(false);
 
     const query = gql`
     query getRequestGroup($id: ID) {
@@ -67,19 +70,6 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
       }
     }, [requestGroup]);
 
-    // when user clicks edit button request type
-    const onOpenEditModal = () => {
-        setEditModalShow(true);
-    }
-
-    const handleEditModalClose = () => {
-      setEditModalShow(false)
-    };
-
-    const onEditComplete = () => {
-      window.location.reload();
-    }
-
     return (
       <div>
         {requestGroup===undefined ? 
@@ -99,8 +89,8 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu align="right" className="request-group-button-dropdown">
-                <Dropdown.Item className="request-group-button-dropdown-item" onClick={onOpenEditModal}>Edit Group</Dropdown.Item>
-                <Dropdown.Item className="request-group-button-dropdown-item" onClick={() => {}}>Create New Type</Dropdown.Item>
+                <Dropdown.Item className="request-group-button-dropdown-item" onClick={() => { setShowEditGroupModal(true) }}>Edit Group</Dropdown.Item>
+                <Dropdown.Item className="request-group-button-dropdown-item" onClick={() => { setShowCreateTypeModal(true) }}>Create New Type</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
 
@@ -108,8 +98,16 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
 
           </Row>
           {
-            editModalShow &&
-            <RequestGroupForm onSubmitComplete={()=>onEditComplete()} handleClose={handleEditModalClose} requestGroupId={requestGroup._id} operation="edit"></RequestGroupForm>
+            showEditGroupModal &&
+            <RequestGroupForm onSubmitComplete={() => { window.location.reload() }} handleClose={()=> { setShowEditGroupModal(false) }} requestGroupId={requestGroup._id} operation="edit"></RequestGroupForm>
+          }
+          {
+            showCreateTypeModal &&
+            <RequestTypeForm 
+            handleClose={()=> { setShowEditGroupModal(false) }}   
+            onSubmit={() => { window.location.reload() }} 
+            requestGroup={requestGroup} 
+            operation="create"/>
           }
           <RequestTypeDropdownList requestGroup={requestGroup} requestTypes={requestGroup!.requestTypes}></RequestTypeDropdownList> </div>
         )}
