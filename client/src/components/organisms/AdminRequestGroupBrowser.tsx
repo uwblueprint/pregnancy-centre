@@ -1,7 +1,6 @@
-import { Spinner } from "react-bootstrap";
+import { Dropdown, Spinner } from "react-bootstrap"
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Dropdown } from "react-bootstrap"
 import { useParams } from "react-router";
 
 import RequestGroup from '../../data/types/requestGroup';
