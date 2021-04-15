@@ -5,7 +5,9 @@ import { connect } from "react-redux";
 import { Dropdown } from "react-bootstrap";
 
 import { loadRequestGroups, setDisplayRequestGroups } from '../../data/actions/requestGroupsActions';
+import RequestForm from "../organisms/RequestForm";
 import RequestGroup from '../../data/types/requestGroup';
+import RequestGroupForm from "../organisms/RequestGroupForm";
 import RequestGroupTable from "../molecules/RequestGroupTable";
 import { RootState } from '../../data/reducers'
 import SearchBar from "../atoms/SearchBar";
@@ -26,6 +28,8 @@ type Props = StateProps & DispatchProps;
 
 const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithChildren<Props>) => {
     const [currentPage, setCurrentPage] = useState(1); // Indexing starting at 1.
+    const [showCreateRequestModal, setShowCreateRequestModal] = useState(false);
+    const [showCreateRequestGroupModal, setShowCreateRequestGroupModal] = useState(false);
     const numGroupsPerPage = 20;
 
     const handlePageChange = (newPage: number) => {
@@ -84,7 +88,10 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
     }
 
     return (
+
         <div className="admin-request-group-list">
+            { showCreateRequestModal && <RequestForm handleClose={() => setShowCreateRequestModal(false)} operation="create" /> }
+            { showCreateRequestGroupModal && <RequestGroupForm onSubmitComplete={() => { }} handleClose={() => setShowCreateRequestGroupModal(false)} operation="create" />}
             <div className="row">
                 <span className="title">Request Groups</span>
                 <span className="action-group">
@@ -97,12 +104,11 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu align="right" className="admin-group-button-dropdown">
-                                <Dropdown.Item className="admin-group-button-dropdown-item" onClick={() => {}}>New request</Dropdown.Item>
-                                <Dropdown.Item className="admin-group-button-dropdown-item" onClick={() => {}}>New group</Dropdown.Item>
+                                <Dropdown.Item className="admin-group-button-dropdown-item" onClick={() => { setShowCreateRequestModal(true) }}>New request</Dropdown.Item>
+                                <Dropdown.Item className="admin-group-button-dropdown-item" onClick={() => { setShowCreateRequestGroupModal(true) }}>New group</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </span>
-                    {/* <span className="item"><Button text="Create" copyText="Create" onClick={onCreateButtonClick} /></span> */}
                 </span>
             </div>
             <div className="page-navigation">
