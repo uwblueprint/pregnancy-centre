@@ -50,7 +50,7 @@ export const allRequirementMessagesInOrder: Array<string> =
     return msg
   })
   
-const emailDomain = "@pregnancycentre.ca";
+const emailDomain = process.env.REACT_APP_EMAIL_DOMAIN ? process.env.REACT_APP_EMAIL_DOMAIN : "@pregnancycentre.ca";
 
 export const createNewAccount = async (
   email: string,
