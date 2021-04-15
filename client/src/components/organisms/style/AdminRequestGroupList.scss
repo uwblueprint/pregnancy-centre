@@ -57,15 +57,18 @@
     }
 
     .admin-group-button {
-
         &-dropdown {
             background-color: $admin-request-group-browser-dropdown-color;
             border-radius: 4px;
             box-shadow: 0 4px 3px $admin-request-group-browser-dropdown-shadow-color; 
-
+            border: none;
             &-item {
                 padding-top: 15px;
             }
+        }
+
+        .dropdown-menu {
+            margin-top: 8px;
         }
     } 
     .page-navigation {
