@@ -2,9 +2,9 @@
     @include table-base;
 
     table {
+        table-layout: fixed;
         width: 100%;
         overflow-x: auto;
-        table-layout: fixed;
     }
 
     thead tr th {
@@ -12,8 +12,17 @@
         border-bottom: 1px solid #e0e0e0;
     }
 
+    thead th, td {
+        padding-left: 40px;
+        padding-right: 0px;
+    }
+
     th:nth-child(2), td:nth-child(2) {
         padding-left: 16px;
+    }
+
+    th:nth-last-child(2), td:nth-last-child(2) {
+        padding-right: 16px;
     }
 
     td {
@@ -29,7 +38,6 @@
         -moz-border-radius-bottomleft: 4px;
         -webkit-border-top-left-radius: 4px;
         -webkit-border-bottom-left-radius: 4px;
-    
     }
     
     tr td:last-child {
@@ -48,27 +56,34 @@
     }
 
     .name-col {
-        //width: 182px;
-        width: 206px;
+        width: 222px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
     .numOpen-col {
-        //width: 106px;
         width: 146px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
     .types-col {
-        //width: 330px;
-        width: 369px;
+        width: 370px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
     .nextRecipient-col {
-        //width: 232px;
-        width: 271px;
+        width: 272px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
     .date-col {
-        //width: 138px;
-        width: 212px;
+        width: 178px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
     .image-col {
-        width: 96px;
+        width: 136px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
 }
 
