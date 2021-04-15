@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import moment from 'moment';
-
 import { Table } from "react-bootstrap";
+import { useHistory } from 'react-router-dom'
 
 import Tag from '../atoms/Tag'
 
@@ -12,6 +12,7 @@ export interface Props {
 }
 
 const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
+    const history = useHistory()
     return <div className="request-group-table">
         <Table>
             <thead>
@@ -44,7 +45,14 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                         return g1.name < g2.name ? -1 : 1})
                     .map((requestGroup : RequestGroup) => 
                         <> 
-                            <tr key={ requestGroup._id } className="data-row">
+                            <tr 
+                                key={ requestGroup._id } 
+                                className="data-row" 
+                                onClick={() => {
+                                    console.log('clicked ' + requestGroup._id)
+                                    history.push('/request-group/' + requestGroup._id)
+                                }
+                                }>
                                 <td className="spacing-col"/>
                                 <td className="name-col">{ requestGroup.name }</td>
                                 <td className="numOpen-col">{ requestGroup.numOpen }</td>
