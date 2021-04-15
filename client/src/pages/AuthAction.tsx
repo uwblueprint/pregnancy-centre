@@ -8,10 +8,6 @@ const AuthAction: React.FunctionComponent<Record<string, never>> = () => {
   const URLParams = new URLSearchParams(url.search);
   const actionCode = URLParams.get("oobCode");
   const mode = URLParams.get("mode");
-  console.log(URLParams)
-  console.log(actionCode)
-  console.log(mode)
-  console.log(URLParams.get("apiKey"))
 
   return <>
     {mode === "verifyEmail" && actionCode && <EmailConfirmedModal actionCode={actionCode} />}
