@@ -13,32 +13,18 @@ import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
-import CreateRequestFormContainer from './components/examples/CreateRequestFormContainer'
-import CreateRequestGroupFormContainer from './components/examples/CreateRequestGroupFormContainer'
-import EditRequestFormContainer from './components/examples/EditRequestFormContainer'
-import EditRequestGroupFormContainer from './components/examples/EditRequestGroupFormContainer'
-
 function App(): JSX.Element {
   return (
     <span>
       <Router>
         <Switch>
-          <Route path='/donation-guidelines'><SampleContainer /></Route>
-          {/* TODO(chamod-gamage): confirm what the routing behaviour will be for user signin sequence */}
           <Route path='/login'><SignInModal /></Route>
           <Route path='/signup' strict component={SignUpModal}></Route>
           <Route path='/verify-email' component={AuthTestComponent}></Route>
           <Route path='/reset-password' strict component={ResetPasswordModal}></Route>
           <Route path='/email-password-reset' strict component={SendResetPasswordEmailModal}></Route>
           <Route path='/admin' component={AdminHomepage}></Route>
-          <Route path='/test'>
-            <RequestGroupDonorView requestGroupId="603d9b41eb57fc06447b8a23" />
-          </Route>
           <Route path='/request-group/:id'><AdminRequestGroupView /></Route>
-          <Route path='/create-request-group-form' component={CreateRequestGroupFormContainer}></Route>
-          <Route path='/edit-request-group-form' component={EditRequestGroupFormContainer}></Route>
-          <Route path='/create-request-form' component={CreateRequestFormContainer}></Route>
-          <Route path='/edit-request-form' component={EditRequestFormContainer}></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>
