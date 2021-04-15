@@ -30,6 +30,7 @@ $alert-dark-color: #721c24;
 $error-color: #dc3545;
 $dark-border-color: #797979;
 $window-border-color: #d7d7d7;
+$tpc-green: #004d57;
 
 @mixin text() {
   font-family: $font-stack;
@@ -169,6 +170,7 @@ $admin-request-group-browser-button-color: #fbfbfb;
 
 /* Search Bar Config */
 $searchbar-border: #dcdcdc;
+$searchbar-border-dark: $tpc-green;
 
 /* Tag Config */
 $tag-background: #ededed;
@@ -203,7 +205,6 @@ $tag-background: #ededed;
 
 /* Modal Config */
 $input-icon-color: #adadad;
-$tpc-green: #004d57;
 $disabled-text: #adadad;
 $input-error: $error-color;
 $faint-input-error: #e7b0b5;
