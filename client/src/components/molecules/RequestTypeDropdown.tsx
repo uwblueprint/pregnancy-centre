@@ -148,7 +148,11 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                         <p>Are you sure you want to delete <b>&#34;{requestType!.name}&#34;</b> as a type in the group <b>&#34;{props.requestGroup!.name}&#34;</b>? This will delete all <b>{getTotalQuantity()}</b> requests within this type and cannot be undone.</p>
                     </div>
                     <div className="request-group-form-modal-footer">
-                        <button className="request-type-form-modal-confirm" onClick={deleteRequestType}>Confirm</button>
+                        <button className="request-type-form-modal-confirm" onClick={() => {
+                            deleteRequestType()
+                            window.location.reload()
+                        }
+                        }>Confirm</button>
                         <button className="request-type-form-modal-cancel" onClick={() => setDeleteModalShow(false)}>Cancel</button>
                     </div>
             </FormModal>
