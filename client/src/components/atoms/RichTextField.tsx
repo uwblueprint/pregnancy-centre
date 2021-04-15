@@ -16,6 +16,7 @@ interface Props {
 
 const RichTextField: FunctionComponent<Props> = (props: Props) => {
     const [active, setActive] = React.useState(false) // whether we have entered any content beyond the default text
+    const [empty, setEmpty] = React.useState(true)
     const [changeMade, setChangeMade] = React.useState(false)
     const [editorState, setEditorState] = React.useState(
         props.initialContent ?
@@ -49,30 +50,39 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
     }
 
     function onChange(state: EditorState) {
-        if (!changeMade) {
-            setChangeMade(true)
-        }
+        // current component state
+        let isEmpty = empty
+        let hasChangeMade = changeMade
+        console.log("Empty: " + isEmpty + " | ChangeMade: " + hasChangeMade)
 
         // if user is typing content, so this is active
         if (!active) {
             setActive(true)
         }
 
-        let emptyContent = false;
         // check if state has no text
-        if ((!state.getCurrentContent().hasText() && state.getCurrentContent().getFirstBlock().getType() === 'unstyled')) {
-            emptyContent = true;
+        const hasContent = state.getCurrentContent().getPlainText() !== ""
+        if (!hasContent && state.getCurrentContent().getFirstBlock().getType() === 'unstyled') {
+            isEmpty = true
+            setEmpty(true)
             // check if we are already typing (we are active) and 
             if (active) {
                 // if so, we made the content empty, so add back the default text
                 setActive(false)
             }
+        } else {
+            isEmpty = false
+            setEmpty(false)
         }
 
-        if (props.onEmpty && emptyContent) {
-            props.onEmpty()
+        if ((isEmpty && hasChangeMade) || (!isEmpty && !hasChangeMade)) {
+            hasChangeMade = true
+            setChangeMade(true);
         }
-        else {
+
+        if (props.onEmpty && isEmpty && hasChangeMade) {
+            props.onEmpty()
+        } else if (!isEmpty && hasChangeMade) {
             props.onChange(JSON.stringify(convertToRaw(state.getCurrentContent())));
         }
 
@@ -155,7 +165,7 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
             </div>
             <div className="richtext-field-input">
                 {/* Do not display default text if there is initial content and no change is made */}
-                {!active && !(props.initialContent && !changeMade) &&
+                {changeMade && !active && !props.initialContent && empty &&
                     <span className="richtext-default-text">
                         {props.defaultText}
                     </span>
