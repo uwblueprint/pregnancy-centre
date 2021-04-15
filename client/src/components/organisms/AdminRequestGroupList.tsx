@@ -34,6 +34,7 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
     const query = gql`
     {
       requestGroups {
+        _id
         name
         dateUpdated
         deleted
