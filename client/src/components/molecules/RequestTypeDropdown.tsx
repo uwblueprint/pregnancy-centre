@@ -7,6 +7,10 @@ import RequestGroup from '../../data/types/requestGroup';
 import RequestsTable from './RequestsTable';
 import RequestType from '../../data/types/requestType';
 
+import FormModal from '../organisms/FormModal';
+
+import { Button } from '../atoms/Button';
+
 interface Props {
     key?: string;
     requestType?: RequestType;
@@ -52,7 +56,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
 
     const editModalTitle = "Edit Type";
     const deleteModalTitle = "Delete Type";
-    const deleteModalSubtitle = "Are you sure you want to delete "  + requestType!.name + " as a type in the group " + props.requestGroup!.name + "? This will delete all "+ getTotalQuantity() + " requests within this type and cannot be undone."
+    const deleteModalSubtitle = `Are you sure you want to delete "${requestType!.name}" as a type in the group "${props.requestGroup!.name}"? This will delete all ${getTotalQuantity()} requests within this type and cannot be undone.`
     
     const tooLongMessage = "Type name cannot exceed 40 characters!";
 
@@ -88,6 +92,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
 
     // when user clicks delete button request type
     const onOpenDeleteRequestType = () => {
+        console.log("Open delete modal")
         setDeleteModalShow(true);
     }
 
@@ -137,7 +142,24 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                     </form>
                 </div>
             }/>
-            <CommonModal title={deleteModalTitle} subtitle={deleteModalSubtitle} handleClose={handleDeleteModalClose} show={deleteModalShow} body={
+            <FormModal 
+                class=""
+                title={deleteModalTitle}
+                handleClose={handleDeleteModalClose}
+                show={deleteModalShow}
+                size="small">
+                <form onSubmit={deleteRequestType}>
+                    <div>{deleteModalSubtitle}</div>
+                    <div className="request-group-form-modal-footer">
+                        <Button
+                        text="Confirm"
+                        copyText=""
+                        />
+                    </div>
+
+                </form>
+            </FormModal>
+            {/* <CommonModal title={deleteModalTitle} subtitle={deleteModalSubtitle} handleClose={handleDeleteModalClose} show={deleteModalShow} body={
                 <div>
                     <form onSubmit={deleteRequestType}>
                         <button role="link" className="button">
@@ -145,7 +167,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                         </button>
                     </form>
                 </div>
-            }/>
+            }/> */}
             
           
         </div>
