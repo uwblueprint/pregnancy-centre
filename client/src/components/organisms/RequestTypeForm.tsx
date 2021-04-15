@@ -94,7 +94,7 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
             name: requestType,
             requestGroup: props.requestGroup._id
           }
-        }).then((res) => { console.log(res) })
+        })
           .catch((err) => { console.log(err) })
 
       }
@@ -106,7 +106,7 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
               id: props.requestType._id,
               name: requestType,
             }
-          }).then((res) => { console.log(res) })
+          })
             .catch((err) => { console.log(err) })
         }
       }

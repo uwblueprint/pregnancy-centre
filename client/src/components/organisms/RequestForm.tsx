@@ -303,7 +303,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               quantity,
               clientName
             }
-          }).then((res) => { console.log(res) })
+          })
             .catch((err) => { console.log(err) })
         }
       }
@@ -317,7 +317,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               quantity,
               clientName,
             }
-          }).then((res) => { console.log(res) })
+          })
             .catch((err) => { console.log(err) })
         }
       }
