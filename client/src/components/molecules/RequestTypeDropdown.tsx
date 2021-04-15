@@ -2,10 +2,12 @@ import { gql, useMutation } from '@apollo/client';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import CommonModal from '../organisms/Modal';
 import Dropdown from '../atoms/Dropdown';
+import FormModal from '../organisms/FormModal';
 import Request from '../../data/types/request';
 import RequestGroup from '../../data/types/requestGroup';
 import RequestsTable from './RequestsTable';
 import RequestType from '../../data/types/requestType';
+
 
 interface Props {
     key?: string;
@@ -53,8 +55,6 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
 
     const editModalTitle = "Edit Type";
     const deleteModalTitle = "Delete Type";
-    const deleteModalSubtitle = "Are you sure you want to delete "  + requestType!.name + " as a type in the group " + props.requestGroup!.name + "? This will delete all "+ getTotalQuantity() + " requests within this type and cannot be undone."
-    
     const tooLongMessage = "Type name cannot exceed 40 characters!";
 
     const handleEditModalClose = () => {
@@ -144,17 +144,24 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                     </form>
                 </div>
             }/>
-            <CommonModal title={deleteModalTitle} subtitle={deleteModalSubtitle} handleClose={handleDeleteModalClose} show={deleteModalShow} body={
-                <div>
-                    <form onSubmit={deleteRequestType}>
-                        <button role="link" className="button">
-                            Confirm
-                        </button>
-                    </form>
-                </div>
-            }/>
-            
-          
+            <FormModal 
+                class="request-type-form-modal"
+                title={deleteModalTitle}
+                handleClose={handleDeleteModalClose}
+                show={deleteModalShow}
+                size="small">
+                    <div className="request-type-form-modal-contents">
+                        <p>Are you sure you want to delete <b>&#34;{requestType!.name}&#34;</b> as a type in the group <b>&#34;{props.requestGroup!.name}&#34;</b>? This will delete all <b>{getTotalQuantity()}</b> requests within this type and cannot be undone.</p>
+                    </div>
+                    <div className="request-group-form-modal-footer">
+                        <button className="request-type-form-modal-confirm" onClick={() => {
+                            deleteRequestType()
+                            window.location.reload()
+                        }
+                        }>Confirm</button>
+                        <button className="request-type-form-modal-cancel" onClick={() => setDeleteModalShow(false)}>Cancel</button>
+                    </div>
+            </FormModal>
         </div>
     )
 }
