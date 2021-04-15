@@ -68,7 +68,6 @@ export const createNewAccount = async (
   if (!passwordRequirements.test(password)) {
     errors.password = AuthErrorMessage["invalid-password"];
   }
-  console.log(process.env.REACT_APP_FIREBASE_APP_ID)
   if (!email.endsWith(emailDomain)) {
     errors.email = AuthErrorMessage["invalid-domain"];
   }
