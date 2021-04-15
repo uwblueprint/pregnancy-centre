@@ -6,9 +6,7 @@ import AdminHomepage from "./pages/AdminHomepage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView"
 import AuthTestComponent from "./pages/AuthTestComponent";
 import DonorHomepage from './pages/DonorHomepage'
-import RequestGroupDonorView from './components/organisms/RequestGroupDonorView';
 import ResetPasswordModal from "./pages/ResetPasswordModal"
-import SampleContainer from "./components/examples/SampleContainer";
 import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
