@@ -101,7 +101,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           return entries
         },
           [] as Array<[string, RequestGroup]>))
-      //setRequestGroupsMap(map)
+      setRequestGroupsMap(map)
 
       // For the edit request form, check that we're not waiting for the request to load before setting loading = false
       if (!(props.operation === 'edit' && !initialRequest)) {
