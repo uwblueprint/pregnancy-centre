@@ -23,7 +23,7 @@ const RequestGroupList: FunctionComponent<Props> = (props: Props) => {
   return <div className="request-group-list">
     <div className="request-group-list-scroll-window">
       <RequestGroupScrollWindow
-        requestGroups={props.requestGroups.slice((currentPage - 1) * numGroupsPerPage, Math.min(currentPage * numGroupsPerPage, props.requestGroups.length - 1))}
+        requestGroups={props.requestGroups.slice((currentPage - 1) * numGroupsPerPage, Math.min(currentPage * numGroupsPerPage, props.requestGroups.length))}
         selectedRequestGroup={props.selectedRequestGroup}
         onRequestGroupChange={props.onRequestGroupChange} />
     </div>
