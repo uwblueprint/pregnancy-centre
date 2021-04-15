@@ -103,6 +103,9 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
                           .startsWith(searchString.toLocaleLowerCase())
                       : item.length > 0
                   )
+                  .sort(function (a, b) {
+                    return a.toLowerCase().localeCompare(b.toLowerCase());
+                  })
                   .map((item) => (
                     <div
                       className="dropdown-item"
