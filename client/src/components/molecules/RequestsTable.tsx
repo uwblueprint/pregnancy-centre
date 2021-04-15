@@ -73,6 +73,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         const requestsCopy = requests.slice()
         const req = {...requestsCopy[index]}
         req.deleted = true
+        console.log(req)
         requestsCopy[index] = req
         const id = req._id
         props.onChangeNumRequests!(requestsCopy.reduce((total, request) => (request.deleted === false ? total + 1 : total), 0))
