@@ -1,4 +1,4 @@
-import { Col, Row, Spinner } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap"
