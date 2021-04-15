@@ -106,7 +106,6 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
         setNumRequests(props.requests!.reduce((total, request) => (request.deleted === false ? total + 1 : total), 0))
     }, [])
 
-    console.log(numRequests)
     const handleChangeNumRequests = (num: number) => {
         setNumRequests(num)
     }
