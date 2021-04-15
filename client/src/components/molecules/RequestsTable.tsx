@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
-import React, { FunctionComponent,  useEffect,  useState } from 'react';
+import React, { FunctionComponent, useEffect,  useState } from 'react';
 import  Form  from 'react-bootstrap/Form';
 import moment from 'moment';
 import  Table  from 'react-bootstrap/Table';
@@ -8,6 +8,7 @@ import Request from '../../data/types/request';
 
 interface Props {
     requests: Request[];
+    onChangeNumRequests?: (num: number) => void;
 }
 
 const RequestsTable: FunctionComponent<Props> = (props: Props) => {
@@ -21,8 +22,17 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         }
       }
     `;
+    const softDeleteRequest = gql`
+    mutation deleteRequest($id: ID) {
+        softDeleteRequest(id: $id) {
+            id
+            success
+            message
+        }
+    }`
 
-    const [requests, setRequests] = useState(props.requests);
+
+    const [requests, setRequests] = useState(props.requests.filter((request)=> request.deleted === false));
     
     useEffect(() => {
         // Your code here
@@ -55,9 +65,17 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         setRequests(sortedRequests);
       }, []);
       
-     //console.log(sortedRequests);
-
+    const [mutateDeleteRequest] = useMutation(softDeleteRequest)   
     const [mutateRequest] = useMutation(updateRequest);
+    const onSoftDeleteRequest = (index: number) => {
+        const requestsCopy = requests.slice()
+        const req = {...requestsCopy[index]}
+        requestsCopy.splice(index, 1)
+        const id = req._id
+        props.onChangeNumRequests!(requestsCopy.length)
+        setRequests(requestsCopy)
+        mutateDeleteRequest({variables: {id: id}})
+    }
     const onFulfilledRequest = (index: number) => {
         const requestsCopy = requests.slice();
         const req = {...requestsCopy[index]};
@@ -118,7 +136,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                             }</td>
                             <td><div className="btn-cont">
                                 <td><a className="request-table edit" href="/"><i className="bi bi-pencil"></i></a></td>
-                                <td><a className="request-table delete" href="/"><i className="bi bi-trash"></i></a></td>
+                                <td><a className="request-table delete" onClick={() => onSoftDeleteRequest(index)}><i className="bi bi-trash"></i></a></td>
                             </div></td>
                         </tr> : undefined
                     ))}

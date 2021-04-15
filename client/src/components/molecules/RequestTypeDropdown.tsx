@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import CommonModal from '../organisms/Modal';
 import Dropdown from '../atoms/Dropdown';
 import Request from '../../data/types/request';
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
+    const [numRequests, setNumRequests] = useState(0)
     const mutation = gql`
     mutation updateRequestType($requestType: RequestTypeInput){
         updateRequestType(requestType: $requestType){
@@ -101,16 +102,22 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
             setRequestType(newReqType);
         }
     };
+    useEffect(() => {
+        setNumRequests(props.requests!.reduce((total, request) => (request.deleted === false ? total + 1 : total), 0))
+    }, [])
 
+    const handleChangeNumRequests = (num: number) => {
+        setNumRequests(num)
+    }
     return (
         <div className="request-type-dropdown-container">
             <Dropdown 
-                title={requestType?.name ? requestType.name.toUpperCase() + " (" + props.requests?.length + ")" : ""} 
+                title={requestType?.name ? requestType.name.toUpperCase() + " (" + numRequests + ")" : ""} 
                 header={<span className="button-container">
                     <a className="button-container edit" onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {onOpenEditRequestType(); e.stopPropagation();}}><i className="bi bi-pencil"></i></a>
                     <a className="button-container delete" onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {onOpenDeleteRequestType(); e.stopPropagation();}}><i className="bi bi-trash"></i></a>
                     </span>}
-                body={<RequestsTable requests={props.requests ? props.requests : []} />}
+                body={<RequestsTable onChangeNumRequests={handleChangeNumRequests} requests={props.requests ? props.requests : []} />}
                 ></Dropdown>
             {/*TODO: add edit request type and delete requesty type modals here */}
             <CommonModal title={editModalTitle} subtitle={""} handleClose={handleEditModalClose} show={editModalShow} body={
