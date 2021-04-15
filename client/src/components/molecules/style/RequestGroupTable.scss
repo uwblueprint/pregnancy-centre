@@ -118,5 +118,6 @@
     .create-group-link {
         @include bold-text;
         color: $tpc-green;
+        cursor: pointer;
     }
 }
