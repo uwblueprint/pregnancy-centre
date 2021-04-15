@@ -88,7 +88,6 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
 
     // when user clicks delete button request type
     const onOpenDeleteRequestType = () => {
-        console.log("Open delete modal")
         setDeleteModalShow(true);
     }
 
