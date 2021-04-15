@@ -36,7 +36,7 @@ const CreateRequestGroupFormContainer: FunctionComponent<Props> = (props: Props)
     },
   });
 
-  return (<>{show && <RequestGroupForm handleClose={() => setShow(false)} operation="create" />}</>)
+  return (<>{show && <RequestGroupForm onChange={()=> {}} handleClose={() => setShow(false)} operation="create" />}</>)
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
