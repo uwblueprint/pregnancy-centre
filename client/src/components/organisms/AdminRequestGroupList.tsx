@@ -2,16 +2,15 @@ import { bindActionCreators, Dispatch } from "redux"
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
+import { Dropdown } from "react-bootstrap";
 
 import { loadRequestGroups, setDisplayRequestGroups } from '../../data/actions/requestGroupsActions';
-import { Button } from "../atoms/Button";
 import RequestGroup from '../../data/types/requestGroup';
 import RequestGroupTable from "../molecules/RequestGroupTable";
 import { RootState } from '../../data/reducers'
 import SearchBar from "../atoms/SearchBar";
 import SimplePageNavigation from "../atoms/SimplePageNavigation";
 
-import { Dropdown } from "react-bootstrap";
 
 interface StateProps {
     requestGroups: Array<RequestGroup>,
@@ -82,10 +81,6 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
             updatedRequestGroups = props.requestGroups;
         }
         props.setDisplayRequestGroups(updatedRequestGroups);
-    }
-
-    const onCreateButtonClick = () => {
-        console.log("create button clicked");
     }
 
     return (
