@@ -294,7 +294,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
         updateRequestGroup({ variables: { id: props.requestGroupId, name, description, image, requestTypeNames } })
           .then(()=>{
-            props.onChange();
+            props.onSubmitComplete();
           })
           .catch((err) => { console.log(err) })
       }
