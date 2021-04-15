@@ -94,6 +94,11 @@ $window-border-color: #d7d7d7;
   letter-spacing: 0.2px;
 }
 
+@mixin semibold-text() {
+  @include text;
+  font-weight: 500;
+}
+
 @mixin heavy-text() {
   @include text;
   font-weight: 600;

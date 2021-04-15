@@ -116,7 +116,7 @@
     margin-left: 80px;
 
     .create-group-link {
-        @include bold-text;
+        @include semibold-text;
         color: $tpc-green;
     }
 }
