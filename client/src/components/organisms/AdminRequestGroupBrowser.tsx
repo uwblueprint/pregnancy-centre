@@ -104,7 +104,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
           {
             showCreateTypeModal &&
             <RequestTypeForm 
-            handleClose={()=> { setShowEditGroupModal(false) }}   
+            handleClose={()=> { setShowCreateTypeModal(false) }}   
             onSubmit={() => { window.location.reload() }} 
             requestGroup={requestGroup} 
             operation="create"/>
