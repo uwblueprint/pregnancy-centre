@@ -32,7 +32,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     }`
 
 
-    const [requests, setRequests] = useState(props.requests);
+    const [requests, setRequests] = useState(props.requests.filter((request)=> request.deleted === false));
     
     useEffect(() => {
         // Your code here
@@ -70,10 +70,9 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     const onSoftDeleteRequest = (index: number) => {
         const requestsCopy = requests.slice()
         const req = {...requestsCopy[index]}
-        req.deleted = true
-        requestsCopy[index] = req
+        requestsCopy.splice(index, 1)
         const id = req._id
-        props.onChangeNumRequests!(requestsCopy.reduce((total, request) => (request.deleted === false ? total + 1 : total), 0))
+        props.onChangeNumRequests!(requestsCopy.length)
         setRequests(requestsCopy)
         mutateDeleteRequest({variables: {id: id}})
     }
