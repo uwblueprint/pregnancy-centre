@@ -36,7 +36,7 @@ const EditRequestGroupFormContainer: FunctionComponent<Props> = (props: Props) =
     },
   });
 
-  return (<>{show && <RequestGroupForm onChange={()=>{}} handleClose={() => setShow(false)} operation="edit" requestGroupId="607663bb2cbfaf98de609fa3" />}</>)
+  return (<>{show && <RequestGroupForm onSubmitComplete={()=>{}} handleClose={() => setShow(false)} operation="edit" requestGroupId="607663bb2cbfaf98de609fa3" />}</>)
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
