@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react";
 import moment from 'moment';
-import { Table } from "react-bootstrap";
 import { useHistory } from 'react-router-dom'
 
 import Tag from '../atoms/Tag'
@@ -14,7 +13,17 @@ export interface Props {
 const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
     const history = useHistory()
     return <div className="request-group-table">
-        <Table>
+        <table>
+            <colgroup>
+                <col className="spacing-col"/>
+                <col className="name-col"/>
+                <col className="numOpen-col"/>
+                <col className="types-col"/>
+                <col className="nextRecipient-col"/>
+                <col className="date-col"/>
+                <col className="image-col"/>
+                <col className="spacing-col"/>
+            </colgroup>
             <thead>
                 <tr>
                     <th className="spacing-col"/>
@@ -99,7 +108,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                     )}
                 </tbody>
             }
-        </Table>
+        </table>
         {props.requestGroups && props.requestGroups.length == 0 && 
             <span className="no-groups-msg">There are no request groups. <a className="create-group-link">Create one now</a></span>
         }

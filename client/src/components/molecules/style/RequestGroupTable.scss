@@ -1,7 +1,11 @@
 .request-group-table {
     @include table-base;
-    width: 100%;
-    overflow-x: auto;
+
+    table {
+        width: 100%;
+        overflow-x: auto;
+        table-layout: fixed;
+    }
 
     thead tr th {
         border-top: 1px solid #e0e0e0;
@@ -43,27 +47,28 @@
         }
     }
 
-    .spacing-col {
-        width: 64px;
-    }
-
     .name-col {
-        max-width: 182px;
+        //width: 182px;
+        width: 206px;
     }
     .numOpen-col {
-        max-width: 106px;
+        //width: 106px;
+        width: 146px;
     }
     .types-col {
-        max-width: 330px;
+        //width: 330px;
+        width: 369px;
     }
     .nextRecipient-col {
-        max-width: 232px;
+        //width: 232px;
+        width: 271px;
     }
     .date-col {
-        max-width: 138px;
+        //width: 138px;
+        width: 212px;
     }
     .image-col {
-        max-width: 80px;
+        width: 96px;
     }
 }
 
