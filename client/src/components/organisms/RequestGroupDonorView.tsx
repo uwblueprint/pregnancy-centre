@@ -78,24 +78,26 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                     <RequestTypeList requestTypes={requestGroupData.requestTypes ? requestGroupData.requestTypes : []}/>
                 </div>
                 <div className="section" id="right">
-                    <InfoBox 
-                        title="CAN YOU MEET A NEED?" 
-                        text="To arrange your donation, contact the Pregnancy Center directly at 519-886-4001 or send an email."
-                        buttonProps = {{
-                            text: "Send an email",
-                            onClick: (e) => {
-                                const button = e.target as HTMLButtonElement;
-                                button.textContent = "Email copied";
-                                button.classList.add('alt-button');
+                    <div id="contact">
+                        <InfoBox 
+                            title="CAN YOU MEET A NEED?" 
+                            text="To arrange your donation, contact the Pregnancy Center directly at 519-886-4001 or send an email."
+                            buttonProps = {{
+                                text: "Send an email",
+                                onClick: (e) => {
+                                    const button = e.target as HTMLButtonElement;
+                                    button.textContent = "Email copied";
+                                    button.classList.add('alt-button');
 
-                                setTimeout(() => {
-                                    button.textContent = "Send an email"; 
-                                    button.classList.remove('alt-button')
-                                }, 5000);
-                            },
-                            copyText: emailAddress
-                        }}
-                    />
+                                    setTimeout(() => {
+                                        button.textContent = "Send an email"; 
+                                        button.classList.remove('alt-button')
+                                    }, 5000);
+                                },
+                                copyText: emailAddress
+                            }}
+                        />
+                    </div>
                     <div id="description">
                         <InfoBox title="ITEM DESCRIPTION">
                             {requestGroupData.description && <RichTextDisplay content={requestGroupData.description}/>}
