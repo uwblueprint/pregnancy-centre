@@ -7,7 +7,11 @@ import { handlePasswordReset } from "../services/auth";
 import LogoModal from "../components/organisms/LogoModal";
 import { TextField } from "../components/atoms/TextField";
 
-const ResetPasswordModal: FunctionComponent = () => {
+interface Props {
+  actionCode: string
+}
+
+const ResetPasswordModal: FunctionComponent<Props> = (props: Props) => {
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
   const handleClose = () => setRedirect("/");
@@ -20,20 +24,15 @@ const ResetPasswordModal: FunctionComponent = () => {
   const handleClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (requirements.length == 0) {
-      const URLParams = new URLSearchParams(window.location.href);
-      const actionCode = URLParams.get("oobCode");
-      if (actionCode) {
-        handlePasswordReset(actionCode, password)
-          .then((resp: boolean) => {
-            if (resp) {
-              setPasswordResetSuccessful(true);
-            } else {
-              setPasswordResetSuccessful(false);
-            }
-            setPasswordResetAttempted(true);
-          })
-      }
-
+      handlePasswordReset(props.actionCode, password)
+        .then((resp: boolean) => {
+          if (resp) {
+            setPasswordResetSuccessful(true);
+          } else {
+            setPasswordResetSuccessful(false);
+          }
+          setPasswordResetAttempted(true);
+        })
     }
   };
 
@@ -102,7 +101,7 @@ const ResetPasswordModal: FunctionComponent = () => {
                   </OverlayTrigger>
                 </div>
               </div>
-              <button role="link"className="button reset-pass">
+              <button role="link" className="button reset-pass">
                 Reset password
               </button>
             </form>

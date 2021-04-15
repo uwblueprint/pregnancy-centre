@@ -4,9 +4,8 @@ import React from "react";
 
 import AdminHomepage from "./pages/AdminHomepage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView"
-import AuthTestComponent from "./pages/AuthTestComponent";
+import AuthAction from "./pages/AuthAction";
 import DonorHomepage from './pages/DonorHomepage'
-import ResetPasswordModal from "./pages/ResetPasswordModal"
 import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
@@ -18,8 +17,7 @@ function App(): JSX.Element {
         <Switch>
           <Route path='/login'><SignInModal /></Route>
           <Route path='/signup' strict component={SignUpModal}></Route>
-          <Route path='/verify-email' component={AuthTestComponent}></Route>
-          <Route path='/reset-password' strict component={ResetPasswordModal}></Route>
+          <Route path='/auth-action' component={AuthAction}></Route>
           <Route path='/email-password-reset' strict component={SendResetPasswordEmailModal}></Route>
           <Route path='/admin' component={AdminHomepage}></Route>
           <Route path='/request-group/:id'><AdminRequestGroupView /></Route>
