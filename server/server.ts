@@ -11,12 +11,6 @@ import { getUser } from "./auth/firebase";
 import inflate from "inflation";
 import raw from "raw-body";
 
-import {
-  ClientCache,
-  RequestCache,
-  RequestGroupCache,
-  RequestTypeCache,
-} from "./database/cache";
 import ClientDataSource from "./datasources/clientDataSource";
 import RequestDataSource from "./datasources/requestDataSource";
 import RequestGroupDataSource from "./datasources/requestGroupDataSource";
@@ -44,12 +38,7 @@ const corsPolicy = {
 // -----------------------------------------------------------------------------
 
 // connect to MongoDB and setup data sources
-connectDB(() => {
-  ClientCache.init();
-  RequestCache.init();
-  RequestTypeCache.init();
-  RequestGroupCache.init();
-});
+connectDB(() => {});
 
 // -----------------------------------------------------------------------------
 // SERVER LAUNCH
