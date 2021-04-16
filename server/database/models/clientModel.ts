@@ -23,7 +23,7 @@ const ClientSchema = new Schema({
   },
 
   // Timestamps for Statuses
-  deleted: {
+  deletedAt: {
     type: Date
   }
 

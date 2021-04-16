@@ -9,9 +9,9 @@ interface RequestGroupInterface extends Document {
   image: string
   
   // Embedded Objects
-  requestTypes: [ { 
-    id: Types.ObjectId 
-  } ]
+  requestTypes: Array<{ 
+    _id: Types.ObjectId 
+  }>
 
   // Timestamps for Statuses
   deletedAt: Date
@@ -42,7 +42,7 @@ const RequestGroupSchema = new Schema({
   // Embedded Objects
   requestTypes: {
     type: [ { 
-      id: { type: Types.ObjectId, ref: 'RequestType' } 
+      _id: { type: Types.ObjectId, ref: 'RequestType' } 
     } ],
     default: []
   },

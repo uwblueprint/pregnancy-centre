@@ -6,16 +6,16 @@ interface RequestTypeInterface extends Document {
   // Properties
   name: string
 
-  // Precomputed Properties
-  numOpen: number
-
   // References
   requestGroup: Types.ObjectId
 
   // Embedded Objects
-  requests: [ {
-    id: Types.ObjectId 
-  } ]
+  requests: Array<{
+    _id: Types.ObjectId
+    createdAt: Date
+    deletedAt: Date
+    fulfilledAt: Date
+  }>
 
   // Timestamps
   createdAt: Date
@@ -32,13 +32,6 @@ const RequestTypeSchema = new Schema({
     required: true
   },
 
-  // Precomputed Properties
-  numOpen: {
-    type: Number,
-    required: true,
-    default: 0
-  },
-
   // References
   requestGroup: {
     type: Types.ObjectId, ref: 'RequestGroup'
@@ -47,7 +40,10 @@ const RequestTypeSchema = new Schema({
   // Embedded Objects
   requestTypes: {
     type: [ { 
-      id: { type: Types.ObjectId, ref: 'Request' } 
+      _id: { type: Types.ObjectId, ref: 'Request' },
+      createdAt: { type: Date },
+      deletedAt: { type: Date },
+      fulfilledAt: { type: Date }
     } ],
     default: []
   },

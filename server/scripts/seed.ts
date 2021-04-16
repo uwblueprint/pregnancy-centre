@@ -5,10 +5,10 @@ import mongoose from 'mongoose'
 
 import { connectDB } from '../database/mongoConnection'
 
-import { Client } from '../models/clientModel'
-import { Request } from '../models/requestModel'
-import { RequestGroup } from '../models/requestGroupModel'
-import { RequestType } from '../models/requestTypeModel'
+import { Client } from '../database/models/clientModel'
+import { Request } from '../database/models/requestModel'
+import { RequestGroup } from '../database/models/requestGroupModel'
+import { RequestType } from '../database/models/requestTypeModel'
 
 // -----------------------------------------------------------------------------
 // SEED REQUESTS/TAGS
@@ -21,10 +21,10 @@ const requestGroupNames = ["Strollers", "Cribs", "Gates", "Monitors", "Bibs", "C
                            "Cutlery", "Mobile", "Hygiene", "Storage"];
 const requestGroupImages = ["https://source.unsplash.com/RcgiSN482VI", "https://source.unsplash.com/7ydep8OEvbc", "https://source.unsplash.com/0hiUWSi7jvs"]
 
-const numClients = 50
+const numClients = 500
 const numGroups = requestGroupNames.length
-const numTypesPerGroup = 5
-const maxNumRequestsPerType = 10
+const numTypesPerGroup = 100
+const maxNumRequestsPerType = 50
 const probRequestDeleted = 0.05
 const probRequestFulfilled = 0.2 // independent from probRequestDeleted
 const startDate = new Date(2019, 0,1)
@@ -49,56 +49,60 @@ const createSavePromise = (dbObject, msg) => {
   return promise
 }
 
-const createClient = (clientIDs, errMsg) => {
-  const client = new Client({
+// create Client model object
+const createClient = () => {
+  return new Client({
     _id: mongoose.Types.ObjectId(),
-    clientId: faker.random.alphaNumeric(8),
     fullName: faker.name.firstName() + " " + faker.name.lastName()
   })
-  clientIDs.push(client._id) // store IDs to allocate among groups + types
-  return createSavePromise(client, errMsg)
 }
 
-const createRequest = (requestID, clientIDs, requestTypeID, errMsg) => {
+// create Request model object without references
+const createRequest = () => {
   const isDeleted = Math.random() <= probRequestDeleted;
   const isFulfilled = Math.random() <= probRequestFulfilled;
   const dateCreated = randomDate()
-  const dateFulfilled = randomDate(new Date(dateCreated))
-  const dateUpdated = isFulfilled ? randomDate(new Date(dateFulfilled)) : randomDate(new Date(dateCreated))
 
   const request = new Request({
-    _id: requestID,
-    requestId: faker.random.alphaNumeric(6),
-    client: faker.random.arrayElement(clientIDs),
-    deleted: isDeleted,
+    _id: mongoose.Types.ObjectId(),
+    quantity: Math.floor(Math.random() * 15) + 1,
     fulfilled: isFulfilled,
-    dateCreated: dateCreated,
-    dateFulfilled: isFulfilled ? dateFulfilled : undefined,
-    dateUpdated: (isFulfilled || isDeleted) ? dateUpdated : new Date(Date.now()).getTime()
+    createdAt: dateCreated
   })
-  return createSavePromise(request, errMsg)
+
+  if (isDeleted) {
+    request.deletedAt = new Date(randomDate(new Date(dateCreated)))
+  }
+  if (isFulfilled) {
+    request.fulfilledAt = new Date(randomDate(new Date(dateCreated)))
+  }
+
+  return request
 }
 
-const createRequestType = (typeID, requestIDsForType, requestGroupID, errMsg) => {
-  const type = new RequestType({
-    _id: typeID,
+// create RequestType model object without references
+const createRequestType = () => {
+  const dateCreated = randomDate()
+
+  return new RequestType({
+    _id: mongoose.Types.ObjectId(),
     name: faker.commerce.product(),
-    requests: requestIDsForType,
-    quantity: Math.floor(Math.random() * 15) + 1 
+    createdAt: dateCreated
   })
-  return createSavePromise(type, errMsg)
 }
 
-const createRequestGroup = (groupID, groupName, typeIDs, errMsg) => {
-  const group = new RequestGroup({
-    _id: groupID,
-    name: groupName,
+// create RequestGroup model object without references
+const createRequestGroup = () => {
+  const dateCreated = randomDate()
+
+  return new RequestGroup({
+    _id: mongoose.Types.ObjectId(),
+    name: faker.random.arrayElement(requestGroupNames),
     // description is in the format specified by DraftJS
     description: '{"blocks":[{"key":"bv0s8","text":"' + faker.lorem.sentence() + '","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-    requirements: faker.lorem.sentence(),
     image: faker.random.arrayElement(requestGroupImages),
+    createdAt: dateCreated
   })
-  return createSavePromise(group, errMsg)
 }
 
 // connect to DB, and on success, seed documents
@@ -143,7 +147,7 @@ connectDB(() => {
   const clientIDs = []
   for (let clientIdx = 0; clientIdx < numClients; clientIdx++) {
     const clientErrMsg = 'Attempted to seed client # ' + clientIdx + ' but failed:'
-    const clientPromise = createClient(clientIDs, clientErrMsg)
+    const clientPromise = createClient(clientIDs, clientErrMsg) // pushes ID onto clientIDs
     promises.push(clientPromise) // for tracking completion
   }
 
@@ -152,8 +156,10 @@ connectDB(() => {
   const requestIDs = []
   for (let groupIdx = 0; groupIdx < numGroups; groupIdx++) {
     groupIDs.push(mongoose.Types.ObjectId())
+    
     const typeIDsForGroup = []
     const requestIDsForGroup = []
+
     for (let typeIdx = 0; typeIdx < numTypesPerGroup; typeIdx++) {
       const numRequestsPerType = Math.floor(Math.random() * maxNumRequestsPerType) // randomly choose number of requests for this requestType
 
@@ -162,18 +168,18 @@ connectDB(() => {
       for (let requestIdx = 0; requestIdx < numRequestsPerType; requestIdx++) {
         requestIDsForType.push(mongoose.Types.ObjectId())
         const requestErrMsg = 'Attempted to seed request # ' + requestIdx + ' for group ' + groupIdx + ', type ' + typeIdx + ' but failed:'
-        const requestPromise = createRequest(requestIDsForType[requestIdx], clientIDs, typeIDsForGroup[typeIdx], requestErrMsg)
+        const requestPromise = createRequest(requestIDsForType[requestIdx], clientIDs, requestErrMsg)
         promises.push(requestPromise)
       }
       requestIDsForGroup.push(requestIDsForType)
       const requestTypeErrMsg = 'Attempted to seed type #' + typeIdx + ' for group ' + groupIdx + ' but failed:'
-      const requestTypePromise = createRequestType(typeIDsForGroup[typeIdx], requestIDsForType, groupIDs[groupIdx], requestTypeErrMsg)
+      const requestTypePromise = createRequestType(typeIDsForGroup[typeIdx], requestIDsForType, requestTypeErrMsg)
       promises.push(requestTypePromise)
     }
     requestIDs.push(requestIDsForGroup)
     typeIDs.push(typeIDsForGroup)
     const requestGroupErrMsg = 'Attempted to seed group #' + groupIdx + ' but failed:'
-    const requestGroupPromise = createRequestGroup(groupIDs[groupIdx], requestGroupNames[groupIdx], typeIDsForGroup, requestGroupErrMsg)
+    const requestGroupPromise = createRequestGroup(groupIDs[groupIdx], requestGroupNames[groupIdx], requestGroupErrMsg)
     promises.push(requestGroupPromise)
   }
 

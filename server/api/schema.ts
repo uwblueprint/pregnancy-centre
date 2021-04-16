@@ -1,21 +1,25 @@
 import { gql } from 'apollo-server'
 
-// TODO: date types
-
 const typeDefs = gql`
     type Client {
         _id: ID
         fullName: String
-        updatedAt: String
+
         createdAt: String
+        updatedAt: String
         deletedAt: String
+
+        deleted: Boolean
     }
-    input ClientInput {
-        _id: ID
+    input CreateClientInput {
+        fullName: String!
+    }
+    input UpdateClientInput {
+        _id: ID!
         fullName: String
     }
-    input ClientFilterInput {
-        fullName: String
+    input FilterClientInput {
+        fullName: String!
     }
 
     type Request {
@@ -23,42 +27,62 @@ const typeDefs = gql`
         quantity: Int
         requestType: RequestType
         client: Client
-        updatedAt: String
+
         createdAt: String
+        updatedAt: String
         deletedAt: String
         fulfilledAt: String
+
+        deleted: Boolean
+        fulfilled: Boolean
     }
-    input RequestInput {
-        _id: ID
+    input CreateRequestInput {
+        quantity: Int
+        requestType: ID!
+        client: ID
+    }
+    input UpdateRequestInput {
+        _id: ID!
         quantity: Int
         requestType: ID
         client: ID
     }
-    input RequestFilterInput {
+    input FilterRequestInput {
+        NOT_AVAILABLE: Boolean
     }
 
     type RequestType {
         _id: ID
         name: String
-        numOpen: Int
         requestGroup: RequestGroup
         requests: [Request]
+
         createdAt: String
         updatedAt: String
         deletedAt: String
+
+        deleted: Boolean
         
         openRequests: [Request]
         fulfilledRequests: [Request]
         deletedRequests: [Request]
+        countOpenRequests: Int
+        nextRequest: Request
         nextRecipient: Client
     }
-    input RequestTypeInput {
-        _id: ID
+    input CreateRequestTypeInput {
+        name: String!
+        requestGroup: ID!
+        requests: [ID]
+    }
+    input UpdateRequestTypeInput {
+        _id: ID!
         name: String
         requestGroup: ID
         requests: [ID]
     }
-    input RequestTypeFilterInput {
+    input FilterRequestTypeInput {
+        NOT_AVAILABLE: Boolean
     }
 
     type RequestGroup {
@@ -67,66 +91,76 @@ const typeDefs = gql`
         description: String
         image: String
         requestTypes: [RequestType]
+
         createdAt: String
         updatedAt: String
         deletedAt: String
 
-        numOpen: Int
-        hasAnyRequests: Boolean
+        deleted: Boolean
+
+        countOpenRequests: Int
+        nextRequest: Request
         nextRecipient: Client
+        hasAnyRequests: Boolean
     }
-    input RequestGroupInput {
-        id: ID
+    input CreateRequestGroupInput {
+        name: String!
+        description: String
+        image: String
+        requestTypes: [ID]
+    }
+    input UpdateRequestGroupInput {
+        _id: ID!
         name: String
         description: String
         image: String
         requestTypes: [ID]
     }
-    input RequestGroupFilterInput {
+    input FilterRequestGroupInput {
+        NOT_AVAILABLE: Boolean
     }
 
-    type FilterOptions {
+    input FilterOptions {
+        NOT_AVAILABLE: Boolean
     }
 
     type Query {
         client(_id: ID): Client
         clients: [Client]
-        clientsFilter(filter: ClientFilterInput, options: FilterOptions): [Client]
+        clientsFilter(filter: FilterClientInput, options: FilterOptions): [Client]
 
         request(_id: ID): Request
         requests: [Request]
-        requestsFilter(filter: RequestFilterInput, options: FilterOptions): [Request]
+        requestsFilter(filter: FilterRequestInput, options: FilterOptions): [Request]
 
         requestType(_id: ID): RequestType
         requestTypes: [RequestType]
-        requestTypesFilter(filter: RequestTypeFilterInput, options: FilterOptions): [RequestType]
+        requestTypesFilter(filter: FilterRequestTypeInput, options: FilterOptions): [RequestType]
 
         requestGroup(_id: ID): RequestGroup
         requestGroups: [RequestGroup]
-        requestGroupsFilter(filter: RequestGroupFilterInput, options: FilterOptions): [RequestGroup]
+        requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]
     }
 
     type Mutation {
-        createClient(client: ClientInput): Client
-        updateClient(client: ClientInput): Client
+        createClient(client: CreateClientInput): Client
+        updateClient(client: UpdateClientInput): Client
         deleteClient(_id: ID): Client
 
-        createRequest(request: RequestInput): Request
-        updateRequest(request: RequestInput): Request
+        createRequest(request: CreateRequestInput): Request
+        updateRequest(request: UpdateRequestInput): Request
         deleteRequest(_id: ID): Request
         fulfillRequest(_id: ID): Request
+        changeRequestTypeForRequest(request: ID, requestType: ID): Request
 
-        createRequestType(requestType: RequestTypeInput): RequestType
-        updateRequestType(requestType: RequestTypeInput): RequestType
+        createRequestType(requestType: CreateRequestTypeInput): RequestType
+        updateRequestType(requestType: UpdateRequestTypeInput): RequestType
         deleteRequestType(_id: ID): RequestType
-        addRequestFromRequestType(_id: ID): RequestType
-        removeRequestFromRequestType(_id: ID): RequestType
+        changeRequestGroupForRequestType(requestType: ID, requestGroup: ID): Request
 
-        createRequestGroup(requestGroup: RequestGroupInput): RequestGroup
-        updateRequestGroup(requestGroup: RequestGroupInput): RequestGroup
+        createRequestGroup(requestGroup: CreateRequestGroupInput): RequestGroup
+        updateRequestGroup(requestGroup: UpdateRequestGroupInput): RequestGroup
         deleteRequestGroup(_id: ID): RequestGroup
-        addRequestTypeFromRequestGroup(_id: ID): RequestGroup
-        removeRequestTypeFromRequestGroup(_id: ID): RequestGroup
     }
 `
 
