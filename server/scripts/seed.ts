@@ -21,9 +21,9 @@ const requestGroupNames = ["Strollers", "Cribs", "Gates", "Monitors", "Bibs", "C
                            "Cutlery", "Mobile", "Hygiene", "Storage"];
 const requestGroupImages = ["https://source.unsplash.com/RcgiSN482VI", "https://source.unsplash.com/7ydep8OEvbc", "https://source.unsplash.com/0hiUWSi7jvs"]
 
-const numClients = 500
+const numClients = 300
 const numGroups = requestGroupNames.length
-const numTypesPerGroup = 100
+const numTypesPerGroup = 10
 const maxNumRequestsPerType = 50
 const probRequestDeleted = 0.05
 const probRequestFulfilled = 0.2 // independent from probRequestDeleted
@@ -135,15 +135,17 @@ connectDB(async () => {
   for (let i = 0; i < numClients; i++) {
     const client = createClient()
     clients.push(client)
-    await client.save()
   }
+  await Client.create(clients)
 
   for (let i = 0; i < numGroups; i++) {
     const requestGroup =  createRequestGroup()
+    requestGroup.requestTypes = []
     await requestGroup.save()
 
     for (let j = 0; j < numTypesPerGroup; j++) {
       const requestType = createRequestType()
+      requestType.requests = []
       requestType.requestGroup = requestGroup._id
       await requestType.save()
 
@@ -171,4 +173,7 @@ connectDB(async () => {
     await requestGroup.save()
   }
 
+  console.log('\x1b[34m', 'Finished seeding!')
+  console.log('\x1b[0m')
+  exit()
 })

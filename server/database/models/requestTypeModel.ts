@@ -38,7 +38,7 @@ const RequestTypeSchema = new Schema({
   },
 
   // Embedded Objects
-  requestTypes: {
+  requests: {
     type: [ { 
       _id: { type: Types.ObjectId, ref: 'Request' },
       createdAt: { type: Date },
