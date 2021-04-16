@@ -1,5 +1,12 @@
 import { Document, model, Schema, Types } from 'mongoose'
 
+interface RequestEmbeddingInterface {
+  _id: Types.ObjectId
+  createdAt: Date
+  deletedAt: Date
+  fulfilledAt: Date
+}
+
 interface RequestTypeInterface extends Document {
   _id: Types.ObjectId
 
@@ -10,12 +17,7 @@ interface RequestTypeInterface extends Document {
   requestGroup: Types.ObjectId
 
   // Embedded Objects
-  requests: Array<{
-    _id: Types.ObjectId
-    createdAt: Date
-    deletedAt: Date
-    fulfilledAt: Date
-  }>
+  requests: Array<RequestEmbeddingInterface>
 
   // Timestamps
   createdAt: Date
@@ -60,4 +62,4 @@ const RequestTypeSchema = new Schema({
 
 const RequestType = model<RequestTypeInterface>('RequestType', RequestTypeSchema)
 
-export { RequestType, RequestTypeInterface };
+export { RequestType, RequestTypeInterface, RequestEmbeddingInterface };

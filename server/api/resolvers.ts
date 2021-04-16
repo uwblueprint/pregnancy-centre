@@ -6,7 +6,7 @@ import { type } from 'os'
 import { Client, ClientInterface } from '../database/models/clientModel'
 import { RequestGroup, RequestGroupInterface } from '../database/models/requestGroupModel'
 import { Request, RequestInterface } from '../database/models/requestModel'
-import { RequestType, RequestTypeInterface } from '../database/models/requestTypeModel'
+import { RequestEmbeddingInterface, RequestType, RequestTypeInterface } from '../database/models/requestTypeModel'
 
 /* Utility */
 import { sessionHandler } from './utils/session'
@@ -14,69 +14,69 @@ import { sessionHandler } from './utils/session'
 const resolvers = {
     Query: {
         client: async (_, { _id }, { authenticateUser }): Promise<ClientInterface> => {
-            return await authenticateUser().then(() => {
+            return authenticateUser().then(() => {
                 Client.findById(_id).exec()
             }) 
 
         },
         clients: async (_, __, { authenticateUser }): Promise<Array<ClientInterface>> => {
-            return await authenticateUser().then(() => {
+            return authenticateUser().then(() => {
                 Client.find().exec()
             })
         },
         clientsFilter: async (_, { filter, options }, { authenticateUser }): Promise<Array<ClientInterface>> => {
-            return await authenticateUser().then(() => {
+            return authenticateUser().then(() => {
                 Client.find({ fullName: filter.fullName }).exec()
             })
         },
 
         request: async (_, { _id }, ___): Promise<RequestInterface> => {
-            return await Request.findById(_id).exec()
+            return Request.findById(_id).exec()
         },
         requests: async (_, __, ___): Promise<Array<RequestInterface>> => {
-            return await Request.find().exec()
+            return Request.find().exec()
         },
         requestsFilter: async (_, { filter, options }, ___): Promise<Array<RequestInterface>> => {
-            return await Request.find().exec()
+            return Request.find().exec()
         },
 
         requestType: async (_, { _id }, ___): Promise<RequestTypeInterface> => {
-            return await RequestType.findById(_id).exec()
+            return RequestType.findById(_id).exec()
         },
         requestTypes: async (_, __, ___): Promise<Array<RequestTypeInterface>> => {
-            return await RequestType.find().exec()
+            return RequestType.find().exec()
         },
         requestTypesFilter: async (_, { filter, options }, ___): Promise<Array<RequestTypeInterface>> => {
-            return await RequestType.find().exec()
+            return RequestType.find().exec()
         },
 
         requestGroup: async (_, { _id }, ___): Promise<RequestGroupInterface> => {
-            return await RequestGroup.findById(_id).exec()
+            return RequestGroup.findById(_id).exec()
         },
         requestGroups: async (_, __, ___): Promise<Array<RequestGroupInterface>> => {
-            return await RequestGroup.find().exec()
+            return RequestGroup.find().exec()
         },
         requestGroupsFilter: async (_, { filter, options }, ___): Promise<Array<RequestGroupInterface>> => {
-            return await RequestGroup.find().exec()
+            return RequestGroup.find().exec()
         },
     },
     
     Mutation: {
         createClient: async (_, { client }, { authenticateUser }): Promise<ClientInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 const newClient = new Client({...client})
                 return newClient.save()
             })
         },
         updateClient: async (_, { client }, { authenticateUser }): Promise<ClientInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 const currentClient = await Client.findById(client._id)
                 const modifiedClient = {...currentClient, ...client}
                 return modifiedClient.save()
             })
         },
         deleteClient: async (_, { _id }, { authenticateUser }): Promise<ClientInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 const client = await Client.findById(_id)
                 client.deletedAt = new Date()
                 return client.save()
@@ -84,7 +84,7 @@ const resolvers = {
         },
 
         createRequest: async (_, { request }, { authenticateUser }): Promise<RequestInterface> => {
-            return await authenticateUser().then(async () => { 
+            return authenticateUser().then(async () => { 
                 return sessionHandler(async (session) => {
                     const newRequest = new Request({...request})
                     const createdRequest = await newRequest.save()
@@ -103,7 +103,7 @@ const resolvers = {
             })
         },
         updateRequest: async (_, { request }, { authenticateUser }): Promise<RequestInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 return sessionHandler(async (session) => {
                     const oldRequest = await Request.findById(request._id)
                     const modifiedRequest = new Request({...oldRequest, ...request})
@@ -130,21 +130,21 @@ const resolvers = {
             })
         },
         deleteRequest: async (_, { _id }, { authenticateUser }): Promise<RequestInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 const request = await Request.findById(_id)
                 request.deletedAt = new Date()
                 return request.save()
             })
         },
         fulfillRequest: async (_, { _id }, { authenticateUser }): Promise<RequestInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 const request = await Request.findById(_id)
                 request.fulfilledAt = new Date()
                 return request.save()
             })
         },
         changeRequestTypeForRequest: async (_, { request, requestType }, { authenticateUser }): Promise<RequestInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 return sessionHandler(async (session) => {
                     const modifiedRequest = await Request.findById(request)
 
@@ -171,7 +171,7 @@ const resolvers = {
         },
 
         createRequestType: async (_, { requestType }, { authenticateUser }): Promise<RequestTypeInterface> => {
-            return await authenticateUser().then(async () => { 
+            return authenticateUser().then(async () => { 
                 return sessionHandler(async (session) => {
                     const newRequestType = new RequestType({...requestType})
                     const createdRequestType = await newRequestType.save()
@@ -187,7 +187,7 @@ const resolvers = {
             })
         },
         updateRequestType: async (_, { requestType }, { authenticateUser }): Promise<RequestTypeInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 return sessionHandler(async (session) => {
                     const oldRequestType = await RequestType.findById(requestType._id)
                     const modifiedRequestType = new RequestType({...oldRequestType, ...requestType})
@@ -211,14 +211,14 @@ const resolvers = {
             })
         },
         deleteRequestType: async (_, { _id }, { authenticateUser }): Promise<RequestTypeInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 const requestType = await RequestType.findById(_id)
                 requestType.deletedAt = new Date()
                 return requestType.save()
             })
         },
         changeRequestGroupForRequestType: async (_, { requestType, requestGroup }, { authenticateUser }): Promise<RequestTypeInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 return sessionHandler(async (session) => {
                     const modifiedRequestType = await RequestType.findById(requestType)
 
@@ -243,7 +243,7 @@ const resolvers = {
 
 
         createRequestGroup: async (_, { requestGroup }, { authenticateUser }): Promise<RequestGroupInterface> => {
-            return await authenticateUser().then(async () => { 
+            return authenticateUser().then(async () => { 
                 const newRequestGroup = new RequestType({...requestGroup})
                 const createdRequestGroup = await newRequestGroup.save()
 
@@ -251,7 +251,7 @@ const resolvers = {
             })
         },
         updateRequestGroup: async (_, { requestGroup }, { authenticateUser }): Promise<RequestGroupInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 const oldRequestGroup = await RequestGroup.findById(requestGroup._id)
                 const modifiedRequestGroup = new RequestType({...oldRequestGroup, ...requestGroup})
 
@@ -259,7 +259,7 @@ const resolvers = {
             })
         },
         deleteRequestGroup: async (_, { _id }, { authenticateUser }): Promise<RequestGroupInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 const requestGroup = await RequestGroup.findById(_id)
                 requestGroup.deletedAt = new Date()
                 return requestGroup.save()
@@ -269,10 +269,10 @@ const resolvers = {
 
     Request: {
         requestType: async (parent, __, ___): Promise<RequestTypeInterface> => {
-            return await RequestType.findById(parent.requestType)
+            return RequestType.findById(parent.requestType)
         },
         client: async (parent, __, { authenticateUser }): Promise<ClientInterface> => {
-            return await authenticateUser().then(() => Client.findById(parent.client))
+            return authenticateUser().then(() => Client.findById(parent.client))
         },
         deleted: (parent, __, ___): Boolean => {
             return parent.deletedAt !== undefined
@@ -283,6 +283,14 @@ const resolvers = {
     },
 
     RequestType: {
+        requestGroup: async (parent, __, ___): Promise<RequestGroupInterface> => {
+            return RequestGroup.findById(parent.requestGroup)
+        },
+        requests: async (parent, __, ___): Promise<Array<RequestInterface>> => {
+            return parent.requests.map((requestEmbedding) => {
+                return Request.findById(requestEmbedding._id)
+            })
+        },
         deleted: (parent, __, ___): Boolean => {
             return parent.deletedAt !== undefined
         },
@@ -313,7 +321,7 @@ const resolvers = {
             }).length
         },
         nextRequest: async (parent, __, { authenticateUser }): Promise<RequestInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 const filteredOpenRequests = parent.requests.filter((requestEmbedding) => {
                     return requestEmbedding.deletedAt === undefined && requestEmbedding.fulfilledAt === undefined
                 })
@@ -333,7 +341,7 @@ const resolvers = {
             })
         },
         nextRecipient: async (parent, __, { authenticateUser }): Promise<ClientInterface> => {
-            return await authenticateUser().then(async () => {
+            return authenticateUser().then(async () => {
                 const filteredOpenRequests = parent.requests.filter((requestEmbedding) => {
                     return requestEmbedding.deletedAt === undefined && requestEmbedding.fulfilledAt === undefined
                 })
@@ -355,20 +363,27 @@ const resolvers = {
     },
 
     RequestGroup: {
+        requestTypes: async (parent, __, ___): Promise<Array<RequestTypeInterface>> => {
+            return parent.requestTypes.map((requestTypeEmbedding) => {
+                return RequestType.findById(requestTypeEmbedding._id)
+            })
+        },
         deleted: (parent, __, ___): Boolean => {
             return parent.deletedAt !== undefined
         },
         countOpenRequests: async (parent, __, ___): Promise<number> => {
-            return parent.requestTypes.map(async (requestTypeEmbedding) => {
+            const countOpenRequestsPerType: Array<number> = await Promise.all(parent.requestTypes.map(async (requestTypeEmbedding) => {
                 const requestType = await RequestType.findById(requestTypeEmbedding._id)
                 return requestType.requests.filter((requestEmbedding) => {
                     return requestEmbedding.deletedAt === undefined && requestEmbedding.fulfilledAt === undefined
                 }).length
-            }).reduce((total, openRequestsInRequestType) => total + openRequestsInRequestType, 0)
+            }))
+
+            return countOpenRequestsPerType.reduce((total : number, openRequestsInRequestType : number) => total + openRequestsInRequestType, 0)
         },
         nextRequest: async (parent, __, { authenticateUser }): Promise<RequestInterface> => {
-            return await authenticateUser().then(async () => {
-                const nextRequestsForAllRequestTypes = parent.requestTypes.map(async (requestTypeEmbedding) => {
+            return authenticateUser().then(async () => {
+                const nextRequestsForAllRequestTypes: Array<RequestEmbeddingInterface> = await Promise.all(parent.requestTypes.map(async (requestTypeEmbedding) => {
                     const requestType = await RequestType.findById(requestTypeEmbedding._id)
                     const filteredOpenRequests = requestType.requests.filter((requestEmbedding) => {
                         return requestEmbedding.deletedAt === undefined && requestEmbedding.fulfilledAt === undefined
@@ -386,20 +401,31 @@ const resolvers = {
                     const firstOpenRequest = sortedOpenRequests[0]
 
                     return firstOpenRequest
-                })
+                }))
 
-                const sortedNextRequests = nextRequestsForAllRequestTypes.sort((requestEmbedding1, requestEmbedding2) => {
-                    return requestEmbedding1.createdAt.getMilliseconds() - requestEmbedding2.createdAt.getMilliseconds()
-                })
+                if (nextRequestsForAllRequestTypes === null) {
+                    return null
+                }
 
-                const firstOpenRequest = sortedNextRequests[0]
+                const sortedNextRequests: Array<RequestEmbeddingInterface> = nextRequestsForAllRequestTypes
+                    .sort((requestEmbedding1: RequestEmbeddingInterface, requestEmbedding2: RequestEmbeddingInterface) => {
+                        if (requestEmbedding1 === null) {
+                            return 1
+                        }
 
-                return Request.findById(firstOpenRequest._id)
+                        if (requestEmbedding2 === null) {
+                            return -1
+                        }
+                        
+                        return requestEmbedding1.createdAt.getMilliseconds() - requestEmbedding2.createdAt.getMilliseconds()
+                    })
+
+                return Request.findById(sortedNextRequests[0]._id)
             })
         },
         nextRecipient: async (parent, __, { authenticateUser }): Promise<ClientInterface> => {
-            return await authenticateUser().then(async () => {
-                const nextRequestsForAllRequestTypes = parent.requestTypes.map(async (requestTypeEmbedding) => {
+            return authenticateUser().then(async () => {
+                const nextRequestsForAllRequestTypes: Array<RequestEmbeddingInterface> = await Promise.all(parent.requestTypes.map(async (requestTypeEmbedding) => {
                     const requestType = await RequestType.findById(requestTypeEmbedding._id)
                     const filteredOpenRequests = requestType.requests.filter((requestEmbedding) => {
                         return requestEmbedding.deletedAt === undefined && requestEmbedding.fulfilledAt === undefined
@@ -417,15 +443,28 @@ const resolvers = {
                     const firstOpenRequest = sortedOpenRequests[0]
 
                     return firstOpenRequest
-                })
+                }))
 
-                const sortedNextRequests = nextRequestsForAllRequestTypes.sort((requestEmbedding1, requestEmbedding2) => {
-                    return requestEmbedding1.createdAt.getMilliseconds() - requestEmbedding2.createdAt.getMilliseconds()
-                })
+                if (nextRequestsForAllRequestTypes === null) {
+                    return null
+                }
 
-                const firstOpenRequest = sortedNextRequests[0]
+                const sortedNextRequests: Array<RequestEmbeddingInterface> = nextRequestsForAllRequestTypes
+                    .sort((requestEmbedding1: RequestEmbeddingInterface, requestEmbedding2: RequestEmbeddingInterface) => {
+                        if (requestEmbedding1 === null) {
+                            return 1
+                        }
 
-                return Client.findById((await Request.findById(firstOpenRequest._id)).client)
+                        if (requestEmbedding2 === null) {
+                            return -1
+                        }
+                        
+                        return requestEmbedding1.createdAt.getMilliseconds() - requestEmbedding2.createdAt.getMilliseconds()
+                    })
+
+                const firstOpenRequest = await Request.findById(sortedNextRequests[0]._id)
+
+                return Client.findById((firstOpenRequest).client)
             })
         },
         hasAnyRequests: async (parent, __, ___): Promise<Boolean> => {

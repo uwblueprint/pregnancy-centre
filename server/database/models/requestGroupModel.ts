@@ -1,5 +1,9 @@
 import { Document, model, Schema, Types } from 'mongoose'
 
+interface RequestTypeEmbeddingInterface {
+  _id: Types.ObjectId 
+}
+
 interface RequestGroupInterface extends Document {
   _id: Types.ObjectId
 
@@ -9,9 +13,7 @@ interface RequestGroupInterface extends Document {
   image: string
   
   // Embedded Objects
-  requestTypes: Array<{ 
-    _id: Types.ObjectId 
-  }>
+  requestTypes: Array<RequestTypeEmbeddingInterface>
 
   // Timestamps for Statuses
   deletedAt: Date
@@ -59,4 +61,4 @@ const RequestGroupSchema = new Schema({
 
 const RequestGroup = model<RequestGroupInterface>('RequestGroup', RequestGroupSchema)
 
-export { RequestGroup, RequestGroupInterface }
+export { RequestGroup, RequestGroupInterface, RequestTypeEmbeddingInterface }
