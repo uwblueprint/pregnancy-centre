@@ -1,7 +1,7 @@
-import { clientQueryResolvers, clientMutationResolvers } from './resolvers/clientResolvers'
-import { requestQueryResolvers, requestMutationResolvers, requestResolvers } from './resolvers/requestResolvers'
-import { requestGroupQueryResolvers, requestGroupMutationResolvers, requestGroupResolvers } from './resolvers/requestGroupResolvers'
-import { requestTypeQueryResolvers, requestTypeMutationResolvers, requestTypeResolvers } from './resolvers/requestTypeResolvers'
+import { clientMutationResolvers, clientQueryResolvers } from './resolvers/clientResolvers'
+import { requestGroupMutationResolvers, requestGroupQueryResolvers, requestGroupResolvers } from './resolvers/requestGroupResolvers'
+import { requestMutationResolvers, requestQueryResolvers, requestResolvers } from './resolvers/requestResolvers'
+import { requestTypeMutationResolvers, requestTypeQueryResolvers, requestTypeResolvers } from './resolvers/requestTypeResolvers'
 
 const resolvers = {
     Query: {

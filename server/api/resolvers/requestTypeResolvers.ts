@@ -134,7 +134,7 @@ const requestTypeResolvers = {
             return Request.findById(requestEmbedding._id)
         })
     },
-    deleted: (parent, __, ___): Boolean => {
+    deleted: (parent, __, ___): boolean => {
         return parent.deletedAt !== undefined
     },
     openRequests: async (parent, __, ___): Promise<Array<RequestInterface>> => {

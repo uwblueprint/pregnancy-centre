@@ -13,7 +13,6 @@ import raw from "raw-body";
 
 import { resolvers } from "./api/resolvers";
 import { typeDefs } from "./api/schema";
-import User from "./auth/user"
 
 // TODO: need to make script to build(compile) prod server and to run prod server
 

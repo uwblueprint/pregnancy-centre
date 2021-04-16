@@ -1,7 +1,7 @@
 import { Client, ClientInterface } from '../../database/models/clientModel'
 import { Request, RequestInterface } from '../../database/models/requestModel'
-import { RequestGroup, RequestGroupInterface } from '../../database/models/requestGroupModel'
 import { RequestEmbeddingInterface, RequestType, RequestTypeInterface } from '../../database/models/requestTypeModel'
+import { RequestGroup, RequestGroupInterface } from '../../database/models/requestGroupModel'
 
 import { filterOpenRequestEmbeddings, nextRequestEmbeddingForRequestType } from './requestTypeResolvers'
 
@@ -81,7 +81,7 @@ const requestGroupResolvers = {
             return RequestType.findById(requestTypeEmbedding._id)
         })
     },
-    deleted: (parent, __, ___): Boolean => {
+    deleted: (parent, __, ___): boolean => {
         return parent.deletedAt !== undefined
     },
     countOpenRequests: async (parent, __, ___): Promise<number> => {
@@ -120,7 +120,7 @@ const requestGroupResolvers = {
             })
         })
     },
-    hasAnyRequests: async (parent, __, ___): Promise<Boolean> => {
+    hasAnyRequests: async (parent, __, ___): Promise<boolean> => {
         return sessionHandler(async (session) => {
             const countUndeletedRequestsPerType: Array<number> = await Promise.all(parent.requestTypes.map(async (requestTypeEmbedding) => {
                 const requestType = await RequestType.findById(requestTypeEmbedding._id).session(session)

@@ -105,10 +105,10 @@ const requestResolvers = {
     client: async (parent, __, { authenticateUser }): Promise<ClientInterface> => {
         return authenticateUser().then(() => Client.findById(parent.client))
     },
-    deleted: (parent, __, ___): Boolean => {
+    deleted: (parent, __, ___): boolean => {
         return parent.deletedAt !== undefined
     },
-    fulfilled: (parent, __, ___): Boolean => {
+    fulfilled: (parent, __, ___): boolean => {
         return parent.fulfilledAt !== undefined
     },
 }
