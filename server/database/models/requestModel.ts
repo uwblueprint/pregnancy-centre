@@ -10,10 +10,6 @@ interface RequestInterface {
   requestType: Types.ObjectId
   client: Types.ObjectId
 
-  // Statuses
-  deleted: boolean
-  fulfilled: boolean
-
   // Timestamps
   createdAt: Date
   updatedAt: Date

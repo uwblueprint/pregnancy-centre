@@ -5,106 +5,129 @@ import { gql } from 'apollo-server'
 const typeDefs = gql`
     type Client {
         _id: ID
-        clientId: String
         fullName: String
-        deleted: Boolean
+        updatedAt: String
+        createdAt: String
+        deletedAt: String
     }
+    input ClientInput {
+        _id: ID
+        fullName: String
+    }
+    input ClientFilterInput {
+        fullName: String
+    }
+
     type Request {
         _id: ID
-        requestType: RequestType
-        requestId: String
-        client: Client
-        dateUpdated: String
-        dateCreated: String
-        dateFulfilled: String
-        deleted: Boolean
-        fulfilled: Boolean
         quantity: Int
+        requestType: RequestType
+        client: Client
+        updatedAt: String
+        createdAt: String
+        deletedAt: String
+        fulfilledAt: String
     }
+    input RequestInput {
+        _id: ID
+        quantity: Int
+        requestType: ID
+        client: ID
+    }
+    input RequestFilterInput {
+    }
+
     type RequestType {
         _id: ID
-        requestGroup: RequestGroup
         name: String
-        dateUpdated: String
-        deleted: Boolean
+        numOpen: Int
+        requestGroup: RequestGroup
         requests: [Request]
+        createdAt: String
+        updatedAt: String
+        deletedAt: String
+        
         openRequests: [Request]
         fulfilledRequests: [Request]
         deletedRequests: [Request]
-        numOpen: Int,
         nextRecipient: Client
     }
+    input RequestTypeInput {
+        _id: ID
+        name: String
+        requestGroup: ID
+        requests: [ID]
+    }
+    input RequestTypeFilterInput {
+    }
+
     type RequestGroup {
         _id: ID
         name: String
-        dateUpdated: String
         description: String
-        deleted: Boolean
-        requirements: String
         image: String
         requestTypes: [RequestType]
-        numOpen: Int,
-        hasAnyRequests: Boolean,
+        createdAt: String
+        updatedAt: String
+        deletedAt: String
+
+        numOpen: Int
+        hasAnyRequests: Boolean
         nextRecipient: Client
-    }
-    type ServerResponse {
-        success: Boolean
-        message: String
-        id: ID
-    }
-    type Query {
-        client(id: ID): Client
-        filterClients(filter: ClientInput): [Client]
-        clients: [Client]
-        request(id: ID): Request
-        requests: [Request]
-        requestType(id: ID): RequestType
-        requestTypes: [RequestType]
-        requestGroup(id: ID): RequestGroup
-        requestGroups: [RequestGroup]
-    }
-    type Mutation {
-        createRequestGroup(requestGroup: RequestGroupInput): ServerResponse
-        updateRequestGroup(requestGroup: RequestGroupInput): ServerResponse
-        softDeleteRequestGroup(id: ID): ServerResponse
-        createRequestType(requestType: RequestTypeInput): ServerResponse
-        updateRequestType(requestType: RequestTypeInput): ServerResponse
-        softDeleteRequestType(id: ID): ServerResponse
-        createRequest(request: RequestInput): ServerResponse
-        updateRequest(request: RequestInput): ServerResponse
-        softDeleteRequest(id: ID): ServerResponse
-        createClient(client: ClientInput): ServerResponse
-        updateClient(client: ClientInput): ServerResponse
-        softDeleteClient(id: ID): ServerResponse
     }
     input RequestGroupInput {
         id: ID
         name: String
         description: String
-        requirements: String
         image: String
         requestTypes: [ID]
-        requestTypeNames: [String]
     }
-    input RequestTypeInput {
-        id: ID
-        requestGroup: ID
-        name: String
-        requests: [ID]
+    input RequestGroupFilterInput {
     }
-    input RequestInput {
-        id: ID
-        client: ID
-        requestType: ID
-        requestId: String
-        fulfilled: Boolean
-        quantity: Int
-        clientFullName: String
+
+    type FilterOptions {
+        partialMatch: Boolean
     }
-    input ClientInput {
-        id: ID
-        clientId: String
-        fullName: String
+
+    type Query {
+        client(id: ID): Client
+        clients: [Client]
+        clientsFilter(filter: ClientFilterInput, options: FilterOptions): [Client]
+
+        request(id: ID): Request
+        requests: [Request]
+        requestsFilter(filter: RequestFilterInput, options: FilterOptions): [Request]
+
+        requestType(id: ID): RequestType
+        requestTypes: [RequestType]
+        requestTypesFilter(filter: RequestTypeFilterInput, options: FilterOptions): [RequestType]
+
+        requestGroup(id: ID): RequestGroup
+        requestGroups: [RequestGroup]
+        requestGroupsFilter(filter: RequestGroupFilterInput, options: FilterOptions): [RequestGroup]
+    }
+
+    type Mutation {
+        createClient(client: ClientInput): Client
+        updateClient(client: ClientInput): Client
+        deleteClient(_id: ID): Client
+
+        createRequest(request: RequestInput): Request
+        updateRequest(request: RequestInput): Request
+        deleteRequest(_id: ID): Request
+        fulfillRequest(_id: ID): Request
+
+        createRequestType(requestType: RequestTypeInput): RequestType
+        updateRequestType(requestType: RequestTypeInput): RequestType
+        deleteRequestType(_id: ID): RequestType
+        addRequestFromRequestType(_id: ID): RequestType
+        removeRequestFromRequestType(_id: ID): RequestType
+
+        createRequestGroup(requestGroup: RequestGroupInput): RequestGroup
+        updateRequestGroup(requestGroup: RequestGroupInput): RequestGroup
+        deleteRequestGroup(_id: ID): RequestGroup
+        addRequestTypeFromRequestGroup(_id: ID): RequestGroup
+        removeRequestTypeFromRequestGroup(_id: ID): RequestGroup
     }
 `
 

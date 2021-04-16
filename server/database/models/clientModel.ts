@@ -6,12 +6,12 @@ interface ClientInterface {
   // Properties
   fullName: string
 
-  // Status
-  deleted: boolean
-
   // Timestamps
   createdAt: Date
   updatedAt: Date
+
+  // Timestamps for Statuses
+  deletedAt: Date
 }
 
 type ClientDocument = ClientInterface & Document;
@@ -24,11 +24,9 @@ const ClientSchema = new Schema({
     trim: true
   },
 
-  // Status
+  // Timestamps for Statuses
   deleted: {
-    type: Boolean,
-    required: true,
-    default: false
+    type: Date
   }
 
 }, // Options
