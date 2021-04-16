@@ -2,8 +2,8 @@ import mongoose, { Document } from 'mongoose'
 import { UserInputError } from 'apollo-server-errors'
 
 import { nextRequestRequestTypeHelper, softDeleteRequestTypeHelper } from './requestType'
-import { RequestInterface } from '../../models/requestModel'
-import { RequestTypeDocument } from '../../models/requestTypeModel'
+import { RequestInterface } from '../../database/models/requestModel'
+import { RequestTypeDocument } from '../../database/models/requestTypeModel'
 
 const nextRequestRequestGroupHelper = (requestTypeIds, dataSources): RequestInterface => {
   const requests = requestTypeIds.map((id) => {

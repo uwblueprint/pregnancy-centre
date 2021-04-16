@@ -1,7 +1,7 @@
 import mongoose, { Document, Types } from 'mongoose'
 import { UserInputError } from 'apollo-server-errors'
 
-import { RequestInterface } from '../../models/requestModel'
+import { RequestInterface } from '../../database/models/requestModel'
 import { softDeleteRequestHelper } from './request'
 import { updateRequestGroupHelper } from './requestGroup'
 

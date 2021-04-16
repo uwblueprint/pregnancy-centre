@@ -1,4 +1,4 @@
-import { ClientDocument } from '../../models/clientModel'
+import { ClientDocument } from '../../database/models/clientModel'
 
 const getClientsByFullName = (fullName: string, dataSources): Array<ClientDocument> => {
   return dataSources.clients.getAll().filter((client: ClientDocument) => client.fullName === fullName)

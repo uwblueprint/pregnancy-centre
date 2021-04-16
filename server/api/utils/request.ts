@@ -2,7 +2,7 @@ import { Document, Types } from 'mongoose'
 import { UserInputError } from 'apollo-server-errors'
 
 import { getClientByFullNameOrCreate } from './client'
-import { RequestInterface } from '../../models/requestModel'
+import { RequestInterface } from '../../database/models/requestModel'
 import { updateRequestTypeHelper } from './requestType'
 
 import mongoose from 'mongoose'

@@ -2,52 +2,61 @@ import { Document, model, Schema, Types } from 'mongoose'
 
 interface RequestGroupInterface {
   _id: Types.ObjectId
+
+  // Properties
   name: string
-  dateUpdated: Date,
   description: string
-  deleted: boolean
-  requirements: string
   image: string
-  requestTypes: [Types.ObjectId]
+  
+  // Embedded Objects
+  requestTypes: [ { 
+    id: Types.ObjectId 
+  } ]
+
+  // Timestamps for Statuses
+  deletedAt: Date
+
+  // Timestamps
+  createdAt: Date
+  updatedAt: Date
 }
 
 type RequestGroupDocument = RequestGroupInterface & Document;
 
 const RequestGroupSchema = new Schema({
+  // Properties
   name: {
     type: String,
     required: true,
     trim: true
   },
-  dateUpdated: {
-    type: Date,
-    required: true,
-    default: Date.now()
-  },
-  deleted: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
   description: {
-    type: String
-  },
-  requirements: {
-    type: String
+    type: String,
+    required: true,
+    default: ""
   },
   image: {
-    type: String
+    type: String,
+    required: true,
+    default: ""
   },
+
+  // Embedded Objects
   requestTypes: {
-    type: [ { type: Types.ObjectId, ref: 'RequestType' } ],
+    type: [ { 
+      id: { type: Types.ObjectId, ref: 'RequestType' } 
+    } ],
     default: []
-  }
-}, {
-  timestamps: {
-    currentTime: Date.now,
-    updatedAt: 'dateUpdated',
-    createdAt: 'dateCreated'
-  }
+  },
+
+  // Timestamps for Statuses
+  deletedAt: {
+    type: Date
+  },
+  
+}, // Options
+{
+  timestamps: true
 })
 
 const RequestGroup = model('RequestGroup', RequestGroupSchema)

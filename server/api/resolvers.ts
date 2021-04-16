@@ -1,10 +1,10 @@
 import { Types } from 'mongoose'
 
 /* Models */
-import { ClientInterface } from '../models/clientModel'
-import { RequestGroupInterface } from '../models/requestGroupModel'
-import { RequestInterface } from '../models/requestModel'
-import { RequestTypeInterface } from '../models/requestTypeModel'
+import { ClientInterface } from '../database/models/clientModel'
+import { RequestGroupInterface } from '../database/models/requestGroupModel'
+import { RequestInterface } from '../database/models/requestModel'
+import { RequestTypeInterface } from '../database/models/requestTypeModel'
 import { ServerResponseInterface } from './serverResponse'
 
 /* Helper functions */
@@ -12,7 +12,7 @@ import { createRequestGroupHelper, nextRequestRequestGroupHelper, softDeleteRequ
 import { createRequestHelper, filterDeletedRequests, filterFulfilledRequests, filterOpenRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper } from './utils/request'
 import { createRequestTypeHelper, nextRequestRequestTypeHelper, softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
 import { createClientHelper } from './utils/client'
-import { sessionHandler } from '../database/session'
+import { sessionHandler } from './utils/session'
 
 const resolvers = {
   Query: {
