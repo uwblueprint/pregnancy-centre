@@ -86,23 +86,22 @@ const typeDefs = gql`
     }
 
     type FilterOptions {
-        partialMatch: Boolean
     }
 
     type Query {
-        client(id: ID): Client
+        client(_id: ID): Client
         clients: [Client]
         clientsFilter(filter: ClientFilterInput, options: FilterOptions): [Client]
 
-        request(id: ID): Request
+        request(_id: ID): Request
         requests: [Request]
         requestsFilter(filter: RequestFilterInput, options: FilterOptions): [Request]
 
-        requestType(id: ID): RequestType
+        requestType(_id: ID): RequestType
         requestTypes: [RequestType]
         requestTypesFilter(filter: RequestTypeFilterInput, options: FilterOptions): [RequestType]
 
-        requestGroup(id: ID): RequestGroup
+        requestGroup(_id: ID): RequestGroup
         requestGroups: [RequestGroup]
         requestGroupsFilter(filter: RequestGroupFilterInput, options: FilterOptions): [RequestGroup]
     }

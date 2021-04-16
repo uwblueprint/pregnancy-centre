@@ -1,6 +1,6 @@
 import { Document, model, Schema, Types } from 'mongoose'
 
-interface RequestInterface {
+interface RequestInterface extends Document {
   _id: Types.ObjectId
 
   // Properties
@@ -18,8 +18,6 @@ interface RequestInterface {
   deletedAt: Date
   fulfilledAt: Date
 }
-
-type RequestDocument = RequestInterface & Document;
 
 const requestSchema = new Schema({
   // Properties
@@ -50,6 +48,6 @@ const requestSchema = new Schema({
   timestamps: true
 })
 
-const Request = model('Request', requestSchema)
+const Request = model<RequestInterface>('Request', requestSchema)
 
-export { Request, RequestDocument, RequestInterface }
+export { Request, RequestInterface }

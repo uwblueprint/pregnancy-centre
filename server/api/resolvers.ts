@@ -1,175 +1,160 @@
+import { UserInputError } from 'apollo-server-errors'
 import { Types } from 'mongoose'
 
-/* Models */
-import { ClientInterface } from '../database/models/clientModel'
-import { RequestGroupInterface } from '../database/models/requestGroupModel'
-import { RequestInterface } from '../database/models/requestModel'
-import { RequestTypeInterface } from '../database/models/requestTypeModel'
-import { ServerResponseInterface } from './serverResponse'
+/* DB Models */
+import { Client, ClientInterface } from '../database/models/clientModel'
+import { RequestGroup, RequestGroupInterface } from '../database/models/requestGroupModel'
+import { Request, RequestInterface } from '../database/models/requestModel'
+import { RequestType, RequestTypeInterface } from '../database/models/requestTypeModel'
 
 /* Helper functions */
-import { createRequestGroupHelper, nextRequestRequestGroupHelper, softDeleteRequestGroupHelper, updateRequestGroupHelper } from './utils/requestGroup'
-import { createRequestHelper, filterDeletedRequests, filterFulfilledRequests, filterOpenRequests, getRequestsById, softDeleteRequestHelper, updateRequestHelper } from './utils/request'
-import { createRequestTypeHelper, nextRequestRequestTypeHelper, softDeleteRequestTypeHelper, updateRequestTypeHelper } from './utils/requestType'
-import { createClientHelper } from './utils/client'
 import { sessionHandler } from './utils/session'
 
 const resolvers = {
-  Query: {
-    client: (_, { id }, { dataSources, authenticateUser }): ClientInterface => authenticateUser().then(() => dataSources.clients.getById(Types.ObjectId(id))),
-    filterClients: (_, { filter }, { dataSources, authenticateUser }): Array<ClientInterface> => authenticateUser().then(() => {
-      let filteredClients = dataSources.clients.getAll()
+    Query: {
+        client: (_, { _id }, { authenticateUser }): ClientInterface => {
+            return await authenticateUser().then(() => {
+                Client.findById(_id)
+                .exec()
+                .then(client => {
+                    return client
+                })
+                .catch(err => {
+                    throw new UserInputError("Failed getting client")
+                })
+            }) 
 
-      for (const property in filter) {
-        filteredClients = filteredClients.filter((client) => (client[property] ? client[property] === filter[property] : true))
-      }
+        },
+        clients: (_, __, { authenticateUser }): Array<ClientInterface> => {
+            return await authenticateUser().then(() => {
+                Client.find().exec()
+                .then(clients => {
+                    return clients
+                })
+                .catch(err => {
+                    throw new UserInputError("Failed getting clients")
+                })
+            })
+        },
+        clientsFilter: (_, { filter, options }, { authenticateUser }): Array<ClientInterface> => {
+            return await authenticateUser().then(() => {
+                Client.find({ fullName: filter.fullName }).exec()
+                .then(clients => {
+                    return clients
+                })
+                .catch(err => {
+                    throw new UserInputError("Failed getting clients")
+                })
+            })
+        },
 
-      return filteredClients
-    }),
-    clients: (_, __, { dataSources, authenticateUser }): Array<ClientInterface> => authenticateUser().then(() => dataSources.clients.getAll()),
-    request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getById(Types.ObjectId(id)),
-    requests: (_, __, { dataSources }): Array<RequestInterface> => dataSources.requests.getAll(),
-    requestType: (_, { id }, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(id)),
-    requestTypes: (_, __, { dataSources }): Array<RequestTypeInterface> => dataSources.requestTypes.getAll(),
-    requestGroup: (_, { id }, { dataSources }): RequestGroupInterface => dataSources.requestGroups.getById(Types.ObjectId(id)),
-    requestGroups: (_, __, { dataSources }): Array<RequestGroupInterface> => dataSources.requestGroups.getAll()
-  },
-  Mutation: {
-    createRequestGroup: (_, { requestGroup }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> => authenticateUser().then(() => {
-      return sessionHandler(session => createRequestGroupHelper(requestGroup, dataSources, session))
-        .then(res => {
-          return {
-            'success': true,
-            'message': 'RequestGroup successfully created',
-            'id': res._id
-          }
-        })
-    }),
-    updateRequestGroup: (_, { requestGroup }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
-      return sessionHandler(session => updateRequestGroupHelper(requestGroup, dataSources, session))
-        .then(res => {
-          return {
-            'success': true,
-            'message': 'RequestGroup successfully updated',
-            'id': res._id
-          }
-        })
-    }),
-    softDeleteRequestGroup: (_, { id }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
-      return softDeleteRequestGroupHelper(id, dataSources)
-        .then(res => {
-          return {
-            'success': true,
-            'message': 'RequestGroup successfully soft deleted',
-            'id': res._id
-          }
-        })
-    }),
-    createRequestType: (_, { requestType }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> => authenticateUser().then(() => {
-      return sessionHandler(session => createRequestTypeHelper(requestType, dataSources, session))
-        .then(res => {
-          return {
-            'success': true,
-            'message': 'RequestType successfully created',
-            'id': res._id
-          }
-        })
-    }),
-    updateRequestType: (_, { requestType }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
-      return sessionHandler(session => updateRequestTypeHelper(requestType, dataSources, session))
-        .then(res => {
-          return {
-            'success': true,
-            'message': 'RequestType successfully updated',
-            'id': res._id
-          }
-        })
-    }),
-    softDeleteRequestType: (_, { id }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
-      return softDeleteRequestTypeHelper(id, dataSources)
-        .then(res => {
-          return {
-            'success': true,
-            'message': 'RequestType successfully soft deleted',
-            'id': res._id
-          }
-        })
-    }),
-    createRequest: (_, { request }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> => authenticateUser().then(() => {
-      return sessionHandler((session) => createRequestHelper(request, dataSources, session))
-        .then(res => {
-          return {
-            'success': true,
-            'message': 'Request successfully created',
-            'id': res._id
-          }
-        })
-    }),
-    updateRequest: (_, { request }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
-      return sessionHandler((session) => updateRequestHelper(request, dataSources, session))
-        .then(res => {
-          return {
-            'success': true,
-            'message': 'Request successfully updated',
-            'id': res._id
-          }
-        })
-    }),
-    softDeleteRequest: (_, { id }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
-      return softDeleteRequestHelper(id, dataSources)
-        .then(res => {
-          return {
-            'success': true,
-            'message': 'Request successfully soft deleted',
-            'id': res._id
-          }
-        })
-    }),
-    createClient: (_, { client }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> => authenticateUser().then(() => {
-      return sessionHandler((session) => createClientHelper(client, dataSources, session))
-        .then(res => {
-          return {
-            'success': true,
-            'message': 'Client succesfully updated',
-            'id': res._id
-          }
-        })
-    }),
+        request: (_, { _id }, { authenticateUser }): RequestInterface => {
+            return await Request.findById(_id).exec()
+                .then (request => {
+                    return request
+                })
+                .catch(err => {
+                    throw new UserInputError("Failed getting request")
+                })
+        },
+        requests: (_, __, { authenticateUser }): Array<RequestInterface> => {
+            return await Request.find().exec()
+                .then (requests => {
+                    return requests
+                })
+                .catch(err => {
+                    throw new UserInputError("Failed getting requests")
+                })
+        },
+        requestsFilter: (_, { filter, options }, { authenticateUser }): Array<RequestInterface> => {
+            return await Request.find().exec()
+                .then (requests => {
+                    return requests
+                })
+                .catch(err => {
+                    throw new UserInputError("Failed getting requests")
+                })
+        },
 
-    // TODO: Create helper functions for updateClient and softDeleteClient
-    // TODO: Wrap updateClient and softDeleteClient helpers in sessionHandler
-    updateClient: (_, { client }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> => authenticateUser().then(() => dataSources.clients.update(client)),
-    softDeleteClient: (_, { id }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> => authenticateUser().then(() => dataSources.clients.softDelete(id))
-  },
-  RequestGroup: {
-    numOpen: (parent, __, { dataSources }): number =>
-      parent.requestTypes.map(id => {
-        return filterOpenRequests(getRequestsById(dataSources.requestTypes.getById(Types.ObjectId(id)).requests, dataSources)).length
-      }).reduce((total, num) => total + num, 0),
-    hasAnyRequests: (parent, __, { dataSources }): boolean =>
-      parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)).requests.length).reduce((notEmpty, len) => notEmpty || len > 0, false),
-    nextRecipient: (parent, __, { dataSources, authenticateUser }): ClientInterface =>  authenticateUser().then(() => {
-      const nextRequest = nextRequestRequestGroupHelper(parent.requestTypes, dataSources)
-      return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
-    }),
-    requestTypes: (parent, __, { dataSources }): Array<RequestTypeInterface> => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)))
-  },
-  RequestType: {
-    numOpen: (parent, __, { dataSources }): Number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,
-    nextRecipient: (parent, __, { dataSources, authenticateUser }): ClientInterface => authenticateUser().then(() => {
-      const nextRequest = nextRequestRequestTypeHelper(parent.requests, dataSources)
-      return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
-    }),
-    openRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterOpenRequests(getRequestsById(parent.requests, dataSources)),
-    fulfilledRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterFulfilledRequests(getRequestsById(parent.requests, dataSources)),
-    deletedRequests: (parent, __, { dataSources }): Array<RequestInterface> => filterDeletedRequests(getRequestsById(parent.requests, dataSources)),
-    requests: (parent, __, { dataSources }): Array<RequestInterface> => getRequestsById(parent.requests, dataSources),
-    requestGroup: (parent, __, { dataSources }): RequestGroupInterface => dataSources.requestGroups.getById(Types.ObjectId(parent.requestGroup.toString()))
-  },
-  Request: {
-    requestType: (parent, __, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(parent.requestType.toString())),
-    client: (parent, __, { dataSources, authenticateUser }): ClientInterface => authenticateUser().then(() => dataSources.clients.getById(Types.ObjectId(parent.client)))
-  }
+        requestType: (_, { _id }, { authenticateUser }): RequestTypeInterface => {
+            return await RequestType.findById(_id).exec()
+                .then (requestType => {
+                    return requestType
+                })
+                .catch(err => {
+                    throw new UserInputError("Failed getting requestType")
+                })
+        },
+        requestTypes: (_, __, { authenticateUser }): Array<RequestTypeInterface> => {
+            return await RequestType.find().exec()
+                .then (requestTypes => {
+                    return requestTypes
+                })
+                .catch(err => {
+                    throw new UserInputError("Failed getting requestTypes")
+                })
+        },
+        requestTypesFilter: (_, { filter, options }, { authenticateUser }): Array<RequestTypeInterface> => {
+            return await RequestType.find().exec()
+                .then (requestTypes => {
+                    return requestTypes
+                })
+                .catch(err => {
+                    throw new UserInputError("Failed getting requestTypes")
+                })
+        },
+
+        requestGroup: (_, { _id }, { authenticateUser }): RequestGroupInterface => {
+            return await RequestGroup.findById(_id).exec()
+                .then (requestGroup => {
+                    return requestGroup
+                })
+                .catch(err => {
+                    throw new UserInputError("Failed getting requestGroup")
+                })
+        },
+        requestGroups: (_, __, { authenticateUser }): Array<RequestGroupInterface> => {
+            return await RequestGroup.find().exec()
+                .then (requestGroups => {
+                    return requestGroups
+                })
+                .catch(err => {
+                    throw new UserInputError("Failed getting requestGroups")
+                })
+        },
+        requstGroupsFilter: (_, { filter, options }, { authenticateUser }): Array<RequestGroupInterface> => {
+            return await RequestGroup.find().exec()
+                .then (requestGroups => {
+                    return requestGroups
+                })
+                .catch(err => {
+                    throw new UserInputError("Failed getting requestGroups")
+                })
+        },
+    },
+    
+    Mutation: {
+        createClient(client: ClientInput): Client
+        updateClient(client: ClientInput): Client
+        deleteClient(_id: ID): Client
+
+        createRequest(request: RequestInput): Request
+        updateRequest(request: RequestInput): Request
+        deleteRequest(_id: ID): Request
+        fulfillRequest(_id: ID): Request
+
+        createRequestType(requestType: RequestTypeInput): RequestType
+        updateRequestType(requestType: RequestTypeInput): RequestType
+        deleteRequestType(_id: ID): RequestType
+        addRequestFromRequestType(_id: ID): RequestType
+        removeRequestFromRequestType(_id: ID): RequestType
+
+        createRequestGroup(requestGroup: RequestGroupInput): RequestGroup
+        updateRequestGroup(requestGroup: RequestGroupInput): RequestGroup
+        deleteRequestGroup(_id: ID): RequestGroup
+        addRequestTypeFromRequestGroup(_id: ID): RequestGroup
+        removeRequestTypeFromRequestGroup(_id: ID): RequestGroup
+    }
 }
 
 export { resolvers }

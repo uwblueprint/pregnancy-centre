@@ -1,5 +1,5 @@
 import * as admin from "firebase-admin";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, ForbiddenError } from "apollo-server-express";
 import { AuthenticationError } from "apollo-server-express";
 import bodyParser from "body-parser";
 import { connectDB } from "./database/mongoConnection";
@@ -11,8 +11,8 @@ import { getUser } from "./auth/firebase";
 import inflate from "inflation";
 import raw from "raw-body";
 
-import { resolvers } from "./graphql/resolvers";
-import { typeDefs } from "./graphql/schema";
+import { resolvers } from "./api/resolvers";
+import { typeDefs } from "./api/schema";
 import User from "./auth/user"
 
 // TODO: need to make script to build(compile) prod server and to run prod server
@@ -108,7 +108,7 @@ async function gqlServer() {
 
         const user = await getUser(req.cookies.session);
         if (!user || !user.id)
-          throw new AuthenticationError("Authentication Error");
+          throw new ForbiddenError("Authentication Error");
 
         return { req, res, user };
       }

@@ -1,6 +1,6 @@
 import { Document, model, Schema, Types } from 'mongoose'
 
-interface RequestGroupInterface {
+interface RequestGroupInterface extends Document {
   _id: Types.ObjectId
 
   // Properties
@@ -20,8 +20,6 @@ interface RequestGroupInterface {
   createdAt: Date
   updatedAt: Date
 }
-
-type RequestGroupDocument = RequestGroupInterface & Document;
 
 const RequestGroupSchema = new Schema({
   // Properties
@@ -59,6 +57,6 @@ const RequestGroupSchema = new Schema({
   timestamps: true
 })
 
-const RequestGroup = model('RequestGroup', RequestGroupSchema)
+const RequestGroup = model<RequestGroupInterface>('RequestGroup', RequestGroupSchema)
 
-export { RequestGroup, RequestGroupDocument, RequestGroupInterface }
+export { RequestGroup, RequestGroupInterface }

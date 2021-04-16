@@ -1,6 +1,6 @@
 import { Document, model, Schema, Types } from 'mongoose'
 
-interface ClientInterface {
+interface ClientInterface extends Document {
   _id: Types.ObjectId
 
   // Properties
@@ -13,8 +13,6 @@ interface ClientInterface {
   // Timestamps for Statuses
   deletedAt: Date
 }
-
-type ClientDocument = ClientInterface & Document;
 
 const ClientSchema = new Schema({
   // Properties
@@ -34,6 +32,6 @@ const ClientSchema = new Schema({
   timestamps: true
 })
 
-const Client = model('Client', ClientSchema)
+const Client = model<ClientInterface>('Client', ClientSchema)
 
-export { Client, ClientDocument, ClientInterface }
+export { Client, ClientInterface }
