@@ -11,10 +11,6 @@ import { getUser } from "./auth/firebase";
 import inflate from "inflation";
 import raw from "raw-body";
 
-import ClientDataSource from "./datasources/clientDataSource";
-import RequestDataSource from "./datasources/requestDataSource";
-import RequestGroupDataSource from "./datasources/requestGroupDataSource";
-import RequestTypeDataSource from "./datasources/requestTypeDataSource";
 import { resolvers } from "./graphql/resolvers";
 import { typeDefs } from "./graphql/schema";
 import User from "./auth/user"
@@ -116,13 +112,7 @@ async function gqlServer() {
 
         return { req, res, user };
       }
-    }),
-    dataSources: () => ({
-      clients: new ClientDataSource(),
-      requests: new RequestDataSource(),
-      requestTypes: new RequestTypeDataSource(),
-      requestGroups: new RequestGroupDataSource(),
-    }),
+    })
   });
 
   server.applyMiddleware({
