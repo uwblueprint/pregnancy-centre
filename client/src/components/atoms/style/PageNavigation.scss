@@ -31,9 +31,14 @@
   &.active {
     @include normal-button;
     border-radius: 50%;
-    & .page-link {
-      margin: 6px;
-      background-color: unset;
+    .page-link {
+      background-color: $button-background !important;
+      border-color: $button-background !important;
+    }
+
+    &:hover {
+      @include normal-button;
+      text-decoration: none;
     }
   }
 
@@ -46,7 +51,7 @@
   width: 41px;
   font-size: 30px;
 
-  & .page-link {
+  .page-link {
     color: $button-background;
     @include transparent;
   }
