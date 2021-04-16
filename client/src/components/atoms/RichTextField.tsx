@@ -53,7 +53,6 @@ const RichTextField: FunctionComponent<Props> = (props: Props) => {
         // current component state
         let isEmpty = empty
         let hasChangeMade = changeMade
-        console.log("Empty: " + isEmpty + " | ChangeMade: " + hasChangeMade)
 
         // if user is typing content, so this is active
         if (!active) {
