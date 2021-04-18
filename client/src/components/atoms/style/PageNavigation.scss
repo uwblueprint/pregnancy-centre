@@ -32,12 +32,13 @@
     @include normal-button;
     border-radius: 50%;
     .page-link {
-      background-color: $button-background !important;
-      border-color: $button-background !important;
+      background-color: $button-background;
+      border-color: $button-background;
     }
 
     &:hover {
-      @include normal-button;
+      background-color: $button-background;
+      border-radius: 50%;
       text-decoration: none;
     }
   }
