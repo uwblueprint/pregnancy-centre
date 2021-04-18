@@ -17,7 +17,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
     const history = useHistory()
 
     return <div className="request-group-table">
-        { showCreateRequestGroupModal && <RequestGroupForm onSubmitComplete={() => { }} handleClose={() => setShowCreateRequestGroupModal(false)} operation="create" />}
+        { showCreateRequestGroupModal && <RequestGroupForm onSubmitComplete={() => { window.location.reload() }} handleClose={() => setShowCreateRequestGroupModal(false)} operation="create" />}
         <Table>
             <thead>
                 <tr>
@@ -105,7 +105,9 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
             }
         </Table>
         {props.requestGroups && props.requestGroups.length == 0 && 
-            <span className="no-groups-msg">There are no request groups. <a className="create-group-link" onClick={() => { setShowCreateRequestGroupModal(true) }}>Create one now</a></span>
+            <span className="no-groups-msg">There are no request groups. 
+                <a className="create-group-link" onClick={() => { setShowCreateRequestGroupModal(true) } }> Create one now</a>
+            </span>
         }
     </div>
 };
