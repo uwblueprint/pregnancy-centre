@@ -97,7 +97,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
       </div>
       {dropdownExpanded && (
         <span ref={dropdownReference}>
-          {noItems ? (
+          {noItems || props.dropdownItems?.length === 0 ? (
             props.noItemsAction
           ) : (
               <div>

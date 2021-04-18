@@ -99,8 +99,14 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     }
   }`
 
-  const [createRequestGroup] = useMutation(createRequestGroupMutation);
-  const [updateRequestGroup] = useMutation(updateRequestGroupMutation);
+  const [createRequestGroup] = useMutation(createRequestGroupMutation, {
+    onCompleted: () => { props.onSubmitComplete() },
+    onError: (error) => { console.log(error) }
+  });
+  const [updateRequestGroup] = useMutation(updateRequestGroupMutation, {
+    onCompleted: () => { props.onSubmitComplete() },
+    onError: (error) => { console.log(error) }
+  });
 
 
   const requestGroupQuery = gql`
@@ -251,7 +257,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const onDescriptionChange = (newDescription: string) => {
     setChangeMade(true);
     setDescription(newDescription);
-    updateDescriptionError(description);
+    updateDescriptionError(newDescription);
   };
 
   const onDecriptionEmpty = () => {
@@ -288,15 +294,10 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       if (props.operation === "create") {
 
         createRequestGroup({ variables: { name, description, image, requestTypeNames } })
-          .catch((err) => { console.log(err) })
       }
       else {
 
         updateRequestGroup({ variables: { id: props.requestGroupId, name, description, image, requestTypeNames } })
-          .then(()=>{
-            props.onSubmitComplete();
-          })
-          .catch((err) => { console.log(err) })
       }
       props.handleClose()
     }

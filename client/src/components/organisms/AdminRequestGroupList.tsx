@@ -67,8 +67,6 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
     useQuery(query, {
         onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
             // sort fetched request groups alphabetically and filter out deleted request groups
-            console.log("got request groups!");
-            console.log(data.requestGroups);
             const displayRequestGroups = sortRequestGroupsAlphabetically(data.requestGroups.map(requestGroup => ({ ...requestGroup }))).filter(requestGroup => !requestGroup.deleted);
             props.loadRequestGroups(displayRequestGroups);
             props.setDisplayRequestGroups(displayRequestGroups);
@@ -90,8 +88,8 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
     return (
 
         <div className="admin-request-group-list">
-            { showCreateRequestModal && <RequestForm handleClose={() => setShowCreateRequestModal(false)} operation="create" /> }
-            { showCreateRequestGroupModal && <RequestGroupForm onSubmitComplete={() => { }} handleClose={() => setShowCreateRequestGroupModal(false)} operation="create" />}
+            { showCreateRequestModal && <RequestForm onSubmitComplete={() => {}} handleClose={() => setShowCreateRequestModal(false)} operation="create" /> }
+            { showCreateRequestGroupModal && <RequestGroupForm onSubmitComplete={() => { window.location.reload() }} handleClose={() => setShowCreateRequestGroupModal(false)} operation="create" />}
             <div className="row">
                 <span className="title">Request Groups</span>
                 <span className="action-group">
