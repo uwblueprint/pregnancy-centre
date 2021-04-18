@@ -11,7 +11,7 @@ $selected-item-background: #f7f7f7;
 }
 
 /* Text Config */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"); // import Inter font
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap"); // import Inter font
 
 $font-stack: "Inter", sans-serif;
 $faded-text-color: #afafaf;
@@ -92,6 +92,11 @@ $window-border-color: #d7d7d7;
   font-size: 16px;
   line-height: 18px;
   letter-spacing: 0.2px;
+}
+
+@mixin semibold-text() {
+  @include text;
+  font-weight: 500;
 }
 
 @mixin heavy-text() {
