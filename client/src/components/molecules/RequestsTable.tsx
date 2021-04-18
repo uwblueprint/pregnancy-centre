@@ -111,7 +111,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
 
     return (
         <div className="request-list">
-            { requestSelectedForEditing && <RequestForm handleClose={() => setRequestSelectedForEditing("")} operation="edit" requestId={requestSelectedForEditing} /> }
+            { requestSelectedForEditing && <RequestForm onSubmitComplete={() => { window.location.reload() }} handleClose={() => setRequestSelectedForEditing("")} operation="edit" requestId={requestSelectedForEditing} /> }
             { requests.length === 0 ? <p className="request-table-empty-message">There are currently no requests in this type</p> : 
             <Table responsive className="request-table">
                 <thead>

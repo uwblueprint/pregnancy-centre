@@ -15,6 +15,7 @@ import { TextField } from '../atoms/TextField'
 
 interface Props {
   handleClose: () => void
+  onSubmitComplete: () => void
   requestId?: string
   operation: "create" | "edit"
 }
@@ -73,8 +74,14 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     }
   }`
 
-  const [createRequest] = useMutation(createRequestMutation);
-  const [updateRequest] = useMutation(updateRequestMutation);
+  const [createRequest] = useMutation(createRequestMutation, {
+    onCompleted: () => { props.onSubmitComplete() },
+    onError: (error) => { console.log(error) }
+  });
+  const [updateRequest] = useMutation(updateRequestMutation, {
+    onCompleted: () => { props.onSubmitComplete() },
+    onError: (error) => { console.log(error) }
+  });
 
   const fetchRequestGroups = gql`
   query FetchRequestGroups {
@@ -304,7 +311,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               clientName
             }
           })
-            .catch((err) => { console.log(err) })
         }
       }
       else {
@@ -318,7 +324,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               clientName,
             }
           })
-            .catch((err) => { console.log(err) })
         }
       }
       props.handleClose()
