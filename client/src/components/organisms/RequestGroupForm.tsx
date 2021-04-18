@@ -257,7 +257,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const onDescriptionChange = (newDescription: string) => {
     setChangeMade(true);
     setDescription(newDescription);
-    updateDescriptionError(description);
+    updateDescriptionError(newDescription);
   };
 
   const onDecriptionEmpty = () => {
