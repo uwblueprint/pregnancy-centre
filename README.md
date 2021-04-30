@@ -30,8 +30,12 @@ Tutorial: https://firebase.google.com/docs/hosting/quickstart?authuser=1
 Go to `/client`. Then run
 ```
 npm run build
+firebase use <ENV>
 firebase deploy --only hosting
 ```
+
+
+`<ENV>` is either `prod` or `staging`.
 
 Before building, ensure your `.env` has the correct values for production.
 
@@ -47,30 +51,40 @@ Tutorials:
 2. Ensure your `.env` has the correct values for production.
   + We must have `NODE_ENV=production` or else all requests will be unauthenticated and graphql errors will include a stacktrace.
 3. Remove `.env` from `server/.gitignore` (or else the build will fail.)
-4. Build Docker image and push to Google container registry. The name of the image is `gcr.io/bp-pregnancy-centre/tpc-server`. 
+4. Configure the gcloud project
 ```
-gcloud builds submit --tag gcr.io/bp-pregnancy-centre/tpc-server
+gcloud config set project <PROJECT_ID>
 ```
-5. Add `.env` back to `server/.gitignore`. (Be safe, don't leak secrets!)
-6. Deploy built container using Google Cloud Run (if the service `tpc-server` already exists, a revision will be deployed). More info [here](https://cloud.google.com/run/docs/deploying#revision).
+5. Build Docker image and push to Google container registry. The name of the image is `gcr.io/<PROJECT_ID>/tpc-server`. 
+```
+gcloud builds submit --tag gcr.io/<PROJECT_ID>/tpc-server
+```
++ `<PROJECT_ID>` is `bp-pregnancy-centre` or `bp-pregnancy-centre-staging`
+6. Add `.env` back to `server/.gitignore`. (Be safe, don't leak secrets!)
+7. Deploy built container using Google Cloud Run (if the service `tpc-server` already exists, a revision will be deployed). More info [here](https://cloud.google.com/run/docs/deploying#revision).
 ```
 gcloud beta run deploy tpc-server \
-   --image=gcr.io/bp-pregnancy-centre/tpc-server \
+   --image=gcr.io/<PROJECT_ID>/tpc-server \
    --vpc-connector=tcp-server-connector \
    --vpc-egress=all \
    --platform=managed \
-   --region=us-east1 
+   --region=us-east1 \
+   --min-instances 1
 ```
 
 #### Set up static outbound IP
 
-Run the following commands:
+1. Configure the gcloud project
+```
+gcloud config set project <PROJECT_ID>
+```
+2. Run the following commands:
 ```
 gcloud compute networks subnets create tpc-subnet --range=10.124.0.0/28 --network=default --region=us-east1
 
 gcloud beta compute networks vpc-access connectors create tcp-server-connector \
   --region=us-east1 \
-  --subnet-project=bp-pregnancy-centre \
+  --subnet-project=<PROJECT_ID> \
   --subnet=tpc-subnet
 
 
@@ -87,11 +101,11 @@ gcloud compute routers nats create tpc-server-nat \
   --nat-external-ip-pool=tpc-server-outbound-ip
 
 gcloud beta run deploy tpc-server \
-   --image=gcr.io/bp-pregnancy-centre/tpc-server \
+   --image=gcr.io/<PROJECT_ID>/tpc-server \
    --vpc-connector=tcp-server-connector \
    --vpc-egress=all \
    --platform=managed \
-   --region=us-east1 
+   --region=us-east1 \
+   --min-instances 1
 ```
-
-Go to VPC Network in GCP console to find outbound static IP. Add the static IP to the MongoDB Atlas Newtork Access List.
+3. Go to VPC Network in GCP console to find outbound static IP. Add the static IP to the MongoDB Atlas Newtork Access List.
