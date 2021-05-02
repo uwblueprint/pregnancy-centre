@@ -46,13 +46,12 @@ jobs:
   deploy-staging-server:
     docker:
       - image: 'cimg/base:stable'
-    working_directory: ~/project
+    working_directory: 
     steps:
       - checkout
+      - run: cd ~/project/server
       - gcp-cloud-run/init:
           google-project-id: PROJECT_ID
-      - run: pwd
-      - run: ls -al 
       - gcp-cloud-run/build:
           source: './Dockerfile'
           tag: 'gcr.io/${PROJECT_ID}/tpc-server'
