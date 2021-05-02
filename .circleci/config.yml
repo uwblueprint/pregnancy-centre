@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  gcp-cloud-run: circleci/gcp-cloud-run@1.0.2
 jobs:
   lint-server:
     docker:
@@ -41,10 +43,30 @@ jobs:
           paths:
             - node_modules
       - run: npm run build
+  deploy-staging-server:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - cloudrun/init
+      - cloudrun/build:
+          tag: 'gcr.io/${PROJECT_ID}/tpc-server'
+      - cloudrun/deploy:
+          image: 'gcr.io/${PROJECT_ID}/tpc-server'
+          region: us-east1
+          args: '--vpc-connector=tcp-server-connector --vpc-egress=all --platform=managed --min-instances 1'
+  # deploy-staging-client:
 workflows:
   server:
     jobs:
       - lint-server
+      - deploy-staging-server
+          context:
+            - tpc-staging
+          filters:
+            branches:
+              only:
+                - staging
   client:
     jobs:
       - lint-client
