@@ -44,9 +44,9 @@ jobs:
             - node_modules
       - run: npm run build
       - persist_to_workspace:
-          root: ~/workspace
+          root: ~/workspace/client
           paths:
-            - ../client
+            - '.'
   deploy-staging-server:
     docker:
       - image: circleci/node
