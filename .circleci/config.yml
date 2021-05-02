@@ -47,7 +47,7 @@ jobs:
           root: '~'
           paths:
             - 'app/client'
-  deploy-staging-server:
+  deploy-server-staging:
     docker:
       - image: circleci/node
     working_directory: ~/app/server
@@ -63,7 +63,7 @@ jobs:
           region: us-east1
           service-name: 'tpc-server'
           args: '--vpc-connector=tcp-server-connector --vpc-egress=all --platform=managed --min-instances 1'
-  deploy-staging-client:
+  deploy-client-staging:
     docker:
       - image: circleci/node
     working_directory: ~/app/client
@@ -79,7 +79,7 @@ workflows:
   server:
     jobs:
       - lint-server
-      - deploy-staging-server:
+      - deploy-server-staging:
           context:
             - tpc-staging
           filters:
@@ -89,8 +89,10 @@ workflows:
   client:
     jobs:
       - lint-client
-      - build-client
-      - deploy-staging-client:
+      - build-client:
+          context:
+            - tpc-staging
+      - deploy-client-staging:
           requires:
             - build-client
           context:
