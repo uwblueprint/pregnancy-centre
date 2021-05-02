@@ -52,6 +52,7 @@ jobs:
       - gcp-cloud-run/init:
           google-project-id: PROJECT_ID
       - gcp-cloud-run/build:
+          source: '.'
           tag: 'gcr.io/${PROJECT_ID}/tpc-server'
       - gcp-cloud-run/deploy:
           image: 'gcr.io/${PROJECT_ID}/tpc-server'
