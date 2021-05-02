@@ -56,6 +56,7 @@ jobs:
           path: ~/app
       - gcp-cloud-run/init:
           google-project-id: PROJECT_ID
+      - run: pwd 
       - gcp-cloud-run/build:
           config: "./cloudbuild.staging.yaml"
       - gcp-cloud-run/deploy:
