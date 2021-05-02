@@ -44,7 +44,7 @@ jobs:
             - node_modules
       - run: npm run build
       - persist_to_workspace:
-          root: ~/workspace/client
+          root: app/client
           paths:
             - '.'
   deploy-staging-server:
@@ -68,7 +68,7 @@ jobs:
   deploy-staging-client:
     docker:
       - image: circleci/node
-    working_directory: ~/workspace/client
+    working_directory: ~/app/client
     steps:
       - attach_workspace:
           at: '~'
