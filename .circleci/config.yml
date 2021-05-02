@@ -71,7 +71,7 @@ jobs:
     working_directory: ~/workspace/client
     steps:
       - attach_workspace:
-          at: ~
+          at: '~'
       # # Download and cache dependencies
       # - restore_cache:
       #     keys:
