@@ -37,12 +37,12 @@ jobs:
       - restore_cache:
           keys:
             - v1-deps-{{ checksum "package-lock.json" }}
-      # - run: npm install
-      # - save_cache:
-      #     key: v1-deps-{{ checksum "package-lock.json" }}
-      #     paths:
-      #       - node_modules
-      # - run: npm run build
+      - run: npm install
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run: npm run build
       - persist_to_workspace:
           root: '~'
           paths:
@@ -91,10 +91,10 @@ jobs:
       #     command: npm build
       - run: pwd
       - run: ls -al
-      - run: touch $GOOGLE_APPLICATION_CREDENTIALS
+      # - run: touch $GOOGLE_APPLICATION_CREDENTIALS
       - run: echo $GCLOUD_SERVICE_KEY > $GOOGLE_APPLICATION_CREDENTIALS
       - run: ./node_modules/.bin/firebase use staging
-      # - run: ./node_modules/.bin/firebase deploy --only hosting
+      - run: ./node_modules/.bin/firebase deploy --only hosting
 workflows:
   server:
     jobs:
