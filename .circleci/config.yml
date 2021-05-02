@@ -54,6 +54,7 @@ jobs:
       - gcp-cloud-run/deploy:
           image: 'gcr.io/${PROJECT_ID}/tpc-server'
           region: us-east1
+          service-name: 'tpc-server'
           args: '--vpc-connector=tcp-server-connector --vpc-egress=all --platform=managed --min-instances 1'
   # deploy-staging-client:
 workflows:
