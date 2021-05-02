@@ -66,8 +66,7 @@ jobs:
   deploy-client:
     docker:
       - image: circleci/node
-    # working_directory: ~/app/client
-    working_directory: '~'
+    working_directory: ~/app/client
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /home/circleci/app/client/service_account.json
     steps:
