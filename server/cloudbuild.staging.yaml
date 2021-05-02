@@ -12,10 +12,10 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/tpc-server']
 availableSecrets:
-secretManager:
-- versionName: projects/bp-pregnancy-centre-staging/secrets/MONGO_URI/versions/1
-  env: 'MONGO_URI'
-- versionName: projects/bp-pregnancy-centre-staging/secrets/FIREBASE_PRIVATE_KEY/versions/1
-  env: 'FIREBASE_PRIVATE_KEY'
-- versionName: projects/bp-pregnancy-centre-staging/secrets/FIREBASE_CLIENT_EMAIL/versions/1
-  env: 'FIREBASE_CLIENT_EMAIL'
+  secretManager:
+  - versionName: projects/bp-pregnancy-centre-staging/secrets/MONGO_URI/versions/1
+    env: 'MONGO_URI'
+  - versionName: projects/bp-pregnancy-centre-staging/secrets/FIREBASE_PRIVATE_KEY/versions/1
+    env: 'FIREBASE_PRIVATE_KEY'
+  - versionName: projects/bp-pregnancy-centre-staging/secrets/FIREBASE_CLIENT_EMAIL/versions/1
+    env: 'FIREBASE_CLIENT_EMAIL'
