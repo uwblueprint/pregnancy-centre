@@ -44,7 +44,7 @@ jobs:
             - node_modules
       - run: npm run build
       - persist_to_workspace:
-          root: app/client
+          root: '.'
           paths:
             - '.'
   deploy-staging-server:
