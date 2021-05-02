@@ -49,7 +49,7 @@ jobs:
     steps:
       - checkout
       - gcp-cloud-run/init:
-          google-project-id: '${PROJECT_ID}'
+          google-project-id: PROJECT_ID
       - gcp-cloud-run/build:
           tag: 'gcr.io/${PROJECT_ID}/tpc-server'
       - gcp-cloud-run/deploy:
