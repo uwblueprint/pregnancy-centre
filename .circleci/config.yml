@@ -51,7 +51,8 @@ jobs:
       - checkout
       - gcp-cloud-run/init:
           google-project-id: PROJECT_ID
-      - run: pwd 
+      - run: pwd
+      - run: ls -al 
       - gcp-cloud-run/build:
           source: './Dockerfile'
           tag: 'gcr.io/${PROJECT_ID}/tpc-server'
