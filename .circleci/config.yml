@@ -44,9 +44,9 @@ jobs:
       #       - node_modules
       # - run: npm run build
       - persist_to_workspace:
-          root: '~/app'
+          root: '~'
           paths:
-            - 'client'
+            - 'app/client'
   deploy-staging-server:
     docker:
       - image: circleci/node
@@ -68,8 +68,7 @@ jobs:
   deploy-staging-client:
     docker:
       - image: circleci/node
-    # working_directory: ~/app/client
-    working_directory: '~'
+    working_directory: ~/app/client
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: ~/app/client/service_account.json
     steps:
