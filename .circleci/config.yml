@@ -70,7 +70,7 @@ jobs:
       - image: circleci/node
     working_directory: ~/app/client
     environment:
-      GOOGLE_APPLICATION_CREDENTIALS: ~/app/client/service_account.json
+      GOOGLE_APPLICATION_CREDENTIALS: /home/circleci/app/client/service_account.json
     steps:
       - attach_workspace:
           at: '~'
