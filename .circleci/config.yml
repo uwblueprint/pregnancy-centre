@@ -60,7 +60,7 @@ workflows:
   server:
     jobs:
       - lint-server
-      - deploy-staging-server
+      - deploy-staging-server:
           context:
             - tpc-staging
           filters:
