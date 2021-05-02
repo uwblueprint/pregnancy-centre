@@ -57,7 +57,6 @@ jobs:
           google-project-id: PROJECT_ID
       - gcp-cloud-run/build:
           config: './cloudbuild.staging.yaml'
-          tag: 'gcr.io/${PROJECT_ID}/tpc-server'
       - gcp-cloud-run/deploy:
           image: 'gcr.io/${PROJECT_ID}/tpc-server'
           region: us-east1
