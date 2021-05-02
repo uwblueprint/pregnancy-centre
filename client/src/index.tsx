@@ -8,9 +8,6 @@ import { setContext } from "@apollo/client/link/context";
 import "./index.css";
 import App from "./App";
 
-console.log(`${process.env.REACT_APP_GRAPHQL_SERVER_URL}/graphql`)
-console.log(`${process.env.REACT_APP_GRAPHQL_SERVER_URL}`)
-
 const link = createHttpLink({
     uri: `${process.env.REACT_APP_GRAPHQL_SERVER_URL}/graphql`,
     credentials: "include"
