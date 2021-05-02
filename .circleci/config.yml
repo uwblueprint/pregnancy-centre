@@ -69,6 +69,8 @@ jobs:
     docker:
       - image: circleci/node
     working_directory: ~/app/client
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: '~/service_account.json'
     steps:
       - attach_workspace:
           at: '~'
@@ -89,7 +91,6 @@ jobs:
       #     command: npm build
       - run: pwd
       - run: ls -al
-      - run: export GOOGLE_APPLICATION_CREDENTIALS='~/service_account.json'
       - run: echo $GCLOUD_SERVICE_KEY > $GOOGLE_APPLICATION_CREDENTIALS
       - run: ./node_modules/.bin/firebase use staging
       - run: ./node_modules/.bin/firebase deploy --only hosting
