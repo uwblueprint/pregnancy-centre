@@ -43,14 +43,17 @@ jobs:
           paths:
             - node_modules
       - run: npm run build
+      - persist_to_workspace:
+          root: ~/workspace
+          paths:
+            - ../client
   deploy-staging-server:
     docker:
-      - image: 'cimg/base:stable'
-    working_directory: ~/project/server
+      - image: circleci/node
+    working_directory: ~/app/server
     steps:
       - checkout:
-          path: ~/project
-      # - run: cd ~/project/server
+          path: ~/app
       - run: pwd
       - run: ls -al 
       - gcp-cloud-run/init:
@@ -62,7 +65,34 @@ jobs:
           region: us-east1
           service-name: 'tpc-server'
           args: '--vpc-connector=tcp-server-connector --vpc-egress=all --platform=managed --min-instances 1'
-  # deploy-staging-client:
+  deploy-staging-client:
+    docker:
+      - image: circleci/node
+    working_directory: ~/workspace/client
+    steps:
+      - attach_workspace:
+          at: ~
+      # # Download and cache dependencies
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ checksum "package.json" }}
+      #       - v1-dependencies-
+      # - run:
+      #     name: Install Dependencies
+      #     command: npm install
+      # - save_cache:
+      #     key: v1-npm-deps-{{ checksum "package-lock.json" }}
+      #     paths:
+      #       - ./node_modules
+      # - run:
+      #     name: Build
+      #     command: npm build
+      - run: pwd
+      - run: ls -al
+      - run: export GOOGLE_APPLICATION_CREDENTIALS='~/service_account.json'
+      - run: echo $GCLOUD_SERVICE_KEY > $GOOGLE_APPLICATION_CREDENTIALS
+      - run: ./node_modules/.bin/firebase use staging
+      - run: ./node_modules/.bin/firebase deploy --only hosting
 workflows:
   server:
     jobs:
@@ -78,4 +108,13 @@ workflows:
     jobs:
       - lint-client
       - build-client
+      - deploy-staging-client:
+          requires:
+            - build-client
+          context:
+            - tpc-staging
+          filters:
+            branches:
+              only:
+                - staging
   
