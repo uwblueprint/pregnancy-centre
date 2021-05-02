@@ -46,6 +46,7 @@ jobs:
   deploy-staging-server:
     docker:
       - image: 'cimg/base:stable'
+    working_directory: ~/project/server
     steps:
       - checkout
       - gcp-cloud-run/init:
