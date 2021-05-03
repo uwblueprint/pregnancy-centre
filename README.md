@@ -37,8 +37,8 @@ git checkout staging
 git reset --hard feature-branch
 git push -f origin staging
 ```
-3. CircleCI will automatically deploy any commits in the `staging` branch. Go (here)[https://app.circleci.com/pipelines/github/uwblueprint/pregnancy-centre?branch=staging] to watch the deployment jobs. If the client and server deployment jobs complete successfully, then proceed.
-4. To see the staging website, go (here)[https://bp-pregnancy-centre-staging.web.app/].
+3. CircleCI will automatically deploy any commits in the `staging` branch. Go [here](https://app.circleci.com/pipelines/github/uwblueprint/pregnancy-centre?branch=staging) to watch the deployment jobs. If the client and server deployment jobs complete successfully, then proceed.
+4. To see the staging website, go [here](https://bp-pregnancy-centre-staging.web.app/).
 
 
 ### Manual Deployment
