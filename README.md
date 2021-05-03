@@ -21,7 +21,27 @@ https://www.notion.so/uwblueprintexecs/Secret-Management-2d5b59ef0987415e93ec951
 - Running with Git Bash also works
 
 
-### Deployment
+### Automated Deployment
+
+#### Staging
+
+If you're working on `feature-branch` and you want to deploy your changes to staging, then do the following:
+
+1. Checkout the `staging` branch.
+```
+git checkout staging
+```
+2. Set HEAD `staging` to the same commit as the HEAD of `feature-branch`
+```
+git checkout staging
+git reset --hard feature-branch
+git push -f origin staging
+```
+3. CircleCI will automatically deploy any commits in the `staging` branch. Go (here)[https://app.circleci.com/pipelines/github/uwblueprint/pregnancy-centre?branch=staging] to watch the deployment jobs. If the client and server deployment jobs complete successfully, then proceed.
+4. To see the staging website, go (here)[https://bp-pregnancy-centre-staging.web.app/].
+
+
+### Manual Deployment
 ![Diagram of deployment architecture](images/TPC-Deployment-Architecture.png)
 
 #### Client
