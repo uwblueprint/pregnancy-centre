@@ -81,13 +81,6 @@ workflows:
       - lint-server
       - deploy-server:
           context:
-            - tpc-prod
-          filters:
-            branches:
-              only:
-                - main
-      - deploy-server:
-          context:
             - tpc-staging
           filters:
             branches:
