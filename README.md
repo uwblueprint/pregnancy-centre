@@ -31,7 +31,7 @@ If you're working on `feature-branch` and you want to deploy your changes to sta
 ```
 git checkout staging
 ```
-2. Set HEAD `staging` to the same commit as the HEAD of `feature-branch`
+2. Set the HEAD of `staging` to the same commit as the HEAD of `feature-branch`
 ```
 git checkout staging
 git reset --hard feature-branch
