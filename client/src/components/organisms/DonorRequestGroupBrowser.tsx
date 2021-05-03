@@ -23,7 +23,6 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWithChildren<Props>) => {
-  console.log(process.env.REACT_APP_FIREBASE_API_KEY)
   const [selectedRequestGroup, setSelectedRequestGroup] = useState<string | undefined>(props.displayRequestGroups.length <= 0 ? undefined : props.displayRequestGroups[0]._id)
 
   const query = gql`
