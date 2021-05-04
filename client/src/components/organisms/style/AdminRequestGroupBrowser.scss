@@ -1,35 +1,40 @@
-.request-group {
+.request-group-header {
+    display: flex;
 
-    &-description {
-        margin-left: 145px;
+    .request-group-description {
+        flex: 1;
+        margin-left: 160px;
+
+        .request-group-title {
+            @include heavy-text;
+        }
     }
 
-    &-title {
-        font-weight: 600;
+    .buttonDiv {
+        position: relative;
     }
-}
 
-.btn, .btn:hover, .btn:focus, .btn:active, .show > .btn-primary.dropdown-toggle {
-    background-color: $admin-request-group-browser-button-color;
-    color: $tpc-green;
-    border-color: $tpc-green;
-    height: 36px;
-    width: 60px;
+    .btn, .btn:hover, .btn:focus, .btn:active, .show > .btn-primary.dropdown-toggle {
+        background-color: $admin-request-group-browser-button-color;
+        color: $tpc-green;
+        border-color: $tpc-green;
+        height: 36px;
+        width: 60px;
+    }
 }
 
 .request-group-button {
-    float: right;
-    position: absolute;
-    left: 85%;
+    text-align: right;
 
     &-dropdown {
         background-color: $admin-request-group-browser-dropdown-color;
         border-radius: 4px;
         box-shadow: 0 4px 3px $admin-request-group-browser-dropdown-shadow-color; 
         border: none;
+        padding: 0;
 
         &-item {
-            padding-top: 15px;
+            padding: 14px 20px;
         }
     }
 
@@ -37,8 +42,3 @@
         margin-top: 8px;
     }
 }
-
-.buttonDiv {
-    position: relative;
-}
-

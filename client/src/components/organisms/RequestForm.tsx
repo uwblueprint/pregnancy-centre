@@ -15,6 +15,7 @@ import { TextField } from '../atoms/TextField'
 
 interface Props {
   handleClose: () => void
+  onSubmitComplete: () => void
   requestId?: string
   operation: "create" | "edit"
 }
@@ -73,8 +74,14 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     }
   }`
 
-  const [createRequest] = useMutation(createRequestMutation);
-  const [updateRequest] = useMutation(updateRequestMutation);
+  const [createRequest] = useMutation(createRequestMutation, {
+    onCompleted: () => { props.onSubmitComplete() },
+    onError: (error) => { console.log(error) }
+  });
+  const [updateRequest] = useMutation(updateRequestMutation, {
+    onCompleted: () => { props.onSubmitComplete() },
+    onError: (error) => { console.log(error) }
+  });
 
   const fetchRequestGroups = gql`
   query FetchRequestGroups {
@@ -304,7 +311,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               clientName
             }
           })
-            .catch((err) => { console.log(err) })
         }
       }
       else {
@@ -318,7 +324,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               clientName,
             }
           })
-            .catch((err) => { console.log(err) })
         }
       }
       props.handleClose()
@@ -375,7 +380,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onRequestGroupInputChange(e.target.value) }}
                   onSelect={onRequestGroupChange}
                   noItemsAction={(<div className="no-items-found">
-                    <span className="not-exist-msg">This group does not exist</span>
+                    <span className="not-exist-msg">{!requestGroupsMap || requestGroupsMap.size === 0 ? "There are no request groups" : "This group does not exist"}</span>
                     {/* <span className="create-group">
                       <a>
                         <span>Create a new group</span>

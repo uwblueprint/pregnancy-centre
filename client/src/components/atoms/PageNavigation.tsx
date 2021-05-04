@@ -30,7 +30,7 @@ const PageNavigation: FunctionComponent<Props> = (props: Props) => {
         Array.from(Array(props.pages).keys()).map((i: number) =>
           <Pagination.Item
             key={i}
-            className={currentPage === i + 1 ? " active" : " inactive"}
+            className={"page-number " + (currentPage === i + 1 ? "active" : "inactive")}
             onClick={onPageSelect}
           >
             {i + 1}

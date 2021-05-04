@@ -1,9 +1,8 @@
 .request-group-view {
-    align-items: center;
-    justify-content: center;
+    display: block;
     width: 100%;
     max-width: 908px;
-    margin-left: 3.5%;
+    margin-left: 32px;
     margin-right: 0;
 
     .spinner {
@@ -19,22 +18,23 @@
     }
 
     .panel {
-        display: inline;
-        align-items: center;
+        display: flex;
         width: 100%;
     }
 
     .section {
         padding: 0;
         &#left {
-            float: left;
-            margin-right: 3.5%;
+            flex: 1;
+
             .request-type-list {
                 max-width: 514px;
             }
         }
         &#right {
+            display: block;
             margin: 0;
+            margin-left: 32px;
 
             .infoBox {
                 margin: 0;
