@@ -25,6 +25,7 @@ const numClients = 300
 const numGroups = requestGroupNames.length
 const numTypesPerGroup = 10
 const maxNumRequestsPerType = 50
+const maxQuantityPerRequest = 15
 const probRequestDeleted = 0.05
 const probRequestFulfilled = 0.2 // independent from probRequestDeleted
 const startDate = new Date(2019, 0,1)
@@ -53,8 +54,7 @@ const createRequest = () => {
 
   const request = new Request({
     _id: mongoose.Types.ObjectId(),
-    quantity: Math.floor(Math.random() * 15) + 1,
-    fulfilled: isFulfilled,
+    quantity: Math.floor(Math.random() * maxQuantityPerRequest) + 1,
     createdAt: dateCreated
   })
 
@@ -70,7 +70,7 @@ const createRequest = () => {
 
 // create RequestType model object without references
 const createRequestType = () => {
-  const dateCreated = randomDate()
+  const dateCreated = new Date(randomDate())
 
   return new RequestType({
     _id: mongoose.Types.ObjectId(),
@@ -81,7 +81,7 @@ const createRequestType = () => {
 
 // create RequestGroup model object without references
 const createRequestGroup = () => {
-  const dateCreated = randomDate()
+  const dateCreated = new Date(randomDate())
 
   return new RequestGroup({
     _id: mongoose.Types.ObjectId(),

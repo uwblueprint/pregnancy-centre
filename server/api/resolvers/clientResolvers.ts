@@ -3,18 +3,18 @@ import { Client, ClientInterface } from '../../database/models/clientModel'
 const clientQueryResolvers = {
     client: async (_, { _id }, { authenticateUser }): Promise<ClientInterface> => {
         return authenticateUser().then(() => {
-            Client.findById(_id).exec()
+            return Client.findById(_id).exec()
         }) 
 
     },
     clients: async (_, __, { authenticateUser }): Promise<Array<ClientInterface>> => {
         return authenticateUser().then(() => {
-            Client.find().exec()
+            return Client.find().exec()
         })
     },
     clientsFilter: async (_, { filter, options }, { authenticateUser }): Promise<Array<ClientInterface>> => {
         return authenticateUser().then(() => {
-            Client.find({ fullName: filter.fullName }).exec()
+            return Client.find({ fullName: filter.fullName }).exec()
         })
     },
 }

@@ -33,7 +33,7 @@ const corsPolicy = {
 // -----------------------------------------------------------------------------
 
 // connect to MongoDB and setup data sources
-connectDB(() => {});
+connectDB();
 
 // -----------------------------------------------------------------------------
 // SERVER LAUNCH
@@ -107,7 +107,7 @@ async function gqlServer() {
 
         const user = await getUser(req.cookies.session);
         if (!user || !user.id)
-          throw new ForbiddenError("Authentication Error");
+          throw new ForbiddenError("Forbidden Error");
 
         return { req, res, user };
       }

@@ -82,6 +82,13 @@ const requestMutationResolvers = {
             return request.save()
         })
     },
+    unfulfillRequest: async (_, { _id }, { authenticateUser }): Promise<RequestInterface> => {
+        return authenticateUser().then(async () => {
+            const request = await Request.findById(_id)
+            request.fulfilledAt = undefined
+            return request.save()
+        })
+    },
     changeRequestTypeForRequest: async (_, { request, requestType }, { authenticateUser }): Promise<RequestInterface> => {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {

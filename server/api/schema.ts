@@ -151,6 +151,7 @@ const typeDefs = gql`
         updateRequest(request: UpdateRequestInput): Request
         deleteRequest(_id: ID): Request
         fulfillRequest(_id: ID): Request
+        unfulfillRequest(_id: ID): Request
         changeRequestTypeForRequest(request: ID, requestType: ID): Request
 
         createRequestType(requestType: CreateRequestTypeInput): RequestType
