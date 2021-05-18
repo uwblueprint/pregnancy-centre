@@ -18,10 +18,10 @@ const typeDefs = gql`
         _id: ID!
         fullName: String
     }
-    `/* Left as a proof of concept:
-    input FilterClientInput {
-        fullName: String!
-    } */+`
+    # ---  Left as a proof of concept: --- 
+    # input FilterClientInput {
+    #    fullName: String!
+    # }
 
     type Request {
         _id: ID
@@ -48,11 +48,10 @@ const typeDefs = gql`
         requestType: ID
         client: ID
     }
-    `
-    /* Left as a proof of concept:
-    input FilterRequestInput {
-        NOT_AVAILABLE: Boolean
-    } */ +`
+    # ---  Left as a proof of concept: --- 
+    # input FilterRequestInput {
+    #     NOT_AVAILABLE: Boolean
+    # }
 
     type RequestType {
         _id: ID
@@ -84,10 +83,10 @@ const typeDefs = gql`
         requestGroup: ID
         requests: [ID]
     }
-    `/* Left as a proof of concept:
-    input FilterRequestTypeInput {
-        NOT_AVAILABLE: Boolean
-    } */+`
+    # ---  Left as a proof of concept: --- 
+    # input FilterRequestTypeInput {
+    #     NOT_AVAILABLE: Boolean
+    # }
 
     type RequestGroup {
         _id: ID
@@ -120,35 +119,37 @@ const typeDefs = gql`
         image: String
         requestTypes: [ID]
     }
-    `/* Left as a proof of concept:
-    input FilterRequestGroupInput {
-        NOT_AVAILABLE: Boolean
-    }
+    # ---  Left as a proof of concept: --- 
+    # input FilterRequestGroupInput {
+    #     NOT_AVAILABLE: Boolean
+    # }
 
-    input FilterOptions {
-        NOT_AVAILABLE: Boolean
-    } */+`
+    # input FilterOptions {
+    #     NOT_AVAILABLE: Boolean
+    # }
 
     type Query {
         client(_id: ID): Client
         clients: [Client]
-        `/* Left as a proof of concept:
-        clientsFilter(filter: FilterClientInput, options: FilterOptions): [Client] */+`
+        # --- Left as a proof of concept: --- 
+        # clientsFilter(filter: FilterClientInput, options: FilterOptions): [Client]
 
         request(_id: ID): Request
         requests: [Request]
-        ` /* Left as a proof of concept:
-        requestsFilter(filter: FilterRequestInput, options: FilterOptions): [Request] */+`
+        # --- Left as a proof of concept: --- 
+        # requestsFilter(filter: FilterRequestInput, options: FilterOptions): [Request]
 
         requestType(_id: ID): RequestType
         requestTypes: [RequestType]
-        `/* Left as a proof of concept:
-        requestTypesFilter(filter: FilterRequestTypeInput, options: FilterOptions): [RequestType] */+`
+        requestTypesPage(skip: Int, limit: Int): [RequestType]
+        # --- Left as a proof of concept: --- 
+        # requestTypesFilter(filter: FilterRequestTypeInput, options: FilterOptions): [RequestType]
 
         requestGroup(_id: ID): RequestGroup
         requestGroups: [RequestGroup]
-        `/* Left as a proof of concept:
-        requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup] */+`
+        requestGroupsPage(skip: Int, limit: Int): [RequestGroup]
+        # --- Left as a proof of concept: --- 
+        # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]
     }
 
     type Mutation {

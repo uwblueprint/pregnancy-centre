@@ -44,6 +44,9 @@ const requestGroupQueryResolvers = {
     requestGroups: async (_, __, ___): Promise<Array<RequestGroupInterface>> => {
         return RequestGroup.find().exec()
     },
+    requestGroupsPage: async (_, { skip, limit }, __): Promise<Array<RequestGroupInterface>> => {
+        return RequestGroup.find().sort({ "name": "ascending", "_id": "ascending" }).skip(skip).limit(limit).exec()
+    },
     /* Left as a proof of concept:
     requestGroupsFilter: async (_, { filter, options }, ___): Promise<Array<RequestGroupInterface>> => {
         return RequestGroup.find().exec()
