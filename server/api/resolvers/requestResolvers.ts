@@ -33,6 +33,9 @@ const requestQueryResolvers = {
     requests: async (_, __, ___): Promise<Array<RequestInterface>> => {
         return Request.find().exec()
     },
+    requestsPage: async (_, { skip, limit }, __): Promise<Array<RequestInterface>> => {
+        return Request.find().sort({ "name": "ascending", "_id": "ascending" }).skip(skip).limit(limit).exec()
+    },
     /* Left as a proof of concept:
     requestsFilter: async (_, { filter, options }, ___): Promise<Array<RequestInterface>> => {
         return Request.find().exec()

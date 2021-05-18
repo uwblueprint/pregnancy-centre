@@ -136,6 +136,7 @@ const typeDefs = gql`
 
         request(_id: ID): Request
         requests: [Request]
+        requestsPage(skip: Int, limit: Int): [Request]
         # --- Left as a proof of concept: --- 
         # requestsFilter(filter: FilterRequestInput, options: FilterOptions): [Request]
 
