@@ -12,7 +12,7 @@ export interface Props {
   requestGroups: Array<RequestGroup> | undefined
 }
 
-const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
+const RequestGroupTable: FunctionComponent<Props = (props: Props) => {
     const [showCreateRequestGroupModal, setShowCreateRequestGroupModal] = useState(false);
     const history = useHistory()
 
