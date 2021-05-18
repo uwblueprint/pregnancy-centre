@@ -44,9 +44,10 @@ const requestGroupQueryResolvers = {
     requestGroups: async (_, __, ___): Promise<Array<RequestGroupInterface>> => {
         return RequestGroup.find().exec()
     },
+    /* Left as a proof of concept:
     requestGroupsFilter: async (_, { filter, options }, ___): Promise<Array<RequestGroupInterface>> => {
         return RequestGroup.find().exec()
-    },
+    },*/
 }
 
 const requestGroupMutationResolvers = {

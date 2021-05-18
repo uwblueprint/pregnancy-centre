@@ -33,9 +33,10 @@ const requestQueryResolvers = {
     requests: async (_, __, ___): Promise<Array<RequestInterface>> => {
         return Request.find().exec()
     },
+    /* Left as a proof of concept:
     requestsFilter: async (_, { filter, options }, ___): Promise<Array<RequestInterface>> => {
         return Request.find().exec()
-    },
+    },*/
 }
 
 const requestMutationResolvers = {

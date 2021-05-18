@@ -65,9 +65,10 @@ const requestTypeQueryResolvers = {
     requestTypes: async (_, __, ___): Promise<Array<RequestTypeInterface>> => {
         return RequestType.find().exec()
     },
+    /* Left as a proof of concept:
     requestTypesFilter: async (_, { filter, options }, ___): Promise<Array<RequestTypeInterface>> => {
         return RequestType.find().exec()
-    },
+    },*/
 }
 
 const requestTypeMutationResolvers = {

@@ -12,11 +12,12 @@ const clientQueryResolvers = {
             return Client.find().exec()
         })
     },
+    /* Left as a proof of concept:
     clientsFilter: async (_, { filter, options }, { authenticateUser }): Promise<Array<ClientInterface>> => {
         return authenticateUser().then(() => {
             return Client.find({ fullName: filter.fullName }).exec()
         })
-    },
+    },*/
 }
 
 const clientMutationResolvers = {
