@@ -18,7 +18,7 @@ The `MONGODB_URI` env var should have the format
 mongodb://<COMPUTER_NAME>:27017,<COMPUTER_NAME>:27018,<COMPUTER_NAME>:27019/<DATABASE_NAME>?replicaSet=rs
 ```
 
-Non-Windows users can have a `MONGODB_URI` in the format 
+Non-Windows users can have a `MONGODB_URI` env var in the format 
 ```
 mongodb://localhost:27017,localhost:27018,localhost:27019/<DATABASE_NAME>?replicaSet=rs
 ```
