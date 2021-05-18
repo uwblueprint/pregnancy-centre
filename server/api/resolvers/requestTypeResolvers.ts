@@ -110,16 +110,16 @@ const requestTypeMutationResolvers = {
             return requestType.save()
         })
     },
-    changeRequestGroupForRequestType: async (_, { requestType, requestGroup }, { authenticateUser }): Promise<RequestTypeInterface> => {
+    changeRequestGroupForRequestType: async (_, { requestTypeId, requestGroupId }, { authenticateUser }): Promise<RequestTypeInterface> => {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
-                const modifiedRequestTypeObject = await RequestType.findById(requestType).session(session)
+                const modifiedRequestTypeObject = await RequestType.findById(requestTypeId).session(session)
 
-                if (modifiedRequestTypeObject.requestGroup !== requestGroup) {
-                    swapRequestGroupForRequestType(modifiedRequestTypeObject, requestGroup, modifiedRequestTypeObject.requestGroup, session)
+                if (modifiedRequestTypeObject.requestGroup !== requestGroupId) {
+                    swapRequestGroupForRequestType(modifiedRequestTypeObject, requestGroupId, modifiedRequestTypeObject.requestGroup, session)
                 }
 
-                modifiedRequestTypeObject.requestGroup = requestGroup
+                modifiedRequestTypeObject.requestGroup = requestGroupId
                 return modifiedRequestTypeObject.save({ session: session })
             })
         })

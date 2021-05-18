@@ -90,16 +90,16 @@ const requestMutationResolvers = {
             return request.save()
         })
     },
-    changeRequestTypeForRequest: async (_, { request, requestType }, { authenticateUser }): Promise<RequestInterface> => {
+    changeRequestTypeForRequest: async (_, { requestId, requestTypeId }, { authenticateUser }): Promise<RequestInterface> => {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
-                const modifiedRequestObject = await Request.findById(request).session(session)
+                const modifiedRequestObject = await Request.findById(requestId).session(session)
 
-                if (modifiedRequestObject.requestType !== requestType) {
-                    swapRequestTypeForRequest(modifiedRequestObject, requestType, modifiedRequestObject.requestType, session)
+                if (modifiedRequestObject.requestType !== requestTypeId) {
+                    swapRequestTypeForRequest(modifiedRequestObject, requestTypeId, modifiedRequestObject.requestType, session)
                 }
 
-                modifiedRequestObject.requestType = requestType
+                modifiedRequestObject.requestType = requestTypeId
                 return modifiedRequestObject.save({ session: session })
             })
         })

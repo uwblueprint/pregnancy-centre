@@ -161,12 +161,12 @@ const typeDefs = gql`
         deleteRequest(_id: ID): Request
         fulfillRequest(_id: ID): Request
         unfulfillRequest(_id: ID): Request
-        changeRequestTypeForRequest(request: ID, requestType: ID): Request
+        changeRequestTypeForRequest(requestId: ID, requestTypeId: ID): Request
 
         createRequestType(requestType: CreateRequestTypeInput): RequestType
         updateRequestType(requestType: UpdateRequestTypeInput): RequestType
         deleteRequestType(_id: ID): RequestType
-        changeRequestGroupForRequestType(requestType: ID, requestGroup: ID): Request
+        changeRequestGroupForRequestType(requestTypeId: ID, requestGroupId: ID): Request
 
         createRequestGroup(requestGroup: CreateRequestGroupInput): RequestGroup
         updateRequestGroup(requestGroup: UpdateRequestGroupInput): RequestGroup
