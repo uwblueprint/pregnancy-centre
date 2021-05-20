@@ -75,14 +75,9 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
   }, [props.requests]);
 
   const onDeleteRequest = (index: number) => {
-    const requestsCopy = requests.slice();
     const id = requests[index]._id;
     mutateDeleteRequest({ variables: { id: id } })
-      .then(() => {
-        requestsCopy.splice(index, 1);
-        setRequests(requestsCopy);
-        props.onChangeRequests(requestsCopy);
-      })
+      .then(() => window.location.reload())
       .catch((e) => console.error(e));
   };
 
