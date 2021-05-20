@@ -9,12 +9,13 @@ import RequestForm from "../organisms/RequestForm";
 
 interface Props {
   requests: Request[];
-  onChangeRequests?: (requests: Request[]) => void;
+  onChangeRequests: (requests: Request[]) => void;
 }
 
 const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
   const [requestSelectedForEditing, setRequestSelectedForEditing] =
     useState("");
+  const [requests, setRequests] = useState<Request[]>([]);
 
   const headingList = [
     "Fulfilled",
@@ -33,7 +34,7 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
       }
     }
   `;
-  const softDeleteRequest = gql`
+  const deleteRequest = gql`
     mutation deleteRequest($id: ID) {
       softDeleteRequest(id: $id) {
         id
@@ -42,25 +43,17 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
       }
     }
   `;
+  const [mutateDeleteRequest] = useMutation(deleteRequest);
+  const [mutateRequest] = useMutation(updateRequest);
 
-  const [requests, setRequests] = useState<Request[]>([]);
-  useEffect(() => {
-    const requests = props.requests.filter((request) => !request.deleted);
-    const nonFulfilledRequests = requests.filter((request) => {
-      if (request !== undefined) {
-        if (request.fulfilled === false) {
-          return request;
-        }
-      }
-    });
-    const fulfilledRequests = requests.filter((request) => {
-      if (request !== undefined) {
-        if (request.fulfilled === true) {
-          return request;
-        }
-      }
-    });
+  const sortRequests = (unsortedRequests: Request[]): Request[] => {
+    const requests = unsortedRequests.filter((request) => !request.deleted);
+    const nonFulfilledRequests = requests.filter(
+      (request) => !request.fulfilled
+    );
+    const fulfilledRequests = requests.filter((request) => request.fulfilled);
 
+    // sort nonFulfilled and fulfilled requests separately
     nonFulfilledRequests.sort((a, b) => {
       return a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf();
     });
@@ -69,59 +62,44 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
       return a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf();
     });
 
+    // keep fulfilled requests underneath unfulfilled ones
     const sortedRequests: Request[] = nonFulfilledRequests!.concat(
       fulfilledRequests!
-    ) as Request[];
+    );
+    return sortedRequests;
+  };
+
+  useEffect(() => {
+    const sortedRequests = sortRequests(props.requests);
     setRequests(sortedRequests);
   }, [props.requests]);
 
-  const [mutateDeleteRequest] = useMutation(softDeleteRequest);
-  const [mutateRequest] = useMutation(updateRequest);
-
-  const onSoftDeleteRequest = (index: number) => {
+  const onDeleteRequest = (index: number) => {
     const requestsCopy = requests.slice();
-    const req = { ...requestsCopy[index] };
-    requestsCopy.splice(index, 1);
-    const id = req._id;
-    setRequests(requestsCopy);
-    props.onChangeRequests!(requestsCopy);
-    mutateDeleteRequest({ variables: { id: id } });
+    const id = requests[index]._id;
+    mutateDeleteRequest({ variables: { id: id } })
+      .then(() => {
+        requestsCopy.splice(index, 1);
+        setRequests(requestsCopy);
+        props.onChangeRequests(requestsCopy);
+      })
+      .catch((e) => console.error(e));
   };
 
   const onFulfilledRequest = (index: number) => {
     const requestsCopy = requests.slice();
-    const req = { ...requestsCopy[index] };
-    if (req.fulfilled === false) {
-      req.fulfilled = true;
-      requestsCopy.splice(index, 1);
-      let i = requestsCopy.length - 1;
-      for (; i > -1; --i) {
-        if (requestsCopy[i].fulfilled === false) break;
-        else if (
-          requestsCopy[i]!.dateCreated!.valueOf() < req!.dateCreated!.valueOf()
-        )
-          break;
-      }
-      requestsCopy.splice(i + 1, 0, req);
-    } else {
-      req.fulfilled = false;
-      requestsCopy.splice(index, 1);
-      let i = 0;
-      for (; i < requestsCopy.length; ++i) {
-        if (requestsCopy[i].fulfilled === true) break;
-        else if (
-          requestsCopy[i]!.dateCreated!.valueOf() > req!.dateCreated!.valueOf()
-        )
-          break;
-      }
-      requestsCopy.splice(i, 0, req);
-    }
-    setRequests(requestsCopy);
-    props.onChangeRequests!(requestsCopy);
-    const id = req._id;
-    const requestId = req.requestId;
-    const fulfilled = req.fulfilled;
-    mutateRequest({ variables: { request: { id, requestId, fulfilled } } });
+    const req = requestsCopy[index];
+    const { _id: id, fulfilled } = req;
+    mutateRequest({
+      variables: { request: { id, fulfilled: !fulfilled } },
+    })
+      .then(() => {
+        // update and sort the requests
+        requestsCopy[index].fulfilled = !fulfilled;
+        const sortedRequests = sortRequests(requestsCopy);
+        props.onChangeRequests(sortedRequests);
+      })
+      .catch((e) => console.error(e));
   };
 
   return (
@@ -148,49 +126,37 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
             </tr>
           </thead>
           <tbody>
-            {requests.map((request, index) =>
-              request.deleted === false ? (
-                <tr key={request._id}>
+            {requests
+              .filter((request) => !request.deleted)
+              .map((request, index) => (
+                <tr
+                  key={request._id}
+                  className={`${
+                    requests[index].fulfilled ? "hidden" : "shown"
+                  }`}
+                >
                   <td>
-                    <div>
-                      <Form.Check
-                        type="checkbox"
-                        onClick={() => onFulfilledRequest(index)}
-                        defaultChecked={request.fulfilled}
-                      />
-                    </div>
+                    <Form.Check
+                      type="checkbox"
+                      onClick={() => onFulfilledRequest(index)}
+                      defaultChecked={request.fulfilled}
+                    />
                   </td>
-                  <td
-                    style={
-                      requests[index].fulfilled ? { opacity: 0.2 } : undefined
-                    }
-                  >
-                    <div className="row-text-style">
+                  <td>
+                    <div className="row-text">
                       {request.requestType!.requestGroup!.name}
                     </div>
                   </td>
-                  <td
-                    style={
-                      requests[index].fulfilled ? { opacity: 0.2 } : undefined
-                    }
-                  >
-                    <div className="row-text-style">
-                      {request.requestType!.name}
+                  <td>
+                    <div className="row-text">{request.requestType!.name}</div>
+                  </td>
+                  <td>
+                    <div className="row-text">{request.quantity}</div>
+                  </td>
+                  <td>
+                    <div className="row-text">
+                      {moment(request.dateCreated, "x").format("MMMM DD, YYYY")}
                     </div>
-                  </td>
-                  <td
-                    style={
-                      requests[index].fulfilled ? { opacity: 0.2 } : undefined
-                    }
-                  >
-                    {request.quantity}
-                  </td>
-                  <td
-                    style={
-                      requests[index].fulfilled ? { opacity: 0.2 } : undefined
-                    }
-                  >
-                    {moment(request.dateCreated, "x").format("MMMM DD, YYYY")}
                   </td>
                   <td>
                     <div className="btn-cont">
@@ -209,7 +175,7 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
                       <td>
                         <a
                           className="request-table delete"
-                          onClick={() => onSoftDeleteRequest(index)}
+                          onClick={() => onDeleteRequest(index)}
                         >
                           <i className="bi bi-trash"></i>
                         </a>
@@ -217,8 +183,7 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
                     </div>
                   </td>
                 </tr>
-              ) : undefined
-            )}
+              ))}
           </tbody>
         </Table>
       )}
