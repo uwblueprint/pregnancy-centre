@@ -47,22 +47,18 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
   const [mutateRequest] = useMutation(updateRequest);
 
   const sortRequests = (unsortedRequests: Request[]): Request[] => {
-    const requests = unsortedRequests.filter((request) => !request.deleted);
+    const requests = unsortedRequests
+      .filter((request) => !request.deleted)
+      .sort((a, b) => {
+        return a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf();
+      });
+
+    // separate fulfilled and non-fulfilled requests
     const nonFulfilledRequests = requests.filter(
       (request) => !request.fulfilled
     );
     const fulfilledRequests = requests.filter((request) => request.fulfilled);
 
-    // sort nonFulfilled and fulfilled requests separately
-    nonFulfilledRequests.sort((a, b) => {
-      return a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf();
-    });
-
-    fulfilledRequests.sort((a, b) => {
-      return a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf();
-    });
-
-    // keep fulfilled requests underneath unfulfilled ones
     const sortedRequests: Request[] = nonFulfilledRequests!.concat(
       fulfilledRequests!
     );
@@ -84,13 +80,12 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
   const onFulfilledRequest = (index: number) => {
     const requestsCopy = requests.slice();
     const req = requestsCopy[index];
-    const { _id: id, fulfilled } = req;
     mutateRequest({
-      variables: { request: { id, fulfilled: !fulfilled } },
+      variables: { request: { id: req._id, fulfilled: !req.fulfilled } },
     })
       .then(() => {
         // update and sort the requests
-        requestsCopy[index].fulfilled = !fulfilled;
+        requestsCopy[index].fulfilled = !req.fulfilled;
         const sortedRequests = sortRequests(requestsCopy);
         props.onChangeRequests(sortedRequests);
       })
@@ -109,79 +104,65 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
           requestId={requestSelectedForEditing}
         />
       )}
-      {requests.length > 0 && (
-        <Table responsive className="request-table">
-          <thead>
-            <tr>
-              {headingList.map((heading, index) => (
-                <th key={index} className="request-table th">
-                  {heading}
-                </th>
-              ))}
+      <Table responsive className="request-table">
+        <thead>
+          <tr>
+            {headingList.map((heading, index) => (
+              <th key={index} className="request-table th">
+                {heading}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {requests.map((request, index) => (
+            <tr
+              key={request._id}
+              className={`${requests[index].fulfilled ? "hidden" : "shown"}`}
+            >
+              <td>
+                <Form.Check
+                  type="checkbox"
+                  onClick={() => onFulfilledRequest(index)}
+                  defaultChecked={request.fulfilled}
+                />
+              </td>
+              <td className="row-text">
+                {request.requestType!.requestGroup!.name}
+              </td>
+              <td className="row-text">{request.requestType!.name}</td>
+              <td className="row-text">{request.quantity}</td>
+              <td className="row-text">
+                {moment(request.dateCreated, "x").format("MMMM DD, YYYY")}
+              </td>
+              <td>
+                <div className="btn-cont">
+                  <td>
+                    <a
+                      className="request-table edit"
+                      onClick={() => {
+                        if (request._id) {
+                          setRequestSelectedForEditing(request._id);
+                        }
+                      }}
+                    >
+                      <i className="bi bi-pencil"></i>
+                    </a>
+                  </td>
+                  <td>
+                    <a
+                      className="request-table delete"
+                      onClick={() => onDeleteRequest(index)}
+                    >
+                      <i className="bi bi-trash"></i>
+                    </a>
+                  </td>
+                </div>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {requests
-              .filter((request) => !request.deleted)
-              .map((request, index) => (
-                <tr
-                  key={request._id}
-                  className={`${
-                    requests[index].fulfilled ? "hidden" : "shown"
-                  }`}
-                >
-                  <td>
-                    <Form.Check
-                      type="checkbox"
-                      onClick={() => onFulfilledRequest(index)}
-                      defaultChecked={request.fulfilled}
-                    />
-                  </td>
-                  <td>
-                    <div className="row-text">
-                      {request.requestType!.requestGroup!.name}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="row-text">{request.requestType!.name}</div>
-                  </td>
-                  <td>
-                    <div className="row-text">{request.quantity}</div>
-                  </td>
-                  <td>
-                    <div className="row-text">
-                      {moment(request.dateCreated, "x").format("MMMM DD, YYYY")}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="btn-cont">
-                      <td>
-                        <a
-                          className="request-table edit"
-                          onClick={() => {
-                            if (request._id) {
-                              setRequestSelectedForEditing(request._id);
-                            }
-                          }}
-                        >
-                          <i className="bi bi-pencil"></i>
-                        </a>
-                      </td>
-                      <td>
-                        <a
-                          className="request-table delete"
-                          onClick={() => onDeleteRequest(index)}
-                        >
-                          <i className="bi bi-trash"></i>
-                        </a>
-                      </td>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </Table>
-      )}
+          ))}
+        </tbody>
+      </Table>
     </div>
   );
 };
