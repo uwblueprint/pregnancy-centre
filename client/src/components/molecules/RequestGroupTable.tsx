@@ -3,9 +3,9 @@ import moment from 'moment';
 import { Table } from "react-bootstrap";
 import { useHistory } from 'react-router-dom'
 
-import { Tag } from '../atoms/Tag'
 import RequestGroup from '../../data/types/requestGroup'
 import RequestGroupForm from "../organisms/RequestGroupForm";
+import Tag from '../atoms/Tag'
 
 export interface Props {
     requestGroups: Array<RequestGroup> | undefined

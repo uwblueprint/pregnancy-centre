@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 
 import ScrollWindow from "../atoms/ScrollWindow";
-import { Tag } from "../atoms/Tag";
+import Tag from "../atoms/Tag";
 import { TextField } from "../atoms/TextField";
 import { useComponentVisible } from "../utils/hooks";
 
