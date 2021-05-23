@@ -6,6 +6,7 @@ import DonorPage from '../components/layouts/DonorPage'
 import DonorRequestGroupBrowser from '../components/organisms/DonorRequestGroupBrowser'
 import HomepageBanner from '../components/organisms/HomepageBanner'
 import SearchableDropdown from '../components/atoms/SearchableDropdown';
+import { Tag } from '../components/atoms/Tag'
 
 const DonorHomepage: FunctionComponent = () => {
   const onDropdownChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +26,7 @@ const DonorHomepage: FunctionComponent = () => {
         isErroneous={false}
         isDisabled={false}
         onChange={onDropdownChange}
-        onSelect={(str: string) => {}}
+        onSelect={() => { }}
         noItemsAction={Tag}
       />
       <SearchableDropdown
@@ -39,7 +40,7 @@ const DonorHomepage: FunctionComponent = () => {
         isErroneous={false}
         isDisabled={false}
         onChange={onDropdownChange}
-        onSelect={(str: string) => {}}
+        onSelect={() => { }}
         noItemsAction={Tag}
       />
       <Row><HomepageBanner /></Row>
