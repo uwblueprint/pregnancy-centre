@@ -20,7 +20,7 @@ const createClientHelper = async (client, dataSources, session): Promise<ClientD
 const filterClients = (filter, dataSources) => {
   let filteredClients = dataSources.clients.getAll()
 
-  for (let property in filter) {
+  for (const property in filter) {
     filteredClients = filteredClients.filter((client) => (client[property] ? client[property] === filter[property] : true))
   }
 

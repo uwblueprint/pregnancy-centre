@@ -155,7 +155,7 @@ const resolvers = {
     requestTypes: (parent, __, { dataSources }): Array<RequestTypeInterface> => parent.requestTypes.map(id => dataSources.requestTypes.getById(Types.ObjectId(id)))
   },
   RequestType: {
-    numOpen: (parent, __, { dataSources }): Number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,
+    numOpen: (parent, __, { dataSources }): number => filterOpenRequests(getRequestsById(parent.requests, dataSources)).length,
     nextRecipient: (parent, __, { dataSources, authenticateUser }): ClientInterface => authenticateUser().then(() => {
       const nextRequest = nextRequestRequestTypeHelper(parent.requests, dataSources)
       return nextRequest ? dataSources.clients.getById(nextRequest.client) : null
