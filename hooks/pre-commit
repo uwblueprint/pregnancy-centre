@@ -16,9 +16,9 @@ cd ../server && npm run lint
 linter_exit_code=$?
 if [ $linter_exit_code -ne 0 ]
 then
-  echo "${RED} ❌ Linter errors found in client ( ͡ಥ ͜ʖ ͡ಥ)${NC}"
+  echo "${RED} ❌ Linter errors found in server ( ͡ಥ ͜ʖ ͡ಥ)${NC}"
   exit 1
 else
-  echo "${GREEN} ✔ Eslint did not find any errors in client [̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]${NC}"
+  echo "${GREEN} ✔ Eslint did not find any errors in server [̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]${NC}"
   exit 0
 fi
