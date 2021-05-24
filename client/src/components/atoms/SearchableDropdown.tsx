@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 
 import ScrollWindow from "../atoms/ScrollWindow";
 import Tag from "../atoms/Tag";
@@ -6,76 +6,74 @@ import { TextField } from "../atoms/TextField";
 import { useComponentVisible } from "../utils/hooks";
 
 interface Props {
+  dropdownItems: Array<string>,
   initialText: string;
-  placeholderText: string;
-  searchPlaceholderText: string;
-  noResultsText: string,
-  noResultsActionText: string,
   isDisabled: boolean;
   isEmpty?: boolean;
-  onSelect: (item: string) => void;
-  noItemsAction: React.ReactNode;
-  isTagDropdown?: boolean,
-  dropdownItems: Array<string>,
   isErroneous: boolean,
+  isTagDropdown?: boolean,
+  noItemsAction: React.ReactNode;
+  noResultsActionText: string,
+  noResultsText: string,
   onChange: React.ChangeEventHandler<HTMLInputElement>,
+  onSelect: (item: string) => void;
+  placeholderText: string;
+  searchPlaceholderText: string;
 }
 
 const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
+  const sortedDropdownItems = props.dropdownItems.sort(function (a, b) { // Case-insensitive alphabetical sort
+    return a.toLowerCase().localeCompare(b.toLowerCase());
+  })
+
   const [searchString, setSearchString] = useState(props.initialText);
   const [selectedString, setSelectedString] = useState(props.initialText);
   const { ref: dropdownReference, isComponentVisible: dropdownExpanded, setIsComponentVisible: setDropdownExpanded } = useComponentVisible(false);
-  const [noItems, setNoItems] = useState(false);
-  const [filterEnabled, setFilterEnabled] = useState(false);
+  const [displayItems, setDisplayItems] = useState(sortedDropdownItems)
+  const [noItems, setNoItems] = useState(props.dropdownItems.length > 0);
+
+  const deactivateSearch = () => {
+    setNoItems(props.dropdownItems.length > 0)
+    setDropdownExpanded(false)
+    setDisplayItems(sortedDropdownItems)
+  }
+
+  const displayMatchingItems = (newSearchString: string) => {
+    setSearchString(newSearchString);
+    setDropdownExpanded(true);
+
+    const newDisplayItems = props.dropdownItems.filter((item) => searchStringMatches(newSearchString, item))
+    console.log(newDisplayItems)
+    setDisplayItems(newDisplayItems)
+    setNoItems(newDisplayItems.length == 0);
+  }
 
   const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(event);
-    setFilterEnabled(true);
-    if (!dropdownExpanded) {
-      setDropdownExpanded(true);
-    }
-    setSearchString(event.target.value);
-    if (event.target.value.length > 0) {
-      if (
-        event.target.value.length > 0 &&
-        props.dropdownItems.filter((item) =>
-          item
-            .toLocaleLowerCase()
-            .startsWith(event.target.value.toLocaleLowerCase())
-        ).length == 0
-      ) {
-        setNoItems(true);
-      }
 
-    } else {
-      setNoItems(false);
-    }
+    const newSearchString = event.target.value
+    console.log(newSearchString)
+    console.log(dropdownExpanded)
+    console.log(displayItems)
+    console.log(props.dropdownItems)
+
+    displayMatchingItems(newSearchString)
   };
+
+  const searchStringMatches = (searchString: string, otherString: string) => {
+    if (searchString.length === 0) return false;
+
+    return otherString
+      .toLocaleLowerCase()
+      .startsWith(searchString.toLocaleLowerCase())
+  }
 
   const onSelectedItemChange = (item: string) => {
     props.onSelect(item);
     setSelectedString(item);
-    setSearchString(item);
-    setFilterEnabled(false);
-    setDropdownExpanded(false);
+    setSearchString(item); // When the user focuses on the TextField, it should still be populated with the selected string
+    deactivateSearch()
   };
-
-  useEffect(() => {
-    if (props.isEmpty) {
-
-      setSearchString("");
-    }
-  }, [props.isEmpty]);
-
-  useEffect(() => {
-    if (!dropdownExpanded) {
-      setFilterEnabled(false)
-      setSearchString(selectedString)
-      if (selectedString) {
-        props.onSelect(selectedString);
-      }
-    }
-  }, [dropdownExpanded])
 
   return (
     <div className="searchable-dropdown">
@@ -86,7 +84,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
         }}
       >
         <TextField
-          input={searchString}
+          input={dropdownExpanded ? searchString : selectedString}
           isDisabled={props.isDisabled}
           isDisabledUI={dropdownExpanded}
           isErroneous={props.isErroneous}
@@ -103,26 +101,6 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
           autocompleteOff={true}
         ></TextField>
       </div>
-      {dropdownExpanded && noItems &&
-        <div className="no-items-found">
-          <span className="not-exist-msg">{props.noResultsText}</span>
-          <span className="create-group"><a><span>{props.noResultsActionText}</span><i className="bi bi-arrow-right-short"></i></a></span>
-        </div>
-      }
-      {dropdownExpanded && !noItems &&
-        <div className="scroll-window1">
-          <ScrollWindow>
-            <div className="dropdown-header">{props.placeholderText}</div>
-            {props.dropdownItems.filter(item => item.toLocaleLowerCase().startsWith(searchString.toLocaleLowerCase())).map(item => {
-              if (props.isTagDropdown) {
-                return <div className="dropdown-item dropdown-tag" key={item} onClick={() => onSelectedItemChange(item)}><Tag text={item} /></div>;
-              } else {
-                return <div className="dropdown-item" key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>;
-              }
-            })}
-          </ScrollWindow>
-        </div>
-      }
       {dropdownExpanded && (
         <span ref={dropdownReference}>
           {noItems || props.dropdownItems?.length === 0 ? (
@@ -131,26 +109,15 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
               <div>
                 <ScrollWindow>
                   <div className="dropdown-header">{props.placeholderText}</div>
-                  {props.dropdownItems
-                    .filter((item) =>
-                      filterEnabled
-                        ? item
-                          .toLocaleLowerCase()
-                          .startsWith(searchString.toLocaleLowerCase())
-                        : item.length > 0
+                  {displayItems
+                    .map((item) =>
+                    (
+                      props.isTagDropdown ?
+                        <div className="dropdown-item dropdown-tag" key={item} onClick={() => onSelectedItemChange(item)}><Tag text={item} /></div>
+                        : <div className="dropdown-item" key={item} onClick={() => onSelectedItemChange(item)}>{item}</div>
+
                     )
-                    .sort(function (a, b) {
-                      return a.toLowerCase().localeCompare(b.toLowerCase());
-                    })
-                    .map((item) => (
-                      <div
-                        className="dropdown-item"
-                        key={item}
-                        onClick={() => onSelectedItemChange(item)}
-                      >
-                        {item}
-                      </div>
-                    ))}
+                    )}
                 </ScrollWindow>
               </div>
             )}
