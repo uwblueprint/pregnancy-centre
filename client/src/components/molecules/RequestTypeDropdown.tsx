@@ -4,7 +4,7 @@ import Dropdown from '../atoms/Dropdown';
 import FormModal from '../organisms/FormModal';
 import Request from '../../data/types/request';
 import RequestGroup from '../../data/types/requestGroup';
-import RequestsTable from './RequestsTable';
+import RequestsTable from './ClientRequestTable';
 import RequestType from '../../data/types/requestType';
 import RequestTypeForm from '../organisms/RequestTypeForm'
 

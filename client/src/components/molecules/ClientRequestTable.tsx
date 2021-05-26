@@ -138,7 +138,7 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
       )}
       {requests.length === 0 ? (
         <p className="request-table-empty-message">
-          There are currently no requests in this type
+          No requests exist
         </p>
       ) : (
         <Table responsive className="request-table">
