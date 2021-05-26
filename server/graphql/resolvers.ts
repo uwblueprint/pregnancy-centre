@@ -28,6 +28,10 @@ const resolvers = {
     }),
     clients: (_, __, { dataSources, authenticateUser }): Array<ClientInterface> => authenticateUser().then(() => dataSources.clients.getAll()),
     request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getById(Types.ObjectId(id)),
+    getClientRequests: (_, {firstName}, {dataSources}): Array<RequestInterface> => dataSources.requests.getAll().filter(request => {
+      const requestClient = dataSources.clients.getById(request.client._id)
+      return requestClient.fullName.includes(firstName)
+    }),
     requests: (_, __, { dataSources }): Array<RequestInterface> => dataSources.requests.getAll(),
     requestType: (_, { id }, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(id)),
     requestTypes: (_, __, { dataSources }): Array<RequestTypeInterface> => dataSources.requestTypes.getAll(),
@@ -84,7 +88,7 @@ const resolvers = {
             'id': res._id
           }
         })
-    }),
+      }),
     softDeleteRequestType: (_, { id }, { dataSources, authenticateUser }): Promise<ServerResponseInterface> =>  authenticateUser().then(() => {
       return softDeleteRequestTypeHelper(id, dataSources)
         .then(res => {

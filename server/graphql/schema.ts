@@ -57,6 +57,7 @@ const typeDefs = gql`
         filterClients(filter: ClientInput): [Client]
         clients: [Client]
         request(id: ID): Request
+        getClientRequests(firstName: String): [Request]
         requests: [Request]
         requestType(id: ID): RequestType
         requestTypes: [RequestType]
