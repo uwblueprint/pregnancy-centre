@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from "react";
 
 interface Props {
-  text: string,
+    text: string
 }
 
 const Tag: FunctionComponent<Props> = (props: Props) => {
   return <span className="tag">
-    {props.text}
+      {props.text}
   </span>
 };
 
