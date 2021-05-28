@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 
 import ScrollWindow from "../atoms/ScrollWindow";
 import { useComponentVisible } from "../utils/hooks";
@@ -18,20 +18,21 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   }, [props.isDropdownOpened])
 
   useEffect(() => {
-    if(!isDropdownOpened){
+    if (!isDropdownOpened) {
       props.onDropdownClose()
     }
   }, [isDropdownOpened])
 
-  return <>
+  return <div className="scrollable-dropdown">
     {props.trigger}
-    <span ref={dropdownReference}>
+    <span ref={dropdownReference} className="dropdown">
       {isDropdownOpened &&
         <ScrollWindow>
           {props.dropdownItems}
-        </ScrollWindow>}
+        </ScrollWindow>
+      }
     </span>
-  </>
+  </div>
 };
 
 export default SearchableDropdown;

@@ -15,7 +15,7 @@ const DonorHomepage: FunctionComponent = () => {
 
   return <Container className="donor-homepage" fluid>
     <DonorPage>
-      {/* TODO(ellen): this is testing code, delete before landing */}
+      {/* TODO(meganniu): this is testing code, delete before landing */}
       <SearchableDropdown
         initialText=""
         placeholderText="Select or create a type"
@@ -28,7 +28,7 @@ const DonorHomepage: FunctionComponent = () => {
         isDisabled={false}
         onChange={onDropdownChange}
         onSelect={() => { }}
-        noItemsAction={<Tag text="hello"></Tag>}
+        noItemsAction={<p>Create a new Request Type</p>}
       />
       <SearchableDropdown
         initialText=""

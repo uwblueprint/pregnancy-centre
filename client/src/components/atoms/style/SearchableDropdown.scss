@@ -1,8 +1,10 @@
+// TODO(meganniu): remove fixed widths and heights when searchable dropdown is integrated with forms
 .searchable-dropdown {
-  width: 374px;
+  width: 374px; 
 
   .scroll-window {
     max-height: 146px;
+    width: 374px;
   }
 
   .textfield {
