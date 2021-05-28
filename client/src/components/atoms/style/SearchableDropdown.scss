@@ -5,14 +5,6 @@
     max-height: 146px;
   }
 
-  .scroll-window1 {
-    max-height: 146px;
-  }
-
-  .tag {
-    padding: 6.65px 12.5px;
-  }
-
   .textfield {
     margin-bottom: 5px;
     width: 373px;
@@ -49,44 +41,19 @@
 
       &:hover {
         background-color: $tag-background;
+
         .tag {
           background-color: $tag-background-hover;
         }
       }
-    }
-  }
 
-  .no-items-found {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-
-    border: $window-border;
-    border-radius: 4px;
-    padding: 14px;
-
-    .not-exist-msg {
-      @include normal-text;
-      font-size: 12px;
-      line-height: 20px;
-    }
-
-    .create-group {
-      @include normal-text;
-      font-size: 12px;
-      line-height: 14.52px;
-      color: $tpc-green;
-
-      margin-left: 70px;
-      vertical-align: middle;
-      float: right;
-      line-height: 27px;
-
-      & i {
-        font-size: 18px;
-        vertical-align: middle;
+      .tag {
+        padding: 6.65px 12.5px;
       }
+    }
+
+    .dropdown-action {
+      margin-bottom: 8px;
     }
   }
 }

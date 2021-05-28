@@ -29,10 +29,8 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   const [selectedString, setSelectedString] = useState(props.initialText);
   const [isDropdownOpened, setIsDropdownOpened] = useState(false)
   const [displayItems, setDisplayItems] = useState(sortedDropdownItems)
-  const [noItems, setNoItems] = useState(props.dropdownItems.length > 0);
 
   const deactivateSearch = () => {
-    // setNoItems(props.dropdownItems.length > 0)
     setIsDropdownOpened(false)
     setDisplayItems(sortedDropdownItems)
   }
@@ -43,7 +41,6 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
 
     const newDisplayItems = newSearchString.length === 0 ? props.dropdownItems : props.dropdownItems.filter((item) => searchStringMatches(newSearchString, item))
     setDisplayItems(newDisplayItems)
-    // setNoItems(newDisplayItems.length == 0);
   }
 
   const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +76,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
       <ScrollableDropdown
         dropdownItems={
           displayItems.length === 0
-            ? props.noItemsAction
+            ? <div className="dropdown-action">{props.noItemsAction}</div>
             : <>
               <div className="dropdown-header">{props.placeholderText}</div>
               {getDisplayItemsHTML()}
