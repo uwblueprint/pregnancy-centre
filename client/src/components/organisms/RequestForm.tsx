@@ -388,8 +388,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                       </a>
                     </span> */}
                   </div>)}
-                  noResultsText=""
-                  noResultsActionText=""
                   isTagDropdown={false}
                 />
               }
@@ -415,8 +413,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                   noItemsAction={(<div className="no-items-found">
                     <span className="not-exist-msg">This type does not exist</span>
                   </div>)}
-                  noResultsText=""
-                  noResultsActionText=""
                   isTagDropdown={false}
                 />
               }

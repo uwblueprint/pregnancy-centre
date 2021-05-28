@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 
 import ScrollableDropdown from '../atoms/ScrollableDropdown'
 import Tag from "../atoms/Tag";
@@ -9,11 +9,9 @@ interface Props {
   initialText: string;
   isDisabled: boolean;
   isEmpty?: boolean;
-  isErroneous: boolean,
-  isTagDropdown?: boolean,
+  isErroneous: boolean;
+  isTagDropdown?: boolean;
   noItemsAction: React.ReactNode;
-  noResultsActionText: string,
-  noResultsText: string,
   onChange: React.ChangeEventHandler<HTMLInputElement>,
   onSelect: (item: string) => void;
   placeholderText: string;
@@ -29,6 +27,12 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   const [selectedString, setSelectedString] = useState(props.initialText);
   const [isDropdownOpened, setIsDropdownOpened] = useState(false)
   const [displayItems, setDisplayItems] = useState(sortedDropdownItems)
+
+  useEffect(() => {
+    if (props.isEmpty) {
+      setSelectedString("");
+    }
+  }, [props.isEmpty])
 
   const deactivateSearch = () => {
     setIsDropdownOpened(false)
