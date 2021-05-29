@@ -34,14 +34,8 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
     }
   }, [props.isEmpty])
 
-  const deactivateSearch = () => {
-    setIsDropdownOpened(false)
-    setDisplayItems(sortedDropdownItems)
-  }
-
   const displayMatchingItems = (newSearchString: string) => {
     setSearchString(newSearchString);
-    setIsDropdownOpened(true);
 
     const newDisplayItems = newSearchString.length === 0 ? props.dropdownItems : props.dropdownItems.filter((item) => searchStringMatches(newSearchString, item))
     setDisplayItems(newDisplayItems)
@@ -64,7 +58,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
   const onSelectedItemChange = (item: string) => {
     props.onSelect(item);
     setSelectedString(item);
-    deactivateSearch()
+    setIsDropdownOpened(false);
   };
 
   const getDisplayItemsHTML = () => {
@@ -85,36 +79,33 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
               <div className="dropdown-header">{props.placeholderText}</div>
               {getDisplayItemsHTML()}
             </>
-
         }
         trigger={
-          <div
-            className="textfield"
-            onClick={() => {
-              setIsDropdownOpened(!isDropdownOpened && !props.isDisabled);
-              displayMatchingItems(selectedString)  // When the user focuses on the TextField, it should still be populated with the selected string
-            }}
-          >
-            <TextField
-              input={isDropdownOpened ? searchString : selectedString}
-              isDisabled={props.isDisabled}
-              isDisabledUI={isDropdownOpened}
-              isErroneous={props.isErroneous}
-              onChange={onSearchStringChange}
-              name="SearchableDropdown"
-              placeholder={
-                isDropdownOpened
-                  ? props.searchPlaceholderText
-                  : props.placeholderText
-              }
-              type="text"
-              iconClassName="bi bi-caret-down-fill"
-              showRedErrorText={true}
-              autocompleteOff={true}
-            ></TextField>
-          </div>
+          <TextField
+            input={isDropdownOpened ? searchString : selectedString}
+            isDisabled={props.isDisabled}
+            isDisabledUI={isDropdownOpened}
+            isErroneous={props.isErroneous}
+            onChange={onSearchStringChange}
+            name="SearchableDropdown"
+            placeholder={
+              isDropdownOpened
+                ? props.searchPlaceholderText
+                : props.placeholderText
+            }
+            type="text"
+            iconClassName="bi bi-caret-down-fill"
+            showRedErrorText={true}
+            autocompleteOff={true}
+          />
         }
-        onDropdownClose={() => { deactivateSearch() }}
+        onDropdownOpen={() => {
+          setIsDropdownOpened(true);
+          displayMatchingItems(selectedString)  // When the user focuses on the TextField, it should still be populated with the selected string
+        }}
+        onDropdownClose={() => {
+          setIsDropdownOpened(false);
+        }}
         isDropdownOpened={isDropdownOpened}
       />
     </div>

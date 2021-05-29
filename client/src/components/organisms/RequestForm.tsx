@@ -223,9 +223,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const onRequestGroupInputChange = (newRequestGroupInput: string) => {
     setChangeMade(true);
     setRequestGroupInputGroup(newRequestGroupInput)
-    if (!newRequestGroupInput) {
-      onRequestGroupChange("")
-    }
   }
 
   /* Functions for Request's RequestType */
@@ -255,9 +252,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const onRequestTypeInputChange = (newRequestTypeInput: string) => {
     setChangeMade(true);
     setRequestTypeInputGroup(newRequestTypeInput)
-    if (!newRequestTypeInput) {
-      onRequestTypeChange("")
-    }
   }
 
   /* Functions for Request's Quantity */
