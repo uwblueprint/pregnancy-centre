@@ -9,7 +9,7 @@ interface TextFieldProps {
   // when showRedErrorText is true, when there is an error the text will also be highlighted in red
   showRedErrorText?: boolean,
   onChange: React.ChangeEventHandler<HTMLInputElement>,
-  onClick?: React.ClickEventHandler<HTMLInputElement>,
+  onClick?: React.MouseEventHandler<HTMLInputElement>,
   name: string,
   placeholder: string,
   type: "text" | "password" | "number",
