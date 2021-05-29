@@ -21,6 +21,7 @@ jobs:
       - restore_cache:
           keys:
             - v1-deps-{{ checksum "package-lock.json" }}
+      - run: npm cache clean --force
       - run: npm install
       - save_cache:
           key: v1-deps-{{ checksum "package-lock.json" }}
@@ -37,6 +38,7 @@ jobs:
       - restore_cache:
           keys:
             - v1-deps-{{ checksum "package-lock.json" }}
+      - run: npm cache clean --force
       - run: npm install
       - save_cache:
           key: v1-deps-{{ checksum "package-lock.json" }}
