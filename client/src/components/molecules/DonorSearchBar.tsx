@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent } from "react";
 import SearchBar from "../atoms/SearchBar";
 
 interface Props {
@@ -6,15 +6,16 @@ interface Props {
 }
 
 const DonorSearchBar: FunctionComponent<Props> = (props: Props) => {
-  
   const onSearchStringChange = (searchString: string) => {
     props.filterRequestGroups(searchString)
   }
 
-  return <span>
+  return <div className="donor-search-bar">
     <SearchBar defaultText={"Search for a need or a type"} onSearchStringEnter={onSearchStringChange} searchOnEnter={true}/>
-    <h3>Press enter to search</h3>
-  </span>
+    <div className="donor-search-bar-subtext-container">
+        <h3 className="donor-search-bar-subtext">Press enter to search</h3>
+    </div>
+  </div>
 };
 
 export default DonorSearchBar;
