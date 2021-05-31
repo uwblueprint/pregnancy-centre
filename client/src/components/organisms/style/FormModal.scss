@@ -1,0 +1,40 @@
+.form-modal {
+  .modal-header {
+    border-bottom: $border-line;
+    display: block;
+
+    // button.close {
+    //   float: right;
+    // }
+    
+    // .close {
+    //   font-size: 34px;
+    //   color: black !important;
+    //   opacity: 1;
+    //   cursor: pointer;
+    // }
+  }
+
+  .modal-content {
+    border-radius: 12px;
+  }
+
+  .modal-header {
+    padding: 14px 16px;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+
+  .modal-body {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  button.close {
+    // Modal close button provided by bootstrap
+    margin-top: -45px;
+  }
+}

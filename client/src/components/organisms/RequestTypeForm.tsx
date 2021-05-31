@@ -2,6 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 
 import { Button } from '../atoms/Button'
+import CommonModal from "./Modal"
 import FormModal from './FormModal'
 import RequestGroup from '../../data/types/requestGroup'
 import RequestType from '../../data/types/requestType'
@@ -118,10 +119,10 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
   const formTitle = createForm ? "Create Type" : "Edit Type";
   const formButtonText = createForm ? "Create type" : "Edit type";
 
-  return <FormModal
-    class="request-type-form-modal"
+  return <CommonModal
+    // class="request-type-form-modal"
     size="small"
-    title={formTitle}
+    // title={formTitle}
     handleClose={props.handleClose}
     show={true}
   >
@@ -148,7 +149,7 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
         />
       </div>
     </form>
-  </FormModal>
+  </CommonModal>
 };
 
 export default RequestTypeForm;

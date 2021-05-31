@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Spinner } from 'react-bootstrap';
 
 import AlertDialog from '../atoms/AlertDialog'
-import { Button } from '../atoms/Button'
+import CommonModal from "./Modal"
 import FormItem from '../molecules/FormItem'
 import FormModal from './FormModal'
 import Request from '../../data/types/request'
@@ -334,23 +334,25 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   }
 
 
-  const formTitle = props.operation === "create" ? "Create Request" : "Edit Request";
+  const formTitle = props.operation === "create" ? "Create New Need" : "Edit Need";
   const formButtonText = props.operation === "create" ? "Create request" : "Edit request";
 
   return <div className="request-form">
     <FormModal
-      class="request-form-modal"
+      bodyClassName="request-form-body"
+      headerClassName="request-form-header"
       show={true}
       handleClose={handleClose}
       title={formTitle}
-      size="medium">
+      submitButtonText={formButtonText}
+    >
       {loading
         ? <div className="request-form-modal-loading-content">
           <div className="spinner">
             <Spinner animation="border" role="status" />
           </div>
         </div>
-        : <form onSubmit={onSubmit} className="request-form-modal-content">
+        : <form onSubmit={onSubmit}>
           {showAlertDialog &&
             <AlertDialog
               dialogText="This request has not been created yet."
@@ -448,12 +450,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               }
             />
           </div>
-          <div className="request-form-modal-footer">
-            <Button
-              text={formButtonText}
-              copyText=""
-            />
-          </div>
+          
         </form>}
     </FormModal>
   </div >
