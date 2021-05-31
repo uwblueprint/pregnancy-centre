@@ -9,7 +9,7 @@ import RequestGroup from '../../data/types/requestGroup'
 import RequestGroupForm from "../organisms/RequestGroupForm";
 
 export interface Props {
-  requestGroups: Array<RequestGroup> | undefined
+    requestGroups: Array<RequestGroup> | undefined
 }
 
 const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
