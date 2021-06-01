@@ -2,6 +2,17 @@
 RED="\033[1;31m"
 GREEN="\033[1;32m"
 NC="\033[0m"
+
+FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
+[ -z "$FILES" ] && exit 0
+
+# Prettify all selected files
+echo "$FILES" | xargs ./node_modules/.bin/prettier --ignore-unknown --write
+
+# Add back the modified/prettified files to staging
+echo "$FILES" | xargs git add
+
+
 linter_exit_code=1
 cd client && npm run lint
 linter_exit_code=$?
