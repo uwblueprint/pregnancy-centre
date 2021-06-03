@@ -1,0 +1,21 @@
+.admin-client-view-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding-left: 160px;
+
+    .admin-client-view-header {
+        .admin-client-view-description { 
+            .admin-client-view-client-name {
+                @include heavy-text;
+            }
+        }
+    }
+}
+
+
+.admin-client-view-page-content {
+    padding-right: 154px;
+    .request-table {
+        width: 100%; 
+    }
+}
