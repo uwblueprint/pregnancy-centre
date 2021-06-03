@@ -108,7 +108,7 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
         <thead>
           <tr>
             {headingList.map((heading, index) => (
-              <th key={index} className="request-table th">
+              <th key={index} className="request-table-heading">
                 {heading}
               </th>
             ))}
@@ -139,7 +139,7 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
                 <div className="btn-cont">
                   <td>
                     <a
-                      className="request-table edit"
+                      className="edit"
                       onClick={() => {
                         if (request._id) {
                           setRequestSelectedForEditing(request._id);
@@ -151,7 +151,7 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
                   </td>
                   <td>
                     <a
-                      className="request-table delete"
+                      className="delete"
                       onClick={() => onDeleteRequest(index)}
                     >
                       <i className="bi bi-trash"></i>
