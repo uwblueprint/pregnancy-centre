@@ -36,10 +36,14 @@
     flex-direction: row;
     justify-content: space-between;
     margin-top: 28px;
+    
     .form-modal-cancel-button{
+      @include grey-button;
       width: 30%;
     }
+
     .form-modal-submit-button{
+      @include tpc-green-button;
       width: 68%;
     }
   }

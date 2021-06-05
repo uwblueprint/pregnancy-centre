@@ -120,6 +120,7 @@ $tpc-green: #004d57;
 /* Button Config */
 
 $button-background: #3e3e3e;
+$button-grey-background: #e9e9e9;
 $button-disabled-background: #b2b2b2;
 $admin-request-group-browser-button-color: #fbfbfb;
 
@@ -158,6 +159,13 @@ $admin-request-group-browser-button-color: #fbfbfb;
   @include white-text;
   background-color: $tpc-green;
   border-color: $tpc-green;
+}
+
+@mixin grey-button() {
+  @include button-base();
+  background-color: $button-grey-background;
+  color: black;
+  border: none;
 }
 
 /* Disable scrollbar for overflow */
