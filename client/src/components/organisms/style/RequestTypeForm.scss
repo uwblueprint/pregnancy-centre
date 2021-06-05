@@ -1,6 +1,10 @@
 .request-type-form {
   position: absolute;
 
+  .modal-content {
+    width: unset;
+  }
+
   .modal-body {
     padding: 30px;
   }
