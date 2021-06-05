@@ -29,6 +29,14 @@ const resolvers = {
     clients: (_, __, { dataSources, authenticateUser }): Array<ClientInterface> => authenticateUser().then(() => dataSources.clients.getAll()),
     request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getById(Types.ObjectId(id)),
     requests: (_, __, { dataSources }): Array<RequestInterface> => dataSources.requests.getAll(),
+    filterRequests: (_, { filter }, { dataSources, authenticateUser }): Array<RequestInterface> => authenticateUser().then(() => {
+      let filteredRequests = dataSources.requests.getAll()
+      console.log(filteredRequests[0].client)
+      console.log(filter)
+      filteredRequests = filteredRequests.filter(request => request.client == filter)
+
+      return filteredRequests
+    }),
     requestType: (_, { id }, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(id)),
     requestTypes: (_, __, { dataSources }): Array<RequestTypeInterface> => dataSources.requestTypes.getAll(),
     requestGroup: (_, { id }, { dataSources }): RequestGroupInterface => dataSources.requestGroups.getById(Types.ObjectId(id)),
