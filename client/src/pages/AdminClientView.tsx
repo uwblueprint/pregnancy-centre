@@ -15,7 +15,8 @@ const AdminClientView: FunctionComponent = () => {
   const { fullName } = useParams<ParamTypes>();
   const [firstName, lastName] = fullName.split("-");
   const [requests, setRequests] = useState<Request[]>([]);
-  const [numRequests, setNumRequests] = useState(0);
+  const [numUnfulfilledRequests, setNumUnfulfilledRequests] = useState(0);
+  const [noExistingRequests, setNoExistingRequests] = useState(false);
 
   const query = gql`
     query getClientRequests($firstName: String) {
@@ -50,16 +51,26 @@ const AdminClientView: FunctionComponent = () => {
 
   useEffect(() => {
     if (requests) {
+      // calculate number of existing requests that are unfulfilled
       const numUnfulfilledReq = requests.reduce((total, request) => {
         return request.fulfilled || request.deleted ? total : total + 1;
       }, 0);
-      setNumRequests(numUnfulfilledReq);
+
+      // number of requests that are deleted
+      const length = requests.length;
+      const numDeletedRequests = requests.reduce((total, request) => {
+        return request.deleted ? total + 1 : total;
+      }, 0);
+
+      setNoExistingRequests(numDeletedRequests == length);
+      setNumUnfulfilledRequests(numUnfulfilledReq);
     }
   }, [requests]);
 
   const handleChangeRequests = (requests: Request[]) => {
     setRequests(requests);
   };
+  console.log("requests:", requests);
 
   return (
     <Container className="admin-client-view" fluid>
@@ -71,14 +82,14 @@ const AdminClientView: FunctionComponent = () => {
                 {[firstName, lastName].join(" ")}
               </h1>
               <p>
-                {requests.length === 0
+                {noExistingRequests
                   ? "No requests exist"
-                  : `Displaying ${numRequests} total requests`}
+                  : `Displaying ${numUnfulfilledRequests} total requests`}
               </p>
             </div>
           </div>
           <div className="admin-client-view-page-content">
-            {requests.length > 0 && (
+            {!noExistingRequests && (
               <div className="table-wrapper">
                 <ClientRequestTable
                   requests={requests}
