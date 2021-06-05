@@ -5,15 +5,15 @@ $request-form-width: 417px;
 .request-form {
   position: absolute;
 
-  form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+  // form {
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: center;
+  // }
 
   .common-modal-body {
     // width: $request-form-width;
-    height: 507px;
+    // height: 507px;
   }
   .form-item {
     margin-top: 23px;

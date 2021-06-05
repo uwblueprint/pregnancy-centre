@@ -49,9 +49,9 @@ const FormModal: FunctionComponent<Props> = (props: Props) => {
       <form onSubmit={props.onSubmit}>
         {/* <hr className={`modal-admin line-${props.size}`} /> */}
         {props.children}
-        <div>
-          <Button className="form-modal-cancel-btn" text="Cancel" copyText="" onClick={props.onCancel}/>
-          <Button className="form-modal-submit-btn" text={props.submitButtonText} copyText="" onClick={props.onSubmit} type="submit"/>
+        <div className="form-modal-buttons">
+          <Button className="form-modal-cancel-button" text="Cancel" copyText="" onClick={props.onCancel}/>
+          <Button className="form-modal-submit-button" text={props.submitButtonText} copyText="" onClick={props.onSubmit} type="submit"/>
         </div>
         </form>
       {/* </div> */}

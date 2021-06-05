@@ -1,49 +1,46 @@
 .form-modal {
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
   .modal-header {
     border-bottom: $border-line;
     display: block;
 
-    // button.close {
-    //   float: right;
-    // }
-    
-    // .close {
-    //   font-size: 34px;
-    //   color: black !important;
-    //   opacity: 1;
-    //   cursor: pointer;
-    // }
-  }
-
-  button.close {
-    margin-right: 16px;
-  }
-
-  .modal-title {
-    font-size: 18px;
-    font-weight: 600;
+    button.close {
+      // Modal close button provided by bootstrap
+      margin-top: -45px;
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
   }
 
   .modal-content {
     border-radius: 12px;
   }
 
-  // .modal-header {
-  //   padding: 14px 16px;
-  //   font-size: 18px;
-  //   font-weight: 400;
-  // }
-
-
   .modal-body {
-    padding: 0;
+    padding: 0 0 32px 0;
     display: flex;
     align-items: center;
     flex-direction: column;
   }
 
-  button.close {
-    // Modal close button provided by bootstrap
-    margin-top: -45px;
+
+  .form-modal-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 28px;
+    .form-modal-cancel-button{
+      width: 30%;
+    }
+    .form-modal-submit-button{
+      width: 68%;
+    }
   }
 }
