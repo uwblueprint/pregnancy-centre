@@ -345,6 +345,12 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     submitButtonText={formButtonText}
     onSubmit={onSubmit}
     onCancel={props.handleClose}
+    alertDialogProps={{
+      dialogText: "This request has not been created yet.",
+      onExit: props.handleClose,
+      onStay: () => { setShowAlertDialog(false) }
+    }}
+    showAlertDialog={showAlertDialog}
   >
     {loading
       ? <div className="request-form-modal-loading-content">
@@ -353,12 +359,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         </div>
       </div>
       : <>
-        {showAlertDialog &&
-          <AlertDialog
-            dialogText="This request has not been created yet."
-            onExit={props.handleClose}
-            onStay={() => { setShowAlertDialog(false) }} />
-        }
         <div className="searchable-dropdown-form-item">
           <FormItem
             formItemName="Group"

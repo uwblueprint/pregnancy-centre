@@ -2,7 +2,6 @@ $request-form-input-width: 383px;
 $request-form-text-field-height: 45px;
 
 .request-form {
-  
   .modal-body {
     padding: 0 44px 32px 44px;
   }
@@ -62,8 +61,7 @@ $request-form-text-field-height: 45px;
   }
 
   .alert-dialog {
-    position: fixed;
-    left: 12px;
-    margin-top: -250px;
+    margin-top: -140px;
+    width: 500px;
   }
 }

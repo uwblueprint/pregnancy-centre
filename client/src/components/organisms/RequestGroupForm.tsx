@@ -323,13 +323,13 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       submitButtonText={formButtonText}
       onSubmit={onSubmit}
       onCancel={handleClose}
+      alertDialogProps={{
+        dialogText: "You have unsaved changes to this group.",
+        onStay:() => { setShowAlertDialog(false) },
+        onExit: props.handleClose        
+      }}
+      showAlertDialog={showAlertDialog}
     >
-      {showAlertDialog &&
-        <AlertDialog
-          dialogText="You have unsaved changes to this group."
-          onExit={props.handleClose}
-          onStay={() => { setShowAlertDialog(false) }} />
-      }
       {loadingRequestGroup
         ? <div className="request-group-form-loading-content">
           <div className="spinner">

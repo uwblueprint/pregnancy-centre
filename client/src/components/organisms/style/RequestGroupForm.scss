@@ -126,8 +126,9 @@ $request-group-form-panel-width: 482px;
   }
 
   .alert-dialog {
-    margin-left: 18%;
-    margin-top: -100px;
+    align-self: center;
+    margin-top: -30px;
+    width: 500px;
   }
 
   &-loading-content {

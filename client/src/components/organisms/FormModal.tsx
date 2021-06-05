@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Modal } from 'react-bootstrap';
 
+import { Props as AlertDialogProps } from '../atoms/AlertDialog';
 import { Button } from '../atoms/Button'
 import CommonModal from "./Modal"
 
@@ -13,6 +14,8 @@ interface Props {
   submitButtonText: string;
   onSubmit: (e: React.FormEvent) => void;
   onCancel: () => void;
+  alertDialogProps?: AlertDialogProps;
+  showAlertDialog?: boolean;
 }
 
 const FormModal: FunctionComponent<Props> = (props: Props) => {
@@ -22,6 +25,8 @@ const FormModal: FunctionComponent<Props> = (props: Props) => {
       show={props.show}
       handleClose={props.handleClose}
       header={<Modal.Title className="text-center">{props.title}</Modal.Title>}
+      alertDialogProps={props.alertDialogProps}
+      showAlertDialog={props.showAlertDialog}
     >
       <form onSubmit={props.onSubmit}>
         {props.children}
