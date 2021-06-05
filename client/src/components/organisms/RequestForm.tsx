@@ -1,9 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Spinner } from 'react-bootstrap';
 
-import AlertDialog from '../atoms/AlertDialog'
-import CommonModal from "./Modal"
 import FormItem from '../molecules/FormItem'
 import FormModal from './FormModal'
 import Request from '../../data/types/request'
