@@ -49,17 +49,6 @@ $request-form-text-field-height: 45px;
     margin: 0;
   }
 
-  .spinner {
-    align-self: center;
-  }
-
-  &-loading-content {
-    min-height: 500px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-
   .alert-dialog {
     margin-top: -140px;
     width: 500px;

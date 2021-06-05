@@ -351,14 +351,9 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       onStay: () => { setShowAlertDialog(false) }
     }}
     showAlertDialog={showAlertDialog}
+    loading={loading}
   >
-    {loading
-      ? <div className="request-form-modal-loading-content">
-        <div className="spinner">
-          <Spinner animation="border" role="status" />
-        </div>
-      </div>
-      : <>
+      <>
         <div className="searchable-dropdown-form-item">
           <FormItem
             formItemName="Group"
@@ -451,7 +446,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           />
         </div>
       </>
-    }
+    {/* } */}
   </FormModal>
 };
 
