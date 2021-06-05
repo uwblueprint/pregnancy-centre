@@ -12,7 +12,7 @@ interface Props {
 
 const LogoModal: FunctionComponent<Props> = (props: Props) => {
   return (
-    <CommonModal class="logo-modal" size="default" show={props.show} handleClose={props.handleClose}>
+    <CommonModal className="logo-modal" size="default" show={props.show} handleClose={props.handleClose}>
       <div className="pc-icon">
         <img src={tpcLeaf}></img>
       </div>

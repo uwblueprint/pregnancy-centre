@@ -15,15 +15,24 @@
     // }
   }
 
+  button.close {
+    margin-right: 16px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
   .modal-content {
     border-radius: 12px;
   }
 
-  .modal-header {
-    padding: 14px 16px;
-    font-size: 18px;
-    font-weight: 400;
-  }
+  // .modal-header {
+  //   padding: 14px 16px;
+  //   font-size: 18px;
+  //   font-weight: 400;
+  // }
 
 
   .modal-body {

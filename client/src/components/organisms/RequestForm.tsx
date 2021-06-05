@@ -334,126 +334,125 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   }
 
 
-  const formTitle = props.operation === "create" ? "Create New Need" : "Edit Need";
+  const formTitle = props.operation === "create" ? "Create New Request" : "Edit Request";
   const formButtonText = props.operation === "create" ? "Create request" : "Edit request";
 
-  return <div className="request-form">
-    <FormModal
-      bodyClassName="request-form-body"
-      headerClassName="request-form-header"
-      show={true}
-      handleClose={handleClose}
-      title={formTitle}
-      submitButtonText={formButtonText}
-    >
-      {loading
-        ? <div className="request-form-modal-loading-content">
-          <div className="spinner">
-            <Spinner animation="border" role="status" />
-          </div>
+  return <FormModal
+    className="request-form"
+    show={true}
+    handleClose={handleClose}
+    title={formTitle}
+    submitButtonText={formButtonText}
+    onSubmit={onSubmit}
+    onCancel={props.handleClose}
+  >
+    {loading
+      ? <div className="request-form-modal-loading-content">
+        <div className="spinner">
+          <Spinner animation="border" role="status" />
         </div>
-        : <form onSubmit={onSubmit}>
-          {showAlertDialog &&
-            <AlertDialog
-              dialogText="This request has not been created yet."
-              onExit={props.handleClose}
-              onStay={() => { setShowAlertDialog(false) }} />
-          }
-          <div className="searchable-dropdown-form-item">
-            <FormItem
-              formItemName="Group"
-              errorString={requestGroupError}
-              isDisabled={false}
-              tooltipText="Groups describe the overall category of an item, such as stroller, crib, or bed."
-              inputComponent={
-                <SearchableDropdown
-                  initialText={requestGroup && requestGroup.name ? requestGroup.name : ""}
-                  placeholderText="Select a group"
-                  searchPlaceholderText="Search for a group"
-                  dropdownItems={requestGroupsMap ? [...requestGroupsMap.keys()] : []} // Pass the name of all request groups
-                  isErroneous={requestGroupError !== "" && requestGroupInput === ""}
-                  isDisabled={false}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onRequestGroupInputChange(e.target.value) }}
-                  onSelect={onRequestGroupChange}
-                  noItemsAction={(<div className="no-items-found">
-                    <span className="not-exist-msg">{!requestGroupsMap || requestGroupsMap.size === 0 ? "There are no request groups" : "This group does not exist"}</span>
-                    {/* <span className="create-group">
+      </div>
+      : <>
+        {showAlertDialog &&
+          <AlertDialog
+            dialogText="This request has not been created yet."
+            onExit={props.handleClose}
+            onStay={() => { setShowAlertDialog(false) }} />
+        }
+        <div className="searchable-dropdown-form-item">
+          <FormItem
+            formItemName="Group"
+            errorString={requestGroupError}
+            isDisabled={false}
+            tooltipText="Groups describe the overall category of an item, such as stroller, crib, or bed."
+            inputComponent={
+              <SearchableDropdown
+                initialText={requestGroup && requestGroup.name ? requestGroup.name : ""}
+                placeholderText="Select a group"
+                searchPlaceholderText="Search for a group"
+                dropdownItems={requestGroupsMap ? [...requestGroupsMap.keys()] : []} // Pass the name of all request groups
+                isErroneous={requestGroupError !== "" && requestGroupInput === ""}
+                isDisabled={false}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onRequestGroupInputChange(e.target.value) }}
+                onSelect={onRequestGroupChange}
+                noItemsAction={(<div className="no-items-found">
+                  <span className="not-exist-msg">{!requestGroupsMap || requestGroupsMap.size === 0 ? "There are no request groups" : "This group does not exist"}</span>
+                  {/* <span className="create-group">
                       <a>
                         <span>Create a new group</span>
                         <i className="bi bi-arrow-right-short"></i>
                       </a>
                     </span> */}
-                  </div>)}
-                  isTagDropdown={false}
-                />
-              }
-            />
-          </div>
-          <div className="searchable-tag-dropdown-form-item">
-            <FormItem
-              formItemName="Type"
-              errorString={requestTypeError}
-              isDisabled={requestGroup === null} // Enable request type dropdown if a request group is selected
-              tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
-              inputComponent={
-                <SearchableDropdown
-                  initialText={requestType && requestType.name ? requestType.name : ""}
-                  placeholderText={requestGroup === null ? "Select a group first" : "Search or create a type"}
-                  searchPlaceholderText="Search for a type"
-                  dropdownItems={requestTypesMap ? [...requestTypesMap.keys()] : []} // Pass the name of all request groups
-                  isErroneous={requestTypeError !== "" && requestTypeInput === ""}
-                  isDisabled={requestGroup === null}
-                  isEmpty={requestType === null}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onRequestTypeInputChange(e.target.value) }}
-                  onSelect={onRequestTypeChange}
-                  noItemsAction={(<div className="no-items-found">
-                    <span className="not-exist-msg">This type does not exist</span>
-                  </div>)}
-                  isTagDropdown={true}
-                />
-              }
-            />
-          </div>
-          <div className="infinite-dropdown-form-item">
-            <FormItem
-              formItemName="Item Quantity"
-              errorString={quantityError}
-              isDisabled={false}
-              inputComponent={
-                <TextField
-                  input={quantity.toString()}
-                  isDisabled={false}
-                  isErroneous={quantityError !== ""}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onQuantityChange(parseInt(e.target.value)) }}
-                  name="quantity"
-                  placeholder=""
-                  type="number"
-                />
-              }
-            />
-          </div>
-          <div className="text-field-form-item">
-            <FormItem
-              formItemName="Client Full Name"
-              errorString={clientNameError}
-              isDisabled={false}
-              inputComponent={
-                <TextField
-                  input={clientName}
-                  isDisabled={false}
-                  isErroneous={clientNameError !== ""}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => onClientNameChange(e.target.value)}
-                  name="client-name"
-                  placeholder="ex. Julia Michaels"
-                  type="text"
-                />
-              }
-            />
-          </div>
-          
-        </form>}
-    </FormModal>
-  </div >
+                </div>)}
+                isTagDropdown={false}
+              />
+            }
+          />
+        </div>
+        <div className="searchable-tag-dropdown-form-item">
+          <FormItem
+            formItemName="Type"
+            errorString={requestTypeError}
+            isDisabled={requestGroup === null} // Enable request type dropdown if a request group is selected
+            tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
+            inputComponent={
+              <SearchableDropdown
+                initialText={requestType && requestType.name ? requestType.name : ""}
+                placeholderText={requestGroup === null ? "Select a group first" : "Search or create a type"}
+                searchPlaceholderText="Search for a type"
+                dropdownItems={requestTypesMap ? [...requestTypesMap.keys()] : []} // Pass the name of all request groups
+                isErroneous={requestTypeError !== "" && requestTypeInput === ""}
+                isDisabled={requestGroup === null}
+                isEmpty={requestType === null}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onRequestTypeInputChange(e.target.value) }}
+                onSelect={onRequestTypeChange}
+                noItemsAction={(<div className="no-items-found">
+                  <span className="not-exist-msg">This type does not exist</span>
+                </div>)}
+                isTagDropdown={true}
+              />
+            }
+          />
+        </div>
+        <div className="infinite-dropdown-form-item">
+          <FormItem
+            formItemName="Item Quantity"
+            errorString={quantityError}
+            isDisabled={false}
+            inputComponent={
+              <TextField
+                input={quantity.toString()}
+                isDisabled={false}
+                isErroneous={quantityError !== ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onQuantityChange(parseInt(e.target.value)) }}
+                name="quantity"
+                placeholder=""
+                type="number"
+              />
+            }
+          />
+        </div>
+        <div className="text-field-form-item">
+          <FormItem
+            formItemName="Client Full Name"
+            errorString={clientNameError}
+            isDisabled={false}
+            inputComponent={
+              <TextField
+                input={clientName}
+                isDisabled={false}
+                isErroneous={clientNameError !== ""}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => onClientNameChange(e.target.value)}
+                name="client-name"
+                placeholder="ex. Julia Michaels"
+                type="text"
+              />
+            }
+          />
+        </div>
+      </>
+    }
+  </FormModal>
 };
 
 export default RequestGroupForm;

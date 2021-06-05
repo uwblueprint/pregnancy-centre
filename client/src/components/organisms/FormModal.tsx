@@ -1,17 +1,21 @@
 import React, { FunctionComponent } from 'react';
+import { Modal } from 'react-bootstrap';
 
 import { Button } from '../atoms/Button'
 import CommonModal from "./Modal"
 
 interface Props {
   // contentClassName: string;
-  headerClassName: string;
-  bodyClassName: string;
+  // headerClassName?: string;
+  // bodyClassName?: string;
+  className: string;
   title: string;
   show: boolean;
   handleClose(): void;
   children: React.ReactNode;
   submitButtonText: string;
+  onSubmit: (e: React.FormEvent) => void;
+  onCancel: () => void;
   size?: "small" | "medium" | "large";
 }
 
@@ -30,24 +34,27 @@ const FormModal: FunctionComponent<Props> = (props: Props) => {
       // customClose
       // class={`modal-admin modal-admin-header-${props.size} ` + props.class}
       // size={props.size}
-      contentClassName="form-modal"
+      className={`form-modal ` + props.className}
       show={props.show}
       handleClose={props.handleClose}
       headerText={props.title}
+      header={<Modal.Title className="text-center">{props.title}</Modal.Title>}
       // header={
       //   <div className={"form-modal-header " + props.headerClassName}>
       //     {props.title}
       //   </div>
       // }
     >
-      <div className={props.bodyClassName}>
+      {/* <div className={props.bodyClassName}> */}
+      <form onSubmit={props.onSubmit}>
         {/* <hr className={`modal-admin line-${props.size}`} /> */}
         {props.children}
-        <div className="form-modal-footer">
-          <Button text="Cancel" copyText="" />
-          <Button text={props.submitButtonText} copyText="" />
+        <div>
+          <Button className="form-modal-cancel-btn" text="Cancel" copyText="" onClick={props.onCancel}/>
+          <Button className="form-modal-submit-btn" text={props.submitButtonText} copyText="" onClick={props.onSubmit} type="submit"/>
         </div>
-      </div>
+        </form>
+      {/* </div> */}
     </CommonModal>
   );
 }
