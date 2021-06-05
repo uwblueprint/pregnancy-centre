@@ -1,8 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 
-import { Button } from '../atoms/Button'
-import CommonModal from "./Modal"
 import FormModal from './FormModal'
 import RequestGroup from '../../data/types/requestGroup'
 import RequestType from '../../data/types/requestType'
@@ -119,16 +117,16 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
   const formTitle = createForm ? "Create Type" : "Edit Type";
   const formButtonText = createForm ? "Create type" : "Edit type";
 
-  return <CommonModal
-    // class="request-type-form-modal"
-    // size="small"
-    // title={formTitle}
-    handleClose={props.handleClose}
+  return <FormModal
+    className="request-type-form"
     show={true}
+    handleClose={props.handleClose}
+    title={formTitle}
+    submitButtonText={formButtonText}
+    onSubmit={onSubmit}
+    onCancel={props.handleClose}
   >
-    <form onSubmit={onSubmit}>
-      <div className="request-type-form-modal-content">
-        {createForm && <span>Create a new item type within the group Bottles</span>}
+        {createForm && <span>Create a new item type within the group {props.requestGroup.name}</span>}
         <div className="form-item">
           <TextField
             input={requestType}
@@ -141,15 +139,7 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
           />
           {requestTypeError && <span className="error-message">{requestTypeError}</span>}
         </div>
-      </div>
-      <div className="request-type-form-modal-footer">
-        <Button
-          text={formButtonText}
-          copyText=""
-        />
-      </div>
-    </form>
-  </CommonModal>
+  </FormModal>
 };
 
 export default RequestTypeForm;

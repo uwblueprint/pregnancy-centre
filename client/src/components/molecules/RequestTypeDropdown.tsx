@@ -93,13 +93,11 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                 operation="edit"
             />}
             <FormModal
-                // class="request-type-form-modal"
                 className='request-type-delete-form-modal'
                 submitButtonText='Confirm'
                 title="Delete Type"
                 handleClose={handleDeleteModalClose}
                 show={deleteModalShow}
-                size="small"
                 onSubmit={() => {
                     deleteRequestType()
                     window.location.reload()

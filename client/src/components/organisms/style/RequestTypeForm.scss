@@ -1,26 +1,19 @@
-.request-type-form-modal {
+.request-type-form {
   position: absolute;
 
-  &-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  .modal-body {
+    padding: 30px;
+  }
 
-    .form-item {
-      height: 60px;
-    }
+  .text-field-input {
+    width: 376px;
+    height: 45px;
+  }
 
-    .text-field-input {
-      width: 376px;
-      height: 45px;
-      margin-top: 15px;
-    }
-
-    .error-message {
-      @include error-text;
-      font-size: 12px;  
-      margin-top: 15px;
-    }
+  .error-message {
+    @include error-text;
+    font-size: 12px;
+    margin-top: 15px;
   }
 
   &-footer {
