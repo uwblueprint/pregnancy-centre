@@ -121,7 +121,7 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
 
   return <CommonModal
     // class="request-type-form-modal"
-    size="small"
+    // size="small"
     // title={formTitle}
     handleClose={props.handleClose}
     show={true}
