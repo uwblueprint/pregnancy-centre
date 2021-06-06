@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
 import moment from 'moment';
-import { Table } from "react-bootstrap";
 import { useHistory } from 'react-router-dom'
 
 import Tag from '../atoms/Tag'
@@ -18,7 +17,17 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
 
     return <div className="request-group-table">
         { showCreateRequestGroupModal && <RequestGroupForm onSubmitComplete={() => { window.location.reload() }} handleClose={() => setShowCreateRequestGroupModal(false)} operation="create" />}
-        <Table>
+        <table>
+            <colgroup>
+                <col className="spacing-col"/>
+                <col className="name-col"/>
+                <col className="numOpen-col"/>
+                <col className="types-col"/>
+                <col className="nextRecipient-col"/>
+                <col className="date-col"/>
+                <col className="image-col"/>
+                <col className="spacing-col"/>
+            </colgroup>
             <thead>
                 <tr>
                     <th className="spacing-col"/>
@@ -103,7 +112,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                     )}
                 </tbody>
             }
-        </Table>
+        </table>
         {props.requestGroups && props.requestGroups.length == 0 && 
             <span className="no-groups-msg">There are no request groups. 
                 <a className="create-group-link" onClick={() => { setShowCreateRequestGroupModal(true) } }> Create one now</a>
