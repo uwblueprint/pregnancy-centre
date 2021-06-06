@@ -26,9 +26,9 @@ const Dropdown:  FunctionComponent<Props> = (props: Props) => {
                     {props.header}
                 </div>
             </div>
-            {open && (
-                props.body
-            )}
+            <div className={"dropdown-body-"+ (open ? "open" : "closed")}>   
+                {props.body}    
+            </div>
             </div>
       </div>
   );

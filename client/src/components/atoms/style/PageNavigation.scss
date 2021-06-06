@@ -38,9 +38,15 @@
   &.active {
     @include normal-button;
     border-radius: 50%;
-    & .page-link {
-      margin: 6px;
-      background-color: unset;
+    .page-link {
+      background-color: $button-background;
+      border-color: $button-background;
+    }
+
+    &:hover {
+      background-color: $button-background;
+      border-radius: 50%;
+      text-decoration: none;
     }
   }
 
