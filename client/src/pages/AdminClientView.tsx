@@ -70,7 +70,6 @@ const AdminClientView: FunctionComponent = () => {
   const handleChangeRequests = (requests: Request[]) => {
     setRequests(requests);
   };
-  console.log("requests:", requests);
 
   return (
     <Container className="admin-client-view" fluid>
