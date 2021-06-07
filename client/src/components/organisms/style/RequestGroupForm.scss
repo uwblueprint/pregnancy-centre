@@ -2,7 +2,7 @@ $request-group-form-panel-width: 482px;
 
 .request-group-form {
   .modal-dialog {
-    max-width: 1088px;
+    max-width: 1100px;
   }
 
   .modal-content {
@@ -74,7 +74,7 @@ $request-group-form-panel-width: 482px;
     }
 
     .form-item-top {
-      width: 348px;
+      width: $request-group-form-panel-width;
     }
 
     .form-item-error-icon {
