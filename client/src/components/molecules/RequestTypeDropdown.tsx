@@ -3,7 +3,6 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import DeleteRequestTypeDialog from '../organisms/DeleteRequestTypeDialog';
 import Dropdown from '../atoms/Dropdown';
-import FormModal from '../organisms/FormModal';
 import Request from '../../data/types/request';
 import RequestGroup from '../../data/types/requestGroup';
 import RequestsTable from './RequestsTable';
@@ -54,7 +53,6 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
 
         setEditModalShow(false)
     };
-    const handleDeleteModalClose = () => setDeleteModalShow(false);
 
     const deleteRequestType = async () => {
         //delete requestType here

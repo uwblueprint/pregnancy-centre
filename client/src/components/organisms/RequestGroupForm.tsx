@@ -4,8 +4,6 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Spinner } from 'react-bootstrap';
 
-import AlertDialog from "../atoms/AlertDialog";
-import { Button } from "../atoms/Button";
 import FormItem from "../molecules/FormItem";
 import FormModal from "./FormModal";
 import { getFilesFromFolder } from "../../services/storage";
