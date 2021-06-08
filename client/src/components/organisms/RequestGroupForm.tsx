@@ -157,10 +157,10 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const updateNameError = (name: string): string => {
     let error = "";
     if (name.length === 0) {
-      error = "Please enter a group name";
+      error = "Please enter a need name";
     }
     if (name.length > 20) {
-      error = "Group name cannot exceed 20 characters";
+      error = "Need name cannot exceed 20 characters";
     }
     if (
       props.requestGroups.find(
@@ -169,7 +169,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           requestGroup._id !== props.requestGroupId
       )
     ) {
-      error = "There is already a group with this name";
+      error = "There is already a need with this name";
     }
 
     setNameError(error);
@@ -320,7 +320,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     onSubmit={onSubmit}
     onCancel={handleClose}
     alertDialogProps={{
-      dialogText: "You have unsaved changes to this group.",
+      dialogText: "You have unsaved changes to this need.",
       onStay: () => { setShowAlertDialog(false) },
       onExit: props.handleClose
     }}
@@ -331,14 +331,14 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       <div className="request-group-form-panel" id="left">
         <div className="text-field-form-item">
           <FormItem
-            formItemName="Group Name"
+            formItemName="Need Name"
             errorString={nameError}
             isDisabled={false}
-            tooltipText="Groups describe the overall category of an item, such as stroller, crib, or bed."
+            tooltipText="Needs describe the overall category of an item, such as stroller, crib, or bed."
             inputComponent={
               <TextField
                 name="name"
-                placeholder="Enter a group name"
+                placeholder="Enter a need name"
                 type="text"
                 input={name}
                 isDisabled={false}
@@ -377,7 +377,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             inputComponent={
               <RichTextField
                 initialContent={initialRequestGroup && initialRequestGroup.description ? initialRequestGroup.description : ""}
-                defaultText="Enter group description here"
+                defaultText="Enter need description here"
                 onChange={onDescriptionChange}
                 onEmpty={onDecriptionEmpty}
                 isErroneous={descriptionError !== ""}
