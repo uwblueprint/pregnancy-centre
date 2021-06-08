@@ -6,7 +6,7 @@ import { Button } from '../atoms/Button'
 import CommonModal from "./Modal"
 
 interface Props {
-  className: string;
+  className?: string;
   title: string;
   show: boolean;
   handleClose(): void;
