@@ -312,8 +312,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const formTitle = props.operation === "create" ? "Create New Need" : "Edit Need";
   const formButtonText = props.operation === "create" ? "Create need" : "Edit need";
 
-  return <div className="request-group-form">
-    <FormModal
+  return <FormModal
       className="request-group-form"
       show={true}
       handleClose={handleClose}
@@ -412,7 +411,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           </div>
         </div>}
     </FormModal>
-  </div >
 };
 
 const mapStateToProps = (store: RootState): StateProps => {
