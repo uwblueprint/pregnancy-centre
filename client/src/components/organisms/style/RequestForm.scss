@@ -1,7 +1,12 @@
+$request-form-width: 471px; 
 $request-form-input-width: 383px;
 $request-form-text-field-height: 45px;
 
 .request-form {
+  .modal-dialog {
+    max-width: $request-form-width;
+  }
+
   .modal-body {
     padding: 0 44px 32px 44px;
   }
@@ -21,6 +26,9 @@ $request-form-text-field-height: 45px;
 
   .form-item-error-icon {
     margin-top: 8px;
+    margin-left: calc(#{$request-form-input-width} + 10px);
+    z-index: 1;
+    position: absolute;
   }
 
   .searchable-dropdown {
@@ -51,6 +59,6 @@ $request-form-text-field-height: 45px;
 
   .alert-dialog {
     margin-top: -140px;
-    width: 500px;
+    width: $request-form-width;
   }
 }
