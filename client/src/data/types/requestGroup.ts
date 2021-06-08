@@ -1,4 +1,3 @@
-import Client from "./client";
 import Request from './request'
 import RequestType from './requestType'
 
@@ -14,6 +13,6 @@ export default interface RequestGroup {
   deleted?: boolean
   countOpenRequests?: number
   nextRequest?: Request
-  nextRecipient?: Client
+  nextRecipient?: string
   hasAnyRequests?: boolean
 }

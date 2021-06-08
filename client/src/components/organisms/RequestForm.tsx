@@ -89,7 +89,11 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     }
   }`
 
-  const [fetchClient] = useLazyQuery(fetchClientQuery);
+  const [fetchClient] = useLazyQuery(fetchClientQuery, {
+    onCompleted(res) {
+      console.log(res);
+    }
+  });
   const [createClient] = useMutation(createClientMutation);
   const [createRequest] = useMutation(createRequestMutation);
   const [updateRequest] = useMutation(updateRequestMutation);
@@ -306,15 +310,11 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   }
 
   const onSubmit = (e: React.FormEvent) => {
-    /*fetchClient({
+    fetchClient({
       variables: {
         clientName
       }
-    }).then((res) => {
-      if (res == null) {
-        console.log(res)
-      }
-    })*/
+    });
     e.preventDefault();
     return 
     /*const tempRequestGroupError = updateRequestGroupError(requestGroup)

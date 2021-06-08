@@ -1,33 +1,11 @@
 import { gql } from 'apollo-server'
 
 const typeDefs = gql`
-    type Client {
-        _id: ID
-        fullName: String
-
-        createdAt: String
-        updatedAt: String
-        deletedAt: String
-
-        deleted: Boolean
-    }
-    input CreateClientInput {
-        fullName: String!
-    }
-    input UpdateClientInput {
-        _id: ID!
-        fullName: String
-    }
-    # ---  Left as a proof of concept: --- 
-    # input FilterClientInput {
-    #    fullName: String!
-    # }
-
     type Request {
         _id: ID
         quantity: Int
+        clientName: String
         requestType: RequestType
-        client: Client
 
         createdAt: String
         updatedAt: String
@@ -40,13 +18,13 @@ const typeDefs = gql`
     input CreateRequestInput {
         quantity: Int
         requestType: ID!
-        client: ID
+        clientName: String
     }
     input UpdateRequestInput {
         _id: ID!
         quantity: Int
         requestType: ID
-        client: ID
+        clientName: String
     }
     # ---  Left as a proof of concept: --- 
     # input FilterRequestInput {
@@ -70,7 +48,7 @@ const typeDefs = gql`
         deletedRequests: [Request]
         countOpenRequests: Int
         nextRequest: Request
-        nextRecipient: Client
+        nextRecipient: String
     }
     input CreateRequestTypeInput {
         name: String!
@@ -103,7 +81,7 @@ const typeDefs = gql`
 
         countOpenRequests: Int
         nextRequest: Request
-        nextRecipient: Client
+        nextRecipient: String
         hasAnyRequests: Boolean
     }
     input CreateRequestGroupInput {
@@ -129,11 +107,6 @@ const typeDefs = gql`
     # }
 
     type Query {
-        client(_id: ID, fullName: String): Client
-        clients: [Client]
-        # --- Left as a proof of concept: --- 
-        # clientsFilter(filter: FilterClientInput, options: FilterOptions): [Client]
-
         request(_id: ID): Request
         requests: [Request]
         requestsPage(skip: Int, limit: Int): [Request]
@@ -154,10 +127,6 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        createClient(client: CreateClientInput): Client
-        updateClient(client: UpdateClientInput): Client
-        deleteClient(_id: ID): Client
-
         createRequest(request: CreateRequestInput): Request
         updateRequest(request: UpdateRequestInput): Request
         deleteRequest(_id: ID): Request

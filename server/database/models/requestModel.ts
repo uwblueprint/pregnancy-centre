@@ -5,10 +5,10 @@ interface RequestInterface extends Document {
 
   // Properties
   quantity: number 
+  clientName: String
 
   // References
   requestType: Types.ObjectId
-  client: Types.ObjectId
 
   // Timestamps
   createdAt: Date
@@ -26,13 +26,14 @@ const requestSchema = new Schema({
     required: true,
     default: 1
   },
+  clientName: {
+    type: String,
+    required: true
+  },
 
   // References
   requestType: {
     type: Types.ObjectId, ref: 'RequestType'
-  },
-  client: {
-    type: Types.ObjectId, ref: 'Client'
   },
 
   // Timestamps for Statuses

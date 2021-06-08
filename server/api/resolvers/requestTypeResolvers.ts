@@ -1,4 +1,3 @@
-import { Client, ClientInterface } from '../../database/models/clientModel'
 import { Request, RequestInterface } from '../../database/models/requestModel'
 import { RequestGroup, RequestGroupInterface } from '../../database/models/requestGroupModel'
 import { RequestType, RequestTypeInterface } from '../../database/models/requestTypeModel'
@@ -180,7 +179,7 @@ const requestTypeResolvers = {
             return Request.findById(nextRequestEmbedding._id)
         })
     },
-    nextRecipient: async (parent, __, { authenticateUser }): Promise<ClientInterface> => {
+    nextRecipient: async (parent, __, { authenticateUser }): Promise<String> => {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
                 const nextRequestEmbedding = await nextRequestEmbeddingForRequestType(parent, null)
@@ -190,7 +189,7 @@ const requestTypeResolvers = {
                 }
 
                 const nextRequest = await Request.findById(nextRequestEmbedding._id).session(session)
-                return Client.findById(nextRequest.client).session(session)
+                return nextRequest.clientName
             })
         })
     },

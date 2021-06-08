@@ -5,7 +5,6 @@ import mongoose from 'mongoose'
 
 import { connectDB } from '../database/mongoConnection'
 
-import { Client } from '../database/models/clientModel'
 import { Request } from '../database/models/requestModel'
 import { RequestGroup } from '../database/models/requestGroupModel'
 import { RequestType } from '../database/models/requestTypeModel'
@@ -21,7 +20,6 @@ const requestGroupNames = ["Strollers", "Cribs", "Gates", "Monitors", "Bibs", "C
                            "Cutlery", "Mobile", "Hygiene", "Storage"];
 const requestGroupImages = ["https://source.unsplash.com/RcgiSN482VI", "https://source.unsplash.com/7ydep8OEvbc", "https://source.unsplash.com/0hiUWSi7jvs"]
 
-const numClients = 300
 const numGroups = requestGroupNames.length
 const numTypesPerGroup = 10
 const maxNumRequestsPerType = 50
@@ -38,14 +36,6 @@ const randomDate = (start = startDate, end = endDate) => {
   return result.getTime()
 }
 
-// create Client model object
-const createClient = () => {
-  return new Client({
-    _id: mongoose.Types.ObjectId(),
-    fullName: faker.name.firstName() + " " + faker.name.lastName()
-  })
-}
-
 // create Request model object without references
 const createRequest = () => {
   const isDeleted = Math.random() <= probRequestDeleted;
@@ -55,6 +45,7 @@ const createRequest = () => {
   const request = new Request({
     _id: mongoose.Types.ObjectId(),
     quantity: Math.floor(Math.random() * maxQuantityPerRequest) + 1,
+    clientName: faker.name.firstName() + " " + faker.name.lastName(),
     createdAt: dateCreated
   })
 
@@ -120,23 +111,9 @@ connectDB(async () => {
       exit()
     }
   })
-  Client.deleteMany((err) => {
-    if (err) {
-      console.error('\x1b[31m', "Failed to delete all documents in 'client' collection")
-      console.log('\x1b[0m')
-      exit()
-    }
-  })
 
   console.log('\x1b[34m', 'Seeding data')
   console.log('\x1b[0m')
-
-  const clients = []
-  for (let i = 0; i < numClients; i++) {
-    const client = createClient()
-    clients.push(client)
-  }
-  await Client.create(clients)
 
   for (let i = 0; i < numGroups; i++) {
     const requestGroup =  createRequestGroup()
@@ -152,7 +129,6 @@ connectDB(async () => {
       const numRequestsPerType = Math.floor(Math.random() * maxNumRequestsPerType)
       for (let k = 0; k < numRequestsPerType; k++) {
         const request = createRequest()
-        request.client = faker.random.arrayElement(clients)._id
         request.requestType = requestType._id
         await request.save()
 

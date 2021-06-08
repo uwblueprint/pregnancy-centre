@@ -1,4 +1,3 @@
-import { Client, ClientInterface } from '../../database/models/clientModel'
 import { Request, RequestInterface } from '../../database/models/requestModel'
 import { RequestEmbeddingInterface, RequestType, RequestTypeInterface } from '../../database/models/requestTypeModel'
 import { RequestGroup, RequestGroupInterface } from '../../database/models/requestGroupModel'
@@ -116,7 +115,7 @@ const requestGroupResolvers = {
             })
         })
     },
-    nextRecipient: async (parent, __, { authenticateUser }): Promise<ClientInterface> => {
+    nextRecipient: async (parent, __, { authenticateUser }): Promise<String> => {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
                 const nextRequestEmbedding = await nextRequestEmbeddingForRequestGroup(parent, session)
@@ -127,7 +126,7 @@ const requestGroupResolvers = {
 
                 const nextRequest = await Request.findById(nextRequestEmbedding._id).session(session)
 
-                return Client.findById(nextRequest.client).session(session)
+                return nextRequest.clientName
             })
         })
     },

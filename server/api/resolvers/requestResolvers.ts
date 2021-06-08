@@ -1,4 +1,3 @@
-import { Client, ClientInterface } from '../../database/models/clientModel'
 import { Request, RequestInterface } from '../../database/models/requestModel'
 import { RequestType, RequestTypeInterface } from '../../database/models/requestTypeModel'
 
@@ -112,9 +111,6 @@ const requestMutationResolvers = {
 const requestResolvers = {
     requestType: async (parent, __, ___): Promise<RequestTypeInterface> => {
         return RequestType.findById(parent.requestType)
-    },
-    client: async (parent, __, { authenticateUser }): Promise<ClientInterface> => {
-        return authenticateUser().then(() => Client.findById(parent.client))
     },
     deleted: (parent, __, ___): boolean => {
         return parent.deletedAt !== undefined
