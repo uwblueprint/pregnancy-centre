@@ -2,7 +2,6 @@ import { bindActionCreators, Dispatch } from "redux"
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Spinner } from 'react-bootstrap';
 
 import FormItem from "../molecules/FormItem";
 import FormModal from "./FormModal";
@@ -313,104 +312,99 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const formButtonText = props.operation === "create" ? "Create need" : "Edit need";
 
   return <FormModal
-      className="request-group-form"
-      show={true}
-      handleClose={handleClose}
-      title={formTitle}
-      submitButtonText={formButtonText}
-      onSubmit={onSubmit}
-      onCancel={handleClose}
-      alertDialogProps={{
-        dialogText: "You have unsaved changes to this group.",
-        onStay:() => { setShowAlertDialog(false) },
-        onExit: props.handleClose        
-      }}
-      showAlertDialog={showAlertDialog}
-    >
-      {loadingRequestGroup
-        ? <div className="request-group-form-loading-content">
-          <div className="spinner">
-            <Spinner animation="border" role="status" />
-          </div>
+    className="request-group-form"
+    show={true}
+    handleClose={handleClose}
+    title={formTitle}
+    submitButtonText={formButtonText}
+    onSubmit={onSubmit}
+    onCancel={handleClose}
+    alertDialogProps={{
+      dialogText: "You have unsaved changes to this group.",
+      onStay: () => { setShowAlertDialog(false) },
+      onExit: props.handleClose
+    }}
+    showAlertDialog={showAlertDialog}
+    loading={loadingRequestGroup}
+  >
+    <div className="request-group-form-fields">
+      <div className="request-group-form-panel" id="left">
+        <div className="text-field-form-item">
+          <FormItem
+            formItemName="Group Name"
+            errorString={nameError}
+            isDisabled={false}
+            tooltipText="Groups describe the overall category of an item, such as stroller, crib, or bed."
+            inputComponent={
+              <TextField
+                name="name"
+                placeholder="Enter a group name"
+                type="text"
+                input={name}
+                isDisabled={false}
+                isErroneous={nameError !== ""}
+                onChange={onNameChange}
+              />
+            }
+          />
         </div>
-        : <div className="request-group-form-fields">
-          <div className="request-group-form-panel" id="left">
-            <div className="text-field-form-item">
-              <FormItem
-                formItemName="Group Name"
-                errorString={nameError}
-                isDisabled={false}
-                tooltipText="Groups describe the overall category of an item, such as stroller, crib, or bed."
-                inputComponent={
-                  <TextField
-                    name="name"
-                    placeholder="Enter a group name"
-                    type="text"
-                    input={name}
-                    isDisabled={false}
-                    isErroneous={nameError !== ""}
-                    onChange={onNameChange}
-                  />
-                }
+        <div className="tag-input-form-item">
+          <FormItem
+            formItemName="Item Types"
+            instructions="If no types are applicable, create a universal type such as “One Size”"
+            errorString={requestTypesError}
+            isDisabled={false}
+            tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
+            inputComponent={
+              <TagInput
+                tagStrings={requestTypeNames}
+                placeholder="Enter a new type"
+                actionString="Add new type:"
+                isErroneous={requestTypesError !== ""}
+                onChange={onInputRequestTypeNameChange}
+                onSubmit={onAddRequestType}
+                onDelete={onDeleteRequestType}
               />
-            </div>
-            <div className="tag-input-form-item">
-              <FormItem
-                formItemName="Item Types"
-                instructions="If no types are applicable, create a universal type such as “One Size”"
-                errorString={requestTypesError}
-                isDisabled={false}
-                tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
-                inputComponent={
-                  <TagInput
-                    tagStrings={requestTypeNames}
-                    placeholder="Enter a new type"
-                    actionString="Add new type:"
-                    isErroneous={requestTypesError !== ""}
-                    onChange={onInputRequestTypeNameChange}
-                    onSubmit={onAddRequestType}
-                    onDelete={onDeleteRequestType}
-                  />
-                }
+            }
+          />
+        </div>
+        <div className="richtext-field-form-item">
+          <FormItem
+            formItemName="Description & Requirements"
+            instructions="Formatting Tip: Ctrl-B to bold, “-” + Space to create a bullet point"
+            errorString={descriptionError}
+            isDisabled={false}
+            inputComponent={
+              <RichTextField
+                initialContent={initialRequestGroup && initialRequestGroup.description ? initialRequestGroup.description : ""}
+                defaultText="Enter group description here"
+                onChange={onDescriptionChange}
+                onEmpty={onDecriptionEmpty}
+                isErroneous={descriptionError !== ""}
               />
-            </div>
-            <div className="richtext-field-form-item">
-              <FormItem
-                formItemName="Description & Requirements"
-                instructions="Formatting Tip: Ctrl-B to bold, “-” + Space to create a bullet point"
-                errorString={descriptionError}
-                isDisabled={false}
-                inputComponent={
-                  <RichTextField
-                    initialContent={initialRequestGroup && initialRequestGroup.description ? initialRequestGroup.description : ""}
-                    defaultText="Enter group description here"
-                    onChange={onDescriptionChange}
-                    onEmpty={onDecriptionEmpty}
-                    isErroneous={descriptionError !== ""}
-                  />
-                }
+            }
+          />
+        </div>
+      </div>
+      <div className="request-group-form-panel" id="right">
+        <div className="imagepicker-form-item">
+          <FormItem
+            formItemName="Image"
+            errorString={imageError}
+            isDisabled={false}
+            inputComponent={
+              <ImagePicker
+                onImageChange={onImageChange}
+                images={images}
+                selected={image}
+                isErroneous={imageError !== ""}
               />
-            </div>
-          </div>
-          <div className="request-group-form-panel" id="right">
-            <div className="imagepicker-form-item">
-              <FormItem
-                formItemName="Image"
-                errorString={imageError}
-                isDisabled={false}
-                inputComponent={
-                  <ImagePicker
-                    onImageChange={onImageChange}
-                    images={images}
-                    selected={image}
-                    isErroneous={imageError !== ""}
-                  />
-                }
-              />
-            </div>
-          </div>
-        </div>}
-    </FormModal>
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </FormModal>
 };
 
 const mapStateToProps = (store: RootState): StateProps => {
