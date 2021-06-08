@@ -1,4 +1,5 @@
 $request-form-input-width: 373px;
+$request-form-text-field-height: 45px;
 
 .request-form {
   position: absolute;
@@ -18,13 +19,21 @@ $request-form-input-width: 373px;
       width: $request-form-input-width;
     }
 
-    .text-field-input {
+    .text-field {
       width: $request-form-input-width;
-      height: 45px;
+      height: $request-form-text-field-height;
     }
 
     .searchable-dropdown {
       margin: 0;
+
+      .dropdown {
+        width: $request-form-input-width;
+
+        .scroll-window{
+          max-height: 146px;
+        }
+      }
     }
 
     .form-item-top {
@@ -35,16 +44,12 @@ $request-form-input-width: 373px;
       margin-top: 8px;
     }
 
-    .text-field-form-item {  
-      
-    }
-
-    .searchable-dropdown-form-item {
-
+    .searchable-dropdown {
+      width: $request-form-input-width;
     }
 
     .searchable-tag-dropdown-form-item {
-
+      width: $request-form-input-width;
     }
 
     input[type="number"]::-webkit-inner-spin-button,
