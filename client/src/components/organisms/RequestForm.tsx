@@ -187,7 +187,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const updateRequestGroupError = (requestGroup: RequestGroup | null | undefined): string => {
     let error = ""
     if (!requestGroup) {
-      error = "Please select a group";
+      error = "Please select a need";
     }
 
     setRequestGroupError(error)
