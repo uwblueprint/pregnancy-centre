@@ -31,8 +31,6 @@ const resolvers = {
     requests: (_, __, { dataSources }): Array<RequestInterface> => dataSources.requests.getAll(),
     filterRequests: (_, { filter }, { dataSources, authenticateUser }): Array<RequestInterface> => authenticateUser().then(() => {
       let filteredRequests = dataSources.requests.getAll()
-      console.log(filteredRequests[0].client)
-      console.log(filter)
       filteredRequests = filteredRequests.filter(request => request.client == filter)
 
       return filteredRequests
