@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Spinner } from 'react-bootstrap';
 
@@ -37,20 +37,38 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const [clientNameError, setClientNameError] = useState("")
   const [loading, setLoading] = useState(true)
 
+  const fetchClientQuery = gql`
+  query (
+    $fullName: String!
+  ) {
+    client(fullName: $fullName) {
+      _id
+    }
+  }`
+
+  const createClientMutation = gql`
+  mutation CreateClient(
+    $fullName: String!
+  ) {
+    createClient(client: {
+      fullName: $fullName
+    }) {
+      _id
+    }
+  }`
+
   const createRequestMutation = gql`
   mutation CreateRequest(
-    $requestType: ID!
     $quantity: Int!
-    $clientName: String!
+    $requestType: ID!
+    $client: ID!
   ) {
     createRequest(request: {
-      requestType: $requestType
       quantity: $quantity
-      clientFullName: $clientName
+      requestType: $requestType
+      client: $client
     }) {
-      success
-      message
-      id
+      _id
     }
   }`
 
@@ -67,12 +85,12 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       quantity: $quantity
       clientFullName: $clientName
     }) {
-      success
-      message
-      id
+      _id
     }
   }`
 
+  const [fetchClient] = useLazyQuery(fetchClientQuery);
+  const [createClient] = useMutation(createClientMutation);
   const [createRequest] = useMutation(createRequestMutation);
   const [updateRequest] = useMutation(updateRequestMutation);
 
@@ -288,8 +306,18 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   }
 
   const onSubmit = (e: React.FormEvent) => {
+    /*fetchClient({
+      variables: {
+        clientName
+      }
+    }).then((res) => {
+      if (res == null) {
+        console.log(res)
+      }
+    })*/
     e.preventDefault();
-    const tempRequestGroupError = updateRequestGroupError(requestGroup)
+    return 
+    /*const tempRequestGroupError = updateRequestGroupError(requestGroup)
     const tempRequestTypeError = updateRequestTypeError(requestType)
     const tempQuantityNameError = updateQuantityError(quantity)
     const tempClientNameError = updateClientNameError(clientName)
@@ -322,7 +350,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         }
       }
       props.handleClose()
-    }
+    }*/
   }
 
   const handleClose = () => {

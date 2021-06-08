@@ -21,37 +21,35 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
     const [showCreateTypeModal, setShowCreateTypeModal] = useState(false);
 
     const query = gql`
-    query getRequestGroup($id: ID) {
-        requestGroup(id: $id){
-        _id
-        name
-        deleted
-        description
-        requirements
-        dateUpdated
-        image
-        numOpen
-        requestTypes{
+    query requestGroup($id: ID) {
+        requestGroup(_id: $id){
           _id
           name
+          description
+          image
+          updatedAt
           deleted
-          dateUpdated
-          requests{
+          countOpenRequests
+          requestTypes{
             _id
-            requestId
-            dateUpdated
-            dateCreated
-            dateFulfilled
+            name
+            updatedAt
             deleted
-            fulfilled 
-            quantity
-            client{
+            requests{
               _id
-              fullName
-            }  
+              quantity
+              updatedAt
+              createdAt
+              fulfilledAt
+              deleted
+              fulfilled
+              client{
+                _id
+                fullName
+              }  
+            }
           }
         }
-      }
     }
     `;
     
@@ -80,7 +78,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
           <Row>
             <Col className="request-group-description">
               <h1 className="request-group-title">{requestGroup!.name}</h1>
-              <p>Displaying {requestGroup!.numOpen} total requests and {numTypes} types</p>
+              <p>Displaying {requestGroup!.countOpenRequests} total requests and {numTypes} types</p>
             </Col>
             <Col>
             <Dropdown className="request-group-button">

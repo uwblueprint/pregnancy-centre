@@ -129,7 +129,7 @@ const typeDefs = gql`
     # }
 
     type Query {
-        client(_id: ID): Client
+        client(_id: ID, fullName: String): Client
         clients: [Client]
         # --- Left as a proof of concept: --- 
         # clientsFilter(filter: FilterClientInput, options: FilterOptions): [Client]

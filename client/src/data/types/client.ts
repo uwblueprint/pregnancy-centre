@@ -1,7 +1,8 @@
 export default interface Client {
-    _id?: string
-    clientId?: string
-    fullName?: string
-    deleted?: boolean
-  }
-  
+  _id?: string
+  fullName?: string
+  createdAt?: Date
+  updatedAt?: Date
+  deletedAt?: Date
+  deleted?: boolean
+}

@@ -72,9 +72,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       image: $image
       requestTypeNames: $requestTypeNames
     }) {
-      success
-      message
-      id
+      _id
     }
   }`
 

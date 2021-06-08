@@ -1,10 +1,13 @@
 import { Client, ClientInterface } from '../../database/models/clientModel'
 
 const clientQueryResolvers = {
-    client: async (_, { _id }, { authenticateUser }): Promise<ClientInterface> => {
+    client: async (_, { _id, fullName }, { authenticateUser }): Promise<ClientInterface> => {
         return authenticateUser().then(() => {
+            if (fullName !== "") {
+                return Client.findOne({ fullName: fullName }).exec()
+            }
             return Client.findById(_id).exec()
-        }) 
+        })
 
     },
     clients: async (_, __, { authenticateUser }): Promise<Array<ClientInterface>> => {

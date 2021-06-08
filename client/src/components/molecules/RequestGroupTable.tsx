@@ -58,7 +58,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                 }>
                                 <td className="spacing-col"/>
                                 <td className="name-col">{ requestGroup.name }</td>
-                                <td className="numOpen-col">{ requestGroup.numOpen }</td>
+                                <td className="numOpen-col">{ requestGroup.countOpenRequests }</td>
                                 <td className="types-col">
                                     <div className="requestType-tag-list">
                                         { requestGroup.requestTypes && requestGroup.requestTypes.map((requestType) => (requestType.name && !requestType.deleted &&
@@ -69,7 +69,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                     </div>
                                 </td>
                                 <td className="nextRecipient-col">{ requestGroup.nextRecipient ? requestGroup.nextRecipient.fullName : "N/A" }</td>
-                                <td className="date-col">{ requestGroup.hasAnyRequests ? moment(requestGroup.dateUpdated, "x").format('MMMM DD, YYYY') : "N/A" }</td>
+                                <td className="date-col">{ requestGroup.hasAnyRequests ? moment(requestGroup.updatedAt, "x").format('MMMM DD, YYYY') : "N/A" }</td>
                                 <td className="image-col">
                                     <div className="img-wrapper">
                                         <img src={ requestGroup.image }/>

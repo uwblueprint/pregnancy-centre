@@ -14,8 +14,8 @@ const RequestTypeListItem: FunctionComponent<Props> = (props: Props) => {
                 {props.requestType.name}
             </span>
             <span id="numOpen">
-                <b>{props.requestType.numOpen} </b> 
-                {props.requestType.numOpen === 1 ? 'Request' : 'Requests'}
+                <b>{props.requestType.countOpenRequests} </b> 
+                {props.requestType.countOpenRequests === 1 ? 'Request' : 'Requests'}
             </span>
         </ListGroup.Item>
     )

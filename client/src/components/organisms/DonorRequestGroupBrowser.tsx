@@ -30,12 +30,12 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
     requestGroups {
       _id
       name
-      dateUpdated
+      updatedAt
       deleted
       description
       requirements
       image
-      numOpen
+      countOpenRequests
     }
   }`
 

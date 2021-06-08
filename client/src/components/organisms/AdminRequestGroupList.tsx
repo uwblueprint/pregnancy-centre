@@ -41,12 +41,11 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
       requestGroups {
         _id
         name
-        dateUpdated
+        updatedAt
         deleted
         description
-        requirements
         image
-        numOpen
+        countOpenRequests
         nextRecipient {
           fullName
         }

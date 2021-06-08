@@ -3,6 +3,7 @@ import { Request, RequestInterface } from '../../database/models/requestModel'
 import { RequestGroup, RequestGroupInterface } from '../../database/models/requestGroupModel'
 import { RequestType, RequestTypeInterface } from '../../database/models/requestTypeModel'
 
+import { infoContainsOnlyFields } from '../utils/info'
 import { sessionHandler } from '../utils/session'
 
 const filterOpenRequestEmbeddings = ( requestEmbeddings ) => {
@@ -133,10 +134,16 @@ const requestTypeResolvers = {
     requestGroup: async (parent, __, ___): Promise<RequestGroupInterface> => {
         return RequestGroup.findById(parent.requestGroup)
     },
-    requests: async (parent, __, ___): Promise<Array<RequestInterface>> => {
+    requests: async (parent, __, ___, info): Promise<Array<RequestInterface>> => {
+        // if we only want fields in the embedding, then pass the embedding along
+        if (infoContainsOnlyFields(info, ['_id', 'createdAt', 'deletedAt', 'fulfilledAt'])) {
+            return parent.requests;
+        }
+
+        // otherwise, get the underlying Requests from the database
         return parent.requests.map((requestEmbedding) => {
             return Request.findById(requestEmbedding._id)
-        })
+        });
     },
     deleted: (parent, __, ___): boolean => {
         return parent.deletedAt !== undefined

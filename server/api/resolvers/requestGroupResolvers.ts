@@ -5,6 +5,7 @@ import { RequestGroup, RequestGroupInterface } from '../../database/models/reque
 
 import { filterOpenRequestEmbeddings, nextRequestEmbeddingForRequestType } from './requestTypeResolvers'
 
+import { infoContainsOnlyFields } from '../utils/info'
 import { sessionHandler } from '../utils/session'
 
 const nextRequestEmbeddingForRequestGroup = async (requestGroup, session) => {
@@ -80,7 +81,13 @@ const requestGroupMutationResolvers = {
 }
 
 const requestGroupResolvers = {
-    requestTypes: async (parent, __, ___): Promise<Array<RequestTypeInterface>> => {
+    requestTypes: async (parent, __, ___, info): Promise<Array<RequestTypeInterface>> => {
+        // if we only want fields in the embedding, then pass the embedding along
+        if (infoContainsOnlyFields(info, ['_id'])) {
+            return parent.requestTypes;
+        }
+
+        // otherwise, get the underlying Requests from the database
         return parent.requestTypes.map((requestTypeEmbedding) => {
             return RequestType.findById(requestTypeEmbedding._id)
         })
