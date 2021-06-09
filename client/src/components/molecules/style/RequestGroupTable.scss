@@ -1,15 +1,28 @@
 .request-group-table {
     @include table-base;
-    width: 100%;
-    overflow-x: auto;
+
+    table {
+        table-layout: fixed;
+        width: 100%;
+        overflow-x: auto;
+    }
 
     thead tr th {
         border-top: 1px solid #e0e0e0;
         border-bottom: 1px solid #e0e0e0;
     }
 
+    thead th, td {
+        padding-left: 40px;
+        padding-right: 0px;
+    }
+
     th:nth-child(2), td:nth-child(2) {
         padding-left: 16px;
+    }
+
+    th:nth-last-child(2), td:nth-last-child(2) {
+        padding-right: 16px;
     }
 
     td {
@@ -25,7 +38,6 @@
         -moz-border-radius-bottomleft: 4px;
         -webkit-border-top-left-radius: 4px;
         -webkit-border-bottom-left-radius: 4px;
-    
     }
     
     tr td:last-child {
@@ -43,27 +55,35 @@
         }
     }
 
-    .spacing-col {
-        width: 64px;
-    }
-
     .name-col {
-        max-width: 182px;
+        width: 222px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
     .numOpen-col {
-        max-width: 106px;
+        width: 146px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
     .types-col {
-        max-width: 330px;
+        width: 370px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
     .nextRecipient-col {
-        max-width: 232px;
+        width: 272px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
     .date-col {
-        max-width: 138px;
+        width: 178px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
     .image-col {
-        max-width: 80px;
+        width: 136px;
+        overflow: hidden;
+        word-wrap: break-word;
     }
 }
 

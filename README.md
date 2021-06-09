@@ -1,12 +1,31 @@
 # pregnancy-centre
 
-### Setup
-Before running the server, go to the MongoDB Atlas web console and add you IP address to the Network Access List.
+### Connecting to a Database (MongoDB)
+#### Remote Database
+1. Go to the MongoDB Atlas web console and add you IP address to the Network Access List.
+2. Verify that the `MONGODB_URI` env var in `/server/.env` has the format
+```
+MONGO_URI='mongodb+srv://<USERNAME>:<PRIVATE_TOKEN>@cluster0.gwbcg.mongodb.net/<DATABASE_NAME>?retryWrites=true&w=majority'
+```
 
+You can get the `/server/.env` file using the [secret manager](#secret-manager).
+
+#### Local Database
+A MongoDB replicaset is required to use MongoDB sessions. [Install and use `run-rs`](https://github.com/vkarpov15/run-rs#readme) to run a MongoDB replicaset locally.
+
+The `MONGODB_URI` env var should have the format
+```
+mongodb://<COMPUTER_NAME>:27017,<COMPUTER_NAME>:27018,<COMPUTER_NAME>:27019/<DATABASE_NAME>?replicaSet=rs
+```
+
+Non-Windows users can have a `MONGODB_URI` env var in the format 
+```
+mongodb://localhost:27017,localhost:27018,localhost:27019/<DATABASE_NAME>?replicaSet=rs
+```
 ### Secret Manager
 Run the following commands from the repo root:
 
-To populate local environment files with secrets from secret manager:
+To populate local environment files with secrets from secr\et manager:
 `vault kv get -format=json kv/pregnancy-centre | python update_secret_files.py`
 
 To update the secrets inside secret manager using local environment files:
@@ -50,8 +69,8 @@ Tutorial: https://firebase.google.com/docs/hosting/quickstart?authuser=1
 Go to `/client`. Then run
 ```
 npm run build
-firebase use <ENV>
-firebase deploy --only hosting
+./node_modules/.bin/firebase use <ENV>
+./node_modules/.bin/firebase deploy --only hosting
 ```
 
 
