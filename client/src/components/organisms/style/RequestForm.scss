@@ -1,6 +1,13 @@
-$request-form-width: 471px; 
+$request-form-width: 471px;
 $request-form-input-width: 383px;
 $request-form-text-field-height: 45px;
+$request-form-quantity-field-width: 106px;
+
+@mixin request-form-error-icon {
+  margin-top: 8px;
+  z-index: 1;
+  position: absolute;
+}
 
 .request-form {
   .modal-dialog {
@@ -24,23 +31,36 @@ $request-form-text-field-height: 45px;
     width: $request-form-input-width;
   }
 
-  .form-item-error-icon {
-    margin-top: 8px;
+  .client-form-item .form-item-error-icon {
+    @include request-form-error-icon;
     margin-left: calc(#{$request-form-input-width} + 10px);
-    z-index: 1;
-    position: absolute;
   }
 
   .request-group-form-item {
     width: $request-form-input-width;
+    .form-item-error-icon {
+      @include request-form-error-icon;
+      margin-left: calc(#{$request-form-input-width} + 10px);
+    }
   }
 
   .request-type-form-item {
     width: $request-form-input-width;
+    .form-item-error-icon {
+      @include request-form-error-icon;
+      margin-left: calc(#{$request-form-input-width} + 10px);
+    }
   }
 
   .quantity-form-item {
-    width: 106px;
+    width: $request-form-quantity-field-width;
+    .form-item-bottom {
+      width: $request-form-quantity-field-width;
+    }
+    .form-item-error-icon {
+      @include request-form-error-icon;
+      margin-left: calc(#{$request-form-quantity-field-width} + 10px);
+    }
   }
 
   .searchable-dropdown {

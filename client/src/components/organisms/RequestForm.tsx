@@ -361,9 +361,10 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               input={clientName}
               isDisabled={false}
               isErroneous={clientNameError !== ""}
+              showRedErrorText={true}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => onClientNameChange(e.target.value)}
               name="client-name"
-              placeholder="ex. Julia Michaels"
+              placeholder="Enter the client's full name"
               type="text"
             />
           }
@@ -438,6 +439,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               name="quantity"
               placeholder=""
               type="number"
+              showRedErrorText={true}
             />
           }
         />
