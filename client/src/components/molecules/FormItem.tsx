@@ -10,13 +10,14 @@ interface Props {
     tooltipText?: string;
     instructions?: string;
     showErrorIcon?: boolean;
+    className?: string;
 }
 
 const FormItem: FunctionComponent<Props> = (props: Props) => {
     const isError = props.errorString.length > 0
 
     return (
-        <div className="form-item">
+        <div className={"form-item " + props.className}>
             <div className="form-item-top">
                 <span className={props.isDisabled ? "form-item-disabled" : undefined}>
                     {props.formItemName}
