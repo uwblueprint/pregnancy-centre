@@ -1,0 +1,16 @@
+.scrollable-dropdown {
+  height: 100%;
+  
+  .dropdown {
+    position: relative;
+    height: 100%;
+
+    .scroll-window {
+      position: absolute;
+      height: unset;
+      z-index:99;
+
+      background-color: $background;
+    }
+  }
+}

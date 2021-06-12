@@ -1,4 +1,6 @@
 .admin-request-group-list {
+    width: 100%;
+
     .title {
         @include heavy-text;
         font-size: 24px;
@@ -7,6 +9,7 @@
     
         color: $dark-gray;
     
+        flex: 1;
         padding-left: 95px;
     }
     
@@ -18,7 +21,8 @@
     .action-group {
         display: flex;
         flex-direction: row;
-        margin-right: 50px;
+        align-content: flex-end;
+        margin-right: 80px;
     }
     
     .action-group .spacing {
@@ -44,8 +48,6 @@
         letter-spacing: 0.1px;
     
         color: white;
-    
-        margin-right: 80px;
     }
     
    .btn, .btn:hover, .btn:focus, .btn:active, .show > .btn-primary.dropdown-toggle {
@@ -53,7 +55,6 @@
         color: $white;
         height: 39px;
         width: 150px;
-        margin-right: 50px;
     }
 
     .admin-group-button {
