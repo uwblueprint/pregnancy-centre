@@ -351,7 +351,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     loading={loading}
   >
     <>
-      <div className="text-field-form-item">
+      <div className="client-form-item">
         <FormItem
           formItemName="Client Full Name"
           errorString={clientNameError}
@@ -369,7 +369,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           }
         />
       </div>
-      <div className="searchable-dropdown-form-item">
+      <div className="request-group-form-item">
         <FormItem
           formItemName="Need"
           errorString={requestGroupError}
@@ -399,7 +399,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           }
         />
       </div>
-      <div className="searchable-tag-dropdown-form-item">
+      <div className="request-type-form-item">
         <FormItem
           formItemName="Type"
           errorString={requestTypeError}
@@ -424,7 +424,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           }
         />
       </div>
-      <div className="infinite-dropdown-form-item">
+      <div className="quantity-form-item">
         <FormItem
           formItemName="Item Quantity"
           errorString={quantityError}

@@ -31,12 +31,16 @@ $request-form-text-field-height: 45px;
     position: absolute;
   }
 
-  .searchable-dropdown {
+  .request-group-form-item {
     width: $request-form-input-width;
   }
 
-  .searchable-tag-dropdown-form-item {
+  .request-type-form-item {
     width: $request-form-input-width;
+  }
+
+  .quantity-form-item {
+    width: 106px;
   }
 
   .searchable-dropdown {
