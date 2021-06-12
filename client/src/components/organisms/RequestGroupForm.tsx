@@ -331,39 +331,43 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       <div className="request-group-form-panel" id="left">
         <div className="text-field-form-item">
           <FormItem
-            formItemName="Need Name"
+            formItemName="Name"
             errorString={nameError}
             isDisabled={false}
             tooltipText="Needs describe the overall category of an item, such as stroller, crib, or bed."
+            showErrorIcon={false}
             inputComponent={
               <TextField
                 name="name"
-                placeholder="Enter a need name"
+                placeholder="Enter a name for the need (e.g. stroller, crib)"
                 type="text"
                 input={name}
                 isDisabled={false}
                 isErroneous={nameError !== ""}
                 onChange={onNameChange}
+                showRedErrorText={true}
               />
             }
           />
         </div>
         <div className="tag-input-form-item">
           <FormItem
-            formItemName="Item Types"
+            formItemName="Types"
             instructions="If no types are applicable, create a universal type such as “One Size”"
             errorString={requestTypesError}
             isDisabled={false}
             tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
+            showErrorIcon={false}
             inputComponent={
               <TagInput
                 tagStrings={requestTypeNames}
-                placeholder="Enter a new type"
+                placeholder="Create a type for the need"
                 actionString="Add new type:"
                 isErroneous={requestTypesError !== ""}
                 onChange={onInputRequestTypeNameChange}
                 onSubmit={onAddRequestType}
                 onDelete={onDeleteRequestType}
+                showRedErrorText={true}
               />
             }
           />
@@ -374,10 +378,11 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             instructions="Formatting Tip: Ctrl-B to bold, “-” + Space to create a bullet point"
             errorString={descriptionError}
             isDisabled={false}
+            showErrorIcon={false}
             inputComponent={
               <RichTextField
                 initialContent={initialRequestGroup && initialRequestGroup.description ? initialRequestGroup.description : ""}
-                defaultText="Enter need description here"
+                defaultText="Enter a description of the need and any requirements for the item"
                 onChange={onDescriptionChange}
                 onEmpty={onDecriptionEmpty}
                 isErroneous={descriptionError !== ""}
@@ -392,6 +397,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             formItemName="Image"
             errorString={imageError}
             isDisabled={false}
+            showErrorIcon={false}
             inputComponent={
               <ImagePicker
                 onImageChange={onImageChange}

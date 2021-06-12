@@ -9,6 +9,7 @@ interface Props {
     inputComponent: React.ReactNode;
     tooltipText?: string;
     instructions?: string;
+    showErrorIcon?: boolean;
 }
 
 const FormItem: FunctionComponent<Props> = (props: Props) => {
@@ -30,7 +31,7 @@ const FormItem: FunctionComponent<Props> = (props: Props) => {
             }
             <div className="form-item-bottom">
                 {props.inputComponent}
-                {isError && <i className="form-item-error-icon bi bi-exclamation-circle alert-icon"></i>}
+                {isError && props.showErrorIcon !== false && <i className="form-item-error-icon bi bi-exclamation-circle alert-icon"></i>}
             </div>
         </div>
     )
