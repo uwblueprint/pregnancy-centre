@@ -6,6 +6,7 @@ import AdminHomepage from "./pages/AdminHomepage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView"
 import AuthAction from "./pages/AuthAction";
 import DonorHomepage from './pages/DonorHomepage'
+import MapContainer from "./components/examples/MapContainer";
 import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
@@ -21,6 +22,7 @@ function App(): JSX.Element {
           <Route path='/email-password-reset' strict component={SendResetPasswordEmailModal}></Route>
           <Route path='/admin' component={AdminHomepage}></Route>
           <Route path='/request-group/:id'><AdminRequestGroupView /></Route>
+          <Route path='/test'><MapContainer /></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>

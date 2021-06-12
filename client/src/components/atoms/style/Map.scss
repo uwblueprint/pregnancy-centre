@@ -1,0 +1,24 @@
+.kw-map {
+  position: relative;
+  .map-base {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    z-index: 2;
+  }
+
+  .marker-overlay {
+    width: 500px;
+    height: 500px;
+    z-index: 3;
+    position: absolute;
+  }
+
+  .map-marker {
+    position: absolute;
+    object-fit: cover;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+}
