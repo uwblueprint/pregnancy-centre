@@ -136,6 +136,7 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
             name="request-type"
             placeholder="Type name (e.g. small, 500ml, toddler)"
             type="text"
+            showRedErrorText={true}
           />
           {requestTypeError && <span className="error-message">{requestTypeError}</span>}
         </div>
