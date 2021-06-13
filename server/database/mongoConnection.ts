@@ -1,34 +1,33 @@
-import dotenv from 'dotenv'
-import mongoose from 'mongoose'
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 
-dotenv.config()
+dotenv.config();
 
-const uri = process.env.MONGO_URI
+const uri = process.env.MONGO_URI;
 const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false // use MongoDB driver's findOneAndUpdate() instead of its findAndModify() function
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false // use MongoDB driver's findOneAndUpdate() instead of its findAndModify() function
+};
+
+function connectDB(callback = () => {}): void {
+    mongoose.set("useFindAndModify", false);
+    mongoose.connect(uri, options).catch((error) => {
+        console.error("\x1b[31m", `Failed to connect to MongoDB\n${error}`);
+        console.log("\x1b[0m");
+    });
+    mongoose.connection.on("connected", () => {
+        console.log("\x1b[33m%s\x1b[0m", "Connected to MongoDB");
+        console.log("\x1b[0m");
+    });
+    mongoose.connection.on("error", (error) => {
+        console.error("\x1b[31m", "Failed to connect to MongoDB");
+        console.log(error);
+    });
+    mongoose.connection.once("open", () => {
+        console.log("\x1b[33m%s\x1b[0m", "Connection to MongoDB ready");
+        callback();
+    });
 }
 
-function connectDB(callback = () => { }): void {
-  mongoose.set('useFindAndModify', false)
-  mongoose.connect(uri, options)
-    .catch(error => {
-      console.error('\x1b[31m', `Failed to connect to MongoDB\n${error}`)
-      console.log('\x1b[0m')
-    })
-  mongoose.connection.on('connected', () => {
-    console.log('\x1b[33m%s\x1b[0m', 'Connected to MongoDB')
-    console.log('\x1b[0m')
-  })
-  mongoose.connection.on('error', (error) => {
-    console.error('\x1b[31m', 'Failed to connect to MongoDB')
-    console.log(error)
-  })
-  mongoose.connection.once('open', () => {
-    console.log('\x1b[33m%s\x1b[0m', 'Connection to MongoDB ready')
-    callback()
-  })
-}
-
-export { connectDB }
+export { connectDB };

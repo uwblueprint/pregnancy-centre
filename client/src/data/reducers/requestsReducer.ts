@@ -1,14 +1,14 @@
 /* Imports from local files */
 import { LOAD_REQUESTS } from "../actionTypes";
-import Request from '../types/request'
-import { RequestsAction } from '../actions/'
+import Request from "../types/request";
+import { RequestsAction } from "../actions/";
 
 export interface RequestsState {
-  data: Array<Request>
+    data: Array<Request>;
 }
 
 const defaultState: RequestsState = {
-  data: [],
+    data: []
 };
 
 /**
@@ -16,13 +16,13 @@ const defaultState: RequestsState = {
  * these replacements should be immutable.
  */
 export default (state = defaultState, action: RequestsAction): RequestsState => {
-  switch (action.type) {
-    // directly sets the global data to the payload as specified in the action
-    case LOAD_REQUESTS:
-      return {
-        data: action.payload,
-      };
-    default:
-      return state;
-  }
+    switch (action.type) {
+        // directly sets the global data to the payload as specified in the action
+        case LOAD_REQUESTS:
+            return {
+                data: action.payload
+            };
+        default:
+            return state;
+    }
 };
