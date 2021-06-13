@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
-import ClientTestimonialsMap from "../components/organisms/ClientTestimonialsMap";
+import DonorImpactSection from "../components/organisms/DonorImpactSection";
 import DonorPage from "../components/layouts/DonorPage";
 import DonorRequestGroupBrowser from "../components/organisms/DonorRequestGroupBrowser";
 import HomepageBanner from "../components/organisms/HomepageBanner";
@@ -18,7 +18,7 @@ const DonorHomepage: FunctionComponent = () => {
                     <DonorRequestGroupBrowser />
                 </Row>
                 <Row className="donor-homepage-request-groups-browser">
-                    <ClientTestimonialsMap />
+                    <DonorImpactSection />
                 </Row>
             </DonorPage>
         </Container>

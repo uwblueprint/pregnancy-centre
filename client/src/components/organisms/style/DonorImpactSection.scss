@@ -1,0 +1,95 @@
+.donor-impact-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &-header {
+    @include donor-homepage-section-header-text;
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .instructions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    img {
+      width: 18px;
+      height: 18px;
+    }
+
+    p {
+      margin-bottom: 0;
+      margin-left: 8px;
+      font-size: 16px;
+    }
+  }
+
+  .info-section {
+    display: flex;
+    flex-direction: column;
+    margin-left: 80px;
+  }
+
+  .stats-section{
+    margin-left: 30%;
+    margin-bottom: 100px;
+  }
+
+  .stat {
+    margin-bottom: 58px;
+
+    i {
+      font-size: 45px;
+    }
+
+    h1 {
+      margin-left: 18px;
+      margin-bottom: 0;
+      font-size: 30px;
+      font-weight: 500;
+    }
+
+    p {
+      font-size: 20px;
+      margin-bottom: 0;
+    }
+
+    .stat-top {
+      height: 50px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .card-with-shadow {
+    width: 562px;
+    height: 94px;
+    padding: 5px 17px;
+
+    display: flex;
+    flex-direction: row;
+
+    img {
+      width: 85px;
+      height: 85px;
+      object-fit: cover;
+    }
+
+    p {
+      margin-left: 16px;
+      width: calc(100% - 16px - 85px);
+      white-space: pre-line;
+    }
+  }
+}
