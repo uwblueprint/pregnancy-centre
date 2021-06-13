@@ -1,7 +1,8 @@
 .donor-impact-section {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  width: 100%;
 
   &-header {
     @include donor-homepage-section-header-text;
@@ -17,6 +18,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-bottom: 35px;
 
     img {
       width: 18px;
@@ -30,15 +32,23 @@
     }
   }
 
-  .info-section {
+  .map-section {
     display: flex;
     flex-direction: column;
-    margin-left: 80px;
+    align-items: center;
   }
 
-  .stats-section{
-    margin-left: 30%;
-    margin-bottom: 100px;
+  .info-section {
+    // max-width: 562px;
+    // min-width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // margin-left: 80px;
+  }
+
+  .stats-section {
+    margin-bottom: 70px;
   }
 
   .stat {
@@ -73,12 +83,15 @@
   }
 
   .card-with-shadow {
-    width: 562px;
-    height: 94px;
+    // max-width: 562px;
+    // min-width: 50%;
+    // height: 94px;
+    width: 85%;
     padding: 5px 17px;
 
     display: flex;
     flex-direction: row;
+    align-items: center;
 
     img {
       width: 85px;
@@ -88,8 +101,10 @@
 
     p {
       margin-left: 16px;
-      width: calc(100% - 16px - 85px);
+      margin-bottom: 0;
+      // width: calc(100% - 16px - 85px);
       white-space: pre-line;
+      font-size: 20px;
     }
   }
 }
