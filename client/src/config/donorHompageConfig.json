@@ -1,6 +1,6 @@
 {
-  "MapPoints": [
-    { 
+  "mapPoints": [
+    {
       "x": 0,
       "y": 0
     },
@@ -17,7 +17,7 @@
       "y": 0.5
     }
   ],
-  "MapTestimonials": [
+  "mapTestimonials": [
     {
       "id": 1,
       "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-1.png?alt=media&token=bbe38f98-e906-4006-ad46-2ba958021339",
@@ -42,6 +42,23 @@
       "id": 5,
       "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-1.png?alt=media&token=bbe38f98-e906-4006-ad46-2ba958021339",
       "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
+    }
+  ],
+  "statistics": [
+    {
+      "icon": "bi bi-people",
+      "measurement": "700+",
+      "stat": "regular donors in the past year"
+    },
+    {
+      "icon": "bi bi-calendar",
+      "measurement": "4200+",
+      "stat": "diapers distributed every month"
+    },
+    {
+      "icon": "bi bi-door-closed",
+      "measurement": "140+",
+      "stat": "visits to our case closet"
     }
   ]
 }
