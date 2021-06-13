@@ -1,4 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 
 import MapWithMarkers, { MapWithMarkersPoint } from '../atoms/MapWithMarkers'
 import { Statistic, Testimonial } from '../../data/types/donorHomepageConfig'
@@ -39,8 +41,8 @@ const DonorImpactSection: FunctionComponent = () => {
   return (
     <div className="donor-impact-section">
       <h1 className="donor-impact-section-header">Our Impact</h1>
-      <div className="donor-impact-section-content">
-        <div className="map-section">
+      <Row className="donor-impact-section-content">
+        <Col className="map-section" xs={12} sm={7}>
           <div className="instructions">
             <img src={Cursor} />
             <p>hover over the images for some client testimonials!</p>
@@ -51,8 +53,8 @@ const DonorImpactSection: FunctionComponent = () => {
             onEnterHoverOverMarker={setSelectedTestimonial}
             onLeaveHoverOverMarker={() => setSelectedTestimonial(null)}
           />
-        </div>
-        <div className="info-section">
+        </Col>
+        <Col className="info-section" xs={12} sm={5}>
           <div className="stats-section">
             {
               DonorHomepageConfig.statistics.map((stat: Statistic) => (
@@ -75,8 +77,8 @@ const DonorImpactSection: FunctionComponent = () => {
               </p>
             </Card>
           }
-        </div>
-      </div>
+        </Col>
+      </Row>
     </div>
   )
 };

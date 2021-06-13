@@ -17,7 +17,7 @@ const DonorHomepage: FunctionComponent = () => {
                 <Row className="donor-homepage-request-groups-browser">
                     <DonorRequestGroupBrowser />
                 </Row>
-                <Row className="donor-homepage-request-groups-browser">
+                <Row className="donor-homepage-donor-impact-section">
                     <DonorImpactSection />
                 </Row>
             </DonorPage>
