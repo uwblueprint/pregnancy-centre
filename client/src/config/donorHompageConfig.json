@@ -1,28 +1,47 @@
 {
-  "Map": [
+  "MapPoints": [
+    { 
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0.1,
+      "y": 0.2
+    },
+    {
+      "x": 0.5,
+      "y": 0.5
+    },
+    {
+      "x": 0.4,
+      "y": 0.5
+    }
+  ],
+  "MapTestimonials": [
     {
       "id": 1,
-      "x": 0,
-      "y": 0,
-      "testimonial": "The donations from TPC really helped me kickstart what I needed for my child!”\n- Jennifer Hewitt"
+      "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-1.png?alt=media&token=bbe38f98-e906-4006-ad46-2ba958021339",
+      "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
     },
     {
       "id": 2,
-      "x": 0.1,
-      "y": 0.2,
-      "testimonial": "The donations from TPC really helped me kickstart what I needed for my child!”\n- Jennifer Hewitt"
+      "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-1.png?alt=media&token=bbe38f98-e906-4006-ad46-2ba958021339",
+      "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
     },
     {
       "id": 3,
-      "x": 0.5,
-      "y": 0.5,
-      "testimonial": "The donations from TPC really helped me kickstart what I needed for my child!”\n- Jennifer Hewitt"
+      "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-1.png?alt=media&token=bbe38f98-e906-4006-ad46-2ba958021339",
+      "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
     },
     {
       "id": 4,
-      "x": 0.4,
-      "y": 0.5,
-      "testimonial": "The donations from TPC really helped me kickstart what I needed for my child!”\n- Jennifer Hewitt"
+      "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-1.png?alt=media&token=bbe38f98-e906-4006-ad46-2ba958021339",
+      "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
+    },
+    {
+      "id": 5,
+      "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-1.png?alt=media&token=bbe38f98-e906-4006-ad46-2ba958021339",
+      "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
     }
   ]
 }

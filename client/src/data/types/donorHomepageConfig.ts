@@ -1,10 +1,15 @@
 export interface Point {
-  id: number,
-  testimonial: string,
   x: number,
   y: number
 }
 
+export interface Testimonial {
+  id: number,
+  imagePath: string,
+  testimonial: string,
+}
+
 export interface DonorHompageConfig {
-  Map: Array<Point>
+  MapPoints: Array<Point>,
+  MapTestimonials: Array<Testimonial>
 }
