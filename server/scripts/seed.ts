@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { exit } from "process";
 import faker from "faker";
+
 import mongoose from "mongoose";
 
 import { connectDB } from "../database/mongoConnection";
