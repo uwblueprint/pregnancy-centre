@@ -40,7 +40,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint . --ext .tsx --ext .ts --fix"
+    "lint": "eslint . --ext .tsx --ext .ts --fix",
+    "pretty": "prettier --write \"./**/*.{ts,tsx}\"" 
   },
   "eslintConfig": {
     "extends": [

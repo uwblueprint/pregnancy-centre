@@ -3,14 +3,14 @@
  * Use this index file to export all reducers
  */
 /* Imports from packages */
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
 /* Imports from local files */
-import requestGroupsReducer from './requestGroupsReducer'
+import requestGroupsReducer from "./requestGroupsReducer";
 
 const rootReducer = combineReducers({
-  requestGroups: requestGroupsReducer,
+    requestGroups: requestGroupsReducer
 });
 
-export default rootReducer
-export type RootState = ReturnType<typeof rootReducer>
+export default rootReducer;
+export type RootState = ReturnType<typeof rootReducer>;
