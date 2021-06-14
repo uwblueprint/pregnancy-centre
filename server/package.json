@@ -8,7 +8,8 @@
     "seed": "ts-node ./scripts/seed",
     "server": "nodemon server",
     "lint": "eslint . --ext .ts --ext .js --fix",
-    "pretty": "prettier --write \"./**/*.{ts,tsx}\""
+    "pretty": "prettier --write \"./**/*.{ts,tsx}\"",
+    "pretty-git": "prettier --write $(git diff --name-only | grep '.ts' | xargs)"
   },
   "keywords": [],
   "author": "",
