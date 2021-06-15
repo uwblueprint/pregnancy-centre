@@ -17,16 +17,17 @@ interface ParamTypes {
 
 const AdminClientView: FunctionComponent = () => {
   const { id } = useParams<ParamTypes>();
-  const [queryData, setQueryData] = useState<Request[]>([]);
+  const [requests, setRequests] = useState<Request[]>([]);
   const [clientName, setClientName] = useState<string | undefined>("");
   const [openRequests, setOpenRequests] = useState(0);
 
+
   const query = gql`
-    query ($c_id: ID) {
-      filterClients(filter: { id: $c_id }) {
+    query ($client_id: ID) {
+      client(id: $client_id){
         fullName
       }
-      filterRequests(filter: $c_id) {
+      filterRequests(filter: $client_id) {
         requestId
         quantity
         dateCreated
@@ -46,29 +47,32 @@ const AdminClientView: FunctionComponent = () => {
   `;
 
   const { error } = useQuery(query, {
-    variables: { c_id: id },
+    variables: { client_id: id },
     onCompleted: (data: {
-      filterClients: [Client];
+      client: Client;
       filterRequests: [Request];
     }) => {
-      console.log(data);
-      console.log(id);
       const res = JSON.parse(JSON.stringify(data.filterRequests)); // deep-copy since data object is frozen
-      setQueryData(res);
-      const client = JSON.parse(JSON.stringify(data.filterClients[0]));
-      setClientName(client.fullName);
-      console.log(client?.fullName);
+      setRequests(res);
+      const client = JSON.parse(JSON.stringify(data.client));
+      setClientName(client.fullName)
+      const open = res.filter((request:Request) => 
+        request.deleted === false && request.fulfilled === false
+      ).length
+      setOpenRequests(open);
     },
   });
 
   if (error) console.log(error.graphQLErrors);
+
+
 
   return (
     <Container className="admin-homepage" fluid>
       <AdminPage>
         <Row className="admin-homepage">
           <div>
-            {queryData === undefined ? (
+            {requests === undefined ? (
               <div className="spinner">
                 <Spinner animation="border" role="status" />
               </div>
@@ -77,13 +81,13 @@ const AdminClientView: FunctionComponent = () => {
                 <div className="request-group-header">
                   <div className="request-group-description">
                     <h1 className="request-group-title">{clientName}</h1>
-                    <p>Displaying {openRequests} total requests</p>
+                     {openRequests === 0 ? <p>No Requests Exist</p> : <p>Displaying {openRequests} total requests</p>} 
                   </div>
                 </div>
               </div>
             )}
           </div>
-          <ClientRequestTable requests={queryData ? queryData : []} />
+          <ClientRequestTable requests={requests ? requests : []} />
         </Row>
       </AdminPage>
     </Container>
