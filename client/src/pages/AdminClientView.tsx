@@ -27,7 +27,7 @@ const AdminClientView: FunctionComponent = () => {
       client(id: $client_id){
         fullName
       }
-      filterRequests(filter: $client_id) {
+      filterRequestsById(filter: $client_id) {
         requestId
         quantity
         dateCreated
@@ -50,9 +50,9 @@ const AdminClientView: FunctionComponent = () => {
     variables: { client_id: id },
     onCompleted: (data: {
       client: Client;
-      filterRequests: [Request];
+      filteredRequests: [Request];
     }) => {
-      const res = JSON.parse(JSON.stringify(data.filterRequests)); // deep-copy since data object is frozen
+      const res = JSON.parse(JSON.stringify(data.filteredRequests)); // deep-copy since data object is frozen
       setRequests(res);
       const client = JSON.parse(JSON.stringify(data.client));
       setClientName(client.fullName)
