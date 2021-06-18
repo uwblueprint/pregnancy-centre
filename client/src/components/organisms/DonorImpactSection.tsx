@@ -42,7 +42,8 @@ const DonorImpactSection: FunctionComponent = () => {
     <div className="donor-impact-section">
       <h1 className="donor-impact-section-header">Our Impact</h1>
       <Row className="donor-impact-section-content">
-        <Col className="map-section" xs={12} sm={7}>
+        <Col className="map-section" sm={0} xl={1} />
+        <Col className="map-section" sm={12} xl={5}>
           <div className="instructions">
             <img src={Cursor} />
             <p>hover over the images for some client testimonials!</p>
@@ -54,7 +55,7 @@ const DonorImpactSection: FunctionComponent = () => {
             onLeaveHoverOverMarker={() => setSelectedTestimonial(null)}
           />
         </Col>
-        <Col className="info-section" xs={12} sm={5}>
+        <Col className="info-section" sm={12} xl={5}>
           <div className="stats-section">
             {
               DonorHomepageConfig.statistics.map((stat: Statistic) => (
@@ -78,6 +79,7 @@ const DonorImpactSection: FunctionComponent = () => {
             </Card>
           }
         </Col>
+        <Col className="map-section" xs={0} xl={1} />
       </Row>
     </div>
   )
