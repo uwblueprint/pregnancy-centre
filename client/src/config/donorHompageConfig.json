@@ -1,19 +1,11 @@
 {
   "mapPoints": [
     {
-      "x": 0,
-      "y": 0
-    },
-    {
-      "x": 0.1,
-      "y": 0.2
-    },
-    {
       "x": 0.5,
-      "y": 0.5
+      "y": 0.64
     },
     {
-      "x": 0.4,
+      "x": 0.3,
       "y": 0.5
     }
   ],
@@ -25,7 +17,7 @@
     },
     {
       "id": 2,
-      "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-1.png?alt=media&token=bbe38f98-e906-4006-ad46-2ba958021339",
+      "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-2.png?alt=media&token=466f078b-99c1-4d99-a855-b1e8bbaa017c",
       "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
     },
     {
