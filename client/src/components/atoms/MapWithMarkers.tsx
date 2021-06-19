@@ -9,6 +9,7 @@ export interface MapWithMarkersPoint extends Point {
 
 interface Props {
   baseMapPath: string,
+  markerSize: string,
   onEnterHoverOverMarker: (pointId: number) => void,
   onLeaveHoverOverMarker: () => void,
   points: Array<MapWithMarkersPoint>,
@@ -27,7 +28,8 @@ const MapWithMarkers: FunctionComponent<Props> = (props: Props) => {
             src={point.imagePath}
             style={{
               top: (point.y * 100).toString() + "%",
-              left: (point.x * 100).toString() + "%"
+              left: (point.x * 100).toString() + "%",
+              width: props.markerSize
             }}
           />
           )
