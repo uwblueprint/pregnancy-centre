@@ -10,19 +10,20 @@ import Cursor from '../../assets/cursor.png'
 import DonorHomepageConfig from '../../config/donorHompageConfig.json'
 
 const DonorImpactSection: FunctionComponent = () => {
-  const [selectedTestimonial, _setSelectedTestimonial] = useState<Testimonial | null>(DonorHomepageConfig.mapTestimonials[0]);
-  // const [selectedTestimonial, _setSelectedTestimonial] = useState<Testimonial | null>(null);
+  const [selectedTestimonial, _setSelectedTestimonial] = useState<Testimonial | null>(DonorHomepageConfig.map.testimonials[0]);
+  const testimonials = DonorHomepageConfig.map.testimonials;
   const setSelectedTestimonial = (id: number | null) => {
     if (!id) {
       _setSelectedTestimonial(null);
       return;
     }
-    const testimonial = DonorHomepageConfig.mapTestimonials.find((testimonial: Testimonial) => testimonial.id === id);
+    const testimonial = testimonials.find((testimonial: Testimonial) => testimonial.id === id);
     _setSelectedTestimonial(testimonial ?? null);
   }
-  const points = DonorHomepageConfig.mapPoints;
+  const points = DonorHomepageConfig.map.points;
+  const markerSize = DonorHomepageConfig.map.markerSizes[testimonials.length];
   const maxPoints = points.length;
-  const testimonialPoints = DonorHomepageConfig.mapTestimonials.reduce(
+  const testimonialPoints = testimonials.reduce(
     (testimonialPoints: Array<MapWithMarkersPoint>, testimonial, index) => {
       if (index >= maxPoints) {
         return testimonialPoints;
@@ -50,6 +51,7 @@ const DonorImpactSection: FunctionComponent = () => {
           </div>
           <MapWithMarkers
             baseMapPath={BaseMap}
+            markerSize={markerSize}
             points={testimonialPoints}
             onEnterHoverOverMarker={setSelectedTestimonial}
             onLeaveHoverOverMarker={() => setSelectedTestimonial(null)}
