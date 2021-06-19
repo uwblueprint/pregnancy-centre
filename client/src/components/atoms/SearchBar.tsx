@@ -7,6 +7,7 @@ interface Props {
   onSearchStringChange?: React.ChangeEventHandler<HTMLInputElement>;
   searchOnEnter?: boolean;
   onSearchStringEnter?: (searchString: string) => void;
+  setIsSearching?: (isFocused: boolean) => void;
 }
 
 const SearchBar: FunctionComponent<Props> = (props: Props) => {
@@ -14,11 +15,16 @@ const SearchBar: FunctionComponent<Props> = (props: Props) => {
   const [isFocused, setIsFocused] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const isSearching = searchString !== "" || isFocused;
+  props.setIsSearching?.(isSearching);
 
   useEffect(() => {
     if (searchInputRef.current !== null) {
-      searchInputRef.current.onfocus = () => setIsFocused(true);
-      searchInputRef.current.onblur = () => setIsFocused(false);
+      searchInputRef.current.onfocus = () => {
+        setIsFocused(true);
+      };
+      searchInputRef.current.onblur = () => {
+        setIsFocused(false);
+      };
     }
   }, [searchInputRef.current]);
 
