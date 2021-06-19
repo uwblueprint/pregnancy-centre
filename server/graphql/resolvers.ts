@@ -30,8 +30,8 @@ const resolvers = {
     request: (_, { id }, { dataSources }): RequestInterface => dataSources.requests.getById(Types.ObjectId(id)),
     requests: (_, __, { dataSources }): Array<RequestInterface> => dataSources.requests.getAll(),
     filterRequestsByClientId: (_, { clientId }, { dataSources, authenticateUser }): Array<RequestInterface> => authenticateUser().then(() => {
-      const filteredRequests = dataSources.requests.getAll()
-      return filteredRequests.filter(request => request.client === clientId)
+      const filteredRequests = dataSources.requests.getAll();
+      return filteredRequests.filter(request => request.client == clientId)
     }),
     requestType: (_, { id }, { dataSources }): RequestTypeInterface => dataSources.requestTypes.getById(Types.ObjectId(id)),
     requestTypes: (_, __, { dataSources }): Array<RequestTypeInterface> => dataSources.requestTypes.getAll(),

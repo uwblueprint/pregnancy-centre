@@ -10,7 +10,6 @@ import Container from "react-bootstrap/Container";
 import Request from "../data/types/request";
 import Row from "react-bootstrap/Row";
 
-
 interface ParamTypes {
   id: string;
 }
@@ -20,75 +19,75 @@ const AdminClientView: FunctionComponent = () => {
   const [requests, setRequests] = useState<Request[]>([]);
   const [clientName, setClientName] = useState<string | undefined>("");
   const [openRequests, setOpenRequests] = useState(0);
-
+  const [numRequests, setNumRequests] = useState(0)
 
   const query = gql`
-    query ($client_id: ID) {
-      client(id: $client_id){
+  query($client_id: ID) {
+    client(id: $client_id){
+      fullName
+    }
+    filterRequestsByClientId(clientId: $client_id) {
+      requestId
+      quantity
+      dateCreated
+      fulfilled
+      deleted
+      client {
         fullName
       }
-      filterRequestsById(filter: $client_id) {
-        requestId
-        quantity
-        dateCreated
-        fulfilled
-        deleted
-        client {
-          fullName
-        }
-        requestType {
+      requestType {
+        name
+        requestGroup {
           name
-          requestGroup {
-            name
-          }
         }
       }
     }
+  }
   `;
 
   const { error } = useQuery(query, {
     variables: { client_id: id },
-    onCompleted: (data: {
-      client: Client;
-      filteredRequests: [Request];
-    }) => {
-      const res = JSON.parse(JSON.stringify(data.filteredRequests)); // deep-copy since data object is frozen
+    onCompleted: (data: { client: Client; filterRequestsByClientId: [Request] }) => {
+      const res = JSON.parse(JSON.stringify(data.filterRequestsByClientId)); // deep-copy since data object is frozen
       setRequests(res);
       const client = JSON.parse(JSON.stringify(data.client));
-      setClientName(client.fullName)
-      const open = res.filter((request:Request) => 
-        request.deleted === false && request.fulfilled === false
-      ).length
+      setClientName(client.fullName);
+      const open = res.filter(
+        (request: Request) =>
+          request.deleted === false && request.fulfilled === false
+      ).length;
       setOpenRequests(open);
     },
   });
 
   if (error) console.log(error.graphQLErrors);
 
-
+  const handleChangeNumRequests = (num: number) => {
+    setNumRequests(num)
+}
 
   return (
     <Container className="admin-homepage" fluid>
       <AdminPage>
-        <Row className="admin-homepage">
           <div>
             {requests === undefined ? (
               <div className="spinner">
                 <Spinner animation="border" role="status" />
               </div>
             ) : (
-              <div>
                 <div className="request-group-header">
                   <div className="request-group-description">
                     <h1 className="request-group-title">{clientName}</h1>
-                     {openRequests === 0 ? <p>No Requests Exist</p> : <p>Displaying {openRequests} total requests</p>} 
+                    {openRequests === 0 ? (
+                      <p>No Requests Exist</p>
+                    ) : (
+                      <p>Displaying {openRequests} total requests</p>
+                    )}
                   </div>
                 </div>
-              </div>
             )}
           </div>
-          <ClientRequestTable requests={requests ? requests : []} />
-        </Row>
+          <ClientRequestTable onChangeNumRequests={handleChangeNumRequests} requests={requests ? requests : []} />
       </AdminPage>
     </Container>
   );
