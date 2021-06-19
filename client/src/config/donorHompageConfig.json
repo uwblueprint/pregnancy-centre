@@ -48,42 +48,22 @@
       {
         "id": 1,
         "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-4.png?alt=media&token=46973ca1-c96b-4c0c-b355-b2eaa21d5b8d",
-        "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
+        "testimonial": "\"Because of a generous donor, my child has a bed of their own to sleep in!\""
       },
       {
         "id": 2,
         "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-5.png?alt=media&token=8322acb9-65aa-4941-b662-ca68076b6bf8",
-        "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
+        "testimonial": "\"Thank you to the Pregnancy Centre for the donation of a dining room table to eat at. For the first time the kids and I can sit together and have a family meal!\""
       },
       {
         "id": 3,
         "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-3.png?alt=media&token=d16edf16-23fa-4628-93c4-3d177fd8cf89",
-        "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
+        "testimonial": "\"I am so grateful for the stroller that was given to me from a Pregnancy Centre donor! Now getting around the city on the bus with the baby and groceries is so much easier.\""
       },
       {
         "id": 4,
         "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-1.png?alt=media&token=bbe38f98-e906-4006-ad46-2ba958021339",
-        "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
-      },
-      {
-        "id": 5,
-        "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-6.png?alt=media&token=598c24c9-7b3b-49cb-a1fb-55b94d834638",
-        "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
-      },
-      {
-        "id": 6,
-        "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-2.png?alt=media&token=466f078b-99c1-4d99-a855-b1e8bbaa017c",
-        "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
-      },
-      {
-        "id": 7,
-        "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-5.png?alt=media&token=8322acb9-65aa-4941-b662-ca68076b6bf8",
-        "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
-      },
-      {
-        "id": 8,
-        "imagePath": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-3.png?alt=media&token=d16edf16-23fa-4628-93c4-3d177fd8cf89",
-        "testimonial": "\"The donations from TPC really helped me kickstart what I needed for my child!\"\n- Jennifer Hewitt"
+        "testimonial": "\"I worried less in my pregnancy about how I would afford important items like a crib or stroller for my baby because the Pregnancy Centre said they have donations to help me.\""
       }
     ]
   },
