@@ -10,7 +10,7 @@ import Cursor from '../../assets/cursor.png'
 import DonorHomepageConfig from '../../config/donorHompageConfig.json'
 
 const DonorImpactSection: FunctionComponent = () => {
-  const [selectedTestimonial, _setSelectedTestimonial] = useState<Testimonial | null>(DonorHomepageConfig.map.testimonials[0]);
+  const [selectedTestimonial, _setSelectedTestimonial] = useState<Testimonial | null>(null);
   const testimonials = DonorHomepageConfig.map.testimonials;
   const setSelectedTestimonial = (id: number | null) => {
     if (!id) {
@@ -21,21 +21,21 @@ const DonorImpactSection: FunctionComponent = () => {
     _setSelectedTestimonial(testimonial ?? null);
   }
   const points = DonorHomepageConfig.map.points;
-  const markerSize = DonorHomepageConfig.map.markerSizes[testimonials.length];
+  const markerSize = testimonials.length > 0 && testimonials.length <= DonorHomepageConfig.map.markerSizes.length
+    ? DonorHomepageConfig.map.markerSizes[testimonials.length - 1]
+    : "53px";
   const maxPoints = points.length;
   const testimonialPoints = testimonials.reduce(
-    (testimonialPoints: Array<MapWithMarkersPoint>, testimonial, index) => {
+    (testimonialPoints: Array<MapWithMarkersPoint>, testimonial: Testimonial, index) => {
       if (index >= maxPoints) {
         return testimonialPoints;
       }
-
       testimonialPoints.push({
         id: testimonial.id,
         imagePath: testimonial.imagePath,
         x: points[index].x,
         y: points[index].y,
       })
-
       return testimonialPoints;
     }, [])
 
