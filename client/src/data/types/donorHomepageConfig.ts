@@ -17,8 +17,9 @@ export interface Statistic {
 
 export interface DonorHompageConfig {
   map: {
-    points: Array<Point>,
+    defaultMarkerSize: string,
     markerSizes: Array<string>,
+    points: Array<Point>,
     testimonials:Array<Testimonial>,
   },
   statistics: Array<Statistic>

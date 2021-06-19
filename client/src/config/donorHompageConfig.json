@@ -1,5 +1,16 @@
 {
   "map": {
+    "defaultMarkerSize": "53px",
+    "markerSizes": [
+      "80px",
+      "75px",
+      "72px",
+      "70px",
+      "65px",
+      "61px",
+      "55px",
+      "53px"
+    ],
     "points": [
       {
         "x": 0.28,
@@ -33,16 +44,6 @@
         "x": 0.47,
         "y": 0.63
       }
-    ],
-    "markerSizes": [
-      "80px",
-      "75px",
-      "72px",
-      "70px",
-      "65px",
-      "61px",
-      "55px",
-      "53px"
     ],
     "testimonials": [
       {

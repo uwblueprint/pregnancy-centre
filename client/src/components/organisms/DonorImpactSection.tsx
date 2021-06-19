@@ -23,7 +23,7 @@ const DonorImpactSection: FunctionComponent = () => {
   const points = DonorHomepageConfig.map.points;
   const markerSize = testimonials.length > 0 && testimonials.length <= DonorHomepageConfig.map.markerSizes.length
     ? DonorHomepageConfig.map.markerSizes[testimonials.length - 1]
-    : "53px";
+    : DonorHomepageConfig.map.defaultMarkerSize;
   const maxPoints = points.length;
   const testimonialPoints = testimonials.reduce(
     (testimonialPoints: Array<MapWithMarkersPoint>, testimonial: Testimonial, index) => {
