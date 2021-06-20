@@ -2,9 +2,9 @@ import { gql, useMutation } from '@apollo/client';
 import React, { FunctionComponent, useEffect,  useState } from 'react';
 import  Form  from 'react-bootstrap/Form';
 import moment from 'moment';
-import  Table  from 'react-bootstrap/Table';
 import Request from '../../data/types/request'; // this is an interface 
 import RequestForm from "../organisms/RequestForm";
+import  Table  from 'react-bootstrap/Table';
 
 interface Props {
     requests: Request[];
