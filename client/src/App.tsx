@@ -2,6 +2,7 @@ import "./App.scss";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
 
+import AdminClientView from "./pages/AdminClientView"
 import AdminHomepage from "./pages/AdminHomepage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView"
 import AuthAction from "./pages/AuthAction";
@@ -21,6 +22,7 @@ function App(): JSX.Element {
           <Route path='/email-password-reset' strict component={SendResetPasswordEmailModal}></Route>
           <Route path='/admin' component={AdminHomepage}></Route>
           <Route path='/request-group/:id'><AdminRequestGroupView /></Route>
+          <Route path='/client/'><AdminClientView /></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>
       </Router>

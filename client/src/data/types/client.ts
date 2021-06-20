@@ -3,5 +3,4 @@ export default interface Client {
     clientId?: string
     fullName?: string
     deleted?: boolean
-  }
-  
+}  
