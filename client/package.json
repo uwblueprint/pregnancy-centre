@@ -41,7 +41,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .tsx --ext .ts --fix",
-    "pretty": "prettier --write \"./**/*.{ts,tsx}\"" 
+    "pretty": "prettier --write \"./**/*.{ts,tsx,css,scss}\""
   },
   "eslintConfig": {
     "extends": [

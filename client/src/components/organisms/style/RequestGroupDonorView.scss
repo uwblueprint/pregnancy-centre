@@ -83,7 +83,7 @@
 
     & .button {
         @include tpc-green-button;
-        
+
         &:hover,
         &.alt-button {
             @include alt-button;

@@ -10,11 +10,11 @@
     transition: opacity 0.15s linear;
 
     &.show {
-        opacity: 1.0;
+        opacity: 1;
     }
 }
 
-.bs-tooltip-right .arrow::before{
+.bs-tooltip-right .arrow::before {
     border-right-color: $tooltip-background-color;
 }
 

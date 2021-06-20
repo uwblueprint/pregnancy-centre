@@ -4,12 +4,13 @@
     left: 659px;
     top: 139px;
     padding: 10px;
-    
+
     border: 1px solid $searchbar-border;
     box-sizing: border-box;
     border-radius: 4px;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
         outline-color: $searchbar-border-dark;
     }
 }

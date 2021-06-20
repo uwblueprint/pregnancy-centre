@@ -1,39 +1,39 @@
 .request-type-form-modal {
-  position: absolute;
+    position: absolute;
 
-  &-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    &-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
 
-    .form-item {
-      height: 60px;
+        .form-item {
+            height: 60px;
+        }
+
+        .text-field-input {
+            width: 376px;
+            height: 45px;
+            margin-top: 15px;
+        }
+
+        .error-message {
+            @include error-text;
+            font-size: 12px;
+            margin-top: 15px;
+        }
     }
 
-    .text-field-input {
-      width: 376px;
-      height: 45px;
-      margin-top: 15px;
-    }
+    &-footer {
+        margin-top: 35px;
+        & .button {
+            float: right;
+            padding: 12px 33px;
 
-    .error-message {
-      @include error-text;
-      font-size: 12px;  
-      margin-top: 15px;
+            background-color: $tpc-green;
+            &:hover {
+                background-color: $tpc-green-hover;
+                color: $white-text-color;
+            }
+        }
     }
-  }
-
-  &-footer {
-    margin-top: 35px;
-    & .button {
-      float: right;
-      padding: 12px 33px;
-
-      background-color: $tpc-green;
-      &:hover {
-        background-color: $tpc-green-hover;
-        color: $white-text-color;
-      }
-    }
-  }
 }
