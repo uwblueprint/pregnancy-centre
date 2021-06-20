@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "bp-pregnancy-centre"
+    "prod": "bp-pregnancy-centre",
+    "staging": "bp-pregnancy-centre-staging"
   }
 }

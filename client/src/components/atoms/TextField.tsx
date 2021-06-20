@@ -9,6 +9,7 @@ interface TextFieldProps {
   // when showRedErrorText is true, when there is an error the text will also be highlighted in red
   showRedErrorText?: boolean,
   onChange: React.ChangeEventHandler<HTMLInputElement>,
+  onClick?: React.MouseEventHandler<HTMLInputElement>,
   name: string,
   placeholder: string,
   type: "text" | "password" | "number",
@@ -31,6 +32,7 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
       placeholder={props.placeholder}
       value={props.input}
       onChange={props.onChange}
+      onClick={props.onClick}
       disabled={props.isDisabled}
       autoComplete={props.autocompleteOff ? "off" : "on"}
       onKeyDown={(e: React.KeyboardEvent) => { if (e.key == 'Enter') { e.preventDefault() } }}

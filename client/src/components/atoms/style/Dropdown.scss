@@ -20,7 +20,7 @@
         display: flex;
         justify-content: space-between;
         cursor: pointer;
-        width: 1185px;
+        width: 100%;
         padding: 0 20px;
         background-color: #EDEDED;
 
@@ -62,6 +62,15 @@
          font-size: 16px;
        }
      }
+
+      .dropdown-body-open {
+        visibility: visible;
+      }
+
+      .dropdown-body-closed {
+        display: none;
+        visibility: hidden;
+      }
    
      .dropdown-list {
        box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;

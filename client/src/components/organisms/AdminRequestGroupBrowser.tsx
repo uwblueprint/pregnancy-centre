@@ -1,7 +1,6 @@
-import { Col, Row, Spinner } from "react-bootstrap";
+import { Dropdown, Spinner } from "react-bootstrap"
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Dropdown } from "react-bootstrap"
 import { useParams } from "react-router";
 
 import RequestGroup from '../../data/types/requestGroup';
@@ -75,26 +74,24 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
           <Spinner animation="border" role="status"/>
         </div>: 
         (<div>
-          <Row>
-            <Col className="request-group-description">
+          <div className="request-group-header">
+            <div className="request-group-description">
               <h1 className="request-group-title">{requestGroup!.name}</h1>
-              <p>Displaying {requestGroup!.countOpenRequests} total requests and {numTypes} types</p>
-            </Col>
-            <Col>
-            <Dropdown className="request-group-button">
-              <Dropdown.Toggle bsPrefix="custom">
-                <i className="bi bi-three-dots"></i>
-              </Dropdown.Toggle>
+              <p>Displaying {requestGroup!.numOpen} total requests and {numTypes} types</p>
+            </div>
+            <div>
+              <Dropdown className="request-group-button">
+                <Dropdown.Toggle bsPrefix="custom">
+                  <i className="bi bi-three-dots"></i>
+                </Dropdown.Toggle>
 
-              <Dropdown.Menu align="right" className="request-group-button-dropdown">
-                <Dropdown.Item className="request-group-button-dropdown-item" onClick={() => { setShowEditGroupModal(true) }}>Edit Group</Dropdown.Item>
-                <Dropdown.Item className="request-group-button-dropdown-item" onClick={() => { setShowCreateTypeModal(true) }}>Create New Type</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-
-            </Col>
-
-          </Row>
+                <Dropdown.Menu align="right" className="request-group-button-dropdown">
+                  <Dropdown.Item className="request-group-button-dropdown-item" onClick={() => { setShowEditGroupModal(true) }}>Edit Group</Dropdown.Item>
+                  <Dropdown.Item className="request-group-button-dropdown-item" onClick={() => { setShowCreateTypeModal(true) }}>Create New Type</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          </div>
           {
             showEditGroupModal &&
             <RequestGroupForm onSubmitComplete={() => { window.location.reload() }} handleClose={()=> { setShowEditGroupModal(false) }} requestGroupId={requestGroup._id} operation="edit"></RequestGroupForm>

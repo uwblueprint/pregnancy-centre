@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  gcp-cloud-run: circleci/gcp-cloud-run@1.0.2
 jobs:
   lint-server:
     docker:
@@ -11,7 +13,7 @@ jobs:
       - run: npm run lint
   lint-client:
     docker:
-      - image: circleci/node
+      - image: circleci/node:10.19
     working_directory: ~/app/client
     steps:
       - checkout:
@@ -27,7 +29,7 @@ jobs:
       - run: npm run lint
   build-client:
     docker:
-      - image: circleci/node
+      - image: circleci/node:10.19
     working_directory: ~/app/client
     steps:
       - checkout:
@@ -41,12 +43,62 @@ jobs:
           paths:
             - node_modules
       - run: npm run build
+      - persist_to_workspace:
+          root: '~'
+          paths:
+            - 'app/client'
+  deploy-server:
+    docker:
+      - image: circleci/node
+    working_directory: ~/app/server
+    steps:
+      - checkout:
+          path: ~/app
+      - gcp-cloud-run/init:
+          google-project-id: PROJECT_ID
+      - gcp-cloud-run/build:
+          config: './cloudbuild.staging.yaml'
+      - gcp-cloud-run/deploy:
+          image: 'gcr.io/${PROJECT_ID}/tpc-server'
+          region: us-east1
+          service-name: 'tpc-server'
+          args: '--vpc-connector=tcp-server-connector --vpc-egress=all --platform=managed'
+  deploy-client:
+    docker:
+      - image: circleci/node
+    working_directory: ~/app/client
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /home/circleci/app/client/service_account.json
+    steps:
+      - attach_workspace:
+          at: '~'
+      - run: echo $GCLOUD_SERVICE_KEY > $GOOGLE_APPLICATION_CREDENTIALS
+      - run: ./node_modules/.bin/firebase use staging
+      - run: ./node_modules/.bin/firebase deploy --only hosting
 workflows:
   server:
     jobs:
       - lint-server
+      - deploy-server:
+          context:
+            - tpc-staging
+          filters:
+            branches:
+              only:
+                - staging
   client:
     jobs:
       - lint-client
-      - build-client
+      - build-client:
+          context:
+            - tpc-staging
+      - deploy-client:
+          requires:
+            - build-client
+          context:
+            - tpc-staging
+          filters:
+            branches:
+              only:
+                - staging
   
