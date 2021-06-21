@@ -8,7 +8,7 @@ import  Table  from 'react-bootstrap/Table';
 
 interface Props {
     requests: Request[];
-    onChangeNumRequests?: (num: number) => void;
+    onChangeNumRequests?: (num : number) => void;
 }
 
 const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {

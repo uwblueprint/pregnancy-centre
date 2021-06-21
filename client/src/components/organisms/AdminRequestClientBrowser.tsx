@@ -49,10 +49,14 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
     if (error) console.log(error.graphQLErrors); // printing any graphQL problems
     useEffect(() => {
       if (requests !== undefined){ // if the query was 👌
-        setRequests(requests.filter((req : Request) => req.client._id === clientID && req.fulfilled === false));
+        setRequests(requests.filter((req : Request) => req.client?._id === clientID && req.fulfilled === false));
         setNumRequests(requests.length);  
       }
     }, [requests]); // note that second parameter of useEffect is that this happens only when these states change
+
+    const handleChangeNumRequests = (num: number) => {
+      setNumRequests(num);
+    }
 
     return (
       <div>
@@ -67,7 +71,8 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
               <p>`Displaying {numRequests} total requests`</p>
             </div>
           </div>
-          </div>
+          <ClientRequestTable requests={requests} onChangeNumRequests={handleChangeNumRequests}/>
+        </div>
         )}
       </div>
     );
