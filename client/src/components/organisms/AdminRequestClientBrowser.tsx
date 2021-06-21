@@ -18,9 +18,13 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
 
     let clientID : string = window.location.href;
     clientID = clientID.split("client/")[1];
+    let clientName = "";
 
     const query = gql` 
-    query {
+    query ($clientId: ID) {
+      client ($clientId : ID) {
+        fullName
+      }
       requests{
         _id
         requestId
@@ -30,19 +34,23 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
         deleted
         fulfilled 
         quantity
-        client{
-          _id
-          fullName
-        }  
+        requestType {
+          name
+          requestGroup {
+            name
+          }
+        }
       }
     }
     `;
     
+
     const { error } = useQuery(query, {
       variables: { id: id },
-      onCompleted: (data: { request: Request }) => {
+      onCompleted: (data: { request: Request, client : Client }) => {
         const res = JSON.parse(JSON.stringify(data.request)); // deep-copy since data object is frozen
         setRequests(res);
+        clientName = JSON.parse(JSON.stringify(data.client));
       },
     });
 
@@ -67,7 +75,7 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
         (<div>
           <div className="request-group-header">
             <div className="request-group-description">
-              <h1 className="request-group-title">`{requests[0].client.fullName}`</h1>
+              <h1 className="request-group-title">`{clientName}`</h1>
               <p>`Displaying {numRequests} total requests`</p>
             </div>
           </div>

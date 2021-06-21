@@ -84,17 +84,17 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
 
     // confusion 🤩🤩🤩
     const onFulfilledRequest = (index: number) => {
-        const requestsCopy = requests.slice();
-        const req = {...requestsCopy[index]};
-        if(req.fulfilled === false) {
+        const requestsCopy = requests.slice(); // copy of requests
+        const req = {...requestsCopy[index]}; // copy over properties of request
+        if(req.fulfilled === false) { 
             req.fulfilled = true
-            requestsCopy.splice(index, 1)
-            let i = requestsCopy.length - 1;
-            for(; i > -1; --i) {
-                if(requestsCopy[i].fulfilled === false) break
-                else if(requestsCopy[i]!.dateCreated!.valueOf() < req!.dateCreated!.valueOf()) break
+            requestsCopy.splice(index, 1) // remove specific element wait what why ❓
+            let i = requestsCopy.length - 1; // 
+            for(; i > -1; --i) { // finding index where fulfilled requests begin...
+                if(requestsCopy[i].fulfilled === false) break // found smth that isn't fulfilled
+                else if(requestsCopy[i]!.dateCreated!.valueOf() < req!.dateCreated!.valueOf()) break // fulfilled where the date created is less tahn
             }
-            requestsCopy.splice(i + 1, 0, req)
+            requestsCopy.splice(i + 1, 0, req) // add updated request at index i
         }
         else {
             req.fulfilled = false;
