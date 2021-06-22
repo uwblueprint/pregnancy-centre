@@ -47,6 +47,8 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
     props.requests.filter((request) => request.deleted === false)
   );
 
+  console.log("hi")
+
   useEffect(() => {
     // Your code here
     const nonFulfilledRequests = requests.filter((request) => {
