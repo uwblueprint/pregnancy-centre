@@ -97,6 +97,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
             iconClassName="bi bi-caret-down-fill"
             showRedErrorText={true}
             autocompleteOff={true}
+            focusOnIconClick={true}
           />
         }
         onDropdownOpen={() => {
