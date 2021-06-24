@@ -16,13 +16,12 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
     const [requests, setRequests] = useState([]);
     const [numRequests, setNumRequests] = useState(0);
 
-    let clientID : string = window.location.href;
-    clientID = clientID.split("client/")[1];
-    let clientName = "";
+    let clientName : string = window.location.href;
+    clientName = clientName.split("client/")[1].replace("-", " ");
 
     const query = gql` 
-    query ($clientId: ID) {
-      client ($clientId : ID) {
+    query ($clientName: string) {
+      client (fullName: $clientName) {
         fullName
       }
       requests{
@@ -57,7 +56,7 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
     if (error) console.log(error.graphQLErrors); // printing any graphQL problems
     useEffect(() => {
       if (requests !== undefined){ // if the query was 👌
-        setRequests(requests.filter((req : Request) => req.client?._id === clientID && req.fulfilled === false));
+        setRequests(requests.filter((req : Request) => req.client?.fullName === clientName && req.fulfilled === false));
         setNumRequests(requests.length);  
       }
     }, [requests]); // note that second parameter of useEffect is that this happens only when these states change
@@ -75,8 +74,8 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
         (<div>
           <div className="request-group-header">
             <div className="request-group-description">
-              <h1 className="request-group-title">`{clientName}`</h1>
-              <p>`Displaying {numRequests} total requests`</p>
+              <h1 className="request-group-title">{clientName}</h1>
+              <p>Displaying {numRequests} total requests</p>
             </div>
           </div>
           <ClientRequestTable requests={requests} onChangeNumRequests={handleChangeNumRequests}/>
