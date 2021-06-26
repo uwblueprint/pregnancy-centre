@@ -142,7 +142,8 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
                             <td><div className="btn-cont">
                                 <td><a className="request-table edit" onClick={() => { if(request._id) { setRequestSelectedForEditing(request._id) }}}><i className="bi bi-pencil"></i></a></td>
                                 <td><a className="request-table delete" onClick={() => onSoftDeleteRequest(index)}><i className="bi bi-trash"></i></a></td>
-                            </div></td>
+                                </div>
+                            </td>
                         </tr> : undefined
                     ))}
                 </tbody>
