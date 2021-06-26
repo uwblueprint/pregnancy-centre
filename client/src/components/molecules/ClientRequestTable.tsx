@@ -4,14 +4,8 @@ import  Form  from 'react-bootstrap/Form';
 import moment from 'moment';
 import  Table  from 'react-bootstrap/Table';
 
-import Request from '../../data/types/request'; // this is an interface 
+import Request from '../../data/types/request';
 import RequestForm from "../organisms/RequestForm";
-
-/** Information Needed:
- *    - client requests array
- *  Next Steps:
- *    - 
- */
 
 interface Props {
     requests: Request[];
@@ -45,18 +39,18 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
     }`
 
 
-    const [requests, setRequests] = useState(props.requests.filter((request)=> request.deleted === false)); // our REAL list of requests stored in state
+    const [requests, setRequests] = useState(props.requests.filter((request)=> request.deleted === false));
     
-    useEffect(() => { // not sure what the role of useEffect is hereee
+    useEffect(() => {
         console.log("hoi");
-        const nonFulfilledRequests = requests.filter(request => { // returns all of the unfulfilled reqs
+        const nonFulfilledRequests = requests.filter(request => {
             if (request !== undefined){
                 if (request.fulfilled === false){
                     return request;
                 }
             }
         });
-        const fulfilledRequests = requests.filter(request => { // returns all of the fulfilled reqs
+        const fulfilledRequests = requests.filter(request => {
             if (request !== undefined){
                 if (request.fulfilled === true){
                     return request;
@@ -64,21 +58,21 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
             }
         });
         
-        nonFulfilledRequests.sort((a, b)=> { // sorts the unfulfilled reqs by date, if returns a value > than 0, sort b before a
-            return (a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf()); // exclamation mark screams that the value will not be null/undefined
+        nonFulfilledRequests.sort((a, b)=> {
+            return (a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf());
         });
             
     
-        fulfilledRequests.sort((a, b)=> { // sorts the fulfilled reqs by date
+        fulfilledRequests.sort((a, b)=> {
             return (a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf());
         });
      
     
-        const sortedRequests : Request[] = nonFulfilledRequests!.concat(fulfilledRequests!) as Request[]; // .concat joins the two arrays
-        setRequests(sortedRequests); // updating state of requests to store only the non-deleted, sorted list of requests
+        const sortedRequests : Request[] = nonFulfilledRequests!.concat(fulfilledRequests!) as Request[]; 
+        setRequests(sortedRequests);
       }, []);
-      
-    // confusion 🤩🤩🤩
+
+
     const [mutateDeleteRequest] = useMutation(softDeleteRequest)   
     const [mutateRequest] = useMutation(updateRequest);
     const onSoftDeleteRequest = (index: number) => {
@@ -91,7 +85,6 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
         mutateDeleteRequest({variables: {id: id}})
     }
 
-    // confusion 🤩🤩🤩
     const onFulfilledRequest = (index: number) => {
         const requestsCopy = requests.slice();
         const req = {...requestsCopy[index]};
@@ -125,12 +118,11 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
 
     return (
         <div className="request-list">
-            {/* if a request is being selected for editing, open form, then reload the page when they save the form */ }
-            { requestSelectedForEditing && <RequestForm onSubmitComplete={() => { window.location.reload() }} handleClose={() => setRequestSelectedForEditing("")} operation="edit" requestId={requestSelectedForEditing} /> }
-            {props.onChangeNumRequests && // if number of requests > 0, load our requests table
+            {requestSelectedForEditing && <RequestForm onSubmitComplete={() => { window.location.reload() }} handleClose={() => setRequestSelectedForEditing("")} operation="edit" requestId={requestSelectedForEditing} /> }
+            {props.onChangeNumRequests &&
                 <Table responsive className="request-table"> 
                 <thead> 
-                <tr > {/** setting headers of table by mapping through our list of headers earlier, auto generates an index if given that field */}
+                <tr >
                     {headingList.map((heading, index) => (
                     <th key={index} className="request-table th">{heading}</th>
                     ))}
@@ -139,8 +131,8 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
                 <tbody> 
                     {requests.map((request, index)=> ( 
                         request.deleted === false ?
-                        <tr key={request._id} > {/**setting unique key for each child of tbody*/}
-                            <td> {/**❓ why the div inside the td? */}
+                        <tr key={request._id}>
+                            <td>
                             <div>
                                 <Form.Check type="checkbox" onClick={() => onFulfilledRequest(index)} defaultChecked={request.fulfilled}/>
                             </div>
