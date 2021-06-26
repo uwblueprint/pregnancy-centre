@@ -39,7 +39,6 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
     }
     `;
     
-
     const { loading, error} = useQuery(query, {
       onCompleted: (data: { requests: Request[]}) => {
         const requestsData = JSON.parse(JSON.stringify(data.requests));
@@ -56,7 +55,7 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
         {loading ? 
           <div className="spinner"> 
           <Spinner animation="border" role="status"/>
-        </div>: 
+          </div>: 
         (<div>
           <div className="request-group-header">
             <div className="request-group-description">
