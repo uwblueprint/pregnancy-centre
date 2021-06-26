@@ -65,7 +65,7 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
           </div>
           <ClientRequestTable requests={requests} onChangeNumRequests={handleChangeNumRequests}/>
         </div>
-        )}
+g        )}
       </div>
     );
 };
