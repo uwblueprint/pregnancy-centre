@@ -121,19 +121,19 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
                 <tbody> 
                     {requests.map((request, index)=> ( 
                         request.deleted === false ?
-                        <tr key={request._id} >
+                        <tr key={request._id}>
                             <td>
-                            <div>
-                                <Form.Check type="checkbox" onClick={() => onFulfilledRequest(index)} defaultChecked={request.fulfilled}/>
-                            </div>
+                                <div>
+                                    <Form.Check type="checkbox" onClick={() => onFulfilledRequest(index)} defaultChecked={request.fulfilled}/>
+                                </div>
                             </td>
                             {request?.requestType?.requestGroup != null ?
-                                <td style={request.fulfilled ? {opacity: 0.2}:undefined}><div className="row-text-style">{request.requestType.requestGroup.name}</div></td>:
-                                <td>N/A</td>
+                                <td style={request.fulfilled ? {opacity: 0.2}:undefined}><div className="row-text-style">{request.requestType.requestGroup.name}</div></td>
+                                : <td>N/A</td>
                             }
                             {request.requestType != null ?
-                                <td style={requests[index].fulfilled ? {opacity: 0.2}:undefined}><div className="row-text-style">{request.requestType.name}</div></td>:
-                                <td>N/A</td>
+                                <td style={requests[index].fulfilled ? {opacity: 0.2}:undefined}><div className="row-text-style">{request.requestType.name}</div></td>
+                                : <td>N/A</td>
                             }
                             <td style={request.fulfilled ? {opacity: 0.2}:undefined}>{request.quantity}</td>
                             <td style={request.fulfilled ? {opacity: 0.2}:undefined}>{
