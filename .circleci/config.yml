@@ -13,7 +13,7 @@ jobs:
       - run: npm run lint
   lint-client:
     docker:
-      - image: circleci/node
+      - image: circleci/node:10.19
     working_directory: ~/app/client
     steps:
       - checkout:
@@ -29,7 +29,7 @@ jobs:
       - run: npm run lint
   build-client:
     docker:
-      - image: circleci/node
+      - image: circleci/node:10.19
     working_directory: ~/app/client
     steps:
       - checkout:
