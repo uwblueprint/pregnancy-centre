@@ -10,16 +10,6 @@ interface ParamTypes {
     id: string
   }
 
-/** Information Needed:
- *    - client name
- *    - client requests array
- *  Next Steps:
- *    - create an interface for the props that need to be collected?
- *    - have the client name adapt based on name passed
- *    - have the # of requests adapt based on num of 
- *    - some way to have the url dependent on the client id??
- */
-
 const AdminRequestClientBrowser: FunctionComponent = () => {
     const { id } = useParams<ParamTypes>();
     const [requestGroup, setRequestGroup] = useState<RequestGroup|undefined>(undefined);
@@ -64,7 +54,7 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
     const { error } = useQuery(query, {
       variables: { id: id },
       onCompleted: (data: { requestGroup: RequestGroup }) => {
-        const res = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
+        const res = JSON.parse(JSON.stringify(data.requestGroup));
         setRequestGroup(res);
       },
     });
