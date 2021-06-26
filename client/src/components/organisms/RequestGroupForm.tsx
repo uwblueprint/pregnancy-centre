@@ -2,10 +2,7 @@ import { bindActionCreators, Dispatch } from "redux"
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Spinner } from 'react-bootstrap';
 
-import AlertDialog from "../atoms/AlertDialog";
-import { Button } from "../atoms/Button";
 import FormItem from "../molecules/FormItem";
 import FormModal from "./FormModal";
 import { getFilesFromFolder } from "../../services/storage";
@@ -129,7 +126,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       fetchPolicy: 'network-only',
       onCompleted: (data: { requestGroup: RequestGroup }) => {
         const retrievedRequestGroup: RequestGroup = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
-        
+
         setInitialRequestGroup(retrievedRequestGroup)
         setName(retrievedRequestGroup.name ? retrievedRequestGroup.name : "")
         setDescription(retrievedRequestGroup.description ? retrievedRequestGroup.description : "")
@@ -158,10 +155,10 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const updateNameError = (name: string): string => {
     let error = "";
     if (name.length === 0) {
-      error = "Please enter a group name";
+      error = "Please enter a need name";
     }
     if (name.length > 20) {
-      error = "Group name cannot exceed 20 characters";
+      error = "Need name cannot exceed 20 characters";
     }
     if (
       props.requestGroups.find(
@@ -170,7 +167,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
           requestGroup._id !== props.requestGroupId
       )
     ) {
-      error = "There is already a group with this name";
+      error = "There is already a need with this name";
     }
 
     setNameError(error);
@@ -309,115 +306,109 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     }
   };
 
-  const formTitle = props.operation === "create" ? "Create Request Group" : "Edit Request Group";
-  const formButtonText = props.operation === "create" ? "Create request group" : "Edit request group";
+  const formTitle = props.operation === "create" ? "Create New Need" : "Edit Need";
+  const formButtonText = props.operation === "create" ? "Create need" : "Edit need";
 
-  return <div className="request-group-form">
-    <FormModal
-      class="request-group-form-modal"
-      show={true}
-      handleClose={handleClose}
-      title={formTitle}
-      size="large">
-      {showAlertDialog &&
-        <AlertDialog
-          dialogText="You have unsaved changes to this group."
-          onExit={props.handleClose}
-          onStay={() => { setShowAlertDialog(false) }} />
-      }
-      {loadingRequestGroup
-        ? <div className="request-group-form-modal-loading-content">
-          <div className="spinner">
-            <Spinner animation="border" role="status" />
-          </div>
+  return <FormModal
+    className="request-group-form"
+    show={true}
+    handleClose={handleClose}
+    title={formTitle}
+    submitButtonText={formButtonText}
+    onSubmit={onSubmit}
+    onCancel={handleClose}
+    alertDialogProps={{
+      dialogText: "You have unsaved changes to this need.",
+      onStay: () => { setShowAlertDialog(false) },
+      onExit: props.handleClose
+    }}
+    showAlertDialog={showAlertDialog}
+    loading={loadingRequestGroup}
+  >
+    <div className="request-group-form-fields">
+      <div className="request-group-form-panel" id="left">
+        <div className="text-field-form-item">
+          <FormItem
+            formItemName="Name"
+            errorString={nameError}
+            isDisabled={false}
+            tooltipText="Needs describe the overall category of an item, such as stroller, crib, or bed."
+            showErrorIcon={false}
+            inputComponent={
+              <TextField
+                name="name"
+                placeholder="Enter a name for the need (e.g. stroller, crib)"
+                type="text"
+                input={name}
+                isDisabled={false}
+                isErroneous={nameError !== ""}
+                onChange={onNameChange}
+                showRedErrorText={true}
+              />
+            }
+          />
         </div>
-        : <form onSubmit={onSubmit}>
-          <div className="request-group-form-modal-content">
-            <div className="request-group-form-modal-panel" id="left">
-              <div className="text-field-form-item">
-                <FormItem
-                  formItemName="Group Name"
-                  errorString={nameError}
-                  isDisabled={false}
-                  tooltipText="Groups describe the overall category of an item, such as stroller, crib, or bed."
-                  inputComponent={
-                    <TextField
-                      name="name"
-                      placeholder="Enter a group name"
-                      type="text"
-                      input={name}
-                      isDisabled={false}
-                      isErroneous={nameError !== ""}
-                      onChange={onNameChange}
-                    />
-                  }
-                />
-              </div>
-              <div className="tag-input-form-item">
-                <FormItem
-                  formItemName="Item Types"
-                  instructions="If no types are applicable, create a universal type such as “One Size”"
-                  errorString={requestTypesError}
-                  isDisabled={false}
-                  tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
-                  inputComponent={
-                    <TagInput
-                      tagStrings={requestTypeNames}
-                      placeholder="Enter a new type"
-                      actionString="Add new type:"
-                      isErroneous={requestTypesError !== ""}
-                      onChange={onInputRequestTypeNameChange}
-                      onSubmit={onAddRequestType}
-                      onDelete={onDeleteRequestType}
-                    />
-                  }
-                />
-              </div>
-              <div className="richtext-field-form-item">
-                <FormItem
-                  formItemName="Description & Requirements"
-                  instructions="Formatting Tip: Ctrl-B to bold, “-” + Space to create a bullet point"
-                  errorString={descriptionError}
-                  isDisabled={false}
-                  inputComponent={
-                    <RichTextField
-                      initialContent={initialRequestGroup && initialRequestGroup.description ? initialRequestGroup.description : ""}
-                      defaultText="Enter group description here"
-                      onChange={onDescriptionChange}
-                      onEmpty={onDecriptionEmpty}
-                      isErroneous={descriptionError !== ""}
-                    />
-                  }
-                />
-              </div>
-            </div>
-            <div className="request-group-form-modal-panel" id="right">
-              <div className="imagepicker-form-item">
-                <FormItem
-                  formItemName="Image"
-                  errorString={imageError}
-                  isDisabled={false}
-                  inputComponent={
-                    <ImagePicker
-                      onImageChange={onImageChange}
-                      images={images}
-                      selected={image}
-                      isErroneous={imageError !== ""}
-                    />
-                  }
-                />
-              </div>
-            </div>
-          </div>
-          <div className="request-group-form-modal-footer">
-            <Button
-              text={formButtonText}
-              copyText=""
-            />
-          </div>
-        </form>}
-    </FormModal>
-  </div >
+        <div className="tag-input-form-item">
+          <FormItem
+            formItemName="Types"
+            instructions="If no types are applicable, create a universal type such as “One Size”"
+            errorString={requestTypesError}
+            isDisabled={false}
+            tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
+            showErrorIcon={false}
+            inputComponent={
+              <TagInput
+                tagStrings={requestTypeNames}
+                placeholder="Create a type for the need"
+                actionString="Add new type:"
+                isErroneous={requestTypesError !== ""}
+                onChange={onInputRequestTypeNameChange}
+                onSubmit={onAddRequestType}
+                onDelete={onDeleteRequestType}
+                showRedErrorText={true}
+              />
+            }
+          />
+        </div>
+        <div className="richtext-field-form-item">
+          <FormItem
+            formItemName="Description & Requirements"
+            instructions="Formatting Tip: Ctrl-B to bold, “-” + Space to create a bullet point"
+            errorString={descriptionError}
+            isDisabled={false}
+            showErrorIcon={false}
+            inputComponent={
+              <RichTextField
+                initialContent={initialRequestGroup && initialRequestGroup.description ? initialRequestGroup.description : ""}
+                defaultText="Enter a description of the need and any requirements for the item"
+                onChange={onDescriptionChange}
+                onEmpty={onDecriptionEmpty}
+                isErroneous={descriptionError !== ""}
+              />
+            }
+          />
+        </div>
+      </div>
+      <div className="request-group-form-panel" id="right">
+        <div className="imagepicker-form-item">
+          <FormItem
+            formItemName="Image"
+            errorString={imageError}
+            isDisabled={false}
+            showErrorIcon={false}
+            inputComponent={
+              <ImagePicker
+                onImageChange={onImageChange}
+                images={images}
+                selected={image}
+                isErroneous={imageError !== ""}
+              />
+            }
+          />
+        </div>
+      </div>
+    </div>
+  </FormModal>
 };
 
 const mapStateToProps = (store: RootState): StateProps => {

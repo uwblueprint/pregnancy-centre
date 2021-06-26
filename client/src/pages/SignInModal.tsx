@@ -1,10 +1,11 @@
-import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import React, { FunctionComponent, useState } from "react";
 import LogoModal from "../components/organisms/LogoModal";
 import { Redirect } from "react-router-dom";
 
 import { AuthErrorMessage, signIn } from "../services/auth";
 import ConfirmationModal from "./ConfirmationModal";
+import FormItem from "../components/molecules/FormItem";
+import { TextField } from "../components/atoms/TextField";
 
 const SignInModal: FunctionComponent = () => {
   const initialErrors = { email: "", password: "" }
@@ -54,59 +55,46 @@ const SignInModal: FunctionComponent = () => {
         show={!confirmationEmailSent}
         handleClose={handleClose}
         body={
-          <div>
+          <div className='sign-in-modal'>
             <form onSubmit={handleClick}>
-              <div>
-                <div className="row">
-                  <div className="text signup">Email Address</div>
-                  <div className="text error">{errors.email}</div>
-                </div>
-
-                <div className={errors.email && `row bordered error`}><input
-                  name="email"
-                  placeholder="Enter your company email"
-                  type="text"
-                  value={email}
-                  className={errors.email ? "text-field-input password error" : "text-field-input"}
-                  onChange={onChangeEmail}
-                />
-                  <div
-                    className={errors.email ? "text-field-input-alert" : "hidden"}
-                  ><i className="bi bi-exclamation-circle alert-icon"></i></div>
-                </div>
-              </div>
-
-              <div>
-                <div>
-                  <div className="row">
-                    <div className="text signup">
-                      Password 
-                    </div>
-                    <div className="text error">{errors.password}</div>
-                  </div>
-                  <div className={`row bordered ${errors.password && "error"}`}>
-                    <input
-                      type={hidePassword ? "password" : "text"}
-                      name="password"
-                      className={
-                        errors.password
-                          ? "text-field-input password error"
-                          : "text-field-input password"
-                      }
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={onChangePass}
-                    />
-                    <div
-                      className="text-field-input-btn"
-                      onClick={() => {
-                        setHidePassword(!hidePassword);
-                      }}>
-                      {hidePassword ? <EyeFilled /> : <EyeInvisibleFilled />}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <FormItem
+                className="email-form-item"
+                formItemName="Email Address"
+                errorString={errors.email}
+                isDisabled={false}
+                inputComponent={
+                  <TextField
+                    type="text"
+                    name="email"
+                    placeholder="Enter your company email"
+                    input={email}
+                    onChange={onChangeEmail}
+                    isDisabled={false}
+                    isErroneous={errors.email !== ""}
+                  />
+                }
+              />
+              <FormItem
+                className="password-form-item"
+                formItemName="Password"
+                errorString={errors.password}
+                isDisabled={false}
+                inputComponent={
+                  <TextField
+                    type={hidePassword ? "password" : "text"}
+                    name="password"
+                    placeholder="Enter your password"
+                    input={password}
+                    onChange={onChangePass}
+                    isDisabled={false}
+                    isErroneous={errors.password !== ""}
+                    iconClassName={hidePassword ? "bi bi-eye" : "bi bi-eye-slash"}
+                    onIconClick={() => {
+                      setHidePassword(!hidePassword);
+                    }}
+                  />
+                }
+              />
               <div
                 className="text redirect right"
                 onClick={() => {

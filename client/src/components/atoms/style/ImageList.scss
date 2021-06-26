@@ -25,13 +25,14 @@
   .img-wrapper {
     height: 69px;
     &-overlay {
+      display: flex;
+      justify-content: center;
+      width: 80px;
       height: 59px;
-      float: right;
       background-color: black;
       border-radius: $box-border-radius;
     }
     img {
-      float: right;
       border-radius: $box-border-radius;
       width: 80px;
       height: 59px;

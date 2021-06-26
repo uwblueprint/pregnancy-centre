@@ -9,6 +9,7 @@ interface TextFieldWithActionProps {
   type: "text",
   actionString: string,
   iconClassName?: string
+  showRedErrorText?: boolean
 }
 
 const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props: TextFieldWithActionProps) => {
@@ -32,15 +33,25 @@ const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props:
     }
     
     return (
-    <div className="text-field-with-action">
-        <div onKeyDown={handleKeyDown}>        
-            <TextField input={value} isDisabled={false} isErroneous={props.isErroneous} onChange={onTextChange} name="text-field-action" placeholder={props.placeholder} type={props.type} iconClassName={props.iconClassName} ></TextField>
-        </div>
-        { value!=="" && 
-            <div>
-                <a onClick={()=>{
-                    if (value !== ""){props.onSubmit(value);}
-                    setValue("");
+        <div className="text-field-with-action">       
+            <div onKeyDown={handleKeyDown}>
+                <TextField
+                    input={value}
+                    isDisabled={false}
+                    isErroneous={props.isErroneous}
+                    onChange={onTextChange}
+                    name="text-field-action"
+                    placeholder={props.placeholder}
+                    type={props.type}
+                    iconClassName={props.iconClassName}
+                    showRedErrorText={props.showRedErrorText}
+                />
+            </div>
+            { value!=="" &&
+                <div>
+                    <a onClick={()=>{
+                        if (value !== ""){props.onSubmit(value);}
+                        setValue("");
                     }}>
                     <div className={"action" + (props.isErroneous ? " error" : "")}>
                         <div className="action-string">{props.actionString}</div>
