@@ -112,7 +112,7 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
             {requests.length !== 0 &&
                 <Table responsive className="request-table"> 
                 <thead> 
-                <tr >
+                <tr>
                     {headingList.map((heading, index) => (
                     <th key={index} className="request-table th">{heading}</th>
                     ))}
