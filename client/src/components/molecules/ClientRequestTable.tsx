@@ -123,9 +123,7 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
                         request.deleted === false ?
                         <tr key={request._id}>
                             <td>
-                                <div>
-                                    <Form.Check type="checkbox" onClick={() => onFulfilledRequest(index)} defaultChecked={request.fulfilled}/>
-                                </div>
+                                <div><Form.Check type="checkbox" onClick={() => onFulfilledRequest(index)} defaultChecked={request.fulfilled}/></div>
                             </td>
                             {request?.requestType?.requestGroup != null ?
                                 <td style={request.fulfilled ? {opacity: 0.2}:undefined}><div className="row-text-style">{request.requestType.requestGroup.name}</div></td>
