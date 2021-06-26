@@ -1,54 +1,69 @@
-import { Document, model, Schema, Types } from 'mongoose'
+import { Document, model, Schema, Types } from "mongoose";
 
-interface RequestInterface extends Document {
-  _id: Types.ObjectId
-
-  // Properties
-  quantity: number 
-  clientName: String
-
-  // References
-  requestType: Types.ObjectId
-
-  // Timestamps
-  createdAt: Date
-  updatedAt: Date
-
-  // Timestamps for Statuses
-  deletedAt: Date
-  fulfilledAt: Date
+interface DonationGroupEmbeddingInterface {
+  _id: Types.ObjectId;
 }
 
-const requestSchema = new Schema({
+interface RequestInterface extends Document {
+  _id: Types.ObjectId;
+
   // Properties
-  quantity: {
-    type: Number,
-    required: true,
-    default: 1
-  },
-  clientName: {
-    type: String,
-    required: true
-  },
+  quantity: number;
+  clientName: string;
 
   // References
-  requestType: {
-    type: Types.ObjectId, ref: 'RequestType'
-  },
+  requestType: Types.ObjectId;
+  donationGroups: Array<DonationGroupEmbeddingInterface>;
+
+  // Timestamps
+  createdAt: Date;
+  updatedAt: Date;
 
   // Timestamps for Statuses
-  deletedAt: {
-    type: Date
-  },
-  fulfilledAt: {
-    type: Date
-  },
+  deletedAt: Date;
+  fulfilledAt: Date;
+}
 
-}, // Options
-{
-  timestamps: true
-})
+const requestSchema = new Schema(
+  {
+    // Properties
+    quantity: {
+      type: Number,
+      required: true,
+      default: 1,
+    },
+    clientName: {
+      type: String,
+      required: true,
+    },
 
-const Request = model<RequestInterface>('Request', requestSchema)
+    // References
+    requestType: {
+      type: Types.ObjectId,
+      ref: "RequestType",
+    },
+    donationGroups: {
+      type: [
+        {
+          _id: { type: Types.ObjectId, ref: "DonationGroup" },
+        },
+      ],
+      default: [],
+    },
 
-export { Request, RequestInterface }
+    // Timestamps for Statuses
+    deletedAt: {
+      type: Date,
+    },
+    fulfilledAt: {
+      type: Date,
+    },
+  }, // Options
+  {
+    timestamps: true,
+  }
+);
+
+const Request = model<RequestInterface>("Request", requestSchema);
+
+export { Request, RequestInterface };
