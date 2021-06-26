@@ -152,6 +152,8 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
       variables: { id: props.requestGroupId, },
       fetchPolicy: 'network-only',
       onCompleted: (data: { requestGroup: RequestGroup }) => {
+        console.log("HERE")
+        console.log(data)
         const retrievedRequestGroup: RequestGroup = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
 
         setInitialRequestGroup(retrievedRequestGroup)

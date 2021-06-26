@@ -25,7 +25,6 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
           _id
           name
           description
-          image
           updatedAt
           deleted
           countOpenRequests
