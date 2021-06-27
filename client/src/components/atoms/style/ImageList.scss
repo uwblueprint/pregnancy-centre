@@ -1,50 +1,50 @@
 @keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .image-list {
-  &-container {
-    width: 368px;
-    height: 130px;
-    animation: fade-in 1s;
-  }
-  .img-grid {
-    height: 69px;
-  }
-  .check {
-    color: white;
-    font-size: 44px;
-    position: absolute;
-    margin: 0px 18px;
-  }
-  .img-wrapper {
-    height: 69px;
-    &-overlay {
-      display: flex;
-      justify-content: center;
-      width: 80px;
-      height: 59px;
-      background-color: black;
-      border-radius: $box-border-radius;
+    &-container {
+        width: 368px;
+        height: 130px;
+        animation: fade-in 1s;
     }
-    img {
-      border-radius: $box-border-radius;
-      width: 80px;
-      height: 59px;
-      cursor: pointer;
-      object-fit: cover;
-      opacity: 0.7;
-      &:hover {
-        opacity: 1;
-      }
-      .selected {
-        opacity: 0.3;
-      }
+    .img-grid {
+        height: 69px;
     }
-  }
+    .check {
+        color: white;
+        font-size: 44px;
+        position: absolute;
+        margin: 0px 18px;
+    }
+    .img-wrapper {
+        height: 69px;
+        &-overlay {
+            display: flex;
+            justify-content: center;
+            width: 80px;
+            height: 59px;
+            background-color: black;
+            border-radius: $box-border-radius;
+        }
+        img {
+            border-radius: $box-border-radius;
+            width: 80px;
+            height: 59px;
+            cursor: pointer;
+            object-fit: cover;
+            opacity: 0.7;
+            &:hover {
+                opacity: 1;
+            }
+            .selected {
+                opacity: 0.3;
+            }
+        }
+    }
 }

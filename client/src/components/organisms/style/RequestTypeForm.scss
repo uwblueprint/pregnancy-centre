@@ -1,36 +1,36 @@
 .request-type-form {
-  position: absolute;
+    position: absolute;
 
-  .modal-content {
-    width: unset;
-  }
-
-  .modal-body {
-    padding: 30px;
-  }
-
-  .text-field-input {
-    width: 376px;
-    height: 45px;
-  }
-
-  .error-message {
-    @include error-text;
-    font-size: 12px;
-    margin-top: 15px;
-  }
-
-  &-footer {
-    margin-top: 35px;
-    & .button {
-      float: right;
-      padding: 12px 33px;
-
-      background-color: $tpc-green;
-      &:hover {
-        background-color: $tpc-green-hover;
-        color: $white-text-color;
-      }
+    .modal-content {
+        width: unset;
     }
-  }
+
+    .modal-body {
+        padding: 30px;
+    }
+
+    .text-field-input {
+        width: 376px;
+        height: 45px;
+    }
+
+    .error-message {
+        @include error-text;
+        font-size: 12px;
+        margin-top: 15px;
+    }
+
+    &-footer {
+        margin-top: 35px;
+        & .button {
+            float: right;
+            padding: 12px 33px;
+
+            background-color: $tpc-green;
+            &:hover {
+                background-color: $tpc-green-hover;
+                color: $white-text-color;
+            }
+        }
+    }
 }

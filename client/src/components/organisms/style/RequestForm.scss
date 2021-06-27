@@ -4,85 +4,85 @@ $request-form-text-field-height: 45px;
 $request-form-quantity-field-width: 106px;
 
 @mixin request-form-error-icon {
-  margin-top: 8px;
-  z-index: 1;
-  position: absolute;
+    margin-top: 8px;
+    z-index: 1;
+    position: absolute;
 }
 
 .request-form {
-  .modal-dialog {
-    max-width: $request-form-width;
-  }
-
-  .modal-body {
-    padding: 0 44px 32px 44px;
-  }
-
-  .form-item {
-    margin-top: 23px;
-  }
-
-  .text-field {
-    width: $request-form-input-width;
-    height: $request-form-text-field-height;
-  }
-
-  .form-item-top {
-    width: $request-form-input-width;
-  }
-
-  .client-form-item .form-item-error-icon {
-    @include request-form-error-icon;
-    margin-left: calc(#{$request-form-input-width} + 10px);
-  }
-
-  .request-group-form-item {
-    width: $request-form-input-width;
-    .form-item-error-icon {
-      @include request-form-error-icon;
-      margin-left: calc(#{$request-form-input-width} + 10px);
+    .modal-dialog {
+        max-width: $request-form-width;
     }
-  }
 
-  .request-type-form-item {
-    width: $request-form-input-width;
-    .form-item-error-icon {
-      @include request-form-error-icon;
-      margin-left: calc(#{$request-form-input-width} + 10px);
+    .modal-body {
+        padding: 0 44px 32px 44px;
     }
-  }
 
-  .quantity-form-item {
-    width: $request-form-quantity-field-width;
-    .form-item-bottom {
-      width: $request-form-quantity-field-width;
+    .form-item {
+        margin-top: 23px;
     }
-    .form-item-error-icon {
-      @include request-form-error-icon;
-      margin-left: calc(#{$request-form-quantity-field-width} + 10px);
+
+    .text-field {
+        width: $request-form-input-width;
+        height: $request-form-text-field-height;
     }
-  }
 
-  .searchable-dropdown {
-    margin: 0;
-
-    .dropdown {
-      width: $request-form-input-width;
-
-      .scroll-window {
-        max-height: 146px;
-      }
+    .form-item-top {
+        width: $request-form-input-width;
     }
-  }
 
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+    .client-form-item .form-item-error-icon {
+        @include request-form-error-icon;
+        margin-left: calc(#{$request-form-input-width} + 10px);
+    }
 
-  .alert-dialog {
-    margin-top: -140px;
-    width: $request-form-width;
-  }
+    .request-group-form-item {
+        width: $request-form-input-width;
+        .form-item-error-icon {
+            @include request-form-error-icon;
+            margin-left: calc(#{$request-form-input-width} + 10px);
+        }
+    }
+
+    .request-type-form-item {
+        width: $request-form-input-width;
+        .form-item-error-icon {
+            @include request-form-error-icon;
+            margin-left: calc(#{$request-form-input-width} + 10px);
+        }
+    }
+
+    .quantity-form-item {
+        width: $request-form-quantity-field-width;
+        .form-item-bottom {
+            width: $request-form-quantity-field-width;
+        }
+        .form-item-error-icon {
+            @include request-form-error-icon;
+            margin-left: calc(#{$request-form-quantity-field-width} + 10px);
+        }
+    }
+
+    .searchable-dropdown {
+        margin: 0;
+
+        .dropdown {
+            width: $request-form-input-width;
+
+            .scroll-window {
+                max-height: 146px;
+            }
+        }
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .alert-dialog {
+        margin-top: -140px;
+        width: $request-form-width;
+    }
 }

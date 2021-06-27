@@ -5,31 +5,29 @@
         padding-bottom: 4px;
         margin: 0;
     }
-    width:1200px;
+    width: 1200px;
     margin-left: auto;
-    margin-right:auto;
-    .edit{
+    margin-right: auto;
+    .edit {
         color: #333333;
     }
-    .delete{
+    .delete {
         color: #333333;
         cursor: pointer;
     }
     & td {
-      border-top: unset;
-      padding: 0.6rem;
-      vertical-align: unset;
+        border-top: unset;
+        padding: 0.6rem;
+        vertical-align: unset;
     }
-    .btn-cont{
-        display:flex;
+    .btn-cont {
+        display: flex;
         justify-content: flex-end;
         margin-left: 20px;
         margin-right: 20px;
     }
-  }
+}
 
-  .request-table-empty-message {
-      margin-top: 20px;
-  }
-
-  
+.request-table-empty-message {
+    margin-top: 20px;
+}

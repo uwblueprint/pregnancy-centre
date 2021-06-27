@@ -3,14 +3,14 @@ import DeletableTag from "./DeletableTag";
 import { TextFieldWithAction } from "./TextFieldWithAction";
 
 interface TagInputProps {
-    tagStrings: string[],
-    onChange: (value: string) => boolean,
-    onSubmit: (value: string) => void,
-    onDelete: (value: string) => void,
-    isErroneous: boolean,
-    placeholder: string,
-    actionString: string
-    showRedErrorText?: boolean
+    tagStrings: string[];
+    onChange: (value: string) => boolean;
+    onSubmit: (value: string) => void;
+    onDelete: (value: string) => void;
+    isErroneous: boolean;
+    placeholder: string;
+    actionString: string;
+    showRedErrorText?: boolean;
 }
 
 const TagInput: FunctionComponent<TagInputProps> = (props: TagInputProps) => {
@@ -29,9 +29,12 @@ const TagInput: FunctionComponent<TagInputProps> = (props: TagInputProps) => {
                 />
             </div>
             <div className="tag-list">
-                {props.tagStrings.map((tag,index) => <div key={index} className="each-tag"><DeletableTag text={tag} onDelete={props.onDelete}/></div>)}
+                {props.tagStrings.map((tag, index) => (
+                    <div key={index} className="each-tag">
+                        <DeletableTag text={tag} onDelete={props.onDelete} />
+                    </div>
+                ))}
             </div>
-
         </div>
     );
 };
