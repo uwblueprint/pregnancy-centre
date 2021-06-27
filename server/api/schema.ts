@@ -112,6 +112,7 @@ const typeDefs = gql`
         donationGroups: [DonationGroup]
         createdAt: String
         updatedAt: String
+        confirmationNumber: Int
     }
 
     type DonationFormContact {
