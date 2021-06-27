@@ -3,7 +3,7 @@ import { RequestType, RequestTypeInterface } from '../../database/models/request
 
 import { sessionHandler } from '../utils/session'
 
-const requestEmbeddingFromRequest = ( request: RequestInterface ) => {
+const requestEmbeddingFromRequest = (request: RequestInterface) => {
     return {
         _id: request._id,
         createdAt: request.createdAt ? request.createdAt : null,
@@ -16,7 +16,7 @@ const swapRequestTypeForRequest = async ( request, oldRequestTypeID, newRequestT
     if (oldRequestTypeID) {
         const oldRequestType = await RequestType.findById(oldRequestTypeID).session(session)
         oldRequestType.requests = oldRequestType.requests.filter((requestEmbedding) => {
-            return requestEmbedding._id !== request._id
+            return !requestEmbedding._id.equals(request._id)
         })
         await oldRequestType.save({ session: session })
     }
@@ -51,11 +51,11 @@ const requestQueryResolvers = {
 
 const requestMutationResolvers = {
     createRequest: async (_, { request }, { authenticateUser }): Promise<RequestInterface> => {
-        return authenticateUser().then(async () => { 
+        return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
-                const newRequestObject = new Request({...request})
+                const newRequestObject = new Request({ ...request })
                 const newRequest = await newRequestObject.save({ session: session })
-                
+
                 const requestType = await RequestType.findById(newRequest.requestType).session(session)
                 requestType.requests.push(requestEmbeddingFromRequest(newRequest))
                 await requestType.save({ session: session })
@@ -67,13 +67,20 @@ const requestMutationResolvers = {
     updateRequest: async (_, { request }, { authenticateUser }): Promise<RequestInterface> => {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
+                console.log("HERE")
                 const oldRequest = await Request.findById(request._id).session(session)
-                const modifiedRequestObject = new Request({...oldRequest, ...request})
-                const newRequest = await modifiedRequestObject.save({ session: session })
-
-                if (oldRequest.requestType !== newRequest.requestType) {
-                    swapRequestTypeForRequest(newRequest, oldRequest.requestType, newRequest.requestType, session)
+                const oldRequestType = oldRequest.requestType
+                console.log(oldRequestType)
+                const newRequest = await Request.findByIdAndUpdate(request._id, request, { new: true, session: session })
+                console.log("HERE2")
+                console.log(oldRequestType)
+                console.log(oldRequest.requestType)
+                console.log(newRequest.requestType)
+                if (!oldRequestType.equals(newRequest.requestType)) {
+                    console.log("HER3")
+                    await swapRequestTypeForRequest(newRequest, oldRequest.requestType, newRequest.requestType, session)
                 }
+                console.log("HERE4")
 
                 return newRequest
             })
@@ -106,7 +113,7 @@ const requestMutationResolvers = {
                 const modifiedRequestObject = await Request.findById(requestId).session(session)
 
                 if (modifiedRequestObject.requestType !== requestTypeId) {
-                    swapRequestTypeForRequest(modifiedRequestObject, modifiedRequestObject.requestType, requestTypeId, session)
+                    await swapRequestTypeForRequest(modifiedRequestObject, requestTypeId, modifiedRequestObject.requestType, session)
                 }
 
                 modifiedRequestObject.requestType = requestTypeId
