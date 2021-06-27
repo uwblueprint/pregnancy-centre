@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useRef } from "react";
 
 interface TextFieldProps {
   input: string | number,
@@ -14,11 +14,24 @@ interface TextFieldProps {
   placeholder: string,
   type: "text" | "password" | "number",
   iconClassName?: string,
-  onIconClick?: React.MouseEventHandler<HTMLElement>
+  onIconClick?: React.MouseEventHandler<HTMLElement>,
   autocompleteOff?: boolean,
+  focusOnIconClick?: boolean
 }
 
 const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => {
+  const textFieldRef = useRef<HTMLInputElement>(null);
+  const onIconClick = (event: React.MouseEvent<HTMLElement>) => {
+    if(props.isDisabled){
+      return;
+    }
+    if(props.onIconClick){
+      props.onIconClick(event);
+    }
+    if(props.focusOnIconClick && textFieldRef && textFieldRef.current){
+      textFieldRef.current.focus();
+    }
+  }
   return <div className="text-field">
     <input
       type={props.type}
@@ -36,9 +49,10 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
       disabled={props.isDisabled}
       autoComplete={props.autocompleteOff ? "off" : "on"}
       onKeyDown={(e: React.KeyboardEvent) => { if (e.key == 'Enter') { e.preventDefault() } }}
+      ref={textFieldRef}
     />
     {props.iconClassName && <i
-      onClick={props.onIconClick ? props.onIconClick : () => {}}
+      onClick={onIconClick}
       className={props.iconClassName
         + (props.isErroneous ? " error" : "")
         + (props.isDisabled || props.isDisabledUI ? " disabled" : "")

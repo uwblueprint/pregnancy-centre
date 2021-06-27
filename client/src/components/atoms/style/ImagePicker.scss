@@ -1,5 +1,4 @@
 .imagepicker {
-  width: 350px;
   &-title {
     margin-bottom: 11px;
   }
@@ -31,8 +30,8 @@
     font-size: 24px;
 
     img {
-      height: 248px;
-      width: 348px;
+      height: inherit;
+      width: inherit;
       object-fit: cover;
     }
     .unselected {

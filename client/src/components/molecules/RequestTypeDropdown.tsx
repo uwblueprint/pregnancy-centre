@@ -1,7 +1,8 @@
 import { gql, useMutation } from '@apollo/client';
 import React, { FunctionComponent, useEffect, useState } from 'react';
+
+import DeleteRequestTypeDialog from '../organisms/DeleteRequestTypeDialog';
 import Dropdown from '../atoms/Dropdown';
-import FormModal from '../organisms/FormModal';
 import Request from '../../data/types/request';
 import RequestGroup from '../../data/types/requestGroup';
 import RequestsTable from './RequestsTable';
@@ -36,7 +37,9 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const getTotalQuantity = () => {
         let totalQuantity = 0;
         requestType?.requests!.forEach(request => {
-            totalQuantity += request.quantity!
+            if (!request.deleted) {
+                totalQuantity += request.quantity!
+            }
         });
         return totalQuantity;
     }
@@ -50,7 +53,6 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
 
         setEditModalShow(false)
     };
-    const handleDeleteModalClose = () => setDeleteModalShow(false);
 
     const deleteRequestType = async () => {
         //delete requestType here
@@ -92,24 +94,17 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                 requestGroup={props.requestGroup}
                 operation="edit"
             />}
-            <FormModal
-                class="request-type-form-modal"
-                title="Delete Type"
-                handleClose={handleDeleteModalClose}
-                show={deleteModalShow}
-                size="small">
-                <div className="request-type-form-modal-contents">
-                    <p>Are you sure you want to delete <b>&#34;{requestType!.name}&#34;</b> as a type in the group <b>&#34;{props.requestGroup!.name}&#34;</b>? This will delete all <b>{getTotalQuantity()}</b> requests within this type and cannot be undone.</p>
-                </div>
-                <div className="request-group-form-modal-footer">
-                    <button className="request-type-form-modal-confirm" onClick={() => {
-                        deleteRequestType()
-                        window.location.reload()
-                    }
-                    }>Confirm</button>
-                    <button className="request-type-form-modal-cancel" onClick={() => setDeleteModalShow(false)}>Cancel</button>
-                </div>
-            </FormModal>
+            {deleteModalShow && <DeleteRequestTypeDialog
+                requestTypeName={requestType!.name}
+                requestGroupName={props.requestGroup!.name}
+                handleClose={() => setDeleteModalShow(false)}
+                onSubmit={() => {
+                    deleteRequestType()
+                    window.location.reload()
+                }}
+                onCancel={() => setDeleteModalShow(false)}
+                numRequests={getTotalQuantity()}
+            />}
         </div>
     )
 }
