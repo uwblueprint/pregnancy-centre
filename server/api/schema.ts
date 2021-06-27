@@ -105,6 +105,35 @@ const typeDefs = gql`
     #     NOT_AVAILABLE: Boolean
     # }
 
+    type DonationForm {
+        _id: ID
+        contact: DonationFormContact
+        donationGroups: [DonationGroup]
+        createdAt: String
+        updatedAt: String
+    }
+
+    type DonationFormContact {
+        firstName: String
+        lastName: String
+        email: String
+        phoneNum: String
+    }
+
+    type DonationGroup {
+        _id: ID
+        name: String
+        requestGroup: RequestGroup
+        description: String
+        quantity: Int
+        age: Int
+        condition: String
+        images: [String]
+        donationForm: DonationForm
+        createdAt: String
+        updatedAt: String
+    }
+
     type Query {
         request(_id: ID): Request
         requests: [Request]
