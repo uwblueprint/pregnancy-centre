@@ -15,6 +15,8 @@ interface DonationFormInterface extends Document {
     phoneNum: string;
   };
 
+  confirmationNumber: number;
+
   // Embedded Objects
   donationGroups: Array<DonationGroupEmbeddingInterface>;
 
@@ -32,6 +34,8 @@ const DonationFormSchema = new Schema(
       email: { type: String, required: true },
       phoneNum: { type: String, required: true },
     },
+
+    confirmationNumber: { type: Number, required: true, min: 0, max: 999999 },
 
     // Embedded Objects
     donationGroups: {
