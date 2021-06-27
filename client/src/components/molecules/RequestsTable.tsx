@@ -124,8 +124,8 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                                 <Form.Check type="checkbox" onClick={() => onFulfilledRequest(index)} defaultChecked={request.fulfilled}/>
                             </div>
                             </td>
-                            {request.client !== null ?
-                                <td style={requests[index].fulfilled ? {opacity: 0.2}:undefined}><div className="row-text-style">{request.client!.fullName}</div></td>:
+                            {request.clientName !== null ?
+                                <td style={requests[index].fulfilled ? {opacity: 0.2}:undefined}><div className="row-text-style">{request.clientName}</div></td>:
                                 <td>N/A</td>
                             }
                             <td style={requests[index].fulfilled ? {opacity: 0.2}:undefined}>{request.quantity}</td>

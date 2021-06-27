@@ -77,7 +77,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                         ))}
                                     </div>
                                 </td>
-                                <td className="nextRecipient-col">{ requestGroup.nextRecipient ? requestGroup.nextRecipient.fullName : "N/A" }</td>
+                                <td className="nextRecipient-col">{ requestGroup.nextRecipient ? requestGroup.nextRecipient : "N/A" }</td>
                                 <td className="date-col">{ requestGroup.hasAnyRequests ? moment(requestGroup.updatedAt, "x").format('MMMM DD, YYYY') : "N/A" }</td>
                                 <td className="image-col">
                                     <div className="img-wrapper">

@@ -161,7 +161,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         setRequestGroup(request.requestType && request.requestType.requestGroup ? request.requestType.requestGroup : null)
         setRequestType(request.requestType ? request.requestType : null)
         setQuantity(request.quantity ? request.quantity : 1)
-        setClientName(request.client && request.client.fullName ? request.client.fullName : "")
+        setClientName(request.clientName ? request.clientName : "")
 
         // Check that requestGroups are loaded before setting loading = false
         if (requestGroupsMap) {
@@ -302,11 +302,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   }
 
   const onSubmit = (e: React.FormEvent) => {
-    fetchClient({
-      variables: {
-        clientName
-      }
-    });
     e.preventDefault();
     return 
     /*const tempRequestGroupError = updateRequestGroupError(requestGroup)

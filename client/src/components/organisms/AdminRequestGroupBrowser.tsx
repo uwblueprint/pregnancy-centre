@@ -77,7 +77,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
           <div className="request-group-header">
             <div className="request-group-description">
               <h1 className="request-group-title">{requestGroup!.name}</h1>
-              <p>Displaying {requestGroup!.numOpen} total requests and {numTypes} types</p>
+              <p>Displaying {requestGroup!.countOpenRequests} total requests and {numTypes} types</p>
             </div>
             <div>
               <Dropdown className="request-group-button">
