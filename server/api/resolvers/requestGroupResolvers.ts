@@ -56,7 +56,7 @@ const requestGroupQueryResolvers = {
 const requestGroupMutationResolvers = {
     createRequestGroup: async (_, { requestGroup }, { authenticateUser }): Promise<RequestGroupInterface> => {
         return authenticateUser().then(async () => { 
-            const newRequestGroup = new RequestType({...requestGroup})
+            const newRequestGroup = new RequestGroup({...requestGroup})
             const createdRequestGroup = await newRequestGroup.save()
 
             return createdRequestGroup
