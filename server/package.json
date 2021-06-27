@@ -8,7 +8,8 @@
     "seed": "ts-node ./scripts/seed",
     "server": "nodemon server",
     "lint": "eslint . --ext .ts --ext .js --fix",
-    "pretty": "prettier --write \"./**/*.{ts,tsx}\""
+    "pretty": "prettier --write \"./**/*.{ts,tsx}\"",
+    "pretty-silent": "prettier --loglevel silent --write \"./**/*.{ts,tsx}\""
   },
   "keywords": [],
   "author": "",

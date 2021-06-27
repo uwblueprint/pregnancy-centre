@@ -1,9 +1,9 @@
-import { Types } from 'mongoose'
+import { Types } from "mongoose";
 
 interface ServerResponseInterface {
-    success: boolean,
-    message: string,
-    id: Types.ObjectId
+    success: boolean;
+    message: string;
+    id: Types.ObjectId;
 }
 
-export { ServerResponseInterface }
+export { ServerResponseInterface };
