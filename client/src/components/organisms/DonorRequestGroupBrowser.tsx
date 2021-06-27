@@ -4,6 +4,7 @@ import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
 
 import { loadRequestGroups, setDisplayRequestGroups } from '../../data/actions'
+import Paginator from '../utils/paginator';
 import RequestGroup from '../../data/types/requestGroup'
 import RequestGroupDonorView from './RequestGroupDonorView'
 import RequestGroupList from './RequestGroupList'
@@ -33,7 +34,6 @@ const DonorRequestGroupBrowser: FunctionComponent<Props> = (props: React.PropsWi
       updatedAt
       deleted
       description
-      requirements
       image
       countOpenRequests
     }

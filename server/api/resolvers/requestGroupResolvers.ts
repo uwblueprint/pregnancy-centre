@@ -65,7 +65,7 @@ const requestGroupMutationResolvers = {
     updateRequestGroup: async (_, { requestGroup }, { authenticateUser }): Promise<RequestGroupInterface> => {
         return authenticateUser().then(async () => {
             const oldRequestGroup = await RequestGroup.findById(requestGroup._id)
-            const modifiedRequestGroup = new RequestType({...oldRequestGroup, ...requestGroup})
+            const modifiedRequestGroup = new RequestGroup({...oldRequestGroup, ...requestGroup})
 
             return modifiedRequestGroup.save()
         })

@@ -29,7 +29,6 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                 name
                 updatedAt
                 description
-                requirements
                 image
                 requestTypes {
                     _id
