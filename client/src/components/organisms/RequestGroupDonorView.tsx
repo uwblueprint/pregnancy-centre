@@ -24,7 +24,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
 
     const query = gql`
         query FetchRequestGroup($id: ID!) {
-            requestGroup(id: $id) {
+            requestGroup(_id: $id) {
                 _id
                 name
                 updatedAt

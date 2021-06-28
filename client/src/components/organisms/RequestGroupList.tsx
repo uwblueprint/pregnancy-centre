@@ -1,24 +1,15 @@
 import React, { FunctionComponent, useState } from "react";
-import { connect } from "react-redux";
 
 import PageNavigation from '../atoms/PageNavigation'
+import Paginator from '../utils/paginator';
 import RequestGroup from '../../data/types/requestGroup'
 import RequestGroupScrollWindow from '../molecules/RequestGroupScrollWindow'
-import { RootState } from '../../data/reducers'
 
-interface StateProps {
-  requestGroups: Array<RequestGroup>
-}
+const RequestGroupList: FunctionComponent = () => {
+  const [currentPage, setCurrentPage] = useState(1) // Indexing starting at 0
 
-type Props = StateProps & {
-  selectedRequestGroup: string | undefined,
-  onRequestGroupChange: (requestGroupdId: string) => void,
-}
-
-const RequestGroupList: FunctionComponent<Props> = (props: Props) => {
-  const numGroupsPerPage = 10
+  const numRequestGroupsPerPage = 10
   const pages = Math.ceil(props.requestGroups.length / numGroupsPerPage)
-  const [currentPage, setCurrentPage] = useState(1) // Indexing starting at 1.
 
   return <div className="request-group-list">
     <div className="request-group-list-scroll-window">
@@ -36,11 +27,5 @@ const RequestGroupList: FunctionComponent<Props> = (props: Props) => {
   </div>
 };
 
-const mapStateToProps = (store: RootState): StateProps => {
-  return {
-    requestGroups: store.requestGroups.displayData,
-  };
-};
-
-export default connect<StateProps, Record<string, unknown>, Record<string, unknown>, RootState>(mapStateToProps)(RequestGroupList);
+export default RequestGroupList;
 
