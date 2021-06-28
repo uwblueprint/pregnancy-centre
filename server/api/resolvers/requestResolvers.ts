@@ -67,21 +67,12 @@ const requestMutationResolvers = {
     updateRequest: async (_, { request }, { authenticateUser }): Promise<RequestInterface> => {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
-                console.log("HERE")
                 const oldRequest = await Request.findById(request._id).session(session)
                 const oldRequestType = oldRequest.requestType
-                console.log(oldRequestType)
                 const newRequest = await Request.findByIdAndUpdate(request._id, request, { new: true, session: session })
-                console.log("HERE2")
-                console.log(oldRequestType)
-                console.log(oldRequest.requestType)
-                console.log(newRequest.requestType)
                 if (!oldRequestType.equals(newRequest.requestType)) {
-                    console.log("HER3")
                     await swapRequestTypeForRequest(newRequest, oldRequest.requestType, newRequest.requestType, session)
                 }
-                console.log("HERE4")
-
                 return newRequest
             })
         })
