@@ -47,8 +47,12 @@ const requestGroupQueryResolvers = {
     requestGroupsPage: async (_, { skip, limit }, __): Promise<Array<RequestGroupInterface>> => {
         return RequestGroup.find().sort({ "name": "ascending", "_id": "ascending" }).skip(skip).limit(limit).exec()
     },
-    countRequestGroups: async (_, __, ___): Promise<number> => {
-        return RequestGroup.countDocuments();
+    countRequestGroups: async (_, { open }, ___): Promise<number> => {
+        if (open) {
+            return RequestGroup.countDocuments({ deletedAt: { $exists: false } });
+        } else {
+            return RequestGroup.countDocuments();
+        }
     },
     /* Left as a proof of concept:
     requestGroupsFilter: async (_, { filter, options }, ___): Promise<Array<RequestGroupInterface>> => {

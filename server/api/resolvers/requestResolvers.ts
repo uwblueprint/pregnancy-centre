@@ -35,8 +35,12 @@ const requestQueryResolvers = {
     requestsPage: async (_, { skip, limit }, __): Promise<Array<RequestInterface>> => {
         return Request.find().sort({ "name": "ascending", "_id": "ascending" }).skip(skip).limit(limit).exec()
     },
-    countRequests: async (_, __, ___): Promise<number> => {
-        return Request.countDocuments();
+    countRequests: async (_, { open }, ___): Promise<number> => {
+        if (open) {
+            return Request.countDocuments({ deletedAt: { $exists: false }, fulfilledAt: { $exists: false } });
+        } else {
+            return Request.countDocuments();
+        }
     },
     /* Left as a proof of concept:
     requestsFilter: async (_, { filter, options }, ___): Promise<Array<RequestInterface>> => {

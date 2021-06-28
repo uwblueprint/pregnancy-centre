@@ -68,8 +68,12 @@ const requestTypeQueryResolvers = {
     requestTypesPage: async (_, { skip, limit }, __): Promise<Array<RequestTypeInterface>> => {
         return RequestType.find().sort({ "name": "ascending", "_id": "ascending" }).skip(skip).limit(limit).exec()
     },
-    countRequestTypes: async (_, __, ___): Promise<number> => {
-        return RequestType.countDocuments();
+    countRequestTypes: async (_, { open }, ___): Promise<number> => {
+        if (open) {
+            return RequestType.countDocuments({ deletedAt: { $exists: false } });
+        } else {
+            return RequestType.countDocuments();
+        }
     },
     /* Left as a proof of concept:
     requestTypesFilter: async (_, { filter, options }, ___): Promise<Array<RequestTypeInterface>> => {
