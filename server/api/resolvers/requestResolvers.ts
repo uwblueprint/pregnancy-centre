@@ -68,9 +68,8 @@ const requestMutationResolvers = {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
                 const oldRequest = await Request.findById(request._id).session(session)
-                const oldRequestType = oldRequest.requestType
                 const newRequest = await Request.findByIdAndUpdate(request._id, request, { new: true, session: session })
-                if (!oldRequestType.equals(newRequest.requestType)) {
+                if (!oldRequest.requestType.equals(newRequest.requestType)) {
                     await swapRequestTypeForRequest(newRequest, oldRequest.requestType, newRequest.requestType, session)
                 }
                 return newRequest

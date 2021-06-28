@@ -104,13 +104,10 @@ const requestTypeMutationResolvers = {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
                 const oldRequestType = await RequestType.findById(requestType._id).session(session)
-                const modifiedRequestTypeObject = new RequestType({...oldRequestType, ...requestType})
-                const newRequestType = await modifiedRequestTypeObject.save({ session: session })
-
-                if (oldRequestType.requestGroup !== newRequestType.requestGroup) {
-                    swapRequestGroupForRequestType(newRequestType, oldRequestType.requestGroup, newRequestType.requestGroup, session)
+                const newRequestType = await RequestType.findByIdAndUpdate(requestType._id, requestType, { new: true, session: session })
+                if (!oldRequestType.requestGroup.equals(newRequestType.requestGroup)) {
+                    await swapRequestGroupForRequestType(newRequestType, oldRequestType.requestGroup, newRequestType.requestGroup, session)
                 }
-
                 return newRequestType
             })
         })
@@ -128,7 +125,7 @@ const requestTypeMutationResolvers = {
                 const modifiedRequestTypeObject = await RequestType.findById(requestTypeId).session(session)
 
                 if (modifiedRequestTypeObject.requestGroup !== requestGroupId) {
-                    swapRequestGroupForRequestType(modifiedRequestTypeObject, modifiedRequestTypeObject.requestGroup, requestGroupId, session)
+                    await swapRequestGroupForRequestType(modifiedRequestTypeObject, requestGroupId, modifiedRequestTypeObject.requestGroup, session)
                 }
 
                 modifiedRequestTypeObject.requestGroup = requestGroupId
