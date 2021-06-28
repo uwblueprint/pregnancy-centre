@@ -47,6 +47,9 @@ const requestGroupQueryResolvers = {
     requestGroupsPage: async (_, { skip, limit }, __): Promise<Array<RequestGroupInterface>> => {
         return RequestGroup.find().sort({ "name": "ascending", "_id": "ascending" }).skip(skip).limit(limit).exec()
     },
+    countRequestGroups: async (_, __, ___): Promise<number> => {
+        return RequestGroup.countDocuments();
+    },
     /* Left as a proof of concept:
     requestGroupsFilter: async (_, { filter, options }, ___): Promise<Array<RequestGroupInterface>> => {
         return RequestGroup.find().exec()

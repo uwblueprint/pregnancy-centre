@@ -68,6 +68,9 @@ const requestTypeQueryResolvers = {
     requestTypesPage: async (_, { skip, limit }, __): Promise<Array<RequestTypeInterface>> => {
         return RequestType.find().sort({ "name": "ascending", "_id": "ascending" }).skip(skip).limit(limit).exec()
     },
+    countRequestTypes: async (_, __, ___): Promise<number> => {
+        return RequestType.countDocuments();
+    },
     /* Left as a proof of concept:
     requestTypesFilter: async (_, { filter, options }, ___): Promise<Array<RequestTypeInterface>> => {
         return RequestType.find().exec()

@@ -110,18 +110,21 @@ const typeDefs = gql`
         request(_id: ID): Request
         requests: [Request]
         requestsPage(skip: Int, limit: Int): [Request]
+        countRequests: Int
         # --- Left as a proof of concept: --- 
         # requestsFilter(filter: FilterRequestInput, options: FilterOptions): [Request]
 
         requestType(_id: ID): RequestType
         requestTypes: [RequestType]
         requestTypesPage(skip: Int, limit: Int): [RequestType]
+        countRequestTypes: Int
         # --- Left as a proof of concept: --- 
         # requestTypesFilter(filter: FilterRequestTypeInput, options: FilterOptions): [RequestType]
 
         requestGroup(_id: ID): RequestGroup
         requestGroups: [RequestGroup]
         requestGroupsPage(skip: Int, limit: Int): [RequestGroup]
+        countRequestGroups: Int
         # --- Left as a proof of concept: --- 
         # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]
     }
