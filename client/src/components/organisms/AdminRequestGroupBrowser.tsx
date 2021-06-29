@@ -24,13 +24,11 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
         requestGroup(id: $id){
         _id
         name
-        deleted
         numOpen
         requestTypes{
           _id
           name
           deleted
-          dateUpdated
           requests{
             _id
             dateCreated

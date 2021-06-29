@@ -37,26 +37,21 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
     
     useEffect(() => {
         const undeletedReq : Request[] = props.requests.filter((request)=> request.deleted === false);
-        const unfulfilledReq = undeletedReq.filter(request => {
+
+        const removeUndefined = (request : Request) => {
             if (request !== undefined){
-                if (request.fulfilled === false){
-                    return request;
-                }
+                if (request.fulfilled === false) return request;
             }
-        });
-        const fulfilledRequests = undeletedReq.filter(request => {
-            if (request !== undefined){
-                if (request.fulfilled === true){
-                    return request;
-                }
-            }
-        });
-        unfulfilledReq.sort((a, b)=> {
+        }
+
+        const unfulfilledReq = undeletedReq.filter(request => removeUndefined(request));
+        const fulfilledRequests = undeletedReq.filter(request => removeUndefined(request));
+
+        const compareDateCreated = (a : Request, b : Request)=> {
             return (a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf()); 
-        });
-        fulfilledRequests.sort((a, b)=> {
-            return (a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf());
-        });
+        }
+        unfulfilledReq.sort(compareDateCreated);
+        fulfilledRequests.sort(compareDateCreated);
     
         const sortedRequests : Request[] = unfulfilledReq!.concat(fulfilledRequests!) as Request[];
         setRequests(sortedRequests);
