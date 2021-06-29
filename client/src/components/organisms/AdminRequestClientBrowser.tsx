@@ -51,9 +51,9 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
           <Spinner animation="border" role="status"/>
           </div>: 
         (<div>
-          <div className="request-group-header">
-            <div className="request-group-description">
-              <h1 className="request-group-title">{clientName}</h1>
+          <div className="client-header">
+            <div className="client-requests-description">
+              <h1 className="client-name">{clientName}</h1>
               <p>{numRequests > 0 ? `Displaying ${numRequests} total requests` : "No requests exist"}</p>
             </div>
           </div>
