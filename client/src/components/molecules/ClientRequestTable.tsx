@@ -38,14 +38,16 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
     useEffect(() => {
         const undeletedReq : Request[] = props.requests.filter((request)=> request.deleted === false);
 
-        const removeUndefined = (request : Request) => {
+        const removeUndefined = (request : Request, keepFulfilled : boolean) => {
             if (request !== undefined){
-                if (request.fulfilled === false) return request;
+                if (request.fulfilled === keepFulfilled){
+                    return request;
+                }
             }
         }
 
-        const unfulfilledReq = undeletedReq.filter(request => removeUndefined(request));
-        const fulfilledRequests = undeletedReq.filter(request => removeUndefined(request));
+        const unfulfilledReq = undeletedReq.filter(request => removeUndefined(request, false));
+        const fulfilledRequests = undeletedReq.filter(request => removeUndefined(request, true));
 
         const compareDateCreated = (a : Request, b : Request)=> {
             return (a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf()); 
