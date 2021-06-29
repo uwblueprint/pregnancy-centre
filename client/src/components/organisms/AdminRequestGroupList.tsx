@@ -68,6 +68,7 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
             const displayRequestGroups = sortRequestGroupsAlphabetically(data.requestGroups.map(requestGroup => ({ ...requestGroup }))).filter(requestGroup => !requestGroup.deleted);
             props.loadRequestGroups(displayRequestGroups);
             props.setDisplayRequestGroups(displayRequestGroups);
+            console.log(displayRequestGroups);
         },
     });
 
