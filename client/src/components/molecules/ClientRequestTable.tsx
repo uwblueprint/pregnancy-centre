@@ -45,7 +45,6 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
                 }
             }
         }
-
         const unfulfilledReq = undeletedReq.filter(request => removeUndefined(request, false));
         const fulfilledRequests = undeletedReq.filter(request => removeUndefined(request, true));
 
