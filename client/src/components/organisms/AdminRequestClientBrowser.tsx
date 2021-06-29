@@ -23,9 +23,6 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
           fullName
         }
         requestId
-        dateUpdated
-        dateCreated
-        dateFulfilled
         deleted
         fulfilled 
         quantity
