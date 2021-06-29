@@ -1,24 +1,14 @@
-.client-header {
-    display: flex;
-
-    .client-requests-description {
-        flex: 1;
-        margin-left: 160px;
-
-        .client-name {
-            @include heavy-text;
+.admin-request-client-browser {
+    .client-header {
+        display: flex;
+    
+        .client-requests-description {
+            flex: 1;
+            margin-left: 160px;
+    
+            .client-name {
+                @include heavy-text;
+            }
         }
-    }
-
-    .buttonDiv {
-        position: relative;
-    }
-
-    .btn, .btn:hover, .btn:focus, .btn:active, .show > .btn-primary.dropdown-toggle {
-        background-color: $admin-request-group-browser-button-color;
-        color: $tpc-green;
-        border-color: $tpc-green;
-        height: 36px;
-        width: 60px;
     }
 }

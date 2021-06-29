@@ -103,7 +103,7 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
 
 
     return (
-        <div className="request-list">
+        <div className="client-request-table">
             { requestSelectedForEditing && <RequestForm onSubmitComplete={() => { window.location.reload() }} handleClose={() => setRequestSelectedForEditing("")} operation="edit" requestId={requestSelectedForEditing} /> }
             {requests.length !== 0 &&
                 <Table responsive className="request-table"> 

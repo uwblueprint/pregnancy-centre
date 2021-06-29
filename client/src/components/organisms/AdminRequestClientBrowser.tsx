@@ -50,7 +50,7 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
           <div className="spinner"> 
           <Spinner animation="border" role="status"/>
           </div>: 
-        (<div>
+        (<div className="admin-request-client-browser">
           <div className="client-header">
             <div className="client-requests-description">
               <h1 className="client-name">{clientName}</h1>
