@@ -12,11 +12,12 @@ export interface Props {
 const RequestGroupScrollWindow: FunctionComponent<Props> = (props: Props) => {
   const scrollWindow = useRef<HTMLDivElement>(null);
   const selectedItemDiv = useRef<HTMLDivElement>(null);
-  const listIsEmpty = props.requestGroups.length <= 0;
 
   const onClick = (event: React.MouseEvent<HTMLElement>) => {
     props.onRequestGroupChange(event.currentTarget.id)
   }
+
+  console.log(props.requestGroups)
 
   useEffect(() => {
     const requestGroupInList = props.requestGroups.find((requestGroup: RequestGroup) =>
@@ -29,7 +30,7 @@ const RequestGroupScrollWindow: FunctionComponent<Props> = (props: Props) => {
   })
 
   return <div className="request-group-scroll-window" ref={scrollWindow}>
-    {!listIsEmpty && props.requestGroups.map((requestGroup: RequestGroup) =>
+    {props.requestGroups.length > 0 && props.requestGroups.map((requestGroup: RequestGroup) =>
       <div
         className="request-group-list-item-wrapper"
         id={requestGroup._id}

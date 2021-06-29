@@ -1,3 +1,4 @@
+import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 
 import RequestGroupDonorView from './RequestGroupDonorView'
@@ -5,7 +6,19 @@ import RequestGroupList from './RequestGroupList'
 
 const DonorRequestGroupBrowser: FunctionComponent = () => {
   //const [selectedRequestGroup, setSelectedRequestGroup] = useState<string | undefined>(props.displayRequestGroups.length <= 0 ? undefined : props.displayRequestGroups[0]._id)
-  const [selectedRequestGroup, setSelectedRequestGroup] = useState<string | undefined>(undefined)
+  const [countRequestGroups, setCountRequestGroups] = useState<number>(0);
+  const [selectedRequestGroup, setSelectedRequestGroup] = useState<string | undefined>(undefined);
+
+  const query = gql`
+  {
+    countRequestGroups(open: true)
+  }`;
+
+  useQuery(query, {
+      onCompleted: (data: { countRequestGroups: number }) => {
+          setCountRequestGroups(data.countRequestGroups);
+      },
+  });
 
   return <div className="donor-request-group-browser">
     <div>
@@ -14,6 +27,7 @@ const DonorRequestGroupBrowser: FunctionComponent = () => {
     <div className="donor-request-group-browser-content">
       <div className="donor-request-group-browser-list">
         <RequestGroupList
+          countRequestGroups={countRequestGroups}
           selectedRequestGroup={selectedRequestGroup}
           onRequestGroupChange={(requestGroupdId: string) => { setSelectedRequestGroup(requestGroupdId) }}
         />
