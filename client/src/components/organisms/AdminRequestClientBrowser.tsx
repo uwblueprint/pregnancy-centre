@@ -11,6 +11,10 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
     let clientName : string = window.location.href;
     clientName = clientName.split("client/")[1].replaceAll("-", " ");
 
+    const handleChangeNumRequests = (num: number) => {
+      setNumRequests(num);
+    }
+
     const query = gql` 
     query {
       requests{
@@ -19,6 +23,9 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
           fullName
         }
         requestId
+        dateUpdated
+        dateCreated
+        dateFulfilled
         deleted
         fulfilled 
         quantity
@@ -56,7 +63,7 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
               <p>{numRequests > 0 ? `Displaying ${numRequests} total requests` : "No requests exist"}</p>
             </div>
           </div>
-          <ClientRequestTable requests={requests} onChangeNumRequests={setNumRequests}/>
+          <ClientRequestTable requests={requests} onChangeNumRequests={handleChangeNumRequests}/>
         </div>
         )}
       </div>
