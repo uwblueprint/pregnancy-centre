@@ -25,10 +25,6 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
         _id
         name
         deleted
-        description
-        requirements
-        dateUpdated
-        image
         numOpen
         requestTypes{
           _id
@@ -37,15 +33,11 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
           dateUpdated
           requests{
             _id
-            requestId
-            dateUpdated
             dateCreated
-            dateFulfilled
             deleted
             fulfilled 
             quantity
             client{
-              _id
               fullName
             }  
           }

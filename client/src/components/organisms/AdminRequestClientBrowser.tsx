@@ -22,8 +22,6 @@ const AdminRequestClientBrowser: FunctionComponent = () => {
         client {
           fullName
         }
-        requestId
-        dateUpdated
         dateCreated
         dateFulfilled
         deleted
