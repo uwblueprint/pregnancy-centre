@@ -41,7 +41,9 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
       requestGroups {
         _id
         name
+        dateUpdated
         deleted
+        description
         requirements
         image
         numOpen
