@@ -35,9 +35,7 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
         }
     }`
     
-    useEffect(() => {
-        const undeletedReq : Request[] = props.requests.filter((request)=> request.deleted === false);
-
+    function orderRequests(undeletedReq : Request[]) {
         const filterByFulfilled = (requests : Request[], keepFulfilled : boolean) => {
             requests = requests.filter( request => {
                     if (request !== undefined){
@@ -60,6 +58,12 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
     
         const sortedRequests : Request[] = unfulfilledReq!.concat(fulfilledRequests!) as Request[];
         setRequests(sortedRequests);
+        props.onChangeNumRequests!(sortedRequests.length);
+    }
+
+    useEffect(() => {
+        const undeletedReq : Request[] = props.requests.filter((request)=> request.deleted === false);
+        orderRequests(undeletedReq);
       }, [props.requests]);
       
 
@@ -75,32 +79,11 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
     }
 
     const onFulfilledRequest = (index: number) => {
-        const requestsCopy = requests.slice();
-        const req = {...requestsCopy[index]};
-        if(req.fulfilled === false) { 
-            req.fulfilled = true;
-            requestsCopy.splice(index, 1) 
-            let i = requestsCopy.length - 1; 
-            for(; i > -1; --i) {
-                if(requestsCopy[i].fulfilled === false) break;
-                else if(requestsCopy[i]!.dateCreated!.valueOf() < req!.dateCreated!.valueOf()) break;
-            }
-            requestsCopy.splice(i + 1, 0, req);
-        }
-        else {
-            req.fulfilled = false;
-            requestsCopy.splice(index, 1);
-            let i = 0;
-            for(; i < requestsCopy.length; ++i) {
-                if(requestsCopy[i].fulfilled === true) break;
-                else if(requestsCopy[i]!.dateCreated!.valueOf() > req!.dateCreated!.valueOf()) break;
-            }
-            requestsCopy.splice(i, 0, req);
-        }
-        setRequests(requestsCopy);
-        const id = req._id;
-        const requestId = req.requestId;
-        const fulfilled = req.fulfilled;
+        requests[index].fulfilled = !requests[index].fulfilled;
+        orderRequests(requests);
+        const id = requests[index]._id;
+        const requestId = requests[index].requestId;
+        const fulfilled = requests[index].fulfilled;
         mutateRequest({variables:{request: {id, requestId, fulfilled}}});
     }
 
