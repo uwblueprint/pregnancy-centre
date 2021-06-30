@@ -38,17 +38,21 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
     useEffect(() => {
         const undeletedReq : Request[] = props.requests.filter((request)=> request.deleted === false);
 
-        const removeUndefined = (request : Request, keepFulfilled : boolean) => {
-            if (request !== undefined){
-                if (request.fulfilled === keepFulfilled){
-                    return request;
+        const filterByFulfilled = (requests : Request[], keepFulfilled : boolean) => {
+            requests = requests.filter( request => {
+                    if (request !== undefined){
+                        if (request.fulfilled === keepFulfilled){
+                            return request;
+                        }
+                    }
                 }
-            }
+            );
+            return requests;
         }
-        const unfulfilledReq = undeletedReq.filter(request => removeUndefined(request, false));
-        const fulfilledRequests = undeletedReq.filter(request => removeUndefined(request, true));
+        const unfulfilledReq = filterByFulfilled(undeletedReq, false);
+        const fulfilledRequests = filterByFulfilled(undeletedReq, true);
 
-        const compareDateCreated = (a : Request, b : Request)=> {
+        const compareDateCreated = (a : Request, b : Request) => {
             return (a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf()); 
         }
         unfulfilledReq.sort(compareDateCreated);
@@ -63,9 +67,8 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
     const [mutateRequest] = useMutation(updateRequest);
     const onSoftDeleteRequest = (index: number) => {
         const requestsCopy = requests.slice();
-        const req = {...requestsCopy[index]};
         requestsCopy.splice(index, 1);
-        const id = req._id;
+        const id = requestsCopy[index]._id;
         props.onChangeNumRequests!(requestsCopy.length);
         setRequests(requestsCopy);
         mutateDeleteRequest({variables: {id: id}});
