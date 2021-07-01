@@ -110,11 +110,14 @@ $tpc-green: #004d57;
     font-weight: 800;
 }
 
+@mixin bold-text() {
+  @include text;
+  font-weight: 700;
+}
+
 @mixin light-text() {
     @include text;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
 }
 
 /* Button Config */
@@ -252,3 +255,6 @@ $page-arrow-disabled-color: #b7b7b7;
 /* Donation Item Card Config */
 $donation-item-card-color: #f4f4f4;
 $donation-item-details-text-color: #767676;
+
+/* Stepper Config */
+$stepper-border-color: #c4c4c4;
