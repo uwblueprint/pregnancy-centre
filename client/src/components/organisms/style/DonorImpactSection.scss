@@ -6,6 +6,7 @@
 
   &-header {
     @include donor-homepage-section-header-text;
+    margin-bottom: 54px;
   }
 
   &-content {
@@ -98,6 +99,25 @@
       margin-bottom: 0;
       white-space: pre-line;
       font-size: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .donor-impact-section {
+    .info-section {
+      align-content: center;
+      margin-top: 30px;
+    }
+
+    .stats-section {
+      order: 2;
+    }
+
+    .card-with-shadow {
+      order: 1;
+      width: 70%;
+      margin-bottom: 107px;
     }
   }
 }
