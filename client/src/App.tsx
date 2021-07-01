@@ -10,28 +10,25 @@ import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
+import DonationItemCardContainer from './components/examples/DonationItemCardContainer'
+
 function App(): JSX.Element {
-    return (
-        <span>
-            <Router>
-                <Switch>
-                    <Route path="/login">
-                        <SignInModal />
-                    </Route>
-                    <Route path="/signup" strict component={SignUpModal}></Route>
-                    <Route path="/auth-action" component={AuthAction}></Route>
-                    <Route path="/email-password-reset" strict component={SendResetPasswordEmailModal}></Route>
-                    <Route path="/admin" component={AdminHomepage}></Route>
-                    <Route path="/request-group/:id">
-                        <AdminRequestGroupView />
-                    </Route>
-                    <Route path="/">
-                        <DonorHomepage />
-                    </Route>
-                </Switch>
-            </Router>
-        </span>
-    );
+  return (
+    <span>
+      <Router>
+        <Switch>
+          <Route path='/login'><SignInModal /></Route>
+          <Route path='/signup' strict component={SignUpModal}></Route>
+          <Route path='/auth-action' component={AuthAction}></Route>
+          <Route path='/email-password-reset' strict component={SendResetPasswordEmailModal}></Route>
+          <Route path='/admin' component={AdminHomepage}></Route>
+          <Route path='/request-group/:id'><AdminRequestGroupView /></Route>
+          <Route path='/test'><DonationItemCardContainer /></Route>
+          <Route path='/'><DonorHomepage /></Route>
+        </Switch>
+      </Router>
+    </span >
+  );
 }
 
 export default App;
