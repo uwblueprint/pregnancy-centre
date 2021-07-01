@@ -8,7 +8,7 @@
     flex-direction: row;
   }
 
-  .step-label-text {
+  .step-text {
     margin-left: 10px;
 
     h4 {
@@ -23,7 +23,7 @@
     }
   }
 
-  .selected-step .step-label-text h2 {
+  .selected-step .step-text h2 {
     @include tpc-green-text;
     @include bold-text;
   }

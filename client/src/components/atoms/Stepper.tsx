@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import StepLabelNumber from "./StepLabelNumber"
+import StepNumber from "./StepNumber"
 
 interface StepperProps {
   steps: Array<string>;
@@ -15,11 +15,11 @@ const Stepper: FunctionComponent<StepperProps> = (props: StepperProps) => {
         return (
           <>
             <div className={"step " + (isSelectedStep ? "selected-step" : "")}>
-              <StepLabelNumber
+              <StepNumber
                 isSelectedStep={isSelectedStep}
                 stepNumber={idx + 1}
               />
-              <div className="step-label-text">
+              <div className="step-text">
                 <h4>STEP {idx + 1}</h4>
                 <h2>{stepName}</h2>
               </div>

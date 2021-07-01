@@ -1,17 +1,17 @@
 import React, { FunctionComponent } from "react";
 
-interface StepLabelNumberProps {
+interface StepNumberProps {
   stepNumber: number;
   isSelectedStep: boolean;
 }
 
-const StepLabelNumber: FunctionComponent<StepLabelNumberProps> = (
-  props: StepLabelNumberProps
+const StepNumber: FunctionComponent<StepNumberProps> = (
+  props: StepNumberProps
 ) => {
   return (
     <div
       className={
-        "step-label-number " + (props.isSelectedStep ? "selected-step" : "")
+        "step-number " + (props.isSelectedStep ? "selected-step" : "")
       }
     >
       <h3>
@@ -23,4 +23,4 @@ const StepLabelNumber: FunctionComponent<StepLabelNumberProps> = (
   );
 };
 
-export default StepLabelNumber;
+export default StepNumber;
