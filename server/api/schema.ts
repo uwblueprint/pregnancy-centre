@@ -6,6 +6,7 @@ const typeDefs = gql`
         quantity: Int
         clientName: String
         requestType: RequestType
+        matchedDonations: [DonationForm]
 
         createdAt: String
         updatedAt: String
@@ -72,6 +73,7 @@ const typeDefs = gql`
         description: String
         image: String
         requestTypes: [RequestType]
+        donationForms: [DonationForm]
 
         createdAt: String
         updatedAt: String
@@ -106,13 +108,18 @@ const typeDefs = gql`
     #     NOT_AVAILABLE: Boolean
     # }
 
-    type DonationForm {
-        _id: ID
-        contact: DonationFormContact
-        donationGroups: [DonationGroup]
-        createdAt: String
-        updatedAt: String
-        confirmationNumber: Int
+    enum DonationItemCondition {
+        BRAND_NEW
+        GREAT
+        GOOD
+        FAIR
+        POOR
+    }
+
+    enum DonationItemStatus {
+        PENDING_APPROVAL
+        PENDING_DROPOFF
+        PENDING_MATCH
     }
 
     type DonationFormContact {
@@ -122,20 +129,26 @@ const typeDefs = gql`
         phoneNum: String
     }
 
-    type DonationGroup {
+    type DonationForm {
         _id: ID
+        contact: DonationFormContact
         name: String
         requestGroup: RequestGroup
         description: String
         quantity: Int
         age: Int
-        condition: String
+        condition: DonationItemCondition
         images: [String]
-        donationForm: DonationForm
+
+        adminNotes: String
+        status: DonationItemStatus
+        quantityMatched: Int
+
         createdAt: String
         updatedAt: String
     }
 
+   
     type Query {
         request(_id: ID): Request
         requests: [Request]
@@ -154,6 +167,9 @@ const typeDefs = gql`
         requestGroupsPage(skip: Int, limit: Int): [RequestGroup]
         # --- Left as a proof of concept: --- 
         # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]
+
+        donationForm(_id: ID): DonationForm
+        donationForms: [DonationForm]
     }
 
     type Mutation {
