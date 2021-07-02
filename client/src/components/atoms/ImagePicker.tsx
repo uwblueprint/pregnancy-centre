@@ -34,7 +34,6 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                     console.log(imgStr);
                 }
                 onUploadImg(imgStr);
-                console.log(res);
             },
             false
         );
