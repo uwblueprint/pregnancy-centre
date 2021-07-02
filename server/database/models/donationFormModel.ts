@@ -65,6 +65,7 @@ const DonationFormSchema = new Schema(
     },
     images: {
       type: [String],
+      required: false,
       default: [],
     },
     adminNotes: {

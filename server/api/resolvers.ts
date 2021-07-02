@@ -1,4 +1,5 @@
 import {
+  donationFormMutationResolvers,
   donationFormQueryResolvers,
   DonationItemCondition,
   DonationItemStatus,
@@ -15,6 +16,7 @@ import {
   requestQueryResolvers,
   requestResolvers,
 } from "./resolvers/requestResolvers";
+
 import {
   requestTypeMutationResolvers,
   requestTypeQueryResolvers,
@@ -33,6 +35,7 @@ const resolvers = {
   },
 
   Mutation: {
+    ...donationFormMutationResolvers,
     ...requestMutationResolvers,
     ...requestTypeMutationResolvers,
     ...requestGroupMutationResolvers,
