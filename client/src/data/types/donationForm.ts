@@ -25,11 +25,11 @@ export const ItemAgeToDescriptionMap = new Map<number, string>([
 ]);
 
 export default interface DonationForm {
-  _id?: string;
-  age?: number;
-  condition?: ItemCondition;
-  description?: string;
-  name?: string;
-  quantity?: number;
-  requestGroup?: RequestGroup | null;
+    _id?: string;
+    age?: number;
+    condition?: ItemCondition;
+    description?: string;
+    name?: string;
+    quantity?: number;
+    requestGroup?: RequestGroup | null;
 }
