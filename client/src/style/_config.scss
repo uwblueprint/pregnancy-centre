@@ -105,7 +105,7 @@ $tpc-green: #004d57;
     font-weight: 600;
 }
 
-@mixin bold-text() {
+@mixin extra-bold-text() {
     @include text;
     font-weight: 800;
 }
