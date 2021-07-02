@@ -21,7 +21,8 @@ export const ItemAgeToDescriptionMap = new Map<number, string>([
     [1, "1 year"],
     [2, "2 years"],
     [3, "3 years"],
-    [4, "More than 3 years"]
+    [4, "More than 3 years"],
+    [-1, "More than 3 years"] // Default value if there is no corresponding string for an age
 ]);
 
 export default interface DonationForm {

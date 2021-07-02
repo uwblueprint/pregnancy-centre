@@ -23,7 +23,12 @@ const DonationItemCard: FunctionComponent<DonationItemCardProps> = (props: Donat
                 <h1>{props.donationForm.name}</h1>
                 {itemAttributeField("Condition", props.donationForm.condition)}
                 {itemAttributeField("Quantity", props.donationForm.quantity?.toString())}
-                {itemAttributeField("Age of Item", ItemAgeToDescriptionMap[props.donationForm.age])}
+                {itemAttributeField(
+                    "Age of Item",
+                    props.donationForm.age
+                        ? ItemAgeToDescriptionMap.get(props.donationForm.age)
+                        : ItemAgeToDescriptionMap.get(-1)
+                )}
                 {itemAttributeField("Description", props.donationForm.description, "item-description-field")}
             </div>
             <div className="action-icons">

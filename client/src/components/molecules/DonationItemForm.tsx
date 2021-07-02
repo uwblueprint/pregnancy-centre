@@ -233,11 +233,12 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                                 />
                             }
                             dropdownItems={Array.from(ItemAgeToDescriptionMap.entries()).map(
-                                ([ageKey, description]) => (
-                                    <span key={ageKey} onClick={() => onAgeChange(ageKey)}>
-                                        {description}
-                                    </span>
-                                )
+                                ([ageKey, description]) =>
+                                    ageKey > 0 && (
+                                        <span key={ageKey} onClick={() => onAgeChange(ageKey)}>
+                                            {description}
+                                        </span>
+                                    )
                             )}
                             onDropdownClose={() => {
                                 setIsAgeDropdownOpen(false);
