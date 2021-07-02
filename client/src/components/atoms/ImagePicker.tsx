@@ -19,8 +19,6 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
   const { selected, images, onImageChange, isErroneous, onUploadImg, uploadedImg } = props;
 
   const handleOnDrop = (acceptedFiles: File[]) => {
-    // console.log(acceptedFiles);
-
     const file = acceptedFiles[0];
     const fileReader = new FileReader();
     fileReader.addEventListener("load", () => {
