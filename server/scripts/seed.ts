@@ -69,8 +69,10 @@ const endDate = new Date(Date.now());
 faker.seed(2021);
 
 const randomDate = (start = startDate, end = endDate) => {
-    const result = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-    return result.getTime();
+  const result = new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime())
+  );
+  return result.getTime();
 };
 
 // create Request model object without references
