@@ -41,6 +41,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
+  const [uploadedImg, setUploadedImg] = useState("");
   const [images, setImages] = useState([""]);
   const [requestTypeNames, setRequestTypeNames] = useState<Array<string>>([]);
   const [nameError, setNameError] = useState("");
@@ -264,7 +265,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   /* Functions for RequestGroup's Image */
   const updateImageError = (image: string) => {
     let error = "";
-    if (image === "") {
+    if (image === "" && uploadedImg === "") {
       error = "Please select an image";
     }
 
@@ -272,13 +273,21 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     return error;
   };
 
+  const onUploadImg = (uploadedImg: string) => {
+    setChangeMade(true);
+    updateImageError(uploadedImg);
+    setUploadedImg(uploadedImg);
+  }
+
   const onImageChange = (newImage: string) => {
     setChangeMade(true);
     updateImageError(newImage);
-    if (images.find((imageUrl) => imageUrl === newImage)) {
+    if (newImage.length === 0 || images.find((imageUrl) => imageUrl === newImage)) {
       setImage(newImage);
+      setUploadedImg("");
     }
   };
+
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -404,6 +413,8 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 images={images}
                 selected={image}
                 isErroneous={imageError !== ""}
+                uploadedImg={uploadedImg}
+                onUploadImg={onUploadImg}
               />
             }
           />

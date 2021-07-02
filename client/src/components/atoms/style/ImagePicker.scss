@@ -2,6 +2,25 @@
   &-title {
     margin-bottom: 11px;
   }
+  &-hidden {
+    display:none;
+  }
+  &-slider {
+    margin-top: 5px;
+    width: 82%;
+    float: left;
+  }
+  &-minus {
+    float: left;
+  }
+  &-plus {
+    float: left;
+  }
+  &-trash {
+    position: absolute;
+    top: 53%;
+    right: 4.7%;
+  }
   .alert-icon {
     color: $input-error;
     position: absolute;
@@ -23,7 +42,6 @@
 
   &-preview {
     position: relative;
-    margin-bottom: 14px;
     height: 248px;
     width: 348px;
     display: flex;
