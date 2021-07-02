@@ -154,6 +154,12 @@ const typeDefs = gql`
         requestGroupsPage(skip: Int, limit: Int): [RequestGroup]
         # --- Left as a proof of concept: --- 
         # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]
+
+        donationGroup(_id: ID): DonationGroup
+        donationGroups: [DonationGroup]
+
+        donationForm(_id: ID): DonationForm
+        donationForms: [DonationForm]
     }
 
     type Mutation {
