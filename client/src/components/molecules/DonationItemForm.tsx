@@ -157,7 +157,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
             )}
             initialText={nameInput}
             isDisabled={false}
-            isErroneous={false}
+            isErroneous={nameError.length !== 0}
             actionOption={
               nameInput.length === 0 ? null : (
                 <div onClick={() => onNameChange(nameInput)}>
