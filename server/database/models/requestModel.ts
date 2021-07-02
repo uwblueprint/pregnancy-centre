@@ -1,6 +1,6 @@
 import { Document, model, Schema, Types } from "mongoose";
 
-interface DonationGroupEmbeddingInterface {
+interface DonationFormEmbeddingInterface {
   _id: Types.ObjectId;
 }
 
@@ -13,7 +13,7 @@ interface RequestInterface extends Document {
 
   // References
   requestType: Types.ObjectId;
-  donationGroups: Array<DonationGroupEmbeddingInterface>;
+  matchedDonations: Array<DonationFormEmbeddingInterface>;
 
   // Timestamps
   createdAt: Date;
@@ -42,10 +42,10 @@ const requestSchema = new Schema(
       type: Types.ObjectId,
       ref: "RequestType",
     },
-    donationGroups: {
+    matchedDonations: {
       type: [
         {
-          _id: { type: Types.ObjectId, ref: "DonationGroup" },
+          _id: { type: Types.ObjectId, ref: "DonationForm" },
         },
       ],
       default: [],
