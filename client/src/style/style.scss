@@ -6,18 +6,18 @@
 @import "../pages/style/index";
 
 body {
-  @include normal-text;
-  // prevent wrapping from hyphenating words
-  -webkit-hyphens: none;
-  -moz-hyphens:    none;
-  -ms-hyphens:     none;
-  hyphens:         none;
+    @include normal-text;
+    // prevent wrapping from hyphenating words
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
 }
 
 #root > div {
-  min-height: 100vh;
+    min-height: 100vh;
 }
 
 img {
-  border-radius: $box-border-radius;
+    border-radius: $box-border-radius;
 }

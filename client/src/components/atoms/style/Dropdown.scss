@@ -1,91 +1,90 @@
-.dropdown{ 
-   .container {
-     max-width: 1200px;
-     width: 100%;
-     margin: auto;
-   } 
-   /* DROPDOWN
-   ============================================ */
-   
-   .dropdown-wrapper {
-     display: flex;
-     min-height: 38px;
-     flex-wrap: wrap;
-     width: 100%;
-     font-family: 'Inter';
-     .dropdown-header {
-        background-color: white;
-        border: unset;
-        border-radius: 4px;
-        display: flex;
-        justify-content: space-between;
-        cursor: pointer;
+.dropdown {
+    .container {
+        max-width: 1200px;
         width: 100%;
-        padding: 0 20px;
-        background-color: #EDEDED;
+        margin: auto;
+    }
+    /* DROPDOWN
+   ============================================ */
 
-      &__action{
-        margin-top: 15px;
-        margin-right:0px;
-      }
-      &__title--bold-open::before {
-        display: inline-block;
-        margin-right: 0.4em;
-        vertical-align: 0.255em;
-        content: "";
-        border-top: 0.3em solid;
-        border-right: 0.3em solid transparent;
-        border-bottom: 0;
-        border-left: 0.3em solid transparent;
-      }
-      &__title--bold-closed::before {
-        display: inline-block;
-        margin-right: 0.4em;
-        vertical-align: 0.255em;
-        content: "";
-        border-top: 0;
-        border-right: 0.3em solid transparent;
-        border-bottom: 0.3em solid;
-        border-left: 0.3em solid transparent;
-      }
+    .dropdown-wrapper {
+        display: flex;
+        min-height: 38px;
+        flex-wrap: wrap;
+        width: 100%;
+        font-family: "Inter";
+        .dropdown-header {
+            background-color: white;
+            border: unset;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            width: 100%;
+            padding: 0 20px;
+            background-color: #ededed;
 
-       &__title--bold-open {
-         font-weight: 600;
-         margin-top:15px;
-         color: #000000;
-         font-size: 16px;
-       }
-       &__title--bold-closed {
-         font-weight: 600;
-         margin-top:15px;
-         color: #000000;
-         font-size: 16px;
-       }
-     }
+            &__action {
+                margin-top: 15px;
+                margin-right: 0px;
+            }
+            &__title--bold-open::before {
+                display: inline-block;
+                margin-right: 0.4em;
+                vertical-align: 0.255em;
+                content: "";
+                border-top: 0.3em solid;
+                border-right: 0.3em solid transparent;
+                border-bottom: 0;
+                border-left: 0.3em solid transparent;
+            }
+            &__title--bold-closed::before {
+                display: inline-block;
+                margin-right: 0.4em;
+                vertical-align: 0.255em;
+                content: "";
+                border-top: 0;
+                border-right: 0.3em solid transparent;
+                border-bottom: 0.3em solid;
+                border-left: 0.3em solid transparent;
+            }
 
-      .dropdown-body-open {
-        visibility: visible;
-      }
-
-      .dropdown-body-closed {
-        display: none;
-        visibility: hidden;
-      }
-   
-     .dropdown-list {
-       box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
-       padding: 0;
-       margin: 0;
-       width: 100%;
-       margin-top: 20px;
-   
-        &:hover, &:focus {
-          cursor: pointer;
-          font-weight: bold;
-          background-color: #ccc;
+            &__title--bold-open {
+                font-weight: 600;
+                margin-top: 15px;
+                color: #000000;
+                font-size: 16px;
+            }
+            &__title--bold-closed {
+                font-weight: 600;
+                margin-top: 15px;
+                color: #000000;
+                font-size: 16px;
+            }
         }
-         
-       
-     }
-   }
+
+        .dropdown-body-open {
+            visibility: visible;
+        }
+
+        .dropdown-body-closed {
+            display: none;
+            visibility: hidden;
+        }
+
+        .dropdown-list {
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            margin-top: 20px;
+
+            &:hover,
+            &:focus {
+                cursor: pointer;
+                font-weight: bold;
+                background-color: #ccc;
+            }
+        }
+    }
 }

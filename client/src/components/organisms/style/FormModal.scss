@@ -1,54 +1,53 @@
 .form-modal {
-  form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .modal-header {
-    border-bottom: $border-line;
-    padding-bottom: 10px;
-    display: block;
-
-    button.close {
-      // Modal close button provided by bootstrap
-      margin-top: -45px;
-    }
-    .modal-title {
-      font-size: 18px;
-      font-weight: 600;
-    }
-  }
-
-  .modal-content {
-    border-radius: 12px;
-  }
-
-  .modal-body {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  }
-
-
-  .form-modal-buttons{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 28px;
-    
-    .form-modal-cancel-button{
-      @include grey-button;
-      width: 30%;
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
-    .form-modal-submit-button{
-      @include tpc-green-button;
-      width: 68%;
-    }
-  }
+    .modal-header {
+        border-bottom: $border-line;
+        padding-bottom: 10px;
+        display: block;
 
-  .spinner {
-    align-self: center;
-  }
+        button.close {
+            // Modal close button provided by bootstrap
+            margin-top: -45px;
+        }
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+    }
+
+    .modal-content {
+        border-radius: 12px;
+    }
+
+    .modal-body {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .form-modal-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 28px;
+
+        .form-modal-cancel-button {
+            @include grey-button;
+            width: 30%;
+        }
+
+        .form-modal-submit-button {
+            @include tpc-green-button;
+            width: 68%;
+        }
+    }
+
+    .spinner {
+        align-self: center;
+    }
 }
