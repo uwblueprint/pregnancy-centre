@@ -148,6 +148,23 @@ const typeDefs = gql`
         updatedAt: String
     }
 
+    input DonationFormContactInput {
+        firstName: String
+        lastName: String
+        email: String
+        phoneNum: String
+    }
+
+    input CreateDonationFormInput {
+        contact: DonationFormContactInput
+        name: String!
+        description: String
+        quantity: Int
+        age: Int
+        condition: DonationItemCondition
+        status: DonationItemStatus
+        quantityMatched: Int
+    }
    
     type Query {
         request(_id: ID): Request
@@ -188,6 +205,8 @@ const typeDefs = gql`
         createRequestGroup(requestGroup: CreateRequestGroupInput): RequestGroup
         updateRequestGroup(requestGroup: UpdateRequestGroupInput): RequestGroup
         deleteRequestGroup(_id: ID): RequestGroup
+
+        createDonationForm(donationForm: CreateDonationFormInput): DonationForm
     }
 `
 
