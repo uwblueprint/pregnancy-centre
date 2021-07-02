@@ -10,14 +10,24 @@
     justify-content: space-between;
     border-radius: 10px;
     background: $donation-item-form-card-color;
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .item-name-field {
+    width: 50%;
+    
+    // .text-field{
+    //   width: 50%;
+    // }
   }
 
   .item-condition-field {
-    width: 50%;
+    width: 53%;
   }
 
   .item-age-field {
-    width: 25%;
+    width: 23%;
   }
 
   .item-quantity-field {
@@ -26,12 +36,63 @@
 
   .item-description-field {
     width: 100%;
+    margin-top: 25px;
+
+    .text-area {
+      width: 100%;
+    }
+  }
+
+  .form-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 25px;
+  }
+
+  .delete-button {
+    @include white-button;
+    @include semibold-text;
+    width: 15%;
+  }
+
+  .save-button {
+    @include tpc-green-button;
+    @include semibold-text;
+    width: 15%;
+    margin-left: 2%;
   }
 
   .form-error {
-    // align-self: flex-end;
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-self: flex-end;
+    align-items: center;
+    margin-top: 7px;
+    color: $error-color;
+
+    i {
+      margin-right: 17px;
+    }
+
+    span {
+      margin-bottom: 0;
+      font-size: 12px;
+      // line-height: 15px;
+    }
+  }
+
+  .text-field {
+    height: 45px;
+  }
+
+  .scrollable-dropdown .scroll-window {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .scrollable-dropdown {
+    width: 100%;
   }
 }

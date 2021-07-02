@@ -1,19 +1,20 @@
 import React, { FunctionComponent, useState } from "react";
 
 import DonationForm, {
-  ItemAge,
+  ItemAgeToDescriptionMap,
   ItemCondition,
   ItemConditionToDescriptionMap,
-  ItemAgeToDescriptionMap,
 } from "../../data/types/donationForm";
+import { Button } from "../atoms/Button";
 import FormItem from "../molecules/FormItem";
 import RequestGroup from "../../data/types/requestGroup";
-import SearchableDropdown from "../atoms/SearchableDropdown";
-import { TextField } from "../atoms/TextField";
 import ScrollableDropdown from "../atoms/ScrollableDropdown";
+import SearchableDropdown from "../atoms/SearchableDropdown";
 import TextArea from "../atoms/TextArea";
+import { TextField } from "../atoms/TextField";
 
 interface Props {
+  onDelete: () => void;
   onSave: (donationForm: DonationForm) => void;
   requestGroups: Array<RequestGroup>;
   showFormUnsavedError: boolean;
@@ -22,7 +23,7 @@ interface Props {
 const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
   const [name, setName] = useState("");
   // const [nameInput, setNameInput] = useState("");
-  const [requestGroup, setRequestGroup] = useState<RequestGroup>(null);
+  const [requestGroup, setRequestGroup] = useState<RequestGroup | null>(null);
   const [condition, setCondition] = useState<ItemCondition | null>(null);
   const [age, setAge] = useState(1);
   const [quantity, setQuantity] = useState<number>(1);
@@ -57,7 +58,9 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
     }
   };
 
-  const updateIsConditionErrorneous = (condition?: ItemCondition): boolean => {
+  const updateIsConditionErrorneous = (
+    condition: ItemCondition | null
+  ): boolean => {
     if (condition == null) {
       setIsConditionErrorneous(true);
       return true;
@@ -74,7 +77,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
   // };
 
   const updateIsQuantityErrorneous = (quantity: number): boolean => {
-    if (quantity <= 0) {
+    if (quantity <= 0 || isNaN(quantity)) {
       setIsQuantityErrorneous(true);
       return true;
     }
@@ -93,7 +96,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
     condition: ItemCondition | null,
     quantity: number
   ): string => {
-    let errors = [];
+    const errors = [];
     if (updateIsConditionErrorneous(condition)) {
       errors.push("Item Condition");
     }
@@ -101,6 +104,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
       errors.push("Quantity (number of this specific item)");
     }
     if (errors.length === 0) {
+      setFormError("");
       return "";
     }
     let errorString = "Please enter valid";
@@ -124,6 +128,8 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
 
   const onAgeChange = (newAge: number) => {
     setAge(newAge);
+    console.log("HERE");
+    setIsAgeDropdownOpen(false);
   };
 
   const onQuantityChange = (newQuantity: number) => {
@@ -142,47 +148,49 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
     if (nameError.length === 0 && formError.length === 0) {
       props.onSave({
         age,
-        condition,
+        condition: condition ?? undefined,
         description,
         name,
         quantity,
-        requestGroup,
+        requestGroup: requestGroup ?? undefined,
       });
     }
   };
+  console.log(isAgeDropdownOpen);
 
   return (
     <div className="donation-item-form">
-      <div className="request-group-form-item">
-        <FormItem
-          formItemName="What item do you wish to donate?"
-          errorString={nameError}
-          isDisabled={false}
-          showErrorIcon={false}
-          inputComponent={
-            <SearchableDropdown
-              dropdownItems={props.requestGroups.map(
-                (requestGroup) => requestGroup.name
-              )}
-              initialText={name}
-              isDisabled={false}
-              isErroneous={false}
-              noItemsAction={
-                <>
-                  <span>{name}</span>
-                  <span>— enter your own item</span>
-                </>
-              }
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                onNameChange(e.target.value);
-              }}
-              onSelect={onNameChange}
-              placeholderText="Enter item name"
-              searchPlaceholderText=""
-            />
-          }
-        />
-      </div>
+      <FormItem
+        className="item-name-field"
+        formItemName="What item do you wish to donate?"
+        errorString={nameError}
+        isDisabled={false}
+        showErrorIcon={false}
+        inputComponent={
+          <SearchableDropdown
+            dropdownItems={props.requestGroups.reduce(
+              (acc, requestGroup) =>
+                requestGroup.name ? acc.concat(requestGroup.name) : acc,
+              [] as Array<string>
+            )}
+            initialText={name}
+            isDisabled={false}
+            isErroneous={false}
+            noItemsAction={
+              <>
+                <span>{name}</span>
+                <span>— enter your own item</span>
+              </>
+            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              onNameChange(e.target.value);
+            }}
+            onSelect={onNameChange}
+            placeholderText="Enter item name"
+            searchPlaceholderText=""
+          />
+        }
+      />
       <div className="details-card">
         <FormItem
           className="item-condition-field"
@@ -195,7 +203,11 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
             <ScrollableDropdown
               trigger={
                 <TextField
-                  input={condition}
+                  input={
+                    condition
+                      ? ItemConditionToDescriptionMap.get(condition) ?? ""
+                      : ""
+                  }
                   isDisabled={false}
                   isErroneous={isConditionErrorneous}
                   onChange={() => {}}
@@ -209,8 +221,11 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
               }
               dropdownItems={Object.values(ItemCondition).map(
                 (conditionValue) => (
-                  <span onClick={() => onConditionChange(conditionValue)}>
-                    {ItemConditionToDescriptionMap[conditionValue]}
+                  <span
+                    key={conditionValue}
+                    onClick={() => onConditionChange(conditionValue)}
+                  >
+                    {ItemConditionToDescriptionMap.get(conditionValue)}
                   </span>
                 )
               )}
@@ -231,7 +246,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
             <ScrollableDropdown
               trigger={
                 <TextField
-                  input={ItemAgeToDescriptionMap[age]}
+                  input={ItemAgeToDescriptionMap.get(age) ?? ""}
                   isDisabled={false}
                   isErroneous={false}
                   onChange={() => {}}
@@ -245,7 +260,9 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
               }
               dropdownItems={Array.from(ItemAgeToDescriptionMap.entries()).map(
                 ([ageKey, description]) => (
-                  <span onClick={() => onAgeChange(ageKey)}>{description}</span>
+                  <span key={ageKey} onClick={() => onAgeChange(ageKey)}>
+                    {description}
+                  </span>
                 )
               )}
               onDropdownClose={() => {}}
@@ -293,6 +310,20 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
             />
           }
         />
+        <div className="form-buttons">
+          <Button
+            className="delete-button"
+            text="Delete"
+            copyText=""
+            onClick={props.onDelete}
+          />
+          <Button
+            className="save-button"
+            text="Save Item"
+            copyText=""
+            onClick={onSave}
+          />
+        </div>
       </div>
       {(formError.length !== 0 || props.showFormUnsavedError) && (
         <div className="form-error">

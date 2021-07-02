@@ -30,11 +30,13 @@ const ScrollableDropdown: FunctionComponent<Props> = (props: Props) => {
         }
     }, [isDropdownOpened]);
 
+    console.log(isDropdownOpened);
     return (
         <div className="scrollable-dropdown">
             <div
                 onClick={() => {
                     if (!isDropdownOpened) {
+                        console.log("HERE");
                         setIsDropdownOpened(true);
                     }
                 }}

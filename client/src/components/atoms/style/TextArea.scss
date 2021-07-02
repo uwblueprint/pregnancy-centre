@@ -1,8 +1,15 @@
 .text-area {
   border-radius: $box-border-radius;
   border-color: $textfield-input-border;
+  padding-left: 12px;
+  padding-top: 8px;
 
   &.error {
     border-color: $error-color;
+  }
+
+  &:focus {
+    outline-width: 0;
+    border-color: $tpc-green;
   }
 }
