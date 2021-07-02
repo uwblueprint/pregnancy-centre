@@ -185,6 +185,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
       </div>
       <div className="details-card">
         <FormItem
+          className="item-condition-field"
           formItemName="Item Condition *"
           errorString=""
           isErroneous={isConditionErrorneous}
@@ -220,6 +221,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
           }
         />
         <FormItem
+          className="item-age-field"
           formItemName="Age of Item *"
           errorString=""
           isDisabled={false}
@@ -253,6 +255,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
           }
         />
         <FormItem
+          className="item-quantity-field"
           formItemName="Quantity *"
           errorString=""
           isDisabled={false}
@@ -274,6 +277,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
           }
         />
         <FormItem
+          className="item-description-field"
           formItemName="Item Description"
           errorString=""
           isDisabled={false}
@@ -291,11 +295,13 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
         />
       </div>
       {(formError.length !== 0 || props.showFormUnsavedError) && (
-        <div>
-          <i className="form-item-error-icon bi bi-exclamation-circle alert-icon" />
-          {formError.length !== 0
-            ? formError
-            : "Please save item to proceed to the next step."}
+        <div className="form-error">
+          <i className="bi bi-exclamation-circle alert-icon" />
+          <span>
+            {formError.length !== 0
+              ? formError
+              : "Please save item to proceed to the next step."}
+          </span>
         </div>
       )}
     </div>
