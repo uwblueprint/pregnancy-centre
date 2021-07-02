@@ -17,6 +17,7 @@ interface TextFieldProps {
     onIconClick?: React.MouseEventHandler<HTMLElement>;
     autocompleteOff?: boolean;
     focusOnIconClick?: boolean;
+    readOnly?: boolean;
 }
 
 const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => {
@@ -54,6 +55,7 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
                         e.preventDefault();
                     }
                 }}
+                readOnly={props.readOnly}
                 ref={textFieldRef}
             />
             {props.iconClassName && (

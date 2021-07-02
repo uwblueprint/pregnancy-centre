@@ -359,6 +359,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         formItemName="Client Full Name"
                         errorString={clientNameError}
                         isDisabled={false}
+                        showErrorIcon={true}
                         inputComponent={
                             <TextField
                                 input={clientName}
@@ -381,6 +382,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         errorString={requestGroupError}
                         isDisabled={false}
                         tooltipText="Needs describe the overall category of an item, such as stroller, crib, or bed."
+                        showErrorIcon={true}
                         inputComponent={
                             <SearchableDropdown
                                 initialText={requestGroup && requestGroup.name ? requestGroup.name : ""}
@@ -419,6 +421,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         errorString={requestTypeError}
                         isDisabled={requestGroup === null} // Enable request type dropdown if a request group is selected
                         tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
+                        showErrorIcon={true}
                         inputComponent={
                             <SearchableDropdown
                                 initialText={requestType && requestType.name ? requestType.name : ""}
@@ -449,6 +452,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         formItemName="Item Quantity"
                         errorString={quantityError}
                         isDisabled={false}
+                        showErrorIcon={true}
                         inputComponent={
                             <TextField
                                 input={quantity.toString()}

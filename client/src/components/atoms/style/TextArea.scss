@@ -1,0 +1,8 @@
+.text-area {
+  border-radius: $box-border-radius;
+  border-color: $textfield-input-border;
+
+  &.error {
+    border-color: $error-color;
+  }
+}

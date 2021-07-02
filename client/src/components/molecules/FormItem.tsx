@@ -9,12 +9,13 @@ interface Props {
     inputComponent: React.ReactNode;
     tooltipText?: string;
     instructions?: string;
-    showErrorIcon?: boolean;
+    showErrorIcon: boolean;
     className?: string;
+    isErroneous?: boolean;
 }
 
 const FormItem: FunctionComponent<Props> = (props: Props) => {
-    const isError = props.errorString.length > 0;
+    const isError = props.errorString.length > 0 || props.isErroneous;
 
     return (
         <div className={"form-item " + props.className}>
@@ -28,7 +29,7 @@ const FormItem: FunctionComponent<Props> = (props: Props) => {
             {props.instructions && <div className="form-item-instructions">{props.instructions}</div>}
             <div className="form-item-bottom">
                 {props.inputComponent}
-                {isError && props.showErrorIcon !== false && (
+                {isError && props.showErrorIcon && (
                     <i className="form-item-error-icon bi bi-exclamation-circle alert-icon"></i>
                 )}
             </div>
