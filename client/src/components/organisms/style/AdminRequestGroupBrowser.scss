@@ -14,7 +14,11 @@
         position: relative;
     }
 
-    .btn, .btn:hover, .btn:focus, .btn:active, .show > .btn-primary.dropdown-toggle {
+    .btn,
+    .btn:hover,
+    .btn:focus,
+    .btn:active,
+    .show > .btn-primary.dropdown-toggle {
         background-color: $admin-request-group-browser-button-color;
         color: $tpc-green;
         border-color: $tpc-green;
@@ -29,7 +33,7 @@
     &-dropdown {
         background-color: $admin-request-group-browser-dropdown-color;
         border-radius: 4px;
-        box-shadow: 0 4px 3px $admin-request-group-browser-dropdown-shadow-color; 
+        box-shadow: 0 4px 3px $admin-request-group-browser-dropdown-shadow-color;
         border: none;
         padding: 0;
 
