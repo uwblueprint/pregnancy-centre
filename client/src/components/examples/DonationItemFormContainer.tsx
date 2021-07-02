@@ -6,9 +6,9 @@ import RequestGroup from "../../data/types/requestGroup";
 const DonationItemFormContainer: FunctionComponent<Record<string, never>> =
   () => {
     const requestGroups: Array<RequestGroup> = [
-      { name: "Bassinet" },
-      { name: "Exersaucer" },
-      { name: "Bag" },
+      { _id: "1", name: "Bassinet" },
+      { _id: "2", name: "Exersaucer" },
+      { _id: "3", name: "Bag" },
     ];
 
     return (

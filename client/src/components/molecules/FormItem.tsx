@@ -22,7 +22,7 @@ const FormItem: FunctionComponent<Props> = (props: Props) => {
             <div className="form-item-top">
                 <span className={props.isDisabled ? "form-item-disabled" : undefined}>
                     {props.formItemName}
-                    {props.tooltipText && <Tooltip tooltipText={props.tooltipText} />}
+                    {props.tooltipText && <Tooltip className="form-item-tooltip" tooltipText={props.tooltipText} />}
                 </span>
                 {isError && <span className="form-item-error-text">{props.errorString}</span>}
             </div>

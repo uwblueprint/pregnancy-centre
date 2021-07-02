@@ -22,8 +22,7 @@ interface Props {
 
 const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
   const [name, setName] = useState("");
-  // const [nameInput, setNameInput] = useState("");
-  const [requestGroup, setRequestGroup] = useState<RequestGroup | null>(null);
+  const [nameInput, setNameInput] = useState("");
   const [condition, setCondition] = useState<ItemCondition | null>(null);
   const [age, setAge] = useState(1);
   const [quantity, setQuantity] = useState<number>(1);
@@ -31,9 +30,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
   const [nameError, setNameError] = useState("");
   const [formError, setFormError] = useState("");
   const [isConditionErrorneous, setIsConditionErrorneous] = useState(false);
-  // const [isAgeErrorneous, setIsAgeErrorneous] = useState("");
   const [isQuantityErrorneous, setIsQuantityErrorneous] = useState(false);
-  // const [isDescriptionErrorneous, setIsDescriptionErrorneous] = useState("");
   const [isConditionDropdownOpen, setIsConditionDropdownOpen] = useState(false);
   const [isAgeDropdownOpen, setIsAgeDropdownOpen] = useState(false);
 
@@ -50,12 +47,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
   const onNameChange = (newItemName: string) => {
     updateNameError(newItemName);
     setName(newItemName);
-    const newRequestGroup = props.requestGroups.find(
-      (requestGroup) => requestGroup.name === newItemName
-    );
-    if (newRequestGroup) {
-      setRequestGroup(newRequestGroup);
-    }
+    setNameInput(newItemName);
   };
 
   const updateIsConditionErrorneous = (
@@ -69,13 +61,6 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
     return false;
   };
 
-  // const isAgeErrorneous = (age?: ItemAge) => {
-  //   if (condition == null) {
-  //     return true;
-  //   }
-  //   return false;
-  // };
-
   const updateIsQuantityErrorneous = (quantity: number): boolean => {
     if (quantity <= 0 || isNaN(quantity)) {
       setIsQuantityErrorneous(true);
@@ -84,13 +69,6 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
     setIsQuantityErrorneous(false);
     return false;
   };
-
-  // const isDescriptionErrorneous = (condition?: ItemCondition) => {
-  //   if (condition == null) {
-  //     return true;
-  //   }
-  //   return false;
-  // };
 
   const updateFormError = (
     condition: ItemCondition | null,
@@ -128,7 +106,6 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
 
   const onAgeChange = (newAge: number) => {
     setAge(newAge);
-    console.log("HERE");
     setIsAgeDropdownOpen(false);
   };
 
@@ -146,17 +123,20 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
     const formError = updateFormError(condition, quantity);
 
     if (nameError.length === 0 && formError.length === 0) {
+      const itemRequestGroup = props.requestGroups.find(
+        (requestGroup) => requestGroup.name === name
+      );
+
       props.onSave({
         age,
         condition: condition ?? undefined,
         description,
         name,
         quantity,
-        requestGroup: requestGroup ?? undefined,
+        requestGroup: itemRequestGroup ?? null,
       });
     }
   };
-  console.log(isAgeDropdownOpen);
 
   return (
     <div className="donation-item-form">
@@ -168,23 +148,27 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
         showErrorIcon={false}
         inputComponent={
           <SearchableDropdown
+            selectedItem={name}
+            searchString={nameInput}
             dropdownItems={props.requestGroups.reduce(
               (acc, requestGroup) =>
                 requestGroup.name ? acc.concat(requestGroup.name) : acc,
               [] as Array<string>
             )}
-            initialText={name}
+            initialText={nameInput}
             isDisabled={false}
             isErroneous={false}
-            noItemsAction={
-              <>
-                <span>{name}</span>
-                <span>— enter your own item</span>
-              </>
+            actionOption={
+              nameInput.length === 0 ? null : (
+                <div onClick={() => onNameChange(nameInput)}>
+                  <span>{nameInput}</span>
+                  <span className="custom-item-prompt">
+                    - enter your own item
+                  </span>
+                </div>
+              )
             }
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              onNameChange(e.target.value);
-            }}
+            onChange={setNameInput}
             onSelect={onNameChange}
             placeholderText="Enter item name"
             searchPlaceholderText=""
@@ -219,18 +203,25 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                   iconClassName="bi bi-caret-down-fill"
                 />
               }
-              dropdownItems={Object.values(ItemCondition).map(
-                (conditionValue) => (
-                  <span
-                    key={conditionValue}
-                    onClick={() => onConditionChange(conditionValue)}
-                  >
-                    {ItemConditionToDescriptionMap.get(conditionValue)}
-                  </span>
-                )
-              )}
-              onDropdownClose={() => {}}
-              onDropdownOpen={() => {}}
+              dropdownItems={
+                <>
+                  <p>Select condition</p>
+                  {Object.values(ItemCondition).map((conditionValue) => (
+                    <span
+                      key={conditionValue}
+                      onClick={() => onConditionChange(conditionValue)}
+                    >
+                      {ItemConditionToDescriptionMap.get(conditionValue)}
+                    </span>
+                  ))}
+                </>
+              }
+              onDropdownClose={() => {
+                setIsConditionDropdownOpen(false);
+              }}
+              onDropdownOpen={() => {
+                setIsConditionDropdownOpen(true);
+              }}
               isDropdownOpened={isConditionDropdownOpen}
             />
           }
@@ -265,8 +256,12 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                   </span>
                 )
               )}
-              onDropdownClose={() => {}}
-              onDropdownOpen={() => {}}
+              onDropdownClose={() => {
+                setIsAgeDropdownOpen(false);
+              }}
+              onDropdownOpen={() => {
+                setIsAgeDropdownOpen(true);
+              }}
               isDropdownOpened={isAgeDropdownOpen}
             />
           }

@@ -16,10 +16,6 @@
 
   .item-name-field {
     width: 50%;
-    
-    // .text-field{
-    //   width: 50%;
-    // }
   }
 
   .item-condition-field {
@@ -28,6 +24,10 @@
 
   .item-age-field {
     width: 23%;
+
+    .scroll-window {
+      max-height: 163px;
+    }
   }
 
   .item-quantity-field {
@@ -79,20 +79,58 @@
     span {
       margin-bottom: 0;
       font-size: 12px;
-      // line-height: 15px;
     }
+  }
+
+  .form-item .form-item-tooltip {
+    border-color: $donation-item-form-tooltip-border-color;
   }
 
   .text-field {
     height: 45px;
   }
 
-  .scrollable-dropdown .scroll-window {
-    display: flex;
-    flex-direction: column;
+  .searchable-dropdown .scroll-window .custom-item-prompt {
+    margin-left: 15px;
+    color: $donation-item-form-dropdown-prompt-color;
   }
 
-  .scrollable-dropdown {
-    width: 100%;
+  .item-condition-field,
+  .item-age-field {
+    .scrollable-dropdown {
+      width: 100%;
+    }
+
+    .scrollable-dropdown .text-field {
+      cursor: pointer;
+    }
+
+    .scrollable-dropdown .scroll-window {
+      display: flex;
+      flex-direction: column;
+      padding: 8px 12px;
+      margin-top: 5px;
+
+      p {
+        @include semibold-text;
+        color: $donation-item-form-dropdown-prompt-color;
+        font-size: 12px;
+        margin-bottom: 0;
+      }
+
+      span {
+        margin-top: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
   }
 }

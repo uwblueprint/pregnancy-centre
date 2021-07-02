@@ -432,7 +432,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                                 dropdownItems={requestTypesMap ? [...requestTypesMap.keys()] : []} // Pass the name of all request groups
                                 isErroneous={requestTypeError !== "" && requestTypeInput === ""}
                                 isDisabled={requestGroup === null}
-                                isEmpty={requestType === null}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                     onRequestTypeInputChange(e.target.value);
                                 }}

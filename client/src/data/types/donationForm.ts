@@ -24,20 +24,12 @@ export const ItemAgeToDescriptionMap = new Map<number, string>([
     [4, "More than 3 years"]
 ]);
 
-export enum ItemAge {
-    LESS_THAN_ONE_YEAR = "Less than a year",
-    ONE_YEAR = "1 year",
-    TWO_YEARS = "2 years",
-    THREE_YEARS = "3 years",
-    MORE_THAN_THREE_YEARS = "More than 3 years"
-}
-
 export default interface DonationForm {
-    _id?: string;
-    age?: number;
-    condition?: ItemCondition;
-    description?: string;
-    name?: string;
-    quantity?: number;
-    requestGroup?: RequestGroup;
+  _id?: string;
+  age?: number;
+  condition?: ItemCondition;
+  description?: string;
+  name?: string;
+  quantity?: number;
+  requestGroup?: RequestGroup | null;
 }
