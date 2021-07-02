@@ -178,6 +178,13 @@ $admin-request-group-browser-button-color: #fbfbfb;
     border: none;
 }
 
+@mixin white-button() {
+  @include button-base();
+  background-color: white;
+  color: black;
+  border: none;
+}
+
 /* Disable scrollbar for overflow */
 
 @mixin disable-scrollbar() {
