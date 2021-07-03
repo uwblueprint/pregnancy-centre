@@ -15,7 +15,7 @@ interface Props {
     onDelete: () => void;
     onSave: (donationForm: DonationForm) => void;
     requestGroups: Array<RequestGroup>;
-    showFormUnsavedError: boolean;
+    formDetailsError?: string;
 }
 
 const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
@@ -292,10 +292,10 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                     <Button className="save-button" text="Save Item" copyText="" onClick={onSave} />
                 </div>
             </div>
-            {(formError.length !== 0 || props.showFormUnsavedError) && (
+            {(formError.length !== 0 || props.formDetailsError?.length !== 0) && (
                 <div className="form-error">
                     <i className="bi bi-exclamation-circle alert-icon" />
-                    <span>{formError.length !== 0 ? formError : "Please save item to proceed to the next step."}</span>
+                    <span>{formError.length !== 0 ? formError : props.formDetailsError}</span>
                 </div>
             )}
         </div>
