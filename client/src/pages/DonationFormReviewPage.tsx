@@ -11,7 +11,7 @@ interface Props {
     donationForms: Array<DonationForm>;
     onPreviousPage: () => void;
     onNextPage: () => void;
-    pageNumber: number; // Index starting at 1
+    pageNumber: number; // Index starting at 0
     steps: Array<string>;
 }
 
@@ -24,8 +24,8 @@ const DonationFormReviewPage: FunctionComponent<Props> = (props: Props) => {
             nextButtonText="Submit Form"
             onNextPage={props.onNextPage}
             onPreviousPage={props.onPreviousPage}
-            pageName={props.steps[props.pageNumber - 1]}
-            pageNumber={3}
+            pageName={props.steps[props.pageNumber]}
+            pageNumber={props.pageNumber}
             pageInstructions="Review the items you have entered, return to the previous page(s) through the back button if there are any changes that need to be made."
             previousButtonText="Back"
             steps={props.steps}

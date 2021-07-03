@@ -12,7 +12,7 @@ type DonationForm = BaseDonationForm & { isSaved: boolean; isSavedBefore: boolea
 interface Props {
     initialDonationForms: Array<BaseDonationForm>;
     onNext: (donationForms: Array<BaseDonationForm>) => void;
-    pageNumber: number; // Index starting at 1
+    pageNumber: number; // Index starting at 0
     steps: Array<string>;
 }
 
@@ -119,7 +119,7 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
             nextButtonText="Next"
             onNextPage={onChangePage}
             onPreviousPage={onChangePage}
-            pageName={props.steps[props.pageNumber - 1]}
+            pageName={props.steps[props.pageNumber]}
             pageNumber={props.pageNumber}
             pageInstructions="Please select the item(s) you would like to donate. If you do not see your item in the TPC’s current list of needs, type in the name of your item."
             previousButtonText="Back"

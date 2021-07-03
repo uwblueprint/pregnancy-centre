@@ -4,14 +4,14 @@ import StepNumber from "./StepNumber";
 
 interface StepperProps {
     steps: Array<string>;
-    selectedStep: number; // Index starting at 1
+    selectedStep: number; // Index starting at 0
 }
 
 const Stepper: FunctionComponent<StepperProps> = (props: StepperProps) => {
     return (
         <div className="stepper">
             {props.steps.map((stepName, idx) => {
-                const isSelectedStep = props.selectedStep - 1 === idx;
+                const isSelectedStep = props.selectedStep === idx;
                 return (
                     <>
                         <div className={"step " + (isSelectedStep ? "selected-step" : "")}>
