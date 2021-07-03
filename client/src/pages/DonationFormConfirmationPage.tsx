@@ -14,7 +14,7 @@ const DonationFormConfirmationPage: FunctionComponent<Props> = (props: Props) =>
     const history = useHistory();
     return (
         <DonationFormPage
-            className="donation-form-review-page"
+            className="donation-form-confirmation-page"
             includeContentHeader={false}
             includeFooter={false}
             pageNumber={props.pageNumber}
