@@ -10,7 +10,7 @@ import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
-import DonationFormContactInfoPageContainer from "./components/examples/DonationFormContactInfoPageContainer";
+import DonationFormItemDetailsPageContainer from "./components/examples/DonationFormItemDetailsPageContainer";
 
 function App(): JSX.Element {
     return (
@@ -28,7 +28,7 @@ function App(): JSX.Element {
                         <AdminRequestGroupView />
                     </Route>
                     <Route path="/test">
-                        <DonationFormContactInfoPageContainer />
+                        <DonationFormItemDetailsPageContainer />
                     </Route>
                     <Route path="/">
                         <DonorHomepage />

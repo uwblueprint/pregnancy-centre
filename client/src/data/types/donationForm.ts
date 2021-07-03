@@ -16,6 +16,14 @@ export const ItemConditionToDescriptionMap = new Map<ItemCondition, string>([
     [ItemCondition.POOR, "Poor (used and fairly damaged)"]
 ]);
 
+export const ItemConditionToShortDescriptionMap = new Map<ItemCondition, string>([
+    [ItemCondition.BRAND_NEW, "Brand New"],
+    [ItemCondition.GREAT, "Great"],
+    [ItemCondition.GOOD, "Good"],
+    [ItemCondition.FAIR, "Fair"],
+    [ItemCondition.POOR, "Poor"]
+]);
+
 export const ItemAgeToDescriptionMap = new Map<number, string>([
     [0, "Less than a year"],
     [1, "1 year"],
