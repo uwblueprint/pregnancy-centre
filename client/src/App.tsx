@@ -5,12 +5,11 @@ import React from "react";
 import AdminHomepage from "./pages/AdminHomepage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView";
 import AuthAction from "./pages/AuthAction";
+import DonationForm from "./pages/DonationForm";
 import DonorHomepage from "./pages/DonorHomepage";
 import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
-
-import DonationFormReviewPageContainer from "./components/examples/DonationFormReviewPageContainer";
 
 function App(): JSX.Element {
     return (
@@ -27,8 +26,8 @@ function App(): JSX.Element {
                     <Route path="/request-group/:id">
                         <AdminRequestGroupView />
                     </Route>
-                    <Route path="/test">
-                        <DonationFormReviewPageContainer />
+                    <Route path="/donation-form">
+                        <DonationForm />
                     </Route>
                     <Route path="/">
                         <DonorHomepage />
