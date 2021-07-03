@@ -86,7 +86,6 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
     };
 
     const onPreviousPage = () => {
-        console.log(donationForms);
         props.onPrevious(donationForms);
     };
 
