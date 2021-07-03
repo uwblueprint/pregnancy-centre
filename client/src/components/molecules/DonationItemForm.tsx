@@ -11,6 +11,7 @@ import TextArea from "../atoms/TextArea";
 import { TextField } from "../atoms/TextField";
 
 interface Props {
+    initialDonationForm?: DonationForm;
     onDelete: () => void;
     onSave: (donationForm: DonationForm) => void;
     requestGroups: Array<RequestGroup>;
@@ -18,12 +19,12 @@ interface Props {
 }
 
 const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
-    const [name, setName] = useState("");
-    const [nameInput, setNameInput] = useState("");
-    const [condition, setCondition] = useState<ItemCondition | null>(null);
-    const [age, setAge] = useState(1);
-    const [quantity, setQuantity] = useState<number>(1);
-    const [description, setDescription] = useState<string>("");
+    const [name, setName] = useState(props?.initialDonationForm?.name ?? "");
+    const [nameInput, setNameInput] = useState(props?.initialDonationForm?.name ?? "");
+    const [condition, setCondition] = useState<ItemCondition | null>(props?.initialDonationForm?.condition ?? null);
+    const [age, setAge] = useState(props?.initialDonationForm?.age ?? 1);
+    const [quantity, setQuantity] = useState<number>(props?.initialDonationForm?.quantity ?? 1);
+    const [description, setDescription] = useState<string>(props?.initialDonationForm?.description ?? "");
     const [nameError, setNameError] = useState("");
     const [formError, setFormError] = useState("");
     const [isConditionErroneous, setIsConditionErroneous] = useState(false);
