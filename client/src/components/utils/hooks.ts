@@ -45,26 +45,20 @@ const usePaginator = (pageSize: number, maxPages: number, query: DocumentNode, c
   const getPage = async (index: number) : Promise<Array<any>> => {
     if (!pages.current) return [];
 
-    let page = [];
-
     for (let i = Math.max(0, index - (preLoad ?? 0)); i < Math.min(index + (preLoad ?? 0), maxPages); i++) {
-      let p = [];
-      
-      if (pages.current.has(i)) { // if pages contains this page
-        console.log("cached: " + i)
-        p = pages.current.get(i)!;
-        pages.current.delete(i); // refresh the key position by deleting and reinserting
-      } else {
-        p = await client.query({ 
-          query: query,
-          variables: { 
-            skip: i * pageSize,
-            limit: pageSize },
-          fetchPolicy: 'network-only'})
-          .then((res) => { return res.data.requestGroupsPage })
-          .catch(() => { return [] }) as Array<any>;
+      if (pages.current.has(i)) { // skip cached pages
+        continue;
       }
-      if (i == index) page = p; // if this is the page to return later
+
+      let p = [];
+      p = await client.query({ 
+        query: query,
+        variables: { 
+          skip: i * pageSize,
+          limit: pageSize },
+        fetchPolicy: 'network-only'})
+        .then((res) => { return res.data.requestGroupsPage })
+        .catch(() => { return [] }) as Array<any>;
   
       pages.current.set(i, p);
   

@@ -17,8 +17,6 @@ const RequestGroupScrollWindow: FunctionComponent<Props> = (props: Props) => {
     props.onRequestGroupChange(event.currentTarget.id)
   }
 
-  console.log(props.requestGroups)
-
   useEffect(() => {
     const requestGroupInList = props.requestGroups.find((requestGroup: RequestGroup) =>
       selectedItemDiv.current && requestGroup._id === selectedItemDiv.current.id
