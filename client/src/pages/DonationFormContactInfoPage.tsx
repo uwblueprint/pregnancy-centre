@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from "react";
 
-import { Button } from "../atoms/Button";
-import DonationFormPage from "../layouts/DonationFormPage";
-import Donor from "../../data/types/donor";
-import FormItem from "../molecules/FormItem";
-import { TextField } from "../atoms/TextField";
+import { Button } from "../components/atoms/Button";
+import DonationFormPage from "../components/layouts/DonationFormPage";
+import Donor from "../data/types/donor";
+import FormItem from "../components/molecules/FormItem";
+import { TextField } from "../components/atoms/TextField";
 
 interface Props {
     onNext: (donor: Donor) => void;
