@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import DonationFormContactInfoPage from "../organisms/DonationFormContactInfoPage";
+import DonationFormContactInfoPage from "../../pages/DonationFormContactInfoPage";
 
 const DonationFormContactInfoPageContainer: FunctionComponent<Record<string, never>> = () => {
     const steps = ["Contact Information", "Item Details", "Review and Confirm"];
