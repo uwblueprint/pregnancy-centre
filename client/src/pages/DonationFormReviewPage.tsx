@@ -9,8 +9,8 @@ import HorizontalDividerLine from "../components/atoms/HorizontalDividerLine";
 interface Props {
     donor: Donor;
     donationForms: Array<DonationForm>;
-    onPreviousPage: () => void;
     onNextPage: () => void;
+    onPreviousPage: () => void;
     pageNumber: number; // Index starting at 0
     steps: Array<string>;
 }
