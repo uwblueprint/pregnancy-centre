@@ -26,7 +26,19 @@ const donationFormQueryResolvers = {
   },
 };
 
+const donationFormMutationResolvers = {
+  createDonationForm: async (_, { donationForm }, { authenticateUser }): Promise<DonationFormInterface> => {
+      return authenticateUser().then(async () => { 
+        const newDonationFormObject = new DonationForm({...donationForm})
+        const newDonationForm = await newDonationFormObject.save()
+        
+        return newDonationForm
+      })
+  }
+}
+
 export {
+  donationFormMutationResolvers,
   donationFormQueryResolvers,
   DonationItemCondition,
   DonationItemStatus,
