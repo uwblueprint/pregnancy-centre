@@ -202,7 +202,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         setChangeMade(true);
         updateRequestGroupError(newRequestGroup);
         setRequestGroup(newRequestGroup ? newRequestGroup : null);
-        setRequestTypeInput(newRequestGroup?.name ?? "");
+        setRequestGroupInput(newRequestGroup?.name ?? "");
 
         if (
             newRequestGroup &&
