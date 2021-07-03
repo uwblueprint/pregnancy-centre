@@ -1,21 +1,22 @@
 import React, { FunctionComponent, useState } from "react";
 
-import { Button } from "../components/atoms/Button";
 import DonationFormPage from "../components/layouts/DonationFormPage";
 import Donor from "../data/types/donor";
 import FormItem from "../components/molecules/FormItem";
 import { TextField } from "../components/atoms/TextField";
 
 interface Props {
+    initialDonor?: Donor;
     onNext: (donor: Donor) => void;
+    pageNumber: number; // Index starting at 1
     steps: Array<string>;
 }
 
 const DonationFormContactInfoPage: FunctionComponent<Props> = (props: Props) => {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [email, setEmail] = useState("");
+    const [firstName, setFirstName] = useState(props.initialDonor?.firstName ?? "");
+    const [lastName, setLastName] = useState(props.initialDonor?.lastName ?? "");
+    const [phoneNumber, setPhoneNumber] = useState(props.initialDonor?.phoneNumber ?? "");
+    const [email, setEmail] = useState(props.initialDonor?.email ?? "");
     const [firstNameError, setFirstNameError] = useState("");
     const [lastNameError, setLastNameError] = useState("");
     const [phoneNumberError, setPhoneNumberError] = useState("");
@@ -114,7 +115,8 @@ const DonationFormContactInfoPage: FunctionComponent<Props> = (props: Props) => 
     return (
         <DonationFormPage
             className="donation-form-contact-info-page"
-            footer={<Button className="next-button" text="Next" copyText="" onClick={onNext} />}
+            nextButtonText="Next"
+            onNextPage={onNext}
             pageName="Contact Information"
             pageNumber={1}
             pageInstructions="Please fill out your contact information so that The Pregnancy Centre can notify you about donation approval and drop off details."
