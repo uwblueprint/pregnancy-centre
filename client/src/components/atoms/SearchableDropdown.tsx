@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 
 import ScrollableDropdown from "../atoms/ScrollableDropdown";
 import Tag from "../atoms/Tag";
