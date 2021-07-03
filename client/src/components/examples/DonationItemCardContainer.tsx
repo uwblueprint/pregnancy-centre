@@ -39,6 +39,7 @@ const DonationItemCardContainer: FunctionComponent<Record<string, never>> = () =
             <h3>Normal donation item</h3>
             <DonationItemCard
                 donationForm={donationForm}
+                showEditIcon={true}
                 showDeleteIcon={true}
                 onEdit={() => console.log("Edit")}
                 onDelete={() => console.log("Delete")}
@@ -46,6 +47,7 @@ const DonationItemCardContainer: FunctionComponent<Record<string, never>> = () =
             <h3>Donation item with no delete icon</h3>
             <DonationItemCard
                 donationForm={donationForm}
+                showEditIcon={true}
                 showDeleteIcon={false}
                 onEdit={() => console.log("Edit")}
                 onDelete={() => console.log("Delete")}
@@ -53,6 +55,7 @@ const DonationItemCardContainer: FunctionComponent<Record<string, never>> = () =
             <h3>Donation item with long description and newlines</h3>
             <DonationItemCard
                 donationForm={donationFormWithLongDescription}
+                showEditIcon={true}
                 showDeleteIcon={true}
                 onEdit={() => console.log("Edit")}
                 onDelete={() => console.log("Delete")}
@@ -60,6 +63,7 @@ const DonationItemCardContainer: FunctionComponent<Record<string, never>> = () =
             <h3>Donation item with no description</h3>
             <DonationItemCard
                 donationForm={donationFormWithNoDescription}
+                showEditIcon={true}
                 showDeleteIcon={true}
                 onEdit={() => console.log("Edit")}
                 onDelete={() => console.log("Delete")}

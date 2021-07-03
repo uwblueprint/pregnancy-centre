@@ -262,6 +262,11 @@ $page-arrow-disabled-color: #b7b7b7;
 /* Donation Item Card Config */
 $donation-item-card-color: #f4f4f4;
 $donation-item-details-text-color: #767676;
+@mixin donation-form-info-card {
+    border-radius: 10px;
+    background-color: $donation-item-card-color;
+    color: $donation-item-details-text-color;
+}
 
 /* Stepper Config */
 $stepper-border-color: #c4c4c4;
