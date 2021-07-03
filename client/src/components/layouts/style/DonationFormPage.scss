@@ -1,58 +1,58 @@
 .donation-form-page {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-
-  &-header,
-  &-footer {
-    width: 100%;
-  }
-
-  &-content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 50px 5%;
-  }
-
-  &-progress {
-    width: 22%;
     display: flex;
     flex-direction: column;
+    height: 100vh;
 
-    h1 {
-      @include heavy-text;
-      font-size: 25px;
+    &-header,
+    &-footer {
+        width: 100%;
     }
-  }
 
-  &-details {
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    padding: 0 5%;
-  }
+    &-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 50px 5%;
+    }
 
-  &-name {
-    @include semibold-text;
-    font-size: 15px;
-  }
+    &-progress {
+        width: 22%;
+        display: flex;
+        flex-direction: column;
 
-  &-instructions {
-    @include semibold-text;
-    font-size: 16px;
-    line-height: 24px;
-    margin-bottom: 42px;
-  }
+        h1 {
+            @include heavy-text;
+            font-size: 25px;
+        }
+    }
 
-  &-footer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 122px;
-    padding: 20px;
-    box-shadow: 0px -4px 20px rgba(219, 219, 219, 0.25);
-  }
+    &-details {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+        padding: 0 5%;
+    }
+
+    &-name {
+        @include semibold-text;
+        font-size: 15px;
+    }
+
+    &-instructions {
+        @include semibold-text;
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 42px;
+    }
+
+    &-footer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 122px;
+        padding: 20px;
+        box-shadow: 0px -4px 20px rgba(219, 219, 219, 0.25);
+    }
 }
