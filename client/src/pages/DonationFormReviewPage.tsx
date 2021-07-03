@@ -19,6 +19,8 @@ const DonationFormReviewPage: FunctionComponent<Props> = (props: Props) => {
     return (
         <DonationFormPage
             className="donation-form-review-page"
+            includeContentHeader={true}
+            includeFooter={true}
             nextButtonText="Submit Form"
             onNextPage={props.onNextPage}
             onPreviousPage={props.onPreviousPage}
