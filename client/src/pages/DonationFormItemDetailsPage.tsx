@@ -127,7 +127,7 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
                         {donationForm.isSaved ? (
                             <DonationItemCard
                                 donationForm={donationForm}
-                                showDeleteIcon={donationForms.length === 0}
+                                showDeleteIcon={donationForms.length > 1}
                                 onEdit={() => onEditDonationForm(idx)}
                                 onDelete={() => onDeleteDonationForm(idx)}
                             />
