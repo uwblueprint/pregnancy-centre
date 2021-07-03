@@ -8,6 +8,7 @@ import { TextField } from "../atoms/TextField";
 
 interface Props {
     onNext: (donor: Donor) => void;
+    steps: Array<string>;
 }
 
 const DonationFormContactInfoPage: FunctionComponent<Props> = (props: Props) => {
@@ -115,7 +116,9 @@ const DonationFormContactInfoPage: FunctionComponent<Props> = (props: Props) => 
             className="donation-form-contact-info-page"
             footer={<Button className="next-button" text="Next" copyText="" onClick={onNext} />}
             pageName="Contact Information"
+            pageNumber={1}
             pageInstructions="Please fill out your contact information so that The Pregnancy Centre can notify you about donation approval and drop off details."
+            steps={props.steps}
         >
             <div className="contact-info-form">
                 <FormItem
