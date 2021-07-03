@@ -8,7 +8,7 @@ import { TextField } from "../components/atoms/TextField";
 interface Props {
     initialDonor?: Donor;
     onNext: (donor: Donor) => void;
-    pageNumber: number; // Index starting at 1
+    pageNumber: number; // Index starting at 0
     steps: Array<string>;
 }
 
@@ -116,8 +116,8 @@ const DonationFormContactInfoPage: FunctionComponent<Props> = (props: Props) => 
             includeFooter={true}
             nextButtonText="Next"
             onNextPage={onNext}
-            pageName="Contact Information"
-            pageNumber={1}
+            pageName={props.steps[props.pageNumber]}
+            pageNumber={props.pageNumber}
             pageInstructions="Please fill out your contact information so that The Pregnancy Centre can notify you about donation approval and drop off details."
             steps={props.steps}
         >
