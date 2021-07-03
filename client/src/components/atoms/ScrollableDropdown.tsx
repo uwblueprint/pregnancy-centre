@@ -11,7 +11,7 @@ interface Props {
     isDropdownOpened: boolean;
 }
 
-const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
+const ScrollableDropdown: FunctionComponent<Props> = (props: Props) => {
     const {
         ref: dropdownReference,
         isComponentVisible: isDropdownOpened,
@@ -51,4 +51,4 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
     );
 };
 
-export default SearchableDropdown;
+export default ScrollableDropdown;

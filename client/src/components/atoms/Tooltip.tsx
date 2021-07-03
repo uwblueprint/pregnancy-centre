@@ -3,12 +3,13 @@ import React, { FunctionComponent } from "react";
 
 interface Props {
     tooltipText: string;
+    className?: string;
 }
 
 const CustomTooltip: FunctionComponent<Props> = (props: Props) => {
     const renderTooltip = (p: Record<string, unknown>) => {
         return (
-            <Tooltip id="button-tooltip" {...p}>
+            <Tooltip id="button-tooltip" className={props.className ?? ""} {...p}>
                 {props.tooltipText}
             </Tooltip>
         );
