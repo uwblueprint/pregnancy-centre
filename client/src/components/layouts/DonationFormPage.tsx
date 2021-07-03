@@ -1,13 +1,17 @@
 import React, { FunctionComponent } from "react";
 
 import Navbar from "../organisms/Navbar";
+import StepNumber from "../atoms/StepNumber";
+import Stepper from "../atoms/Stepper";
 
 interface Props {
     children: React.ReactNode;
     className?: string;
     footer: React.ReactNode;
     pageName: string;
+    pageNumber: number; // Index starting at 1
     pageInstructions: string;
+    steps: Array<string>;
 }
 
 const DonationFormPage: FunctionComponent<Props> = (props: Props) => {
@@ -24,13 +28,17 @@ const DonationFormPage: FunctionComponent<Props> = (props: Props) => {
                     ]}
                 />
             </div>
-            <div className="donation-form-page-content">
+            <div className="donation-form-page-body">
                 <div className="donation-form-page-progress">
                     <h1>Donation Request Form</h1>
+                    <Stepper steps={props.steps} selectedStep={props.pageNumber} />
                 </div>
-                <div className="donation-form-page-details">
-                    <h1 className="donation-form-page-name">{props.pageName}</h1>
-                    <p className="donation-form-page-instructions">{props.pageInstructions}</p>
+                <div className="donation-form-page-content">
+                    <div className="donation-form-page-content-header">
+                        <StepNumber stepNumber={props.pageNumber} isSelectedStep={true} />
+                        <h1>{props.pageName}</h1>
+                        <p className="donation-form-page-instructions">{props.pageInstructions}</p>
+                    </div>
                     <div>{props.children}</div>
                 </div>
             </div>
