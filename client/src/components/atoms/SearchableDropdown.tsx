@@ -10,7 +10,6 @@ interface Props {
     searchString: string;
     initialText: string;
     isDisabled: boolean;
-    // isEmpty?: boolean;
     isErroneous: boolean;
     isTagDropdown?: boolean;
     noItemsAction?: React.ReactNode;
