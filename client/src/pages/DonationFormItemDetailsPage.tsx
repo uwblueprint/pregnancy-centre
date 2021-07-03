@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 
 import BaseDonationForm from "../data/types/donationForm";
-import { Button } from "../components/atoms/Button";
 import DonationFormPage from "../components/layouts/DonationFormPage";
 import DonationItemCard from "../components/atoms/DonationItemCard";
 import DonationItemForm from "../components/molecules/DonationItemForm";
@@ -25,7 +24,7 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
             ...baseDonationForm
         }))
     );
-    const [showFormUnsavedError, setShowFormUnsavedError] = useState(false);
+    const [formDetailsError, setFormDetailsError] = useState("");
     const [numSavedBeforeDonationForms, setNumSavedBeforeDonationForms] = useState(props.initialDonationForms.length);
     const [existsSavedDonationFormsBeingEdited, setExistsSavedDonationFormsBeingEdited] = useState(false);
 
@@ -35,6 +34,20 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
         { _id: "2", name: "Exersaucer" },
         { _id: "3", name: "Bag" }
     ];
+
+    const updateFormDetailsError = () => {
+        let error = "";
+        const allFormsAreSaved = donationForms.reduce(
+            (allAreSaved, donationForm) => allAreSaved && donationForm.isSaved,
+            true
+        );
+        if (!allFormsAreSaved) {
+            error = "Please save item.";
+        }
+
+        setFormDetailsError(error);
+        return error;
+    };
 
     const onCreateDonationForm = () => {
         setDonationForms((oldDonationForms) => [...oldDonationForms, { isSaved: false, isSavedBefore: false }]);
@@ -65,17 +78,13 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
         setDonationForms(tempDonationForms);
     };
 
-    const allFormsAreSaved = donationForms.reduce(
-        (allAreSaved, donationForm) => allAreSaved && donationForm.isSaved,
-        true
-    );
-
     const onChangePage = () => {
-        if (allFormsAreSaved) {
+        const tempFormDetailsError = updateFormDetailsError();
+
+        if (tempFormDetailsError.length === 0) {
             props.onNext(donationForms);
             return;
         }
-        setShowFormUnsavedError(true);
     };
 
     useEffect(() => {
@@ -97,21 +106,19 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
         <DonationFormPage
             className="donation-form-item-details-page"
             footer={
-                <>
-                    <span className="form-counter">
-                        {`Total items saved: ${numSavedBeforeDonationForms.toString()}${
-                            existsSavedDonationFormsBeingEdited ? "*" : ""
-                        }`}
-                    </span>
-                    <div className="nav-buttons">
-                        <Button className="back-button" text="Back" copyText="" onClick={onChangePage} />
-                        <Button className="next-button" text="Next" copyText="" onClick={onChangePage} />
-                    </div>
-                </>
+                <span className="form-counter">
+                    {`Total items saved: ${numSavedBeforeDonationForms.toString()}${
+                        existsSavedDonationFormsBeingEdited ? "*" : ""
+                    }`}
+                </span>
             }
+            nextButtonText="Next"
+            onNextPage={onChangePage}
+            onPreviousPage={onChangePage}
             pageName={props.steps[props.pageNumber - 1]}
             pageNumber={props.pageNumber}
-            pageInstructions="Please select the item(s) you would lik   e to donate. If you do not see your item in the TPC’s current list of needs, type in the name of your item."
+            pageInstructions="Please select the item(s) you would like to donate. If you do not see your item in the TPC’s current list of needs, type in the name of your item."
+            previousButtonText="Back"
             steps={props.steps}
         >
             <>
@@ -128,7 +135,7 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
                             <DonationItemForm
                                 initialDonationForm={donationForm.isSavedBefore ? donationForm : undefined}
                                 requestGroups={requestGroups}
-                                showFormUnsavedError={showFormUnsavedError}
+                                formDetailsError={formDetailsError}
                                 onDelete={() => onDeleteDonationForm(idx)}
                                 onSave={(newBaseDonationForm: BaseDonationForm) =>
                                     onSaveDonationForm(newBaseDonationForm, idx)
@@ -138,9 +145,9 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
                         {idx !== donationForms.length - 1 && <HorizontalDividerLine />}
                     </>
                 ))}
-                <span className="add-item-trigger" onClick={onCreateDonationForm}>
+                <p className="add-item-trigger" onClick={onCreateDonationForm}>
                     {donationForms.length === 0 ? "+ Donate an Item" : "+ Donate Another Item"}
-                </span>
+                </p>
             </>
         </DonationFormPage>
     );

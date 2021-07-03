@@ -27,7 +27,6 @@ const DonationItemFormContainer: FunctionComponent<Record<string, never>> = () =
                     onDelete={() => console.log("Delete")}
                     onSave={(donationForm) => console.log(donationForm)}
                     requestGroups={requestGroups}
-                    showFormUnsavedError={false}
                 />
             </div>
             <h1 style={{ marginBottom: "50px" }}>Donation Item Form with unsaved form error</h1>
@@ -45,7 +44,7 @@ const DonationItemFormContainer: FunctionComponent<Record<string, never>> = () =
                     onDelete={() => console.log("Delete")}
                     onSave={(donationForm) => console.log(donationForm)}
                     requestGroups={requestGroups}
-                    showFormUnsavedError={true}
+                    formDetailsError="Please save item to proceed to the next step."
                 />
             </div>
         </>
