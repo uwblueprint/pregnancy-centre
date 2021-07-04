@@ -9,7 +9,7 @@ import HomepageBanner from '../components/organisms/HomepageBanner'
 const DonorHomepage: FunctionComponent = () => {
   return <Container className="donor-homepage" fluid>
     <DonorPage>
-      <Row><HomepageBanner /></Row>
+      <Row><HomepageBanner/></Row>
       <Row className="donor-homepage-request-groups-browser"><DonorRequestGroupBrowser /></Row>
     </DonorPage>
   </Container>;
