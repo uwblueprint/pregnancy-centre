@@ -1,31 +1,57 @@
-import { requestGroupMutationResolvers, requestGroupQueryResolvers, requestGroupResolvers } from './resolvers/requestGroupResolvers'
-import { requestMutationResolvers, requestQueryResolvers, requestResolvers } from './resolvers/requestResolvers'
-import { requestTypeMutationResolvers, requestTypeQueryResolvers, requestTypeResolvers } from './resolvers/requestTypeResolvers'
+import {
+  donationFormMutationResolvers,
+  donationFormQueryResolvers,
+  DonationItemCondition,
+  DonationItemStatus,
+} from "./resolvers/donationFormResolvers";
+
+import {
+  requestGroupMutationResolvers,
+  requestGroupQueryResolvers,
+  requestGroupResolvers,
+} from "./resolvers/requestGroupResolvers";
+
+import {
+  requestMutationResolvers,
+  requestQueryResolvers,
+  requestResolvers,
+} from "./resolvers/requestResolvers";
+
+import {
+  requestTypeMutationResolvers,
+  requestTypeQueryResolvers,
+  requestTypeResolvers,
+} from "./resolvers/requestTypeResolvers";
 
 const resolvers = {
-    Query: {
-        ...requestQueryResolvers,
-        ...requestTypeQueryResolvers,
-        ...requestGroupQueryResolvers,
-    },
-    
-    Mutation: {
-        ...requestMutationResolvers,
-        ...requestTypeMutationResolvers,
-        ...requestGroupMutationResolvers,
-    },
+  DonationItemCondition,
+  DonationItemStatus,
 
-    Request: {
-        ...requestResolvers
-    },
+  Query: {
+    ...donationFormQueryResolvers,
+    ...requestQueryResolvers,
+    ...requestTypeQueryResolvers,
+    ...requestGroupQueryResolvers,
+  },
 
-    RequestType: {
-        ...requestTypeResolvers
-    },
+  Mutation: {
+    ...donationFormMutationResolvers,
+    ...requestMutationResolvers,
+    ...requestTypeMutationResolvers,
+    ...requestGroupMutationResolvers,
+  },
 
-    RequestGroup: {
-        ...requestGroupResolvers
-    }
-}
+  Request: {
+    ...requestResolvers,
+  },
 
-export { resolvers }
+  RequestType: {
+    ...requestTypeResolvers,
+  },
+
+  RequestGroup: {
+    ...requestGroupResolvers,
+  },
+};
+
+export { resolvers };
