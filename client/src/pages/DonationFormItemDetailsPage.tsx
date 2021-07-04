@@ -18,11 +18,13 @@ interface Props {
 
 const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => {
     const [donationForms, setDonationForms] = useState<Array<DonationForm>>(
-        props.initialDonationForms.map((baseDonationForm) => ({
-            isSaved: true,
-            isSavedBefore: true,
-            ...baseDonationForm
-        }))
+        props.initialDonationForms.length === 0
+            ? [{ isSaved: false, isSavedBefore: false }]
+            : props.initialDonationForms.map((baseDonationForm) => ({
+                  isSaved: true,
+                  isSavedBefore: true,
+                  ...baseDonationForm
+              }))
     );
     const [formDetailsError, setFormDetailsError] = useState("");
     const [numSavedBeforeDonationForms, setNumSavedBeforeDonationForms] = useState(props.initialDonationForms.length);
@@ -135,6 +137,7 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
                             <DonationItemForm
                                 initialDonationForm={donationForm.isSavedBefore ? donationForm : undefined}
                                 requestGroups={requestGroups}
+                                showDeleteButton={donationForms.length > 1}
                                 formDetailsError={formDetailsError}
                                 onDelete={() => onDeleteDonationForm(idx)}
                                 onSave={(newBaseDonationForm: BaseDonationForm) =>
