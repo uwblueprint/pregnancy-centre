@@ -13,27 +13,57 @@ interface Props {
     uploadedImg: string;
 }
 
+interface Dimensions {
+    width: number;
+    height: number;
+}
 const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const { selected, images, onImageChange, isErroneous, onUploadImg, uploadedImg } = props;
 
+    const getImageDimensions = async (file: string): Promise<Dimensions> => {
+        return new Promise((resolved) => {
+            const i = new Image();
+            i.onload = () => {
+                resolved({ width: i.width, height: i.height });
+            };
+            i.src = file;
+        });
+    };
     const handleOnDrop = (acceptedFiles: File[]) => {
         const file = acceptedFiles[0];
+        let validFile = true;
+        if (file.size > 6000000) {
+            alert("Image too large >:(");
+            validFile = false;
+        }
+        if (file.type != "image/png" && file.type != "image/jpeg") {
+            alert("Image must be png or jpeg >:(");
+            validFile = false;
+        }
         const fileReader = new FileReader();
         fileReader.addEventListener(
             "load",
-            () => {
+            async () => {
                 const res = fileReader.result;
+                console.log(res);
                 let imgStr;
                 if (res === null) imgStr = "";
                 else if (typeof res === "string") {
                     imgStr = res;
                 } else {
                     imgStr = res.toString();
-                    console.log(imgStr);
                 }
-                onUploadImg(imgStr);
+                const dimensions = await getImageDimensions(imgStr);
+                console.log(dimensions);
+                if (dimensions.width < 600 || dimensions.height < 430) {
+                    alert("Image dimensions bad >:(");
+                    validFile = false;
+                }
+                if (validFile) {
+                    onUploadImg(imgStr);
+                }
             },
             false
         );

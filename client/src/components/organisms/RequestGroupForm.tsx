@@ -409,7 +409,11 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                     <div className="imagepicker-form-item">
                         <FormItem
                             formItemName="Image"
-                            instructions={image === "" ? "Uploads must be JPEGs or PNGs, at least 600 x 430 pixels, and less than 5MB" : ""}
+                            instructions={
+                                image === ""
+                                    ? "Uploads must be JPEGs or PNGs, at least 600 x 430 pixels, and less than 5MB"
+                                    : ""
+                            }
                             errorString={imageError}
                             isDisabled={false}
                             showErrorIcon={false}
