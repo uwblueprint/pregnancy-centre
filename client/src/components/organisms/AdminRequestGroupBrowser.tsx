@@ -42,10 +42,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
               fulfilledAt
               deleted
               fulfilled
-              client{
-                _id
-                fullName
-              }  
+              clientName 
             }
           }
         }

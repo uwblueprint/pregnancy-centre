@@ -70,8 +70,8 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                 <td className="numOpen-col">{ requestGroup.countOpenRequests }</td>
                                 <td className="types-col">
                                     <div className="requestType-tag-list">
-                                        { requestGroup.requestTypes && requestGroup.requestTypes.map((requestType) => (requestType.name && !requestType.deleted &&
-                                                    <span className="requestType-tag-list-item">
+                                        { requestGroup.requestTypes && requestGroup.requestTypes.map((requestType) => (requestType.name && !requestType.deletedAt &&
+                                                    <span className="requestType-tag-list-item" key={ requestType._id }>
                                                         <Tag text={requestType.name}/>
                                                     </span>
                                         ))}
@@ -86,7 +86,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                 </td>
                                 <td className="spacing-col"/>
                             </tr>
-                            <tr className="border-row">
+                            <tr className="border-row" key={ requestGroup._id + "b" }>
                                 <td className="spacing-col"/>
                                 <td>
                                     <div className="border-line"/>

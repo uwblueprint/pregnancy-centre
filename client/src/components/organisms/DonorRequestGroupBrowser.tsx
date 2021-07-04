@@ -5,7 +5,6 @@ import RequestGroupDonorView from './RequestGroupDonorView'
 import RequestGroupList from './RequestGroupList'
 
 const DonorRequestGroupBrowser: FunctionComponent = () => {
-  //const [selectedRequestGroup, setSelectedRequestGroup] = useState<string | undefined>(props.displayRequestGroups.length <= 0 ? undefined : props.displayRequestGroups[0]._id)
   const [countRequestGroups, setCountRequestGroups] = useState<number>(0);
   const [selectedRequestGroup, setSelectedRequestGroup] = useState<string | undefined>(undefined);
 

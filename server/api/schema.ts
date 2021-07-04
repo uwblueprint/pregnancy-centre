@@ -123,7 +123,7 @@ const typeDefs = gql`
 
         requestGroup(_id: ID): RequestGroup
         requestGroups: [RequestGroup]
-        requestGroupsPage(skip: Int, limit: Int): [RequestGroup]
+        requestGroupsPage(skip: Int, limit: Int, name: String): [RequestGroup]
         countRequestGroups(open: Boolean): Int
         # --- Left as a proof of concept: --- 
         # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]

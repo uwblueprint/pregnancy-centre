@@ -37,15 +37,22 @@ const useComponentVisible = (initialIsVisible: boolean): {
 // cachedLimit denotes number of pages to keep cached (avoid refetching), if undefined (or < 0) cache everything
 // preLoad denotes the number of pages +/- current page to fetch (set to 0 to avoid this functionality)
 const usePaginator = (pageSize: number, maxPages: number, query: DocumentNode, cachedLimit?: number, preLoad?: number): {
-    getPage: (index: number) => Promise<Array<any>>
+    clear: () => void,
+    getPage: (index: number) => Promise<Array<any>>,
+    setQueryVariables: (queryVariables: Record<string, unknown>) => void
 } => {
   const pages = useRef(new Map()); // an LRU cache where keys are page indices and values are contents of a page
   const client = useApolloClient();
+  const [queryVariables, setQueryVariables] = useState({});
+
+  const clear = () => {
+    pages.current.clear();
+  }
 
   const getPage = async (index: number) : Promise<Array<any>> => {
     if (!pages.current) return [];
 
-    for (let i = Math.max(0, index - (preLoad ?? 0)); i < Math.min(index + (preLoad ?? 0), maxPages); i++) {
+    for (let i = Math.max(0, index - (preLoad ?? 0)); i < Math.min(index + (preLoad ?? 0) + 1, maxPages); i++) {
       if (pages.current.has(i)) { // skip cached pages
         continue;
       }
@@ -53,17 +60,17 @@ const usePaginator = (pageSize: number, maxPages: number, query: DocumentNode, c
       let p = [];
       p = await client.query({ 
         query: query,
-        variables: { 
+        variables: Object.assign({ 
           skip: i * pageSize,
-          limit: pageSize },
+          limit: pageSize }, queryVariables),
         fetchPolicy: 'network-only'})
         .then((res) => { return res.data.requestGroupsPage })
         .catch(() => { return [] }) as Array<any>;
   
       pages.current.set(i, p);
-  
+
       // if we reached the limit (not possible if pages already contained the desired page), then delete the first page in pages
-      if (pages.current.size === Math.max(0, (cachedLimit ? cachedLimit : -1)) + 2 * (preLoad ?? 0)) {
+      if ((cachedLimit ?? -1) > 0 && pages.current.size === Math.max(0, (cachedLimit ?? -1)) + 2 * (preLoad ?? 0)) {
         pages.current.delete(pages.current.keys().next().value);
       }
     }
@@ -71,7 +78,7 @@ const usePaginator = (pageSize: number, maxPages: number, query: DocumentNode, c
     return pages.current.get(index) ?? [];
   };
 
-  return { getPage }
+  return { clear, getPage, setQueryVariables }
 }
 
 
