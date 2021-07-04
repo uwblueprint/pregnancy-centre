@@ -1,0 +1,33 @@
+.warning-box {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    z-index: 1;
+    border-radius: 4px;
+    background-color: $alert-light-color;
+    color: $alert-dark-color;
+    padding: 10px 18px;
+    top: -10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    animation: fade-out 1s;
+    animation-delay: 3s;
+
+    @keyframes fade-out {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+
+    .warning-box-text {
+        margin: 8px;
+    }
+}
+
+.warning-box-hidden {
+    display: none;
+}

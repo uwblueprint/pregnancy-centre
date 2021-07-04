@@ -4,6 +4,8 @@ import Dropzone from "react-dropzone";
 import ImageList from "./ImageList";
 import Slider from "@material-ui/core/Slider";
 
+import WarningBox from "./WarningBox";
+
 interface Props {
     onImageChange(url: string): void;
     onUploadImg(data: string): void;
@@ -20,6 +22,8 @@ interface Dimensions {
 const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
+    const [showWarning, setShowWarning] = useState(false);
+    const [warningText, setWarningText] = useState("");
     const { selected, images, onImageChange, isErroneous, onUploadImg, uploadedImg } = props;
 
     const getImageDimensions = async (file: string): Promise<Dimensions> => {
@@ -35,11 +39,11 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
         const file = acceptedFiles[0];
         let validFile = true;
         if (file.size > 6000000) {
-            alert("Image too large >:(");
+            triggerWarning("Images must be less than 5MB");
             validFile = false;
         }
         if (file.type != "image/png" && file.type != "image/jpeg") {
-            alert("Image must be png or jpeg >:(");
+            triggerWarning("Images must be in either JPEG or PNG format");
             validFile = false;
         }
         const fileReader = new FileReader();
@@ -58,10 +62,11 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                 const dimensions = await getImageDimensions(imgStr);
                 console.log(dimensions);
                 if (dimensions.width < 600 || dimensions.height < 430) {
-                    alert("Image dimensions bad >:(");
+                    triggerWarning("Images must be at least 600 x 430 pixels");
                     validFile = false;
                 }
                 if (validFile) {
+                    setShowWarning(false);
                     onUploadImg(imgStr);
                 }
             },
@@ -84,9 +89,17 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
             setZoom(zoom - 0.1);
         }
     };
+    const triggerWarning = (text: string) => {
+        setShowWarning(true);
+        setWarningText(text);
+        setTimeout(() => {
+            setShowWarning(false);
+        }, 4000);
+    };
     const imgInView = selected !== "" || uploadedImg !== "";
     return (
         <div className="imagepicker">
+            <WarningBox text={warningText} showWarning={showWarning} />
             <div className={`imagepicker-preview`}>
                 {selected.length ? (
                     <img src={selected} />
