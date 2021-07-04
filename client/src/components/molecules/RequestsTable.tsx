@@ -34,7 +34,6 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     const [requests, setRequests] = useState(props.requests.filter((request)=> request.deleted === false));
     
     useEffect(() => {
-        // Your code here
         const nonFulfilledRequests = requests.filter(request => {
             if (request !== undefined){
                 if (request.fulfilled === false){
