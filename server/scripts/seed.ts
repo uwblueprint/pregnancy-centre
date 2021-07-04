@@ -5,16 +5,9 @@ import mongoose from "mongoose";
 
 import { connectDB } from "../database/mongoConnection";
 
-<<<<<<< HEAD
 import { Request } from '../database/models/requestModel'
 import { RequestGroup } from '../database/models/requestGroupModel'
 import { RequestType } from '../database/models/requestTypeModel'
-=======
-import { Client } from "../models/clientModel";
-import { Request } from "../models/requestModel";
-import { RequestGroup } from "../models/requestGroupModel";
-import { RequestType } from "../models/requestTypeModel";
->>>>>>> origin/main
 
 // -----------------------------------------------------------------------------
 // SEED REQUESTS/TAGS
