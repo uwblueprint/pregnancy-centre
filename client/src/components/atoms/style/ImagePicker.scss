@@ -21,6 +21,20 @@
         top: 53%;
         right: 4.7%;
     }
+    &-upload {
+        &-top-text {
+            text-align: center;
+            font-size: 20px;
+        }
+        &-bottom-text {
+            text-align: center;
+            font-size: 14px;
+        }
+        &-icon {
+            text-align: center;
+            font-size: 60px;
+        }
+    }
     .alert-icon {
         color: $input-error;
         position: absolute;

@@ -81,7 +81,11 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                                 {({ getRootProps, getInputProps }) => (
                                     <div {...getRootProps()}>
                                         <input {...getInputProps()} />
-                                        <p>Select an image or upload your own</p>
+                                        <div className="imagepicker-upload-icon">
+                                            <i className="bi bi-upload"></i>
+                                        </div>
+                                        <p className="imagepicker-upload-top-text">Select an image</p>
+                                        <p className="imagepicker-upload-bottom-text">or upload your own</p>
                                     </div>
                                 )}
                             </Dropzone>
