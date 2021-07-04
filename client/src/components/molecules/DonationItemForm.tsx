@@ -18,6 +18,7 @@ interface Props {
     onDelete: () => void;
     onSave: (donationForm: DonationForm) => void;
     requestGroups: Array<RequestGroup>;
+    showDeleteButton: boolean;
     formDetailsError?: string;
 }
 
@@ -291,7 +292,9 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                     }
                 />
                 <div className="form-buttons">
-                    <Button className="delete-button" text="Delete" copyText="" onClick={props.onDelete} />
+                    {props.showDeleteButton && (
+                        <Button className="delete-button" text="Delete" copyText="" onClick={props.onDelete} />
+                    )}
                     <Button className="save-button" text="Save Item" copyText="" onClick={onSave} />
                 </div>
             </div>
