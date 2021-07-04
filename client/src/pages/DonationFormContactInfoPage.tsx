@@ -79,9 +79,6 @@ const DonationFormContactInfoPage: FunctionComponent<Props> = (props: Props) => 
     };
 
     const onPhoneNumberChange = (newPhoneNumber: string) => {
-        if (newPhoneNumber.length === 3 || newPhoneNumber.length === 7) {
-            newPhoneNumber = newPhoneNumber.concat("-");
-        }
         updatePhoneNumberError(newPhoneNumber);
         setPhoneNumber(newPhoneNumber);
     };
