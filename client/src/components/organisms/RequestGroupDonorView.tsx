@@ -9,16 +9,12 @@ import RequestGroup from '../../data/types/requestGroup';
 import RequestTypeList from '../molecules/RequestTypeList';
 import RichTextDisplay from "../atoms/RichTextDisplay";
 
-// TODO: rich text for descriptions (BLOCKER: how admin's will set descriptions)
-// TODO: get email from TPC and put here
-
-
 interface Props {
     requestGroupId?: string
 }
 
 const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
-    const emailAddress = "reception@pregnancycentre.ca" // TODO: replace and see todo above
+    const emailAddress = "reception@pregnancycentre.ca" 
 
     const [requestGroupData, setRequestGroupData] = useState<RequestGroup | undefined>(undefined);
 

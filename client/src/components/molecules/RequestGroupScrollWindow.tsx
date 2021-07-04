@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useEffect, useRef } from "react";
-import RequestGroupListItem from '../atoms/RequestGroupListItem';
+import RequestGroupListItem from "../atoms/RequestGroupListItem";
 
-import RequestGroup from '../../data/types/requestGroup'
+import RequestGroup from "../../data/types/requestGroup";
 
 export interface Props {
-  requestGroups: Array<RequestGroup>,
-  selectedRequestGroup?: string,
-  onRequestGroupChange: (requestGroupId: string) => void
+    requestGroups: Array<RequestGroup>;
+    selectedRequestGroup?: string;
+    onRequestGroupChange: (requestGroupId: string) => void;
 }
 
 const RequestGroupScrollWindow: FunctionComponent<Props> = (props: Props) => {

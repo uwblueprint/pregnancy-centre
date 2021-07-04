@@ -1,10 +1,11 @@
 .request-group-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 811px;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 811px;
+    width: 100%;
 
+<<<<<<< HEAD
   .spinner {
     display: flex;
     flex-direction: column;
@@ -22,9 +23,14 @@
   &-page-navigation {
     margin-top: 30px;
   }
+=======
+    &-page-navigation {
+        margin-top: 30px;
+    }
+>>>>>>> origin/main
 
-  &-scroll-window {
-    border-bottom: $border-line;
-    width: 100%;
-  }
+    &-scroll-window {
+        border-bottom: $border-line;
+        width: 100%;
+    }
 }

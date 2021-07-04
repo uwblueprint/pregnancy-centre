@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 
 import RequestForm from "../organisms/RequestForm";
-import RequestGroup from '../../data/types/requestGroup';
+import RequestGroup from "../../data/types/requestGroup";
 import RequestGroupForm from "../organisms/RequestGroupForm";
 import RequestGroupTable from "../molecules/RequestGroupTable";
 import SearchBar from "../atoms/SearchBar";
@@ -75,24 +75,51 @@ const AdminRequestGroupList: FunctionComponent = () => {
     }
 
     return (
-
         <div className="admin-request-group-list">
-            { showCreateRequestModal && <RequestForm onSubmitComplete={() => {}} handleClose={() => setShowCreateRequestModal(false)} operation="create" /> }
-            { showCreateRequestGroupModal && <RequestGroupForm onSubmitComplete={() => { window.location.reload() }} handleClose={() => setShowCreateRequestGroupModal(false)} operation="create" />}
+            {showCreateRequestModal && (
+                <RequestForm
+                    onSubmitComplete={() => {}}
+                    handleClose={() => setShowCreateRequestModal(false)}
+                    operation="create"
+                />
+            )}
+            {showCreateRequestGroupModal && (
+                <RequestGroupForm
+                    onSubmitComplete={() => {
+                        window.location.reload();
+                    }}
+                    handleClose={() => setShowCreateRequestGroupModal(false)}
+                    operation="create"
+                />
+            )}
             <div className="row">
                 <span className="title">Request Groups</span>
                 <span className="action-group">
-                    <span className="item"><SearchBar defaultText="Search for a group..." onSearchStringChange={onSearchStringChange} /></span>
+                    <span className="item">
+                        <SearchBar defaultText="Search for a group..." onSearchStringChange={onSearchStringChange} />
+                    </span>
                     <span className="spacing"></span>
                     <span className="item">
                         <Dropdown className="admin-group-button">
-                            <Dropdown.Toggle bsPrefix="custom">
-                                Create
-                            </Dropdown.Toggle>
+                            <Dropdown.Toggle bsPrefix="custom">Create</Dropdown.Toggle>
 
                             <Dropdown.Menu align="right" className="admin-group-button-dropdown">
-                                <Dropdown.Item className="admin-group-button-dropdown-item" onClick={() => { setShowCreateRequestModal(true) }}>New request</Dropdown.Item>
-                                <Dropdown.Item className="admin-group-button-dropdown-item" onClick={() => { setShowCreateRequestGroupModal(true) }}>New group</Dropdown.Item>
+                                <Dropdown.Item
+                                    className="admin-group-button-dropdown-item"
+                                    onClick={() => {
+                                        setShowCreateRequestModal(true);
+                                    }}
+                                >
+                                    New request
+                                </Dropdown.Item>
+                                <Dropdown.Item
+                                    className="admin-group-button-dropdown-item"
+                                    onClick={() => {
+                                        setShowCreateRequestGroupModal(true);
+                                    }}
+                                >
+                                    New group
+                                </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </span>
