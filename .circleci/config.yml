@@ -79,26 +79,26 @@ workflows:
   server:
     jobs:
       - lint-server
-      - deploy-server:
-          context:
-            - tpc-staging
-          filters:
-            branches:
-              only:
-                - staging
+      # - deploy-server:
+      #     context:
+      #       - tpc-staging
+      #     filters:
+      #       branches:
+      #         only:
+      #           - staging
   client:
     jobs:
       - lint-client
       - build-client:
           context:
             - tpc-staging
-      - deploy-client:
-          requires:
-            - build-client
-          context:
-            - tpc-staging
-          filters:
-            branches:
-              only:
-                - staging
+      # - deploy-client:
+      #     requires:
+      #       - build-client
+      #     context:
+      #       - tpc-staging
+      #     filters:
+      #       branches:
+      #         only:
+      #           - staging
   
