@@ -71,10 +71,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     useEffect(() => {
         setNumRequests(props.requests!.reduce((total, request) => (request.deleted === false ? total + 1 : total), 0))
     }, [])
-
-    const handleChangeNumRequests = (num: number) => {
-        setNumRequests(num)
-    }
+    
     return (
         <div className="request-type-dropdown-container">
             <Dropdown
@@ -83,7 +80,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                     <a className="button-container edit" onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => { onOpenEditRequestType(); e.stopPropagation(); }}><i className="bi bi-pencil"></i></a>
                     <a className="button-container delete" onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => { onOpenDeleteRequestType(); e.stopPropagation(); }}><i className="bi bi-trash"></i></a>
                 </span>}
-                body={<RequestsTable onChangeNumRequests={handleChangeNumRequests} requests={props.requests ? props.requests : []} />}
+                body={<RequestsTable onChangeNumRequests={setNumRequests} requests={props.requests ? props.requests : []} />}
             ></Dropdown>
             {editModalShow && props.requestGroup && <RequestTypeForm
                 handleClose={() => setEditModalShow(false)}

@@ -1,0 +1,14 @@
+.admin-request-client-browser {
+    .client-header {
+        display: flex;
+    
+        .client-requests-description {
+            flex: 1;
+            margin-left: 160px;
+    
+            .client-name {
+                @include heavy-text;
+            }
+        }
+    }
+}
