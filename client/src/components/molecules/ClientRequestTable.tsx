@@ -71,8 +71,8 @@ const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
     const [mutateRequest] = useMutation(updateRequest);
     const onSoftDeleteRequest = (index: number) => {
         const requestsCopy = requests.slice();
-        requestsCopy.splice(index, 1);
         const id = requestsCopy[index]._id;
+        requestsCopy.splice(index, 1);
         props.onChangeNumRequests!(requestsCopy.length);
         setRequests(requestsCopy);
         mutateDeleteRequest({variables: {id: id}});
