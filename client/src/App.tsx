@@ -21,7 +21,7 @@ function App(): JSX.Element {
           <Route path='/auth-action' component={AuthAction}></Route>
           <Route path='/email-password-reset' strict component={SendResetPasswordEmailModal}></Route>
           <Route path='/admin' component={AdminHomepage}></Route>
-          <Route path='/client/:name' component={ClientPage}></Route>
+          <Route path='/client/:client' component={ClientPage}></Route>
           <Route path='/request-group/:id'><AdminRequestGroupView /></Route>
           <Route path='/'><DonorHomepage /></Route>
         </Switch>

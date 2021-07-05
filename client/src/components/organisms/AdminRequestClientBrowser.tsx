@@ -3,13 +3,18 @@ import React, { FunctionComponent, useState } from "react";
 import ClientRequestTable from '../molecules/ClientRequestTable';
 import Request from '../../data/types/request'
 import { Spinner } from "react-bootstrap";
+import { useParams } from "react-router";
+
+interface routeParam {
+  clientName : string
+}
 
 const AdminRequestClientBrowser: FunctionComponent = () => {
     const [requests, setRequests] = useState<Request[]>([]);
     const [numRequests, setNumRequests] = useState(0);
 
-    let clientName : string = window.location.href;
-    clientName = clientName.split("client/")[1].replaceAll("-", " ");
+    let { clientName } = useParams<routeParam>();
+    clientName = clientName.replaceAll("-"," ");
 
     const query = gql` 
     query {
