@@ -84,6 +84,13 @@ const requestGroupMutationResolvers = {
             return requestGroup.save()
         })
     },
+    uploadRequestGroupThumbnail: async (parent, { file }) => {
+        const { filename, mimetype, encoding } = await file
+
+          return {
+              url: 'localhost:3000'
+          };
+      },
 }
 
 const requestGroupResolvers = {
