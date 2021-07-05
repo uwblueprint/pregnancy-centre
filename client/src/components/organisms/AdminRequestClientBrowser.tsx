@@ -6,15 +6,15 @@ import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
 
 interface routeParam {
-  clientName : string
+  client : string
 }
 
 const AdminRequestClientBrowser: FunctionComponent = () => {
     const [requests, setRequests] = useState<Request[]>([]);
     const [numRequests, setNumRequests] = useState(0);
 
-    let { clientName } = useParams<routeParam>();
-    clientName = clientName.replaceAll("-"," ");
+    const { client } = useParams<routeParam>();
+    const clientName : string = client.replaceAll("-"," ");
 
     const query = gql` 
     query {
