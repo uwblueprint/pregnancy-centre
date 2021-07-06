@@ -18,8 +18,9 @@
     }
     &-trash {
         position: absolute;
-        top: 53%;
-        right: 4.7%;
+        bottom: 2%;
+        right: 2%;
+        z-index: 1;
     }
     &-upload {
         &-top-text {

@@ -101,6 +101,12 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
         <div className="imagepicker">
             <WarningBox text={warningText} showWarning={showWarning} />
             <div className={`imagepicker-preview`}>
+                <button
+                    className={imgInView ? "btn btn-light imagepicker-trash" : "imagepicker-hidden"}
+                    onClick={clearImage}
+                >
+                    <i className="bi bi-trash"></i>
+                </button>
                 {selected.length ? (
                     <img src={selected} />
                 ) : (
@@ -156,12 +162,6 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                     <i className="bi bi-plus"></i>
                 </button>
             </div>
-            <button
-                className={imgInView ? "btn btn-light imagepicker-trash" : "imagepicker-hidden"}
-                onClick={clearImage}
-            >
-                <i className="bi bi-trash"></i>
-            </button>
             {images.length > 1 && <ImageList selected={selected} images={images} onImageChange={onImageChange} />}
         </div>
     );
