@@ -93,3 +93,10 @@
         }
     }
 }
+
+.MuiSlider-rail,
+.MuiSlider-track {
+    height: 5px !important;
+    bottom: 11px !important;
+    border-radius: 10px !important;
+}
