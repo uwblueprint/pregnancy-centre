@@ -23,8 +23,9 @@ const AdminRequestGroupList: FunctionComponent = () => {
     query GetRequestGroupsPage(
       $skip: Int!
       $limit: Int!
+      $name: String
     ){
-      requestGroupsPage(skip: $skip, limit: $limit) {
+      requestGroupsPage(skip: $skip, limit: $limit, name: $name) {
         _id
         updatedAt
         name

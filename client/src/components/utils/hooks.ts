@@ -53,7 +53,6 @@ const usePaginator = (pageSize: number, maxPages: number, query: DocumentNode, c
 
   const setQueryVariables = (queryVariables: Record<string, unknown>) : void => {
     clear();
-    console.log(queryVariables)
     _setQueryVariables(queryVariables);
   }
 
