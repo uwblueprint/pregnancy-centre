@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import { DocumentNode, useApolloClient } from "@apollo/client";
 import React, { useEffect, useRef, useState } from 'react';
-=======
-import React, { useEffect, useRef, useState } from "react";
->>>>>>> origin/main
 
 // Source: https://stackoverflow.com/a/54570068
 const useComponentVisible = (
