@@ -128,7 +128,7 @@ const requestTypeMutationResolvers = {
                 const modifiedRequestTypeObject = await RequestType.findById(requestTypeId).session(session)
 
                 if (modifiedRequestTypeObject.requestGroup !== requestGroupId) {
-                    swapRequestGroupForRequestType(modifiedRequestTypeObject, modifiedRequestTypeObject.requestGroup, requestGroupId, session)
+                    await swapRequestGroupForRequestType(modifiedRequestTypeObject, modifiedRequestTypeObject.requestGroup, requestGroupId, session)
                 }
 
                 modifiedRequestTypeObject.requestGroup = requestGroupId
