@@ -1,98 +1,79 @@
-import { bindActionCreators, Dispatch } from "redux";
 import { gql, useQuery } from "@apollo/client";
-import React, { FunctionComponent, useState } from "react";
-import { connect } from "react-redux";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 
-import { loadRequestGroups, setDisplayRequestGroups } from "../../data/actions/requestGroupsActions";
 import RequestForm from "../organisms/RequestForm";
 import RequestGroup from "../../data/types/requestGroup";
 import RequestGroupForm from "../organisms/RequestGroupForm";
 import RequestGroupTable from "../molecules/RequestGroupTable";
-import { RootState } from "../../data/reducers";
 import SearchBar from "../atoms/SearchBar";
 import SimplePageNavigation from "../atoms/SimplePageNavigation";
+import { usePaginator } from "../utils/hooks";
 
-interface StateProps {
-    requestGroups: Array<RequestGroup>;
-    displayRequestGroups: Array<RequestGroup>;
-}
-
-interface DispatchProps {
-    loadRequestGroups: typeof loadRequestGroups;
-    setDisplayRequestGroups: typeof setDisplayRequestGroups;
-}
-
-type Props = StateProps & DispatchProps;
-
-const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithChildren<Props>) => {
-    const [currentPage, setCurrentPage] = useState(1); // Indexing starting at 1.
+const AdminRequestGroupList: FunctionComponent = () => {
+    const [currentPage, setCurrentPage] = useState(0); // Indexing starting at 0.
+    const [currentPageData, setCurrentPageData] = useState<Array<RequestGroup>>([]);
     const [showCreateRequestModal, setShowCreateRequestModal] = useState(false);
     const [showCreateRequestGroupModal, setShowCreateRequestGroupModal] = useState(false);
-    const numGroupsPerPage = 20;
+    const [countRequestGroups, setCountRequestGroups] = useState<number>(0);
+    const numRequestGroupsPerPage = 20;
+    const pages = Math.ceil(countRequestGroups / numRequestGroupsPerPage)
+  
+    const getPageQuery = gql`
+    query GetRequestGroupsPage(
+      $skip: Int!
+      $limit: Int!
+      $name: String
+    ){
+      requestGroupsPage(skip: $skip, limit: $limit, name: $name) {
+        _id
+        updatedAt
+        name
+        image
+        countOpenRequests
+        nextRecipient
+        hasAnyRequests
+        requestTypes {
+            _id
+            name
+            deletedAt
+        }
+      }
+    }`
+    const paginator = usePaginator(numRequestGroupsPerPage, pages, getPageQuery, -1, 1)
 
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage);
     };
 
     const query = gql`
-        {
-            requestGroups {
-                _id
-                name
-                dateUpdated
-                deleted
-                description
-                requirements
-                image
-                numOpen
-                nextRecipient {
-                    fullName
-                }
-                requestTypes {
-                    name
-                    deleted
-                }
-                hasAnyRequests
-            }
-        }
-    `;
+    {
+        countRequestGroups(open: true)
+    }`;
 
-    const sortRequestGroupsAlphabetically = (requestGroups: Array<RequestGroup>) =>
-        requestGroups.sort((rg1: RequestGroup, rg2: RequestGroup) => {
-            if (rg1.name && rg2.name && rg1.name < rg2.name) {
-                return -1;
-            }
-            if (rg1.name && rg2.name && rg1.name > rg2.name) {
-                return 1;
-            }
-            return 0;
+    useEffect(() => {
+        paginator.getPage(currentPage)
+        .then((page) => {
+            setCurrentPageData(page);
         });
+    }, [currentPage, countRequestGroups]);
 
     useQuery(query, {
-        onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
-            // sort fetched request groups alphabetically and filter out deleted request groups
-            const displayRequestGroups = sortRequestGroupsAlphabetically(
-                data.requestGroups.map((requestGroup) => ({ ...requestGroup }))
-            ).filter((requestGroup) => !requestGroup.deleted);
-            props.loadRequestGroups(displayRequestGroups);
-            props.setDisplayRequestGroups(displayRequestGroups);
-        }
+        onCompleted: (data: { countRequestGroups: number }) => {
+            setCountRequestGroups(data.countRequestGroups);
+        },
     });
-
+    
     const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCurrentPage(1); // when search string changes, reset pagination
-        let updatedRequestGroups = [];
-        if (event.target.value.length > 0) {
-            updatedRequestGroups = props.requestGroups.filter((requestGroup) =>
-                requestGroup?.name?.startsWith(event.target.value)
-            );
+        setCurrentPageData([]);
+        if (event.target.value) {
+            paginator.setQueryVariables({ name: event.target.value });
         } else {
-            // if no search string entered, return all results
-            updatedRequestGroups = props.requestGroups;
+            paginator.setQueryVariables({});
         }
-        props.setDisplayRequestGroups(updatedRequestGroups);
-    };
+        paginator.clear();
+        setCurrentPage(0);
+    }
 
     return (
         <div className="admin-request-group-list">
@@ -147,43 +128,15 @@ const AdminRequestGroupList: FunctionComponent<Props> = (props: React.PropsWithC
             </div>
             <div className="page-navigation">
                 <SimplePageNavigation
-                    totalNumItems={props.displayRequestGroups.length}
-                    numItemsPerPage={numGroupsPerPage}
-                    currentPage={currentPage} // Indexing starting at 1.
-                    onPageChange={handlePageChange}
+                    totalNumItems={countRequestGroups}
+                    numItemsPerPage={numRequestGroupsPerPage}
+                    currentPage={currentPage + 1} // Indexing starting at 1.
+                    onPageChange={(newPage) => handlePageChange(newPage - 1)}
                 />
             </div>
-            <RequestGroupTable
-                requestGroups={props.displayRequestGroups.slice(
-                    (currentPage - 1) * numGroupsPerPage,
-                    Math.min(
-                        currentPage * numGroupsPerPage,
-                        props.displayRequestGroups.length > 0 ? props.displayRequestGroups.length : Infinity
-                    )
-                )}
-            />
+            <RequestGroupTable requestGroups={currentPageData} />
         </div>
     );
 };
 
-const mapStateToProps = (store: RootState): StateProps => {
-    return {
-        requestGroups: store.requestGroups.data,
-        displayRequestGroups: store.requestGroups.displayData
-    };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
-    return bindActionCreators(
-        {
-            loadRequestGroups,
-            setDisplayRequestGroups
-        },
-        dispatch
-    );
-};
-
-export default connect<StateProps, DispatchProps, Record<string, unknown>, RootState>(
-    mapStateToProps,
-    mapDispatchToProps
-)(AdminRequestGroupList);
+export default AdminRequestGroupList;
