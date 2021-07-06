@@ -13,15 +13,16 @@ const requestEmbeddingFromRequest = ( request: RequestInterface ) => {
 }
 
 const swapRequestTypeForRequest = async ( request, oldRequestTypeID, newRequestTypeID, session ) => {
-    const oldRequestType = await RequestType.findById(oldRequestTypeID).session(session)
-    oldRequestType.requests = oldRequestType.requests.filter((requestEmbedding) => {
-        return requestEmbedding._id !== request._id
-    })
+    if (oldRequestTypeID) {
+        const oldRequestType = await RequestType.findById(oldRequestTypeID).session(session)
+        oldRequestType.requests = oldRequestType.requests.filter((requestEmbedding) => {
+            return requestEmbedding._id !== request._id
+        })
+        await oldRequestType.save({ session: session })
+    }
 
     const newRequestType = await RequestType.findById(newRequestTypeID).session(session)
     newRequestType.requests.push(requestEmbeddingFromRequest(request))
-
-    await oldRequestType.save({ session: session })
     await newRequestType.save({ session: session })
 }
 
@@ -105,7 +106,7 @@ const requestMutationResolvers = {
                 const modifiedRequestObject = await Request.findById(requestId).session(session)
 
                 if (modifiedRequestObject.requestType !== requestTypeId) {
-                    swapRequestTypeForRequest(modifiedRequestObject, requestTypeId, modifiedRequestObject.requestType, session)
+                    swapRequestTypeForRequest(modifiedRequestObject, modifiedRequestObject.requestType, requestTypeId, session)
                 }
 
                 modifiedRequestObject.requestType = requestTypeId

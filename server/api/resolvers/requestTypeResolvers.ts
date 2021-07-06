@@ -31,15 +31,17 @@ const requestTypeEmbeddingFromRequestType = ( requestType: RequestTypeInterface 
 }
 
 const swapRequestGroupForRequestType = async ( requestType, oldRequestGroupID, newRequestGroupID, session ) => {
-    const oldRequestGroup = await RequestGroup.findById(oldRequestGroupID).session(session)
-    oldRequestGroup.requestTypes = oldRequestGroup.requestTypes.filter((requestEmbedding) => {
-        return requestEmbedding._id !== requestType._id
-    })
+    if (oldRequestGroupID) {
+        const oldRequestGroup = await RequestGroup.findById(oldRequestGroupID).session(session)
+        oldRequestGroup.requestTypes = oldRequestGroup.requestTypes.filter((requestEmbedding) => {
+            return requestEmbedding._id !== requestType._id
+        })
+
+        await oldRequestGroup.save({ session: session })
+    }
 
     const newRequestGroup = await RequestGroup.findById(newRequestGroupID).session(session)
     newRequestGroup.requestTypes.push(requestTypeEmbeddingFromRequestType(requestType))
-
-    await oldRequestGroup.save({ session: session })
     await newRequestGroup.save({ session: session })
 }
 
@@ -126,7 +128,7 @@ const requestTypeMutationResolvers = {
                 const modifiedRequestTypeObject = await RequestType.findById(requestTypeId).session(session)
 
                 if (modifiedRequestTypeObject.requestGroup !== requestGroupId) {
-                    swapRequestGroupForRequestType(modifiedRequestTypeObject, requestGroupId, modifiedRequestTypeObject.requestGroup, session)
+                    swapRequestGroupForRequestType(modifiedRequestTypeObject, modifiedRequestTypeObject.requestGroup, requestGroupId, session)
                 }
 
                 modifiedRequestTypeObject.requestGroup = requestGroupId
