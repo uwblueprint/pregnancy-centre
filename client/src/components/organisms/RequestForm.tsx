@@ -142,7 +142,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 );
                 setRequestType(request.requestType ? request.requestType : null);
                 setQuantity(request.quantity ? request.quantity : 1);
-                setClientName(request.client && request.client.fullName ? request.client.fullName : "");
+                setClientName(request.clientName && request.clientName ? request.clientName : "");
 
                 // Check that requestGroups are loaded before setting loading = false
                 if (requestGroupsMap) {
@@ -308,7 +308,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 }
             } else {
                 // Edit request
-                if (initialRequest && initialRequest.client && requestType) {
+                if (initialRequest && initialRequest.clientName && requestType) {
                     updateRequest({
                         variables: {
                             id: initialRequest._id,

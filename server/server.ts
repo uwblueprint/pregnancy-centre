@@ -1,5 +1,5 @@
 import * as admin from "firebase-admin";
-import { ApolloServer, ForbiddenError } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
 import { AuthenticationError } from "apollo-server-express";
 import bodyParser from "body-parser";
 import { connectDB } from "./database/mongoConnection";
@@ -32,7 +32,7 @@ const corsPolicy = {
 // MONGODB CONNECTION AND DATA SOURCES FOR APOLLO
 // -----------------------------------------------------------------------------
 
-// connect to MongoDB and setup data sources
+// connect to MongoDB
 connectDB();
 
 // -----------------------------------------------------------------------------
@@ -57,7 +57,37 @@ async function gqlServer() {
             const str = await raw(inflate(req), { encoding: "utf8" });
             req.body = JSON.parse(str);
         }
+        await next();
   });
+
+  app.post("/sessionLogin", (req, res) => {
+    // Get the ID token passed
+    const idToken = req.body.idToken.toString();
+    // Set session expiration to 5 days.
+    const expiresIn = 60 * 60 * 24 * 5 * 1000;
+    // Create the session cookie. This will also verify the ID token in the process.
+    // The session cookie will have the same claims as the ID token.
+    // To only allow session cookie setting on recent sign-in, auth_time in ID token
+    // can be checked to ensure user was recently signed in before creating a session cookie.
+    admin
+        .auth()
+        .createSessionCookie(idToken, { expiresIn })
+        .then(
+            (sessionCookie) => {
+                // Set cookie policy for session cookie.
+                const options = {
+                    maxAge: expiresIn,
+                    httpOnly: true,
+                    secure: true
+                };
+                res.cookie("session", sessionCookie, options);
+                res.end(JSON.stringify({ status: "success" }));
+            },
+            (error) => {
+                res.status(401).send(error);
+            }
+        );
+});
 
   const server = new ApolloServer({
     typeDefs,
@@ -73,8 +103,7 @@ async function gqlServer() {
         }
 
         const user = await getUser(req.cookies.session);
-        if (!user || !user.id)
-          throw new ForbiddenError("Forbidden Error");
+        if (!user || !user.id) throw new AuthenticationError("Forbidden Error");
 
         return { req, res, user };
       }

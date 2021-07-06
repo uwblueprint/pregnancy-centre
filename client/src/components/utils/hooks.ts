@@ -45,10 +45,16 @@ const usePaginator = (pageSize: number, maxPages: number, query: DocumentNode, c
 } => {
   const pages = useRef(new Map()); // an LRU cache where keys are page indices and values are contents of a page
   const client = useApolloClient();
-  const [queryVariables, setQueryVariables] = useState({});
+  const [queryVariables, _setQueryVariables] = useState({});
 
   const clear = () => {
     pages.current.clear();
+  }
+
+  const setQueryVariables = (queryVariables: Record<string, unknown>) : void => {
+    clear();
+    console.log(queryVariables)
+    _setQueryVariables(queryVariables);
   }
 
   const getPage = async (index: number) : Promise<Array<any>> => {
@@ -59,22 +65,20 @@ const usePaginator = (pageSize: number, maxPages: number, query: DocumentNode, c
         continue;
       }
 
-      let p = [];
-      p = await client.query({ 
+      await client.query({ 
         query: query,
         variables: Object.assign({ 
           skip: i * pageSize,
           limit: pageSize }, queryVariables),
         fetchPolicy: 'network-only'})
-        .then((res) => { return res.data.requestGroupsPage })
+        .then((res) => { 
+          pages.current.set(i, res.data.requestGroupsPage);
+          // if we reached the limit (not possible if pages already contained the desired page), then delete the first page in pages
+          if ((cachedLimit ?? -1) > 0 && pages.current.size === Math.max(0, (cachedLimit ?? -1)) + 2 * (preLoad ?? 0)) {
+            pages.current.delete(pages.current.keys().next().value);
+          }
+        })
         .catch(() => { return [] }) as Array<any>;
-  
-      pages.current.set(i, p);
-
-      // if we reached the limit (not possible if pages already contained the desired page), then delete the first page in pages
-      if ((cachedLimit ?? -1) > 0 && pages.current.size === Math.max(0, (cachedLimit ?? -1)) + 2 * (preLoad ?? 0)) {
-        pages.current.delete(pages.current.keys().next().value);
-      }
     }
 
     return pages.current.get(index) ?? [];
