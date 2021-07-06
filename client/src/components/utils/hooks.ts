@@ -40,7 +40,6 @@ const useComponentVisible = (
 // preLoad denotes the number of pages +/- current page to fetch (set to 0 to avoid this functionality)
 const usePaginator = (pageSize: number, maxPages: number, query: DocumentNode, cachedLimit?: number, preLoad?: number): {
     clear: () => void,
-    /* tslint:disable-next-line */
     getPage: (index: number) => Promise<Array<any>>,
     setQueryVariables: (queryVariables: Record<string, unknown>) => void
 } => {
