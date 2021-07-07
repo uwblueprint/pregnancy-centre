@@ -34,7 +34,7 @@ $request-group-form-panel-width: 482px;
 
     .form-modal-buttons {
         width: $request-group-form-panel-width;
-        align-self: end;
+        align-self: flex-end;
     }
 
     .text-field-input {
