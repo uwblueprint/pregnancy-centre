@@ -94,10 +94,7 @@ const typeDefs = gql`
         name: String
         description: String
         image: String
-        requestTypes: [RequestTypeEmbeddingOnRequestGroupInput]
-    }
-    input RequestTypeEmbeddingOnRequestGroupInput {
-        _id: ID!
+        requestTypes: [ID]
     }
     # ---  Left as a proof of concept: --- 
     # input FilterRequestGroupInput {
