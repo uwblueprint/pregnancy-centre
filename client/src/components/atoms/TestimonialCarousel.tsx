@@ -1,4 +1,4 @@
-import {Carousel, Col, Container, Row, Text} from 'react-bootstrap';
+import {Carousel, Col, Container, Row} from 'react-bootstrap';
 import React, { FunctionComponent } from "react";
 import DonorHomepageConfig from '../../config/donorHompageConfig.json';
 
