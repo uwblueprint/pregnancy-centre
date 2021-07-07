@@ -3,8 +3,13 @@ import firebase from "./firebase";
 const storage = firebase.storage();
 const storageRef = storage.ref("request_images");
 
-const upload = (file: File | null, id: string) => {
+ const upload = (file: File | null, id: string) => {
   if (file) {
+    // storageRef.child(id).put(file).then(()=>{
+    // });
+    // const url = await storageRef.child(id).getDownloadURL();
+    
+
     storageRef
       .child(id)
       .put(file)
@@ -12,10 +17,10 @@ const upload = (file: File | null, id: string) => {
         console.log("uploaded file!");
         storageRef.child(id).getDownloadURL()
         .then((url) => {
-            console.log(url)
-            return url
+            return url;
         })
       });
+    // return url;
   }
 };
 

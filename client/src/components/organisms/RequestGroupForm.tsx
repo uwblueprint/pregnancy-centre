@@ -12,7 +12,10 @@ import RichTextField from "../atoms/RichTextField";
 import { RootState } from "../../data/reducers";
 import { TagInput } from "../atoms/TagInput";
 import { TextField } from "../atoms/TextField";
+import UploadThumbnailService from "../../services/upload-thumbnail";
+
 import { upsertRequestGroup } from "../../data/actions";
+
 
 interface StateProps {
     requestGroups: Array<RequestGroup>;
@@ -45,6 +48,8 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [imageError, setImageError] = useState("");
     const [requestTypesError, setRequestTypesError] = useState("");
     const [loadingRequestGroup, setLoadingRequestGroup] = useState(props.operation === "edit");
+    const [thumbnail, setThumbNail] = useState<File | null>(null);
+
 
     useEffect(() => {
         async function getImages() {
@@ -280,7 +285,22 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         }
     };
 
+    const uploadThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files != null) {
+          setThumbNail(e.target.files[0]);
+        }
+      };
+    
+      const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDescription(e.target.value);
+      };
+
     const onSubmit = (e: React.FormEvent) => {
+        const trial = UploadThumbnailService.upload(thumbnail, description)
+        console.log(trial)
+        console.log("hi")
+        //setImage(trial);
+
         e.preventDefault();
         const tempNameError = updateNameError(name);
         const tempDescriptionError = updateDescriptionError(description);
@@ -289,6 +309,8 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
         if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
             if (props.operation === "create") {
+
+
                 createRequestGroup({ variables: { name, description, image, requestTypeNames } });
             } else {
                 updateRequestGroup({
@@ -396,6 +418,15 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                             }
                         />
                     </div>
+                </div>
+                <div>
+        <input onChange={handleOnChange} />
+        <input
+          type="file"
+          name="request-group-thumbnail"
+          onChange={uploadThumbnail}
+        />
+
                 </div>
                 <div className="request-group-form-panel" id="right">
                     <div className="imagepicker-form-item">
