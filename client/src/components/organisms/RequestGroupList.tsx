@@ -40,10 +40,10 @@ const RequestGroupList: FunctionComponent<Props> = (props: Props) => {
     paginator.getPage(currentPageNumber)
     .then((page) => {
       setCurrentPageData(page);
-      if (props.selectedRequestGroup === undefined) props.onRequestGroupChange(page[0]._id);
+      if (props.selectedRequestGroup === undefined && page[0]) props.onRequestGroupChange(page[0]._id);
       setLoading(false);
     });
-  }, [currentPageNumber]);
+  }, [currentPageNumber, props.countRequestGroups]);
 
   return <div className="request-group-list">
     {loading === true

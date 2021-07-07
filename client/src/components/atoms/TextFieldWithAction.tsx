@@ -2,14 +2,14 @@ import React, { FunctionComponent, useState } from "react";
 import { TextField } from "./TextField";
 
 interface TextFieldWithActionProps {
-  isErroneous: boolean,
-  onChange: (value: string) => boolean,
-  onSubmit: (value: string) => void,
-  placeholder: string,
-  type: "text",
-  actionString: string,
-  iconClassName?: string
-  showRedErrorText?: boolean
+    isErroneous: boolean;
+    onChange: (value: string) => boolean;
+    onSubmit: (value: string) => void;
+    placeholder: string;
+    type: "text";
+    actionString: string;
+    iconClassName?: string;
+    showRedErrorText?: boolean;
 }
 
 const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props: TextFieldWithActionProps) => {
@@ -17,23 +17,23 @@ const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props:
     const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         const newValue = e.target.value;
-        
+
         props.onChange(newValue);
         setValue(newValue);
-    }
+    };
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if( e.key == 'Enter' ){
+        if (e.key == "Enter") {
             e.preventDefault();
-            
-            if (value !== ""){
+
+            if (value !== "") {
                 props.onSubmit(value);
-                setValue(""); 
+                setValue("");
             }
         }
-    }
-    
+    };
+
     return (
-        <div className="text-field-with-action">       
+        <div className="text-field-with-action">
             <div onKeyDown={handleKeyDown}>
                 <TextField
                     input={value}
@@ -47,20 +47,26 @@ const TextFieldWithAction: FunctionComponent<TextFieldWithActionProps> = (props:
                     showRedErrorText={props.showRedErrorText}
                 />
             </div>
-            { value!=="" &&
+            {value !== "" && (
                 <div>
-                    <a onClick={()=>{
-                        if (value !== ""){props.onSubmit(value);}
-                        setValue("");
-                    }}>
-                    <div className={"action" + (props.isErroneous ? " error" : "")}>
-                        <div className="action-string">{props.actionString}</div>
-                        <div className="action-value"><span className="action-value-text">{value.substring(0,40)}</span></div>
-                    </div>
-                </a>
-            </div>
-        }
-    </div>
+                    <a
+                        onClick={() => {
+                            if (value !== "") {
+                                props.onSubmit(value);
+                            }
+                            setValue("");
+                        }}
+                    >
+                        <div className={"action" + (props.isErroneous ? " error" : "")}>
+                            <div className="action-string">{props.actionString}</div>
+                            <div className="action-value">
+                                <span className="action-value-text">{value.substring(0, 40)}</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            )}
+        </div>
     );
 };
 

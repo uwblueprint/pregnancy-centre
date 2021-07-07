@@ -1,10 +1,10 @@
-import { gql, useMutation } from '@apollo/client';
-import React, { FunctionComponent, useEffect,  useState } from 'react';
-import  Form  from 'react-bootstrap/Form';
-import moment from 'moment';
-import  Table  from 'react-bootstrap/Table';
+import { gql, useMutation } from "@apollo/client";
+import React, { FunctionComponent, useEffect, useState } from "react";
+import Form from "react-bootstrap/Form";
+import moment from "moment";
+import Table from "react-bootstrap/Table";
 
-import Request from '../../data/types/request';
+import Request from "../../data/types/request";
 import RequestForm from "../organisms/RequestForm";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const RequestsTable: FunctionComponent<Props> = (props: Props) => {
-    const [ requestSelectedForEditing, setRequestSelectedForEditing ] = useState("")
+    const [requestSelectedForEditing, setRequestSelectedForEditing] = useState("");
 
     const headingList = ['Fulfilled', 'Client Name', 'Quantity', 'Date Requested', ''];
     const fulfillRequest = gql`
@@ -21,20 +21,17 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         fulfillRequest(_id: $_id){
             _id
         }
-      }
     `;
     const deleteRequest = gql`
     mutation deleteRequest($_id: ID) {
         deleteRequest(_id: $_id) {
             _id
         }
-    }`
+    `;
 
+    const [requests, setRequests] = useState(props.requests.filter((request) => request.deleted === false));
 
-    const [requests, setRequests] = useState(props.requests.filter((request)=> request.deleted === false));
-    
     useEffect(() => {
-        // Your code here
         const nonFulfilledRequests = requests.filter(request => {
             if (request !== undefined){
                 if (request.fulfilled === false){
@@ -42,9 +39,9 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                 }
             }
         });
-        const fulfilledRequests = requests.filter(request => {
-            if (request !== undefined){
-                if (request.fulfilled === true){
+        const fulfilledRequests = requests.filter((request) => {
+            if (request !== undefined) {
+                if (request.fulfilled === true) {
                     return request;
                 }
             }
@@ -58,9 +55,8 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         fulfilledRequests.sort((a, b)=> {
             return (a!.createdAt!.valueOf() - b!.createdAt!.valueOf());
         });
-     
-    
-        const sortedRequests : Request[] = nonFulfilledRequests!.concat(fulfilledRequests!) as Request[];
+
+        const sortedRequests: Request[] = nonFulfilledRequests!.concat(fulfilledRequests!) as Request[];
         setRequests(sortedRequests);
       }, []);
       
@@ -74,21 +70,20 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         props.onChangeNumRequests!(requestsCopy.length)
         setRequests(requestsCopy)
         mutateDeleteRequest({variables: {_id: id}})
-    }
+    };
     const onFulfilledRequest = (index: number) => {
         const requestsCopy = requests.slice();
-        const req = {...requestsCopy[index]};
-        if(req.fulfilled === false) {
-            req.fulfilled = true
-            requestsCopy.splice(index, 1)
+        const req = { ...requestsCopy[index] };
+        if (req.fulfilled === false) {
+            req.fulfilled = true;
+            requestsCopy.splice(index, 1);
             let i = requestsCopy.length - 1;
             for(; i > -1; --i) {
                 if(requestsCopy[i].fulfilled === false) break
                 else if(requestsCopy[i]!.createdAt!.valueOf() < req!.createdAt!.valueOf()) break
             }
-            requestsCopy.splice(i + 1, 0, req)
-        }
-        else {
+            requestsCopy.splice(i + 1, 0, req);
+        } else {
             req.fulfilled = false;
             requestsCopy.splice(index, 1)
             let i = 0
@@ -96,7 +91,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                 if(requestsCopy[i].fulfilled === true) break
                 else if(requestsCopy[i]!.createdAt!.valueOf() > req!.createdAt!.valueOf()) break
             }
-            requestsCopy.splice(i, 0, req)
+            requestsCopy.splice(i, 0, req);
         }
         setRequests(requestsCopy);
         const id = req._id;
@@ -144,7 +139,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
 
             {/* TODO: Add Edit and Delete Request Modals here*/}
         </div>
-    )
-}
+    );
+};
 
 export default RequestsTable;

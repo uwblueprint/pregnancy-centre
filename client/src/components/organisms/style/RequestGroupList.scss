@@ -1,9 +1,9 @@
 .request-group-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 811px;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 811px;
+    width: 100%;
 
   .spinner {
     display: flex;
@@ -23,8 +23,8 @@
     margin-top: 30px;
   }
 
-  &-scroll-window {
-    border-bottom: $border-line;
-    width: 100%;
-  }
+    &-scroll-window {
+        border-bottom: $border-line;
+        width: 100%;
+    }
 }

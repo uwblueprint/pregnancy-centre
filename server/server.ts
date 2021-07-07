@@ -1,5 +1,5 @@
 import * as admin from "firebase-admin";
-import { ApolloServer, ForbiddenError } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
 import { AuthenticationError } from "apollo-server-express";
 import bodyParser from "body-parser";
 import { connectDB } from "./database/mongoConnection";
@@ -24,15 +24,15 @@ dotenv.config();
 const PORT = process.env.PORT;
 const isProd = process.env.NODE_ENV !== "dev";
 const corsPolicy = {
-  origin: process.env.CLIENT_URL,
-  credentials: true,
+    origin: process.env.CLIENT_URL,
+    credentials: true
 };
 
 // -----------------------------------------------------------------------------
 // MONGODB CONNECTION AND DATA SOURCES FOR APOLLO
 // -----------------------------------------------------------------------------
 
-// connect to MongoDB and setup data sources
+// connect to MongoDB
 connectDB();
 
 // -----------------------------------------------------------------------------
@@ -40,27 +40,24 @@ connectDB();
 // -----------------------------------------------------------------------------
 
 async function gqlServer() {
-  const app = express();
-  app.use(cookieParser());
-  app.use(
-    "/sessionLogin",
-    bodyParser.json({ strict: true, type: "application/json" })
-  );
-  app.use(cors(corsPolicy));
+    const app = express();
+    app.use(cookieParser());
+    app.use("/sessionLogin", bodyParser.json({ strict: true, type: "application/json" }));
+    app.use(cors(corsPolicy));
 
-  //custom body parser for apolloClient GraphQL queries using CreateHTTPLink because express.json() is buggy
-  app.use("/graphql", async (req, res, next) => {
-    if (
-      req &&
-      req.headers &&
-      req.headers["content-type"] &&
-      (req.headers["content-type"] === "application/graphql" ||
-        req.headers["content-type"].includes("application/graphql"))
-    ) {
-      const str = await raw(inflate(req), { encoding: "utf8" });
-      req.body = JSON.parse(str);
-    }
-    await next();
+    //custom body parser for apolloClient GraphQL queries using CreateHTTPLink because express.json() is buggy
+    app.use("/graphql", async (req, res, next) => {
+        if (
+            req &&
+            req.headers &&
+            req.headers["content-type"] &&
+            (req.headers["content-type"] === "application/graphql" ||
+                req.headers["content-type"].includes("application/graphql"))
+        ) {
+            const str = await raw(inflate(req), { encoding: "utf8" });
+            req.body = JSON.parse(str);
+        }
+        await next();
   });
 
   app.post("/sessionLogin", (req, res) => {
@@ -73,24 +70,24 @@ async function gqlServer() {
     // To only allow session cookie setting on recent sign-in, auth_time in ID token
     // can be checked to ensure user was recently signed in before creating a session cookie.
     admin
-      .auth()
-      .createSessionCookie(idToken, { expiresIn })
-      .then(
-        (sessionCookie) => {
-          // Set cookie policy for session cookie.
-          const options = {
-            maxAge: expiresIn,
-            httpOnly: true,
-            secure: true,
-          };
-          res.cookie("session", sessionCookie, options);
-          res.end(JSON.stringify({ status: "success" }));
-        },
-        (error) => {
-          res.status(401).send(error);
-        }
-      );
-  });
+        .auth()
+        .createSessionCookie(idToken, { expiresIn })
+        .then(
+            (sessionCookie) => {
+                // Set cookie policy for session cookie.
+                const options = {
+                    maxAge: expiresIn,
+                    httpOnly: true,
+                    secure: true
+                };
+                res.cookie("session", sessionCookie, options);
+                res.end(JSON.stringify({ status: "success" }));
+            },
+            (error) => {
+                res.status(401).send(error);
+            }
+        );
+});
 
   const server = new ApolloServer({
     typeDefs,
@@ -106,8 +103,7 @@ async function gqlServer() {
         }
 
         const user = await getUser(req.cookies.session);
-        if (!user || !user.id)
-          throw new ForbiddenError("Forbidden Error");
+        if (!user || !user.id) throw new AuthenticationError("Forbidden Error");
 
         return { req, res, user };
       }

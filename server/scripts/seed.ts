@@ -1,9 +1,9 @@
-import dotenv from 'dotenv'
-import { exit } from 'process'
-import faker from 'faker'
-import mongoose from 'mongoose'
+import dotenv from "dotenv";
+import { exit } from "process";
+import faker from "faker";
+import mongoose from "mongoose";
 
-import { connectDB } from '../database/mongoConnection'
+import { connectDB } from "../database/mongoConnection";
 
 import { Request } from '../database/models/requestModel'
 import { RequestGroup } from '../database/models/requestGroupModel'
@@ -13,12 +13,40 @@ import { RequestType } from '../database/models/requestTypeModel'
 // SEED REQUESTS/TAGS
 // -----------------------------------------------------------------------------
 
-dotenv.config()
+dotenv.config();
 
-const requestGroupNames = ["Strollers", "Cribs", "Gates", "Monitors", "Bibs", "Clothes", "Chairs", "Seats", "Mats", "Toys", "Pacifiers", 
-                           "Dishes", "Slings", "Bags", "Books", "Electronics", "Yards", "Bassinets", "Bedding", "Machines", "Bottles", 
-                           "Cutlery", "Mobile", "Hygiene", "Storage"];
-const requestGroupImages = ["https://source.unsplash.com/RcgiSN482VI", "https://source.unsplash.com/7ydep8OEvbc", "https://source.unsplash.com/0hiUWSi7jvs"]
+const requestGroupNames = [
+    "Strollers",
+    "Cribs",
+    "Gates",
+    "Monitors",
+    "Bibs",
+    "Clothes",
+    "Chairs",
+    "Seats",
+    "Mats",
+    "Toys",
+    "Pacifiers",
+    "Dishes",
+    "Slings",
+    "Bags",
+    "Books",
+    "Electronics",
+    "Yards",
+    "Bassinets",
+    "Bedding",
+    "Machines",
+    "Bottles",
+    "Cutlery",
+    "Mobile",
+    "Hygiene",
+    "Storage"
+];
+const requestGroupImages = [
+    "https://source.unsplash.com/RcgiSN482VI",
+    "https://source.unsplash.com/7ydep8OEvbc",
+    "https://source.unsplash.com/0hiUWSi7jvs"
+];
 
 const numGroups = requestGroupNames.length
 const numTypesPerGroup = 10
@@ -29,12 +57,12 @@ const probRequestFulfilled = 0.2 // independent from probRequestDeleted
 const startDate = new Date(2019, 0,1)
 const endDate = new Date(Date.now())
 
-faker.seed(2021)
+faker.seed(2021);
 
 const randomDate = (start = startDate, end = endDate) => {
-  const result = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
-  return result.getTime()
-}
+    const result = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+    return result.getTime();
+};
 
 // create Request model object without references
 const createRequest = () => {
