@@ -97,25 +97,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     }
   }`
 
-  const updateRequestGroupMutation = gql`
-  mutation UpdateRequestGroup(
-    $id: ID!
-    $name: String
-    $description: String
-    $image: String
-    $requestTypes: [RequestTypeEmbeddingOnRequestGroupInput!]
-  ) {
-    updateRequestGroup(requestGroup: {
-      _id: $id
-      name: $name
-      description: $description
-      image: $image
-      requestTypes: $requestTypes
-    }) {
-      _id
-    }
-  }`
-
   const [createRequestType] = useMutation(createRequestTypeMutation, {
     onError: (error) => { console.log(error) }
   });
@@ -125,11 +106,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
   const [createRequestGroup] = useMutation(createRequestGroupMutation, {
     onError: (error) => { console.log(error) }
   });
-  const [updateRequestGroup] = useMutation(updateRequestGroupMutation, {
-    onError: (error) => { console.log(error) }
-  });
-
-
 
   const requestGroupQuery = gql`
   query FetchRequestGroup($id: ID!) {
@@ -324,11 +300,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               .map((requestTypeName) => createRequestType({ variables: { name: requestTypeName, requestGroupId } }))
             return Promise.all(createRequestTypePromises)
           })
-          .then((responses) => {
-            const requestTypeEmbeddings = responses
-              .map(response => ({ _id: response.data.createRequestType._id }))
-            updateRequestGroup({ variables: { id: requestGroupId, requestTypes: requestTypeEmbeddings } })
-          })
           .then(() => {
             props.onSubmitComplete()
           })
@@ -340,7 +311,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         const deletedRequestTypeIds = Array.from(requestTypesMap.values())
           .filter((requestTypeData) => requestTypeData.id != null && requestTypeData.deleted === true)
           .map((requestTypeData) => requestTypeData.id)
-        let requestTypeEmbeddings: Array<{ _id: string }> = []
 
         const createRequestTypePromises = newRequestTypeNames.map((requestTypeName) =>
           createRequestType({ variables: { name: requestTypeName, requestGroupId: initialRequestGroup?._id } })
@@ -353,22 +323,10 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
               requestTypesMapWithNewIds.set(data.name, { id: data._id, deleted: false })
             })
 
-            requestTypeEmbeddings = Array.from(requestTypesMapWithNewIds.values())
-              .map(requestTypeData => ({ _id: requestTypeData.id as string}))
-
             const deleteRequestTypePromises = deletedRequestTypeIds
               .map(requestTypeId => deleteRequestType({ variables: { id: requestTypeId } }))
             return Promise.all(deleteRequestTypePromises)
           })
-          .then(() =>
-            updateRequestGroup({ variables: { 
-              id: initialRequestGroup?._id, 
-              name,
-              description,
-              image,
-              requestTypes: requestTypeEmbeddings 
-            } })
-          )
           .then(() => {
             props.onSubmitComplete()
           })
