@@ -13,7 +13,6 @@ import { RootState } from "../../data/reducers";
 import { TagInput } from "../atoms/TagInput";
 import { TextField } from "../atoms/TextField";
 import { upsertRequestGroup } from "../../data/actions";
-// import RequestType from "../../data/types/requestType";
 
 interface StateProps {
     requestGroups: Array<RequestGroup>;
