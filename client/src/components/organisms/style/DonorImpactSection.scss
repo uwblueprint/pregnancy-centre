@@ -1,123 +1,123 @@
 .donor-impact-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-
-  &-header {
-    @include donor-homepage-section-header-text;
-    margin-bottom: 54px;
-  }
-
-  &-content {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-  }
 
-  .instructions {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 35px;
-
-    img {
-      width: 18px;
-      height: 18px;
+    &-header {
+        @include donor-homepage-section-header-text;
+        margin-bottom: 54px;
     }
 
-    p {
-      margin-bottom: 0;
-      margin-left: 8px;
-      font-size: 16px;
-    }
-  }
-
-  .map-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .info-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .stats-section {
-    margin-bottom: 70px;
-  }
-
-  .stat {
-    margin-bottom: 58px;
-
-    i {
-      font-size: 45px;
+    &-content {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
     }
 
-    h1 {
-      margin-left: 18px;
-      margin-bottom: 0;
-      font-size: 30px;
-      font-weight: 500;
+    .instructions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 35px;
+
+        img {
+            width: 18px;
+            height: 18px;
+        }
+
+        p {
+            margin-bottom: 0;
+            margin-left: 8px;
+            font-size: 16px;
+        }
     }
 
-    p {
-      font-size: 20px;
-      margin-bottom: 0;
+    .map-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-    .stat-top {
-      height: 50px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  .card-with-shadow {
-    width: 85%;
-    padding: 5px 17px;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    img {
-      min-width: 85px;
-      height: 85px;
-      object-fit: cover;
-    }
-
-    p {
-      margin-left: 16px;
-      margin-bottom: 0;
-      white-space: pre-line;
-      font-size: 20px;
-    }
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  .donor-impact-section {
     .info-section {
-      align-content: center;
-      margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .stats-section {
-      order: 2;
+        margin-bottom: 70px;
+    }
+
+    .stat {
+        margin-bottom: 58px;
+
+        i {
+            font-size: 45px;
+        }
+
+        h1 {
+            margin-left: 18px;
+            margin-bottom: 0;
+            font-size: 30px;
+            font-weight: 500;
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 0;
+        }
+
+        .stat-top {
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 
     .card-with-shadow {
-      order: 1;
-      width: 70%;
-      margin-bottom: 107px;
+        width: 85%;
+        padding: 5px 17px;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        img {
+            min-width: 85px;
+            height: 85px;
+            object-fit: cover;
+        }
+
+        p {
+            margin-left: 16px;
+            margin-bottom: 0;
+            white-space: pre-line;
+            font-size: 20px;
+        }
     }
-  }
+}
+
+@media screen and (max-width: 1200px) {
+    .donor-impact-section {
+        .info-section {
+            align-content: center;
+            margin-top: 30px;
+        }
+
+        .stats-section {
+            order: 2;
+        }
+
+        .card-with-shadow {
+            order: 1;
+            width: 70%;
+            margin-bottom: 107px;
+        }
+    }
 }
