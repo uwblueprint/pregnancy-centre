@@ -43,9 +43,7 @@ const RequestGroupSchema = new Schema({
 
   // Embedded Objects
   requestTypes: {
-    type: [ { 
-      _id: { type: Types.ObjectId, ref: 'RequestType' } 
-    } ],
+    type: [{ type: Types.ObjectId, ref: "RequestType" }],
     default: []
   },
 

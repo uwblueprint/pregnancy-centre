@@ -5,12 +5,13 @@ import React from "react";
 import AdminHomepage from "./pages/AdminHomepage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView";
 import AuthAction from "./pages/AuthAction";
+import DonationItemCardContainer from "./components/examples/DonationItemCardContainer";
 import DonorHomepage from "./pages/DonorHomepage";
 import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
-import DonationItemCardContainer from "./components/examples/DonationItemCardContainer";
+import FileUploadTest from "./pages/FileUploadTest";
 
 function App(): JSX.Element {
   return (
@@ -34,6 +35,9 @@ function App(): JSX.Element {
           <Route path="/test">
             <DonationItemCardContainer />
           </Route>
+          <Route path='/file-upload'>
+            <FileUploadTest />
+            </Route>
           <Route path="/">
             <DonorHomepage />
           </Route>

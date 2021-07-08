@@ -24,7 +24,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
         deleteRequestType(_id: $_id){
             _id
         }
-    `;
+    }`;
 
     const [requestType, setRequestType] = useState(props.requestType);
     const [editModalShow, setEditModalShow] = useState(false);
