@@ -1,0 +1,25 @@
+.map-with-markers {
+    position: relative;
+
+    .map-base {
+        position: relative;
+        height: 509px;
+        z-index: 2;
+    }
+
+    .marker-overlay {
+        width: 100%;
+        height: 509px;
+        z-index: 3;
+        position: absolute;
+    }
+
+    .map-marker {
+        position: absolute;
+        border-radius: 50%;
+
+        img {
+            object-fit: cover;
+        }
+    }
+}

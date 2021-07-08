@@ -87,6 +87,13 @@ $tpc-green: #004d57;
     letter-spacing: 0.05em;
 }
 
+@mixin donor-homepage-section-header-text() {
+    @include text;
+    font-weight: 600;
+    font-size: 38px;
+    line-height: 64px;
+}
+
 @mixin table-text() {
     @include text;
     font-weight: 500;
