@@ -60,23 +60,22 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
     const createRequestGroupMutation = gql`
         mutation CreateRequestGroup(
-            $name: String!
-            $description: String!
-            $image: String!
-            $requestTypeNames: [String!]!
+        $name: String!
+        $description: String!
+        $image: String!
+        $requestTypes: [ID]
         ) {
-            createRequestGroup(
-                requestGroup: {
-                    name: $name
-                    description: $description
-                    image: $image
-                    requestTypeNames: $requestTypeNames
-                }
-            ) {
-                success
-                message
-                id
+        createRequestGroup(
+            requestGroup: {
+            name: $name
+            description: $description
+            image: $image
+            requestTypes: $requestTypes
             }
+        ) {
+            name
+            _id
+        }
         }
     `;
 
@@ -295,11 +294,9 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         setDescription(e.target.value);
       };
 
-    const onSubmit = (e: React.FormEvent) => {
-        const trial = UploadThumbnailService.upload(thumbnail, description)
-        console.log(trial)
-        console.log("hi")
-        //setImage(trial);
+    const onSubmit = async (e: React.FormEvent) => {
+        const img = await UploadThumbnailService.upload(thumbnail, description)
+        setImage(img);
 
         e.preventDefault();
         const tempNameError = updateNameError(name);
