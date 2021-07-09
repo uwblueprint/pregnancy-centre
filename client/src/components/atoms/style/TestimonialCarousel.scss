@@ -1,5 +1,21 @@
-.testimonial-carousel {
-    img {
-        border-radius: 10px;
+.testimonial-container {
+    max-width: 1320px;
+    border-radius: 10px;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+
+    .testimonial-carousel {
+        padding: 48px;
+
+        img {
+            border-radius: 10px;
+            width: 590px;
+            height: 364px;
+            object-fit: cover;
+        }
+        p {
+            font-size: 24px;
+            font-style: italic;
+            font-weight: 400;
+        }
     }
 }
