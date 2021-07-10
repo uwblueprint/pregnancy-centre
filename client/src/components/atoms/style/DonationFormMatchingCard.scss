@@ -1,0 +1,51 @@
+.donation-form-matching-card {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 13px 20px;
+    border-radius: 15px;
+    border: 1px solid $donation-form-matching-card-border-color;
+
+    .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .header-text {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .button {
+        @include alt-button;
+        @include semibold-text;
+        font-size: 16px;
+        height: 48px;
+        width: 25%;
+    }
+
+    h1 {
+        @include light-text;
+        font-size: 24px;
+        line-height: 20px;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        @include light-text;
+        font-size: 16px;
+        line-height: 22px;
+        color: $soft-black;
+        margin: 0;
+        margin-bottom: 4px;
+    }
+
+    h3 {
+        @include tpc-green-link;
+        @include bold-text;
+        font-size: 16px;
+        line-height: 22px;
+        margin: 0;
+        cursor: pointer;
+    }
+}
