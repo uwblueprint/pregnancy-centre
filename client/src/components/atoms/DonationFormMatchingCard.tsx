@@ -19,7 +19,7 @@ const DonationFormMatchingCard: FunctionComponent<DonationFormMatchingCardProps>
             <div className="header">
                 <div className="header-text">
                     <h1>{`${donationForm.quantityRemaining}/${donationForm.quantity} items available`}</h1>
-                    <h2>{moment(donationForm.createdAt).format("MMM D, YYYY, h:mm a")}</h2>
+                    <h2>{moment(donationForm.createdAt).format("MMM D, YYYY, h:mm \a")}</h2>
                 </div>
                 <Button text="Match" copyText="" onClick={onSelectMatch} />
             </div>
