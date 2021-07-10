@@ -47,7 +47,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [imageError, setImageError] = useState("");
     const [requestTypesError, setRequestTypesError] = useState("");
     const [loadingRequestGroup, setLoadingRequestGroup] = useState(props.operation === "edit");
-
+    
     useEffect(() => {
         async function getImages() {
             setImages(await getFilesFromFolder(imageFolder));
@@ -191,19 +191,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         return error;
     };
 
-    const updateRequestTypesMapError = (requestTypesMap: Map<string, RequestTypeData>): string => {
-        let error = "";
-        if (
-            Array.from(requestTypesMap.values()).filter((requestTypeData) => requestTypeData.deleted === false)
-                .length === 0
-        ) {
-            error = "Please create at least 1 type";
-        }
-
-        setRequestTypesError(error);
-        return error;
-    };
-
     const onAddRequestType = (newRequestTypeName: string) => {
         const error = updateInputRequestTypeNameError(newRequestTypeName);
         if (error === "") {
@@ -224,7 +211,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             setRequestTypesMap(
                 new Map(requestTypesMap).set(targetRequestTypeName, { ...requestTypeValue, deleted: true })
             );
-            updateRequestTypesMapError(requestTypesMap);
         }
     };
 
@@ -274,14 +260,30 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         }
     };
 
+    const handleEmptyRequestTypesMap = (requestTypesMap: Map<string, RequestTypeData>): void => {
+        if (
+            Array.from(requestTypesMap.values()).filter((requestTypeData) => requestTypeData.deleted === false)
+                .length === 0
+        ) {
+            const newRequestTypeData: RequestTypeData = {
+                id: null,
+                deleted: false
+            };
+            const requestTypeEmptyName = "One Size";
+            const map: Map<string, RequestTypeData> = new Map();
+            map.set(requestTypeEmptyName, newRequestTypeData);
+            setRequestTypesMap(map);
+        }
+    };
+
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const tempNameError = updateNameError(name);
         const tempDescriptionError = updateDescriptionError(description);
         const tempImageError = updateImageError(image);
-        const tempRequestTypesError = updateRequestTypesMapError(requestTypesMap);
+        handleEmptyRequestTypesMap(requestTypesMap);
 
-        if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
+        if (!tempNameError && !tempDescriptionError && !tempImageError) {
             if (props.operation === "create") {
                 let requestGroupId: string | null = null;
                 const newRequestTypeNames = Array.from(requestTypesMap)
