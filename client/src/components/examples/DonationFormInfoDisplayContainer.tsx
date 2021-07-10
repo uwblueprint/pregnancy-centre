@@ -6,6 +6,7 @@ import DonationFormInfoDisplay from "../organisms/DonationFormInfoDisplay";
 const DonationFormInfoDisplayContainer: FunctionComponent<Record<string, never>> = () => {
     const donationForm: DonationForm = {
         adminNotes: "This bottle feeds lots of milk, you will be very happy with this bottle!",
+        age: 3,
         contact: {
             firstName: "Miley",
             lastName: "Cyrus"
