@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent } from "react";
 
 import ApproveStatusIcon from "../../assets/donation-form-approve-status.svg";
 import ConfirmStatusIcon from "../../assets/donation-form-confirm-status.svg";
