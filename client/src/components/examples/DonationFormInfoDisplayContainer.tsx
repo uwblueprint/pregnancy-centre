@@ -10,19 +10,11 @@ const DonationFormInfoDisplayContainer: FunctionComponent<Record<string, never>>
             firstName: "Miley",
             lastName: "Cyrus"
         },
+        description: "This bottle feeds lots of milk, you will be very happy with this bottle!",
         createdAt: new Date(),
         quantity: 5,
         quantityRemaining: 4
     };
-    // const donationFormWithoutNotes: DonationForm = {
-    //     contact: {
-    //         firstName: "Miley",
-    //         lastName: "Cyrus"
-    //     },
-    //     createdAt: new Date(),
-    //     quantity: 5,
-    //     quantityRemaining: 4
-    // };
     return (
         <div
             style={{
@@ -33,17 +25,11 @@ const DonationFormInfoDisplayContainer: FunctionComponent<Record<string, never>>
                 width: "50%"
             }}
         >
-            {/* <h3 style={{ marginTop: "30px" }}>Donation form with notes</h3> */}
             <DonationFormInfoDisplay
                 donationForm={donationForm}
                 isMatching={true}
                 onSelectMatch={() => console.log("Select Match")}
             />
-            {/* <h3 style={{ marginTop: "30px" }}>Donation form without notes</h3>
-            <DonationFormInfoDisplay
-                donationForm={donationFormWithoutNotes}
-                onSelectMatch={() => console.log("Select Match")}
-            /> */}
         </div>
     );
 };
