@@ -5,9 +5,10 @@ import DonationForm from "../../data/types/donationForm";
 
 interface DonationItemCardProps {
     donationForm: DonationForm;
-    showDeleteIcon: boolean;
     onEdit: () => void;
     onDelete: () => void;
+    showDeleteIcon: boolean;
+    showEditIcon: boolean;
 }
 
 const DonationItemCard: FunctionComponent<DonationItemCardProps> = (props: DonationItemCardProps) => {
@@ -35,7 +36,7 @@ const DonationItemCard: FunctionComponent<DonationItemCardProps> = (props: Donat
                 {itemAttributeField("Description", props.donationForm.description, "item-description-field")}
             </div>
             <div className="action-icons">
-                <i className="bi bi-pencil" onClick={props.onEdit} />
+                {props.showEditIcon && <i className="bi bi-pencil" onClick={props.onEdit} />}
                 {props.showDeleteIcon && <i className="bi bi-trash" onClick={props.onDelete} />}
             </div>
         </div>

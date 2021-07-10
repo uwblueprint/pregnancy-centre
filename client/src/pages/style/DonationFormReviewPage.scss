@@ -1,0 +1,66 @@
+.donation-form-review-page {
+    .donor-details {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .donor-detail-field {
+        @include donation-form-info-card;
+        padding: 8px 15px;
+        margin-bottom: 13px;
+    }
+
+    .donor-name-field {
+        width: 100%;
+    }
+
+    .donor-email-field {
+        width: 63%;
+    }
+
+    .donor-phone-number-field {
+        width: 35%;
+    }
+
+    .donor-details-title,
+    .donation-items-title {
+        @include semibold-text;
+        font-size: 15px;
+        margin-bottom: 22px;
+        width: 100%;
+    }
+
+    .donation-items-title {
+      margin-top: 30px;
+    }
+
+    .donation-item-card {
+        margin-bottom: 10px;
+    }
+
+    .horizontal-divider-line {
+        margin-top: 50px;
+        margin-bottom: 3px;
+    }
+
+    .donation-items-total {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        color: $donation-item-details-text-color;
+
+        h1 {
+            @include bold-text;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        h2 {
+            @include semibold-text;
+            font-size: 16px;
+            margin: 0 0 0 4px;
+        }
+    }
+}
