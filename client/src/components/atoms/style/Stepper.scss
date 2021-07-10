@@ -1,0 +1,37 @@
+.stepper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .step {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .step-text {
+        margin-left: 10px;
+
+        h4 {
+            margin-bottom: 5px;
+            color: $faded-modal-text-color;
+            font-size: 12px;
+        }
+
+        h2 {
+            margin-bottom: 0;
+            font-size: 20px;
+        }
+    }
+
+    .selected-step .step-text h2 {
+        @include tpc-green-text;
+        @include bold-text;
+    }
+
+    .line {
+        width: 1px;
+        height: 60px;
+        margin: 18px 0 18px 22.5px;
+        background-color: $stepper-border-color;
+    }
+}

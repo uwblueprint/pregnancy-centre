@@ -5,7 +5,7 @@
     letter-spacing: 0.1px;
 
     b {
-        @include bold-text;
+        @include extra-bold-text;
     }
 
     .page-number-disabled {
