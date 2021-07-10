@@ -12,14 +12,24 @@ interface Props {
 
 const DonationFormInfoDisplay: FunctionComponent<Props> = (props: Props) => {
     const { donationForm, isMatching, onSelectMatch } = props;
-    const ageDescription = ItemAgeToDescriptionMap.get(donationForm.age ?? -1);
+    const ageDescription = donationForm.age ? ItemAgeToDescriptionMap.get(donationForm.age) : null;
     const contactFullName = [donationForm?.contact?.firstName, donationForm?.contact?.lastName]
         .filter((name) => name)
         .join(" ");
+    let itemsAvailableStr = "";
+    if (donationForm.quantityRemaining != null) {
+        itemsAvailableStr = itemsAvailableStr.concat(donationForm.quantityRemaining.toString());
+        if (donationForm.quantity != null) {
+            itemsAvailableStr = itemsAvailableStr.concat("/" + donationForm.quantity.toString() + " ");
+        }
+    }
+    itemsAvailableStr = itemsAvailableStr.concat(
+        itemsAvailableStr.length === 0 ? "Items unavailable" : " items available"
+    );
     return (
         <div className="donation-form-info-display">
             <div className="header">
-                <h1>{`${donationForm.quantityRemaining}/${donationForm.quantity} items available`}</h1>
+                <h1>{itemsAvailableStr}</h1>
                 <Button
                     text={isMatching ? "Matching" : "Match"}
                     copyText=""
