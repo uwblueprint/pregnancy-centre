@@ -5,7 +5,7 @@ import DonationFormMatchingCard from "../atoms/DonationFormMatchingCard";
 
 const DonationFormMatchingCardContainer: FunctionComponent<Record<string, never>> = () => {
     const donationForm: DonationForm = {
-        adminNotes: "Notes: This bottle feeds lots of milk, you will be very happy with this bottle!",
+        adminNotes: "This bottle feeds lots of milk, you will be very happy with this bottle!",
         contact: {
             firstName: "Miley",
             lastName: "Cyrus"
