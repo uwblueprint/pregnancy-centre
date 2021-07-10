@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent } from "react";
 
-interface Props {
-    dialogText: string
-    onExit: () => void
-    onStay: () => void
+export interface Props {
+    dialogText: string;
+    onExit: () => void;
+    onStay: () => void;
 }
 
 const AlertDialog: FunctionComponent<Props> = (props: Props) => {
@@ -11,10 +11,16 @@ const AlertDialog: FunctionComponent<Props> = (props: Props) => {
         <div className="alert-dialog">
             <p className="alert-display-text">{props.dialogText}</p>
             <p className="alert-prompt">Are you sure you want to leave?</p>
-            <button className="alert-stay-button" onClick={props.onStay}>Keep Editing</button>
-            <button className="alert-leave-button" onClick={props.onExit}>Leave</button>
+            <div className="alert-dialog-buttons">
+                <button className="alert-stay-button" onClick={props.onStay}>
+                    Keep Editing
+                </button>
+                <button className="alert-leave-button" onClick={props.onExit}>
+                    Leave
+                </button>
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default AlertDialog
+export default AlertDialog;

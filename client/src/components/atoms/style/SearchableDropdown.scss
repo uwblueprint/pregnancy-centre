@@ -1,58 +1,58 @@
 .searchable-dropdown {
-  width: 100%; 
-
-  .scroll-window {
-    width: 100%; 
-  }
-
-  .text-field {
-    margin-bottom: 5px;
-    width: 100%; 
-  }
-
-  .dropdown-header {
-    @include normal-text;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 20px;
-    color: $disabled-text;
-
     width: 100%;
-    height: 30px;
-    padding: 8px 14px;
-  }
 
-  .dropdown-item {
-    @include normal-text;
-    font-size: 14px;
-    line-height: 20px;
-
-    padding: 8px 13px;
-    height: 37px;
-
-    &:last-child {
-      margin-bottom: 8px;
+    .scroll-window {
+        width: 100%;
     }
 
-    &.dropdown-tag {
-      height: 45px;
-      padding-top: 6px;
+    .text-field {
+        margin-bottom: 5px;
+        width: 100%;
+    }
 
-      &:hover {
-        background-color: $tag-background;
+    .dropdown-header {
+        @include normal-text;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 20px;
+        color: $disabled-text;
 
-        .tag {
-          background-color: $tag-background-hover;
+        width: 100%;
+        height: 30px;
+        padding: 8px 14px;
+    }
+
+    .dropdown-item {
+        @include normal-text;
+        font-size: 14px;
+        line-height: 20px;
+
+        padding: 8px 13px;
+        height: 37px;
+
+        &:last-child {
+            margin-bottom: 8px;
         }
-      }
 
-      .tag {
-        padding: 6.65px 12.5px;
-      }
-    }
+        &.dropdown-tag {
+            height: 45px;
+            padding-top: 6px;
 
-    .dropdown-action {
-      margin-bottom: 8px;
+            &:hover {
+                background-color: $tag-background;
+
+                .tag {
+                    background-color: $tag-background-hover;
+                }
+            }
+
+            .tag {
+                padding: 6.65px 12.5px;
+            }
+        }
+
+        .dropdown-action {
+            margin-bottom: 8px;
+        }
     }
-  }
 }

@@ -6,29 +6,29 @@
         font-size: 24px;
         line-height: 32px;
         letter-spacing: 0.2px;
-    
+
         color: $dark-gray;
-    
+
         flex: 1;
         padding-left: 95px;
     }
-    
+
     .row {
         display: flex;
         justify-content: space-between;
     }
-    
+
     .action-group {
         display: flex;
         flex-direction: row;
         align-content: flex-end;
         margin-right: 80px;
     }
-    
+
     .action-group .spacing {
         width: 27px;
     }
-    
+
     .button {
         @include normal-button;
         width: -webkit-fit-content;
@@ -36,21 +36,25 @@
         width: 160px;
         height: 40px;
         display: flex-end;
-    
+
         background: $tpc-green;
         border-radius: 4px;
-    
+
         font-family: Inter;
         font-style: normal;
         font-weight: 500;
         font-size: 16px;
         text-align: center;
         letter-spacing: 0.1px;
-    
+
         color: white;
     }
-    
-   .btn, .btn:hover, .btn:focus, .btn:active, .show > .btn-primary.dropdown-toggle {
+
+    .btn,
+    .btn:hover,
+    .btn:focus,
+    .btn:active,
+    .show > .btn-primary.dropdown-toggle {
         background-color: $tpc-green;
         color: $white;
         height: 39px;
@@ -61,7 +65,7 @@
         &-dropdown {
             background-color: $admin-request-group-browser-dropdown-color;
             border-radius: 4px;
-            box-shadow: 0 4px 3px $admin-request-group-browser-dropdown-shadow-color; 
+            box-shadow: 0 4px 3px $admin-request-group-browser-dropdown-shadow-color;
             border: none;
             &-item {
                 padding-top: 15px;
@@ -71,12 +75,12 @@
         .dropdown-menu {
             margin-top: 8px;
         }
-    } 
+    }
     .page-navigation {
         display: block;
         float: right;
         margin-right: 69px;
         margin-top: 24px;
         margin-bottom: 21px;
-    }    
+    }
 }

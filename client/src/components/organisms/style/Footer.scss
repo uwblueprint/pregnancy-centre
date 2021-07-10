@@ -1,107 +1,107 @@
 $footer-lr-padding: 0 20px;
 
 .footer.container-fluid {
-  @media (min-width: 992px) {
-    padding-left: 70px;
-    padding-right: 55px;
-  }
+    @media (min-width: 992px) {
+        padding-left: 70px;
+        padding-right: 55px;
+    }
 
-  background-color: $selected-item-background;
-  height: 338px;
+    background-color: $selected-item-background;
+    height: 338px;
 }
 
 .footer-social-media-links {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 
-  border-top: $border-line;
-  margin-top: 62px;
-  @media (max-width: 992px) {
-    margin-top: 16px;
-  }
-  padding: $footer-lr-padding;
-  padding-top: 22px;
+    border-top: $border-line;
+    margin-top: 62px;
+    @media (max-width: 992px) {
+        margin-top: 16px;
+    }
+    padding: $footer-lr-padding;
+    padding-top: 22px;
 
-  & h1 {
-    @include normal-text;
-    font-size: 14px;
-    line-height: 17px;
-    margin: 0;
-  }
+    & h1 {
+        @include normal-text;
+        font-size: 14px;
+        line-height: 17px;
+        margin: 0;
+    }
 
-  & a,
-  & h1 {
-    padding-right: 32px;
-  }
+    & a,
+    & h1 {
+        padding-right: 32px;
+    }
 }
 
 .org-info {
-  display: flex;
-  justify-content: flex-start;
+    display: flex;
+    justify-content: flex-start;
 
-  padding: $footer-lr-padding;
-  padding-top: 74px;
-  @media (max-width: 862px) {
-    padding-top: 32px;
-  }
-
-  & h1 {
-    @include faded-text;
-    @include heavy-text;
-    padding-top: 7px;
-    padding-bottom: 2px;
-    font-size: 14px;
-    line-height: 17px;
-    letter-spacing: 0.05em;
-  }
-
-  & p {
-    font-size: 14px;
-    line-height: 20px;
-    margin-bottom: 1px;
-  }
-
-  & .col {
-    flex-grow: 0;
-    flex-basis: unset;
-    padding: 0;
-    width: auto;
-    margin: 0;
-    margin-right: 90px;
-    @media (max-width: 1166px) {
-      margin-right: 32px;
-    }
-    @media (max-width: 1066px) {
-      margin-right: 12px;
-    }
-    @media (max-width: 860px) {
-      margin-right: 32px;
-      padding-left: 6px;
-    }
-  }
-
-  &.row div[class^="col"]:first-child {
-    margin-right: 84px;
-    @media (max-width: 1066px) {
-      margin-right: 32px;
-    }
-    @media (max-width: 860px) {
-      margin-right: 78px;
-    }
-  }
-
-  &.row div[class^="col"]:last-child {
-    @media (max-width: 1256px) {
-      margin-right: 0px;
-    }
-    @media (max-width: 992px) {
-      margin-left: 0px;
-    }
+    padding: $footer-lr-padding;
+    padding-top: 74px;
     @media (max-width: 862px) {
-      margin-left: 258px;
+        padding-top: 32px;
     }
-    @media (max-width: 748px) {
-      margin-left: 60px;
+
+    & h1 {
+        @include faded-text;
+        @include heavy-text;
+        padding-top: 7px;
+        padding-bottom: 2px;
+        font-size: 14px;
+        line-height: 17px;
+        letter-spacing: 0.05em;
     }
-  }
+
+    & p {
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 1px;
+    }
+
+    & .col {
+        flex-grow: 0;
+        flex-basis: unset;
+        padding: 0;
+        width: auto;
+        margin: 0;
+        margin-right: 90px;
+        @media (max-width: 1166px) {
+            margin-right: 32px;
+        }
+        @media (max-width: 1066px) {
+            margin-right: 12px;
+        }
+        @media (max-width: 860px) {
+            margin-right: 32px;
+            padding-left: 6px;
+        }
+    }
+
+    &.row div[class^="col"]:first-child {
+        margin-right: 84px;
+        @media (max-width: 1066px) {
+            margin-right: 32px;
+        }
+        @media (max-width: 860px) {
+            margin-right: 78px;
+        }
+    }
+
+    &.row div[class^="col"]:last-child {
+        @media (max-width: 1256px) {
+            margin-right: 0px;
+        }
+        @media (max-width: 992px) {
+            margin-left: 0px;
+        }
+        @media (max-width: 862px) {
+            margin-left: 258px;
+        }
+        @media (max-width: 748px) {
+            margin-left: 60px;
+        }
+    }
 }

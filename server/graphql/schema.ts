@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server'
+import { gql } from "apollo-server";
 
 // TODO: date types
 
@@ -31,7 +31,7 @@ const typeDefs = gql`
         openRequests: [Request]
         fulfilledRequests: [Request]
         deletedRequests: [Request]
-        numOpen: Int,
+        numOpen: Int
         nextRecipient: Client
     }
     type RequestGroup {
@@ -43,8 +43,8 @@ const typeDefs = gql`
         requirements: String
         image: String
         requestTypes: [RequestType]
-        numOpen: Int,
-        hasAnyRequests: Boolean,
+        numOpen: Int
+        hasAnyRequests: Boolean
         nextRecipient: Client
     }
     type ServerResponse {
@@ -106,6 +106,6 @@ const typeDefs = gql`
         clientId: String
         fullName: String
     }
-`
+`;
 
-export { typeDefs }
+export { typeDefs };

@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent } from "react";
 
-import Tooltip from '../atoms/Tooltip'
+import Tooltip from "../atoms/Tooltip";
 
 interface Props {
     formItemName: string;
@@ -9,13 +9,15 @@ interface Props {
     inputComponent: React.ReactNode;
     tooltipText?: string;
     instructions?: string;
+    showErrorIcon?: boolean;
+    className?: string;
 }
 
 const FormItem: FunctionComponent<Props> = (props: Props) => {
-    const isError = props.errorString.length > 0
+    const isError = props.errorString.length > 0;
 
     return (
-        <div className="form-item">
+        <div className={"form-item " + props.className}>
             <div className="form-item-top">
                 <span className={props.isDisabled ? "form-item-disabled" : undefined}>
                     {props.formItemName}
@@ -23,17 +25,15 @@ const FormItem: FunctionComponent<Props> = (props: Props) => {
                 </span>
                 {isError && <span className="form-item-error-text">{props.errorString}</span>}
             </div>
-            {props.instructions &&
-                <div className="form-item-instructions">
-                    {props.instructions}
-                </div>
-            }
+            {props.instructions && <div className="form-item-instructions">{props.instructions}</div>}
             <div className="form-item-bottom">
                 {props.inputComponent}
-                {isError && <i className="form-item-error-icon bi bi-exclamation-circle alert-icon"></i>}
+                {isError && props.showErrorIcon !== false && (
+                    <i className="form-item-error-icon bi bi-exclamation-circle alert-icon"></i>
+                )}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default FormItem
+export default FormItem;
