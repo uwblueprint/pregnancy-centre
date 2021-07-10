@@ -1,5 +1,12 @@
 import RequestGroup from "./requestGroup";
 
+export enum DonationItemStatus {
+    PENDING_APPROVAL = "PENDING_APPROVAL",
+    PENDING_DROPOFF = "PENDING_DROPOFF",
+    PENDING_MATCH = "PENDING_MATCH",
+    MATCHED = "MATCHED"
+}
+
 export enum ItemCondition {
     BRAND_NEW = "BRAND_NEW",
     GREAT = "GREAT",
