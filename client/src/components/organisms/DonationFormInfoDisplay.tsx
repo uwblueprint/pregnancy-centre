@@ -13,6 +13,9 @@ interface Props {
 const DonationFormInfoDisplay: FunctionComponent<Props> = (props: Props) => {
     const { donationForm, isMatching, onSelectMatch } = props;
     const ageDescription = ItemAgeToDescriptionMap.get(donationForm.age ?? -1);
+    const contactFullName = [donationForm?.contact?.firstName, donationForm?.contact?.lastName]
+        .filter((name) => name)
+        .join(" ");
     return (
         <div className="donation-form-info-display">
             <div className="header">
@@ -23,22 +26,24 @@ const DonationFormInfoDisplay: FunctionComponent<Props> = (props: Props) => {
                     onClick={isMatching ? undefined : onSelectMatch}
                 />
             </div>
-            {donationForm.adminNotes && donationForm.adminNotes.length !== 0 && (
+            {donationForm.adminNotes && (
                 <h2>
                     <strong>TPC Notes:</strong>
                     {donationForm.adminNotes}
                 </h2>
             )}
-            {(donationForm?.contact?.firstName || donationForm?.contact?.lastName) && (
+            {contactFullName && (
                 <h2>
                     <strong>Donated by:</strong>
-                    {(donationForm?.contact?.firstName ?? "") + " " + (donationForm?.contact?.lastName ?? "")}
+                    {contactFullName}
                 </h2>
             )}
-            <h2>
-                <strong>Donated on:</strong>
-                {moment(donationForm.createdAt).format("MMMM D, YYYY, h:mma")}
-            </h2>
+            {donationForm.createdAt && (
+                <h2>
+                    <strong>Donated on:</strong>
+                    {moment(donationForm.createdAt).format("MMMM D, YYYY, h:mma")}
+                </h2>
+            )}
             {ageDescription && (
                 <h2 className="age-field">
                     <strong>Age:</strong>
