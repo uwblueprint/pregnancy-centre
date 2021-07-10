@@ -21,7 +21,7 @@ const DonationFormMatchingCard: FunctionComponent<DonationFormMatchingCardProps>
                     <h1>{`${donationForm.quantityRemaining}/${donationForm.quantity} items available`}</h1>
                     <h2>{moment(donationForm.createdAt).format("MMM D, YYYY, h:mm a")}</h2>
                 </div>
-                <Button className="match-button" text="Match" copyText="" onClick={onSelectMatch} />
+                <Button text="Match" copyText="" onClick={onSelectMatch} />
             </div>
             {(donationForm?.contact?.firstName || donationForm?.contact?.lastName) && (
                 <h2>{`Donation by: ${donationForm?.contact?.firstName ?? ""} ${
