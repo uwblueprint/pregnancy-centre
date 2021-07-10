@@ -1,7 +1,19 @@
 .donor-homepage {
     padding: 0;
 
+    .donor-page-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     &-request-groups-browser {
         margin: 79px 55px 0;
+        margin-bottom: 50px;
+    }
+
+    &-donor-impact-section {
+        width: 100%;
+        margin-bottom: 100px;
     }
 }
