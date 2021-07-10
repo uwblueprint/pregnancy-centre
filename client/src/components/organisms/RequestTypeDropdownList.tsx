@@ -20,6 +20,7 @@ const RequestTypeDropdownList: FunctionComponent<Props> = (props: Props) => {
                                   requestGroup={props.requestGroup}
                                   requestType={requestType}
                                   requests={requestType.requests}
+                                  deletable={props.requestTypes?.length == 1}
                               />
                           );
                       }
