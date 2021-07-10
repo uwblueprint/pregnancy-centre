@@ -24,7 +24,7 @@ const DonationFormMatchingCard: FunctionComponent<DonationFormMatchingCardProps>
                 <Button text="Match" copyText="" onClick={onSelectMatch} />
             </div>
             {(donationForm?.contact?.firstName || donationForm?.contact?.lastName) && (
-                <h2>{`Donation by: ${donationForm?.contact?.firstName ?? ""} ${
+                <h2>{`Donated by: ${donationForm?.contact?.firstName ?? ""} ${
                     donationForm?.contact?.lastName ?? ""
                 }`}</h2>
             )}
