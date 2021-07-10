@@ -18,6 +18,7 @@ interface TextFieldProps {
     autocompleteOff?: boolean;
     focusOnIconClick?: boolean;
     readOnly?: boolean;
+    onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 }
 
 const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => {
@@ -31,6 +32,14 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
         }
         if (props.focusOnIconClick && textFieldRef && textFieldRef.current) {
             textFieldRef.current.focus();
+        }
+    };
+    const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key == "Enter") {
+            event.preventDefault();
+        }
+        if (props.onKeyDown) {
+            props.onKeyDown(event);
         }
     };
     return (
@@ -50,11 +59,7 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
                 onClick={props.onClick}
                 disabled={props.isDisabled}
                 autoComplete={props.autocompleteOff ? "off" : "on"}
-                onKeyDown={(e: React.KeyboardEvent) => {
-                    if (e.key == "Enter") {
-                        e.preventDefault();
-                    }
-                }}
+                onKeyDown={onKeyDown}
                 readOnly={props.readOnly}
                 ref={textFieldRef}
             />

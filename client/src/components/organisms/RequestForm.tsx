@@ -415,6 +415,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                                     </div>
                                 }
                                 isTagDropdown={false}
+                                mustMatchDropdownItem={true}
                             />
                         }
                     />
@@ -447,6 +448,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                                     </div>
                                 }
                                 isTagDropdown={true}
+                                mustMatchDropdownItem={true}
                             />
                         }
                     />

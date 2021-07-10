@@ -29,8 +29,8 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
     const [description, setDescription] = useState<string>("");
     const [nameError, setNameError] = useState("");
     const [formError, setFormError] = useState("");
-    const [isConditionErrorneous, setIsConditionErrorneous] = useState(false);
-    const [isQuantityErrorneous, setIsQuantityErrorneous] = useState(false);
+    const [isConditionErroneous, setIsConditionErroneous] = useState(false);
+    const [isQuantityErroneous, setIsQuantityErroneous] = useState(false);
     const [isConditionDropdownOpen, setIsConditionDropdownOpen] = useState(false);
     const [isAgeDropdownOpen, setIsAgeDropdownOpen] = useState(false);
 
@@ -50,30 +50,30 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
         setNameInput(newItemName);
     };
 
-    const updateIsConditionErrorneous = (condition: ItemCondition | null): boolean => {
+    const updateIsConditionErroneous = (condition: ItemCondition | null): boolean => {
         if (condition == null) {
-            setIsConditionErrorneous(true);
+            setIsConditionErroneous(true);
             return true;
         }
-        setIsConditionErrorneous(false);
+        setIsConditionErroneous(false);
         return false;
     };
 
-    const updateIsQuantityErrorneous = (quantity: number): boolean => {
+    const updateIsQuantityErroneous = (quantity: number): boolean => {
         if (quantity <= 0 || isNaN(quantity)) {
-            setIsQuantityErrorneous(true);
+            setIsQuantityErroneous(true);
             return true;
         }
-        setIsQuantityErrorneous(false);
+        setIsQuantityErroneous(false);
         return false;
     };
 
     const updateFormError = (condition: ItemCondition | null, quantity: number): string => {
         const errors = [];
-        if (updateIsConditionErrorneous(condition)) {
+        if (updateIsConditionErroneous(condition)) {
             errors.push("Item Condition");
         }
-        if (updateIsQuantityErrorneous(quantity)) {
+        if (updateIsQuantityErroneous(quantity)) {
             errors.push("Quantity (number of this specific item)");
         }
         if (errors.length === 0) {
@@ -119,11 +119,12 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
 
         if (nameError.length === 0 && formError.length === 0) {
             const itemRequestGroup = props.requestGroups.find((requestGroup) => requestGroup.name === name);
+            const trimmedDescription = description.trim();
 
             props.onSave({
                 age,
                 condition: condition ?? undefined,
-                description,
+                description: trimmedDescription.length === 0 ? undefined : trimmedDescription,
                 name,
                 quantity,
                 requestGroup: itemRequestGroup ?? null
@@ -135,7 +136,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
         <div className="donation-item-form">
             <FormItem
                 className="item-name-field"
-                formItemName="What item do you wish to donate?"
+                formItemName="What item do you wish to donate? *"
                 errorString={nameError}
                 isDisabled={false}
                 showErrorIcon={false}
@@ -151,7 +152,8 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                         isDisabled={false}
                         isErroneous={nameError.length !== 0}
                         actionOption={
-                            nameInput.length === 0 ? null : (
+                            nameInput.length === 0 ||
+                            props.requestGroups.find((requestGroup) => requestGroup.name === nameInput) ? null : (
                                 <div onClick={() => onNameChange(nameInput)}>
                                     <span>{nameInput}</span>
                                     <span className="custom-item-prompt">- enter your own item</span>
@@ -162,6 +164,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                         onSelect={onNameChange}
                         placeholderText="Enter item name"
                         searchPlaceholderText=""
+                        mustMatchDropdownItem={false}
                     />
                 }
             />
@@ -170,7 +173,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                     className="item-condition-field"
                     formItemName="Item Condition *"
                     errorString=""
-                    isErroneous={isConditionErrorneous}
+                    isErroneous={isConditionErroneous}
                     isDisabled={false}
                     showErrorIcon={false}
                     inputComponent={
@@ -179,7 +182,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                                 <TextField
                                     input={condition ? ItemConditionToDescriptionMap.get(condition) ?? "" : ""}
                                     isDisabled={false}
-                                    isErroneous={isConditionErrorneous}
+                                    isErroneous={isConditionErroneous}
                                     onChange={() => {}}
                                     name="condition"
                                     placeholder="Select Item Condition..."
@@ -261,7 +264,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                         <TextField
                             input={quantity.toString()}
                             isDisabled={false}
-                            isErroneous={isQuantityErrorneous}
+                            isErroneous={isQuantityErroneous}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 onQuantityChange(parseInt(e.target.value));
                             }}

@@ -19,6 +19,7 @@ interface Props {
     placeholderText: string;
     searchPlaceholderText: string;
     dropdownPrompt?: string;
+    mustMatchDropdownItem: boolean;
 }
 
 const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
@@ -69,6 +70,13 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
         );
     };
 
+    const onTextFieldKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key == "Enter" && !props.mustMatchDropdownItem) {
+            onSelectedItemChange(props.searchString);
+            event.currentTarget.blur();
+        }
+    };
+
     return (
         <div className="searchable-dropdown">
             <ScrollableDropdown
@@ -101,6 +109,7 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
                         showRedErrorText={true}
                         autocompleteOff={true}
                         focusOnIconClick={true}
+                        onKeyDown={onTextFieldKeyDown}
                     />
                 }
                 onDropdownOpen={() => {
