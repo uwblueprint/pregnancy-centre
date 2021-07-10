@@ -11,6 +11,8 @@ import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
+import DonationFormProgressStepperContainer from "./components/examples/DonationFormProgressStepperContainer";
+
 function App(): JSX.Element {
     return (
         <span>
@@ -28,6 +30,9 @@ function App(): JSX.Element {
                     </Route>
                     <Route path="/donation-form">
                         <DonationForm />
+                    </Route>
+                    <Route path="/test">
+                        <DonationFormProgressStepperContainer />
                     </Route>
                     <Route path="/">
                         <DonorHomepage />
