@@ -17,12 +17,22 @@ const DonationFormMatchingCard: FunctionComponent<DonationFormMatchingCardProps>
     const contactFullName = [donationForm?.contact?.firstName, donationForm?.contact?.lastName]
         .filter((name) => name)
         .join(" ");
+    let itemsAvailableStr = "";
+    if (donationForm.quantityRemaining != null) {
+        itemsAvailableStr = itemsAvailableStr.concat(donationForm.quantityRemaining.toString());
+        if (donationForm.quantity != null) {
+            itemsAvailableStr = itemsAvailableStr.concat("/" + donationForm.quantity.toString() + " ");
+        }
+    }
+    itemsAvailableStr = itemsAvailableStr.concat(
+        itemsAvailableStr.length === 0 ? "Items unavailable" : " items available"
+    );
     return (
         <div className="donation-form-matching-card">
             <div className="header">
                 <div className="header-text">
-                    <h1>{`${donationForm.quantityRemaining}/${donationForm.quantity} items available`}</h1>
-                    <h2>{moment(donationForm.createdAt).format("MMM D, YYYY, h:mma")}</h2>
+                    <h1>{itemsAvailableStr}</h1>
+                    {donationForm.createdAt && <h2>{moment(donationForm.createdAt).format("MMM D, YYYY, h:mma")}</h2>}
                 </div>
                 <Button text="Match" copyText="" onClick={onSelectMatch} />
             </div>
