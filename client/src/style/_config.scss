@@ -102,6 +102,11 @@ $tpc-green: #004d57;
     letter-spacing: 0.2px;
 }
 
+@mixin tpc-green-link() {
+    @include tpc-green-text();
+    text-decoration: underline;
+}
+
 @mixin semibold-text() {
     @include text;
     font-weight: 500;
@@ -284,3 +289,6 @@ $donation-item-form-dropdown-prompt-color: #adadad;
 
 /* Horizontal Diveder Line */
 $horizontal-divider-line-color: #a0a0a0;
+
+/* Donation Form Matching Card */
+$donation-form-matching-card-border-color: #c5c3c3;

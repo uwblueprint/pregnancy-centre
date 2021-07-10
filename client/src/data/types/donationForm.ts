@@ -1,3 +1,4 @@
+import Donor from "./donor";
 import RequestGroup from "./requestGroup";
 
 export enum ItemCondition {
