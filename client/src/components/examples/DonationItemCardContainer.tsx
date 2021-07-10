@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import DonationForm, { ItemCondition, ItemConditionToDescriptionMap } from "../../data/types/donationForm";
+import DonationForm, { ItemCondition } from "../../data/types/donationForm";
 import DonationItemCard from "../atoms/DonationItemCard";
 
 const DonationItemCardContainer: FunctionComponent<Record<string, never>> = () => {

@@ -1,10 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 
-import DonationForm, {
-    ItemAgeToDescriptionMap,
-    ItemCondition,
-    ItemConditionToDescriptionMap
-} from "../../data/types/donationForm";
+import DonationForm, { ItemCondition } from "../../data/types/donationForm";
+import { getItemAgeDescription, itemAgeDescriptions, ItemConditionToDescriptionMap } from "../utils/donationForm";
 import { Button } from "../atoms/Button";
 import FormItem from "../molecules/FormItem";
 import RequestGroup from "../../data/types/requestGroup";
@@ -223,7 +220,7 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                         <ScrollableDropdown
                             trigger={
                                 <TextField
-                                    input={ItemAgeToDescriptionMap.get(age) ?? ""}
+                                    input={getItemAgeDescription(age)}
                                     isDisabled={false}
                                     isErroneous={false}
                                     onChange={() => {}}
@@ -235,14 +232,11 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                                     iconClassName="bi bi-caret-down-fill"
                                 />
                             }
-                            dropdownItems={Array.from(ItemAgeToDescriptionMap.entries()).map(
-                                ([ageKey, description]) =>
-                                    ageKey > 0 && (
-                                        <span key={ageKey} onClick={() => onAgeChange(ageKey)}>
-                                            {description}
-                                        </span>
-                                    )
-                            )}
+                            dropdownItems={itemAgeDescriptions.map((description, age) => (
+                                <span key={age} onClick={() => onAgeChange(age)}>
+                                    {description}
+                                </span>
+                            ))}
                             onDropdownClose={() => {
                                 setIsAgeDropdownOpen(false);
                             }}
