@@ -100,7 +100,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     return (
         <div className="imagepicker">
             <WarningBox text={warningText} showWarning={showWarning} />
-            <div className={`imagepicker-preview`}>
+            <div className={"imagepicker-preview"}>
                 <button
                     className={imgInView ? "btn btn-light imagepicker-trash" : "imagepicker-hidden"}
                     onClick={clearImage}
