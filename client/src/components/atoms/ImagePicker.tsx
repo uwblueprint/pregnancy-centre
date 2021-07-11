@@ -43,7 +43,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
             triggerWarning("Images must be less than 5MB");
             validFile = false;
         }
-        if (file.type != "image/png" && file.type != "image/jpeg") {
+        if (file.type !== "image/png" && file.type !== "image/jpeg") {
             triggerWarning("Images must be in either JPEG or PNG format");
             validFile = false;
         }
@@ -53,10 +53,9 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
             async () => {
                 const res = fileReader.result;
                 let imgStr;
-                if (res == null){
+                if (res == null) {
                     imgStr = "";
-                } 
-                else if (typeof res === "string") {
+                } else if (typeof res === "string") {
                     imgStr = res;
                 } else {
                     imgStr = res.toString();
