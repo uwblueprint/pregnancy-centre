@@ -167,7 +167,9 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                     <i className="bi bi-plus"></i>
                 </button>
             </div>
-            {props.images.length > 1 && <ImageList selected={props.selected} images={props.images} onImageChange={props.onImageChange} />}
+            {props.images.length > 1 && (
+                <ImageList selected={props.selected} images={props.images} onImageChange={props.onImageChange} />
+            )}
         </div>
     );
 };
