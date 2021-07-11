@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from "react";
 import moment from "moment";
 
-import DonationForm, { ItemAgeToDescriptionMap } from "../../data/types/donationForm";
 import { Button } from "../atoms/Button";
+import DonationForm from "../../data/types/donationForm";
+import { getItemAgeDescription } from "../utils/donationForm";
 
 interface Props {
     donationForm: DonationForm;
@@ -12,7 +13,7 @@ interface Props {
 
 const DonationFormInfoDisplay: FunctionComponent<Props> = (props: Props) => {
     const { donationForm, isMatching, onSelectMatch } = props;
-    const ageDescription = donationForm.age ? ItemAgeToDescriptionMap.get(donationForm.age) : null;
+    const ageDescription = donationForm.age == null ? null : getItemAgeDescription(donationForm.age);
     const contactFullName = [donationForm?.contact?.firstName, donationForm?.contact?.lastName]
         .filter((name) => name)
         .join(" ");
