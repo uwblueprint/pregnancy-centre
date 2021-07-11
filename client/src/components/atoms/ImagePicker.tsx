@@ -19,6 +19,7 @@ interface Dimensions {
     width: number;
     height: number;
 }
+
 const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
@@ -51,7 +52,6 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
             "load",
             async () => {
                 const res = fileReader.result;
-                console.log(res);
                 let imgStr;
                 if (res === null) imgStr = "";
                 else if (typeof res === "string") {
@@ -60,7 +60,6 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                     imgStr = res.toString();
                 }
                 const dimensions = await getImageDimensions(imgStr);
-                console.log(dimensions);
                 if (dimensions.width < 600 || dimensions.height < 430) {
                     triggerWarning("Images must be at least 600 x 430 pixels");
                     validFile = false;
