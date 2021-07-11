@@ -61,8 +61,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                 const dimensions = await getImageDimensions(imgStr);
                 if (dimensions.width < 600 || dimensions.height < 430) {
                     triggerWarning("Images must be at least 600 x 430 pixels");
-                }
-                else {
+                } else {
                     setWarningText("");
                     onUploadImg(imgStr);
                 }
