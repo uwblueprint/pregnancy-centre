@@ -28,19 +28,15 @@ const RequestTypeForm: FunctionComponent<Props> = (props: Props) => {
     const createRequestTypeMutation = gql`
         mutation CreateRequestType($name: String!, $requestGroup: ID!) {
             createRequestType(requestType: { name: $name, requestGroup: $requestGroup }) {
-                success
-                message
-                id
+                _id
             }
         }
     `;
 
     const updateRequestTypeMutation = gql`
         mutation UpdateRequestType($id: ID!, $name: String!) {
-            updateRequestType(requestType: { id: $id, name: $name }) {
-                success
-                message
-                id
+            updateRequestType(requestType: { _id: $id, name: $name }) {
+                _id
             }
         }
     `;

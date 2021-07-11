@@ -14,6 +14,7 @@ interface Props {
     requestType?: RequestType;
     requestGroup?: RequestGroup;
     requests?: Request[];
+    deletable?: boolean;
 }
 
 const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
@@ -24,7 +25,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
         deleteRequestType(_id: $_id){
             _id
         }
-    `;
+    }`;
 
     const [requestType, setRequestType] = useState(props.requestType);
     const [editModalShow, setEditModalShow] = useState(false);
@@ -79,6 +80,19 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
             <Dropdown
                 title={requestType?.name ? requestType.name.toUpperCase() + " (" + numRequests + ")" : ""}
                 header={
+                    props.deletable ? 
+                    <span className="button-container">
+                        <a
+                            className="button-container edit"
+                            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                                onOpenEditRequestType();
+                                e.stopPropagation();
+                            }}
+                        >
+                            <i className="bi bi-pencil"></i>
+                        </a>
+                    </span>
+                    :
                     <span className="button-container">
                         <a
                             className="button-container edit"

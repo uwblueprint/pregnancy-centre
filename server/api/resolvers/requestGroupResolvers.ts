@@ -67,18 +67,12 @@ const requestGroupQueryResolvers = {
 const requestGroupMutationResolvers = {
     createRequestGroup: async (_, { requestGroup }, { authenticateUser }): Promise<RequestGroupInterface> => {
         return authenticateUser().then(async () => { 
-            const newRequestGroup = new RequestGroup({...requestGroup})
-            const createdRequestGroup = await newRequestGroup.save()
-
-            return createdRequestGroup
+            return new RequestGroup({...requestGroup}).save()
         })
     },
     updateRequestGroup: async (_, { requestGroup }, { authenticateUser }): Promise<RequestGroupInterface> => {
         return authenticateUser().then(async () => {
-            const oldRequestGroup = await RequestGroup.findById(requestGroup._id)
-            const modifiedRequestGroup = new RequestGroup({...oldRequestGroup, ...requestGroup})
-
-            return modifiedRequestGroup.save()
+            return RequestGroup.findByIdAndUpdate(requestGroup._id, requestGroup, {lean: true})
         })
     },
     deleteRequestGroup: async (_, { _id }, { authenticateUser }): Promise<RequestGroupInterface> => {

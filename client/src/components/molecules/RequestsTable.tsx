@@ -21,13 +21,13 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         fulfillRequest(_id: $_id){
             _id
         }
-    `;
+    }`;
     const deleteRequest = gql`
     mutation deleteRequest($_id: ID) {
         deleteRequest(_id: $_id) {
             _id
         }
-    `;
+    }`;
 
     const [requests, setRequests] = useState(props.requests.filter((request) => request.deleted === false));
 

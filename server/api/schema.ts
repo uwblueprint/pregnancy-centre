@@ -88,7 +88,6 @@ const typeDefs = gql`
         name: String!
         description: String
         image: String
-        requestTypes: [ID]
     }
     input UpdateRequestGroupInput {
         _id: ID!

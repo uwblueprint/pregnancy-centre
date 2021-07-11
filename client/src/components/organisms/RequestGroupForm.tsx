@@ -30,6 +30,8 @@ type Props = StateProps &
         operation: "create" | "edit";
     };
 
+type RequestTypeData = { id: string | null; deleted: boolean };
+
 const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const imageFolder = "request_images";
     const [initialRequestGroup, setInitialRequestGroup] = useState<RequestGroup | null>(null);
@@ -39,13 +41,13 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
     const [images, setImages] = useState([""]);
-    const [requestTypeNames, setRequestTypeNames] = useState<Array<string>>([]);
+    const [requestTypesMap, setRequestTypesMap] = useState<Map<string, RequestTypeData>>(new Map());
     const [nameError, setNameError] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
     const [imageError, setImageError] = useState("");
     const [requestTypesError, setRequestTypesError] = useState("");
     const [loadingRequestGroup, setLoadingRequestGroup] = useState(props.operation === "edit");
-
+    
     useEffect(() => {
         async function getImages() {
             setImages(await getFilesFromFolder(imageFolder));
@@ -53,64 +55,42 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         getImages();
     }, []);
 
+    const createRequestTypeMutation = gql`
+        mutation CreateRequestType($name: String!, $requestGroupId: ID!) {
+            createRequestType(requestType: { name: $name, requestGroup: $requestGroupId }) {
+                _id
+                name
+            }
+        }
+    `;
+
+    const deleteRequestTypeMutation = gql`
+        mutation DeleteRequestType($id: ID!) {
+            deleteRequestType(_id: $id) {
+                _id
+            }
+        }
+    `;
+
     const createRequestGroupMutation = gql`
-        mutation CreateRequestGroup(
-            $name: String!
-            $description: String!
-            $image: String!
-            $requestTypeNames: [String!]!
-        ) {
-            createRequestGroup(
-                requestGroup: {
-                    name: $name
-                    description: $description
-                    image: $image
-                    requestTypeNames: $requestTypeNames
-                }
-            ) {
-                success
-                message
-                id
+        mutation CreateRequestGroup($name: String!, $description: String!, $image: String!) {
+            createRequestGroup(requestGroup: { name: $name, description: $description, image: $image }) {
+                _id
             }
         }
     `;
 
-    const updateRequestGroupMutation = gql`
-        mutation UpdateRequestGroup(
-            $id: ID!
-            $name: String!
-            $description: String!
-            $image: String!
-            $requestTypeNames: [String!]!
-        ) {
-            updateRequestGroup(
-                requestGroup: {
-                    id: $id
-                    name: $name
-                    description: $description
-                    image: $image
-                    requestTypeNames: $requestTypeNames
-                }
-            ) {
-                success
-                message
-                id
-            }
-        }
-    `;
-
-    const [createRequestGroup] = useMutation(createRequestGroupMutation, {
-        onCompleted: () => {
-            props.onSubmitComplete();
-        },
+    const [createRequestType] = useMutation(createRequestTypeMutation, {
         onError: (error) => {
             console.log(error);
         }
     });
-    const [updateRequestGroup] = useMutation(updateRequestGroupMutation, {
-        onCompleted: () => {
-            props.onSubmitComplete();
-        },
+    const [deleteRequestType] = useMutation(deleteRequestTypeMutation, {
+        onError: (error) => {
+            console.log(error);
+        }
+    });
+    const [createRequestGroup] = useMutation(createRequestGroupMutation, {
         onError: (error) => {
             console.log(error);
         }
@@ -118,7 +98,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
     const requestGroupQuery = gql`
         query FetchRequestGroup($id: ID!) {
-            requestGroup(id: $id) {
+            requestGroup(_id: $id) {
                 _id
                 name
                 description
@@ -126,7 +106,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 requestTypes {
                     _id
                     name
-                    deleted
+                    deletedAt
                 }
             }
         }
@@ -143,13 +123,18 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 setName(retrievedRequestGroup.name ? retrievedRequestGroup.name : "");
                 setDescription(retrievedRequestGroup.description ? retrievedRequestGroup.description : "");
                 setImage(retrievedRequestGroup.image ? retrievedRequestGroup.image : "");
-
-                setRequestTypeNames(
+                setRequestTypesMap(
                     retrievedRequestGroup.requestTypes
                         ? retrievedRequestGroup.requestTypes
-                              .filter((requestType) => requestType.name && !requestType.deleted)
-                              .map((requestType) => requestType.name as string)
-                        : []
+                              .filter((requestType) => requestType.name && requestType.deletedAt == null)
+                              .reduce((map, requestType) => {
+                                  map.set(requestType.name, {
+                                      id: requestType._id,
+                                      deleted: false
+                                  });
+                                  return map;
+                              }, new Map())
+                        : new Map()
                 );
             }
         });
@@ -195,7 +180,8 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
     const updateInputRequestTypeNameError = (inputRequestTypeName: string): string => {
         let error = "";
-        if (requestTypeNames.find((requestTypeName) => requestTypeName === inputRequestTypeName)) {
+        const requestTypeData = requestTypesMap.get(inputRequestTypeName);
+        if (requestTypeData != null && requestTypeData.deleted === false) {
             error = "There is already a type with this name";
         } else if (inputRequestTypeName.length > 40) {
             error = "Type name cannot exceed 40 characters";
@@ -205,33 +191,27 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         return error;
     };
 
-    const updateRequestTypeNamesError = (requestTypes: Array<string>): string => {
-        let error = "";
-        if (requestTypes.length === 0) {
-            error = "Please create at least 1 type";
-        }
-
-        setRequestTypesError(error);
-        return error;
-    };
-
     const onAddRequestType = (newRequestTypeName: string) => {
         const error = updateInputRequestTypeNameError(newRequestTypeName);
-
         if (error === "") {
-            setRequestTypeNames(requestTypeNames.concat([newRequestTypeName]));
+            const newRequestTypeData: RequestTypeData = requestTypesMap.get(newRequestTypeName) ?? {
+                id: null,
+                deleted: false
+            };
+            newRequestTypeData.deleted = false;
+            setRequestTypesMap(new Map(requestTypesMap).set(newRequestTypeName, newRequestTypeData));
         }
         setChangeMade(true);
     };
 
     const onDeleteRequestType = (targetRequestTypeName: string) => {
-        const newRequestTypeNames = requestTypeNames.filter(
-            (requestTypeName) => requestTypeName !== targetRequestTypeName
-        );
-
-        setChangeMade(true);
-        setRequestTypeNames(newRequestTypeNames);
-        updateRequestTypeNamesError(newRequestTypeNames);
+        const requestTypeValue = requestTypesMap.get(targetRequestTypeName);
+        if (requestTypeValue != null) {
+            setChangeMade(true);
+            setRequestTypesMap(
+                new Map(requestTypesMap).set(targetRequestTypeName, { ...requestTypeValue, deleted: true })
+            );
+        }
     };
 
     const onInputRequestTypeNameChange = (requestTypeName: string) => {
@@ -280,20 +260,78 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         }
     };
 
+    const handleEmptyRequestTypesMap = (requestTypesMap: Map<string, RequestTypeData>): void => {
+        if (
+            Array.from(requestTypesMap.values()).filter((requestTypeData) => requestTypeData.deleted === false)
+                .length === 0
+        ) {
+            const newRequestTypeData: RequestTypeData = {
+                id: null,
+                deleted: false
+            };
+            const requestTypeEmptyName = "One Size";
+            const map: Map<string, RequestTypeData> = new Map();
+            map.set(requestTypeEmptyName, newRequestTypeData);
+            setRequestTypesMap(map);
+        }
+    };
+
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const tempNameError = updateNameError(name);
         const tempDescriptionError = updateDescriptionError(description);
         const tempImageError = updateImageError(image);
-        const tempRequestTypesError = updateRequestTypeNamesError(requestTypeNames);
+        handleEmptyRequestTypesMap(requestTypesMap);
 
-        if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
+        if (!tempNameError && !tempDescriptionError && !tempImageError) {
             if (props.operation === "create") {
-                createRequestGroup({ variables: { name, description, image, requestTypeNames } });
+                let requestGroupId: string | null = null;
+                const newRequestTypeNames = Array.from(requestTypesMap)
+                    .filter(([_requestTypeName, requestTypeData]) => requestTypeData.deleted === false)
+                    .map(([requestTypeName, _requestTypeData]) => requestTypeName);
+                createRequestGroup({ variables: { name, description, image } })
+                    .then((response) => {
+                        requestGroupId = response.data.createRequestGroup._id;
+                        const createRequestTypePromises = newRequestTypeNames.map((requestTypeName) =>
+                            createRequestType({ variables: { name: requestTypeName, requestGroupId } })
+                        );
+                        return Promise.all(createRequestTypePromises);
+                    })
+                    .then(() => {
+                        props.onSubmitComplete();
+                    });
             } else {
-                updateRequestGroup({
-                    variables: { id: props.requestGroupId, name, description, image, requestTypeNames }
-                });
+                const newRequestTypeNames = Array.from(requestTypesMap)
+                    .filter(
+                        ([_requestTypeName, requestTypeData]) =>
+                            requestTypeData.id == null && requestTypeData.deleted === false
+                    )
+                    .map(([requestTypeName, _requestTypeData]) => requestTypeName);
+                const deletedRequestTypeIds = Array.from(requestTypesMap.values())
+                    .filter((requestTypeData) => requestTypeData.id != null && requestTypeData.deleted === true)
+                    .map((requestTypeData) => requestTypeData.id);
+
+                const createRequestTypePromises = newRequestTypeNames.map((requestTypeName) =>
+                    createRequestType({
+                        variables: { name: requestTypeName, requestGroupId: initialRequestGroup?._id }
+                    })
+                );
+                Promise.all(createRequestTypePromises)
+                    .then((responses) => {
+                        const requestTypesMapWithNewIds = new Map(requestTypesMap);
+                        responses.forEach((response) => {
+                            const data = response.data.createRequestType;
+                            requestTypesMapWithNewIds.set(data.name, { id: data._id, deleted: false });
+                        });
+
+                        const deleteRequestTypePromises = deletedRequestTypeIds.map((requestTypeId) =>
+                            deleteRequestType({ variables: { id: requestTypeId } })
+                        );
+                        return Promise.all(deleteRequestTypePromises);
+                    })
+                    .then(() => {
+                        props.onSubmitComplete();
+                    });
             }
             props.handleClose();
         }
@@ -355,14 +393,18 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                     <div className="tag-input-form-item">
                         <FormItem
                             formItemName="Types"
-                            instructions="If no types are applicable, create a universal type such as “One Size”"
+                            instructions="If no types are applicable for this item, the “One Size” type will be created automatically."
                             errorString={requestTypesError}
                             isDisabled={false}
                             tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
                             showErrorIcon={false}
                             inputComponent={
                                 <TagInput
-                                    tagStrings={requestTypeNames}
+                                    tagStrings={Array.from(requestTypesMap)
+                                        .filter(
+                                            ([_requestTypeName, requestTypeData]) => requestTypeData.deleted === false
+                                        )
+                                        .map(([requestTypeName, _requestTypeData]) => requestTypeName)}
                                     placeholder="Create a type for the need"
                                     actionString="Add new type:"
                                     isErroneous={requestTypesError !== ""}
