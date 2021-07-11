@@ -26,7 +26,6 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     const [warningText, setWarningText] = useState("");
     const [cropFieldHeight, setCropFieldHeight] = useState(0);
     const [cropFieldWidth, setCropFieldWidth] = useState(0);
-    const { selected, images, onImageChange, isErroneous, onUploadImg, uploadedImg } = props;
     const cropRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -73,7 +72,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                     triggerWarning("Images must be at least 600 x 430 pixels");
                 } else {
                     setWarningText("");
-                    onUploadImg(imgStr);
+                    props.onUploadImg(imgStr);
                 }
             },
             false
@@ -82,8 +81,8 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     };
 
     const clearImage = () => {
-        onUploadImg("");
-        onImageChange("");
+        props.onUploadImg("");
+        props.onImageChange("");
     };
 
     const changeZoom = (amount: number) => {
@@ -102,7 +101,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
             setWarningText("");
         }, 4000);
     };
-    const imgInView = selected !== "" || uploadedImg !== "";
+    const imgInView = props.selected !== "" || props.uploadedImg !== "";
     return (
         <div className="imagepicker">
             {warningText !== "" && <WarningBox text={warningText} />}
@@ -113,13 +112,13 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                 >
                     <i className="bi bi-trash"></i>
                 </button>
-                {selected.length ? (
-                    <img src={selected} />
+                {props.selected.length ? (
+                    <img src={props.selected} />
                 ) : (
-                    <div className={isErroneous ? "error" : "unselected"} ref={cropRef} id="cropField">
-                        {uploadedImg !== "" ? (
+                    <div className={props.isErroneous ? "error" : "unselected"} ref={cropRef} id="cropField">
+                        {props.uploadedImg !== "" ? (
                             <Cropper
-                                image={uploadedImg}
+                                image={props.uploadedImg}
                                 crop={crop}
                                 zoom={zoom}
                                 onCropChange={setCrop}
@@ -148,7 +147,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                     </div>
                 )}
             </div>
-            <div className={uploadedImg === "" ? "imagepicker-hidden" : "imagepicker-crop-controls"}>
+            <div className={props.uploadedImg === "" ? "imagepicker-hidden" : "imagepicker-crop-controls"}>
                 <button className="btn imagepicker-minus" onClick={() => changeZoom(-0.1)}>
                     <i className="bi bi-dash"></i>
                 </button>
@@ -168,7 +167,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                     <i className="bi bi-plus"></i>
                 </button>
             </div>
-            {images.length > 1 && <ImageList selected={selected} images={images} onImageChange={onImageChange} />}
+            {props.images.length > 1 && <ImageList selected={props.selected} images={props.images} onImageChange={props.onImageChange} />}
         </div>
     );
 };
