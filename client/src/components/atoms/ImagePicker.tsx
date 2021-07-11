@@ -37,14 +37,13 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     };
     const handleOnDrop = (acceptedFiles: File[]) => {
         const file = acceptedFiles[0];
-        let validFile = true;
         if (file.size > 6000000) {
             triggerWarning("Images must be less than 5MB");
-            validFile = false;
+            return;
         }
         if (file.type !== "image/png" && file.type !== "image/jpeg") {
             triggerWarning("Images must be in either JPEG or PNG format");
-            validFile = false;
+            return;
         }
         const fileReader = new FileReader();
         fileReader.addEventListener(
@@ -62,9 +61,8 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                 const dimensions = await getImageDimensions(imgStr);
                 if (dimensions.width < 600 || dimensions.height < 430) {
                     triggerWarning("Images must be at least 600 x 430 pixels");
-                    validFile = false;
                 }
-                if (validFile) {
+                else {
                     setWarningText("");
                     onUploadImg(imgStr);
                 }
