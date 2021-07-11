@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
 import Dropzone from "react-dropzone";
 import ImageList from "./ImageList";
@@ -24,7 +24,17 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
     const [warningText, setWarningText] = useState("");
+    const [cropFieldHeight, setCropFieldHeight] = useState(0);
+    const [cropFieldWidth, setCropFieldWidth] = useState(0);
     const { selected, images, onImageChange, isErroneous, onUploadImg, uploadedImg } = props;
+    const cropRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if(cropRef.current) {
+            setCropFieldHeight(cropRef.current.offsetHeight);
+            setCropFieldWidth(cropRef.current.offsetWidth);
+        }
+    }, [cropRef])
 
     const getImageDimensions = async (file: string): Promise<Dimensions> => {
         return new Promise((resolved) => {
@@ -106,7 +116,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                 {selected.length ? (
                     <img src={selected} />
                 ) : (
-                    <div className={isErroneous ? "error" : "unselected"} id="cropField">
+                    <div className={isErroneous ? "error" : "unselected"} ref={cropRef} id="cropField">
                         {uploadedImg !== "" ? (
                             <Cropper
                                 image={uploadedImg}
@@ -116,8 +126,8 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                                 onZoomChange={setZoom}
                                 maxZoom={10}
                                 cropSize={{
-                                    height: document.getElementById("cropField")!.offsetHeight,
-                                    width: document.getElementById("cropField")!.offsetWidth
+                                    height: cropFieldHeight,
+                                    width: cropFieldWidth
                                 }}
                                 showGrid={false}
                             />
