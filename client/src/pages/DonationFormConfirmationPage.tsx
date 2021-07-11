@@ -6,7 +6,7 @@ import DonationFormPage from "../components/layouts/DonationFormPage";
 
 interface Props {
     donorEmail: string;
-    pageNumber: number; // Index starting at 1
+    pageNumber: number; // Index starting at 0
     steps: Array<string>;
 }
 

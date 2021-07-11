@@ -8,8 +8,9 @@ const DonationFormItemDetailsPageContainer: FunctionComponent<Record<string, nev
         <DonationFormItemDetailsPage
             initialDonationForms={[]}
             onNext={(donationForms) => console.log(donationForms)}
+            onPrevious={(donationForms) => console.log(donationForms)}
             steps={steps}
-            pageNumber={2}
+            pageNumber={1}
         />
     );
 };
