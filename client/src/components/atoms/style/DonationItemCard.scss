@@ -1,66 +1,66 @@
 .donation-item-card {
-  display: flex;
-  flex-direction: row;
-  padding: 18px;
-  background-color: $donation-item-card-color;
-  border-left: 35px solid $tpc-green;
-  border-radius: 10px;
-
-  .item-details {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    width: 93%;
+    padding: 18px;
+    background-color: $donation-item-card-color;
+    border-left: 35px solid $tpc-green;
+    border-radius: 10px;
 
-    h1 {
-      @include semibold-text;
-      width: 100%;
-      font-size: 16px;
-      line-height: 24px;
-      color: black;
-    }
-  }
+    .item-details {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 93%;
 
-  .item-attribute-field {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    width: 30%;
-    margin-bottom: 6px;
-
-    h2 {
-      @include semibold-text;
-      font-size: 14px;
-      color: $donation-item-details-text-color;
-      line-height: 24px;
-      margin-right: 4px;
-      margin-bottom: 0px;
+        h1 {
+            @include semibold-text;
+            width: 100%;
+            font-size: 16px;
+            line-height: 24px;
+            color: black;
+        }
     }
 
-    h3 {
-      @include light-text;
-      font-size: 14px;
-      color: $donation-item-details-text-color;
-      line-height: 24px;
-      margin-bottom: 0px;
-      white-space: pre-wrap;
+    .item-attribute-field {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        width: 30%;
+        margin-bottom: 6px;
+
+        h2 {
+            @include semibold-text;
+            font-size: 14px;
+            color: $donation-item-details-text-color;
+            line-height: 24px;
+            margin-right: 4px;
+            margin-bottom: 0px;
+        }
+
+        h3 {
+            @include light-text;
+            font-size: 14px;
+            color: $donation-item-details-text-color;
+            line-height: 24px;
+            margin-bottom: 0px;
+            white-space: pre-wrap;
+        }
     }
-  }
 
-  .item-description-field {
-    width: 100%;
-    margin-bottom: 0;
-  }
-
-  .action-icons {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: flex-end;
-    width: 7%;
-
-    i {
-      margin-left: 30%;
+    .item-description-field {
+        width: 100%;
+        margin-bottom: 0;
     }
-  }
+
+    .action-icons {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: flex-end;
+        width: 7%;
+
+        i {
+            margin-left: 30%;
+        }
+    }
 }

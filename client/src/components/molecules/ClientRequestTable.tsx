@@ -12,10 +12,12 @@ interface Props {
     onChangeNumRequests?: (num: number) => void;
 }
 
-const RequestsTable: FunctionComponent<Props> = (props: Props) => {
+const ClientRequestTable: FunctionComponent<Props> = (props: Props) => {
     const [requestSelectedForEditing, setRequestSelectedForEditing] = useState("");
 
-    const headingList = ["Fulfilled", "Client Name", "Quantity", "Date Requested", ""];
+    const headingList = ["Fulfilled", "Request Group", "Request Type", "Quantity", "Date Requested", ""];
+
+    // CONFUSIONNNN
     const updateRequest = gql`
         mutation updateRequest($request: RequestInput) {
             updateRequest(request: $request) {
@@ -25,6 +27,8 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             }
         }
     `;
+
+    // CONFUSIONNNN
     const softDeleteRequest = gql`
         mutation deleteRequest($id: ID) {
             softDeleteRequest(id: $id) {
@@ -39,7 +43,6 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
 
     useEffect(() => {
         console.log("hoi");
-        // Your code here
         const nonFulfilledRequests = requests.filter((request) => {
             if (request !== undefined) {
                 if (request.fulfilled === false) {
@@ -78,6 +81,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         setRequests(requestsCopy);
         mutateDeleteRequest({ variables: { id: id } });
     };
+
     const onFulfilledRequest = (index: number) => {
         const requestsCopy = requests.slice();
         const req = { ...requestsCopy[index] };
@@ -119,9 +123,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                     requestId={requestSelectedForEditing}
                 />
             )}
-            {requests.length === 0 ? (
-                <p className="request-table-empty-message">There are currently no requests in this type</p>
-            ) : (
+            {props.onChangeNumRequests && (
                 <Table responsive className="request-table">
                     <thead>
                         <tr>
@@ -145,9 +147,16 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                                             />
                                         </div>
                                     </td>
-                                    {request.client !== null ? (
+                                    {request?.requestType?.requestGroup !== null ? (
                                         <td style={requests[index].fulfilled ? { opacity: 0.2 } : undefined}>
-                                            <div className="row-text-style">{request.client!.fullName}</div>
+                                            <div className="row-text-style">{request?.requestType?.requestGroup}</div>
+                                        </td>
+                                    ) : (
+                                        <td>N/A</td>
+                                    )}
+                                    {request.requestType !== null ? (
+                                        <td style={requests[index].fulfilled ? { opacity: 0.2 } : undefined}>
+                                            <div className="row-text-style">{request.requestType}</div>
                                         </td>
                                     ) : (
                                         <td>N/A</td>
@@ -194,4 +203,4 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     );
 };
 
-export default RequestsTable;
+export default ClientRequestTable;
