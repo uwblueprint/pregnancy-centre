@@ -1,7 +1,5 @@
-import { bindActionCreators, Dispatch } from "redux";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { connect } from "react-redux";
 
 import FormItem from "../molecules/FormItem";
 import FormModal from "./FormModal";
@@ -9,26 +7,15 @@ import { getFilesFromFolder } from "../../services/storage";
 import ImagePicker from "../atoms/ImagePicker";
 import RequestGroup from "../../data/types/requestGroup";
 import RichTextField from "../atoms/RichTextField";
-import { RootState } from "../../data/reducers";
 import { TagInput } from "../atoms/TagInput";
 import { TextField } from "../atoms/TextField";
-import { upsertRequestGroup } from "../../data/actions";
 
-interface StateProps {
-    requestGroups: Array<RequestGroup>;
-}
-
-interface DispatchProps {
-    upsertRequestGroup: typeof upsertRequestGroup;
-}
-
-type Props = StateProps &
-    DispatchProps & {
-        handleClose: () => void;
-        onSubmitComplete: () => void;
-        requestGroupId?: string;
-        operation: "create" | "edit";
-    };
+type Props = {
+    handleClose: () => void;
+    onSubmitComplete: () => void;
+    requestGroupId?: string;
+    operation: "create" | "edit";
+};
 
 type RequestTypeData = { id: string | null; deleted: boolean };
 
@@ -47,6 +34,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [imageError, setImageError] = useState("");
     const [requestTypesError, setRequestTypesError] = useState("");
     const [loadingRequestGroup, setLoadingRequestGroup] = useState(props.operation === "edit");
+    const [requestGroupsMap, setRequestGroupsMap] = useState<Map<string, RequestGroup>>(new Map());
     
     useEffect(() => {
         async function getImages() {
@@ -111,6 +99,32 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             }
         }
     `;
+    
+    const fetchRequestGroupsQuery = gql`
+        query FetchRequestGroups {
+            requestGroups {
+                _id
+                name
+            }
+        }
+    `;
+
+    useQuery(fetchRequestGroupsQuery, {
+        fetchPolicy: "network-only",
+        onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
+            const requestGroups: Array<RequestGroup> = JSON.parse(JSON.stringify(data.requestGroups)); // deep-copy since data object is frozen
+
+            const map = new Map(
+                requestGroups.reduce((entries, requestGroup) => {
+                    if (requestGroup && requestGroup.name) {
+                        entries.push([requestGroup.name, requestGroup]);
+                    }
+                    return entries;
+                }, [] as Array<[string, RequestGroup]>)
+            );
+            setRequestGroupsMap(map);
+        }
+    });
 
     if (props.operation === "edit") {
         const { loading } = useQuery(requestGroupQuery, {
@@ -155,11 +169,8 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         if (name.length > 20) {
             error = "Need name cannot exceed 20 characters";
         }
-        if (
-            props.requestGroups.find(
-                (requestGroup) => requestGroup.name === name && requestGroup._id !== props.requestGroupId
-            )
-        ) {
+        const existingNameRequestGroup = requestGroupsMap.get(name);
+        if (existingNameRequestGroup && existingNameRequestGroup._id !== props.requestGroupId) {
             error = "There is already a need with this name";
         }
 
@@ -316,19 +327,10 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         variables: { name: requestTypeName, requestGroupId: initialRequestGroup?._id }
                     })
                 );
-                Promise.all(createRequestTypePromises)
-                    .then((responses) => {
-                        const requestTypesMapWithNewIds = new Map(requestTypesMap);
-                        responses.forEach((response) => {
-                            const data = response.data.createRequestType;
-                            requestTypesMapWithNewIds.set(data.name, { id: data._id, deleted: false });
-                        });
-
-                        const deleteRequestTypePromises = deletedRequestTypeIds.map((requestTypeId) =>
-                            deleteRequestType({ variables: { id: requestTypeId } })
-                        );
-                        return Promise.all(deleteRequestTypePromises);
-                    })
+                const deleteRequestTypePromises = deletedRequestTypeIds.map((requestTypeId) =>
+                    deleteRequestType({ variables: { id: requestTypeId } })
+                );
+                Promise.all(createRequestTypePromises.concat(deleteRequestTypePromises))
                     .then(() => {
                         props.onSubmitComplete();
                     });
@@ -462,22 +464,4 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     );
 };
 
-const mapStateToProps = (store: RootState): StateProps => {
-    return {
-        requestGroups: store.requestGroups.data
-    };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
-    return bindActionCreators(
-        {
-            upsertRequestGroup
-        },
-        dispatch
-    );
-};
-
-export default connect<StateProps, DispatchProps, Record<string, unknown>, RootState>(
-    mapStateToProps,
-    mapDispatchToProps
-)(RequestGroupForm);
+export default RequestGroupForm;

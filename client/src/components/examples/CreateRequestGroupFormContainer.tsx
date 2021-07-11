@@ -1,4 +1,6 @@
-import { bindActionCreators, Dispatch } from "redux";
+// outdated
+
+/**import { bindActionCreators, Dispatch } from "redux";
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 import { connect } from "react-redux";
@@ -62,4 +64,5 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
 export default connect<Record<string, unknown>, DispatchProps, Record<string, unknown>, RootState>(
     null,
     mapDispatchToProps
-)(CreateRequestGroupFormContainer);
+)(CreateRequestGroupFormContainer);**/
+export default {};

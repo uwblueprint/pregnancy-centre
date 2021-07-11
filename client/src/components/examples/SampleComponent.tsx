@@ -1,4 +1,6 @@
-/* Imports from packages */
+// outdated
+
+/** Imports from packages 
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent } from "react";
 
@@ -54,4 +56,5 @@ const SampleComponent: FunctionComponent<Props> = (props: Props) => {
 };
 
 export type { DispatchProps, Props, StateProps };
-export default SampleComponent;
+export default SampleComponent;**/
+export default {};
