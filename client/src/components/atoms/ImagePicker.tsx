@@ -30,11 +30,11 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     const cropRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if(cropRef.current) {
+        if (cropRef.current) {
             setCropFieldHeight(cropRef.current.offsetHeight);
             setCropFieldWidth(cropRef.current.offsetWidth);
         }
-    }, [cropRef])
+    }, [cropRef]);
 
     const getImageDimensions = async (file: string): Promise<Dimensions> => {
         return new Promise((resolved) => {
