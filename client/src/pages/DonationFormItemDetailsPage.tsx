@@ -114,6 +114,8 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
                     }`}
                 </span>
             }
+            includeContentHeader={true}
+            includeFooter={true}
             nextButtonText="Next"
             onNextPage={onChangePage}
             onPreviousPage={onChangePage}

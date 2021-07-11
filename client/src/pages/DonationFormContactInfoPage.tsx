@@ -112,6 +112,8 @@ const DonationFormContactInfoPage: FunctionComponent<Props> = (props: Props) => 
     return (
         <DonationFormPage
             className="donation-form-contact-info-page"
+            includeContentHeader={true}
+            includeFooter={true}
             nextButtonText="Next"
             onNextPage={onNext}
             pageName="Contact Information"
