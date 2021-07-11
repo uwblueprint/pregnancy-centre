@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent } from "react";
 
-import Tooltip from '../atoms/Tooltip'
+import Tooltip from "../atoms/Tooltip";
 
 interface Props {
     formItemName: string;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const FormItem: FunctionComponent<Props> = (props: Props) => {
-    const isError = props.errorString.length > 0
+    const isError = props.errorString.length > 0;
 
     return (
         <div className="form-item">
@@ -23,17 +23,13 @@ const FormItem: FunctionComponent<Props> = (props: Props) => {
                 </span>
                 {isError && <span className="form-item-error-text">{props.errorString}</span>}
             </div>
-            {props.instructions &&
-                <div className="form-item-instructions">
-                    {props.instructions}
-                </div>
-            }
+            {props.instructions && <div className="form-item-instructions">{props.instructions}</div>}
             <div className="form-item-bottom">
                 {props.inputComponent}
                 {isError && <i className="form-item-error-icon bi bi-exclamation-circle alert-icon"></i>}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default FormItem
+export default FormItem;

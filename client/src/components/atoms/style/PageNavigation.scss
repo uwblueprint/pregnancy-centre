@@ -1,81 +1,81 @@
 .pagination {
-  @include transparent;
+    @include transparent;
 }
 
 .page-link {
-  @include transparent;
-  border-radius: 50%;
-  padding: 0 5px;
+    @include transparent;
+    border-radius: 50%;
+    padding: 0 5px;
 
-  &:focus {
-    box-shadow: none !important;
-    border-color: transparent !important;
-  }
+    &:focus {
+        box-shadow: none !important;
+        border-color: transparent !important;
+    }
 }
 
 .page-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  width: 35px;
-  height: 35px;
+    width: 35px;
+    height: 35px;
 
-  margin-left: 6px;
-  margin-right: 6px;
+    margin-left: 6px;
+    margin-right: 6px;
 
-  .page-number {
-    @include heavy-text;
-    font-size: 15px;
-    line-height: 18px;
-    letter-spacing: 0.05em;
-  }
-
-  &:focus {
-    border-color: none;
-  }
-
-  &.active {
-    @include normal-button;
-    border-radius: 50%;
-    .page-link {
-      background-color: $button-background;
-      border-color: $button-background;
+    .page-number {
+        @include heavy-text;
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: 0.05em;
     }
 
-    &:hover {
-      background-color: $button-background;
-      border-radius: 50%;
-      text-decoration: none;
+    &:focus {
+        border-color: none;
     }
-  }
 
-  &.inactive .page-link {
-    color: black;
-  }
+    &.active {
+        @include normal-button;
+        border-radius: 50%;
+        .page-link {
+            background-color: $button-background;
+            border-color: $button-background;
+        }
+
+        &:hover {
+            background-color: $button-background;
+            border-radius: 50%;
+            text-decoration: none;
+        }
+    }
+
+    &.inactive .page-link {
+        color: black;
+    }
 }
 
 .page-arrow {
-  width: 48px;
-  font-size: 30px;
+    width: 48px;
+    font-size: 30px;
 
-  .page-link {
-    color: $button-background;
-    @include transparent;
-  }
-
-  .prev-arrow {
-    margin: 0;
-  }
-
-  &.disabled {
-    // &.next-arrow {
-    //   padding-left: 7px;
-    // }
     .page-link {
-      color: $button-disabled-background;
-      align-self: center;
-      @include transparent;
+        color: $button-background;
+        @include transparent;
     }
-  }
+
+    .prev-arrow {
+        margin: 0;
+    }
+
+    &.disabled {
+        // &.next-arrow {
+        //   padding-left: 7px;
+        // }
+        .page-link {
+            color: $button-disabled-background;
+            align-self: center;
+            @include transparent;
+        }
+    }
 }

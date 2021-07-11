@@ -6,8 +6,8 @@ $border-line: 1px solid #e7e7e7;
 $background: white;
 $selected-item-background: #f7f7f7;
 @mixin transparent() {
-  background: none;
-  border: none;
+    background: none;
+    border: none;
 }
 
 /* Text Config */
@@ -33,88 +33,88 @@ $window-border-color: #d7d7d7;
 $tpc-green: #004d57;
 
 @mixin text() {
-  font-family: $font-stack;
-  font-style: normal;
-  font-weight: normal;
+    font-family: $font-stack;
+    font-style: normal;
+    font-weight: normal;
 }
 
 @mixin normal-text() {
-  @include text;
-  color: $normal-text-color;
+    @include text;
+    color: $normal-text-color;
 }
 
 @mixin error-text() {
-  @include text;
-  color: $error-faded-color;
+    @include text;
+    color: $error-faded-color;
 }
-  
-@mixin small-text(){
-  @include text;
-  font-size: 14px;
+
+@mixin small-text() {
+    @include text;
+    font-size: 14px;
 }
 
 @mixin white-text() {
-  @include text;
-  color: $white-text-color;
+    @include text;
+    color: $white-text-color;
 }
 
 @mixin faded-text() {
-  @include text;
-  color: $faded-text-color;
+    @include text;
+    color: $faded-text-color;
 }
 
 @mixin alt-faded-text() {
-  @include text;
-  color: $alt-faded-text-color;
+    @include text;
+    color: $alt-faded-text-color;
 }
 
 @mixin tpc-green-text() {
-  @include text;
-  color: $tpc-green;
+    @include text;
+    color: $tpc-green;
 }
 
 @mixin error-text() {
-  @include text;
-  color: $error-color;
+    @include text;
+    color: $error-color;
 }
 
 @mixin section-header-text() {
-  @include text;
-  color: $section-header-text-color;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 18px;
-  letter-spacing: 0.05em;
+    @include text;
+    color: $section-header-text-color;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 18px;
+    letter-spacing: 0.05em;
 }
 
 @mixin table-text() {
-  @include text;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 18px;
-  letter-spacing: 0.2px;
+    @include text;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 0.2px;
 }
 
 @mixin semibold-text() {
-  @include text;
-  font-weight: 500;
+    @include text;
+    font-weight: 500;
 }
 
 @mixin heavy-text() {
-  @include text;
-  font-weight: 600;
+    @include text;
+    font-weight: 600;
 }
 
 @mixin bold-text() {
-  @include text;
-  font-weight: 800;
+    @include text;
+    font-weight: 800;
 }
 
 @mixin light-text() {
-  @include text;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+    @include text;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
 }
 
 /* Button Config */
@@ -124,53 +124,53 @@ $button-disabled-background: #b2b2b2;
 $admin-request-group-browser-button-color: #fbfbfb;
 
 @mixin button-base() {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 19px;
-  text-align: center;
-  border-width: 1px;
-  border-radius: $box-border-radius;
-  box-shadow: none;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    text-align: center;
+    border-width: 1px;
+    border-radius: $box-border-radius;
+    box-shadow: none;
 }
 
 @mixin alt-button() {
-  @include button-base;
-  @include tpc-green-text;
-  background-color: $background;
-  border-color: $tpc-green;
+    @include button-base;
+    @include tpc-green-text;
+    background-color: $background;
+    border-color: $tpc-green;
 }
 
 @mixin normal-button() {
-  @include button-base;
-  @include white-text;
-  background-color: $button-background;
-  border-color: $button-background;
+    @include button-base;
+    @include white-text;
+    background-color: $button-background;
+    border-color: $button-background;
 
-  &:hover,
-  &:active,
-  &:visited {
-    @include alt-button;
-  }
+    &:hover,
+    &:active,
+    &:visited {
+        @include alt-button;
+    }
 }
 
 @mixin tpc-green-button() {
-  @include button-base;
-  @include white-text;
-  background-color: $tpc-green;
-  border-color: $tpc-green;
+    @include button-base;
+    @include white-text;
+    background-color: $tpc-green;
+    border-color: $tpc-green;
 }
 
 /* Disable scrollbar for overflow */
 
 @mixin disable-scrollbar() {
-  /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  &::-webkit-scrollbar {
-    display: none;
-  }
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 /* Search Bar Config */
@@ -183,30 +183,30 @@ $tag-background-hover: #d3d3d3;
 
 /* Table Config */
 @mixin table-base {
-  font-family: "Inter";
-  margin-top: 20px;
+    font-family: "Inter";
+    margin-top: 20px;
 
-  .a {
-    color: $grey-text-color;
-  }
+    .a {
+        color: $grey-text-color;
+    }
 
-  & td {
-    border-top: unset;
-  }
+    & td {
+        border-top: unset;
+    }
 
-  thead th {
-    @include heavy-text();
-    font-size: 14px;
-    line-height: 18px;
-    letter-spacing: 0.2px;
-    color: #969696;
-    padding: 11px 12px;
-  }
+    thead th {
+        @include heavy-text();
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 0.2px;
+        color: #969696;
+        padding: 11px 12px;
+    }
 
-  tbody tr {
-    @include table-text();
-    font-size: 16px;
-  }
+    tbody tr {
+        @include table-text();
+        font-size: 16px;
+    }
 }
 
 /* Modal Config */
@@ -217,7 +217,7 @@ $faint-input-error: #e7b0b5;
 $tpc-green-hover: #00363e;
 
 @mixin input-icon() {
-  color: $input-icon-color;
+    color: $input-icon-color;
 }
 
 /* Dropdown Config */
@@ -227,7 +227,7 @@ $admin-request-group-browser-dropdown-shadow-color: #dbdbdb;
 $soft-black: #333333;
 $textfield-input-border: #797979;
 $dark-border: 1px solid $dark-border-color;
-$disabled-input-border-color: #D7D7D7;
+$disabled-input-border-color: #d7d7d7;
 
 /* ScrollWindow Config */
 $scroll-bar-color: #c4c4c4;
@@ -238,5 +238,5 @@ $auth-modal-content-width: 385px;
 
 /* Admin Homepage */
 $dark-gray: #333333;
-$page-arrow-color: #3E3E3E;
-$page-arrow-disabled-color: #B7B7B7;
+$page-arrow-color: #3e3e3e;
+$page-arrow-disabled-color: #b7b7b7;

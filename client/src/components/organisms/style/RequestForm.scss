@@ -2,93 +2,93 @@ $request-form-input-width: 373px;
 $request-form-text-field-height: 45px;
 
 .request-form {
-  position: absolute;
+    position: absolute;
 
-  &-modal {
-    &-content {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    & .form-item {
-      margin-top: 23px;
-    }
-
-    .line-medium {
-      width: $request-form-input-width;
-    }
-
-    .text-field {
-      width: $request-form-input-width;
-      height: $request-form-text-field-height;
-    }
-
-    .searchable-dropdown {
-      margin: 0;
-
-      .dropdown {
-        width: $request-form-input-width;
-
-        .scroll-window{
-          max-height: 146px;
+    &-modal {
+        &-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-      }
-    }
 
-    .form-item-top {
-      width: $request-form-input-width;
-    }
-
-    .form-item-error-icon {
-      margin-top: 8px;
-    }
-
-    .searchable-dropdown {
-      width: $request-form-input-width;
-    }
-
-    .searchable-tag-dropdown-form-item {
-      width: $request-form-input-width;
-    }
-
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    &-footer {
-      padding-right: 60px;
-      margin-top: 35px;
-      margin-bottom: 30px;
-      & .button {
-        float: right;
-        padding: 12px 33px;
-
-        background-color: $tpc-green;
-        &:hover {
-          background-color: $tpc-green-hover;
-          color: $white-text-color;
+        & .form-item {
+            margin-top: 23px;
         }
-      }
-    }
 
-    .alert-dialog {
-      position: fixed;
-      left: 12px;
-      margin-top: -250px;
-    }
+        .line-medium {
+            width: $request-form-input-width;
+        }
 
-    &-loading-content {
-      min-height: 500px;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-    }
+        .text-field {
+            width: $request-form-input-width;
+            height: $request-form-text-field-height;
+        }
 
-    .spinner {
-      align-self: center;
+        .searchable-dropdown {
+            margin: 0;
+
+            .dropdown {
+                width: $request-form-input-width;
+
+                .scroll-window {
+                    max-height: 146px;
+                }
+            }
+        }
+
+        .form-item-top {
+            width: $request-form-input-width;
+        }
+
+        .form-item-error-icon {
+            margin-top: 8px;
+        }
+
+        .searchable-dropdown {
+            width: $request-form-input-width;
+        }
+
+        .searchable-tag-dropdown-form-item {
+            width: $request-form-input-width;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        &-footer {
+            padding-right: 60px;
+            margin-top: 35px;
+            margin-bottom: 30px;
+            & .button {
+                float: right;
+                padding: 12px 33px;
+
+                background-color: $tpc-green;
+                &:hover {
+                    background-color: $tpc-green-hover;
+                    color: $white-text-color;
+                }
+            }
+        }
+
+        .alert-dialog {
+            position: fixed;
+            left: 12px;
+            margin-top: -250px;
+        }
+
+        &-loading-content {
+            min-height: 500px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .spinner {
+            align-self: center;
+        }
     }
-  }
 }

@@ -1,6 +1,8 @@
 .request-type-list-item {
     border-bottom: $border-line;
-    &.list-group-item, &.list-group-item:last-child { // overwrite React Bootstrap styling
+    &.list-group-item,
+    &.list-group-item:last-child {
+        // overwrite React Bootstrap styling
         border-bottom: $border-line;
     }
 
