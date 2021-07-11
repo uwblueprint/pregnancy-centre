@@ -76,13 +76,14 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
         onImageChange("");
     };
 
-    const changeZoom = (increment: boolean) => {
+    const changeZoom = (amount: number) => {
+        const increment: boolean = amount > 0;
         if (increment) {
             if (zoom >= 10) return;
-            setZoom(zoom + 0.1);
+            setZoom(zoom + amount);
         } else {
             if (zoom <= 1) return;
-            setZoom(zoom - 0.1);
+            setZoom(zoom - amount);
         }
     };
     const triggerWarning = (text: string) => {
@@ -138,7 +139,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                 )}
             </div>
             <div className={uploadedImg === "" ? "imagepicker-hidden" : "imagepicker-crop-controls"}>
-                <button className="btn imagepicker-minus" onClick={() => changeZoom(false)}>
+                <button className="btn imagepicker-minus" onClick={() => changeZoom(-0.1)}>
                     <i className="bi bi-dash"></i>
                 </button>
                 <div className="imagepicker-slider">
@@ -153,7 +154,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                         }}
                     />
                 </div>
-                <button className="btn imagepicker-plus" onClick={() => changeZoom(true)}>
+                <button className="btn imagepicker-plus" onClick={() => changeZoom(0.1)}>
                     <i className="bi bi-plus"></i>
                 </button>
             </div>
