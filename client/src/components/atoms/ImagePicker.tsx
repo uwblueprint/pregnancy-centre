@@ -23,7 +23,6 @@ interface Dimensions {
 const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
-    const [showWarning, setShowWarning] = useState(false);
     const [warningText, setWarningText] = useState("");
     const { selected, images, onImageChange, isErroneous, onUploadImg, uploadedImg } = props;
 
@@ -66,7 +65,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                     validFile = false;
                 }
                 if (validFile) {
-                    setShowWarning(false);
+                    setWarningText("");
                     onUploadImg(imgStr);
                 }
             },
@@ -98,7 +97,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     const imgInView = selected !== "" || uploadedImg !== "";
     return (
         <div className="imagepicker">
-            { warningText !== "" && <WarningBox text={warningText} />}
+            {warningText !== "" && <WarningBox text={warningText} />}
             <div className={"imagepicker-preview"}>
                 <button
                     className={imgInView ? "btn btn-light imagepicker-trash" : "imagepicker-hidden"}
