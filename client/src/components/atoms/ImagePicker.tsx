@@ -53,7 +53,9 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
             async () => {
                 const res = fileReader.result;
                 let imgStr;
-                if (res === null) imgStr = "";
+                if (res == null){
+                    imgStr = "";
+                } 
                 else if (typeof res === "string") {
                     imgStr = res;
                 } else {
