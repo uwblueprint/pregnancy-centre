@@ -114,7 +114,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
             }
         </table>
         {props.requestGroups && props.requestGroups.length == 0 && 
-            <span className="no-groups-msg">There are no request groups. 
+            <span className="no-groups-msg">There are no needs created. 
                 <a className="create-group-link" onClick={() => { setShowCreateRequestGroupModal(true) } }> Create one now</a>
             </span>
         }

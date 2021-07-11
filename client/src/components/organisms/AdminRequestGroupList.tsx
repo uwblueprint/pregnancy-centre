@@ -119,7 +119,7 @@ const AdminRequestGroupList: FunctionComponent = () => {
                                         setShowCreateRequestGroupModal(true);
                                     }}
                                 >
-                                    New group
+                                    New need
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
