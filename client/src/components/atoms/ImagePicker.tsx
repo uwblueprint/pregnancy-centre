@@ -90,16 +90,15 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
         }
     };
     const triggerWarning = (text: string) => {
-        setShowWarning(true);
         setWarningText(text);
         setTimeout(() => {
-            setShowWarning(false);
+            setWarningText("");
         }, 4000);
     };
     const imgInView = selected !== "" || uploadedImg !== "";
     return (
         <div className="imagepicker">
-            <WarningBox text={warningText} showWarning={showWarning} />
+            { warningText !== "" && <WarningBox text={warningText} />}
             <div className={"imagepicker-preview"}>
                 <button
                     className={imgInView ? "btn btn-light imagepicker-trash" : "imagepicker-hidden"}
