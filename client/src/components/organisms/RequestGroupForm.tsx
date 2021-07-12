@@ -297,6 +297,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const onSubmit = async (e: React.FormEvent) => {
         const img = await UploadThumbnailService.upload(thumbnail, description)
         setImage(img);
+        // console.log(img)
 
         e.preventDefault();
         const tempNameError = updateNameError(name);
