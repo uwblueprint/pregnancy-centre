@@ -36,6 +36,11 @@
             font-size: 60px;
         }
     }
+    &-dropzone {
+        height: 100%;
+        width: 100%;
+        padding-top: 20%;
+    }
     .alert-icon {
         color: $input-error;
         position: absolute;

@@ -86,14 +86,8 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     };
 
     const changeZoom = (amount: number) => {
-        const increment: boolean = amount > 0;
-        if (increment) {
-            if (zoom >= 10) return;
-            setZoom(zoom + amount);
-        } else {
-            if (zoom <= 1) return;
-            setZoom(zoom - amount);
-        }
+        if (zoom + amount > 10 || zoom + amount < 1) return;
+        setZoom(zoom + amount);
     };
     const triggerWarning = (text: string) => {
         setWarningText(text);
@@ -131,9 +125,9 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                                 showGrid={false}
                             />
                         ) : (
-                            <Dropzone onDrop={handleOnDrop}>
+                            <Dropzone onDrop={handleOnDrop} multiple={false}>
                                 {({ getRootProps, getInputProps }) => (
-                                    <div {...getRootProps()}>
+                                    <div className="imagepicker-dropzone" {...getRootProps()}>
                                         <input {...getInputProps()} />
                                         <div className="imagepicker-upload-icon">
                                             <i className="bi bi-upload"></i>
