@@ -1,12 +1,17 @@
-import { gql } from 'apollo-server'
+import { gql } from "apollo-server";
 
 const typeDefs = gql`
+    type DonationFormContributionTuple {
+        donationForm: ID
+        quantity: Int
+    }
+
     type Request {
         _id: ID
         quantity: Int
         clientName: String
         requestType: RequestType
-        matchedDonations: [DonationForm]
+        matchedDonations: [DonationFormContributionTuple]
 
         createdAt: String
         updatedAt: String
@@ -27,7 +32,7 @@ const typeDefs = gql`
         requestType: ID
         clientName: String
     }
-    # ---  Left as a proof of concept: --- 
+    # ---  Left as a proof of concept: ---
     # input FilterRequestInput {
     #     NOT_AVAILABLE: Boolean
     # }
@@ -43,7 +48,7 @@ const typeDefs = gql`
         deletedAt: String
 
         deleted: Boolean
-        
+
         openRequests: [Request]
         fulfilledRequests: [Request]
         deletedRequests: [Request]
@@ -62,7 +67,7 @@ const typeDefs = gql`
         requestGroup: ID
         requests: [ID]
     }
-    # ---  Left as a proof of concept: --- 
+    # ---  Left as a proof of concept: ---
     # input FilterRequestTypeInput {
     #     NOT_AVAILABLE: Boolean
     # }
@@ -98,7 +103,7 @@ const typeDefs = gql`
         image: String
         requestTypes: [ID]
     }
-    # ---  Left as a proof of concept: --- 
+    # ---  Left as a proof of concept: ---
     # input FilterRequestGroupInput {
     #     NOT_AVAILABLE: Boolean
     # }
@@ -119,13 +124,21 @@ const typeDefs = gql`
         PENDING_APPROVAL
         PENDING_DROPOFF
         PENDING_MATCH
+        MATCHED
     }
 
     type DonationFormContact {
         firstName: String
         lastName: String
         email: String
-        phoneNum: String
+        phoneNumber: String
+    }
+
+    input DonationFormContactInput {
+        firstName: String
+        lastName: String
+        email: String
+        phoneNumber: String
     }
 
     type DonationForm {
@@ -141,17 +154,10 @@ const typeDefs = gql`
 
         adminNotes: String
         status: DonationItemStatus
-        quantityMatched: Int
+        quantityRemaining: Int
 
         createdAt: String
         updatedAt: String
-    }
-
-    input DonationFormContactInput {
-        firstName: String
-        lastName: String
-        email: String
-        phoneNum: String
     }
 
     input CreateDonationFormInput {
@@ -162,29 +168,29 @@ const typeDefs = gql`
         age: Int
         condition: DonationItemCondition
         status: DonationItemStatus
-        quantityMatched: Int
+        quantityRemaining: Int
     }
-   
+
     type Query {
         request(_id: ID): Request
         requests: [Request]
         requestsPage(skip: Int, limit: Int): [Request]
         countRequests(open: Boolean): Int
-        # --- Left as a proof of concept: --- 
+        # --- Left as a proof of concept: ---
         # requestsFilter(filter: FilterRequestInput, options: FilterOptions): [Request]
 
         requestType(_id: ID): RequestType
         requestTypes: [RequestType]
         requestTypesPage(skip: Int, limit: Int): [RequestType]
         countRequestTypes(open: Boolean): Int
-        # --- Left as a proof of concept: --- 
+        # --- Left as a proof of concept: ---
         # requestTypesFilter(filter: FilterRequestTypeInput, options: FilterOptions): [RequestType]
 
         requestGroup(_id: ID): RequestGroup
         requestGroups: [RequestGroup]
         requestGroupsPage(skip: Int, limit: Int, name: String): [RequestGroup]
         countRequestGroups(open: Boolean): Int
-        # --- Left as a proof of concept: --- 
+        # --- Left as a proof of concept: ---
         # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]
 
         donationForm(_id: ID): DonationForm
@@ -210,6 +216,6 @@ const typeDefs = gql`
 
         createDonationForm(donationForm: CreateDonationFormInput): DonationForm
     }
-`
+`;
 
-export { typeDefs }
+export { typeDefs };
