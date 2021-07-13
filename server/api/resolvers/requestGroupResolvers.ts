@@ -130,7 +130,7 @@ const requestGroupResolvers = {
             });
         });
     },
-    nextRecipient: async (parent, __, { authenticateUser }): Promise<String> => {
+    nextRecipient: async (parent, __, { authenticateUser }): Promise<string> => {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
                 const nextRequestEmbedding = await nextRequestEmbeddingForRequestGroup(parent, session);
