@@ -1,12 +1,17 @@
 import { gql } from "apollo-server";
 
 const typeDefs = gql`
+    type DonationFormContributionTuple {
+        donationForm: ID
+        quantity: Int
+    }
+
     type Request {
         _id: ID
         quantity: Int
         clientName: String
         requestType: RequestType
-        matchedDonations: [DonationForm]
+        matchedDonations: [DonationFormContributionTuple]
 
         createdAt: String
         updatedAt: String
@@ -119,13 +124,21 @@ const typeDefs = gql`
         PENDING_APPROVAL
         PENDING_DROPOFF
         PENDING_MATCH
+        MATCHED
     }
 
     type DonationFormContact {
         firstName: String
         lastName: String
         email: String
-        phoneNum: String
+        phoneNumber: String
+    }
+
+    input DonationFormContactInput {
+        firstName: String
+        lastName: String
+        email: String
+        phoneNumber: String
     }
 
     type DonationForm {
@@ -141,17 +154,10 @@ const typeDefs = gql`
 
         adminNotes: String
         status: DonationItemStatus
-        quantityMatched: Int
+        quantityRemaining: Int
 
         createdAt: String
         updatedAt: String
-    }
-
-    input DonationFormContactInput {
-        firstName: String
-        lastName: String
-        email: String
-        phoneNum: String
     }
 
     input CreateDonationFormInput {
@@ -162,9 +168,9 @@ const typeDefs = gql`
         age: Int
         condition: DonationItemCondition
         status: DonationItemStatus
-        quantityMatched: Int
+        quantityRemaining: Int
     }
-   
+
     type Query {
         request(_id: ID): Request
         requests: [Request]

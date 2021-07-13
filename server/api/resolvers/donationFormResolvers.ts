@@ -1,45 +1,42 @@
-import {
-  DonationForm,
-  DonationFormInterface,
-} from "../../database/models/donationFormModel";
+import { DonationForm, DonationFormInterface } from "../../database/models/donationFormModel";
+import { RequestGroup, RequestGroupInterface } from "../../database/models/requestGroupModel";
 
-enum DonationItemCondition {
-  BRAND_NEW = "BRAND_NEW",
-  GREAT = "GREAT",
-  GOOD = "GOOD",
-  FAIR = "FAIR",
-  POOR = "POOR",
-}
-
-enum DonationItemStatus {
-  PENDING_APPROVAL = "PENDING_APPROVAL",
-  PENDING_DROPOFF = "PENDING_DROPOFF",
-  PENDING_MATCH = "PENDING_MATCH",
-}
+const donationFormEmbeddingFromDonationForm = (donationForm: DonationFormInterface) => {
+    return {
+        _id: donationForm._id
+    };
+};
+const addDonationFormToRequestGroup = async (donationForm, requestGroupId) => {
+    const newRequestGroup = await RequestGroup.findById(requestGroupId);
+    newRequestGroup.donationForms.push(donationFormEmbeddingFromDonationForm(donationForm));
+    await newRequestGroup.save();
+};
 
 const donationFormQueryResolvers = {
-  donationForm: async (_, { _id }, ___): Promise<DonationFormInterface> => {
-    return DonationForm.findById(_id).exec();
-  },
-  donationForms: async (_, __, ___): Promise<Array<DonationFormInterface>> => {
-    return DonationForm.find().exec();
-  },
+    donationForm: async (_, { _id }, ___): Promise<DonationFormInterface> => {
+        return DonationForm.findById(_id).exec();
+    },
+    donationForms: async (_, __, ___): Promise<Array<DonationFormInterface>> => {
+        return DonationForm.find().exec();
+    }
 };
 
 const donationFormMutationResolvers = {
-  createDonationForm: async (_, { donationForm }, { authenticateUser }): Promise<DonationFormInterface> => {
-      return authenticateUser().then(async () => { 
-        const newDonationFormObject = new DonationForm({...donationForm})
-        const newDonationForm = await newDonationFormObject.save()
-        
-        return newDonationForm
-      })
-  }
-}
+    createDonationForm: async (_, { donationForm }, ___): Promise<DonationFormInterface> => {
+        const newDonationForm = await new DonationForm({ ...donationForm }).save();
 
-export {
-  donationFormMutationResolvers,
-  donationFormQueryResolvers,
-  DonationItemCondition,
-  DonationItemStatus,
+        // link donation group to request group
+        if (newDonationForm.requestGroup) {
+            await addDonationFormToRequestGroup(donationForm, newDonationForm.requestGroup);
+        }
+        return newDonationForm;
+    }
 };
+
+const donationFormResolvers = {
+    requestGroup: async (donationForm, __, ___): Promise<RequestGroupInterface> => {
+        return RequestGroup.findById(donationForm.requestGroup);
+    }
+};
+
+export { donationFormMutationResolvers, donationFormQueryResolvers, donationFormResolvers };

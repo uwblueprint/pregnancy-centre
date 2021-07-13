@@ -1,57 +1,49 @@
-import {
-  donationFormMutationResolvers,
-  donationFormQueryResolvers,
-  DonationItemCondition,
-  DonationItemStatus,
-} from "./resolvers/donationFormResolvers";
+import { donationFormMutationResolvers, donationFormQueryResolvers } from "./resolvers/donationFormResolvers";
+import { DonationItemCondition, DonationItemStatus } from "../database/models/donationFormModel";
 
 import {
-  requestGroupMutationResolvers,
-  requestGroupQueryResolvers,
-  requestGroupResolvers,
+    requestGroupMutationResolvers,
+    requestGroupQueryResolvers,
+    requestGroupResolvers
 } from "./resolvers/requestGroupResolvers";
 
-import {
-  requestMutationResolvers,
-  requestQueryResolvers,
-  requestResolvers,
-} from "./resolvers/requestResolvers";
+import { requestMutationResolvers, requestQueryResolvers, requestResolvers } from "./resolvers/requestResolvers";
 
 import {
-  requestTypeMutationResolvers,
-  requestTypeQueryResolvers,
-  requestTypeResolvers,
+    requestTypeMutationResolvers,
+    requestTypeQueryResolvers,
+    requestTypeResolvers
 } from "./resolvers/requestTypeResolvers";
 
 const resolvers = {
-  DonationItemCondition,
-  DonationItemStatus,
+    DonationItemCondition,
+    DonationItemStatus,
 
-  Query: {
-    ...donationFormQueryResolvers,
-    ...requestQueryResolvers,
-    ...requestTypeQueryResolvers,
-    ...requestGroupQueryResolvers,
-  },
+    Query: {
+        ...donationFormQueryResolvers,
+        ...requestQueryResolvers,
+        ...requestTypeQueryResolvers,
+        ...requestGroupQueryResolvers
+    },
 
-  Mutation: {
-    ...donationFormMutationResolvers,
-    ...requestMutationResolvers,
-    ...requestTypeMutationResolvers,
-    ...requestGroupMutationResolvers,
-  },
+    Mutation: {
+        ...donationFormMutationResolvers,
+        ...requestMutationResolvers,
+        ...requestTypeMutationResolvers,
+        ...requestGroupMutationResolvers
+    },
 
-  Request: {
-    ...requestResolvers,
-  },
+    Request: {
+        ...requestResolvers
+    },
 
-  RequestType: {
-    ...requestTypeResolvers,
-  },
+    RequestType: {
+        ...requestTypeResolvers
+    },
 
-  RequestGroup: {
-    ...requestGroupResolvers,
-  },
+    RequestGroup: {
+        ...requestGroupResolvers
+    }
 };
 
 export { resolvers };
