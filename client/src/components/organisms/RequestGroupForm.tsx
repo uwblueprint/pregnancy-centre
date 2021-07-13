@@ -265,7 +265,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     /* Functions for RequestGroup's Image */
     const updateImageError = (image: string) => {
         let error = "";
-        if (image === "" && uploadedImg === "") {
+        if (image === "") {
             error = "Please select an image";
         }
 
@@ -292,7 +292,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         e.preventDefault();
         const tempNameError = updateNameError(name);
         const tempDescriptionError = updateDescriptionError(description);
-        const tempImageError = updateImageError(image);
+        const tempImageError = imageError;
         const tempRequestTypesError = updateRequestTypeNamesError(requestTypeNames);
 
         if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
