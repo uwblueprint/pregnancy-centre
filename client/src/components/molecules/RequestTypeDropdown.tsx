@@ -21,11 +21,12 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const [numRequests, setNumRequests] = useState(0);
 
     const softDelete = gql`
-    mutation deleteRequestType($_id: ID){
-        deleteRequestType(_id: $_id){
-            _id
+        mutation deleteRequestType($_id: ID) {
+            deleteRequestType(_id: $_id) {
+                _id
+            }
         }
-    }`;
+    `;
 
     const [requestType, setRequestType] = useState(props.requestType);
     const [editModalShow, setEditModalShow] = useState(false);
@@ -80,39 +81,40 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
             <Dropdown
                 title={requestType?.name ? requestType.name.toUpperCase() + " (" + numRequests + ")" : ""}
                 header={
-                    props.deletable ? 
-                    <span className="button-container">
-                        <a
-                            className="button-container edit"
-                            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                onOpenEditRequestType();
-                                e.stopPropagation();
-                            }}
-                        >
-                            <i className="bi bi-pencil"></i>
-                        </a>
-                    </span>
-                    :
-                    <span className="button-container">
-                        <a
-                            className="button-container edit"
-                            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                onOpenEditRequestType();
-                                e.stopPropagation();
-                            }}
-                        >
-                            <i className="bi bi-pencil"></i>
-                        </a>
-                        <a
-                            className="button-container delete"
-                            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                onOpenDeleteRequestType();
-                                e.stopPropagation();
-                            }}
-                        >
-                            <i className="bi bi-trash"></i>
-                        </a>
-                    </span>
+                    props.deletable ? (
+                        <span className="button-container">
+                            <a
+                                className="button-container edit"
+                                onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                                    onOpenEditRequestType();
+                                    e.stopPropagation();
+                                }}
+                            >
+                                <i className="bi bi-pencil"></i>
+                            </a>
+                        </span>
+                    ) : (
+                        <span className="button-container">
+                            <a
+                                className="button-container edit"
+                                onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                                    onOpenEditRequestType();
+                                    e.stopPropagation();
+                                }}
+                            >
+                                <i className="bi bi-pencil"></i>
+                            </a>
+                            <a
+                                className="button-container delete"
+                                onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                                    onOpenDeleteRequestType();
+                                    e.stopPropagation();
+                                }}
+                            >
+                                <i className="bi bi-trash"></i>
+                            </a>
+                        </span>
+                    )
                 }
                 body={
                     <RequestsTable

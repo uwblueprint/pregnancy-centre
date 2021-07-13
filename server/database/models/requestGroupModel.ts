@@ -1,81 +1,78 @@
 import { Document, model, Schema, Types } from "mongoose";
 
 interface RequestTypeEmbeddingInterface {
-  _id: Types.ObjectId;
+    _id: Types.ObjectId;
 }
 interface DonationFormEmbeddingInterface {
-  _id: Types.ObjectId;
+    _id: Types.ObjectId;
 }
 interface RequestGroupInterface extends Document {
-  _id: Types.ObjectId;
+    _id: Types.ObjectId;
 
-  // Properties
-  name: string;
-  description: string;
-  image: string;
+    // Properties
+    name: string;
+    description: string;
+    image: string;
 
-  // Embedded Objects
-  requestTypes: Array<RequestTypeEmbeddingInterface>;
-  donationForms: Array<DonationFormEmbeddingInterface>;
+    // Embedded Objects
+    requestTypes: Array<RequestTypeEmbeddingInterface>;
+    donationForms: Array<DonationFormEmbeddingInterface>;
 
-  // Timestamps for Statuses
-  deletedAt: Date;
+    // Timestamps for Statuses
+    deletedAt: Date;
 
-  // Timestamps
-  createdAt: Date;
-  updatedAt: Date;
+    // Timestamps
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 const RequestGroupSchema = new Schema(
-  {
-    // Properties
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    description: {
-      type: String,
-      required: true,
-      default: "",
-    },
-    image: {
-      type: String,
-      required: true,
-      default: "",
-    },
-
-    // Embedded Objects
-    requestTypes: {
-      type: [
-        {
-          _id: { type: Types.ObjectId, ref: "RequestType" },
+    {
+        // Properties
+        name: {
+            type: String,
+            required: true,
+            trim: true
         },
-      ],
-      default: [],
-    },
-    donationForms: {
-      type: [
-        {
-          _id: { type: Types.ObjectId, ref: "DonationForm" },
+        description: {
+            type: String,
+            required: true,
+            default: ""
         },
-      ],
-      default: [],
-    },
+        image: {
+            type: String,
+            required: true,
+            default: ""
+        },
 
-    // Timestamps for Statuses
-    deletedAt: {
-      type: Date,
-    },
-  }, // Options
-  {
-    timestamps: true,
-  }
+        // Embedded Objects
+        requestTypes: {
+            type: [
+                {
+                    _id: { type: Types.ObjectId, ref: "RequestType" }
+                }
+            ],
+            default: []
+        },
+        donationForms: {
+            type: [
+                {
+                    _id: { type: Types.ObjectId, ref: "DonationForm" }
+                }
+            ],
+            default: []
+        },
+
+        // Timestamps for Statuses
+        deletedAt: {
+            type: Date
+        }
+    }, // Options
+    {
+        timestamps: true
+    }
 );
 
-const RequestGroup = model<RequestGroupInterface>(
-  "RequestGroup",
-  RequestGroupSchema
-);
+const RequestGroup = model<RequestGroupInterface>("RequestGroup", RequestGroupSchema);
 
 export { RequestGroup, RequestGroupInterface, RequestTypeEmbeddingInterface };

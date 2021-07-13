@@ -47,7 +47,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [imageError, setImageError] = useState("");
     const [requestTypesError, setRequestTypesError] = useState("");
     const [loadingRequestGroup, setLoadingRequestGroup] = useState(props.operation === "edit");
-    
+
     useEffect(() => {
         async function getImages() {
             setImages(await getFilesFromFolder(imageFolder));
