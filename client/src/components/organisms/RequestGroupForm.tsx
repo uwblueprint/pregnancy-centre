@@ -346,7 +346,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 Promise.all(createRequestTypePromises.concat(deleteRequestTypePromises))
                     .then(() => {
                         if (initialRequestGroup?._id) {
-                            console.log(image)
                             return updateRequestGroup({
                                 variables: { id: initialRequestGroup._id, name, description, image }
                             });
