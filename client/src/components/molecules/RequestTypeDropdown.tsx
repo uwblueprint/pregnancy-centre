@@ -81,29 +81,17 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
             <Dropdown
                 title={requestType?.name ? requestType.name.toUpperCase() + " (" + numRequests + ")" : ""}
                 header={
-                    props.deletable ? (
-                        <span className="button-container">
-                            <a
-                                className="button-container edit"
-                                onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                    onOpenEditRequestType();
-                                    e.stopPropagation();
-                                }}
-                            >
-                                <i className="bi bi-pencil"></i>
-                            </a>
-                        </span>
-                    ) : (
-                        <span className="button-container">
-                            <a
-                                className="button-container edit"
-                                onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                    onOpenEditRequestType();
-                                    e.stopPropagation();
-                                }}
-                            >
-                                <i className="bi bi-pencil"></i>
-                            </a>
+                    <span className="button-container">
+                        <a
+                            className="button-container edit"
+                            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                                onOpenEditRequestType();
+                                e.stopPropagation();
+                            }}
+                        >
+                            <i className="bi bi-pencil"></i>
+                        </a>
+                        {props.deletable && (
                             <a
                                 className="button-container delete"
                                 onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
@@ -113,8 +101,8 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                             >
                                 <i className="bi bi-trash"></i>
                             </a>
-                        </span>
-                    )
+                        )}
+                    </span>
                 }
                 body={
                     <RequestsTable
