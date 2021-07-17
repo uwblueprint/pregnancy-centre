@@ -135,10 +135,10 @@ const requestResolvers = {
         return RequestType.findById(parent.requestType);
     },
     deleted: (parent, __, ___): boolean => {
-        return parent.deletedAt !== undefined;
+        return parent.deletedAt != null;
     },
     fulfilled: (parent, __, ___): boolean => {
-        return parent.fulfilledAt !== undefined;
+        return parent.fulfilledAt != null;
     }
 };
 
