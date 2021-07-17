@@ -1,4 +1,8 @@
-import { donationFormMutationResolvers, donationFormQueryResolvers } from "./resolvers/donationFormResolvers";
+import {
+    donationFormMutationResolvers,
+    donationFormQueryResolvers,
+    donationFormResolvers
+} from "./resolvers/donationFormResolvers";
 import { DonationItemCondition, DonationItemStatus } from "../database/models/donationFormModel";
 
 import {
@@ -43,6 +47,10 @@ const resolvers = {
 
     RequestGroup: {
         ...requestGroupResolvers
+    },
+
+    DonationForm: {
+        ...donationFormResolvers
     }
 };
 
