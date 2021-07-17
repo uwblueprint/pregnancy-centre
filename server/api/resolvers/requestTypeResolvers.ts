@@ -202,7 +202,7 @@ const requestTypeResolvers = {
             return Request.findById(nextRequestEmbedding._id);
         });
     },
-    nextRecipient: async (parent, __, { authenticateUser }): Promise<String> => {
+    nextRecipient: async (parent, __, { authenticateUser }): Promise<string> => {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
                 const nextRequestEmbedding = await nextRequestEmbeddingForRequestType(parent, null);

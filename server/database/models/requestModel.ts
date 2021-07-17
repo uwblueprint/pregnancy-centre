@@ -5,7 +5,7 @@ interface RequestInterface extends Document {
 
     // Properties
     quantity: number;
-    clientName: String;
+    clientName: string;
 
     // References
     requestType: Types.ObjectId;
