@@ -35,7 +35,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [requestTypesError, setRequestTypesError] = useState("");
     const [loadingRequestGroup, setLoadingRequestGroup] = useState(props.operation === "edit");
     const [requestGroupsMap, setRequestGroupsMap] = useState<Map<string, RequestGroup>>(new Map());
-    
+
     useEffect(() => {
         async function getImages() {
             setImages(await getFilesFromFolder(imageFolder));
@@ -99,7 +99,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             }
         }
     `;
-    
+
     const fetchRequestGroupsQuery = gql`
         query FetchRequestGroups {
             requestGroups {
@@ -330,10 +330,9 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 const deleteRequestTypePromises = deletedRequestTypeIds.map((requestTypeId) =>
                     deleteRequestType({ variables: { id: requestTypeId } })
                 );
-                Promise.all(createRequestTypePromises.concat(deleteRequestTypePromises))
-                    .then(() => {
-                        props.onSubmitComplete();
-                    });
+                Promise.all(createRequestTypePromises.concat(deleteRequestTypePromises)).then(() => {
+                    props.onSubmitComplete();
+                });
             }
             props.handleClose();
         }

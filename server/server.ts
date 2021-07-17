@@ -58,69 +58,69 @@ async function gqlServer() {
             req.body = JSON.parse(str);
         }
         await next();
-  });
+    });
 
-  app.post("/sessionLogin", (req, res) => {
-    // Get the ID token passed
-    const idToken = req.body.idToken.toString();
-    // Set session expiration to 5 days.
-    const expiresIn = 60 * 60 * 24 * 5 * 1000;
-    // Create the session cookie. This will also verify the ID token in the process.
-    // The session cookie will have the same claims as the ID token.
-    // To only allow session cookie setting on recent sign-in, auth_time in ID token
-    // can be checked to ensure user was recently signed in before creating a session cookie.
-    admin
-        .auth()
-        .createSessionCookie(idToken, { expiresIn })
-        .then(
-            (sessionCookie) => {
-                // Set cookie policy for session cookie.
-                const options = {
-                    maxAge: expiresIn,
-                    httpOnly: true,
-                    secure: true
-                };
-                res.cookie("session", sessionCookie, options);
-                res.end(JSON.stringify({ status: "success" }));
-            },
-            (error) => {
-                res.status(401).send(error);
+    app.post("/sessionLogin", (req, res) => {
+        // Get the ID token passed
+        const idToken = req.body.idToken.toString();
+        // Set session expiration to 5 days.
+        const expiresIn = 60 * 60 * 24 * 5 * 1000;
+        // Create the session cookie. This will also verify the ID token in the process.
+        // The session cookie will have the same claims as the ID token.
+        // To only allow session cookie setting on recent sign-in, auth_time in ID token
+        // can be checked to ensure user was recently signed in before creating a session cookie.
+        admin
+            .auth()
+            .createSessionCookie(idToken, { expiresIn })
+            .then(
+                (sessionCookie) => {
+                    // Set cookie policy for session cookie.
+                    const options = {
+                        maxAge: expiresIn,
+                        httpOnly: true,
+                        secure: true
+                    };
+                    res.cookie("session", sessionCookie, options);
+                    res.end(JSON.stringify({ status: "success" }));
+                },
+                (error) => {
+                    res.status(401).send(error);
+                }
+            );
+    });
+
+    const server = new ApolloServer({
+        typeDefs,
+        resolvers,
+        context: async ({ req, res }) => ({
+            authenticateUser: async () => {
+                if (!isProd) {
+                    return { req, res, user: null };
+                }
+
+                if (!req.cookies || !req.cookies.session) {
+                    throw new AuthenticationError("Authentication Not Found");
+                }
+
+                const user = await getUser(req.cookies.session);
+                if (!user || !user.id) throw new AuthenticationError("Forbidden Error");
+
+                return { req, res, user };
             }
-        );
-});
+        })
+    });
 
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: async ({ req, res }) => ({
-      authenticateUser: async () => {
-        if (!isProd) {
-          return { req, res, user: null };
-        }
+    server.applyMiddleware({
+        app,
+        path: "/graphql",
+        bodyParserConfig: { strict: true, type: "application/*" },
+        cors: corsPolicy
+    });
 
-        if (!req.cookies || !req.cookies.session) {
-          throw new AuthenticationError("Authentication Not Found");
-        }
+    app.listen({ port: PORT });
+    console.log(`🚀 Server ready at port ${PORT}`);
 
-        const user = await getUser(req.cookies.session);
-        if (!user || !user.id) throw new AuthenticationError("Forbidden Error");
-
-        return { req, res, user };
-      }
-    })
-  });
-
-  server.applyMiddleware({
-    app,
-    path: "/graphql",
-    bodyParserConfig: { strict: true, type: "application/*" },
-    cors: corsPolicy,
-  });
-
-  app.listen({ port: PORT });
-  console.log(`🚀 Server ready at port ${PORT}`);
-
-  return { server, app };
+    return { server, app };
 }
 
 gqlServer();

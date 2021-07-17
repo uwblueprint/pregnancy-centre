@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server'
+import { gql } from "apollo-server";
 
 const typeDefs = gql`
     type Request {
@@ -26,7 +26,7 @@ const typeDefs = gql`
         requestType: ID
         clientName: String
     }
-    # ---  Left as a proof of concept: --- 
+    # ---  Left as a proof of concept: ---
     # input FilterRequestInput {
     #     NOT_AVAILABLE: Boolean
     # }
@@ -42,7 +42,7 @@ const typeDefs = gql`
         deletedAt: String
 
         deleted: Boolean
-        
+
         openRequests: [Request]
         fulfilledRequests: [Request]
         deletedRequests: [Request]
@@ -61,7 +61,7 @@ const typeDefs = gql`
         requestGroup: ID
         requests: [ID]
     }
-    # ---  Left as a proof of concept: --- 
+    # ---  Left as a proof of concept: ---
     # input FilterRequestTypeInput {
     #     NOT_AVAILABLE: Boolean
     # }
@@ -96,7 +96,7 @@ const typeDefs = gql`
         image: String
         requestTypes: [ID]
     }
-    # ---  Left as a proof of concept: --- 
+    # ---  Left as a proof of concept: ---
     # input FilterRequestGroupInput {
     #     NOT_AVAILABLE: Boolean
     # }
@@ -110,21 +110,21 @@ const typeDefs = gql`
         requests: [Request]
         requestsPage(skip: Int, limit: Int): [Request]
         countRequests(open: Boolean): Int
-        # --- Left as a proof of concept: --- 
+        # --- Left as a proof of concept: ---
         # requestsFilter(filter: FilterRequestInput, options: FilterOptions): [Request]
 
         requestType(_id: ID): RequestType
         requestTypes: [RequestType]
         requestTypesPage(skip: Int, limit: Int): [RequestType]
         countRequestTypes(open: Boolean): Int
-        # --- Left as a proof of concept: --- 
+        # --- Left as a proof of concept: ---
         # requestTypesFilter(filter: FilterRequestTypeInput, options: FilterOptions): [RequestType]
 
         requestGroup(_id: ID): RequestGroup
         requestGroups: [RequestGroup]
         requestGroupsPage(skip: Int, limit: Int, name: String): [RequestGroup]
         countRequestGroups(open: Boolean): Int
-        # --- Left as a proof of concept: --- 
+        # --- Left as a proof of concept: ---
         # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]
     }
 
@@ -145,6 +145,6 @@ const typeDefs = gql`
         updateRequestGroup(requestGroup: UpdateRequestGroupInput): RequestGroup
         deleteRequestGroup(_id: ID): RequestGroup
     }
-`
+`;
 
-export { typeDefs }
+export { typeDefs };

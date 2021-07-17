@@ -1,18 +1,26 @@
-import { requestGroupMutationResolvers, requestGroupQueryResolvers, requestGroupResolvers } from './resolvers/requestGroupResolvers'
-import { requestMutationResolvers, requestQueryResolvers, requestResolvers } from './resolvers/requestResolvers'
-import { requestTypeMutationResolvers, requestTypeQueryResolvers, requestTypeResolvers } from './resolvers/requestTypeResolvers'
+import {
+    requestGroupMutationResolvers,
+    requestGroupQueryResolvers,
+    requestGroupResolvers
+} from "./resolvers/requestGroupResolvers";
+import { requestMutationResolvers, requestQueryResolvers, requestResolvers } from "./resolvers/requestResolvers";
+import {
+    requestTypeMutationResolvers,
+    requestTypeQueryResolvers,
+    requestTypeResolvers
+} from "./resolvers/requestTypeResolvers";
 
 const resolvers = {
     Query: {
         ...requestQueryResolvers,
         ...requestTypeQueryResolvers,
-        ...requestGroupQueryResolvers,
+        ...requestGroupQueryResolvers
     },
-    
+
     Mutation: {
         ...requestMutationResolvers,
         ...requestTypeMutationResolvers,
-        ...requestGroupMutationResolvers,
+        ...requestGroupMutationResolvers
     },
 
     Request: {
@@ -26,6 +34,6 @@ const resolvers = {
     RequestGroup: {
         ...requestGroupResolvers
     }
-}
+};
 
-export { resolvers }
+export { resolvers };

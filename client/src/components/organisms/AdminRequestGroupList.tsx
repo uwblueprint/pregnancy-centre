@@ -17,43 +17,40 @@ const AdminRequestGroupList: FunctionComponent = () => {
     const [showCreateRequestGroupModal, setShowCreateRequestGroupModal] = useState(false);
     const [countRequestGroups, setCountRequestGroups] = useState<number>(0);
     const numRequestGroupsPerPage = 20;
-    const pages = Math.ceil(countRequestGroups / numRequestGroupsPerPage)
-  
+    const pages = Math.ceil(countRequestGroups / numRequestGroupsPerPage);
+
     const getPageQuery = gql`
-    query GetRequestGroupsPage(
-      $skip: Int!
-      $limit: Int!
-      $name: String
-    ){
-      requestGroupsPage(skip: $skip, limit: $limit, name: $name) {
-        _id
-        updatedAt
-        name
-        image
-        countOpenRequests
-        nextRecipient
-        hasAnyRequests
-        requestTypes {
-            _id
-            name
-            deletedAt
+        query GetRequestGroupsPage($skip: Int!, $limit: Int!, $name: String) {
+            requestGroupsPage(skip: $skip, limit: $limit, name: $name) {
+                _id
+                updatedAt
+                name
+                image
+                countOpenRequests
+                nextRecipient
+                hasAnyRequests
+                requestTypes {
+                    _id
+                    name
+                    deletedAt
+                }
+            }
         }
-      }
-    }`
-    const paginator = usePaginator(numRequestGroupsPerPage, pages, getPageQuery, -1, 1)
+    `;
+    const paginator = usePaginator(numRequestGroupsPerPage, pages, getPageQuery, -1, 1);
 
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage);
     };
 
     const query = gql`
-    {
-        countRequestGroups(open: true)
-    }`;
+        {
+            countRequestGroups(open: true)
+        }
+    `;
 
     useEffect(() => {
-        paginator.getPage(currentPage)
-        .then((page) => {
+        paginator.getPage(currentPage).then((page) => {
             setCurrentPageData(page);
         });
     }, [currentPage, countRequestGroups]);
@@ -61,9 +58,9 @@ const AdminRequestGroupList: FunctionComponent = () => {
     useQuery(query, {
         onCompleted: (data: { countRequestGroups: number }) => {
             setCountRequestGroups(data.countRequestGroups);
-        },
+        }
     });
-    
+
     const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCurrentPageData([]);
         if (event.target.value) {
@@ -73,7 +70,7 @@ const AdminRequestGroupList: FunctionComponent = () => {
         }
         paginator.clear();
         setCurrentPage(0);
-    }
+    };
 
     return (
         <div className="admin-request-group-list">

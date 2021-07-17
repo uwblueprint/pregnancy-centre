@@ -5,9 +5,9 @@ import mongoose from "mongoose";
 
 import { connectDB } from "../database/mongoConnection";
 
-import { Request } from '../database/models/requestModel'
-import { RequestGroup } from '../database/models/requestGroupModel'
-import { RequestType } from '../database/models/requestTypeModel'
+import { Request } from "../database/models/requestModel";
+import { RequestGroup } from "../database/models/requestGroupModel";
+import { RequestType } from "../database/models/requestTypeModel";
 
 // -----------------------------------------------------------------------------
 // SEED REQUESTS/TAGS
@@ -48,14 +48,14 @@ const requestGroupImages = [
     "https://source.unsplash.com/0hiUWSi7jvs"
 ];
 
-const numGroups = requestGroupNames.length
-const numTypesPerGroup = 10
-const maxNumRequestsPerType = 50
-const maxQuantityPerRequest = 15
-const probRequestDeleted = 0.05
-const probRequestFulfilled = 0.2 // independent from probRequestDeleted
-const startDate = new Date(2019, 0,1)
-const endDate = new Date(Date.now())
+const numGroups = requestGroupNames.length;
+const numTypesPerGroup = 10;
+const maxNumRequestsPerType = 50;
+const maxQuantityPerRequest = 15;
+const probRequestDeleted = 0.05;
+const probRequestFulfilled = 0.2; // independent from probRequestDeleted
+const startDate = new Date(2019, 0, 1);
+const endDate = new Date(Date.now());
 
 faker.seed(2021);
 
@@ -66,118 +66,121 @@ const randomDate = (start = startDate, end = endDate) => {
 
 // create Request model object without references
 const createRequest = () => {
-  const isDeleted = Math.random() <= probRequestDeleted;
-  const isFulfilled = Math.random() <= probRequestFulfilled;
-  const dateCreated = randomDate()
+    const isDeleted = Math.random() <= probRequestDeleted;
+    const isFulfilled = Math.random() <= probRequestFulfilled;
+    const dateCreated = randomDate();
 
-  const request = new Request({
-    _id: mongoose.Types.ObjectId(),
-    quantity: Math.floor(Math.random() * maxQuantityPerRequest) + 1,
-    clientName: faker.name.firstName() + " " + faker.name.lastName(),
-    createdAt: dateCreated
-  })
+    const request = new Request({
+        _id: mongoose.Types.ObjectId(),
+        quantity: Math.floor(Math.random() * maxQuantityPerRequest) + 1,
+        clientName: faker.name.firstName() + " " + faker.name.lastName(),
+        createdAt: dateCreated
+    });
 
-  if (isDeleted) {
-    request.deletedAt = new Date(randomDate(new Date(dateCreated)))
-  }
-  if (isFulfilled) {
-    request.fulfilledAt = new Date(randomDate(new Date(dateCreated)))
-  }
+    if (isDeleted) {
+        request.deletedAt = new Date(randomDate(new Date(dateCreated)));
+    }
+    if (isFulfilled) {
+        request.fulfilledAt = new Date(randomDate(new Date(dateCreated)));
+    }
 
-  return request
-}
+    return request;
+};
 
 // create RequestType model object without references
 const createRequestType = () => {
-  const dateCreated = new Date(randomDate())
+    const dateCreated = new Date(randomDate());
 
-  return new RequestType({
-    _id: mongoose.Types.ObjectId(),
-    name: faker.commerce.product(),
-    createdAt: dateCreated
-  })
-}
+    return new RequestType({
+        _id: mongoose.Types.ObjectId(),
+        name: faker.commerce.product(),
+        createdAt: dateCreated
+    });
+};
 
 // create RequestGroup model object without references
 const createRequestGroup = () => {
-  const dateCreated = new Date(randomDate())
+    const dateCreated = new Date(randomDate());
 
-  return new RequestGroup({
-    _id: mongoose.Types.ObjectId(),
-    name: faker.random.arrayElement(requestGroupNames),
-    // description is in the format specified by DraftJS
-    description: '{"blocks":[{"key":"bv0s8","text":"' + faker.lorem.sentence() + '","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-    image: faker.random.arrayElement(requestGroupImages),
-    createdAt: dateCreated
-  })
-}
+    return new RequestGroup({
+        _id: mongoose.Types.ObjectId(),
+        name: faker.random.arrayElement(requestGroupNames),
+        // description is in the format specified by DraftJS
+        description:
+            '{"blocks":[{"key":"bv0s8","text":"' +
+            faker.lorem.sentence() +
+            '","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+        image: faker.random.arrayElement(requestGroupImages),
+        createdAt: dateCreated
+    });
+};
 
 // connect to DB, and on success, seed documents
 connectDB(async () => {
-  console.log('\x1b[34m', 'Beginning to seed')
-  console.log('\x1b[0m')
+    console.log("\x1b[34m", "Beginning to seed");
+    console.log("\x1b[0m");
 
-  // Reset collections
-  Request.deleteMany((err) => {
-    if (err) {
-      console.error('\x1b[31m', "Failed to delete all documents in 'requests' collection")
-      console.log('\x1b[0m')
-      exit()
+    // Reset collections
+    Request.deleteMany((err) => {
+        if (err) {
+            console.error("\x1b[31m", "Failed to delete all documents in 'requests' collection");
+            console.log("\x1b[0m");
+            exit();
+        }
+    });
+    RequestGroup.deleteMany((err) => {
+        if (err) {
+            console.error("\x1b[31m", "Failed to delete all documents in 'requestGroups' collection");
+            console.log("\x1b[0m");
+            exit();
+        }
+    });
+    RequestType.deleteMany((err) => {
+        if (err) {
+            console.error("\x1b[31m", "Failed to delete all documents in 'requestTypes' collection");
+            console.log("\x1b[0m");
+            exit();
+        }
+    });
+
+    console.log("\x1b[34m", "Seeding data");
+    console.log("\x1b[0m");
+
+    for (let i = 0; i < numGroups; i++) {
+        const requestGroup = createRequestGroup();
+        requestGroup.requestTypes = [];
+        await requestGroup.save();
+
+        for (let j = 0; j < numTypesPerGroup; j++) {
+            const requestType = createRequestType();
+            requestType.requests = [];
+            requestType.requestGroup = requestGroup._id;
+            await requestType.save();
+
+            const numRequestsPerType = Math.floor(Math.random() * maxNumRequestsPerType);
+            for (let k = 0; k < numRequestsPerType; k++) {
+                const request = createRequest();
+                request.requestType = requestType._id;
+                await request.save();
+
+                requestType.requests.push({
+                    _id: request._id,
+                    createdAt: request.createdAt,
+                    deletedAt: request.deletedAt,
+                    fulfilledAt: request.fulfilledAt
+                });
+            }
+
+            requestGroup.requestTypes.push({
+                _id: requestType._id
+            });
+
+            await requestType.save();
+        }
+        await requestGroup.save();
     }
-  })
-  RequestGroup.deleteMany((err) => {
-    if (err) {
-      console.error('\x1b[31m', "Failed to delete all documents in 'requestGroups' collection")
-      console.log('\x1b[0m')
-      exit()
-    }
-  })
-  RequestType.deleteMany((err) => {
-    if (err) {
-      console.error('\x1b[31m', "Failed to delete all documents in 'requestTypes' collection")
-      console.log('\x1b[0m')
-      exit()
-    }
-  })
 
-  console.log('\x1b[34m', 'Seeding data')
-  console.log('\x1b[0m')
-
-  for (let i = 0; i < numGroups; i++) {
-    const requestGroup =  createRequestGroup()
-    requestGroup.requestTypes = []
-    await requestGroup.save()
-
-    for (let j = 0; j < numTypesPerGroup; j++) {
-      const requestType = createRequestType()
-      requestType.requests = []
-      requestType.requestGroup = requestGroup._id
-      await requestType.save()
-
-      const numRequestsPerType = Math.floor(Math.random() * maxNumRequestsPerType)
-      for (let k = 0; k < numRequestsPerType; k++) {
-        const request = createRequest()
-        request.requestType = requestType._id
-        await request.save()
-
-        requestType.requests.push({
-          _id: request._id,
-          createdAt: request.createdAt,
-          deletedAt: request.deletedAt,
-          fulfilledAt: request.fulfilledAt
-        })
-      }
-
-      requestGroup.requestTypes.push({
-        _id: requestType._id
-      })
-
-      await requestType.save()
-    }
-    await requestGroup.save()
-  }
-
-  console.log('\x1b[34m', 'Finished seeding!')
-  console.log('\x1b[0m')
-  exit()
-})
+    console.log("\x1b[34m", "Finished seeding!");
+    console.log("\x1b[0m");
+    exit();
+});
