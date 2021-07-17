@@ -108,7 +108,7 @@ const requestGroupResolvers = {
         const countOpenRequestsPerType: Array<number> = await Promise.all(
             parent.requestTypes.map(async (requestTypeEmbedding) => {
                 const requestType = await RequestType.findById(requestTypeEmbedding._id);
-                if(requestType.deletedAt != null){
+                if (requestType.deletedAt != null) {
                     return 0;
                 }
                 return filterOpenRequestEmbeddings(requestType.requests).length;
