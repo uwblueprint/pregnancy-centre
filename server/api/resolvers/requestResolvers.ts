@@ -156,6 +156,11 @@ const requestResolvers = {
     },
     fulfilled: (parent, __, ___): boolean => {
         return parent.fulfilledAt != null;
+    },
+    clientName: async (parent, _, { authenticateUser }): Promise<RequestInterface> => {
+        return authenticateUser().then(async () => {
+            return parent.clientName;
+        });
     }
 };
 
