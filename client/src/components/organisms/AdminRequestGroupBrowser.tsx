@@ -136,10 +136,9 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                             operation="create"
                         />
                     )}
-                    {requestGroup.requestTypes && <RequestTypeDropdownList
-                        requestGroup={requestGroup}
-                        requestTypes={requestGroup.requestTypes}
-                    />}{" "}
+                    {requestGroup.requestTypes && (
+                        <RequestTypeDropdownList requestGroup={requestGroup} requestTypes={requestGroup.requestTypes} />
+                    )}{" "}
                 </div>
             )}
         </div>
