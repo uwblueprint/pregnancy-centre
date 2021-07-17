@@ -1,5 +1,5 @@
 import { Request, RequestInterface } from "../../database/models/requestModel";
-import { RequestType, RequestTypeInterface } from "../../database/models/requestTypeModel";
+import { RequestEmbeddingInterface, RequestType, RequestTypeInterface } from "../../database/models/requestTypeModel";
 
 import { sessionHandler } from "../utils/session";
 
@@ -24,6 +24,14 @@ const swapRequestTypeForRequest = async (request, oldRequestTypeID, newRequestTy
     const newRequestType = await RequestType.findById(newRequestTypeID).session(session);
     newRequestType.requests.push(requestEmbeddingFromRequest(request));
     await newRequestType.save({ session: session });
+};
+
+const updateRequestEmbedingInRequestTypes = async (request, session) => {
+    const requestType = await RequestType.findById(request.requestType).session(session);
+    requestType.requests = requestType.requests.map((requestEmbedding: RequestEmbeddingInterface) =>
+        requestEmbedding._id.equals(request._id) ? requestEmbeddingFromRequest(request) : requestEmbedding
+    );
+    await requestType.save({ session: session });
 };
 
 const requestQueryResolvers = {
@@ -86,23 +94,32 @@ const requestMutationResolvers = {
     },
     deleteRequest: async (_, { _id }, { authenticateUser }): Promise<RequestInterface> => {
         return authenticateUser().then(async () => {
-            const request = await Request.findById(_id);
-            request.deletedAt = new Date();
-            return request.save();
+            return sessionHandler(async (session) => {
+                const request = await Request.findById(_id);
+                request.deletedAt = new Date();
+                await updateRequestEmbedingInRequestTypes(request, session);
+                return request.save({ session: session });
+            });
         });
     },
     fulfillRequest: async (_, { _id }, { authenticateUser }): Promise<RequestInterface> => {
         return authenticateUser().then(async () => {
-            const request = await Request.findById(_id);
-            request.fulfilledAt = new Date();
-            return request.save();
+            return sessionHandler(async (session) => {
+                const request = await Request.findById(_id);
+                request.fulfilledAt = new Date();
+                await updateRequestEmbedingInRequestTypes(request, session);
+                return request.save({ session: session });
+            });
         });
     },
     unfulfillRequest: async (_, { _id }, { authenticateUser }): Promise<RequestInterface> => {
         return authenticateUser().then(async () => {
-            const request = await Request.findById(_id);
-            request.fulfilledAt = undefined;
-            return request.save();
+            return sessionHandler(async (session) => {
+                const request = await Request.findById(_id);
+                request.fulfilledAt = undefined;
+                await updateRequestEmbedingInRequestTypes(request, session);
+                return request.save({ session: session });
+            });
         });
     },
     changeRequestTypeForRequest: async (
