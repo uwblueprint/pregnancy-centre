@@ -99,12 +99,12 @@ const createRequestType = () => {
 };
 
 // create RequestGroup model object without references
-const createRequestGroup = () => {
+const createRequestGroup = (name: string) => {
     const dateCreated = new Date(randomDate());
 
     return new RequestGroup({
         _id: mongoose.Types.ObjectId(),
-        name: faker.random.arrayElement(requestGroupNames),
+        name,
         // description is in the format specified by DraftJS
         description:
             '{"blocks":[{"key":"bv0s8","text":"' +
@@ -147,7 +147,7 @@ connectDB(async () => {
     console.log("\x1b[0m");
 
     for (let i = 0; i < numGroups; i++) {
-        const requestGroup = createRequestGroup();
+        const requestGroup = createRequestGroup(requestGroupNames[i]);
         requestGroup.requestTypes = [];
         await requestGroup.save();
 
