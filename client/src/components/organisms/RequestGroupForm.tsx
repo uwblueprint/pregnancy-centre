@@ -68,6 +68,14 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         }
     `;
 
+    const updateRequestGroupMutation = gql`
+        mutation UpdateRequestGroup($id: ID!, $name: String!, $description: String!, $image: String!) {
+            updateRequestGroup(requestGroup: { _id: $id, name: $name, description: $description, image: $image }) {
+                _id
+            }
+        }
+    `;
+
     const [createRequestType] = useMutation(createRequestTypeMutation, {
         onError: (error) => {
             console.log(error);
@@ -79,6 +87,11 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         }
     });
     const [createRequestGroup] = useMutation(createRequestGroupMutation, {
+        onError: (error) => {
+            console.log(error);
+        }
+    });
+    const [updateRequestGroup] = useMutation(updateRequestGroupMutation, {
         onError: (error) => {
             console.log(error);
         }
@@ -330,9 +343,18 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 const deleteRequestTypePromises = deletedRequestTypeIds.map((requestTypeId) =>
                     deleteRequestType({ variables: { id: requestTypeId } })
                 );
-                Promise.all(createRequestTypePromises.concat(deleteRequestTypePromises)).then(() => {
-                    props.onSubmitComplete();
-                });
+                Promise.all(createRequestTypePromises.concat(deleteRequestTypePromises))
+                    .then(() => {
+                        if (initialRequestGroup?._id) {
+                            console.log(image)
+                            return updateRequestGroup({
+                                variables: { id: initialRequestGroup._id, name, description, image }
+                            });
+                        }
+                    })
+                    .then(() => {
+                        // props.onSubmitComplete();
+                    });
             }
             props.handleClose();
         }
