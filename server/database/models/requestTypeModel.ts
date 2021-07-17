@@ -45,6 +45,7 @@ const RequestTypeSchema = new Schema(
         requests: {
             type: [
                 {
+                    // @ts-ignore
                     _id: { type: Types.ObjectId, ref: "Request" },
                     createdAt: { type: Date },
                     deletedAt: { type: Date },
