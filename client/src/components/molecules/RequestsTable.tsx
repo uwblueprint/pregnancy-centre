@@ -17,14 +17,21 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
 
     const headingList = ["Fulfilled", "Client Name", "Quantity", "Date Requested", ""];
     const fulfillRequest = gql`
-        mutation fulfillRequest($_id: ID) {
+        mutation FulfillRequest($_id: ID) {
             fulfillRequest(_id: $_id) {
                 _id
             }
         }
     `;
+    const unfulfillRequest = gql`
+        mutation UnfulfillRequest($_id: ID) {
+            unfulfillRequest(_id: $_id) {
+                _id
+            }
+        }
+    `;
     const deleteRequest = gql`
-        mutation deleteRequest($_id: ID) {
+        mutation DeleteRequest($_id: ID) {
             deleteRequest(_id: $_id) {
                 _id
             }
@@ -62,7 +69,16 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     }, []);
 
     const [mutateDeleteRequest] = useMutation(deleteRequest);
-    const [mutateFulfillRequest] = useMutation(fulfillRequest);
+    const [mutateFulfillRequest] = useMutation(fulfillRequest, {
+        onCompleted: () => {
+            window.location.reload();
+        }
+    });
+    const [mutateUnfulfillRequest] = useMutation(unfulfillRequest, {
+        onCompleted: () => {
+            window.location.reload();
+        }
+    });
     const onDeleteRequest = (index: number) => {
         const requestsCopy = requests.slice();
         const req = { ...requestsCopy[index] };
@@ -72,31 +88,15 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         setRequests(requestsCopy);
         mutateDeleteRequest({ variables: { _id: id } });
     };
-    const onFulfilledRequest = (index: number) => {
-        const requestsCopy = requests.slice();
-        const req = { ...requestsCopy[index] };
-        if (req.fulfilled === false) {
-            req.fulfilled = true;
-            requestsCopy.splice(index, 1);
-            let i = requestsCopy.length - 1;
-            for (; i > -1; --i) {
-                if (requestsCopy[i].fulfilled === false) break;
-                else if (requestsCopy[i]!.createdAt!.valueOf() < req!.createdAt!.valueOf()) break;
-            }
-            requestsCopy.splice(i + 1, 0, req);
-        } else {
-            req.fulfilled = false;
-            requestsCopy.splice(index, 1);
-            let i = 0;
-            for (; i < requestsCopy.length; ++i) {
-                if (requestsCopy[i].fulfilled === true) break;
-                else if (requestsCopy[i]!.createdAt!.valueOf() > req!.createdAt!.valueOf()) break;
-            }
-            requestsCopy.splice(i, 0, req);
+    const onFulfilledRequest = (request: Request) => {
+        if (request._id == null) {
+            return;
         }
-        setRequests(requestsCopy);
-        const id = req._id;
-        mutateFulfillRequest({ variables: { _id: id } });
+        if (request.fulfilled) {
+            mutateUnfulfillRequest({ variables: { _id: request._id } });
+        } else {
+            mutateFulfillRequest({ variables: { _id: request._id } });
+        }
     };
 
     return (
@@ -132,7 +132,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                                         <div>
                                             <Form.Check
                                                 type="checkbox"
-                                                onClick={() => onFulfilledRequest(index)}
+                                                onClick={() => onFulfilledRequest(request)}
                                                 defaultChecked={request.fulfilled}
                                             />
                                         </div>

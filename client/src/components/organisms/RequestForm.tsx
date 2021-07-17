@@ -86,7 +86,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 requestTypes {
                     _id
                     name
-                    deletedAt
+                    deleted
                 }
             }
         }
@@ -177,7 +177,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         setRequestTypesMap(
             new Map(
                 requestTypes
-                    .filter((requestType) => requestType.deletedAt == null)
+                    .filter((requestType) => requestType.deleted === false)
                     .reduce((entries, requestType) => {
                         if (requestType && requestType.name) {
                             entries.push([requestType.name, requestType]);
