@@ -1,0 +1,23 @@
+.donation-form-contact-info-page {
+    .contact-info-form {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .form-item {
+        width: 47%;
+        margin-bottom: 40px;
+    }
+
+    .text-field {
+        height: 45px;
+        width: 100%;
+    }
+
+    .donation-form-page-footer {
+        justify-content: flex-end;
+    }
+}
