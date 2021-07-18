@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 
 import ScrollableDropdown from "../atoms/ScrollableDropdown";
 import Tag from "../atoms/Tag";
@@ -6,16 +6,20 @@ import { TextField } from "../atoms/TextField";
 
 interface Props {
     dropdownItems: Array<string>;
+    selectedItem: string;
+    searchString: string;
     initialText: string;
     isDisabled: boolean;
-    isEmpty?: boolean;
     isErroneous: boolean;
     isTagDropdown?: boolean;
-    noItemsAction: React.ReactNode;
-    onChange: React.ChangeEventHandler<HTMLInputElement>;
+    noItemsAction?: React.ReactNode;
+    actionOption?: React.ReactNode;
+    onChange: (item: string) => void;
     onSelect: (item: string) => void;
     placeholderText: string;
     searchPlaceholderText: string;
+    dropdownPrompt?: string;
+    mustMatchDropdownItem: boolean;
 }
 
 const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
@@ -24,20 +28,10 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
         return a.toLowerCase().localeCompare(b.toLowerCase());
     });
 
-    const [searchString, setSearchString] = useState(props.initialText);
-    const [selectedString, setSelectedString] = useState(props.initialText);
     const [isDropdownOpened, setIsDropdownOpened] = useState(false);
     const [displayItems, setDisplayItems] = useState(sortedDropdownItems);
 
-    useEffect(() => {
-        if (props.isEmpty) {
-            setSelectedString("");
-        }
-    }, [props.isEmpty]);
-
     const displayMatchingItems = (newSearchString: string) => {
-        setSearchString(newSearchString);
-
         const newDisplayItems =
             newSearchString.length === 0
                 ? props.dropdownItems
@@ -46,8 +40,8 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
     };
 
     const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        props.onChange(event);
         const newSearchString = event.target.value;
+        props.onChange(newSearchString);
         displayMatchingItems(newSearchString);
     };
 
@@ -59,7 +53,6 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
 
     const onSelectedItemChange = (item: string) => {
         props.onSelect(item);
-        setSelectedString(item);
         setIsDropdownOpened(false);
     };
 
@@ -77,22 +70,34 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
         );
     };
 
+    const onTextFieldKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key == "Enter" && !props.mustMatchDropdownItem) {
+            onSelectedItemChange(props.searchString);
+            event.currentTarget.blur();
+        }
+    };
+
     return (
         <div className="searchable-dropdown">
             <ScrollableDropdown
                 dropdownItems={
-                    displayItems.length === 0 ? (
+                    displayItems.length === 0 && props.actionOption == null ? (
                         <div className="dropdown-action">{props.noItemsAction}</div>
                     ) : (
                         <>
-                            <div className="dropdown-header">{props.placeholderText}</div>
+                            {props.dropdownPrompt && <div className="dropdown-header">{props.dropdownPrompt}</div>}
+                            {props.actionOption && (
+                                <div className="dropdown-item" onClick={() => setIsDropdownOpened(false)}>
+                                    {props.actionOption}
+                                </div>
+                            )}
                             {getDisplayItemsHTML()}
                         </>
                     )
                 }
                 trigger={
                     <TextField
-                        input={isDropdownOpened ? searchString : selectedString}
+                        input={isDropdownOpened ? props.searchString : props.selectedItem}
                         isDisabled={props.isDisabled}
                         isDisabledUI={isDropdownOpened}
                         isErroneous={props.isErroneous}
@@ -104,13 +109,15 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
                         showRedErrorText={true}
                         autocompleteOff={true}
                         focusOnIconClick={true}
+                        onKeyDown={onTextFieldKeyDown}
                     />
                 }
                 onDropdownOpen={() => {
                     setIsDropdownOpened(true);
-                    displayMatchingItems(selectedString); // When the user focuses on the TextField, it should still be populated with the selected string
+                    displayMatchingItems(props.selectedItem); // When the user focuses on the TextField, it should still be populated with the selected string
                 }}
                 onDropdownClose={() => {
+                    props.onChange(props.selectedItem);
                     setIsDropdownOpened(false);
                 }}
                 isDropdownOpened={isDropdownOpened}

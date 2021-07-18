@@ -64,6 +64,7 @@ const SignInModal: FunctionComponent = () => {
                                 formItemName="Email Address"
                                 errorString={errors.email}
                                 isDisabled={false}
+                                showErrorIcon={true}
                                 inputComponent={
                                     <TextField
                                         type="text"
@@ -81,6 +82,7 @@ const SignInModal: FunctionComponent = () => {
                                 formItemName="Password"
                                 errorString={errors.password}
                                 isDisabled={false}
+                                showErrorIcon={true}
                                 inputComponent={
                                     <TextField
                                         type={hidePassword ? "password" : "text"}

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import DonationForm from "../../data/types/donationForm";
+import { getItemAgeDescription } from "../utils/donationForm";
 
 interface DonationItemCardProps {
     donationForm: DonationForm;
@@ -23,7 +24,10 @@ const DonationItemCard: FunctionComponent<DonationItemCardProps> = (props: Donat
                 <h1>{props.donationForm.name}</h1>
                 {itemAttributeField("Condition", props.donationForm.condition)}
                 {itemAttributeField("Quantity", props.donationForm.quantity?.toString())}
-                {itemAttributeField("Age of Item", props.donationForm.age)}
+                {itemAttributeField(
+                    "Age of Item",
+                    props.donationForm.age ? getItemAgeDescription(props.donationForm.age) : "Unknown"
+                )}
                 {itemAttributeField("Description", props.donationForm.description, "item-description-field")}
             </div>
             <div className="action-icons">

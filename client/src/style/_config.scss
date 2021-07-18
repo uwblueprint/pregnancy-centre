@@ -178,6 +178,13 @@ $admin-request-group-browser-button-color: #fbfbfb;
     border: none;
 }
 
+@mixin white-button() {
+    @include button-base();
+    background-color: white;
+    color: black;
+    border: none;
+}
+
 /* Disable scrollbar for overflow */
 
 @mixin disable-scrollbar() {
@@ -265,3 +272,8 @@ $donation-item-details-text-color: #767676;
 
 /* Stepper Config */
 $stepper-border-color: #b7b7b7;
+
+/* Donation Item Form */
+$donation-item-form-card-color: #f4f4f4;
+$donation-item-form-dropdown-prompt-color: #adadad;
+$donation-item-form-tooltip-border-color: #a0a0a0;
