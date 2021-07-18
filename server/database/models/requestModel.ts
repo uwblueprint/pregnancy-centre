@@ -46,7 +46,7 @@ const requestSchema = new Schema(
         matchedDonations: {
             type: [
                 {
-                    donationForm: { type: Types.ObjectId, ref: "DonationForm" },
+                    donationForm: { type: Types.ObjectId, ref: "DonationForm", required: true },
                     quantity: { type: Number, required: true }
                 }
             ],
