@@ -132,6 +132,7 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
                                 showDeleteIcon={donationForms.length > 1}
                                 onEdit={() => onEditDonationForm(idx)}
                                 onDelete={() => onDeleteDonationForm(idx)}
+                                showEditIcon={true}
                             />
                         ) : (
                             <DonationItemForm
