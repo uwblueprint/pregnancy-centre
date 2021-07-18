@@ -11,19 +11,21 @@ import TextArea from "../atoms/TextArea";
 import { TextField } from "../atoms/TextField";
 
 interface Props {
+    initialDonationForm?: DonationForm;
     onDelete: () => void;
     onSave: (donationForm: DonationForm) => void;
     requestGroups: Array<RequestGroup>;
-    showFormUnsavedError: boolean;
+    showDeleteButton: boolean;
+    formDetailsError?: string;
 }
 
 const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
-    const [name, setName] = useState("");
-    const [nameInput, setNameInput] = useState("");
-    const [condition, setCondition] = useState<ItemCondition | null>(null);
-    const [age, setAge] = useState(1);
-    const [quantity, setQuantity] = useState<number>(1);
-    const [description, setDescription] = useState<string>("");
+    const [name, setName] = useState(props?.initialDonationForm?.name ?? "");
+    const [nameInput, setNameInput] = useState(props?.initialDonationForm?.name ?? "");
+    const [condition, setCondition] = useState<ItemCondition | null>(props?.initialDonationForm?.condition ?? null);
+    const [age, setAge] = useState(props?.initialDonationForm?.age ?? 1);
+    const [quantity, setQuantity] = useState<number>(props?.initialDonationForm?.quantity ?? 1);
+    const [description, setDescription] = useState<string>(props?.initialDonationForm?.description ?? "");
     const [nameError, setNameError] = useState("");
     const [formError, setFormError] = useState("");
     const [isConditionErroneous, setIsConditionErroneous] = useState(false);
@@ -287,14 +289,16 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                     }
                 />
                 <div className="form-buttons">
-                    <Button className="delete-button" text="Delete" copyText="" onClick={props.onDelete} />
+                    {props.showDeleteButton && (
+                        <Button className="delete-button" text="Delete" copyText="" onClick={props.onDelete} />
+                    )}
                     <Button className="save-button" text="Save Item" copyText="" onClick={onSave} />
                 </div>
             </div>
-            {(formError.length !== 0 || props.showFormUnsavedError) && (
+            {(formError.length !== 0 || props.formDetailsError?.length !== 0) && (
                 <div className="form-error">
                     <i className="bi bi-exclamation-circle alert-icon" />
-                    <span>{formError.length !== 0 ? formError : "Please save item to proceed to the next step."}</span>
+                    <span>{formError.length !== 0 ? formError : props.formDetailsError}</span>
                 </div>
             )}
         </div>
