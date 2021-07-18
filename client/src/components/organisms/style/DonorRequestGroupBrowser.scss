@@ -6,9 +6,7 @@
     flex-direction: column;
 
     &-header {
-        font-weight: bold;
-        font-size: 28px;
-        line-height: 34px;
+        @include donor-homepage-section-header-text;
     }
 
     &-content {
