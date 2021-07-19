@@ -31,15 +31,16 @@ interface DonationFormInterface extends Document {
     description?: string;
     quantity: number;
     age: number;
-    condition: string;
+    condition: DonationItemCondition;
     images: Array<string>;
 
     // Properties for admin
     adminNotes?: string;
-    status: string;
+    status: DonationItemStatus;
     quantityRemaining: number;
 
     // Timestamps
+    deletedAt: Date;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -97,6 +98,9 @@ const DonationFormSchema = new Schema(
             type: Number,
             required: true,
             default: 0
+        },
+        deletedAt: {
+            type: Date
         }
     },
     {
