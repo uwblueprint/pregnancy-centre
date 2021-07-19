@@ -40,6 +40,7 @@ interface DonationFormInterface extends Document {
     quantityRemaining: number;
 
     // Timestamps
+    donatedAt: Date;
     deletedAt: Date;
     createdAt: Date;
     updatedAt: Date;
@@ -92,12 +93,16 @@ const DonationFormSchema = new Schema(
         status: {
             type: String,
             required: true,
-            enum: Object.keys(DonationItemStatus)
+            enum: Object.keys(DonationItemStatus),
+            default: DonationItemStatus.PENDING_APPROVAL
         },
         quantityRemaining: {
             type: Number,
             required: true,
             default: 0
+        },
+        donatedAt: {
+            type: Date
         },
         deletedAt: {
             type: Date

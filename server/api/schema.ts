@@ -156,6 +156,8 @@ const typeDefs = gql`
         status: DonationItemStatus
         quantityRemaining: Int
 
+        donatedAt: String
+        deletedAt: String
         createdAt: String
         updatedAt: String
     }
@@ -164,11 +166,11 @@ const typeDefs = gql`
         contact: DonationFormContactInput
         name: String!
         description: String
-        quantity: Int
-        age: Int
-        condition: DonationItemCondition
+        quantity: Int!
+        age: Int!
+        condition: DonationItemCondition!
         status: DonationItemStatus
-        quantityRemaining: Int
+        quantityRemaining: Int!
     }
 
     input UpdateDonationFormInput {
@@ -179,6 +181,7 @@ const typeDefs = gql`
         status: DonationItemStatus
         quantityRemaining: Int
         adminNotes: String
+        donatedAt: String
     }
 
     type Query {
@@ -226,7 +229,7 @@ const typeDefs = gql`
 
         createDonationForm(donationForm: CreateDonationFormInput): DonationForm
         updateDonationForm(donationForm: UpdateDonationFormInput): DonationForm
-        deleteDonationForm(_id: ID): DonationForm 
+        deleteDonationForm(_id: ID): DonationForm
     }
 `;
 
