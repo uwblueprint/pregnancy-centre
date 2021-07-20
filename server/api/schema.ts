@@ -130,10 +130,6 @@ const typeDefs = gql`
         # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]
     }
 
-    type File {
-        url: String!
-      }
-
     type Mutation {
         createRequest(request: CreateRequestInput): Request
         updateRequest(request: UpdateRequestInput): Request
@@ -150,8 +146,6 @@ const typeDefs = gql`
         createRequestGroup(requestGroup: CreateRequestGroupInput): RequestGroup
         updateRequestGroup(requestGroup: UpdateRequestGroupInput): RequestGroup
         deleteRequestGroup(_id: ID): RequestGroup
-
-        uploadRequestGroupThumbnail(file: Upload!): File!
     }
 `
 

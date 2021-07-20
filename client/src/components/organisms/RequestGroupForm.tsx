@@ -13,9 +13,7 @@ import { RootState } from "../../data/reducers";
 import { TagInput } from "../atoms/TagInput";
 import { TextField } from "../atoms/TextField";
 import UploadThumbnailService from "../../services/upload-thumbnail";
-
 import { upsertRequestGroup } from "../../data/actions";
-
 
 interface StateProps {
     requestGroups: Array<RequestGroup>;
@@ -50,7 +48,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [loadingRequestGroup, setLoadingRequestGroup] = useState(props.operation === "edit");
     const [thumbnail, setThumbNail] = useState<File | null>(null);
 
-
     useEffect(() => {
         async function getImages() {
             setImages(await getFilesFromFolder(imageFolder));
@@ -59,23 +56,13 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     }, []);
 
     const createRequestGroupMutation = gql`
-        mutation CreateRequestGroup(
-        $name: String!
-        $description: String!
-        $image: String!
-        $requestTypes: [ID]
-        ) {
-        createRequestGroup(
-            requestGroup: {
-            name: $name
-            description: $description
-            image: $image
-            requestTypes: $requestTypes
+        mutation CreateRequestGroup($name: String!, $description: String!, $image: String!, $requestTypes: [ID]) {
+            createRequestGroup(
+                requestGroup: { name: $name, description: $description, image: $image, requestTypes: $requestTypes }
+            ) {
+                name
+                _id
             }
-        ) {
-            name
-            _id
-        }
         }
     `;
 
@@ -286,18 +273,15 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
     const uploadThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files != null) {
-          setThumbNail(e.target.files[0]);
+            setThumbNail(e.target.files[0]);
         }
-      };
-    
-      const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDescription(e.target.value);
-      };
+    };
 
     const onSubmit = async (e: React.FormEvent) => {
-        const img = await UploadThumbnailService.upload(thumbnail, description)
+        e.preventDefault();
+
+        const img = await UploadThumbnailService.upload(thumbnail, description);
         setImage(img);
-        // console.log(img)
 
         e.preventDefault();
         const tempNameError = updateNameError(name);
@@ -307,8 +291,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
         if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
             if (props.operation === "create") {
-
-
                 createRequestGroup({ variables: { name, description, image, requestTypeNames } });
             } else {
                 updateRequestGroup({
@@ -418,13 +400,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                     </div>
                 </div>
                 <div>
-        <input onChange={handleOnChange} />
-        <input
-          type="file"
-          name="request-group-thumbnail"
-          onChange={uploadThumbnail}
-        />
-
+                    <input type="file" name="request-group-thumbnail" onChange={uploadThumbnail} />
                 </div>
                 <div className="request-group-form-panel" id="right">
                     <div className="imagepicker-form-item">
