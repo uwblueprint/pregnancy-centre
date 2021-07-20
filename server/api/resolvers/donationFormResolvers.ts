@@ -41,6 +41,18 @@ const donationFormMutationResolvers = {
             await addDonationFormToRequestGroup(donationForm, newDonationForm.requestGroup);
         }
         return newDonationForm;
+    },
+    updateDonationForm: async (_, { donationForm }, { authenticateUser }): Promise<DonationFormInterface> => {
+        return authenticateUser.then(async () => {
+            return DonationForm.findByIdAndUpdate(donationForm._id, donationForm, { lean: true });
+        });
+    },
+    deleteDonationForm: async (_, { _id }, { authenticateUser }): Promise<DonationFormInterface> => {
+        return authenticateUser().then(async () => {
+            const donationForm = await DonationForm.findById(_id);
+            donationForm.deletedAt = new Date();
+            return donationForm.save();
+        });
     }
 };
 

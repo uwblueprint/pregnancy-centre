@@ -49,6 +49,7 @@ const RequestGroupSchema = new Schema(
         requestTypes: {
             type: [
                 {
+                    // @ts-ignore
                     _id: { type: Types.ObjectId, ref: "RequestType" }
                 }
             ],
