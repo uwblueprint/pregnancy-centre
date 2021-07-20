@@ -16,21 +16,24 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     const [requestSelectedForEditing, setRequestSelectedForEditing] = useState("");
 
     const headingList = ["Fulfilled", "Client Name", "Quantity", "Date Requested", ""];
-    const updateRequest = gql`
-        mutation updateRequest($request: RequestInput) {
-            updateRequest(request: $request) {
-                id
-                success
-                message
+    const fulfillRequest = gql`
+        mutation FulfillRequest($_id: ID) {
+            fulfillRequest(_id: $_id) {
+                _id
             }
         }
     `;
-    const softDeleteRequest = gql`
-        mutation deleteRequest($id: ID) {
-            softDeleteRequest(id: $id) {
-                id
-                success
-                message
+    const unfulfillRequest = gql`
+        mutation UnfulfillRequest($_id: ID) {
+            unfulfillRequest(_id: $_id) {
+                _id
+            }
+        }
+    `;
+    const deleteRequest = gql`
+        mutation DeleteRequest($_id: ID) {
+            deleteRequest(_id: $_id) {
+                _id
             }
         }
     `;
@@ -38,7 +41,6 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     const [requests, setRequests] = useState(props.requests.filter((request) => request.deleted === false));
 
     useEffect(() => {
-        // Your code here
         const nonFulfilledRequests = requests.filter((request) => {
             if (request !== undefined) {
                 if (request.fulfilled === false) {
@@ -55,55 +57,46 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         });
 
         nonFulfilledRequests.sort((a, b) => {
-            return a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf();
+            return a!.createdAt!.valueOf() - b!.createdAt!.valueOf();
         });
 
         fulfilledRequests.sort((a, b) => {
-            return a!.dateCreated!.valueOf() - b!.dateCreated!.valueOf();
+            return a!.createdAt!.valueOf() - b!.createdAt!.valueOf();
         });
 
         const sortedRequests: Request[] = nonFulfilledRequests!.concat(fulfilledRequests!) as Request[];
         setRequests(sortedRequests);
     }, []);
 
-    const [mutateDeleteRequest] = useMutation(softDeleteRequest);
-    const [mutateRequest] = useMutation(updateRequest);
-    const onSoftDeleteRequest = (index: number) => {
+    const [mutateDeleteRequest] = useMutation(deleteRequest);
+    const [mutateFulfillRequest] = useMutation(fulfillRequest, {
+        onCompleted: () => {
+            window.location.reload();
+        }
+    });
+    const [mutateUnfulfillRequest] = useMutation(unfulfillRequest, {
+        onCompleted: () => {
+            window.location.reload();
+        }
+    });
+    const onDeleteRequest = (index: number) => {
         const requestsCopy = requests.slice();
         const req = { ...requestsCopy[index] };
         requestsCopy.splice(index, 1);
         const id = req._id;
         props.onChangeNumRequests!(requestsCopy.length);
         setRequests(requestsCopy);
-        mutateDeleteRequest({ variables: { id: id } });
+        mutateDeleteRequest({ variables: { _id: id } });
     };
-    const onFulfilledRequest = (index: number) => {
-        const requestsCopy = requests.slice();
-        const req = { ...requestsCopy[index] };
-        if (req.fulfilled === false) {
-            req.fulfilled = true;
-            requestsCopy.splice(index, 1);
-            let i = requestsCopy.length - 1;
-            for (; i > -1; --i) {
-                if (requestsCopy[i].fulfilled === false) break;
-                else if (requestsCopy[i]!.dateCreated!.valueOf() < req!.dateCreated!.valueOf()) break;
-            }
-            requestsCopy.splice(i + 1, 0, req);
-        } else {
-            req.fulfilled = false;
-            requestsCopy.splice(index, 1);
-            let i = 0;
-            for (; i < requestsCopy.length; ++i) {
-                if (requestsCopy[i].fulfilled === true) break;
-                else if (requestsCopy[i]!.dateCreated!.valueOf() > req!.dateCreated!.valueOf()) break;
-            }
-            requestsCopy.splice(i, 0, req);
+    const onFulfilledRequest = (request: Request) => {
+        if (request._id == null) {
+            return;
         }
-        setRequests(requestsCopy);
-        const id = req._id;
-        const requestId = req.requestId;
-        const fulfilled = req.fulfilled;
-        mutateRequest({ variables: { request: { id, requestId, fulfilled } } });
+        if (request.fulfilled) {
+            mutateUnfulfillRequest({ variables: { _id: request._id } });
+        } else {
+            mutateFulfillRequest({ variables: { _id: request._id } });
+        }
     };
 
     return (
@@ -139,14 +132,14 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                                         <div>
                                             <Form.Check
                                                 type="checkbox"
-                                                onClick={() => onFulfilledRequest(index)}
+                                                onClick={() => onFulfilledRequest(request)}
                                                 defaultChecked={request.fulfilled}
                                             />
                                         </div>
                                     </td>
-                                    {request.client !== null ? (
+                                    {request.clientName !== null ? (
                                         <td style={requests[index].fulfilled ? { opacity: 0.2 } : undefined}>
-                                            <div className="row-text-style">{request.client!.fullName}</div>
+                                            <div className="row-text-style">{request.clientName}</div>
                                         </td>
                                     ) : (
                                         <td>N/A</td>
@@ -155,7 +148,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                                         {request.quantity}
                                     </td>
                                     <td style={requests[index].fulfilled ? { opacity: 0.2 } : undefined}>
-                                        {moment(request.dateCreated, "x").format("MMMM DD, YYYY")}
+                                        {moment(request.createdAt, "x").format("MMMM DD, YYYY")}
                                     </td>
                                     <td>
                                         <div className="btn-cont">
@@ -174,7 +167,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                                             <td>
                                                 <a
                                                     className="request-table delete"
-                                                    onClick={() => onSoftDeleteRequest(index)}
+                                                    onClick={() => onDeleteRequest(index)}
                                                 >
                                                     <i className="bi bi-trash"></i>
                                                 </a>

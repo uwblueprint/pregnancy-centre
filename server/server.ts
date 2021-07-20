@@ -11,14 +11,8 @@ import { getUser } from "./auth/firebase";
 import inflate from "inflation";
 import raw from "raw-body";
 
-import { ClientCache, RequestCache, RequestGroupCache, RequestTypeCache } from "./database/cache";
-import ClientDataSource from "./datasources/clientDataSource";
-import RequestDataSource from "./datasources/requestDataSource";
-import RequestGroupDataSource from "./datasources/requestGroupDataSource";
-import RequestTypeDataSource from "./datasources/requestTypeDataSource";
-import { resolvers } from "./graphql/resolvers";
-import { typeDefs } from "./graphql/schema";
-import User from "./auth/user";
+import { resolvers } from "./api/resolvers";
+import { typeDefs } from "./api/schema";
 
 // TODO: need to make script to build(compile) prod server and to run prod server
 
@@ -38,13 +32,8 @@ const corsPolicy = {
 // MONGODB CONNECTION AND DATA SOURCES FOR APOLLO
 // -----------------------------------------------------------------------------
 
-// connect to MongoDB and setup data sources
-connectDB(() => {
-    ClientCache.init();
-    RequestCache.init();
-    RequestTypeCache.init();
-    RequestGroupCache.init();
-});
+// connect to MongoDB
+connectDB();
 
 // -----------------------------------------------------------------------------
 // SERVER LAUNCH
@@ -114,16 +103,10 @@ async function gqlServer() {
                 }
 
                 const user = await getUser(req.cookies.session);
-                if (!user || !user.id) throw new AuthenticationError("Authentication Error");
+                if (!user || !user.id) throw new AuthenticationError("Forbidden Error");
 
                 return { req, res, user };
             }
-        }),
-        dataSources: () => ({
-            clients: new ClientDataSource(),
-            requests: new RequestDataSource(),
-            requestTypes: new RequestTypeDataSource(),
-            requestGroups: new RequestGroupDataSource()
         })
     });
 

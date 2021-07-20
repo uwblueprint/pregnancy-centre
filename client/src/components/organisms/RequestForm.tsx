@@ -1,5 +1,5 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import React, { FunctionComponent, useState } from "react";
 
 import FormItem from "../molecules/FormItem";
 import FormModal from "./FormModal";
@@ -20,7 +20,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [initialRequest, setInitialRequest] = useState<Request | null>(null);
     const [showAlertDialog, setShowAlertDialog] = useState(false);
     const [changeMade, setChangeMade] = useState(false);
-    const [requestGroupsMap, setRequestGroupsMap] = useState<Map<string, RequestGroup> | null>(null);
+    const [requestGroupsMap, setRequestGroupsMap] = useState<Map<string, RequestGroup | null> | null>(null);
     const [requestTypesMap, setRequestTypesMap] = useState<Map<string, RequestType> | null>(null);
     const [requestGroup, setRequestGroup] = useState<RequestGroup | null>(null);
     const [requestType, setRequestType] = useState<RequestType | null>(null);
@@ -35,11 +35,9 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [loading, setLoading] = useState(true);
 
     const createRequestMutation = gql`
-        mutation CreateRequest($requestType: ID!, $quantity: Int!, $clientName: String!) {
-            createRequest(request: { requestType: $requestType, quantity: $quantity, clientFullName: $clientName }) {
-                success
-                message
-                id
+        mutation CreateRequest($quantity: Int!, $requestType: ID!, $clientName: String!) {
+            createRequest(request: { quantity: $quantity, requestType: $requestType, clientName: $clientName }) {
+                _id
             }
         }
     `;
@@ -47,11 +45,9 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const updateRequestMutation = gql`
         mutation UpdateRequest($id: ID!, $requestType: ID!, $quantity: Int!, $clientName: String!) {
             updateRequest(
-                request: { id: $id, requestType: $requestType, quantity: $quantity, clientFullName: $clientName }
+                request: { _id: $id, requestType: $requestType, quantity: $quantity, clientName: $clientName }
             ) {
-                success
-                message
-                id
+                _id
             }
         }
     `;
@@ -73,20 +69,59 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         }
     });
 
-    const fetchRequestGroups = gql`
+    const fetchRequestGroupsQuery = gql`
         query FetchRequestGroups {
             requestGroups {
+                _id
+                name
+            }
+        }
+    `;
+
+    const fetchRequestTypesOfRequestGroupQuery = gql`
+        query FetchRequestTypesOfRequestGroup($id: ID!) {
+            requestGroup(_id: $id) {
                 _id
                 name
                 requestTypes {
                     _id
                     name
+                    deleted
                 }
             }
         }
     `;
 
-    useQuery(fetchRequestGroups, {
+    const fetchRequest = gql`
+        query FetchRequest($id: ID!) {
+            request(_id: $id) {
+                _id
+                quantity
+                requestType {
+                    _id
+                    name
+                    requestGroup {
+                        _id
+                        name
+                    }
+                }
+                clientName
+            }
+        }
+    `;
+
+    const [fetchRequestTypesOfRequestGroup] = useLazyQuery(fetchRequestTypesOfRequestGroupQuery, {
+        onCompleted: (data: { requestGroup: RequestGroup }) => {
+            const requestGroup = data.requestGroup;
+            if (requestGroup?.name && requestGroup?.requestTypes) {
+                setRequestGroupsMap(new Map(requestGroupsMap ?? []).set(requestGroup?.name, requestGroup));
+                updateRequestTypesMap(requestGroup.requestTypes);
+                setLoading(false);
+            }
+        }
+    });
+
+    useQuery(fetchRequestGroupsQuery, {
         fetchPolicy: "network-only",
         onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
             const requestGroups: Array<RequestGroup> = JSON.parse(JSON.stringify(data.requestGroups)); // deep-copy since data object is frozen
@@ -108,41 +143,26 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         }
     });
 
-    const fetchRequest = gql`
-        query FetchRequest($id: ID!) {
-            request(id: $id) {
-                _id
-                quantity
-                requestType {
-                    _id
-                    name
-                    requestGroup {
-                        _id
-                        name
-                    }
-                }
-                client {
-                    _id
-                    fullName
-                }
-            }
-        }
-    `;
-
     if (props.operation === "edit") {
         useQuery(fetchRequest, {
             variables: { id: props.requestId },
             fetchPolicy: "network-only",
             onCompleted: (data: { request: Request }) => {
                 const request: Request = JSON.parse(JSON.stringify(data.request)); // deep-copy since data object is frozen
+                const requestType: RequestType | null = request.requestType ?? null;
+                const requestGroup: RequestGroup | null = requestType?.requestGroup ?? null;
 
                 setInitialRequest(request);
-                setRequestGroup(
-                    request.requestType && request.requestType.requestGroup ? request.requestType.requestGroup : null
-                );
-                setRequestType(request.requestType ? request.requestType : null);
+                setRequestGroup(requestGroup);
+                setRequestType(requestType);
                 setQuantity(request.quantity ? request.quantity : 1);
-                setClientName(request.client && request.client.fullName ? request.client.fullName : "");
+                setClientName(request.clientName ? request.clientName : "");
+                if (requestGroup?._id) {
+                    fetchRequestTypesOfRequestGroup({ variables: { id: requestGroup._id } });
+                }
+                if (requestGroup?.requestTypes) {
+                    updateRequestTypesMap(requestGroup.requestTypes);
+                }
 
                 // Check that requestGroups are loaded before setting loading = false
                 if (requestGroupsMap) {
@@ -150,36 +170,20 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 }
             }
         });
-
-        useEffect(() => {
-            if (
-                requestGroupsMap &&
-                initialRequest &&
-                initialRequest.requestType &&
-                initialRequest.requestType.requestGroup &&
-                initialRequest.requestType.requestGroup.name
-            ) {
-                // When all request groups and the initial request is fetched, construct requestTypesMap
-                const initialRequestGroupRequestTypes = requestGroupsMap.get(
-                    initialRequest.requestType.requestGroup.name
-                )?.requestTypes;
-                if (initialRequestGroupRequestTypes) {
-                    updateRequestTypesMap(initialRequestGroupRequestTypes);
-                }
-            }
-        }, [requestGroupsMap, initialRequest]);
     }
 
     /* Functions for RequestTypesMap */
     const updateRequestTypesMap = (requestTypes: Array<RequestType>) => {
         setRequestTypesMap(
             new Map(
-                requestTypes.reduce((entries, requestType) => {
-                    if (requestType && requestType.name) {
-                        entries.push([requestType.name, requestType]);
-                    }
-                    return entries;
-                }, [] as Array<[string, RequestType]>)
+                requestTypes
+                    .filter((requestType) => requestType.deleted === false)
+                    .reduce((entries, requestType) => {
+                        if (requestType && requestType.name) {
+                            entries.push([requestType.name, requestType]);
+                        }
+                        return entries;
+                    }, [] as Array<[string, RequestType]>)
             )
         );
     };
@@ -207,11 +211,18 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         if (
             newRequestGroup &&
             // check that new request group is not the same as the previously selected request group
-            (!requestGroup || newRequestGroupName !== requestGroup.name) &&
-            newRequestGroup.requestTypes
+            (!requestGroup || newRequestGroupName !== requestGroup.name)
         ) {
             // If a new request group is chosen, change the request types map
-            updateRequestTypesMap(newRequestGroup.requestTypes);
+            if (newRequestGroup.requestTypes) {
+                // If request types of chosen request group was already fetched, then construct requestTypesMap
+                updateRequestTypesMap(newRequestGroup.requestTypes);
+            } else {
+                // Fetch request types of chosen request group
+                setLoading(true);
+                setRequestTypesMap(null);
+                fetchRequestTypesOfRequestGroup({ variables: { id: newRequestGroup._id } });
+            }
             setRequestType(null);
         }
 
@@ -298,29 +309,31 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         const tempQuantityNameError = updateQuantityError(quantity);
         const tempClientNameError = updateClientNameError(clientName);
 
-        if (!tempRequestGroupError && !tempRequestTypeError && !tempQuantityNameError && !tempClientNameError) {
+        if (
+            !tempRequestGroupError &&
+            !tempRequestTypeError &&
+            !tempQuantityNameError &&
+            !tempClientNameError &&
+            requestType
+        ) {
             if (props.operation === "create") {
-                if (requestType) {
-                    createRequest({
-                        variables: {
-                            requestType: requestType._id,
-                            quantity,
-                            clientName
-                        }
-                    });
-                }
+                createRequest({
+                    variables: {
+                        requestType: requestType._id,
+                        quantity,
+                        clientName
+                    }
+                });
             } else {
                 // Edit request
-                if (initialRequest && initialRequest.client && requestType) {
-                    updateRequest({
-                        variables: {
-                            id: initialRequest._id,
-                            requestType: requestType._id,
-                            quantity,
-                            clientName
-                        }
-                    });
-                }
+                updateRequest({
+                    variables: {
+                        id: props.requestId,
+                        requestType: requestType._id,
+                        quantity,
+                        clientName
+                    }
+                });
             }
             props.handleClose();
         }

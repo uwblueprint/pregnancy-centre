@@ -14,17 +14,16 @@ interface Props {
     requestType?: RequestType;
     requestGroup?: RequestGroup;
     requests?: Request[];
+    deletable?: boolean;
 }
 
 const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const [numRequests, setNumRequests] = useState(0);
 
     const softDelete = gql`
-        mutation deleteARequestType($id: ID) {
-            softDeleteRequestType(id: $id) {
-                id
-                success
-                message
+        mutation deleteRequestType($id: ID) {
+            deleteRequestType(_id: $id) {
+                _id
             }
         }
     `;
@@ -92,15 +91,17 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                         >
                             <i className="bi bi-pencil"></i>
                         </a>
-                        <a
-                            className="button-container delete"
-                            onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-                                onOpenDeleteRequestType();
-                                e.stopPropagation();
-                            }}
-                        >
-                            <i className="bi bi-trash"></i>
-                        </a>
+                        {props.deletable && (
+                            <a
+                                className="button-container delete"
+                                onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                                    onOpenDeleteRequestType();
+                                    e.stopPropagation();
+                                }}
+                            >
+                                <i className="bi bi-trash"></i>
+                            </a>
+                        )}
                     </span>
                 }
                 body={

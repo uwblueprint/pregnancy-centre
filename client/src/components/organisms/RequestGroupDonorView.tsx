@@ -9,31 +9,27 @@ import RequestGroup from "../../data/types/requestGroup";
 import RequestTypeList from "../molecules/RequestTypeList";
 import RichTextDisplay from "../atoms/RichTextDisplay";
 
-// TODO: rich text for descriptions (BLOCKER: how admin's will set descriptions)
-// TODO: get email from TPC and put here
-
 interface Props {
     requestGroupId?: string;
 }
 
 const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
-    const emailAddress = "reception@pregnancycentre.ca"; // TODO: replace and see todo above
+    const emailAddress = "reception@pregnancycentre.ca";
 
     const [requestGroupData, setRequestGroupData] = useState<RequestGroup | undefined>(undefined);
 
     const query = gql`
         query FetchRequestGroup($id: ID!) {
-            requestGroup(id: $id) {
+            requestGroup(_id: $id) {
                 _id
                 name
-                dateUpdated
+                updatedAt
                 description
-                requirements
                 image
                 requestTypes {
                     _id
                     name
-                    numOpen
+                    countOpenRequests
                 }
             }
         }
@@ -65,7 +61,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                         <div className="info">
                             <h1 id="header">{requestGroupData.name}</h1>
                             <p id="date-updated">
-                                Last added {moment(requestGroupData.dateUpdated, "x").format("MMMM DD, YYYY")}
+                                Last added {moment(requestGroupData.updatedAt, "x").format("MMMM DD, YYYY")}
                             </p>
                             <div id="image">
                                 <img src={requestGroupData.image} />

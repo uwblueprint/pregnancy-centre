@@ -85,15 +85,18 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                     >
                                         <td className="spacing-col" />
                                         <td className="name-col">{requestGroup.name}</td>
-                                        <td className="numOpen-col">{requestGroup.numOpen}</td>
+                                        <td className="numOpen-col">{requestGroup.countOpenRequests}</td>
                                         <td className="types-col">
                                             <div className="requestType-tag-list">
                                                 {requestGroup.requestTypes &&
                                                     requestGroup.requestTypes.map(
                                                         (requestType) =>
                                                             requestType.name &&
-                                                            !requestType.deleted && (
-                                                                <span className="requestType-tag-list-item">
+                                                            !requestType.deletedAt && (
+                                                                <span
+                                                                    className="requestType-tag-list-item"
+                                                                    key={requestType._id}
+                                                                >
                                                                     <Tag text={requestType.name} />
                                                                 </span>
                                                             )
@@ -101,11 +104,11 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                             </div>
                                         </td>
                                         <td className="nextRecipient-col">
-                                            {requestGroup.nextRecipient ? requestGroup.nextRecipient.fullName : "N/A"}
+                                            {requestGroup.nextRecipient ? requestGroup.nextRecipient : "N/A"}
                                         </td>
                                         <td className="date-col">
                                             {requestGroup.hasAnyRequests
-                                                ? moment(requestGroup.dateUpdated, "x").format("MMMM DD, YYYY")
+                                                ? moment(requestGroup.updatedAt, "x").format("MMMM DD, YYYY")
                                                 : "N/A"}
                                         </td>
                                         <td className="image-col">
@@ -115,7 +118,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                         </td>
                                         <td className="spacing-col" />
                                     </tr>
-                                    <tr className="border-row">
+                                    <tr className="border-row" key={requestGroup._id + "b"}>
                                         <td className="spacing-col" />
                                         <td>
                                             <div className="border-line" />
@@ -144,7 +147,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
             </table>
             {props.requestGroups && props.requestGroups.length == 0 && (
                 <span className="no-groups-msg">
-                    There are no request groups.
+                    There are no needs created.
                     <a
                         className="create-group-link"
                         onClick={() => {

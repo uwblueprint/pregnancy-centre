@@ -1,16 +1,18 @@
-import Client from "./client";
+import Request from "./request";
 import RequestType from "./requestType";
 
 export default interface RequestGroup {
     _id?: string;
     name?: string;
-    dateUpdated?: Date;
-    deleted?: boolean;
     description?: string;
-    requirements?: string;
     image?: string;
     requestTypes?: RequestType[];
-    numOpen?: number;
+    createdAt?: Date;
+    updatedAt?: Date;
+    deletedAt?: Date;
+    deleted?: boolean;
+    countOpenRequests?: number;
+    nextRequest?: Request;
+    nextRecipient?: string;
     hasAnyRequests?: boolean;
-    nextRecipient?: Client;
 }
