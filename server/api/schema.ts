@@ -168,6 +168,7 @@ const typeDefs = gql`
         description: String
         quantity: Int!
         age: Int!
+        requestGroup: ID
         condition: DonationItemCondition!
         status: DonationItemStatus
         quantityRemaining: Int!
