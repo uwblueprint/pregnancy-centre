@@ -18,7 +18,18 @@ const donationFormQueryResolvers = {
     },
     donationForms: async (_, __, ___): Promise<Array<DonationFormInterface>> => {
         return DonationForm.find().exec();
-    }
+    },
+    donationFormsPage: async (_, { skip, limit, name }, __): Promise<Array<DonationFormInterface>> => {
+        if (name) {
+            return DonationForm.find({ name: { $regex: "^" + name + ".*", $options: "i" } })
+                .sort({ name: "ascending", _id: "ascending" })
+                .skip(skip)
+                .limit(limit)
+                .exec();
+        } else {
+            return DonationForm.find().sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
+        }
+    },
 };
 
 const donationFormMutationResolvers = {
