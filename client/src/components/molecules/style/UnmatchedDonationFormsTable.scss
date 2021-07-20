@@ -1,0 +1,100 @@
+.unmatched-donation-forms-table {
+    @include table-base;
+
+    table {
+        table-layout: fixed;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    thead tr th {
+        border-top: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    thead th,
+    td {
+        padding-left: 40px;
+        padding-right: 0px;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+        padding-left: 16px;
+    }
+
+    th:nth-last-child(2),
+    td:nth-last-child(2) {
+        padding-right: 16px;
+    }
+
+    td {
+        word-wrap: break-word;
+        height: 90px;
+        vertical-align: middle;
+    }
+
+    tr td:nth-child(2) {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        -moz-border-radius-topleft: 4px;
+        -moz-border-radius-bottomleft: 4px;
+        -webkit-border-top-left-radius: 4px;
+        -webkit-border-bottom-left-radius: 4px;
+    }
+
+    tr td:last-child {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        -moz-border-radius-topright: 4px;
+        -moz-border-radius-bottomright: 4px;
+        -webkit-border-top-right-radius: 4px;
+        -webkit-border-bottom-right-radius: 4px;
+    }
+
+    .data-row:hover {
+        td:not(.spacing-col) {
+            background-color: $selected-item-background;
+        }
+    }
+
+    .spacing-col {
+        width: 5%;
+    }
+
+    .item-col {
+        width: 13%;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+    .contact-col {
+        width: 12%;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+    .quantity-col {
+        width: 12%;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+    .date-submitted-col {
+        width: 12%;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+    .status-col {
+        width: 12%;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+    .status-progress-col {
+        width: 12%;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+    .menu-col {
+        width: 12%;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+}

@@ -1,4 +1,4 @@
-import { ItemCondition } from "../../data/types/donationForm";
+import { DonationItemStatus, ItemCondition } from "../../data/types/donationForm";
 
 export const ItemConditionToDescriptionMap = new Map<ItemCondition, string>([
     [ItemCondition.BRAND_NEW, "Brand New (still in package)"],
@@ -14,6 +14,13 @@ export const ItemConditionToShortDescriptionMap = new Map<ItemCondition, string>
     [ItemCondition.GOOD, "Good"],
     [ItemCondition.FAIR, "Fair"],
     [ItemCondition.POOR, "Poor"]
+]);
+
+export const ItemStatusToReadableString = new Map<DonationItemStatus, string>([
+    [DonationItemStatus.PENDING_APPROVAL, "Pending Approval"],
+    [DonationItemStatus.PENDING_DROPOFF, "Pending Dropoff"],
+    [DonationItemStatus.PENDING_MATCH, "Pending Match"],
+    [DonationItemStatus.MATCHED, "Matched"]
 ]);
 
 // Item with age <=0 has description itemAgeDescriptions[0]
