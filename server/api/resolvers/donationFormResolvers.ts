@@ -19,16 +19,28 @@ const donationFormQueryResolvers = {
     donationForms: async (_, __, ___): Promise<Array<DonationFormInterface>> => {
         return DonationForm.find().exec();
     },
-    donationFormsPage: async (_, { skip, limit, name }, __): Promise<Array<DonationFormInterface>> => {
+    donationFormsPage: async (_, { skip, limit, filterOptions }, __): Promise<Array<DonationFormInterface>> => {
+        const { name, formType, status } = filterOptions;
+        let filter: any = {}
         if (name) {
-            return DonationForm.find({ name: { $regex: "^" + name + ".*", $options: "i" } })
-                .sort({ name: "ascending", _id: "ascending" })
-                .skip(skip)
-                .limit(limit)
-                .exec();
-        } else {
-            return DonationForm.find().sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
+            filter.name = { $regex: "^" + name + ".*", $options: "i" };
+        } 
+        if (formType) {
+            if (formType == "GENERAL"){
+                filter.requestGroup = { $eq: null };
+            }
+            if (formType == "SPECIFIC"){
+                filter.requestGroup = { $ne: null };
+            }
         }
+        if (status){
+            filter.status = status;
+        }
+        return DonationForm.find(filter)
+            .sort({ name: "ascending", _id: "ascending" })
+            .skip(skip)
+            .limit(limit)
+            .exec();
     },
 };
 
