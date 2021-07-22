@@ -5,9 +5,23 @@
     height: 811px;
     width: 100%;
 
-    &-page-navigation {
-        margin-top: 30px;
+  .spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: $border-line;
+    height: 691px;
+
+    .spinner-border {
+      width: 40px;
+      height: 40px;
     }
+  }
+
+  &-page-navigation {
+    margin-top: 30px;
+  }
 
     &-scroll-window {
         border-bottom: $border-line;

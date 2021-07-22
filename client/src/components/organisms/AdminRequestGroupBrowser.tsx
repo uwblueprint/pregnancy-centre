@@ -20,38 +20,33 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
     const [showCreateTypeModal, setShowCreateTypeModal] = useState(false);
 
     const query = gql`
-        query getRequestGroup($id: ID) {
-            requestGroup(id: $id) {
-                _id
-                name
-                deleted
-                description
-                requirements
-                dateUpdated
-                image
-                numOpen
-                requestTypes {
-                    _id
-                    name
-                    deleted
-                    dateUpdated
-                    requests {
-                        _id
-                        requestId
-                        dateUpdated
-                        dateCreated
-                        dateFulfilled
-                        deleted
-                        fulfilled
-                        quantity
-                        client {
-                            _id
-                            fullName
-                        }
-                    }
-                }
+    query requestGroup($id: ID) {
+        requestGroup(_id: $id){
+          _id
+          name
+          description
+          image
+          updatedAt
+          deleted
+          countOpenRequests
+          requestTypes{
+            _id
+            name
+            updatedAt
+            deleted
+            requests{
+              _id
+              quantity
+              updatedAt
+              createdAt
+              fulfilledAt
+              deleted
+              fulfilled
+              clientName 
             }
+          }
         }
+    }
     `;
 
     const { error } = useQuery(query, {
@@ -88,7 +83,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                         <div className="request-group-description">
                             <h1 className="request-group-title">{requestGroup!.name}</h1>
                             <p>
-                                Displaying {requestGroup!.numOpen} total requests and {numTypes} types
+                                Displaying {requestGroup!.countOpenRequests} total requests and {numTypes} types
                             </p>
                         </div>
                         <div>

@@ -20,14 +20,11 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const [numRequests, setNumRequests] = useState(0);
 
     const softDelete = gql`
-        mutation deleteARequestType($id: ID) {
-            softDeleteRequestType(id: $id) {
-                id
-                success
-                message
-            }
+    mutation deleteRequestType($_id: ID){
+        deleteRequestType(_id: $_id){
+            _id
         }
-    `;
+    }`;
 
     const [requestType, setRequestType] = useState(props.requestType);
     const [editModalShow, setEditModalShow] = useState(false);
