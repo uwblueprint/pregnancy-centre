@@ -1,14 +1,16 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from "react";
+import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from "react";
+import { Area } from "react-easy-crop/types";
 import Cropper from "react-easy-crop";
 import Dropzone from "react-dropzone";
-import ImageList from "./ImageList";
 import Slider from "@material-ui/core/Slider";
 
+import ImageList from "./ImageList";
 import WarningBox from "./WarningBox";
 
 interface Props {
     onImageChange(url: string): void;
     onUploadImg(data: string): void;
+    onCroppedAreaChange(area: Area): void;
     images: string[];
     selected: string;
     isErroneous: boolean;
@@ -89,6 +91,12 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
         if (zoom + amount > 10 || zoom + amount < 1) return;
         setZoom(zoom + amount);
     };
+    const onCropComplete = useCallback(
+        async (croppedArea: Area, croppedAreaPixels: Area) => {
+            props.onCroppedAreaChange(croppedAreaPixels);
+        },
+        []
+    )
     const triggerWarning = (text: string) => {
         setWarningText(text);
         setTimeout(() => {
@@ -117,6 +125,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                                 zoom={zoom}
                                 onCropChange={setCrop}
                                 onZoomChange={setZoom}
+                                onCropComplete={onCropComplete}
                                 maxZoom={10}
                                 cropSize={{
                                     height: cropFieldHeight,

@@ -1,6 +1,7 @@
 import { bindActionCreators, Dispatch } from "redux";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { Area } from "react-easy-crop/types";
 import { connect } from "react-redux";
 
 import FormItem from "../molecules/FormItem";
@@ -30,6 +31,70 @@ type Props = StateProps &
         operation: "create" | "edit";
     };
 
+const createImage: (url:string) => Promise<HTMLImageElement> = (url: string) =>
+  new Promise((resolve, reject) => {
+    const image = new Image()
+    image.addEventListener('load', () => resolve(image))
+    image.addEventListener('error', error => reject(error))
+    console.log(url);
+    image.src = url
+    return image;
+  })
+
+/**
+ * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
+ * @param {File} image - Image File url
+ * @param {Object} pixelCrop - pixelCrop Object provided by react-easy-crop
+ * @param {number} rotation - optional rotation parameter
+ */
+const getCroppedImg = async (imageSrc: string, pixelCrop: Area) => {
+  console.log("hi asdf: ", imageSrc)
+  const image: HTMLImageElement = await createImage(imageSrc)
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+
+  const maxSize = Math.max(image.width, image.height)
+  const safeArea = 2 * ((maxSize / 2) * Math.sqrt(2))
+
+  // set each dimensions to double largest dimension to allow for a safe area for the
+  // image to rotate in without being clipped by canvas context
+  canvas.width = safeArea
+  canvas.height = safeArea
+
+  // translate canvas context to a central location on image to allow rotating around the center.
+  ctx!.translate(safeArea / 2, safeArea / 2)
+  ctx!.translate(-safeArea / 2, -safeArea / 2)
+
+  // draw rotated image and store data.
+  ctx!.drawImage(
+    image,
+    safeArea / 2 - image.width * 0.5,
+    safeArea / 2 - image.height * 0.5
+  )
+  const data = ctx!.getImageData(0, 0, safeArea, safeArea)
+
+  // set canvas width to final desired crop size - this will clear existing context
+  canvas.width = pixelCrop.width
+  canvas.height = pixelCrop.height
+
+  // paste generated rotate image with correct offsets for x,y crop values.
+  ctx!.putImageData(
+    data,
+    Math.round(0 - safeArea / 2 + image.width * 0.5 - pixelCrop.x),
+    Math.round(0 - safeArea / 2 + image.height * 0.5 - pixelCrop.y)
+  )
+
+  // As Base64 string
+  return canvas.toDataURL('image/jpeg');
+
+  // As a blob
+//   return new Promise(resolve => {
+//     canvas.toBlob(file => {
+//       resolve(URL.createObjectURL(file))
+//     }, 'image/jpeg')
+//   })
+}
+
 const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const imageFolder = "request_images";
     const [initialRequestGroup, setInitialRequestGroup] = useState<RequestGroup | null>(null);
@@ -46,6 +111,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [imageError, setImageError] = useState("");
     const [requestTypesError, setRequestTypesError] = useState("");
     const [loadingRequestGroup, setLoadingRequestGroup] = useState(props.operation === "edit");
+    const [croppedArea, setCroppedArea] = useState<Area>({width: 0,height: 0,x: 0,y:0});
 
     useEffect(() => {
         async function getImages() {
@@ -287,14 +353,19 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             setUploadedImg("");
         }
     };
+    const onCroppedAreaChange = (area: Area) => {
+        setCroppedArea(area);
+    }
 
-    const onSubmit = (e: React.FormEvent) => {
+    const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const tempNameError = updateNameError(name);
         const tempDescriptionError = updateDescriptionError(description);
         const tempImageError = imageError;
         const tempRequestTypesError = updateRequestTypeNamesError(requestTypeNames);
 
+        const image = await getCroppedImg(uploadedImg, croppedArea);
+        console.log(image);
         if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
             if (props.operation === "create") {
                 createRequestGroup({ variables: { name, description, image, requestTypeNames } });
@@ -420,6 +491,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                             inputComponent={
                                 <ImagePicker
                                     onImageChange={onImageChange}
+                                    onCroppedAreaChange={onCroppedAreaChange}
                                     images={images}
                                     selected={image}
                                     isErroneous={imageError !== ""}
