@@ -353,22 +353,31 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const img = await UploadThumbnailService.upload(thumbnail, description);
-        setImage(img);
-        e.preventDefault();
         const tempNameError = updateNameError(name);
         const tempDescriptionError = updateDescriptionError(description);
         const tempImageError = imageError;
         const tempRequestTypesError = updateRequestTypeNamesError(requestTypeNames);
 
-        const image = await getCroppedImg(uploadedImg, croppedArea);
-        console.log(image);
         if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
+            let selectedImg
+            if(uploadedImg !== "") {
+                const croppedImg = await getCroppedImg(uploadedImg, croppedArea);
+                console.log(croppedImg);
+                
+                const croppedImgURL = await UploadThumbnailService.upload(croppedImg, "asdf123");
+                console.log(croppedImgURL);
+                selectedImg = croppedImgURL;
+            }
+            else {
+                selectedImg = image;
+            }
+
             if (props.operation === "create") {
-                createRequestGroup({ variables: { name, description, image, requestTypeNames } });
+                console.log(name, description, selectedImg, requestTypeNames);
+                createRequestGroup({ variables: { name, description, selectedImg, requestTypeNames } });
             } else {
                 updateRequestGroup({
-                    variables: { id: props.requestGroupId, name, description, image, requestTypeNames }
+                    variables: { id: props.requestGroupId, name, description, selectedImg, requestTypeNames }
                 });
             }
             props.handleClose();
@@ -472,9 +481,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                             }
                         />
                     </div>
-                </div>
-                <div>
-                    <input type="file" name="request-group-thumbnail" onChange={uploadThumbnail} />
                 </div>
                 <div className="request-group-form-panel" id="right">
                     <div className="imagepicker-form-item">

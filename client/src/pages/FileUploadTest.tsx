@@ -13,8 +13,8 @@ const FileUploadTest: FunctionComponent = () => {
   };
 
   const saveThumbnail = async () => {
-    const img = await UploadThumbnailService.upload(thumbnail, description)
-    console.log(img)
+    // const img = await UploadThumbnailService.upload(thumbnail, description)
+    // console.log(img)
   };
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDescription(e.target.value);
