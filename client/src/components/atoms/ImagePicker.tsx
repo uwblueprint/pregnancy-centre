@@ -91,12 +91,9 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
         if (zoom + amount > 10 || zoom + amount < 1) return;
         setZoom(zoom + amount);
     };
-    const onCropComplete = useCallback(
-        async (croppedArea: Area, croppedAreaPixels: Area) => {
-            props.onCroppedAreaChange(croppedAreaPixels);
-        },
-        []
-    )
+    const onCropComplete = useCallback(async (croppedArea: Area, croppedAreaPixels: Area) => {
+        props.onCroppedAreaChange(croppedAreaPixels);
+    }, []);
     const triggerWarning = (text: string) => {
         setWarningText(text);
         setTimeout(() => {
