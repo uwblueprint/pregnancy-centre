@@ -359,16 +359,15 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         const tempRequestTypesError = updateRequestTypeNamesError(requestTypeNames);
 
         if (!tempNameError && !tempDescriptionError && !tempImageError && !tempRequestTypesError) {
-            let selectedImg
-            if(uploadedImg !== "") {
+            let selectedImg;
+            if (uploadedImg !== "") {
                 const croppedImg = await getCroppedImg(uploadedImg, croppedArea);
                 console.log(croppedImg);
-                
+
                 const croppedImgURL = await UploadThumbnailService.upload(croppedImg, "asdf123");
                 console.log(croppedImgURL);
                 selectedImg = croppedImgURL;
-            }
-            else {
+            } else {
                 selectedImg = image;
             }
 
