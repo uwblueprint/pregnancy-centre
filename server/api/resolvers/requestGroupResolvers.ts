@@ -2,6 +2,7 @@ import { Request, RequestInterface } from "../../database/models/requestModel";
 import { RequestEmbeddingInterface, RequestType, RequestTypeInterface } from "../../database/models/requestTypeModel";
 import { RequestGroup, RequestGroupInterface } from "../../database/models/requestGroupModel";
 
+import { DonationForm, DonationFormInterface } from "../../database/models/donationFormModel";
 import { filterOpenRequestEmbeddings, nextRequestEmbeddingForRequestType } from "./requestTypeResolvers";
 
 import { infoContainsOnlyFields } from "../utils/info";
@@ -99,6 +100,15 @@ const requestGroupResolvers = {
         // otherwise, get the underlying Requests from the database
         return parent.requestTypes.map((requestTypeEmbedding) => {
             return RequestType.findById(requestTypeEmbedding._id);
+        });
+    },
+    donationForms: async (parent, __, ___, info): Promise<Array<DonationFormInterface>> => {
+        if (infoContainsOnlyFields(info, ["_id"])) {
+            return parent.donationForms;
+        }
+
+        return parent.donationForms.map((donationFormEmbedding) => {
+            return DonationForm.findById(donationFormEmbedding._id);
         });
     },
     deleted: (parent, __, ___): boolean => {

@@ -1,11 +1,17 @@
 import { gql } from "apollo-server";
 
 const typeDefs = gql`
+    type DonationFormContributionTuple {
+        donationForm: ID
+        quantity: Int
+    }
+
     type Request {
         _id: ID
         quantity: Int
         clientName: String
         requestType: RequestType
+        matchedDonations: [DonationFormContributionTuple]
 
         createdAt: String
         updatedAt: String
@@ -72,6 +78,7 @@ const typeDefs = gql`
         description: String
         image: String
         requestTypes: [RequestType]
+        donationForms: [DonationForm]
 
         createdAt: String
         updatedAt: String
@@ -105,6 +112,79 @@ const typeDefs = gql`
     #     NOT_AVAILABLE: Boolean
     # }
 
+    enum DonationItemCondition {
+        BRAND_NEW
+        GREAT
+        GOOD
+        FAIR
+        POOR
+    }
+
+    enum DonationItemStatus {
+        PENDING_APPROVAL
+        PENDING_DROPOFF
+        PENDING_MATCH
+        MATCHED
+    }
+
+    type DonationFormContact {
+        firstName: String
+        lastName: String
+        email: String
+        phoneNumber: String
+    }
+
+    input DonationFormContactInput {
+        firstName: String
+        lastName: String
+        email: String
+        phoneNumber: String
+    }
+
+    type DonationForm {
+        _id: ID
+        contact: DonationFormContact
+        name: String
+        requestGroup: RequestGroup
+        description: String
+        quantity: Int
+        age: Int
+        condition: DonationItemCondition
+        images: [String]
+
+        adminNotes: String
+        status: DonationItemStatus
+        quantityRemaining: Int
+
+        donatedAt: String
+        deletedAt: String
+        createdAt: String
+        updatedAt: String
+    }
+
+    input CreateDonationFormInput {
+        contact: DonationFormContactInput
+        name: String!
+        description: String
+        quantity: Int!
+        age: Int!
+        requestGroup: ID
+        condition: DonationItemCondition!
+        status: DonationItemStatus
+        quantityRemaining: Int!
+    }
+
+    input UpdateDonationFormInput {
+        _id: ID!
+        name: String
+        quantity: Int
+        condition: DonationItemCondition
+        status: DonationItemStatus
+        quantityRemaining: Int
+        adminNotes: String
+        donatedAt: String
+    }
+
     type Query {
         request(_id: ID): Request
         requests: [Request]
@@ -126,6 +206,9 @@ const typeDefs = gql`
         countRequestGroups(open: Boolean): Int
         # --- Left as a proof of concept: ---
         # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]
+
+        donationForm(_id: ID): DonationForm
+        donationForms: [DonationForm]
     }
 
     type Mutation {
@@ -144,6 +227,10 @@ const typeDefs = gql`
         createRequestGroup(requestGroup: CreateRequestGroupInput): RequestGroup
         updateRequestGroup(requestGroup: UpdateRequestGroupInput): RequestGroup
         deleteRequestGroup(_id: ID): RequestGroup
+
+        createDonationForm(donationForm: CreateDonationFormInput): DonationForm
+        updateDonationForm(donationForm: UpdateDonationFormInput): DonationForm
+        deleteDonationForm(_id: ID): DonationForm
     }
 `;
 

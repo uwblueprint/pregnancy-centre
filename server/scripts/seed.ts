@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 
 import { connectDB } from "../database/mongoConnection";
 
+import { DonationForm, DonationItemCondition, DonationItemStatus } from "../database/models/donationFormModel";
 import { Request } from "../database/models/requestModel";
 import { RequestGroup } from "../database/models/requestGroupModel";
 import { RequestType } from "../database/models/requestTypeModel";
@@ -47,11 +48,16 @@ const requestGroupImages = [
     "https://source.unsplash.com/7ydep8OEvbc",
     "https://source.unsplash.com/0hiUWSi7jvs"
 ];
+const donationFormConditions: string[] = Object.keys(DonationItemCondition);
+const donationFormStatuses: string[] = Object.keys(DonationItemStatus);
 
 const numGroups = requestGroupNames.length;
 const numTypesPerGroup = 10;
 const maxNumRequestsPerType = 50;
+const maxUnclassifiedDonationForms = 10;
+const maxDonationFormsPerRequestGroup = 10;
 const maxQuantityPerRequest = 15;
+const maxQuantityPerDonationForm = 15;
 const probRequestDeleted = 0.05;
 const probRequestFulfilled = 0.2; // independent from probRequestDeleted
 const startDate = new Date(2019, 0, 1);
@@ -115,6 +121,33 @@ const createRequestGroup = (name: string) => {
     });
 };
 
+// create DonationForm model object
+// optionally pass in a requestGroup to classify the donation item
+const createDonationForm = (requestGroup = null) => {
+    const dateCreated = new Date(randomDate());
+
+    // if not classified under a requestGroup, generate random name
+    const name = requestGroup ? requestGroup.name : faker.commerce.product();
+
+    return new DonationForm({
+        _id: mongoose.Types.ObjectId(),
+        contact: {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName(),
+            email: faker.internet.email(),
+            phoneNumber: faker.phone.phoneNumber("!##-!##-####")
+        },
+        name: name,
+        description: faker.lorem.sentence(),
+        ...(!!requestGroup && { requestGroup: requestGroup._id }),
+        quantity: Math.floor(Math.random() * maxQuantityPerDonationForm) + 1,
+        age: Math.floor(Math.random() * 21), // random integer between 0 and 20
+        condition: faker.random.arrayElement(donationFormConditions),
+        status: faker.random.arrayElement(donationFormStatuses),
+        createdAt: dateCreated
+    });
+};
+
 // connect to DB, and on success, seed documents
 connectDB(async () => {
     console.log("\x1b[34m", "Beginning to seed");
@@ -142,14 +175,39 @@ connectDB(async () => {
             exit();
         }
     });
+    DonationForm.deleteMany((err) => {
+        if (err) {
+            console.error("\x1b[31m", "Failed to delete all documents in 'donationForms' collection");
+            console.log("\x1b[0m");
+            exit();
+        }
+    });
 
     console.log("\x1b[34m", "Seeding data");
     console.log("\x1b[0m");
 
+    const numUnclassifiedDonationGroups = Math.floor(Math.random() * maxUnclassifiedDonationForms);
+
+    // generate donation items that don't belong to any requestGroup
+    for (let i = 0; i < numUnclassifiedDonationGroups; i++) {
+        const donationForm = createDonationForm();
+        await donationForm.save();
+    }
+
     for (let i = 0; i < numGroups; i++) {
         const requestGroup = createRequestGroup(requestGroupNames[i]);
         requestGroup.requestTypes = [];
+        requestGroup.donationForms = [];
         await requestGroup.save();
+
+        const numClassifiedDonationForms = Math.floor(Math.random() * maxDonationFormsPerRequestGroup);
+
+        // generate donation items under a request group
+        for (let j = 0; j < numClassifiedDonationForms; j++) {
+            const donationForm = createDonationForm(requestGroup);
+            await donationForm.save();
+            requestGroup.donationForms.push({ _id: donationForm._id });
+        }
 
         for (let j = 0; j < numTypesPerGroup; j++) {
             const requestType = createRequestType();
@@ -160,7 +218,9 @@ connectDB(async () => {
             const numRequestsPerType = Math.floor(Math.random() * maxNumRequestsPerType);
             for (let k = 0; k < numRequestsPerType; k++) {
                 const request = createRequest();
+                request.matchedDonations = [];
                 request.requestType = requestType._id;
+
                 await request.save();
 
                 requestType.requests.push({
