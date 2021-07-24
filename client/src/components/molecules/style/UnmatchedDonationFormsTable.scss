@@ -107,6 +107,8 @@
         width: 12%;
         overflow: hidden;
         word-wrap: break-word;
+        // display: flex;
+        // flex-direction: column;
     }
 
     .status-col {
@@ -125,6 +127,11 @@
     .menu-col {
         width: 8%;
         word-wrap: break-word;
+    }
+
+    .date-submitted {
+        display: flex;
+        flex-direction: column;
     }
 
     .pending-approval-tag {

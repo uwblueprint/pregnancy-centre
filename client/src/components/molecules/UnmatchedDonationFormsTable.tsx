@@ -112,9 +112,18 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                                 <td className="contact-col">{getContactName(donationForm.contact) ?? "N/A"}</td>
                                 <td className="quantity-col">{donationForm.quantity}</td>
                                 <td className="date-submitted-col">
-                                    {donationForm.createdAt
-                                        ? moment(donationForm.createdAt, "x").format("MMMM DD, YYYY h:mm a")
-                                        : "N/A"}
+                                    <div className="date-submitted">
+                                        <span>
+                                            {donationForm.createdAt
+                                                ? moment(donationForm.createdAt, "x").format("MMMM DD, YYYY")
+                                                : "N/A"}
+                                        </span>
+                                        <span>
+                                            {donationForm.createdAt
+                                                ? moment(donationForm.createdAt, "x").format("h:mm a")
+                                                : "N/A"}
+                                        </span>
+                                    </div>
                                 </td>
                                 <td className="status-col">
                                     <Tag
