@@ -63,9 +63,9 @@
 
     .admin-group-button {
         &-dropdown {
-            background-color: $admin-request-group-browser-dropdown-color;
+            background-color: $dropdown-color;
             border-radius: 4px;
-            box-shadow: 0 4px 3px $admin-request-group-browser-dropdown-shadow-color;
+            box-shadow: $dropdown-box-shadow;
             border: none;
             &-item {
                 padding-top: 15px;

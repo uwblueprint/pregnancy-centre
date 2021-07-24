@@ -43,7 +43,7 @@ const AdminUnmatchedDonationFormPage: FunctionComponent = () => {
             quantity: 3,
             quantityRemaining: 3,
             requestGroup: { name: "Bassinet" },
-            status: DonationItemStatus.PENDING_APPROVAL,
+            status: DonationItemStatus.PENDING_DROPOFF,
             updatedAt: new Date()
         },
         {
@@ -63,7 +63,7 @@ const AdminUnmatchedDonationFormPage: FunctionComponent = () => {
             quantity: 3,
             quantityRemaining: 3,
             requestGroup: { name: "Bassinet" },
-            status: DonationItemStatus.PENDING_APPROVAL,
+            status: DonationItemStatus.PENDING_MATCH,
             updatedAt: new Date()
         }
     ];

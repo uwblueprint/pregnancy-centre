@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import DonationForm, { DonationFormContact, DonationItemStatus } from "../../data/types/donationForm";
 import DonationFormProgressStepper from "../atoms/DonationFormProgressStepper";
+import DropdownMenu from "../atoms/DropdownMenu";
 import { ItemStatusToReadableString } from "../utils/donationForm";
 import Tag from "../atoms/Tag";
 
@@ -25,12 +26,38 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         return contact.lastName;
     };
 
-    const getItemStatusReadableString = (itemStatus?: DonationItemStatus) => {
+    const getReadableStringForItemStatus = (itemStatus?: DonationItemStatus) => {
         if (itemStatus == null) {
             return null;
         }
         const readableStr = ItemStatusToReadableString.get(itemStatus);
         return readableStr ?? null;
+    };
+
+    const getTagClassnameForItemStatus = (itemStatus?: DonationItemStatus) => {
+        switch (itemStatus) {
+            case DonationItemStatus.PENDING_APPROVAL:
+                return "pending-approval-tag";
+            case DonationItemStatus.PENDING_DROPOFF:
+                return "pending-dropoff-tag";
+            case DonationItemStatus.PENDING_MATCH:
+                return "pending-match-tag";
+        }
+        return "";
+    };
+
+    const getMenuOptionsForItemStatus = (itemStatus?: DonationItemStatus) => {
+        const options = [];
+        switch (itemStatus) {
+            case DonationItemStatus.PENDING_DROPOFF:
+                options.push(<span className="menu-option">Unapprove</span>);
+                break;
+            case DonationItemStatus.PENDING_MATCH:
+                options.push(<span className="menu-option">Unconfirm</span>);
+                break;
+        }
+        options.push(<span className="menu-option">Delete</span>);
+        return options;
     };
 
     return (
@@ -90,7 +117,10 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                                         : "N/A"}
                                 </td>
                                 <td className="status-col">
-                                    <Tag text={getItemStatusReadableString(donationForm.status) ?? "N/A"} />
+                                    <Tag
+                                        className={getTagClassnameForItemStatus(donationForm.status)}
+                                        text={getReadableStringForItemStatus(donationForm.status) ?? "N/A"}
+                                    />
                                 </td>
                                 <td className="status-progress-col">
                                     {donationForm.status && (
@@ -100,7 +130,11 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                                         />
                                     )}
                                 </td>
-                                <td className="menu-col">menu</td>
+                                <td className="menu-col">
+                                    <DropdownMenu trigger={<i className="bi bi-three-dots" />}>
+                                        {getMenuOptionsForItemStatus(donationForm.status)}
+                                    </DropdownMenu>
+                                </td>
                                 <td className="spacing-col" />
                             </tr>
                             <tr className="border-row">

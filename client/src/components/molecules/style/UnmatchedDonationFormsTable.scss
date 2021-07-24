@@ -52,6 +52,29 @@
         -webkit-border-bottom-right-radius: 4px;
     }
 
+    .spacing-row {
+        td {
+            height: 0px;
+            padding: 5px 0 0 0;
+        }
+    }
+
+    .border-row {
+        td:nth-child(2) {
+            padding-left: 0;
+        }
+
+        td {
+            height: 0px;
+            padding: 0;
+
+            .border-line {
+                height: 0px;
+                border-bottom: 1px solid #e0e0e0;
+            }
+        }
+    }
+
     .data-row:hover {
         td:not(.spacing-col) {
             background-color: $selected-item-background;
@@ -67,34 +90,75 @@
         overflow: hidden;
         word-wrap: break-word;
     }
+
     .contact-col {
         width: 12%;
         overflow: hidden;
         word-wrap: break-word;
     }
+
     .quantity-col {
-        width: 12%;
+        width: 8%;
         overflow: hidden;
         word-wrap: break-word;
     }
+
     .date-submitted-col {
         width: 12%;
         overflow: hidden;
         word-wrap: break-word;
     }
+
     .status-col {
-        width: 12%;
+        width: 16%;
         overflow: hidden;
         word-wrap: break-word;
     }
+
     .status-progress-col {
-        width: 12%;
+        width: 16%;
         overflow: hidden;
+        word-wrap: break-word;
+        padding-right: 6px;
+    }
+
+    .menu-col {
+        width: 8%;
         word-wrap: break-word;
     }
-    .menu-col {
-        width: 12%;
-        overflow: hidden;
-        word-wrap: break-word;
+
+    .pending-approval-tag {
+        background: #ff8a001a;
+        color: #ff8a00;
+    }
+
+    .pending-dropoff-tag {
+        background: #65bf731a;
+        color: #65bf73;
+    }
+
+    .pending-match-tag {
+        background: #2097f61a;
+        color: #2097f6;
+    }
+
+    .menu-anchor {
+        margin-left: -150px;
+    }
+
+    .menu {
+        width: 170px;
+    }
+
+    .menu-option {
+        @include semibold-text;
+        font-size: 16px;
+        padding: 14px 20px;
+        width: 100%;
+        cursor: pointer;
+
+        &:hover {
+            background: $dropdown-item-focus-color;
+        }
     }
 }

@@ -251,8 +251,10 @@ $tpc-green-hover: #00363e;
 }
 
 /* Dropdown Config */
-$admin-request-group-browser-dropdown-color: #f4f4f4;
-$admin-request-group-browser-dropdown-shadow-color: #dbdbdb;
+$dropdown-color: #f4f4f4;
+$dropdown-shadow-color: #dbdbdb;
+$dropdown-box-shadow: 0 4px 3px $dropdown-shadow-color;
+$dropdown-item-focus-color: #e9ecef;
 /* TextField Config */
 $soft-black: #333333;
 $textfield-input-border: #797979;

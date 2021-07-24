@@ -3,7 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 
 // Source: https://stackoverflow.com/a/54570068
 const useComponentVisible = (
-    initialIsVisible: boolean
+    initialIsVisible: boolean,
+    ignoreNodeRef?: React.RefObject<Element>
 ): {
     ref: React.RefObject<HTMLDivElement>;
     isComponentVisible: boolean;
@@ -19,6 +20,9 @@ const useComponentVisible = (
     };
 
     const handleClickOutside = (event: Event) => {
+        if (ignoreNodeRef != null && ignoreNodeRef.current?.contains(event.target as Node)) {
+            return;
+        }
         if (ref.current && !ref.current.contains(event.target as Node)) {
             setIsComponentVisible(false);
         }
