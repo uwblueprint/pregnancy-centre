@@ -5,14 +5,14 @@ interface Props {
     bannerImgs: Array<string>;
     bannerHeader: string;
     bannerDesc: string;
+    bannerIntv: number;
 }
 
 const BannerCarousel: FunctionComponent<Props> = (props: Props) => {
-    const bannerIntv = 1000 * 10;
     return (
         <div className="banner-carousel">
             <Container fluid>
-                <Carousel controls={false} interval={bannerIntv} indicators={false} className="carousel" fade>
+                <Carousel controls={false} interval={props.bannerIntv} indicators={false} className="carousel" fade>
                     {props.bannerImgs.map((imgLink, index) => (
                         <Carousel.Item key={index}>
                             <img src={`${imgLink}`} />
