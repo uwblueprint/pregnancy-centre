@@ -6,7 +6,7 @@ const Banner: FunctionComponent = () => {
     const bannerImgs = DonorHomepageConfig.Banner.images;
     const bannerHeader = DonorHomepageConfig.Banner.header;
     const bannerDesc = DonorHomepageConfig.Banner.description;
-    const bannerIntv = DonorHomepageConfig.Banner.interval;
+    const bannerIntv = DonorHomepageConfig.Banner.interval * 1000;
     return (
         <BannerCarousel
             bannerImgs={bannerImgs}
