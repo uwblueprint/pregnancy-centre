@@ -109,7 +109,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [requestTypesError, setRequestTypesError] = useState("");
     const [loadingRequestGroup, setLoadingRequestGroup] = useState(props.operation === "edit");
     const [croppedArea, setCroppedArea] = useState<Area>({ width: 0, height: 0, x: 0, y: 0 });
-    const [thumbnail, setThumbNail] = useState<File | null>(null);
 
     useEffect(() => {
         async function getImages() {
@@ -342,12 +341,6 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     };
     const onCroppedAreaChange = (area: Area) => {
         setCroppedArea(area);
-    };
-
-    const uploadThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files != null) {
-            setThumbNail(e.target.files[0]);
-        }
     };
 
     const onSubmit = async (e: React.FormEvent) => {
