@@ -10,12 +10,12 @@ interface Props {
 const BannerCarousel: FunctionComponent<Props> = (props: Props) => {
     const bannerIntv = 1000 * 10;
     return (
-        <div className="homepage-banner">
+        <div className="banner-carousel">
             <Container fluid>
-                <Carousel controls={false} interval={bannerIntv} indicators={false} className="banner-carousel" fade>
+                <Carousel controls={false} interval={bannerIntv} indicators={false} className="carousel" fade>
                     {props.bannerImgs.map((imgLink, index) => (
                         <Carousel.Item key={index}>
-                            <img className="banner-carousel" src={`${imgLink}`} />
+                            <img src={`${imgLink}`} />
                         </Carousel.Item>
                     ))}
                 </Carousel>
