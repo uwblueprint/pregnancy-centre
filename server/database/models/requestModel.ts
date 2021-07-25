@@ -1,5 +1,10 @@
 import { Document, model, Schema, Types } from "mongoose";
 
+interface DonationFormContributionTuple {
+    donationForm: Types.ObjectId;
+    quantity: number;
+}
+
 interface RequestInterface extends Document {
     _id: Types.ObjectId;
 
@@ -9,6 +14,7 @@ interface RequestInterface extends Document {
 
     // References
     requestType: Types.ObjectId;
+    matchedDonations: Array<DonationFormContributionTuple>;
 
     // Timestamps
     createdAt: Date;
@@ -36,6 +42,15 @@ const requestSchema = new Schema(
         requestType: {
             type: Types.ObjectId,
             ref: "RequestType"
+        },
+        matchedDonations: {
+            type: [
+                {
+                    donationForm: { type: Types.ObjectId, ref: "DonationForm", required: true },
+                    quantity: { type: Number, required: true }
+                }
+            ],
+            default: []
         },
 
         // Timestamps for Statuses

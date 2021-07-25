@@ -1,5 +1,5 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import React, { FunctionComponent, useState } from "react";
 
 import FormItem from "../molecules/FormItem";
 import FormModal from "./FormModal";
@@ -20,12 +20,12 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [initialRequest, setInitialRequest] = useState<Request | null>(null);
     const [showAlertDialog, setShowAlertDialog] = useState(false);
     const [changeMade, setChangeMade] = useState(false);
-    const [requestGroupsMap, setRequestGroupsMap] = useState<Map<string, RequestGroup> | null>(null);
+    const [requestGroupsMap, setRequestGroupsMap] = useState<Map<string, RequestGroup | null> | null>(null);
     const [requestTypesMap, setRequestTypesMap] = useState<Map<string, RequestType> | null>(null);
     const [requestGroup, setRequestGroup] = useState<RequestGroup | null>(null);
     const [requestType, setRequestType] = useState<RequestType | null>(null);
-    const [requestGroupInput, setRequestGroupInputGroup] = useState("");
-    const [requestTypeInput, setRequestTypeInputGroup] = useState("");
+    const [requestGroupInput, setRequestGroupInput] = useState("");
+    const [requestTypeInput, setRequestTypeInput] = useState("");
     const [quantity, setQuantity] = useState<number>(1);
     const [clientName, setClientName] = useState("");
     const [requestGroupError, setRequestGroupError] = useState("");
@@ -35,11 +35,9 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [loading, setLoading] = useState(true);
 
     const createRequestMutation = gql`
-        mutation CreateRequest($requestType: ID!, $quantity: Int!, $clientName: String!) {
-            createRequest(request: { requestType: $requestType, quantity: $quantity, clientFullName: $clientName }) {
-                success
-                message
-                id
+        mutation CreateRequest($quantity: Int!, $requestType: ID!, $clientName: String!) {
+            createRequest(request: { quantity: $quantity, requestType: $requestType, clientName: $clientName }) {
+                _id
             }
         }
     `;
@@ -47,11 +45,9 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const updateRequestMutation = gql`
         mutation UpdateRequest($id: ID!, $requestType: ID!, $quantity: Int!, $clientName: String!) {
             updateRequest(
-                request: { id: $id, requestType: $requestType, quantity: $quantity, clientFullName: $clientName }
+                request: { _id: $id, requestType: $requestType, quantity: $quantity, clientName: $clientName }
             ) {
-                success
-                message
-                id
+                _id
             }
         }
     `;
@@ -73,20 +69,59 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         }
     });
 
-    const fetchRequestGroups = gql`
+    const fetchRequestGroupsQuery = gql`
         query FetchRequestGroups {
             requestGroups {
+                _id
+                name
+            }
+        }
+    `;
+
+    const fetchRequestTypesOfRequestGroupQuery = gql`
+        query FetchRequestTypesOfRequestGroup($id: ID!) {
+            requestGroup(_id: $id) {
                 _id
                 name
                 requestTypes {
                     _id
                     name
+                    deleted
                 }
             }
         }
     `;
 
-    useQuery(fetchRequestGroups, {
+    const fetchRequest = gql`
+        query FetchRequest($id: ID!) {
+            request(_id: $id) {
+                _id
+                quantity
+                requestType {
+                    _id
+                    name
+                    requestGroup {
+                        _id
+                        name
+                    }
+                }
+                clientName
+            }
+        }
+    `;
+
+    const [fetchRequestTypesOfRequestGroup] = useLazyQuery(fetchRequestTypesOfRequestGroupQuery, {
+        onCompleted: (data: { requestGroup: RequestGroup }) => {
+            const requestGroup = data.requestGroup;
+            if (requestGroup?.name && requestGroup?.requestTypes) {
+                setRequestGroupsMap(new Map(requestGroupsMap ?? []).set(requestGroup?.name, requestGroup));
+                updateRequestTypesMap(requestGroup.requestTypes);
+                setLoading(false);
+            }
+        }
+    });
+
+    useQuery(fetchRequestGroupsQuery, {
         fetchPolicy: "network-only",
         onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
             const requestGroups: Array<RequestGroup> = JSON.parse(JSON.stringify(data.requestGroups)); // deep-copy since data object is frozen
@@ -108,41 +143,26 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         }
     });
 
-    const fetchRequest = gql`
-        query FetchRequest($id: ID!) {
-            request(id: $id) {
-                _id
-                quantity
-                requestType {
-                    _id
-                    name
-                    requestGroup {
-                        _id
-                        name
-                    }
-                }
-                client {
-                    _id
-                    fullName
-                }
-            }
-        }
-    `;
-
     if (props.operation === "edit") {
         useQuery(fetchRequest, {
             variables: { id: props.requestId },
             fetchPolicy: "network-only",
             onCompleted: (data: { request: Request }) => {
                 const request: Request = JSON.parse(JSON.stringify(data.request)); // deep-copy since data object is frozen
+                const requestType: RequestType | null = request.requestType ?? null;
+                const requestGroup: RequestGroup | null = requestType?.requestGroup ?? null;
 
                 setInitialRequest(request);
-                setRequestGroup(
-                    request.requestType && request.requestType.requestGroup ? request.requestType.requestGroup : null
-                );
-                setRequestType(request.requestType ? request.requestType : null);
+                setRequestGroup(requestGroup);
+                setRequestType(requestType);
                 setQuantity(request.quantity ? request.quantity : 1);
-                setClientName(request.clientName && request.clientName ? request.clientName : "");
+                setClientName(request.clientName ? request.clientName : "");
+                if (requestGroup?._id) {
+                    fetchRequestTypesOfRequestGroup({ variables: { id: requestGroup._id } });
+                }
+                if (requestGroup?.requestTypes) {
+                    updateRequestTypesMap(requestGroup.requestTypes);
+                }
 
                 // Check that requestGroups are loaded before setting loading = false
                 if (requestGroupsMap) {
@@ -150,36 +170,20 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 }
             }
         });
-
-        useEffect(() => {
-            if (
-                requestGroupsMap &&
-                initialRequest &&
-                initialRequest.requestType &&
-                initialRequest.requestType.requestGroup &&
-                initialRequest.requestType.requestGroup.name
-            ) {
-                // When all request groups and the initial request is fetched, construct requestTypesMap
-                const initialRequestGroupRequestTypes = requestGroupsMap.get(
-                    initialRequest.requestType.requestGroup.name
-                )?.requestTypes;
-                if (initialRequestGroupRequestTypes) {
-                    updateRequestTypesMap(initialRequestGroupRequestTypes);
-                }
-            }
-        }, [requestGroupsMap, initialRequest]);
     }
 
     /* Functions for RequestTypesMap */
     const updateRequestTypesMap = (requestTypes: Array<RequestType>) => {
         setRequestTypesMap(
             new Map(
-                requestTypes.reduce((entries, requestType) => {
-                    if (requestType && requestType.name) {
-                        entries.push([requestType.name, requestType]);
-                    }
-                    return entries;
-                }, [] as Array<[string, RequestType]>)
+                requestTypes
+                    .filter((requestType) => requestType.deleted === false)
+                    .reduce((entries, requestType) => {
+                        if (requestType && requestType.name) {
+                            entries.push([requestType.name, requestType]);
+                        }
+                        return entries;
+                    }, [] as Array<[string, RequestType]>)
             )
         );
     };
@@ -202,15 +206,23 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         setChangeMade(true);
         updateRequestGroupError(newRequestGroup);
         setRequestGroup(newRequestGroup ? newRequestGroup : null);
+        setRequestGroupInput(newRequestGroup?.name ?? "");
 
         if (
             newRequestGroup &&
             // check that new request group is not the same as the previously selected request group
-            (!requestGroup || newRequestGroupName !== requestGroup.name) &&
-            newRequestGroup.requestTypes
+            (!requestGroup || newRequestGroupName !== requestGroup.name)
         ) {
             // If a new request group is chosen, change the request types map
-            updateRequestTypesMap(newRequestGroup.requestTypes);
+            if (newRequestGroup.requestTypes) {
+                // If request types of chosen request group was already fetched, then construct requestTypesMap
+                updateRequestTypesMap(newRequestGroup.requestTypes);
+            } else {
+                // Fetch request types of chosen request group
+                setLoading(true);
+                setRequestTypesMap(null);
+                fetchRequestTypesOfRequestGroup({ variables: { id: newRequestGroup._id } });
+            }
             setRequestType(null);
         }
 
@@ -222,7 +234,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
     const onRequestGroupInputChange = (newRequestGroupInput: string) => {
         setChangeMade(true);
-        setRequestGroupInputGroup(newRequestGroupInput);
+        setRequestGroupInput(newRequestGroupInput);
     };
 
     /* Functions for Request's RequestType */
@@ -245,13 +257,15 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
         setChangeMade(true);
         setRequestType(newRequestType ? newRequestType : null);
+        setRequestTypeInput(newRequestType?.name ?? "");
+
         updateRequestTypeError(newRequestType);
         return true;
     };
 
     const onRequestTypeInputChange = (newRequestTypeInput: string) => {
         setChangeMade(true);
-        setRequestTypeInputGroup(newRequestTypeInput);
+        setRequestTypeInput(newRequestTypeInput);
     };
 
     /* Functions for Request's Quantity */
@@ -295,29 +309,31 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         const tempQuantityNameError = updateQuantityError(quantity);
         const tempClientNameError = updateClientNameError(clientName);
 
-        if (!tempRequestGroupError && !tempRequestTypeError && !tempQuantityNameError && !tempClientNameError) {
+        if (
+            !tempRequestGroupError &&
+            !tempRequestTypeError &&
+            !tempQuantityNameError &&
+            !tempClientNameError &&
+            requestType
+        ) {
             if (props.operation === "create") {
-                if (requestType) {
-                    createRequest({
-                        variables: {
-                            requestType: requestType._id,
-                            quantity,
-                            clientName
-                        }
-                    });
-                }
+                createRequest({
+                    variables: {
+                        requestType: requestType._id,
+                        quantity,
+                        clientName
+                    }
+                });
             } else {
                 // Edit request
-                if (initialRequest && initialRequest.clientName && requestType) {
-                    updateRequest({
-                        variables: {
-                            id: initialRequest._id,
-                            requestType: requestType._id,
-                            quantity,
-                            clientName
-                        }
-                    });
-                }
+                updateRequest({
+                    variables: {
+                        id: props.requestId,
+                        requestType: requestType._id,
+                        quantity,
+                        clientName
+                    }
+                });
             }
             props.handleClose();
         }
@@ -359,6 +375,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         formItemName="Client Full Name"
                         errorString={clientNameError}
                         isDisabled={false}
+                        showErrorIcon={true}
                         inputComponent={
                             <TextField
                                 input={clientName}
@@ -381,17 +398,19 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         errorString={requestGroupError}
                         isDisabled={false}
                         tooltipText="Needs describe the overall category of an item, such as stroller, crib, or bed."
+                        showErrorIcon={true}
                         inputComponent={
                             <SearchableDropdown
                                 initialText={requestGroup && requestGroup.name ? requestGroup.name : ""}
                                 placeholderText="Select a need"
+                                dropdownPrompt="Select a need"
                                 searchPlaceholderText="Search for a need"
+                                selectedItem={requestGroup?.name ?? ""}
+                                searchString={requestGroupInput}
                                 dropdownItems={requestGroupsMap ? [...requestGroupsMap.keys()] : []} // Pass the name of all request groups
                                 isErroneous={requestGroupError !== "" && requestGroupInput === ""}
                                 isDisabled={false}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    onRequestGroupInputChange(e.target.value);
-                                }}
+                                onChange={onRequestGroupInputChange}
                                 onSelect={onRequestGroupChange}
                                 noItemsAction={
                                     <div className="no-items-found">
@@ -409,6 +428,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                                     </div>
                                 }
                                 isTagDropdown={false}
+                                mustMatchDropdownItem={true}
                             />
                         }
                     />
@@ -419,20 +439,21 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         errorString={requestTypeError}
                         isDisabled={requestGroup === null} // Enable request type dropdown if a request group is selected
                         tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
+                        showErrorIcon={true}
                         inputComponent={
                             <SearchableDropdown
                                 initialText={requestType && requestType.name ? requestType.name : ""}
                                 placeholderText={
-                                    requestGroup === null ? "Select a group first" : "Search or create a type"
+                                    requestGroup === null ? "Select a need first" : "Search or create a type"
                                 }
+                                dropdownPrompt="Select or create a type"
                                 searchPlaceholderText="Search for a type"
+                                selectedItem={requestType?.name ?? ""}
+                                searchString={requestTypeInput}
                                 dropdownItems={requestTypesMap ? [...requestTypesMap.keys()] : []} // Pass the name of all request groups
                                 isErroneous={requestTypeError !== "" && requestTypeInput === ""}
                                 isDisabled={requestGroup === null}
-                                isEmpty={requestType === null}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    onRequestTypeInputChange(e.target.value);
-                                }}
+                                onChange={onRequestTypeInputChange}
                                 onSelect={onRequestTypeChange}
                                 noItemsAction={
                                     <div className="no-items-found">
@@ -440,6 +461,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                                     </div>
                                 }
                                 isTagDropdown={true}
+                                mustMatchDropdownItem={true}
                             />
                         }
                     />
@@ -449,6 +471,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         formItemName="Item Quantity"
                         errorString={quantityError}
                         isDisabled={false}
+                        showErrorIcon={true}
                         inputComponent={
                             <TextField
                                 input={quantity.toString()}

@@ -11,6 +11,7 @@ interface TagInputProps {
     placeholder: string;
     actionString: string;
     showRedErrorText?: boolean;
+    isNoTagsAllowed: boolean;
 }
 
 const TagInput: FunctionComponent<TagInputProps> = (props: TagInputProps) => {
@@ -31,7 +32,11 @@ const TagInput: FunctionComponent<TagInputProps> = (props: TagInputProps) => {
             <div className="tag-list">
                 {props.tagStrings.map((tag, index) => (
                     <div key={index} className="each-tag">
-                        <DeletableTag text={tag} onDelete={props.onDelete} />
+                        <DeletableTag
+                            text={tag}
+                            onDelete={props.onDelete}
+                            showDeleteIcon={props.isNoTagsAllowed || props.tagStrings.length > 1}
+                        />
                     </div>
                 ))}
             </div>

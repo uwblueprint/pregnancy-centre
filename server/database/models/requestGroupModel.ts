@@ -3,7 +3,9 @@ import { Document, model, Schema, Types } from "mongoose";
 interface RequestTypeEmbeddingInterface {
     _id: Types.ObjectId;
 }
-
+interface DonationFormEmbeddingInterface {
+    _id: Types.ObjectId;
+}
 interface RequestGroupInterface extends Document {
     _id: Types.ObjectId;
 
@@ -14,6 +16,7 @@ interface RequestGroupInterface extends Document {
 
     // Embedded Objects
     requestTypes: Array<RequestTypeEmbeddingInterface>;
+    donationForms: Array<DonationFormEmbeddingInterface>;
 
     // Timestamps for Statuses
     deletedAt: Date;
@@ -44,7 +47,20 @@ const RequestGroupSchema = new Schema(
 
         // Embedded Objects
         requestTypes: {
-            type: [{ type: Types.ObjectId, ref: "RequestType" }],
+            type: [
+                {
+                    // @ts-ignore
+                    _id: { type: Types.ObjectId, ref: "RequestType" }
+                }
+            ],
+            default: []
+        },
+        donationForms: {
+            type: [
+                {
+                    _id: { type: Types.ObjectId, ref: "DonationForm" }
+                }
+            ],
             default: []
         },
 

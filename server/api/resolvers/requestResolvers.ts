@@ -1,5 +1,5 @@
 import { Request, RequestInterface } from "../../database/models/requestModel";
-import { RequestType, RequestTypeInterface } from "../../database/models/requestTypeModel";
+import { RequestEmbeddingInterface, RequestType, RequestTypeInterface } from "../../database/models/requestTypeModel";
 
 import { sessionHandler } from "../utils/session";
 
@@ -16,7 +16,7 @@ const swapRequestTypeForRequest = async (request, oldRequestTypeID, newRequestTy
     if (oldRequestTypeID) {
         const oldRequestType = await RequestType.findById(oldRequestTypeID).session(session);
         oldRequestType.requests = oldRequestType.requests.filter((requestEmbedding) => {
-            return requestEmbedding._id !== request._id;
+            return !requestEmbedding._id.equals(request._id);
         });
         await oldRequestType.save({ session: session });
     }
@@ -24,6 +24,14 @@ const swapRequestTypeForRequest = async (request, oldRequestTypeID, newRequestTy
     const newRequestType = await RequestType.findById(newRequestTypeID).session(session);
     newRequestType.requests.push(requestEmbeddingFromRequest(request));
     await newRequestType.save({ session: session });
+};
+
+const updateRequestEmbedingInRequestTypes = async (request, session) => {
+    const requestType = await RequestType.findById(request.requestType).session(session);
+    requestType.requests = requestType.requests.map((requestEmbedding: RequestEmbeddingInterface) =>
+        requestEmbedding._id.equals(request._id) ? requestEmbeddingFromRequest(request) : requestEmbedding
+    );
+    await requestType.save({ session: session });
 };
 
 const requestQueryResolvers = {
@@ -68,36 +76,50 @@ const requestMutationResolvers = {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
                 const oldRequest = await Request.findById(request._id).session(session);
-                const modifiedRequestObject = new Request({ ...oldRequest, ...request });
-                const newRequest = await modifiedRequestObject.save({ session: session });
-
-                if (oldRequest.requestType !== newRequest.requestType) {
-                    swapRequestTypeForRequest(newRequest, oldRequest.requestType, newRequest.requestType, session);
+                const newRequest = await Request.findByIdAndUpdate(request._id, request, {
+                    new: true,
+                    session: session
+                });
+                if (!oldRequest.requestType.equals(newRequest.requestType)) {
+                    await swapRequestTypeForRequest(
+                        newRequest,
+                        oldRequest.requestType,
+                        newRequest.requestType,
+                        session
+                    );
                 }
-
                 return newRequest;
             });
         });
     },
     deleteRequest: async (_, { _id }, { authenticateUser }): Promise<RequestInterface> => {
         return authenticateUser().then(async () => {
-            const request = await Request.findById(_id);
-            request.deletedAt = new Date();
-            return request.save();
+            return sessionHandler(async (session) => {
+                const request = await Request.findById(_id);
+                request.deletedAt = new Date();
+                await updateRequestEmbedingInRequestTypes(request, session);
+                return request.save({ session: session });
+            });
         });
     },
     fulfillRequest: async (_, { _id }, { authenticateUser }): Promise<RequestInterface> => {
         return authenticateUser().then(async () => {
-            const request = await Request.findById(_id);
-            request.fulfilledAt = new Date();
-            return request.save();
+            return sessionHandler(async (session) => {
+                const request = await Request.findById(_id);
+                request.fulfilledAt = new Date();
+                await updateRequestEmbedingInRequestTypes(request, session);
+                return request.save({ session: session });
+            });
         });
     },
     unfulfillRequest: async (_, { _id }, { authenticateUser }): Promise<RequestInterface> => {
         return authenticateUser().then(async () => {
-            const request = await Request.findById(_id);
-            request.fulfilledAt = undefined;
-            return request.save();
+            return sessionHandler(async (session) => {
+                const request = await Request.findById(_id);
+                request.fulfilledAt = undefined;
+                await updateRequestEmbedingInRequestTypes(request, session);
+                return request.save({ session: session });
+            });
         });
     },
     changeRequestTypeForRequest: async (
@@ -116,9 +138,9 @@ const requestMutationResolvers = {
                         requestTypeId,
                         session
                     );
+                    modifiedRequestObject.requestType = requestTypeId;
                 }
 
-                modifiedRequestObject.requestType = requestTypeId;
                 return modifiedRequestObject.save({ session: session });
             });
         });
@@ -130,10 +152,15 @@ const requestResolvers = {
         return RequestType.findById(parent.requestType);
     },
     deleted: (parent, __, ___): boolean => {
-        return parent.deletedAt !== undefined;
+        return parent.deletedAt != null;
     },
     fulfilled: (parent, __, ___): boolean => {
-        return parent.fulfilledAt !== undefined;
+        return parent.fulfilledAt != null;
+    },
+    clientName: async (parent, _, { authenticateUser }): Promise<RequestInterface> => {
+        return authenticateUser().then(async () => {
+            return parent.clientName;
+        });
     }
 };
 

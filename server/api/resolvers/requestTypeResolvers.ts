@@ -7,20 +7,20 @@ import { sessionHandler } from "../utils/session";
 
 const filterOpenRequestEmbeddings = (requestEmbeddings) => {
     return requestEmbeddings.filter((requestEmbedding) => {
-        return requestEmbedding.deletedAt === undefined && requestEmbedding.fulfilledAt === undefined;
+        return requestEmbedding.deletedAt == null && requestEmbedding.fulfilledAt == null;
     });
 };
 
 const filterFulfilledRequestEmbeddings = (requestEmbeddings) => {
     return requestEmbeddings.filter((requestEmbedding) => {
-        return requestEmbedding.deletedAt === undefined && requestEmbedding.fulfilledAt !== undefined;
+        return requestEmbedding.deletedAt == null && requestEmbedding.fulfilledAt != null;
     });
 };
 
 // obtains embeddings of all deleted Request's
 const filterDeletedRequestEmbeddings = (requestEmbeddings) => {
     return requestEmbeddings.filter((requestEmbedding) => {
-        return requestEmbedding.deletedAt !== undefined;
+        return requestEmbedding.deletedAt != null;
     });
 };
 
@@ -30,19 +30,27 @@ const requestTypeEmbeddingFromRequestType = (requestType: RequestTypeInterface) 
     };
 };
 
-const swapRequestGroupForRequestType = async (requestType, oldRequestGroupID, newRequestGroupID, session) => {
-    if (oldRequestGroupID) {
-        const oldRequestGroup = await RequestGroup.findById(oldRequestGroupID).session(session);
-        oldRequestGroup.requestTypes = oldRequestGroup.requestTypes.filter((requestEmbedding) => {
-            return requestEmbedding._id !== requestType._id;
-        });
+const removeRequestTypeFromRequestGroup = async (requestTypeId, requestGroupId, session) => {
+    const requestGroup = await RequestGroup.findById(requestGroupId).session(session);
+    requestGroup.requestTypes = requestGroup.requestTypes.filter((requestEmbedding) => {
+        return !requestEmbedding._id.equals(requestTypeId);
+    });
+    await requestGroup.save({ session: session });
+};
 
-        await oldRequestGroup.save({ session: session });
-    }
-
-    const newRequestGroup = await RequestGroup.findById(newRequestGroupID).session(session);
+const addRequestTypeToRequestGroup = async (requestType, requestGroupId, session) => {
+    const newRequestGroup = await RequestGroup.findById(requestGroupId).session(session);
     newRequestGroup.requestTypes.push(requestTypeEmbeddingFromRequestType(requestType));
     await newRequestGroup.save({ session: session });
+};
+
+const swapRequestGroupForRequestType = async (requestType, oldRequestGroupID, newRequestGroupID, session) => {
+    if (oldRequestGroupID) {
+        await removeRequestTypeFromRequestGroup(requestType._id, oldRequestGroupID, session);
+    }
+    if (newRequestGroupID) {
+        await addRequestTypeToRequestGroup(requestType, newRequestGroupID, session);
+    }
 };
 
 const nextRequestEmbeddingForRequestType = (requestType, session) => {
@@ -89,12 +97,7 @@ const requestTypeMutationResolvers = {
             return sessionHandler(async (session) => {
                 const newRequestTypeObject = new RequestType({ ...requestType });
                 const newRequestType = await newRequestTypeObject.save({ session: session });
-
-                const requestGroup = await RequestGroup.findById(newRequestType.requestGroup).session(session);
-                requestGroup.requestTypes.push({
-                    _id: newRequestType._id
-                });
-                await requestGroup.save({ session: session });
+                await addRequestTypeToRequestGroup(newRequestType, newRequestType.requestGroup, session);
 
                 return newRequestType;
             });
@@ -104,18 +107,18 @@ const requestTypeMutationResolvers = {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
                 const oldRequestType = await RequestType.findById(requestType._id).session(session);
-                const modifiedRequestTypeObject = new RequestType({ ...oldRequestType, ...requestType });
-                const newRequestType = await modifiedRequestTypeObject.save({ session: session });
-
-                if (oldRequestType.requestGroup !== newRequestType.requestGroup) {
-                    swapRequestGroupForRequestType(
+                const newRequestType = await RequestType.findByIdAndUpdate(requestType._id, requestType, {
+                    new: true,
+                    session: session
+                });
+                if (!oldRequestType.requestGroup.equals(newRequestType.requestGroup)) {
+                    await swapRequestGroupForRequestType(
                         newRequestType,
                         oldRequestType.requestGroup,
                         newRequestType.requestGroup,
                         session
                     );
                 }
-
                 return newRequestType;
             });
         });
@@ -143,9 +146,9 @@ const requestTypeMutationResolvers = {
                         requestGroupId,
                         session
                     );
+                    modifiedRequestTypeObject.requestGroup = requestGroupId;
                 }
 
-                modifiedRequestTypeObject.requestGroup = requestGroupId;
                 return modifiedRequestTypeObject.save({ session: session });
             });
         });
@@ -168,7 +171,7 @@ const requestTypeResolvers = {
         });
     },
     deleted: (parent, __, ___): boolean => {
-        return parent.deletedAt !== undefined;
+        return parent.deletedAt != null;
     },
     openRequests: async (parent, __, ___): Promise<Array<RequestInterface>> => {
         return filterOpenRequestEmbeddings(parent.requests).map((requestEmbedding) => {

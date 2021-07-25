@@ -10,7 +10,7 @@
     line-height: 20px;
 
     b {
-        @include bold-text;
+        @include extra-bold-text;
     }
 
     #name {

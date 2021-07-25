@@ -2,6 +2,7 @@ import { Request, RequestInterface } from "../../database/models/requestModel";
 import { RequestEmbeddingInterface, RequestType, RequestTypeInterface } from "../../database/models/requestTypeModel";
 import { RequestGroup, RequestGroupInterface } from "../../database/models/requestGroupModel";
 
+import { DonationForm, DonationFormInterface } from "../../database/models/donationFormModel";
 import { filterOpenRequestEmbeddings, nextRequestEmbeddingForRequestType } from "./requestTypeResolvers";
 
 import { infoContainsOnlyFields } from "../utils/info";
@@ -72,18 +73,12 @@ const requestGroupQueryResolvers = {
 const requestGroupMutationResolvers = {
     createRequestGroup: async (_, { requestGroup }, { authenticateUser }): Promise<RequestGroupInterface> => {
         return authenticateUser().then(async () => {
-            const newRequestGroup = new RequestGroup({ ...requestGroup });
-            const createdRequestGroup = await newRequestGroup.save();
-
-            return createdRequestGroup;
+            return new RequestGroup({ ...requestGroup }).save();
         });
     },
     updateRequestGroup: async (_, { requestGroup }, { authenticateUser }): Promise<RequestGroupInterface> => {
         return authenticateUser().then(async () => {
-            const oldRequestGroup = await RequestGroup.findById(requestGroup._id);
-            const modifiedRequestGroup = new RequestGroup({ ...oldRequestGroup, ...requestGroup });
-
-            return modifiedRequestGroup.save();
+            return RequestGroup.findByIdAndUpdate(requestGroup._id, requestGroup, { lean: true });
         });
     },
     deleteRequestGroup: async (_, { _id }, { authenticateUser }): Promise<RequestGroupInterface> => {
@@ -107,13 +102,25 @@ const requestGroupResolvers = {
             return RequestType.findById(requestTypeEmbedding._id);
         });
     },
+    donationForms: async (parent, __, ___, info): Promise<Array<DonationFormInterface>> => {
+        if (infoContainsOnlyFields(info, ["_id"])) {
+            return parent.donationForms;
+        }
+
+        return parent.donationForms.map((donationFormEmbedding) => {
+            return DonationForm.findById(donationFormEmbedding._id);
+        });
+    },
     deleted: (parent, __, ___): boolean => {
-        return parent.deletedAt !== undefined;
+        return parent.deletedAt != null;
     },
     countOpenRequests: async (parent, __, ___): Promise<number> => {
         const countOpenRequestsPerType: Array<number> = await Promise.all(
             parent.requestTypes.map(async (requestTypeEmbedding) => {
                 const requestType = await RequestType.findById(requestTypeEmbedding._id);
+                if (requestType.deletedAt != null) {
+                    return 0;
+                }
                 return filterOpenRequestEmbeddings(requestType.requests).length;
             })
         );
@@ -157,7 +164,7 @@ const requestGroupResolvers = {
                 parent.requestTypes.map(async (requestTypeEmbedding) => {
                     const requestType = await RequestType.findById(requestTypeEmbedding._id).session(session);
                     return requestType.requests.filter((requestEmbedding) => {
-                        return requestEmbedding.deletedAt === undefined;
+                        return requestEmbedding.deletedAt == null;
                     }).length;
                 })
             );

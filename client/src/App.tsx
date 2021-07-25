@@ -26,9 +26,6 @@ function App(): JSX.Element {
                     <Route path="/request-group/:id">
                         <AdminRequestGroupView />
                     </Route>
-                    <Route path="/test">
-                        <DonationItemCardContainer />
-                    </Route>
                     <Route path="/">
                         <DonorHomepage />
                     </Route>

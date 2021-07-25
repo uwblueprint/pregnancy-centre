@@ -25,7 +25,6 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                 _id
                 name
                 description
-                image
                 updatedAt
                 deleted
                 countOpenRequests
@@ -137,10 +136,9 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                             operation="create"
                         />
                     )}
-                    <RequestTypeDropdownList
-                        requestGroup={requestGroup}
-                        requestTypes={requestGroup!.requestTypes}
-                    ></RequestTypeDropdownList>{" "}
+                    {requestGroup.requestTypes && (
+                        <RequestTypeDropdownList requestGroup={requestGroup} requestTypes={requestGroup.requestTypes} />
+                    )}{" "}
                 </div>
             )}
         </div>
