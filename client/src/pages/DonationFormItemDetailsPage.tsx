@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 
-import BaseDonationForm from "../data/types/donationForm";
+import { DonationForm as BaseDonationForm } from "../data/types/donationForm";
 import DonationFormPage from "../components/layouts/DonationFormPage";
 import DonationItemCard from "../components/atoms/DonationItemCard";
 import DonationItemForm from "../components/molecules/DonationItemForm";
