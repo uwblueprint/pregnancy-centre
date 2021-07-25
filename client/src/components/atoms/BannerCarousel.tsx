@@ -1,8 +1,14 @@
 import { Carousel, Container } from "react-bootstrap";
 import React, { FunctionComponent } from "react";
-import DonorHomepageConfig from "../../config/donorHompageConfig.json";
+import DonorHomepageConfig from "../../config/donorHomepageConfig.json";
 
-const BannerCarousel: FunctionComponent = () => {
+interface Props {
+    bannerImgs: Array<string>;
+    bannerHeader: string;
+    bannerDesc: string;
+}
+
+const BannerCarousel: FunctionComponent<Props> = (props: Props) => {
     const bannerImgs = DonorHomepageConfig.Banner;
     const bannerIntv = 1000 * 10;
     return (
@@ -17,8 +23,8 @@ const BannerCarousel: FunctionComponent = () => {
                 </Carousel>
             </Container>
             <div className="col-md-6 homepage-banner-info">
-                <h1>Help women and families in Kitchener-Waterloo thrive with your donation today</h1>
-                <p>Scroll to see our clients&#39; current needs and arrange a donation</p>
+                <h1>{props.bannerHeader}</h1>
+                <p>{props.bannerDesc}</p>
             </div>
         </div>
     );
