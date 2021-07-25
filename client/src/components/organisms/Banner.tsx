@@ -7,9 +7,7 @@ const Banner: FunctionComponent = () => {
     const bannerHeader = DonorHomepageConfig.Banner.header;
     const bannerDesc = DonorHomepageConfig.Banner.description;
 
-    return (
-        <BannerCarousel bannerImgs={bannerImgs} bannerHeader={bannerHeader} bannerDesc={bannerDesc}/>
-    );
+    return <BannerCarousel bannerImgs={bannerImgs} bannerHeader={bannerHeader} bannerDesc={bannerDesc} />;
 };
 
 export default Banner;
