@@ -7,11 +7,11 @@
     align-items: center;
 
     .carousel {
-        width: 100%;
         z-index: 0;
         display: block;
 
-        & img {
+        img {
+            width: 100%;
             opacity: 0.4;
             height: 435px;
             object-fit: cover;

@@ -20,7 +20,7 @@ const BannerCarousel: FunctionComponent<Props> = (props: Props) => {
                     ))}
                 </Carousel>
             </Container>
-            <div className="col-md-6 homepage-banner-info">
+            <div className="col-md-6 banner-carousel-info">
                 <h1>{props.bannerHeader}</h1>
                 <p>{props.bannerDesc}</p>
             </div>
