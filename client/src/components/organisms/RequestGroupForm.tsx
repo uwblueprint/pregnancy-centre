@@ -1,7 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Area } from "react-easy-crop/types";
-import { connect } from "react-redux";
 
 import FormItem from "../molecules/FormItem";
 import FormModal from "./FormModal";
@@ -11,7 +10,7 @@ import RequestGroup from "../../data/types/requestGroup";
 import RichTextField from "../atoms/RichTextField";
 import { TagInput } from "../atoms/TagInput";
 import { TextField } from "../atoms/TextField";
-import UploadThumbnailService from "../../services/upload-thumbnail"
+import UploadThumbnailService from "../../services/upload-thumbnail";
 
 type Props = {
     handleClose: () => void;
@@ -27,7 +26,6 @@ const createImage: (url: string) => Promise<HTMLImageElement> = (url: string) =>
         const image = new Image();
         image.addEventListener("load", () => resolve(image));
         image.addEventListener("error", (error) => reject(error));
-        console.log(url);
         image.src = url;
         return image;
     });
@@ -39,7 +37,6 @@ const createImage: (url: string) => Promise<HTMLImageElement> = (url: string) =>
  * @param {number} rotation - optional rotation parameter
  */
 const getCroppedImg = async (imageSrc: string, pixelCrop: Area) => {
-    console.log("hi asdf: ", imageSrc);
     const image: HTMLImageElement = await createImage(imageSrc);
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -74,12 +71,6 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: Area) => {
     // As Base64 string
     return canvas.toDataURL("image/jpeg");
 
-    // As a blob
-    //   return new Promise(resolve => {
-    //     canvas.toBlob(file => {
-    //       resolve(URL.createObjectURL(file))
-    //     }, 'image/jpeg')
-    //   })
 };
 
 const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
@@ -364,16 +355,14 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
         const tempNameError = updateNameError(name);
         const tempDescriptionError = updateDescriptionError(description);
-        const tempImageError = updateImageError(image);
+        const tempImageError = imageError;
 
         if (!tempNameError && !tempDescriptionError && !tempImageError) {
             let selectedImg = image;
             if (uploadedImg !== "") {
                 const croppedImg = await getCroppedImg(uploadedImg, croppedArea);
-                console.log(croppedImg);
 
-                const croppedImgURL = await UploadThumbnailService.upload(croppedImg, "asdf123");
-                console.log(croppedImgURL);
+                const croppedImgURL = await UploadThumbnailService.upload(croppedImg, new Date().toISOString());
                 selectedImg = croppedImgURL;
             }
 
@@ -385,7 +374,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 if (newRequestTypeNames.length === 0) {
                     newRequestTypeNames = ["One Size"];
                 }
-                createRequestGroup({ variables: { name, description, selectedImg } })
+                createRequestGroup({ variables: { name, description, image: selectedImg } })
                     .then((response) => {
                         requestGroupId = response.data.createRequestGroup._id;
                         const createRequestTypePromises = newRequestTypeNames.map((requestTypeName) =>
@@ -419,7 +408,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                     .then(() => {
                         if (initialRequestGroup?._id) {
                             return updateRequestGroup({
-                                variables: { id: initialRequestGroup._id, name, description, selectedImg }
+                                variables: { id: initialRequestGroup._id, name, description, image: selectedImg }
                             });
                         }
                     })

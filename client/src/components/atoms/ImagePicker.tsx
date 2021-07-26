@@ -35,7 +35,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
             setCropFieldHeight(cropRef.current.offsetHeight);
             setCropFieldWidth(cropRef.current.offsetWidth);
         }
-    }, [cropRef]);
+    }, [props.uploadedImg]);
 
     const getImageDimensions = async (file: string): Promise<Dimensions> => {
         return new Promise((resolved) => {
@@ -93,7 +93,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
     };
     const onCropComplete = useCallback(async (croppedArea: Area, croppedAreaPixels: Area) => {
         props.onCroppedAreaChange(croppedAreaPixels);
-    }, []);
+    }, [crop]);
     const triggerWarning = (text: string) => {
         setWarningText(text);
         setTimeout(() => {
@@ -101,6 +101,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
         }, 4000);
     };
     const imgInView = props.selected !== "" || props.uploadedImg !== "";
+
     return (
         <div className="imagepicker">
             {warningText !== "" && <WarningBox text={warningText} />}
