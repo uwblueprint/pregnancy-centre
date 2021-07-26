@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 
 import { DonationForm, ItemCondition } from "../../data/types/donationForm";
 import DonationMatchingRequestsTable from "../molecules/DonationMatchingRequestsTable";
@@ -164,6 +164,12 @@ const MatchingRequestTableContainer: FunctionComponent<Record<string, never>> = 
     const [requests, setRequests] = useState(sampleRequests);
     const [donationForms, setDonationForms] = useState(sampleDonationForms);
     const [curDonationForm, setCurDonationForm] = useState(donationForms[1]);
+
+    useEffect(() => {
+        // just here to prevent eslint warnings
+        setDonationForms(donationForms);
+        setCurDonationForm(donationForms[1]);
+    }, []);
 
     const onQuantitySelected = (quantity: number, requestId: string) => {
         // find the index of the updated request
