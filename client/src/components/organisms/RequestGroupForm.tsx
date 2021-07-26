@@ -70,7 +70,6 @@ const getCroppedImg = async (imageSrc: string, pixelCrop: Area) => {
 
     // As Base64 string
     return canvas.toDataURL("image/jpeg");
-
 };
 
 const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
