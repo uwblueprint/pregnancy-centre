@@ -2,11 +2,11 @@ import React, { FunctionComponent } from "react";
 import BannerCarousel from "../atoms/BannerCarousel";
 import DonorHomepageConfig from "../../config/donorHomepageConfig.json";
 
-const Banner: FunctionComponent = () => {
-    const bannerImgs = DonorHomepageConfig.Banner.images;
-    const bannerHeader = DonorHomepageConfig.Banner.header;
-    const bannerDesc = DonorHomepageConfig.Banner.description;
-    const bannerIntv = DonorHomepageConfig.Banner.interval * 1000;
+const DonorHomepageBanner: FunctionComponent = () => {
+    const bannerImgs = DonorHomepageConfig.banner.images;
+    const bannerHeader = DonorHomepageConfig.banner.header;
+    const bannerDesc = DonorHomepageConfig.banner.description;
+    const bannerIntv = DonorHomepageConfig.banner.interval * 1000;
     return (
         <BannerCarousel
             bannerImgs={bannerImgs}
@@ -17,4 +17,4 @@ const Banner: FunctionComponent = () => {
     );
 };
 
-export default Banner;
+export default DonorHomepageBanner;
