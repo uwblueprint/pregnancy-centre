@@ -12,7 +12,7 @@ const DonorHomepage: FunctionComponent = () => {
         <Container className="donor-homepage" fluid>
             <DonorPage>
                 <Row>
-                    <DonorHomepageBanner/>
+                    <DonorHomepageBanner />
                 </Row>
                 <Row className="donor-homepage-request-groups-browser">
                     <DonorRequestGroupBrowser />

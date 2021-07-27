@@ -12,7 +12,13 @@ const BannerCarousel: FunctionComponent<Props> = (props: Props) => {
     return (
         <div className="banner-carousel">
             <Container fluid>
-                <Carousel controls={false} interval={props.transitionInterval} indicators={false} className="carousel" fade>
+                <Carousel
+                    controls={false}
+                    interval={props.transitionInterval}
+                    indicators={false}
+                    className="carousel"
+                    fade
+                >
                     {props.images.map((imgLink, index) => (
                         <Carousel.Item key={index}>
                             <img src={imgLink} />
