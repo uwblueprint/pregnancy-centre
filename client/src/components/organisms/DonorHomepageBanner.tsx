@@ -9,10 +9,10 @@ const DonorHomepageBanner: FunctionComponent = () => {
     const bannerIntv = DonorHomepageConfig.banner.interval * 1000;
     return (
         <BannerCarousel
-            bannerImgs={bannerImgs}
-            bannerHeader={bannerHeader}
-            bannerDesc={bannerDesc}
-            bannerIntv={bannerIntv}
+            images={bannerImgs}
+            header={bannerHeader}
+            description={bannerDesc}
+            transitionInterval={bannerIntv}
         />
     );
 };

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
-import Banner from "../components/organisms/Banner";
+import DonorHomepageBanner from "../components/organisms/DonorHomepageBanner";
 import DonorImpactSection from "../components/organisms/DonorImpactSection";
 import DonorPage from "../components/layouts/DonorPage";
 import DonorRequestGroupBrowser from "../components/organisms/DonorRequestGroupBrowser";
@@ -12,7 +12,7 @@ const DonorHomepage: FunctionComponent = () => {
         <Container className="donor-homepage" fluid>
             <DonorPage>
                 <Row>
-                    <Banner />
+                    <DonorHomepageBanner/>
                 </Row>
                 <Row className="donor-homepage-request-groups-browser">
                     <DonorRequestGroupBrowser />
