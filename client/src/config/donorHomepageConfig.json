@@ -85,7 +85,7 @@
       "stat": "visits to our case closet"
     }
   ],
-  "Banner": {
+  "banner": {
     "header": "Help women and families in Kitchener-Waterloo thrive with your donation today",
     "description": "Scroll to see our clients' current needs and arrange a donation",
     "images": [
@@ -97,7 +97,7 @@
     ],
     "interval": 10
   },
-  "Testimonials": [
+  "testimonials": [
     {
       "image": "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Ftestimonial-img-1.jpg?alt=media&token=96146cd7-2967-48cc-84cd-ca15db6a6a16",
       "testimonial": "\"Dilya visited the Centre and let her support worker know that she did not have anything for her baby to sleep in. Fortunately, an amazing bassinette had been donated to the Centre and was available for Dilya! She was completely overwhelmed and so grateful for this donor!\""
