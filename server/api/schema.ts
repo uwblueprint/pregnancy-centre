@@ -21,7 +21,6 @@ const typeDefs = gql`
         deleted: Boolean
         fulfilled: Boolean
     }
-
     input CreateRequestInput {
         quantity: Int
         requestType: ID!
