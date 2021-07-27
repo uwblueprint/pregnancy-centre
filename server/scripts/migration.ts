@@ -257,12 +257,13 @@ const createRequestGroup = (_id, name, description, image, deleted, updatedAt, c
 }
 
 const requestEmbeddingFromRequest = (request) => {
-  return {
+  const embedding = {
       _id: request._id,
       createdAt: request.createdAt ? request.createdAt : null,
-      deletedAt: request.deletedAt ? request.deletedAt : null,
-      fulfilledAt: request.fulfilledAt ? request.fulfilledAt : null
   }
+  if (request.deletedAt) embedding["deletedAt"] = request.deletedAt;
+  if (request.fulfilledAt) embedding["fulfilledAt"] = request.fulfilledAt;
+  return embedding;
 }
 
 const requestTypeEmbeddingFromRequestType = (requestType) => {
