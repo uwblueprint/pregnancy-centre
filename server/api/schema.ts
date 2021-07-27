@@ -114,8 +114,14 @@ const typeDefs = gql`
     
     input DonationFormFilterOptions {
         name: String,
-        formType: String, 
+        requestGroup: ID,  
+        formType: DonationItemType, 
         status: DonationItemStatus
+    }
+
+    enum DonationItemType {
+        SPECIFIC
+        GENERIC
     }
 
     enum DonationItemCondition {
