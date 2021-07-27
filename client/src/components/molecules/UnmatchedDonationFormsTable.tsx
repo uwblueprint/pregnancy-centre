@@ -1,8 +1,9 @@
+import { gql, useMutation } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 import moment from "moment";
-import { useHistory } from "react-router-dom";
 
 import DonationForm, { DonationFormContact, DonationItemStatus } from "../../data/types/donationForm";
+import ConfirmDonationFormApprovalDialog from "../organisms/ConfirmDonationFormApprovalDialog";
 import DonationFormProgressStepper from "../atoms/DonationFormProgressStepper";
 import DropdownMenu from "../atoms/DropdownMenu";
 import { ItemStatusToReadableString } from "../utils/donationForm";
@@ -14,6 +15,26 @@ export interface Props {
 
 const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => {
     const [donationForms, setDonationForms] = useState(props.initialDonationForms);
+    const [selectedUnconfirmedDonationForm, setSelectedUnconfirmedDonationForm] = useState<DonationForm | null>(null);
+
+    const updateDonationFormStatusMutation = gql`
+        mutation UpdateDonationFormStatus($id: ID!, $status: DonationItemStatus!) {
+            updateDonationForm(donationForm: { _id: $id, status: $status }) {
+                _id
+            }
+        }
+    `;
+
+    const deleteDonationFormMutation = gql`
+        mutation DeleteDonationForm($id: ID!) {
+            deleteDonationForm(_id: $id) {
+                _id
+            }
+        }
+    `;
+
+    const [updateDonationFormStatus] = useMutation(updateDonationFormStatusMutation);
+    const [deleteDonationForm] = useMutation(deleteDonationFormMutation);
 
     const getContactName = (contact?: DonationFormContact) => {
         if (contact == null || (contact.firstName.length === 0 && contact.lastName.length === 0)) {
@@ -73,7 +94,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                 break;
         }
         options.push(
-            <span className="menu-option" onClick={() => deleteDonationForm(donationFormId)}>
+            <span className="menu-option" onClick={() => onDeleteDonationForm(donationFormId)}>
                 Delete
             </span>
         );
@@ -81,7 +102,8 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     };
 
     const setDonationFormStatus = (donationFormId: string, newStatus: DonationItemStatus) => {
-        // TODO(meganniu): call mutation to change donation form status
+        // updateDonationFormStatus({ variables: { id: donationFormId, status: newStatus } })
+        //     .then(() => {
         if (newStatus === DonationItemStatus.MATCHED) {
             removeDonationFormFromDisplay(donationFormId);
             return;
@@ -94,19 +116,56 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                 return donationForm;
             })
         );
+        // })
+        // .catch((error) => {
+        //     console.log(error);
+        // });
     };
 
     const removeDonationFormFromDisplay = (donationFormId: string) => {
         setDonationForms(donationForms.filter((donationForm) => donationForm._id !== donationFormId));
     };
 
-    const deleteDonationForm = (donationFormId: string) => {
-        // TODO(meganniu): call mutation to delete donation form
+    const onDeleteDonationForm = (donationFormId: string) => {
+        // deleteDonationForm({ variables: { id: donationFormId } })
+        //     .then(() => {
         removeDonationFormFromDisplay(donationFormId);
+        // })
+        // .catch((error) => {
+        //     console.log(error);
+        // });
+    };
+
+    const onStatusChange = (donationForm: DonationForm, newStatus: DonationItemStatus) => {
+        if (newStatus === DonationItemStatus.PENDING_DROPOFF) {
+            setSelectedUnconfirmedDonationForm(donationForm);
+        } else if (donationForm._id) {
+            setDonationFormStatus(donationForm._id, newStatus);
+        }
     };
 
     return (
         <div className="unmatched-donation-forms-table">
+            {selectedUnconfirmedDonationForm && (
+                <ConfirmDonationFormApprovalDialog
+                    contactName={getContactName(selectedUnconfirmedDonationForm.contact)}
+                    handleClose={() => {
+                        setSelectedUnconfirmedDonationForm(null);
+                    }}
+                    onCancel={() => {
+                        setSelectedUnconfirmedDonationForm(null);
+                    }}
+                    onSubmit={() => {
+                        if (selectedUnconfirmedDonationForm._id) {
+                            setSelectedUnconfirmedDonationForm(null);
+                            setDonationFormStatus(
+                                selectedUnconfirmedDonationForm._id,
+                                DonationItemStatus.PENDING_DROPOFF
+                            );
+                        }
+                    }}
+                />
+            )}
             <table>
                 <colgroup>
                     <col className="spacing-col" />
@@ -181,9 +240,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                                         <DonationFormProgressStepper
                                             status={donationForm.status}
                                             onStatusChange={(newStatus: DonationItemStatus) => {
-                                                if (donationForm._id) {
-                                                    setDonationFormStatus(donationForm._id, newStatus);
-                                                }
+                                                onStatusChange(donationForm, newStatus);
                                             }}
                                         />
                                     )}
