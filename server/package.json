@@ -4,6 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "migrate": "ts-node ./scripts/migration",
+
     "build": "tsc -p .",
     "seed": "ts-node ./scripts/seed",
     "server": "nodemon server",
