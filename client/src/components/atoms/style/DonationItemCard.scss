@@ -30,7 +30,6 @@
         h2 {
             @include semibold-text;
             font-size: 14px;
-            color: $donation-item-details-text-color;
             line-height: 24px;
             margin-right: 4px;
             margin-bottom: 0px;
@@ -39,7 +38,6 @@
         h3 {
             @include light-text;
             font-size: 14px;
-            color: $donation-item-details-text-color;
             line-height: 24px;
             margin-bottom: 0px;
             white-space: pre-wrap;
@@ -50,6 +48,7 @@
         width: 100%;
         margin-bottom: 0;
     }
+
 
     .action-icons {
         display: flex;
