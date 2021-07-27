@@ -18,7 +18,32 @@ const donationFormQueryResolvers = {
     },
     donationForms: async (_, __, ___): Promise<Array<DonationFormInterface>> => {
         return DonationForm.find().exec();
-    }
+    },
+    donationFormsPage: async (_, { skip, limit, filterOptions }, __): Promise<Array<DonationFormInterface>> => {
+        const { name, requestGroup, formType, status } = filterOptions;
+        const filter: any = {}
+    
+        if (requestGroup) {
+            filter.requestGroup = { $eq: requestGroup }
+        }
+        if (formType) {
+            if (formType === "GENERAL"){
+                filter.requestGroup = { $eq: null };
+            }
+            if (formType === "SPECIFIC"){
+                filter.requestGroup = { ...filter.requestGroup, $ne: null };
+            } 
+        }
+        if (status){
+            filter.status = status;
+        }
+
+        return DonationForm.find(filter)
+            .sort({ name: "ascending" })
+            .skip(skip)
+            .limit(limit)
+            .exec();
+    },
 };
 
 const donationFormMutationResolvers = {
