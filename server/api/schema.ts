@@ -113,7 +113,6 @@ const typeDefs = gql`
     # }
     
     input DonationFormFilterOptions {
-        name: String,
         requestGroup: ID,  
         formType: DonationItemType, 
         status: DonationItemStatus

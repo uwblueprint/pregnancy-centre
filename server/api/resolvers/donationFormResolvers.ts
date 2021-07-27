@@ -22,9 +22,7 @@ const donationFormQueryResolvers = {
     donationFormsPage: async (_, { skip, limit, filterOptions }, __): Promise<Array<DonationFormInterface>> => {
         const { name, requestGroup, formType, status } = filterOptions;
         const filter: any = {}
-        if (name) {
-            filter.name = { $regex: "^" + name + ".*", $options: "i" };
-        } 
+    
         if (requestGroup) {
             filter.requestGroup = { $eq: requestGroup }
         }
