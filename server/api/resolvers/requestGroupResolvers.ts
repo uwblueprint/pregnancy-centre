@@ -112,12 +112,15 @@ const requestGroupResolvers = {
         });
     },
     deleted: (parent, __, ___): boolean => {
-        return parent.deletedAt !== undefined;
+        return parent.deletedAt != null;
     },
     countOpenRequests: async (parent, __, ___): Promise<number> => {
         const countOpenRequestsPerType: Array<number> = await Promise.all(
             parent.requestTypes.map(async (requestTypeEmbedding) => {
                 const requestType = await RequestType.findById(requestTypeEmbedding._id);
+                if (requestType.deletedAt != null) {
+                    return 0;
+                }
                 return filterOpenRequestEmbeddings(requestType.requests).length;
             })
         );
@@ -161,7 +164,7 @@ const requestGroupResolvers = {
                 parent.requestTypes.map(async (requestTypeEmbedding) => {
                     const requestType = await RequestType.findById(requestTypeEmbedding._id).session(session);
                     return requestType.requests.filter((requestEmbedding) => {
-                        return requestEmbedding.deletedAt === undefined;
+                        return requestEmbedding.deletedAt == null;
                     }).length;
                 })
             );

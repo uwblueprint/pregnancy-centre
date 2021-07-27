@@ -1,0 +1,133 @@
+.donation-item-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .details-card {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+        border-radius: 10px;
+        background: $donation-item-form-card-color;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .item-name-field {
+        width: 50%;
+    }
+
+    .item-condition-field {
+        width: 53%;
+    }
+
+    .item-age-field {
+        width: 23%;
+
+        .scroll-window {
+            max-height: 163px;
+        }
+    }
+
+    .item-quantity-field {
+        width: 15%;
+    }
+
+    .item-description-field {
+        width: 100%;
+        margin-top: 25px;
+
+        .text-area {
+            width: 100%;
+        }
+    }
+
+    .form-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+        margin-top: 25px;
+    }
+
+    .delete-button {
+        @include white-button;
+        @include semibold-text;
+        width: 15%;
+    }
+
+    .save-button {
+        @include tpc-green-button;
+        @include semibold-text;
+        width: 15%;
+        margin-left: 2%;
+    }
+
+    .form-error {
+        display: flex;
+        flex-direction: row;
+        align-self: flex-end;
+        align-items: center;
+        margin-top: 7px;
+        color: $error-color;
+
+        i {
+            margin-right: 17px;
+        }
+
+        span {
+            margin-bottom: 0;
+            font-size: 12px;
+        }
+    }
+
+    .text-field {
+        height: 45px;
+    }
+
+    .searchable-dropdown .scroll-window .custom-item-prompt {
+        margin-left: 15px;
+        color: $donation-item-form-dropdown-prompt-color;
+    }
+
+    .item-condition-field,
+    .item-age-field {
+        .scrollable-dropdown {
+            width: 100%;
+        }
+
+        .scrollable-dropdown .text-field {
+            cursor: pointer;
+        }
+
+        .scrollable-dropdown .scroll-window {
+            display: flex;
+            flex-direction: column;
+            padding: 8px 12px;
+            margin-top: 5px;
+
+            p {
+                @include semibold-text;
+                color: $donation-item-form-dropdown-prompt-color;
+                font-size: 12px;
+                margin-bottom: 0;
+            }
+
+            span {
+                margin-top: 8px;
+                margin-bottom: 8px;
+                cursor: pointer;
+
+                &:first-child {
+                    margin-top: 0;
+                }
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}

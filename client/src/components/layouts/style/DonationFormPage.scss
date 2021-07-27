@@ -1,0 +1,99 @@
+.donation-form-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+
+    &-header,
+    &-footer {
+        width: 100%;
+    }
+
+    &-body {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 40px 5% 20px 5%;
+    }
+
+    &-progress {
+        width: 22%;
+        display: flex;
+        flex-direction: column;
+
+        h1 {
+            @include heavy-text;
+            font-size: 25px;
+            margin-bottom: 79px;
+        }
+    }
+
+    &-content {
+        width: 75%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        padding: 0 5%;
+    }
+
+    &-content-header {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+
+        h1 {
+            @include semibold-text;
+            font-size: 15px;
+            margin-left: 26px;
+        }
+
+        p {
+            width: 100%;
+            margin-top: 22px;
+        }
+    }
+
+    &-instructions {
+        @include semibold-text;
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 42px;
+    }
+
+    &-footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        align-self: flex-end;
+        height: 122px;
+        padding: 20px;
+        margin-top: auto;
+        box-shadow: 0px -4px 20px rgba(219, 219, 219, 0.25);
+    }
+
+    .nav-buttons {
+        width: 50%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .previous-button {
+        @include grey-button;
+        @include semibold-text;
+        width: 20%;
+        height: 48px;
+    }
+
+    .next-button {
+        @include tpc-green-button;
+        @include semibold-text;
+        width: 30%;
+        height: 48px;
+        margin-left: 2%;
+    }
+}

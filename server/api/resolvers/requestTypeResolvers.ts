@@ -7,20 +7,20 @@ import { sessionHandler } from "../utils/session";
 
 const filterOpenRequestEmbeddings = (requestEmbeddings) => {
     return requestEmbeddings.filter((requestEmbedding) => {
-        return requestEmbedding.deletedAt === undefined && requestEmbedding.fulfilledAt === undefined;
+        return requestEmbedding.deletedAt == null && requestEmbedding.fulfilledAt == null;
     });
 };
 
 const filterFulfilledRequestEmbeddings = (requestEmbeddings) => {
     return requestEmbeddings.filter((requestEmbedding) => {
-        return requestEmbedding.deletedAt === undefined && requestEmbedding.fulfilledAt !== undefined;
+        return requestEmbedding.deletedAt == null && requestEmbedding.fulfilledAt != null;
     });
 };
 
 // obtains embeddings of all deleted Request's
 const filterDeletedRequestEmbeddings = (requestEmbeddings) => {
     return requestEmbeddings.filter((requestEmbedding) => {
-        return requestEmbedding.deletedAt !== undefined;
+        return requestEmbedding.deletedAt != null;
     });
 };
 
@@ -171,7 +171,7 @@ const requestTypeResolvers = {
         });
     },
     deleted: (parent, __, ___): boolean => {
-        return parent.deletedAt !== undefined;
+        return parent.deletedAt != null;
     },
     openRequests: async (parent, __, ___): Promise<Array<RequestInterface>> => {
         return filterOpenRequestEmbeddings(parent.requests).map((requestEmbedding) => {

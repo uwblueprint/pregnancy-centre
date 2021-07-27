@@ -284,35 +284,21 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         }
     };
 
-    const handleEmptyRequestTypesMap = (requestTypesMap: Map<string, RequestTypeData>): void => {
-        if (
-            Array.from(requestTypesMap.values()).filter((requestTypeData) => requestTypeData.deleted === false)
-                .length === 0
-        ) {
-            const newRequestTypeData: RequestTypeData = {
-                id: null,
-                deleted: false
-            };
-            const requestTypeEmptyName = "One Size";
-            const map: Map<string, RequestTypeData> = new Map();
-            map.set(requestTypeEmptyName, newRequestTypeData);
-            setRequestTypesMap(map);
-        }
-    };
-
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const tempNameError = updateNameError(name);
         const tempDescriptionError = updateDescriptionError(description);
         const tempImageError = updateImageError(image);
-        handleEmptyRequestTypesMap(requestTypesMap);
 
         if (!tempNameError && !tempDescriptionError && !tempImageError) {
             if (props.operation === "create") {
                 let requestGroupId: string | null = null;
-                const newRequestTypeNames = Array.from(requestTypesMap)
+                let newRequestTypeNames = Array.from(requestTypesMap)
                     .filter(([_requestTypeName, requestTypeData]) => requestTypeData.deleted === false)
                     .map(([requestTypeName, _requestTypeData]) => requestTypeName);
+                if (newRequestTypeNames.length === 0) {
+                    newRequestTypeNames = ["One Size"];
+                }
                 createRequestGroup({ variables: { name, description, image } })
                     .then((response) => {
                         requestGroupId = response.data.createRequestGroup._id;
@@ -352,7 +338,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         }
                     })
                     .then(() => {
-                        // props.onSubmitComplete();
+                        props.onSubmitComplete();
                     });
             }
             props.handleClose();
@@ -434,6 +420,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                                     onSubmit={onAddRequestType}
                                     onDelete={onDeleteRequestType}
                                     showRedErrorText={true}
+                                    isNoTagsAllowed={false}
                                 />
                             }
                         />

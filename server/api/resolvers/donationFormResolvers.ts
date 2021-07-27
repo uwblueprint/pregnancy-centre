@@ -39,7 +39,7 @@ const donationFormQueryResolvers = {
         if (status){
             filter.status = status;
         }
-        console.log(filter)
+
         return DonationForm.find(filter)
             .sort({ name: "ascending" })
             .skip(skip)
