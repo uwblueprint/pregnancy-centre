@@ -15,7 +15,7 @@ const BannerCarousel: FunctionComponent<Props> = (props: Props) => {
                 <Carousel controls={false} interval={props.bannerIntv} indicators={false} className="carousel" fade>
                     {props.bannerImgs.map((imgLink, index) => (
                         <Carousel.Item key={index}>
-                            <img src={`${imgLink}`} />
+                            <img src={imgLink} />
                         </Carousel.Item>
                     ))}
                 </Carousel>
