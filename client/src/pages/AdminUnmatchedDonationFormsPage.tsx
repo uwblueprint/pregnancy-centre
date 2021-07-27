@@ -187,7 +187,7 @@ const AdminUnmatchedDonationFormPage: FunctionComponent = () => {
         }
     ];
     return (
-        <div className="admin-unmatched-donaiton-forms-page">
+        <div className="admin-unmatched-donation-forms-page">
             <AdminPage>
                 <div className="page-header">
                     <span className="link active">Forms</span>
