@@ -1,6 +1,6 @@
 import { Area } from "react-easy-crop/types";
 
-const createImage: (url: string) => Promise<HTMLImageElement> = (url: string) =>
+const createImage = (url: string): Promise<HTMLImageElement> =>
     new Promise((resolve, reject) => {
         const image = new Image();
         image.addEventListener("load", () => resolve(image));
@@ -9,11 +9,10 @@ const createImage: (url: string) => Promise<HTMLImageElement> = (url: string) =>
         return image;
     });
 
-export const getCroppedImg = async (imageSrc: string, pixelCrop: Area) => {
+export const getCroppedImg = async (imageSrc: string, pixelCrop: Area): Promise<string> => {
     const image: HTMLImageElement = await createImage(imageSrc);
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-
     const maxSize = Math.max(image.width, image.height);
     const safeArea = 2 * ((maxSize / 2) * Math.sqrt(2));
 
@@ -40,7 +39,5 @@ export const getCroppedImg = async (imageSrc: string, pixelCrop: Area) => {
         Math.round(0 - safeArea / 2 + image.width * 0.5 - pixelCrop.x),
         Math.round(0 - safeArea / 2 + image.height * 0.5 - pixelCrop.y)
     );
-
-    // As Base64 string
     return canvas.toDataURL("image/jpeg");
 };
