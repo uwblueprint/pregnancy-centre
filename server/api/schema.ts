@@ -111,10 +111,10 @@ const typeDefs = gql`
     # input FilterOptions {
     #     NOT_AVAILABLE: Boolean
     # }
-    
+
     input DonationFormFilterOptions {
-        requestGroup: ID,  
-        formType: DonationItemType, 
+        requestGroup: ID
+        formType: DonationItemType
         status: DonationItemStatus
     }
 
