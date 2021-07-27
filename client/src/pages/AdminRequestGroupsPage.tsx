@@ -5,9 +5,11 @@ import AdminRequestGroupList from "../components/organisms/AdminRequestGroupList
 
 const AdminRequestGroupsPage: FunctionComponent = () => {
     return (
-        <AdminPage>
-            <AdminRequestGroupList />
-        </AdminPage>
+        <div className="admin-request-groups-page">
+            <AdminPage>
+                <AdminRequestGroupList />
+            </AdminPage>
+        </div>
     );
 };
 

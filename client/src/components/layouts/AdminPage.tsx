@@ -12,7 +12,7 @@ const AdminPage: FunctionComponent<Record<string, unknown>> = (
                     { name: "Needs", path: "/needs" },
                     { name: "Forms", path: "/forms" }
                 ]}
-                rightLinks={[{ name: "Logout", path: "/" }]}
+                rightLinks={[{ name: "Log out", path: "/" }]}
             />
             <div className="donor-page-content">{props.children}</div>
         </div>

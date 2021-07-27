@@ -9,10 +9,12 @@ import { ItemStatusToReadableString } from "../utils/donationForm";
 import Tag from "../atoms/Tag";
 
 export interface Props {
-    donationForms: Array<DonationForm>;
+    initialDonationForms: Array<DonationForm>;
 }
 
 const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => {
+    const [donationForms, setDonationForms] = useState(props.initialDonationForms);
+
     const getContactName = (contact?: DonationFormContact) => {
         if (contact == null || (contact.firstName.length === 0 && contact.lastName.length === 0)) {
             return null;
@@ -46,18 +48,61 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         return "";
     };
 
-    const getMenuOptionsForItemStatus = (itemStatus?: DonationItemStatus) => {
+    const getMenuOptionsForItemStatus = (donationFormId: string, itemStatus?: DonationItemStatus) => {
         const options = [];
         switch (itemStatus) {
             case DonationItemStatus.PENDING_DROPOFF:
-                options.push(<span className="menu-option">Unapprove</span>);
+                options.push(
+                    <span
+                        className="menu-option"
+                        onClick={() => setDonationFormStatus(donationFormId, DonationItemStatus.PENDING_APPROVAL)}
+                    >
+                        Unapprove
+                    </span>
+                );
                 break;
             case DonationItemStatus.PENDING_MATCH:
-                options.push(<span className="menu-option">Unconfirm</span>);
+                options.push(
+                    <span
+                        className="menu-option"
+                        onClick={() => setDonationFormStatus(donationFormId, DonationItemStatus.PENDING_DROPOFF)}
+                    >
+                        Unconfirm
+                    </span>
+                );
                 break;
         }
-        options.push(<span className="menu-option">Delete</span>);
+        options.push(
+            <span className="menu-option" onClick={() => deleteDonationForm(donationFormId)}>
+                Delete
+            </span>
+        );
         return options;
+    };
+
+    const setDonationFormStatus = (donationFormId: string, newStatus: DonationItemStatus) => {
+        // TODO(meganniu): call mutation to change donation form status
+        if (newStatus === DonationItemStatus.MATCHED) {
+            removeDonationFormFromDisplay(donationFormId);
+            return;
+        }
+        setDonationForms(
+            donationForms.map((donationForm) => {
+                if (donationForm._id === donationFormId) {
+                    donationForm.status = newStatus;
+                }
+                return donationForm;
+            })
+        );
+    };
+
+    const removeDonationFormFromDisplay = (donationFormId: string) => {
+        setDonationForms(donationForms.filter((donationForm) => donationForm._id !== donationFormId));
+    };
+
+    const deleteDonationForm = (donationFormId: string) => {
+        // TODO(meganniu): call mutation to delete donation form
+        removeDonationFormFromDisplay(donationFormId);
     };
 
     return (
@@ -98,7 +143,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                         <td />
                         <td />
                     </tr>
-                    {[...props.donationForms].sort().map((donationForm: DonationForm) => (
+                    {donationForms.sort().map((donationForm: DonationForm) => (
                         <>
                             <tr
                                 key={donationForm._id}
@@ -135,13 +180,18 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                                     {donationForm.status && (
                                         <DonationFormProgressStepper
                                             status={donationForm.status}
-                                            onStatusChange={() => {}}
+                                            onStatusChange={(newStatus: DonationItemStatus) => {
+                                                if (donationForm._id) {
+                                                    setDonationFormStatus(donationForm._id, newStatus);
+                                                }
+                                            }}
                                         />
                                     )}
                                 </td>
                                 <td className="menu-col">
                                     <DropdownMenu trigger={<i className="bi bi-three-dots" />}>
-                                        {getMenuOptionsForItemStatus(donationForm.status)}
+                                        {donationForm._id &&
+                                            getMenuOptionsForItemStatus(donationForm._id, donationForm.status)}
                                     </DropdownMenu>
                                 </td>
                                 <td className="spacing-col" />
@@ -175,7 +225,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                     ))}
                 </tbody>
             </table>
-            {props.donationForms.length === 0 && <span className="no-forms-msg">There are no donation forms.</span>}
+            {donationForms.length === 0 && <span className="no-forms-msg">There are no donation forms.</span>}
         </div>
     );
 };
