@@ -87,6 +87,13 @@ $tpc-green: #004d57;
     letter-spacing: 0.05em;
 }
 
+@mixin donor-homepage-section-header-text() {
+    @include text;
+    font-weight: 600;
+    font-size: 38px;
+    line-height: 64px;
+}
+
 @mixin table-text() {
     @include text;
     font-weight: 500;
@@ -105,16 +112,19 @@ $tpc-green: #004d57;
     font-weight: 600;
 }
 
-@mixin bold-text() {
+@mixin extra-bold-text() {
     @include text;
     font-weight: 800;
+}
+
+@mixin bold-text() {
+    @include text;
+    font-weight: 700;
 }
 
 @mixin light-text() {
     @include text;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
 }
 
 /* Button Config */
@@ -164,6 +174,13 @@ $admin-request-group-browser-button-color: #fbfbfb;
 @mixin grey-button() {
     @include button-base();
     background-color: $button-grey-background;
+    color: black;
+    border: none;
+}
+
+@mixin white-button() {
+    @include button-base();
+    background-color: white;
     color: black;
     border: none;
 }
@@ -252,3 +269,18 @@ $page-arrow-disabled-color: #b7b7b7;
 /* Donation Item Card Config */
 $donation-item-card-color: #f4f4f4;
 $donation-item-details-text-color: #767676;
+@mixin donation-form-info-card {
+    border-radius: 10px;
+    background-color: $donation-item-card-color;
+    color: $donation-item-details-text-color;
+}
+
+/* Stepper Config */
+$stepper-border-color: #b7b7b7;
+
+/* Donation Item Form */
+$donation-item-form-card-color: #f4f4f4;
+$donation-item-form-dropdown-prompt-color: #adadad;
+
+/* Horizontal Diveder Line */
+$horizontal-divider-line-color: #a0a0a0;

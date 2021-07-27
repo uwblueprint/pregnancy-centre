@@ -1,0 +1,33 @@
+.donation-form-item-details-page {
+    .add-item-trigger {
+        @include tpc-green-text;
+        @include semibold-text;
+        margin-left: 10px;
+        margin-top: 22px;
+        cursor: pointer;
+    }
+
+    .horizontal-divider-line {
+        width: 100%;
+        margin: 40px 0;
+    }
+
+    .donation-form-page-footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-left: 5%;
+    }
+
+    .form-counter {
+        @include tpc-green-text;
+        @include bold-text;
+        font-size: 16px;
+    }
+
+    .nav-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}

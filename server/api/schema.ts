@@ -196,6 +196,79 @@ const typeDefs = gql`
         donatedAt: String
     }
 
+    enum DonationItemCondition {
+        BRAND_NEW
+        GREAT
+        GOOD
+        FAIR
+        POOR
+    }
+
+    enum DonationItemStatus {
+        PENDING_APPROVAL
+        PENDING_DROPOFF
+        PENDING_MATCH
+        MATCHED
+    }
+
+    type DonationFormContact {
+        firstName: String
+        lastName: String
+        email: String
+        phoneNumber: String
+    }
+
+    input DonationFormContactInput {
+        firstName: String
+        lastName: String
+        email: String
+        phoneNumber: String
+    }
+
+    type DonationForm {
+        _id: ID
+        contact: DonationFormContact
+        name: String
+        requestGroup: RequestGroup
+        description: String
+        quantity: Int
+        age: Int
+        condition: DonationItemCondition
+        images: [String]
+
+        adminNotes: String
+        status: DonationItemStatus
+        quantityRemaining: Int
+
+        donatedAt: String
+        deletedAt: String
+        createdAt: String
+        updatedAt: String
+    }
+
+    input CreateDonationFormInput {
+        contact: DonationFormContactInput
+        name: String!
+        description: String
+        quantity: Int!
+        age: Int!
+        requestGroup: ID
+        condition: DonationItemCondition!
+        status: DonationItemStatus
+        quantityRemaining: Int!
+    }
+
+    input UpdateDonationFormInput {
+        _id: ID!
+        name: String
+        quantity: Int
+        condition: DonationItemCondition
+        status: DonationItemStatus
+        quantityRemaining: Int
+        adminNotes: String
+        donatedAt: String
+    }
+
     type Query {
         request(_id: ID): Request
         requests: [Request]

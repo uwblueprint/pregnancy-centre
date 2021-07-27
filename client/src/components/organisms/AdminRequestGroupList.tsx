@@ -91,7 +91,7 @@ const AdminRequestGroupList: FunctionComponent = () => {
                 />
             )}
             <div className="row">
-                <span className="title">Request Groups</span>
+                <span className="title">Needs</span>
                 <span className="action-group">
                     <span className="item">
                         <SearchBar defaultText="Search for a group..." onSearchStringChange={onSearchStringChange} />

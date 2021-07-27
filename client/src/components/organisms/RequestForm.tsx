@@ -24,8 +24,8 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [requestTypesMap, setRequestTypesMap] = useState<Map<string, RequestType> | null>(null);
     const [requestGroup, setRequestGroup] = useState<RequestGroup | null>(null);
     const [requestType, setRequestType] = useState<RequestType | null>(null);
-    const [requestGroupInput, setRequestGroupInputGroup] = useState("");
-    const [requestTypeInput, setRequestTypeInputGroup] = useState("");
+    const [requestGroupInput, setRequestGroupInput] = useState("");
+    const [requestTypeInput, setRequestTypeInput] = useState("");
     const [quantity, setQuantity] = useState<number>(1);
     const [clientName, setClientName] = useState("");
     const [requestGroupError, setRequestGroupError] = useState("");
@@ -86,7 +86,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 requestTypes {
                     _id
                     name
-                    deletedAt
+                    deleted
                 }
             }
         }
@@ -177,7 +177,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         setRequestTypesMap(
             new Map(
                 requestTypes
-                    .filter((requestType) => requestType.deletedAt == null)
+                    .filter((requestType) => requestType.deleted === false)
                     .reduce((entries, requestType) => {
                         if (requestType && requestType.name) {
                             entries.push([requestType.name, requestType]);
@@ -206,6 +206,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         setChangeMade(true);
         updateRequestGroupError(newRequestGroup);
         setRequestGroup(newRequestGroup ? newRequestGroup : null);
+        setRequestGroupInput(newRequestGroup?.name ?? "");
 
         if (
             newRequestGroup &&
@@ -233,7 +234,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
     const onRequestGroupInputChange = (newRequestGroupInput: string) => {
         setChangeMade(true);
-        setRequestGroupInputGroup(newRequestGroupInput);
+        setRequestGroupInput(newRequestGroupInput);
     };
 
     /* Functions for Request's RequestType */
@@ -256,13 +257,15 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
 
         setChangeMade(true);
         setRequestType(newRequestType ? newRequestType : null);
+        setRequestTypeInput(newRequestType?.name ?? "");
+
         updateRequestTypeError(newRequestType);
         return true;
     };
 
     const onRequestTypeInputChange = (newRequestTypeInput: string) => {
         setChangeMade(true);
-        setRequestTypeInputGroup(newRequestTypeInput);
+        setRequestTypeInput(newRequestTypeInput);
     };
 
     /* Functions for Request's Quantity */
@@ -372,6 +375,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         formItemName="Client Full Name"
                         errorString={clientNameError}
                         isDisabled={false}
+                        showErrorIcon={true}
                         inputComponent={
                             <TextField
                                 input={clientName}
@@ -394,17 +398,19 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         errorString={requestGroupError}
                         isDisabled={false}
                         tooltipText="Needs describe the overall category of an item, such as stroller, crib, or bed."
+                        showErrorIcon={true}
                         inputComponent={
                             <SearchableDropdown
                                 initialText={requestGroup && requestGroup.name ? requestGroup.name : ""}
                                 placeholderText="Select a need"
+                                dropdownPrompt="Select a need"
                                 searchPlaceholderText="Search for a need"
+                                selectedItem={requestGroup?.name ?? ""}
+                                searchString={requestGroupInput}
                                 dropdownItems={requestGroupsMap ? [...requestGroupsMap.keys()] : []} // Pass the name of all request groups
                                 isErroneous={requestGroupError !== "" && requestGroupInput === ""}
                                 isDisabled={false}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    onRequestGroupInputChange(e.target.value);
-                                }}
+                                onChange={onRequestGroupInputChange}
                                 onSelect={onRequestGroupChange}
                                 noItemsAction={
                                     <div className="no-items-found">
@@ -422,6 +428,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                                     </div>
                                 }
                                 isTagDropdown={false}
+                                mustMatchDropdownItem={true}
                             />
                         }
                     />
@@ -432,20 +439,21 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         errorString={requestTypeError}
                         isDisabled={requestGroup === null} // Enable request type dropdown if a request group is selected
                         tooltipText="Types describe more specific information about a request, such as size, capacity, or intended child age."
+                        showErrorIcon={true}
                         inputComponent={
                             <SearchableDropdown
                                 initialText={requestType && requestType.name ? requestType.name : ""}
                                 placeholderText={
-                                    requestGroup === null ? "Select a group first" : "Search or create a type"
+                                    requestGroup === null ? "Select a need first" : "Search or create a type"
                                 }
+                                dropdownPrompt="Select or create a type"
                                 searchPlaceholderText="Search for a type"
+                                selectedItem={requestType?.name ?? ""}
+                                searchString={requestTypeInput}
                                 dropdownItems={requestTypesMap ? [...requestTypesMap.keys()] : []} // Pass the name of all request groups
                                 isErroneous={requestTypeError !== "" && requestTypeInput === ""}
                                 isDisabled={requestGroup === null}
-                                isEmpty={requestType === null}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    onRequestTypeInputChange(e.target.value);
-                                }}
+                                onChange={onRequestTypeInputChange}
                                 onSelect={onRequestTypeChange}
                                 noItemsAction={
                                     <div className="no-items-found">
@@ -453,6 +461,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                                     </div>
                                 }
                                 isTagDropdown={true}
+                                mustMatchDropdownItem={true}
                             />
                         }
                     />
@@ -462,6 +471,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                         formItemName="Item Quantity"
                         errorString={quantityError}
                         isDisabled={false}
+                        showErrorIcon={true}
                         inputComponent={
                             <TextField
                                 input={quantity.toString()}
