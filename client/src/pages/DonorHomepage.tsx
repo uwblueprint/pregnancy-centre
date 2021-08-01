@@ -11,7 +11,7 @@ const DonorHomepage: FunctionComponent = () => {
     return (
         <Container className="donor-homepage" fluid>
             <DonorPage>
-                <Row>
+                <Row className="donor-homepage-banner">
                     <DonorHomepageBanner />
                 </Row>
                 <Row className="donor-homepage-request-groups-browser">

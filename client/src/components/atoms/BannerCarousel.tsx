@@ -11,14 +11,8 @@ interface Props {
 const BannerCarousel: FunctionComponent<Props> = (props: Props) => {
     return (
         <div className="banner-carousel">
-            <Container fluid>
-                <Carousel
-                    controls={false}
-                    interval={props.transitionInterval}
-                    indicators={false}
-                    className="carousel"
-                    fade
-                >
+            <Container fluid className="banner-carousel-container">
+                <Carousel controls={false} interval={props.transitionInterval} indicators={false} fade>
                     {props.images.map((imgLink, index) => (
                         <Carousel.Item key={index}>
                             <img src={imgLink} />
@@ -26,7 +20,7 @@ const BannerCarousel: FunctionComponent<Props> = (props: Props) => {
                     ))}
                 </Carousel>
             </Container>
-            <div className="col-md-6 banner-carousel-info">
+            <div className="col-sm-10 col-lg-8 banner-carousel-info">
                 <h1>{props.header}</h1>
                 <p>{props.description}</p>
             </div>
