@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 
-import DonationForm, { ItemCondition } from "../../data/types/donationForm";
+import { DonationForm, ItemCondition } from "../../data/types/donationForm";
 import { getItemAgeDescription, itemAgeDescriptions, ItemConditionToDescriptionMap } from "../utils/donationForm";
 import { Button } from "../atoms/Button";
 import FormItem from "../molecules/FormItem";

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import DonationForm from "../data/types/donationForm";
+import { DonationForm } from "../data/types/donationForm";
 import DonationFormPage from "../components/layouts/DonationFormPage";
 import DonationItemCard from "../components/atoms/DonationItemCard";
 import Donor from "../data/types/donor";

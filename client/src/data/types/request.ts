@@ -1,3 +1,4 @@
+import { DonationFormContributionTuple } from "./donationForm";
 import RequestType from "./requestType";
 
 export default interface Request {
@@ -11,4 +12,5 @@ export default interface Request {
     fulfilledAt?: Date;
     deleted?: boolean;
     fulfilled?: boolean;
+    matchedDonations?: DonationFormContributionTuple[];
 }
