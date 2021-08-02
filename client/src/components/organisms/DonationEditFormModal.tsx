@@ -62,7 +62,6 @@ const DonationEditFormModal: FunctionComponent<Props> = (props: Props) => {
                     quantity
                 }
             });
-            return;
         }
     };
 
