@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import moment from "moment";
 
 import { Button } from "../atoms/Button";
-import DonationForm from "../../data/types/donationForm";
+import { DonationForm } from "../../data/types/donationForm";
 import { getItemAgeDescription } from "../utils/donationForm";
 
 interface Props {
@@ -32,6 +32,7 @@ const DonationFormInfoDisplay: FunctionComponent<Props> = (props: Props) => {
             <div className="header">
                 <h1>{itemsAvailableStr}</h1>
                 <Button
+                    disabled={true}
                     text={isMatching ? "Matching" : "Match"}
                     copyText=""
                     onClick={isMatching ? undefined : onSelectMatch}
