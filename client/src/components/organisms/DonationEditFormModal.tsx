@@ -52,12 +52,9 @@ const DonationEditFormModal: FunctionComponent<Props> = (props: Props) => {
     };
 
     const onSubmit = (e: React.FormEvent) => {
-        console.log("HERE");
         e.preventDefault();
         const tempQuantityError = updateQuantityError(quantity);
-        console.log(tempQuantityError);
         if (tempQuantityError.length === 0) {
-            console.log("HERE2");
             updateDonationForm({
                 variables: {
                     id: props.donationForm._id,
