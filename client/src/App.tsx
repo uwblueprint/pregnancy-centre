@@ -2,6 +2,7 @@ import "./App.scss";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
 
+import AdminDonationMatchingPage from "./pages/AdminDonationMatchingPage";
 import AdminHomepage from "./pages/AdminHomepage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView";
 import AuthAction from "./pages/AuthAction";
@@ -17,10 +18,14 @@ function App(): JSX.Element {
         <span>
             <Router>
                 <Switch>
+                    <Route path="/matching/donation-form/:id">
+                        <AdminDonationMatchingPage/>
+                    </Route>
+                    <Route path="/testing">
+                        <AdminDonationMatchingPage/>
+                    </Route>
                     <Route path="/test">
-                        <>
-                            <MatchingRequestTableContainer />
-                        </>
+                        <MatchingRequestTableContainer />
                     </Route>
                     <Route path="/login">
                         <SignInModal />

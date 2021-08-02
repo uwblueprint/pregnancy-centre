@@ -1,0 +1,79 @@
+.matching-donation-form-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100vh - (156px + 72px));
+
+    &-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 18px;
+
+        h1 {
+            @include heavy-text;
+            font-size: 32px;
+            line-height: 32px;
+        }
+    }
+
+    &-browse {
+        i {
+            font-size: 20px;
+            padding-right: 8px;
+        }
+
+        span {
+            font-size: 18px;
+            border-bottom: 1px solid #767676;
+        }
+
+        color: #767676;
+    }
+
+    &-content {
+        flex: 1;
+
+        .single-donation {
+        }
+
+        .all-available-donations {
+            .sort-header {
+                display: flex;
+                flex-direction: row;
+                p {
+                    @include bold-text;
+                    padding-right: 8px;
+                }
+            }
+        }
+    }
+
+    &-footer {
+        .footer-text {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 8px;
+
+            &.saved {
+                @include heavy-text;
+                color: #969696;
+            }
+
+            &.error {
+                @include error-text;
+            }
+        }
+
+        & .button {
+            @include tpc-green-button;
+            width: 100%;
+
+            &:hover {
+                @include alt-button;
+            }
+        }
+    }
+}

@@ -9,7 +9,8 @@ import { TextField } from "../atoms/TextField";
 
 interface Props {
     requests: Request[];
-    donationForm?: DonationForm;
+    donationForm: DonationForm;
+    isMatching: boolean;
     isErroneous: boolean; // indicates whether the selected quantities are erroneous
     onQuantitySelected: (newQuantity: number, requestId: string) => void;
 }
@@ -20,11 +21,14 @@ type RequestQuantities = {
 };
 
 const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) => {
-    const headingList = ["Client Name", "Quantity", "Total Required", "Date Requested"];
+    const headingList = props.donationForm.requestGroup
+        ? ["Client Name", "Quantity", "Total Required", "Date Requested"]
+        : ["Client Name", "Item Name", "Quantity", "Total Required", "Date Requested"];
 
     const [requests, setRequests] = useState<Request[]>([]);
     const [reqCurrentlyEditing, setReqCurrentlyEditing] = useState<string>("");
 
+    // TODO: remove
     useEffect(() => {
         // sort requests by most recent date
         const sortedRequests: Request[] = props.requests
@@ -48,7 +52,7 @@ const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) =
         const requestTotal = request?.quantity ?? 0;
         const totalRequired = requestTotal - totalQuantityMatched;
 
-        if (props.donationForm) {
+        if (props.isMatching) {
             // calculate the number of items assigned to the current item being matched
             const quantityAssignedToForm = matchedDonations?.reduce((total, contribution) => {
                 return contribution.donationForm == props?.donationForm?._id ? total + contribution.quantity : total;
@@ -99,15 +103,18 @@ const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) =
                         return (
                             <tr key={request._id}>
                                 <td className="row-text semibold">{request?.clientName ?? "N/A"}</td>
+                                {!props.donationForm.requestGroup && (
+                                    <td className="row-text">{request?.requestType?.name ?? "N/A"}</td>
+                                )}
                                 <td
                                     className={
                                         "item-quantity" +
-                                        (props.donationForm ? "-selection" : "-display") +
+                                        (props.isMatching ? "-selection" : "-display") +
                                         (isErroneous ? " error" : "")
                                     }
                                 >
                                     {isErroneous && <i className="bi bi-exclamation-circle alert-icon" />}
-                                    {props.donationForm ? (
+                                    {props.isMatching ? (
                                         <ScrollableDropdown
                                             trigger={
                                                 <TextField

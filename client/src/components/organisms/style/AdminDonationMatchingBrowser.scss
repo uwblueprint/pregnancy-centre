@@ -1,0 +1,31 @@
+.admin-donation-matching-browser {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    &-content {
+        border-top: $border-line;
+        min-height: 100%;
+        height: 100%;
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+
+    &-requests {
+        border-right: $border-line;
+        padding: 36px 4rem;
+        flex: 6;
+    }
+
+    &-form-details {
+        flex-grow: 1;
+        padding: 36px 28px;
+        flex: 4;
+    }
+}

@@ -4,7 +4,7 @@ import { DonationForm, ItemCondition } from "../../data/types/donationForm";
 import DonationMatchingRequestsTable from "../molecules/DonationMatchingRequestsTable";
 import Request from "../../data/types/request";
 
-const sampleDonationForms: DonationForm[] = [
+export const sampleDonationForms: DonationForm[] = [
     {
         _id: "60fcbbee3e3ece32ac7be355",
         contact: {
@@ -15,7 +15,9 @@ const sampleDonationForms: DonationForm[] = [
         },
         name: "Soap",
         description: "Voluptatibus aspernatur cum inventore consequatur sapiente et et ullam.",
-        requestGroup: null,
+        requestGroup: {
+            _id: "60fcbbef3e3ece32ac7be35d"
+        },
         quantity: 11,
         quantityRemaining: 8,
         age: 18,
@@ -30,7 +32,7 @@ const sampleDonationForms: DonationForm[] = [
             email: "Vinnie_Parisian@yahoo.com",
             phoneNumber: "474-426-5414"
         },
-        name: "Towels",
+        name: "Towel",
         description: "Saepe voluptatum et sint suscipit qui sunt.",
         requestGroup: null,
         quantity: 8,
@@ -81,7 +83,7 @@ const sampleDonationForms: DonationForm[] = [
             email: "Harry20@hotmail.com",
             phoneNumber: "744-477-0086"
         },
-        name: "Strollers",
+        name: "Stroller",
         description: "Ipsum est distinctio veritatis distinctio mollitia tempore autem provident.",
         requestGroup: {
             _id: "60fcbbef3e3ece32ac7be35d"
@@ -94,7 +96,7 @@ const sampleDonationForms: DonationForm[] = [
     }
 ];
 
-const sampleRequests: Request[] = [
+export const sampleRequests: Request[] = [
     {
         _id: "60e3b9596cd5ae8396bd3f55",
         quantity: 9,
@@ -171,6 +173,8 @@ const MatchingRequestTableContainer: FunctionComponent<Record<string, never>> = 
         setCurDonationForm(donationForms[1]);
     }, []);
 
+    const [totalSelected, setTotalSelected] = useState(0)
+
     const onQuantitySelected = (quantity: number, requestId: string) => {
         // find the index of the updated request
         const reqIndex = requests.findIndex((req) => req._id == requestId);
@@ -212,13 +216,20 @@ const MatchingRequestTableContainer: FunctionComponent<Record<string, never>> = 
             }}
         >
             <h3>Not currently matching</h3>
-            <DonationMatchingRequestsTable requests={requests} onQuantitySelected={() => {}} isErroneous={false} />
+            <DonationMatchingRequestsTable
+                donationForm={curDonationForm}
+                requests={requests}
+                onQuantitySelected={() => {}}
+                isMatching={false}
+                isErroneous={false}
+            />
 
             <h3>Matching - No Errors</h3>
             <DonationMatchingRequestsTable
                 requests={requests}
                 donationForm={curDonationForm}
                 onQuantitySelected={onQuantitySelected}
+                isMatching={true}
                 isErroneous={false}
             />
 
@@ -227,6 +238,7 @@ const MatchingRequestTableContainer: FunctionComponent<Record<string, never>> = 
                 requests={requests}
                 donationForm={curDonationForm}
                 onQuantitySelected={onQuantitySelected}
+                isMatching={true}
                 isErroneous={true}
             />
         </div>

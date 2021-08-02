@@ -6,14 +6,14 @@ const AdminPage: FunctionComponent<Record<string, unknown>> = (
     props: React.PropsWithChildren<Record<string, unknown>>
 ) => {
     return (
-        <div className="donor-page">
+        <div className="admin-page">
             <Navbar
                 links={[
                     { name: "Donation Hub", link: "https://pregnancycentre.ca/" },
                     { name: "Logout", link: "/" }
                 ]}
             />
-            <div className="donor-page-content">{props.children}</div>
+            <div className="admin-page-content">{props.children}</div>
         </div>
     );
 };
