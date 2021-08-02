@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useState } from "react";
 
-import DonationFormItemDetailsPage, {DonationForm as DonationFormType} from "./DonationFormItemDetailsPage";
+import DonationFormItemDetailsPage, { DonationForm as DonationFormType } from "./DonationFormItemDetailsPage";
 import DonationFormConfirmationPage from "./DonationFormConfirmationPage";
+import { DonationFormContact } from "../data/types/donationForm";
 import DonationFormContactInfoPage from "./DonationFormContactInfoPage";
 import DonationFormReviewPage from "./DonationFormReviewPage";
-import Donor from "../data/types/donor";
 
 const DonationForm: FunctionComponent<Record<string, never>> = () => {
     const [pageNumber, setPageNumber] = useState(0);
-    const [donor, setDonor] = useState<Donor | null>(null);
+    const [donor, setDonor] = useState<DonationFormContact | null>(null);
     const [donationForms, setDonationForms] = useState<Array<DonationFormType>>([]);
     const formSteps = ["Contact Information", "Item Details", "Review and Confirm"];
     const pagesArray = [
@@ -38,7 +38,7 @@ const DonationForm: FunctionComponent<Record<string, never>> = () => {
         />,
         <DonationFormReviewPage
             key={2}
-            donor={donor as Donor}
+            donor={donor as DonationFormContact}
             donationForms={donationForms}
             onNextPage={() => setPageNumber(3)}
             onPreviousPage={() => setPageNumber(1)}

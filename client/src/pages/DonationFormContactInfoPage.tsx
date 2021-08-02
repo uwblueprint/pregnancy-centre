@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useState } from "react";
 
+import { DonationFormContact } from "../data/types/donationForm";
 import DonationFormPage from "../components/layouts/DonationFormPage";
-import Donor from "../data/types/donor";
 import FormItem from "../components/molecules/FormItem";
 import { TextField } from "../components/atoms/TextField";
 
 interface Props {
-    initialDonor?: Donor;
-    onNext: (donor: Donor) => void;
+    initialDonor?: DonationFormContact;
+    onNext: (donor: DonationFormContact) => void;
     pageNumber: number; // Index starting at 0
     steps: Array<string>;
 }
