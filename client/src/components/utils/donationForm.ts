@@ -1,4 +1,4 @@
-import { ItemStatus, ItemCondition } from "../../data/types/donationForm";
+import { ItemCondition, ItemStatus } from "../../data/types/donationForm";
 
 export const ItemConditionToDescriptionMap = new Map<ItemCondition, string>([
     [ItemCondition.BRAND_NEW, "Brand New (still in package)"],
