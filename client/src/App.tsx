@@ -19,10 +19,10 @@ function App(): JSX.Element {
             <Router>
                 <Switch>
                     <Route path="/matching/donation-form/:id">
-                        <AdminDonationMatchingPage/>
+                        <AdminDonationMatchingPage />
                     </Route>
                     <Route path="/testing">
-                        <AdminDonationMatchingPage/>
+                        <AdminDonationMatchingPage />
                     </Route>
                     <Route path="/test">
                         <MatchingRequestTableContainer />

@@ -173,7 +173,7 @@ const MatchingRequestTableContainer: FunctionComponent<Record<string, never>> = 
         setCurDonationForm(donationForms[1]);
     }, []);
 
-    const [totalSelected, setTotalSelected] = useState(0)
+    const [totalSelected, setTotalSelected] = useState(0);
 
     const onQuantitySelected = (quantity: number, requestId: string) => {
         // find the index of the updated request
