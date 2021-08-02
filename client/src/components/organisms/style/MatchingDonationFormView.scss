@@ -20,6 +20,9 @@
     }
 
     &-browse {
+        border: none;
+        background-color: transparent;
+
         i {
             font-size: 20px;
             padding-right: 8px;
@@ -36,17 +39,19 @@
     &-content {
         flex: 1;
 
-        .single-donation {
-        }
-
         .all-available-donations {
             .sort-header {
                 display: flex;
                 flex-direction: row;
                 p {
                     @include bold-text;
+                    font-size: 16px;
                     padding-right: 8px;
                 }
+            }
+            .donation-form-card-list .donation-form-matching-card {
+                margin-top: 12px;
+                margin-bottom: 12px;
             }
         }
     }

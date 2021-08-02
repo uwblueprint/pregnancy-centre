@@ -50,10 +50,10 @@ const DonationFormInfoDisplay: FunctionComponent<Props> = (props: Props) => {
                     {contactFullName}
                 </h2>
             )}
-            {donationForm.createdAt && (
+            {donationForm.donatedAt && (
                 <h2>
                     <strong>Donated on:</strong>
-                    {moment(donationForm.createdAt).format("MMMM D, YYYY, h:mma")}
+                    {moment(donationForm.donatedAt).format("MMMM D, YYYY, h:mma")}
                 </h2>
             )}
             {ageDescription && (

@@ -22,18 +22,20 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
 
     const [totalQuantitySelected, setTotalQuantitySelected] = useState(0);
     const [isMatching, setIsMatching] = useState(true);
-    const [isSaved, setIsSaved] = useState(true);
+    const [isSaved, setIsSaved] = useState(false);
     const [matchingError, setMatchingError] = useState("");
 
     useEffect(() => {
-        // check if quantities selected exceed the available donation amount
-        const totalAvailable = curDonationForm.quantity as number;
-        setMatchingError(
-            totalQuantitySelected > totalAvailable
-                ? "You have selected more than the maximum amount available. Please change the total quantity to be less than 5."
-                : ""
-        );
-    }, [totalQuantitySelected]);
+        if (isMatching) {
+            // check if quantities selected exceed the available donation amount
+            const totalAvailable = curDonationForm.quantity as number;
+            setMatchingError(
+                totalQuantitySelected > totalAvailable
+                    ? "You have selected more than the maximum amount available. Please change the total quantity to be less than 5."
+                    : ""
+            );
+        }
+    }, [totalQuantitySelected, isMatching]);
 
     const query = gql`
         query donationForm($id: ID) {
@@ -156,7 +158,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
                         <MatchingRequestsView
                             requests={requests}
                             donationForm={curDonationForm}
-                            isMatching={true}
+                            isMatching={isMatching}
                             isErroneous={matchingError !== ""}
                             onQuantitySelected={onQuantityChanged}
                         />
@@ -165,8 +167,9 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
                         <MatchingDonationFormView
                             donationForm={curDonationForm}
                             isSaved={isSaved}
-                            isMatching={true}
+                            isMatching={isMatching}
                             matchingError={matchingError}
+                            onBrowseDonationForms={onBrowseAvailableDonationForms}
                         />
                     </div>
                 </div>

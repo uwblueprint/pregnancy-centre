@@ -39,7 +39,7 @@ const DonationFormMatchingCard: FunctionComponent<DonationFormMatchingCardProps>
             </div>
             {contactFullName && <h2>{`Donated by: ${contactFullName}`}</h2>}
             {props.donationForm.adminNotes && <h2>{`Notes: ${props.donationForm.adminNotes}`}</h2>}
-            <h3 onClick={props.onViewForm}>View original form</h3>
+            <h3 onClick={props.onViewForm}>View donation form</h3>
         </div>
     );
 };
