@@ -96,6 +96,9 @@ const requestMutationResolvers = {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
                 const request = await Request.findById(_id);
+
+                if (request == null) return request;
+
                 request.deletedAt = new Date();
                 await updateRequestEmbedingInRequestTypes(request, session);
                 return request.save({ session: session });

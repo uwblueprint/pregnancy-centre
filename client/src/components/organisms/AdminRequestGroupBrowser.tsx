@@ -1,8 +1,9 @@
 import { Dropdown, Spinner } from "react-bootstrap";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 
+import DeleteRequestGroupDialog from "./DeleteRequestGroupDialog";
 import RequestGroup from "../../data/types/requestGroup";
 import RequestGroupForm from "./RequestGroupForm";
 import RequestTypeDropdownList from "./RequestTypeDropdownList";
@@ -14,10 +15,12 @@ interface ParamTypes {
 
 const AdminRequestGroupBrowser: FunctionComponent = () => {
     const { id } = useParams<ParamTypes>();
+    const history = useHistory();
     const [requestGroup, setRequestGroup] = useState<RequestGroup | undefined>(undefined);
     const [numTypes, setNumTypes] = useState(0);
     const [showEditGroupModal, setShowEditGroupModal] = useState(false);
     const [showCreateTypeModal, setShowCreateTypeModal] = useState(false);
+    const [showDeleteGroupModal, setShowDeleteGroupModal] = useState(false);
 
     const query = gql`
         query requestGroup($id: ID) {
@@ -70,6 +73,21 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
         }
     }, [requestGroup]);
 
+    const deleteQuery = gql`
+        mutation deleteRequestGroup($id: ID) {
+            deleteRequestGroup(_id: $id) {
+                _id
+            }
+        }
+    `;
+    const [mutateDeleteRequestGroup] = useMutation(deleteQuery);
+
+    const deleteRequestGroup = async () => {
+        await mutateDeleteRequestGroup({ variables: { id: requestGroup?._id } });
+        // replace current page in browser so user cannot go back to non-existent requestGroup page
+        history.replace("/admin");
+    };
+
     return (
         <div>
             {requestGroup === undefined ? (
@@ -108,6 +126,14 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                                     >
                                         Create New Type
                                     </Dropdown.Item>
+                                    <Dropdown.Item
+                                        className="request-group-button-dropdown-item"
+                                        onClick={() => {
+                                            setShowDeleteGroupModal(true);
+                                        }}
+                                    >
+                                        Delete Group
+                                    </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>
@@ -134,6 +160,17 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                             }}
                             requestGroup={requestGroup}
                             operation="create"
+                        />
+                    )}
+                    {showDeleteGroupModal && (
+                        <DeleteRequestGroupDialog
+                            requestGroupName={requestGroup.name}
+                            numRequests={requestGroup.countOpenRequests ?? 0}
+                            handleClose={() => { setShowDeleteGroupModal(false) }}
+                            onCancel={() => { setShowDeleteGroupModal(false) }}
+                            onSubmit={() => {
+                                deleteRequestGroup(); 
+                            }}
                         />
                     )}
                     {requestGroup.requestTypes && (
