@@ -248,7 +248,7 @@ const typeDefs = gql`
         updateDonationForm(donationForm: UpdateDonationFormInput): DonationForm
         deleteDonationForm(_id: ID): DonationForm
 
-        sendEmail(id: ID): String
+        sendConfirmationEmail(id: ID): String
     }
 `;
 
