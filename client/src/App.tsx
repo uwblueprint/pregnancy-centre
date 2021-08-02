@@ -11,8 +11,6 @@ import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
-import DonationFormMatchingCardContainer from "./components/examples/DonationFormMatchingCardContainer";
-
 function App(): JSX.Element {
     return (
         <span>
