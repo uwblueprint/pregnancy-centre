@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useState } from "react";
 
-import { DonationForm, ItemCondition, ItemStatus } from "../data/types/donationForm";
 import { gql, useQuery } from "@apollo/client";
 import AdminPage from "../components/layouts/AdminPage";
+import { DonationForm } from "../data/types/donationForm";
 import { Spinner } from "react-bootstrap";
 import UnmatchedDonationFormsTable from "../components/molecules/UnmatchedDonationFormsTable";
 

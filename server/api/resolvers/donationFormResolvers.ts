@@ -46,7 +46,7 @@ const donationFormQueryResolvers = {
             filter.status = { $ne: statusNot };
         }
 
-        return DonationForm.find(filter).sort({ name: "ascending" }).skip(skip).limit(limit).exec();
+        return DonationForm.find(filter).sort({ createdAt: "descending" }).skip(skip).limit(limit).exec();
     }
 };
 
