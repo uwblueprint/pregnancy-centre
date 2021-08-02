@@ -92,6 +92,20 @@ const requestMutationResolvers = {
             });
         });
     },
+    updateRequests: async (_, { requests }, { authenticateUser }): Promise<RequestInterface> => {
+        return authenticateUser().then(async () => {
+            return sessionHandler(async (session) => {
+                const newRequests = [];
+                for (const request of requests){
+                    newRequests.push(await Request.findByIdAndUpdate(request._id, {...request}, {
+                        new: true,
+                        session: session
+                    }))
+                }
+                return newRequests;
+            });
+        });
+    },
     deleteRequest: async (_, { _id }, { authenticateUser }): Promise<RequestInterface> => {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {

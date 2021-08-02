@@ -32,6 +32,14 @@ const typeDefs = gql`
         requestType: ID
         clientName: String
     }
+    input UpdateRequestsInput {
+        _id: ID!
+        matchedDonations: [DonationFormContributionTupleInput]
+    }
+    input DonationFormContributionTupleInput {
+        donationForm: ID
+        quantity: Int
+    }
     # ---  Left as a proof of concept: ---
     # input FilterRequestInput {
     #     NOT_AVAILABLE: Boolean
@@ -226,6 +234,7 @@ const typeDefs = gql`
     type Mutation {
         createRequest(request: CreateRequestInput): Request
         updateRequest(request: UpdateRequestInput): Request
+        updateRequests(requests: [UpdateRequestsInput]): [Request]
         deleteRequest(_id: ID): Request
         fulfillRequest(_id: ID): Request
         unfulfillRequest(_id: ID): Request
