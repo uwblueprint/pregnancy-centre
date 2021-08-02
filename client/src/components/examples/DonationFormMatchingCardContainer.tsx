@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import DonationForm from "../../data/types/donationForm";
+import { DonationForm } from "../../data/types/donationForm";
 import DonationFormMatchingCard from "../atoms/DonationFormMatchingCard";
 
 const DonationFormMatchingCardContainer: FunctionComponent<Record<string, never>> = () => {
