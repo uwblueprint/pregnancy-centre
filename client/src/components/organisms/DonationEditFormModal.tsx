@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 
-import DonationForm from "../../data/types/donationForm";
+import { gql, useMutation } from "@apollo/client";
+import { DonationForm } from "../../data/types/donationForm";
 import FormItem from "../molecules/FormItem";
 import FormModal from "./FormModal";
 import TextArea from "../atoms/TextArea";
@@ -17,6 +18,25 @@ const DonationEditFormModal: FunctionComponent<Props> = (props: Props) => {
     const [notes, setNotes] = useState(props.donationForm?.adminNotes ?? "");
     const [quantityError, setQuantityError] = useState("");
 
+    const updateDonationFormMutation = gql`
+        mutation UpdateDonationForm($id: ID!, $adminNotes: String!, $quantity: Int!) {
+            updateDonationForm(donationForm: { _id: $id, adminNotes: $adminNotes, quantity: $quantity }) {
+                _id
+            }
+        }
+    `;
+
+    const [updateDonationForm] = useMutation(updateDonationFormMutation, {
+        onCompleted: () => {
+            const newDonationForm = { ...props.donationForm, quantity, adminNotes: notes.trim() ?? null };
+            props.onSubmitComplete(newDonationForm);
+        },
+        onError: (error) => {
+            console.log(error);
+            props.handleClose();
+        }
+    });
+
     const updateQuantityError = (newQuantity: number) => {
         let error = "";
         if (newQuantity <= 0 || isNaN(newQuantity)) {
@@ -32,13 +52,21 @@ const DonationEditFormModal: FunctionComponent<Props> = (props: Props) => {
     };
 
     const onSubmit = (e: React.FormEvent) => {
+        console.log("HERE");
         e.preventDefault();
         const tempQuantityError = updateQuantityError(quantity);
-        if (tempQuantityError.length !== 0) {
+        console.log(tempQuantityError);
+        if (tempQuantityError.length === 0) {
+            console.log("HERE2");
+            updateDonationForm({
+                variables: {
+                    id: props.donationForm._id,
+                    adminNotes: notes,
+                    quantity
+                }
+            });
             return;
         }
-        const newDonationForm = { ...props.donationForm, quantity, adminNotes: notes.trim() ?? null };
-        props.onSubmitComplete(newDonationForm);
     };
 
     const formTitle = `Confirm Dropoff${props.donationForm.name ? " for " + props.donationForm.name : ""}`;

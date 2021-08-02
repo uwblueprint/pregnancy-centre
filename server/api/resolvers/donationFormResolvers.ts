@@ -57,7 +57,7 @@ const donationFormMutationResolvers = {
         return newDonationForm;
     },
     updateDonationForm: async (_, { donationForm }, { authenticateUser }): Promise<DonationFormInterface> => {
-        return authenticateUser.then(async () => {
+        return authenticateUser().then(async () => {
             return DonationForm.findByIdAndUpdate(donationForm._id, donationForm, { lean: true });
         });
     },

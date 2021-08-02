@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 
 import DonationEditFormModal from "../organisms/DonationEditFormModal";
-import DonationForm from "../../data/types/donationForm";
+import { DonationForm } from "../../data/types/donationForm";
 
 const DonationEditFormModalContainer: FunctionComponent<Record<string, never>> = () => {
     const [show, setShow] = useState(true);
