@@ -41,7 +41,7 @@ export const sampleDonationForms: DonationForm[] = [
         age: 5,
         condition: ItemCondition.FAIR,
         createdAt: new Date(1618956689867),
-        donatedAt: new Date(1618956689867),
+        donatedAt: new Date(1618956689867)
     },
     {
         _id: "60fcbbef3e3ece32ac7be359",
@@ -59,7 +59,7 @@ export const sampleDonationForms: DonationForm[] = [
         age: 11,
         condition: ItemCondition.BRAND_NEW,
         createdAt: new Date(1614159243916),
-        donatedAt: new Date(1614159243916),
+        donatedAt: new Date(1614159243916)
     },
     {
         _id: "60fcbbef3e3ece32ac7be35b",
