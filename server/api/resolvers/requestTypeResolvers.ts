@@ -132,7 +132,7 @@ const requestTypeMutationResolvers = {
 
                 requestType.deletedAt = new Date();
 
-                for (var i = 0; i < requestType.requests.length; i++) {
+                for (let i = 0; i < requestType.requests.length; i++) {
                     const request = await Request.findById(requestType.requests[i]._id).session(session);
 
                     if (request.deletedAt != null) continue;
