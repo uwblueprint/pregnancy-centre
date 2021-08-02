@@ -34,10 +34,9 @@ const emailResolvers = {
         const object = await DonationForm.findById(id).exec();
         console.log(object);
         console.log(object.contact.email);
-        sendConfirmationEmail(
-            object.contact.firstName, 
-            object.contact.lastName, 
-            object.contact.email).catch(console.error);
+        sendConfirmationEmail(object.contact.firstName, object.contact.lastName, object.contact.email).catch(
+            console.error
+        );
         return "sent!";
     }
 };
