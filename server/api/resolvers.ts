@@ -19,9 +19,7 @@ import {
     requestTypeResolvers
 } from "./resolvers/requestTypeResolvers";
 
-import {
-    emailResolvers
-} from "./resolvers/emailResolvers";
+import { emailResolvers } from "./resolvers/emailResolvers";
 
 const resolvers = {
     DonationItemCondition,
