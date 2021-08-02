@@ -31,9 +31,6 @@ function App(): JSX.Element {
                     <Route path="/donation-form">
                         <DonationForm />
                     </Route>
-                    <Route path="/test">
-                        <DonationFormMatchingCardContainer />
-                    </Route>
                     <Route path="/">
                         <DonorHomepage />
                     </Route>
