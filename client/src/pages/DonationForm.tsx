@@ -1,16 +1,15 @@
 import React, { FunctionComponent, useState } from "react";
 
+import DonationFormItemDetailsPage, {DonationForm as DonationFormType} from "./DonationFormItemDetailsPage";
 import DonationFormConfirmationPage from "./DonationFormConfirmationPage";
 import DonationFormContactInfoPage from "./DonationFormContactInfoPage";
-import DonationFormI from "../data/types/donationForm";
-import DonationFormItemDetailsPage from "./DonationFormItemDetailsPage";
 import DonationFormReviewPage from "./DonationFormReviewPage";
 import Donor from "../data/types/donor";
 
 const DonationForm: FunctionComponent<Record<string, never>> = () => {
     const [pageNumber, setPageNumber] = useState(0);
     const [donor, setDonor] = useState<Donor | null>(null);
-    const [donationForms, setDonationForms] = useState<Array<DonationFormI>>([]);
+    const [donationForms, setDonationForms] = useState<Array<DonationFormType>>([]);
     const formSteps = ["Contact Information", "Item Details", "Review and Confirm"];
     const pagesArray = [
         <DonationFormContactInfoPage

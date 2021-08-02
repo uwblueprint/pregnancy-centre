@@ -14,14 +14,14 @@ const Stepper: FunctionComponent<StepperProps> = (props: StepperProps) => {
                 const isSelectedStep = props.selectedStep === idx;
                 return (
                     <>
-                        <div className={"step " + (isSelectedStep ? "selected-step" : "")}>
+                        <div className={"step " + (isSelectedStep ? "selected-step" : "")} key={idx}>
                             <StepNumber isSelectedStep={isSelectedStep} stepNumber={idx + 1} />
                             <div className="step-text">
                                 <h4>STEP {idx + 1}</h4>
                                 <h2>{stepName}</h2>
                             </div>
                         </div>
-                        {idx < props.steps.length - 1 && <div className="line" />}
+                        {idx < props.steps.length - 1 && <div className="line" key={-1 * idx} />}
                     </>
                 );
             })}

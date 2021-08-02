@@ -7,10 +7,20 @@
         cursor: pointer;
     }
 
-    .horizontal-divider-line {
+    .horizontal-divider-line,
+    .donation-item-card,
+    .donation-item-form {
         width: 100%;
-        margin: 40px 0;
+        margin-bottom: 40px;
     }
+
+    // .donation-item-card {
+    //     margin-bottom: 40px;
+    // }
+
+    // .donation-item-form {
+    //     margin-bottom: 40px;
+    // }
 
     .donation-form-page-footer {
         display: flex;

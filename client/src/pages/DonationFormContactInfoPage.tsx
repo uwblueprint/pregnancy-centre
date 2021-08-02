@@ -69,22 +69,18 @@ const DonationFormContactInfoPage: FunctionComponent<Props> = (props: Props) => 
     };
 
     const onFirstNameChange = (newFirstName: string) => {
-        updateFirstNameError(newFirstName);
         setFirstName(newFirstName);
     };
 
     const onLastNameChange = (newLastName: string) => {
-        updateLastNameError(newLastName);
         setLastName(newLastName);
     };
 
     const onPhoneNumberChange = (newPhoneNumber: string) => {
-        updatePhoneNumberError(newPhoneNumber);
         setPhoneNumber(newPhoneNumber);
     };
 
     const onEmailChange = (newEmail: string) => {
-        updateEmailError(newEmail);
         setEmail(newEmail);
     };
 
