@@ -199,21 +199,21 @@ const typeDefs = gql`
     type Query {
         request(_id: ID): Request
         requests: [Request]
-        requestsPage(skip: Int, limit: Int): [Request]
+        requestsPage(skip: Int, limit: Int, open: Boolean): [Request]
         countRequests(open: Boolean): Int
         # --- Left as a proof of concept: ---
         # requestsFilter(filter: FilterRequestInput, options: FilterOptions): [Request]
 
         requestType(_id: ID): RequestType
         requestTypes: [RequestType]
-        requestTypesPage(skip: Int, limit: Int): [RequestType]
+        requestTypesPage(skip: Int, limit: Int, open: Boolean): [RequestType]
         countRequestTypes(open: Boolean): Int
         # --- Left as a proof of concept: ---
         # requestTypesFilter(filter: FilterRequestTypeInput, options: FilterOptions): [RequestType]
 
         requestGroup(_id: ID): RequestGroup
         requestGroups: [RequestGroup]
-        requestGroupsPage(skip: Int, limit: Int, name: String): [RequestGroup]
+        requestGroupsPage(skip: Int, limit: Int, name: String, open: Boolean): [RequestGroup]
         countRequestGroups(open: Boolean): Int
         # --- Left as a proof of concept: ---
         # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]

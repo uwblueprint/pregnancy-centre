@@ -21,7 +21,7 @@ const AdminRequestGroupList: FunctionComponent = () => {
 
     const getPageQuery = gql`
         query GetRequestGroupsPage($skip: Int!, $limit: Int!, $name: String) {
-            requestGroupsPage(skip: $skip, limit: $limit, name: $name) {
+            requestGroupsPage(skip: $skip, limit: $limit, name: $name, open: true) {
                 _id
                 updatedAt
                 name

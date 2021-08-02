@@ -41,7 +41,12 @@ const requestQueryResolvers = {
     requests: async (_, __, ___): Promise<Array<RequestInterface>> => {
         return Request.find().exec();
     },
-    requestsPage: async (_, { skip, limit }, __): Promise<Array<RequestInterface>> => {
+    requestsPage: async (_, { skip, limit, open }, __): Promise<Array<RequestInterface>> => {
+        const filter: {[key: string]: any} = {};
+        if (open) {
+            filter.deletedAt = { $eq: null };
+            filter.fulfilledAt = { $eq: null };
+        }
         return Request.find().sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
     },
     countRequests: async (_, { open }, ___): Promise<number> => {
