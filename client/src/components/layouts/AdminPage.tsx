@@ -6,7 +6,7 @@ const AdminPage: FunctionComponent<Record<string, unknown>> = (
     props: React.PropsWithChildren<Record<string, unknown>>
 ) => {
     return (
-        <div className="donor-page">
+        <div className="admin-page">
             <Navbar
                 leftLinks={[
                     { name: "Needs", path: "/needs" },
@@ -14,7 +14,7 @@ const AdminPage: FunctionComponent<Record<string, unknown>> = (
                 ]}
                 rightLinks={[{ name: "Log out", path: "/" }]}
             />
-            <div className="donor-page-content">{props.children}</div>
+            <div className="admin-page-content">{props.children}</div>
         </div>
     );
 };
