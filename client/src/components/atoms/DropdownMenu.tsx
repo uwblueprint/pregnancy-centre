@@ -14,7 +14,6 @@ const DropdownMenu: FunctionComponent<Props> = (props: Props) => {
         isComponentVisible: isMenuOpen,
         setIsComponentVisible: setIsMenuOpen
     } = useComponentVisible(false, triggerRef);
-    console.log(isMenuOpen);
 
     return (
         <div className="dropdown-menu-atom">

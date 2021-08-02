@@ -1,8 +1,15 @@
 .admin-unmatched-donation-forms-page {
+    .donor-page-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .page-header {
         display: flex;
         flex-direction: row;
         padding: 3% 6%;
+        width: 100%;
     }
 
     .link {

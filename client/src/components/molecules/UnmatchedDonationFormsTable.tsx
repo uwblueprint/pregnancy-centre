@@ -2,8 +2,9 @@ import { gql, useMutation } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 import moment from "moment";
 
-import DonationForm, { DonationFormContact, DonationItemStatus } from "../../data/types/donationForm";
+import { DonationForm, DonationFormContact, ItemStatus } from "../../data/types/donationForm";
 import ConfirmDonationFormApprovalDialog from "../organisms/ConfirmDonationFormApprovalDialog";
+import DonationEditFormModal from "../organisms/DonationEditFormModal";
 import DonationFormProgressStepper from "../atoms/DonationFormProgressStepper";
 import DropdownMenu from "../atoms/DropdownMenu";
 import { ItemStatusToReadableString } from "../utils/donationForm";
@@ -15,7 +16,8 @@ export interface Props {
 
 const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => {
     const [donationForms, setDonationForms] = useState(props.initialDonationForms);
-    const [selectedUnconfirmedDonationForm, setSelectedUnconfirmedDonationForm] = useState<DonationForm | null>(null);
+    const [selectedDonationFormForApproval, setSelectedDonationFormForApproval] = useState<DonationForm | null>(null);
+    const [selectedDonationFormForDropoff, setSelectedDonationFormForDropoff] = useState<DonationForm | null>(null);
 
     const updateDonationFormStatusMutation = gql`
         mutation UpdateDonationFormStatus($id: ID!, $status: DonationItemStatus!) {
@@ -37,19 +39,21 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     const [deleteDonationForm] = useMutation(deleteDonationFormMutation);
 
     const getContactName = (contact?: DonationFormContact) => {
-        if (contact == null || (contact.firstName.length === 0 && contact.lastName.length === 0)) {
+        const firstName = contact?.firstName ?? "";
+        const lastName = contact?.lastName ?? "";
+        if (contact == null || (firstName.length === 0 && lastName.length === 0)) {
             return null;
         }
-        if (contact.firstName.length !== 0 && contact.lastName.length !== 0) {
-            return contact.firstName + " " + contact.lastName;
+        if (firstName.length !== 0 && lastName.length !== 0) {
+            return firstName + " " + lastName;
         }
-        if (contact.firstName.length !== 0) {
-            return contact.firstName;
+        if (firstName.length !== 0) {
+            return firstName;
         }
-        return contact.lastName;
+        return lastName;
     };
 
-    const getReadableStringForItemStatus = (itemStatus?: DonationItemStatus) => {
+    const getReadableStringForItemStatus = (itemStatus?: ItemStatus) => {
         if (itemStatus == null) {
             return null;
         }
@@ -57,36 +61,36 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         return readableStr ?? null;
     };
 
-    const getTagClassnameForItemStatus = (itemStatus?: DonationItemStatus) => {
+    const getTagClassnameForItemStatus = (itemStatus?: ItemStatus) => {
         switch (itemStatus) {
-            case DonationItemStatus.PENDING_APPROVAL:
+            case ItemStatus.PENDING_APPROVAL:
                 return "pending-approval-tag";
-            case DonationItemStatus.PENDING_DROPOFF:
+            case ItemStatus.PENDING_DROPOFF:
                 return "pending-dropoff-tag";
-            case DonationItemStatus.PENDING_MATCH:
+            case ItemStatus.PENDING_MATCH:
                 return "pending-match-tag";
         }
         return "";
     };
 
-    const getMenuOptionsForItemStatus = (donationFormId: string, itemStatus?: DonationItemStatus) => {
+    const getMenuOptionsForItemStatus = (donationFormId: string, itemStatus?: ItemStatus) => {
         const options = [];
         switch (itemStatus) {
-            case DonationItemStatus.PENDING_DROPOFF:
+            case ItemStatus.PENDING_DROPOFF:
                 options.push(
                     <span
                         className="menu-option"
-                        onClick={() => setDonationFormStatus(donationFormId, DonationItemStatus.PENDING_APPROVAL)}
+                        onClick={() => setDonationFormStatus(donationFormId, ItemStatus.PENDING_APPROVAL)}
                     >
                         Unapprove
                     </span>
                 );
                 break;
-            case DonationItemStatus.PENDING_MATCH:
+            case ItemStatus.PENDING_MATCH:
                 options.push(
                     <span
                         className="menu-option"
-                        onClick={() => setDonationFormStatus(donationFormId, DonationItemStatus.PENDING_DROPOFF)}
+                        onClick={() => setDonationFormStatus(donationFormId, ItemStatus.PENDING_DROPOFF)}
                     >
                         Unconfirm
                     </span>
@@ -101,25 +105,28 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         return options;
     };
 
-    const setDonationFormStatus = (donationFormId: string, newStatus: DonationItemStatus) => {
-        // updateDonationFormStatus({ variables: { id: donationFormId, status: newStatus } })
-        //     .then(() => {
-        if (newStatus === DonationItemStatus.MATCHED) {
-            removeDonationFormFromDisplay(donationFormId);
-            return;
-        }
-        setDonationForms(
-            donationForms.map((donationForm) => {
-                if (donationForm._id === donationFormId) {
-                    donationForm.status = newStatus;
+    const setDonationFormStatus = (donationFormId: string, newStatus: ItemStatus, updateCallback?: () => void) => {
+        updateDonationFormStatus({ variables: { id: donationFormId, status: newStatus } })
+            .then(() => {
+                if (newStatus === ItemStatus.MATCHED) {
+                    removeDonationFormFromDisplay(donationFormId);
+                    return;
                 }
-                return donationForm;
+                setDonationForms(
+                    donationForms.map((donationForm) => {
+                        if (donationForm._id === donationFormId) {
+                            donationForm.status = newStatus;
+                        }
+                        return donationForm;
+                    })
+                );
+                if (updateCallback) {
+                    updateCallback();
+                }
             })
-        );
-        // })
-        // .catch((error) => {
-        //     console.log(error);
-        // });
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     const removeDonationFormFromDisplay = (donationFormId: string) => {
@@ -127,43 +134,73 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     };
 
     const onDeleteDonationForm = (donationFormId: string) => {
-        // deleteDonationForm({ variables: { id: donationFormId } })
-        //     .then(() => {
-        removeDonationFormFromDisplay(donationFormId);
-        // })
-        // .catch((error) => {
-        //     console.log(error);
-        // });
+        deleteDonationForm({ variables: { id: donationFormId } })
+            .then(() => {
+                removeDonationFormFromDisplay(donationFormId);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
-    const onStatusChange = (donationForm: DonationForm, newStatus: DonationItemStatus) => {
-        if (newStatus === DonationItemStatus.PENDING_DROPOFF) {
-            setSelectedUnconfirmedDonationForm(donationForm);
-        } else if (donationForm._id) {
-            setDonationFormStatus(donationForm._id, newStatus);
+    const onStatusChange = (donationForm: DonationForm, newStatus: ItemStatus) => {
+        switch (newStatus) {
+            case ItemStatus.PENDING_DROPOFF:
+                setSelectedDonationFormForApproval(donationForm);
+                break;
+            case ItemStatus.PENDING_MATCH:
+                setSelectedDonationFormForDropoff(donationForm);
+                break;
+            case ItemStatus.MATCHED:
+                setDonationFormStatus(donationForm._id as string, newStatus);
+                break;
         }
+    };
+
+    const onApproveDonationForm = (donationForm: DonationForm) => {
+        setDonationFormStatus(donationForm._id as string, ItemStatus.PENDING_DROPOFF);
+        setSelectedDonationFormForApproval(null);
+    };
+
+    const onDropoffDonationForm = (donationForm: DonationForm) => {
+        const updateDonationForm = () => {
+            setDonationForms(
+                donationForms.map((existingDonationForm) => {
+                    if (existingDonationForm._id === donationForm._id) {
+                        existingDonationForm.quantity = donationForm.quantity;
+                        existingDonationForm.adminNotes = donationForm.adminNotes;
+                    }
+                    return existingDonationForm;
+                })
+            );
+        };
+        setDonationFormStatus(donationForm._id as string, ItemStatus.PENDING_MATCH, updateDonationForm);
+        setSelectedDonationFormForDropoff(null);
     };
 
     return (
         <div className="unmatched-donation-forms-table">
-            {selectedUnconfirmedDonationForm && (
+            {selectedDonationFormForApproval && (
                 <ConfirmDonationFormApprovalDialog
-                    contactName={getContactName(selectedUnconfirmedDonationForm.contact)}
+                    contactName={getContactName(selectedDonationFormForApproval.contact)}
                     handleClose={() => {
-                        setSelectedUnconfirmedDonationForm(null);
+                        setSelectedDonationFormForApproval(null);
                     }}
                     onCancel={() => {
-                        setSelectedUnconfirmedDonationForm(null);
+                        setSelectedDonationFormForApproval(null);
                     }}
                     onSubmit={() => {
-                        if (selectedUnconfirmedDonationForm._id) {
-                            setSelectedUnconfirmedDonationForm(null);
-                            setDonationFormStatus(
-                                selectedUnconfirmedDonationForm._id,
-                                DonationItemStatus.PENDING_DROPOFF
-                            );
-                        }
+                        onApproveDonationForm(selectedDonationFormForApproval);
                     }}
+                />
+            )}
+            {selectedDonationFormForDropoff && (
+                <DonationEditFormModal
+                    donationForm={selectedDonationFormForDropoff}
+                    handleClose={() => {
+                        setSelectedDonationFormForDropoff(null);
+                    }}
+                    onSubmitComplete={onDropoffDonationForm}
                 />
             )}
             <table>
@@ -239,7 +276,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                                     {donationForm.status && (
                                         <DonationFormProgressStepper
                                             status={donationForm.status}
-                                            onStatusChange={(newStatus: DonationItemStatus) => {
+                                            onStatusChange={(newStatus: ItemStatus) => {
                                                 onStatusChange(donationForm, newStatus);
                                             }}
                                         />

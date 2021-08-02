@@ -20,9 +20,14 @@ const donationFormQueryResolvers = {
         return DonationForm.find().exec();
     },
     donationFormsPage: async (_, { skip, limit, filterOptions }, __): Promise<Array<DonationFormInterface>> => {
-        const { name, requestGroup, formType, status } = filterOptions;
+        const { name, deleted, requestGroup, formType, status, statusNot } = filterOptions;
         const filter: any = {};
 
+        if (deleted === true) {
+            filter.deletedAt = { $ne: null };
+        } else if (deleted === false) {
+            filter.deletedAt = null;
+        }
         if (requestGroup) {
             filter.requestGroup = { $eq: requestGroup };
         }
@@ -36,6 +41,9 @@ const donationFormQueryResolvers = {
         }
         if (status) {
             filter.status = status;
+        }
+        if (statusNot) {
+            filter.status = { $ne: statusNot };
         }
 
         return DonationForm.find(filter).sort({ name: "ascending" }).skip(skip).limit(limit).exec();

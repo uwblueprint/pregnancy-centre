@@ -12,18 +12,6 @@ interface StepData {
     status: ItemStatus;
 }
 
-import ApproveStatusIcon from "../../assets/donation-form-approve-status.svg";
-import ConfirmStatusIcon from "../../assets/donation-form-confirm-status.svg";
-import { DonationItemStatus } from "../../data/types/donationForm";
-import MatchStatusIcon from "../../assets/donation-form-match-status.svg";
-
-interface StepData {
-    icon: typeof ApproveStatusIcon;
-    label: string;
-    nextStatus: DonationItemStatus;
-    status: DonationItemStatus;
-}
-
 interface Props {
     status: ItemStatus;
     onStatusChange: (newStatus: ItemStatus) => void;
