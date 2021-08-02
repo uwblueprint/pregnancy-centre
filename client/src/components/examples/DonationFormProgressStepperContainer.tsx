@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from "react";
 
 import DonationFormProgressStepper from "../atoms/DonationFormProgressStepper";
-import { DonationItemStatus } from "../../data/types/donationForm";
+import { ItemStatus } from "../../data/types/donationForm";
 
 const DonationFormProgressStepperContainer: FunctionComponent<Record<string, never>> = () => {
-    const [status, setStatus] = useState(DonationItemStatus.PENDING_APPROVAL);
+    const [status, setStatus] = useState(ItemStatus.PENDING_APPROVAL);
     return (
         <div
             style={{

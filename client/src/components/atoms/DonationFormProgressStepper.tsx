@@ -2,19 +2,19 @@ import React, { FunctionComponent } from "react";
 
 import ApproveStatusIcon from "../../assets/donation-form-approve-status.svg";
 import ConfirmStatusIcon from "../../assets/donation-form-confirm-status.svg";
-import { DonationItemStatus } from "../../data/types/donationForm";
+import { ItemStatus } from "../../data/types/donationForm";
 import MatchStatusIcon from "../../assets/donation-form-match-status.svg";
 
 interface StepData {
     icon: typeof ApproveStatusIcon;
     label: string;
-    nextStatus: DonationItemStatus;
-    status: DonationItemStatus;
+    nextStatus: ItemStatus;
+    status: ItemStatus;
 }
 
 interface Props {
-    status: DonationItemStatus;
-    onStatusChange: (newStatus: DonationItemStatus) => void;
+    status: ItemStatus;
+    onStatusChange: (newStatus: ItemStatus) => void;
 }
 
 const DonationFormProgressStepper: FunctionComponent<Props> = (props: Props) => {
@@ -22,20 +22,20 @@ const DonationFormProgressStepper: FunctionComponent<Props> = (props: Props) => 
         {
             icon: ApproveStatusIcon,
             label: "Approve",
-            nextStatus: DonationItemStatus.PENDING_DROPOFF,
-            status: DonationItemStatus.PENDING_APPROVAL
+            nextStatus: ItemStatus.PENDING_DROPOFF,
+            status: ItemStatus.PENDING_APPROVAL
         },
         {
             icon: ConfirmStatusIcon,
             label: "Confirm",
-            nextStatus: DonationItemStatus.PENDING_MATCH,
-            status: DonationItemStatus.PENDING_DROPOFF
+            nextStatus: ItemStatus.PENDING_MATCH,
+            status: ItemStatus.PENDING_DROPOFF
         },
         {
             icon: MatchStatusIcon,
             label: "Match",
-            nextStatus: DonationItemStatus.MATCHED,
-            status: DonationItemStatus.PENDING_MATCH
+            nextStatus: ItemStatus.MATCHED,
+            status: ItemStatus.PENDING_MATCH
         }
     ];
     return (
