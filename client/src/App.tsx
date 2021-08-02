@@ -5,6 +5,7 @@ import React from "react";
 import AdminHomepage from "./pages/AdminHomepage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView";
 import AuthAction from "./pages/AuthAction";
+import DonationForm from "./pages/DonationForm";
 import DonorHomepage from "./pages/DonorHomepage";
 import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
@@ -24,6 +25,9 @@ function App(): JSX.Element {
                     <Route path="/admin" component={AdminHomepage}></Route>
                     <Route path="/request-group/:id">
                         <AdminRequestGroupView />
+                    </Route>
+                    <Route path="/donation-form">
+                        <DonationForm />
                     </Route>
                     <Route path="/">
                         <DonorHomepage />

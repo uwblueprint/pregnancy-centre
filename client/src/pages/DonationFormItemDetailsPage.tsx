@@ -7,12 +7,13 @@ import DonationItemForm from "../components/molecules/DonationItemForm";
 import HorizontalDividerLine from "../components/atoms/HorizontalDividerLine";
 import RequestGroup from "../data/types/requestGroup";
 
-type DonationForm = BaseDonationForm & { isSaved: boolean; isSavedBefore: boolean };
+export type DonationForm = BaseDonationForm & { isSaved: boolean; isSavedBefore: boolean };
 
 interface Props {
-    initialDonationForms: Array<BaseDonationForm>;
-    onNext: (donationForms: Array<BaseDonationForm>) => void;
-    pageNumber: number; // Index starting at 1
+    initialDonationForms: Array<DonationForm>;
+    onNext: (donationForms: Array<DonationForm>) => void;
+    onPrevious: (donationForms: Array<DonationForm>) => void;
+    pageNumber: number; // Index starting at 0
     steps: Array<string>;
 }
 
@@ -20,11 +21,7 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
     const [donationForms, setDonationForms] = useState<Array<DonationForm>>(
         props.initialDonationForms.length === 0
             ? [{ isSaved: false, isSavedBefore: false }]
-            : props.initialDonationForms.map((baseDonationForm) => ({
-                  isSaved: true,
-                  isSavedBefore: true,
-                  ...baseDonationForm
-              }))
+            : props.initialDonationForms
     );
     const [formDetailsError, setFormDetailsError] = useState("");
     const [numSavedBeforeDonationForms, setNumSavedBeforeDonationForms] = useState(props.initialDonationForms.length);
@@ -55,8 +52,7 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
         setDonationForms((oldDonationForms) => [...oldDonationForms, { isSaved: false, isSavedBefore: false }]);
     };
 
-    const onSaveDonationForm = (newBaseDonationForm: BaseDonationForm, idx: number) => {
-        const newDonationForm = { isSaved: true, isSavedBefore: true, ...newBaseDonationForm };
+    const onChangeDonationForm = (newDonationForm: DonationForm, idx: number) => {
         const tempDonationForms = donationForms.slice();
         if (idx >= 0 && idx < tempDonationForms.length) {
             tempDonationForms[idx] = newDonationForm;
@@ -80,13 +76,18 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
         setDonationForms(tempDonationForms);
     };
 
-    const onChangePage = () => {
+    const onNextPage = () => {
         const tempFormDetailsError = updateFormDetailsError();
 
-        if (tempFormDetailsError.length === 0) {
-            props.onNext(donationForms);
+        if (tempFormDetailsError.length !== 0) {
             return;
         }
+        props.onNext(donationForms);
+    };
+
+    const onPreviousPage = () => {
+        console.log(donationForms);
+        props.onPrevious(donationForms);
     };
 
     useEffect(() => {
@@ -117,40 +118,44 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
             includeContentHeader={true}
             includeFooter={true}
             nextButtonText="Next"
-            onNextPage={onChangePage}
-            onPreviousPage={onChangePage}
-            pageName={props.steps[props.pageNumber - 1]}
+            onNextPage={onNextPage}
+            onPreviousPage={onPreviousPage}
+            pageName={props.steps[props.pageNumber]}
             pageNumber={props.pageNumber}
             pageInstructions="Please select the item(s) you would like to donate. If you do not see your item in the TPC’s current list of needs, type in the name of your item."
             previousButtonText="Back"
             steps={props.steps}
         >
             <>
-                {donationForms.map((donationForm, idx) => (
-                    <>
-                        {donationForm.isSaved ? (
-                            <DonationItemCard
-                                donationForm={donationForm}
-                                showDeleteIcon={donationForms.length > 1}
-                                onEdit={() => onEditDonationForm(idx)}
-                                onDelete={() => onDeleteDonationForm(idx)}
-                                showEditIcon={true}
-                            />
-                        ) : (
+                {donationForms.map((donationForm, idx) =>
+                    donationForm.isSaved ? (
+                        <DonationItemCard
+                            donationForm={donationForm}
+                            key={idx}
+                            showDeleteIcon={donationForms.length > 1}
+                            onEdit={() => onEditDonationForm(idx)}
+                            onDelete={() => onDeleteDonationForm(idx)}
+                            showEditIcon={true}
+                        />
+                    ) : (
+                        <>
+                            {idx !== 0 && donationForms[idx - 1].isSaved && <HorizontalDividerLine />}
                             <DonationItemForm
-                                initialDonationForm={donationForm.isSavedBefore ? donationForm : undefined}
+                                donationForm={donationForm}
+                                key={idx}
                                 requestGroups={requestGroups}
                                 showDeleteButton={donationForms.length > 1}
                                 formDetailsError={formDetailsError}
+                                onChange={(newDonationForm: DonationForm) => {
+                                    onChangeDonationForm(newDonationForm, idx);
+                                }}
                                 onDelete={() => onDeleteDonationForm(idx)}
-                                onSave={(newBaseDonationForm: BaseDonationForm) =>
-                                    onSaveDonationForm(newBaseDonationForm, idx)
-                                }
+                                onSave={(newDonationForm: DonationForm) => onChangeDonationForm(newDonationForm, idx)}
                             />
-                        )}
-                        {idx !== donationForms.length - 1 && <HorizontalDividerLine />}
-                    </>
-                ))}
+                            {idx !== donationForms.length - 1 && <HorizontalDividerLine />}
+                        </>
+                    )
+                )}
                 <p className="add-item-trigger" onClick={onCreateDonationForm}>
                     {donationForms.length === 0 ? "+ Donate an Item" : "+ Donate Another Item"}
                 </p>

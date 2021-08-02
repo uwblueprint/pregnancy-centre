@@ -7,10 +7,20 @@
         cursor: pointer;
     }
 
-    .horizontal-divider-line {
+    .horizontal-divider-line,
+    .donation-item-card,
+    .donation-item-form {
         width: 100%;
-        margin: 40px 0;
+        margin-bottom: 40px;
     }
+
+    // .donation-item-card {
+    //     margin-bottom: 40px;
+    // }
+
+    // .donation-item-form {
+    //     margin-bottom: 40px;
+    // }
 
     .donation-form-page-footer {
         display: flex;
@@ -23,11 +33,5 @@
         @include tpc-green-text;
         @include bold-text;
         font-size: 16px;
-    }
-
-    .nav-buttons {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
     }
 }
