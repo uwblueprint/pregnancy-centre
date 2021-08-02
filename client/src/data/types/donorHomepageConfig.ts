@@ -15,7 +15,7 @@ export interface Statistic {
     stat: string;
 }
 
-export interface DonorHompageConfig {
+export interface DonorHomepageConfig {
     map: {
         defaultMarkerSize: string;
         markerSizes: Array<string>;

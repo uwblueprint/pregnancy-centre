@@ -111,6 +111,17 @@ const typeDefs = gql`
     # input FilterOptions {
     #     NOT_AVAILABLE: Boolean
     # }
+    
+    input DonationFormFilterOptions {
+        requestGroup: ID,  
+        formType: DonationItemType, 
+        status: DonationItemStatus
+    }
+
+    enum DonationItemType {
+        SPECIFIC
+        GENERIC
+    }
 
     enum DonationItemCondition {
         BRAND_NEW
@@ -209,6 +220,7 @@ const typeDefs = gql`
 
         donationForm(_id: ID): DonationForm
         donationForms: [DonationForm]
+        donationFormsPage(skip: Int, limit: Int, filterOptions: DonationFormFilterOptions): [DonationForm]
     }
 
     type Mutation {

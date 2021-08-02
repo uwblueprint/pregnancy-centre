@@ -83,9 +83,34 @@ const requestGroupMutationResolvers = {
     },
     deleteRequestGroup: async (_, { _id }, { authenticateUser }): Promise<RequestGroupInterface> => {
         return authenticateUser().then(async () => {
-            const requestGroup = await RequestGroup.findById(_id);
-            requestGroup.deletedAt = new Date();
-            return requestGroup.save();
+            return sessionHandler(async (session) => {
+                const requestGroup = await RequestGroup.findById(_id).session(session);
+
+                if (requestGroup.deletedAt != null) return requestGroup.save({ session: session });
+
+                requestGroup.deletedAt = new Date();
+
+                for (const requestTypeEmbedding of requestGroup.requestTypes) {
+                    const requestType = await RequestType.findById(requestTypeEmbedding._id).session(session);
+
+                    if (requestType.deletedAt != null) continue;
+
+                    requestType.deletedAt = new Date();
+                    await requestType.save({ session: session });
+
+                    for (var i = 0; i < requestType.requests.length; i++) {
+                        const request = await Request.findById(requestType.requests[i]._id).session(session);
+
+                        if (request.deletedAt != null) continue;
+
+                        request.deletedAt = new Date();
+                        requestType.requests[i].deletedAt = request.deletedAt;
+                        await request.save({ session: session });
+                    }
+                }
+
+                return requestGroup.save({ session: session });
+            });
         });
     }
 };
