@@ -209,6 +209,7 @@ const typeDefs = gql`
         requests: [Request]
         requestsPage(skip: Int, limit: Int): [Request]
         countRequests(open: Boolean): Int
+        openRequests: [Request]
         # --- Left as a proof of concept: ---
         # requestsFilter(filter: FilterRequestInput, options: FilterOptions): [Request]
 

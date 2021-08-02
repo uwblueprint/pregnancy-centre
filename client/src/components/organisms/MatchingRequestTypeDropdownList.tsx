@@ -19,7 +19,7 @@ const MatchingRequestTypeDropdownList: FunctionComponent<Props> = (props: Props)
                 <MatchingRequestTypeDropdown
                     key={requestType._id}
                     requestType={requestType}
-                    requests={requestType.requests ?? []}
+                    requests={requestType.openRequests ?? []}
                     donationForm={props.donationForm}
                     isMatching={props.isMatching}
                     isErroneous={props.isErroneous}

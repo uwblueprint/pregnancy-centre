@@ -28,16 +28,16 @@ const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) =
     const [requests, setRequests] = useState<Request[]>([]);
     const [reqCurrentlyEditing, setReqCurrentlyEditing] = useState<string>("");
 
-    // TODO: remove
-    useEffect(() => {
-        // sort requests by most recent date
-        const sortedRequests: Request[] = props.requests
-            .filter((request) => !request.deleted && !request.fulfilled)
-            .sort((a, b) => {
-                return b!.createdAt!.valueOf() - a!.createdAt!.valueOf();
-            });
-        setRequests(sortedRequests);
-    }, []);
+    // // TODO: remove
+    // useEffect(() => {
+    //     // sort requests by most recent date
+    //     const sortedRequests: Request[] = props.requests
+    //         .filter((request) => !request.deleted && !request.fulfilled)
+    //         .sort((a, b) => {
+    //             return b!.createdAt!.valueOf() - a!.createdAt!.valueOf();
+    //         });
+    //     setRequests(sortedRequests);
+    // }, []);
 
     /**
      * Calculates the numerical values to display in the table row for a specific request
@@ -95,7 +95,7 @@ const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) =
                     </tr>
                 </thead>
                 <tbody>
-                    {requests.map((request, _) => {
+                    {props.requests.map((request, _) => {
                         const values = valuesToDisplay(request);
                         const isErroneous = isQuantityErroneous(values);
                         const maxSelection = maxDropdownQuantity(values);

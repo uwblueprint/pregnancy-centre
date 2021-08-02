@@ -18,7 +18,6 @@ interface Props {
 const MatchingRequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const requestType = props.requestType;
     const [numRequests, setNumRequests] = useState(0);
-
     useEffect(() => {
         setNumRequests(props.requests.reduce((total, request) => (!request.deleted ? total + 1 : total), 0));
     }, []);

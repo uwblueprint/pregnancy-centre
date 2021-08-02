@@ -15,7 +15,6 @@ interface Props {
 
 const MatchingRequestsView: FunctionComponent<Props> = (props: Props) => {
     const requestGroup = props.donationForm.requestGroup;
-
     return (
         <div className="matching-requests-view">
             <div className="matching-requests-view-header">

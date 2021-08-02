@@ -50,6 +50,9 @@ const requestQueryResolvers = {
         } else {
             return Request.countDocuments();
         }
+    },
+    openRequests: async (_, __, ___): Promise<Array<RequestInterface>> => {
+        return Request.find({ deletedAt: { $eq: null }, fulfilledAt: { $eq: null }}).exec();
     }
     /* Left as a proof of concept:
     requestsFilter: async (_, { filter, options }, ___): Promise<Array<RequestInterface>> => {

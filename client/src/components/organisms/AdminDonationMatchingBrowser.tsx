@@ -16,26 +16,15 @@ interface ParamTypes {
 const AdminDonationMatchingBrowser: FunctionComponent = () => {
     const { id } = useParams<ParamTypes>();
 
-    const [curDonationForm, setCurDonationForm] = useState(sampleDonationForms[1]);
+    const [curDonationForm, setCurDonationForm] = useState<DonationForm | null>(null);
 
-    const [requests, setRequests] = useState<Request[]>(sampleRequests);
+    const [requests, setRequests] = useState<Request[]>([]);
 
     const [totalQuantitySelected, setTotalQuantitySelected] = useState(0);
     const [isMatching, setIsMatching] = useState(true);
     const [isSaved, setIsSaved] = useState(false);
     const [matchingError, setMatchingError] = useState("");
-
-    useEffect(() => {
-        if (isMatching) {
-            // check if quantities selected exceed the available donation amount
-            const totalAvailable = curDonationForm.quantity as number;
-            setMatchingError(
-                totalQuantitySelected > totalAvailable
-                    ? "You have selected more than the maximum amount available. Please change the total quantity to be less than 5."
-                    : ""
-            );
-        }
-    }, [totalQuantitySelected, isMatching]);
+    const [hasRequestGroup, setHasRequestGroup] = useState(false);
 
     const query = gql`
         query donationForm($id: ID) {
@@ -54,6 +43,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
                     requestTypes {
                         _id
                         name
+                        deleted
                         openRequests {
                             _id
                             quantity
@@ -82,13 +72,52 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
         }
     `;
 
-    // const { error } = useQuery(query, {
-    //     variables: { id: id },
-    //     onCompleted: (data: { donationForm: DonationForm }) => {
-    //         const res = JSON.parse(JSON.stringify(data.donationForm)); // deep-copy since data object is frozen
-    //         setDonationForm(res);
-    //     }
-    // });
+    const openRequestsQuery = gql`
+        query getOpenRequests {
+            openRequests{
+                _id
+                quantity
+                clientName
+                createdAt
+                matchedDonations{
+                    donationForm
+                    quantity
+                }
+            }
+        }
+    `;
+
+    useQuery(query, {
+        variables: { id: id },
+        onCompleted: (data: { donationForm: DonationForm }) => {
+            const res = JSON.parse(JSON.stringify(data.donationForm)); // deep-copy since data object is frozen
+            setCurDonationForm(res);
+            if (res.requestGroup !== null){
+                setHasRequestGroup(true);
+            }
+        }
+    });
+
+    useQuery(openRequestsQuery, {
+        skip: hasRequestGroup,
+        onCompleted: (data: {openRequests: [Request]}) => {
+            const res = JSON.parse(JSON.stringify(data.openRequests)); 
+            setRequests(res);
+        }
+    });
+    
+    useEffect(() => {
+        if (isMatching && curDonationForm !== null) {
+            // check if quantities selected exceed the available donation amount
+            const totalAvailable = curDonationForm!.quantity as number;
+            
+            setMatchingError(
+                totalQuantitySelected > totalAvailable
+                    ? "You have selected more than the maximum amount available. Please change the total quantity to be less than 5."
+                    : ""
+            );
+        }
+    }, [totalQuantitySelected, isMatching]);
 
     //     if (error) console.log(error.graphQLErrors);
 
@@ -114,7 +143,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
         const req = requests[reqIndex];
 
         const contributionIndex = req?.matchedDonations?.findIndex(
-            (contrib) => contrib.donationForm == curDonationForm._id
+            (contrib) => contrib.donationForm == curDonationForm!._id
         ) as number;
 
         // update the matching selection
@@ -123,7 +152,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             if (contributionIndex != -1) {
                 newMatches[contributionIndex].quantity = newQuantity;
             } else {
-                newMatches.push({ donationForm: curDonationForm._id as string, quantity: newQuantity });
+                newMatches.push({ donationForm: curDonationForm!._id as string, quantity: newQuantity });
             }
         }
 
