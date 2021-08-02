@@ -19,6 +19,7 @@ export interface DonationFormContributionTuple {
     donationForm: string;
     quantity: number;
 }
+
 export interface DonationFormContact {
     firstName?: string;
     lastName?: string;

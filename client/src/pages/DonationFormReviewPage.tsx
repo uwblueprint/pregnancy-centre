@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from "react";
 
 import { DonationForm } from "../data/types/donationForm";
+import { DonationFormContact } from "../data/types/donationForm";
 import DonationFormPage from "../components/layouts/DonationFormPage";
 import DonationItemCard from "../components/atoms/DonationItemCard";
-import Donor from "../data/types/donor";
 import HorizontalDividerLine from "../components/atoms/HorizontalDividerLine";
 
 interface Props {
-    donor: Donor;
+    donor: DonationFormContact;
     donationForms: Array<DonationForm>;
     onNextPage: () => void;
     onPreviousPage: () => void;
