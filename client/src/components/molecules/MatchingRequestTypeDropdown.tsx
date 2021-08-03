@@ -23,7 +23,7 @@ const MatchingRequestTypeDropdown: FunctionComponent<Props> = (props: Props) => 
     }, []);
 
     return (
-        <div className="request-type-dropdown-container">
+        <div className="matching-request-type-dropdown-container">
             <Dropdown
                 title={requestType?.name ? requestType.name.toUpperCase() + " (" + numRequests + ")" : ""}
                 body={
