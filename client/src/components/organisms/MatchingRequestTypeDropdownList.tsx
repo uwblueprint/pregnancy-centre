@@ -15,19 +15,25 @@ const MatchingRequestTypeDropdownList: FunctionComponent<Props> = (props: Props)
     const undeletedRequestTypes = props.requestTypes.filter((requestType) => !requestType.deleted);
     return (
         <div className="donation-matching-dropdown-list">
-            {undeletedRequestTypes.map((requestType) =>
-                requestType.openRequests?.length ? (
-                    <MatchingRequestTypeDropdown
-                        key={requestType._id}
-                        requestType={requestType}
-                        requests={requestType.openRequests}
-                        donationForm={props.donationForm}
-                        isMatching={props.isMatching}
-                        isErroneous={props.isErroneous}
-                        onQuantitySelected={props.onQuantitySelected}
-                    />
-                ) : undefined
-            )}
+            {undeletedRequestTypes.map((requestType) => {
+                // only display request types that have open requests
+                if (requestType.openRequests?.length) {
+                    const sortedRequests = requestType.openRequests.sort((a, b) => {
+                        return b.createdAt!.valueOf() - a.createdAt!.valueOf();
+                    });
+                    return (
+                        <MatchingRequestTypeDropdown
+                            key={requestType._id}
+                            requestType={requestType}
+                            requests={sortedRequests}
+                            donationForm={props.donationForm}
+                            isMatching={props.isMatching}
+                            isErroneous={props.isErroneous}
+                            onQuantitySelected={props.onQuantitySelected}
+                        />
+                    );
+                }
+            })}
         </div>
     );
 };
