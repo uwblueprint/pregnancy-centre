@@ -12,20 +12,22 @@ interface Props {
 }
 
 const MatchingRequestTypeDropdownList: FunctionComponent<Props> = (props: Props) => {
-    const undeletedRequestTypes = props.requestTypes.filter((requestType) => requestType.deleted === false);
+    const undeletedRequestTypes = props.requestTypes.filter((requestType) => !requestType.deleted);
     return (
         <div className="donation-matching-dropdown-list">
-            {undeletedRequestTypes.map((requestType) => (
-                <MatchingRequestTypeDropdown
-                    key={requestType._id}
-                    requestType={requestType}
-                    requests={requestType.openRequests ?? []}
-                    donationForm={props.donationForm}
-                    isMatching={props.isMatching}
-                    isErroneous={props.isErroneous}
-                    onQuantitySelected={props.onQuantitySelected}
-                />
-            ))}
+            {undeletedRequestTypes.map((requestType) =>
+                requestType.openRequests?.length ? (
+                    <MatchingRequestTypeDropdown
+                        key={requestType._id}
+                        requestType={requestType}
+                        requests={requestType.openRequests}
+                        donationForm={props.donationForm}
+                        isMatching={props.isMatching}
+                        isErroneous={props.isErroneous}
+                        onQuantitySelected={props.onQuantitySelected}
+                    />
+                ) : undefined
+            )}
         </div>
     );
 };
