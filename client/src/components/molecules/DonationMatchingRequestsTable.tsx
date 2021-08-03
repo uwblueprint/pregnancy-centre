@@ -121,10 +121,7 @@ const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) =
                                                 { length: maxSelection + 1 },
                                                 (_, index) => index
                                             ).map((value, index) => (
-                                                <span
-                                                    key={index}
-                                                    onClick={() => onQuantityChange(value, request._id!)}
-                                                >
+                                                <span key={index} onClick={() => onQuantityChange(value, request._id!)}>
                                                     {value}
                                                 </span>
                                             ))}

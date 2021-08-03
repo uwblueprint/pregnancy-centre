@@ -131,7 +131,6 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
     useQuery(openRequestsQuery, {
         skip: hasRequestGroup,
         onCompleted: (data: { openRequests: [Request] }) => {
-            console.log("fetched requests!");
             const res = JSON.parse(JSON.stringify(data.openRequests));
             setRequests(res);
         }
