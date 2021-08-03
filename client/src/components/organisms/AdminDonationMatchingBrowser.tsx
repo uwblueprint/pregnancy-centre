@@ -74,12 +74,12 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
 
     const openRequestsQuery = gql`
         query getOpenRequests {
-            openRequests{
+            openRequests {
                 _id
                 quantity
                 clientName
                 createdAt
-                matchedDonations{
+                matchedDonations {
                     donationForm
                     quantity
                 }
@@ -92,7 +92,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
         onCompleted: (data: { donationForm: DonationForm }) => {
             const res = JSON.parse(JSON.stringify(data.donationForm)); // deep-copy since data object is frozen
             setCurDonationForm(res);
-            if (res.requestGroup !== null){
+            if (res.requestGroup !== null) {
                 setHasRequestGroup(true);
             }
         }
@@ -100,17 +100,17 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
 
     useQuery(openRequestsQuery, {
         skip: hasRequestGroup,
-        onCompleted: (data: {openRequests: [Request]}) => {
-            const res = JSON.parse(JSON.stringify(data.openRequests)); 
+        onCompleted: (data: { openRequests: [Request] }) => {
+            const res = JSON.parse(JSON.stringify(data.openRequests));
             setRequests(res);
         }
     });
-    
+
     useEffect(() => {
         if (isMatching && curDonationForm !== null) {
             // check if quantities selected exceed the available donation amount
             const totalAvailable = curDonationForm!.quantity as number;
-            
+
             setMatchingError(
                 totalQuantitySelected > totalAvailable
                     ? "You have selected more than the maximum amount available. Please change the total quantity to be less than 5."
@@ -118,8 +118,6 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             );
         }
     }, [totalQuantitySelected, isMatching]);
-
-    //     if (error) console.log(error.graphQLErrors);
 
     useEffect(() => {
         if (curDonationForm !== undefined) {
@@ -147,9 +145,11 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
         ) as number;
 
         // update the matching selection
+        let prevQuantity = 0;
         const newMatches = req?.matchedDonations;
         if (newMatches) {
             if (contributionIndex != -1) {
+                prevQuantity = newMatches[contributionIndex].quantity;
                 newMatches[contributionIndex].quantity = newQuantity;
             } else {
                 newMatches.push({ donationForm: curDonationForm!._id as string, quantity: newQuantity });
@@ -166,8 +166,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             ...requests.slice(reqIndex + 1)
         ]);
 
-        // TODO: update total quantity selected
-        setTotalQuantitySelected(0);
+        setTotalQuantitySelected(totalQuantitySelected - prevQuantity + newQuantity);
     };
 
     const onBrowseAvailableDonationForms = () => {
