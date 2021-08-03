@@ -92,16 +92,16 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
     `;
 
     const updateRequestsMutation = gql`
-        mutation updateRequests($requests: [UpdateRequestsInput]){
-            updateRequests(requests: $requests ){
-            _id
-        }  
+        mutation updateRequests($requests: [UpdateRequestsInput]) {
+            updateRequests(requests: $requests) {
+                _id
+            }
         }
     `;
-    
+
     const updateDonationFormMutation = gql`
-        mutation updateDonationForm($donationForm: UpdateDonationFormInput){
-            updateDonationForm(donationForm: $donationForm){
+        mutation updateDonationForm($donationForm: UpdateDonationFormInput) {
+            updateDonationForm(donationForm: $donationForm) {
                 _id
             }
         }
@@ -134,11 +134,10 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             setRequests(res);
         }
     });
-    
-    const [updateRequests, {data}] = useMutation(updateRequestsMutation);
-    const [updateDonationForm] = useMutation(updateDonationFormMutation)
-    console.log(data);
-    
+
+    const [updateRequests, { data }] = useMutation(updateRequestsMutation);
+    const [updateDonationForm] = useMutation(updateDonationFormMutation);
+
     useEffect(() => {
         if (isMatching && curDonationForm !== null) {
             // check if quantities selected exceed the available donation amount
@@ -166,19 +165,21 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             // TODO: save changes: mutation to update requests and donationForm
             updateRequests({
                 variables: { requests: updatedRequestsInput }
-            })
+            });
             updateDonationForm({
-                variables: { donationForm: {
-                    _id: curDonationForm?._id,
-                    name: curDonationForm?.name,
-                    quantity: curDonationForm?.quantity,
-                    condition: curDonationForm?.condition,
-                    status: curDonationForm?.status,
-                    quantityRemaining: curDonationForm?.quantityRemaining,
-                    adminNotes: curDonationForm?.adminNotes,
-                    donatedAt: curDonationForm?.donatedAt
-                }}
-            })
+                variables: {
+                    donationForm: {
+                        _id: curDonationForm?._id,
+                        name: curDonationForm?.name,
+                        quantity: curDonationForm?.quantity,
+                        condition: curDonationForm?.condition,
+                        status: curDonationForm?.status,
+                        quantityRemaining: curDonationForm?.quantityRemaining,
+                        adminNotes: curDonationForm?.adminNotes,
+                        donatedAt: curDonationForm?.donatedAt
+                    }
+                }
+            });
         }
         setIsSaved(true);
     };
@@ -206,27 +207,29 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
                 newMatches.push({ donationForm: curDonationForm!._id as string, quantity: newQuantity });
             }
         }
-   
-        // update updatedRequestsInput 
-        if (updatedRequestsInput !== null){
+
+        // update updatedRequestsInput
+        if (updatedRequestsInput !== null) {
             const newMatchRequest = {
                 _id: requestId,
                 matchedDonations: newMatches
-            }
+            };
             updatedRequestsInput.find((obj, index) => {
                 if (obj._id === requestId) {
-                    updatedRequestsInput[index] = newMatchRequest
+                    updatedRequestsInput[index] = newMatchRequest;
                     return true;
                 }
-            })
-            setUpdatedRequestsInput(updatedRequestsInput) 
-        }else{
-            setUpdatedRequestsInput([{
-                _id: requestId,
-                matchedDonations: newMatches
-            }])
+            });
+            setUpdatedRequestsInput(updatedRequestsInput);
+        } else {
+            setUpdatedRequestsInput([
+                {
+                    _id: requestId,
+                    matchedDonations: newMatches
+                }
+            ]);
         }
-        
+
         // update requests with new donation matches
         setRequests([
             ...requests.slice(0, reqIndex),
