@@ -1,22 +1,57 @@
-import React, { FunctionComponent } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Spinner } from "react-bootstrap";
+import React, { FunctionComponent, useState } from "react";
 import moment from "moment";
 
+import { gql, useQuery } from "@apollo/client";
 import { Button } from "../atoms/Button";
 import CommonModal from "./Modal";
 import { DonationForm } from "../../data/types/donationForm";
 import { getItemAgeDescription } from "../utils/donationForm";
 
 interface Props {
-    donationForm: DonationForm;
+    donationForm?: DonationForm;
+    donationFormId?: string;
     handleClose: () => void;
 }
 
 const DonationFormInfoModal: FunctionComponent<Props> = (props: Props) => {
-    const contactFullName = [props.donationForm?.contact?.firstName, props.donationForm?.contact?.lastName]
+    const [donationForm, setDonationForm] = useState<DonationForm | null>(props.donationForm ?? null);
+    const contactFullName = [donationForm?.contact?.firstName, donationForm?.contact?.lastName]
         .filter((name) => name)
         .join(" ");
-    const ageDescription = props.donationForm.age == null ? null : getItemAgeDescription(props.donationForm.age);
+    const ageDescription = donationForm?.age == null ? null : getItemAgeDescription(donationForm.age);
+
+    const getDonationFormQuery = gql`
+        query GetDonationForm($id: ID!) {
+            donationForm(_id: $id) {
+                adminNotes
+                age
+                contact {
+                    firstName
+                    lastName
+                }
+                createdAt
+                description
+                donatedAt
+                name
+                quantity
+            }
+        }
+    `;
+
+    if (props.donationFormId) {
+        useQuery(getDonationFormQuery, {
+            variables: {
+                id: props.donationFormId
+            },
+            fetchPolicy: "network-only",
+            onCompleted: (data: { donationForm: DonationForm }) => {
+                const donationFormCopy: DonationForm = JSON.parse(JSON.stringify(data.donationForm)); // deep-copy since data object is frozen
+                setDonationForm(donationFormCopy);
+                console.log(donationFormCopy);
+            }
+        });
+    }
 
     return (
         <CommonModal
@@ -26,66 +61,72 @@ const DonationFormInfoModal: FunctionComponent<Props> = (props: Props) => {
             header={<Modal.Title className="text-center">Donation Form</Modal.Title>}
             footer={<Button text="Close Form" onClick={props.handleClose} copyText="" />}
         >
-            {props.donationForm.name && (
-                <div className="item-name">
-                    <span>{props.donationForm.name}</span>
-                </div>
-            )}
-            {contactFullName && (
-                <div className="field item-contact">
-                    <i className="bi bi-person" />
-                    <span>
-                        <strong>Donated by:</strong> {contactFullName}
-                    </span>
-                </div>
-            )}
-            {props.donationForm.createdAt && (
-                <div className="field form-submission-date">
-                    <i className="bi bi-calendar-check-fill" />
-                    <span>
-                        <strong>Form filled on:</strong>{" "}
-                        {moment(props.donationForm.createdAt).format("MMMM D, YYYY, h:mma")}
-                    </span>
-                </div>
-            )}
-            {props.donationForm.donatedAt && (
-                <div className="field donation-date">
-                    <i className="bi bi-cart-check-fill" />
-                    <span>
-                        <strong>Donated on:</strong>{" "}
-                        {moment(props.donationForm.donatedAt).format("MMMM D, YYYY, h:mma")}
-                    </span>
-                </div>
-            )}
-            {props.donationForm.age && (
-                <div className="field item-age">
-                    <span>
-                        <strong>Age:</strong> {ageDescription}
-                    </span>
-                </div>
-            )}
-            {props.donationForm.quantity != null && (
-                <div className="field item-quantity">
-                    <span>
-                        <strong>Quantity:</strong> {props.donationForm.quantity}
-                    </span>
-                </div>
-            )}
-            {props.donationForm.description && (
-                <div className="field item-description">
-                    <i className="bi bi-clipboard" />
-                    <span>
-                        <strong>Item description:</strong> {props.donationForm.description}
-                    </span>
-                </div>
-            )}
-            {props.donationForm.adminNotes && (
-                <div className="field admin-notes">
-                    <i className="bi bi-paperclip" />
-                    <span>
-                        <strong>TPC notes:</strong> {props.donationForm.adminNotes}
-                    </span>
-                </div>
+            {donationForm == null ? (
+                <Spinner animation="border" role="status" />
+            ) : (
+                <>
+                    {donationForm.name && (
+                        <div className="item-name">
+                            <span>{donationForm.name}</span>
+                        </div>
+                    )}
+                    {contactFullName && (
+                        <div className="field item-contact">
+                            <i className="bi bi-person" />
+                            <span>
+                                <strong>Donated by:</strong> {contactFullName}
+                            </span>
+                        </div>
+                    )}
+                    {donationForm.createdAt && (
+                        <div className="field form-submission-date">
+                            <i className="bi bi-calendar-check-fill" />
+                            <span>
+                                <strong>Form filled on:</strong>{" "}
+                                {moment(donationForm.createdAt, "x").format("MMMM D, YYYY, h:mma")}
+                            </span>
+                        </div>
+                    )}
+                    {donationForm.donatedAt && (
+                        <div className="field donation-date">
+                            <i className="bi bi-cart-check-fill" />
+                            <span>
+                                <strong>Donated on:</strong>{" "}
+                                {moment(donationForm.donatedAt, "x").format("MMMM D, YYYY, h:mma")}
+                            </span>
+                        </div>
+                    )}
+                    {donationForm.age && (
+                        <div className="field item-age">
+                            <span>
+                                <strong>Age:</strong> {ageDescription}
+                            </span>
+                        </div>
+                    )}
+                    {donationForm.quantity != null && (
+                        <div className="field item-quantity">
+                            <span>
+                                <strong>Quantity:</strong> {donationForm.quantity}
+                            </span>
+                        </div>
+                    )}
+                    {donationForm.description && (
+                        <div className="field item-description">
+                            <i className="bi bi-clipboard" />
+                            <span>
+                                <strong>Item description:</strong> {donationForm.description}
+                            </span>
+                        </div>
+                    )}
+                    {donationForm.adminNotes && (
+                        <div className="field admin-notes">
+                            <i className="bi bi-paperclip" />
+                            <span>
+                                <strong>TPC notes:</strong> {donationForm.adminNotes}
+                            </span>
+                        </div>
+                    )}
+                </>
             )}
         </CommonModal>
     );

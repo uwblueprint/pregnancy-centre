@@ -41,8 +41,8 @@ export interface DonationForm {
     status?: ItemStatus;
     quantityRemaining?: number;
 
-    donatedAt?: Date;
-    createdAt?: Date;
-    updatedAt?: Date;
-    deletedAt?: Date;
+    donatedAt?: number;
+    createdAt?: number;
+    updatedAt?: number;
+    deletedAt?: number;
 }

@@ -5,6 +5,7 @@ import moment from "moment";
 import { DonationForm, DonationFormContact, ItemStatus } from "../../data/types/donationForm";
 import ConfirmDonationFormApprovalDialog from "../organisms/ConfirmDonationFormApprovalDialog";
 import DonationEditFormModal from "../organisms/DonationEditFormModal";
+import DonationFormInfoModal from "../organisms/DonationFormInfoModal";
 import DonationFormProgressStepper from "../atoms/DonationFormProgressStepper";
 import DropdownMenu from "../atoms/DropdownMenu";
 import { ItemStatusToReadableString } from "../utils/donationForm";
@@ -16,6 +17,9 @@ export interface Props {
 
 const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => {
     const [donationForms, setDonationForms] = useState(props.initialDonationForms);
+    const [selectedDonationFormForInspection, setSelectedDonationFormForInspection] = useState<DonationForm | null>(
+        null
+    );
     const [selectedDonationFormForApproval, setSelectedDonationFormForApproval] = useState<DonationForm | null>(null);
     const [selectedDonationFormForDropoff, setSelectedDonationFormForDropoff] = useState<DonationForm | null>(null);
 
@@ -180,6 +184,14 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
 
     return (
         <div className="unmatched-donation-forms-table">
+            {selectedDonationFormForInspection && (
+                <DonationFormInfoModal
+                    donationFormId={selectedDonationFormForInspection._id}
+                    handleClose={() => {
+                        setSelectedDonationFormForInspection(null);
+                    }}
+                />
+            )}
             {selectedDonationFormForApproval && (
                 <ConfirmDonationFormApprovalDialog
                     contactName={getContactName(selectedDonationFormForApproval.contact)}
@@ -244,9 +256,9 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                             <tr
                                 key={donationForm._id}
                                 className="data-row"
-                                // onClick={() => {
-                                //     history.push("/match-need/" + donationForm.requestGroup._id);
-                                // }}
+                                onClick={() => {
+                                    setSelectedDonationFormForInspection(donationForm);
+                                }}
                             >
                                 <td className="spacing-col" />
                                 <td className="item-col">{donationForm.name}</td>
