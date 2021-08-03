@@ -129,6 +129,8 @@ const createDonationForm = (requestGroup = null) => {
     // if not classified under a requestGroup, generate random name
     const name = requestGroup ? requestGroup.name : faker.commerce.product();
 
+    const quantity = Math.floor(Math.random() * maxQuantityPerDonationForm) + 1;
+
     return new DonationForm({
         _id: mongoose.Types.ObjectId(),
         contact: {
@@ -140,8 +142,8 @@ const createDonationForm = (requestGroup = null) => {
         name: name,
         description: faker.lorem.sentence(),
         ...(!!requestGroup && { requestGroup: requestGroup._id }),
-        quantity: Math.floor(Math.random() * maxQuantityPerDonationForm) + 1,
-        quantityRemaining: Math.floor(Math.random() * maxQuantityPerDonationForm) + 1,
+        quantity: quantity,
+        quantityRemaining: quantity,
         age: Math.floor(Math.random() * 21), // random integer between 0 and 20
         condition: faker.random.arrayElement(donationFormConditions),
         status: faker.random.arrayElement(donationFormStatuses),
