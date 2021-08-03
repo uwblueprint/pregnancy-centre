@@ -50,9 +50,15 @@ const DonationFormInfoDisplay: FunctionComponent<Props> = (props: Props) => {
                     {contactFullName}
                 </h2>
             )}
+            {donationForm.createdAt && (
+                <h2>
+                    <strong>Form filled on:</strong>
+                    {moment(donationForm.createdAt, "x").format("MMMM D, YYYY, h:mma")}
+                </h2>
+            )}
             {donationForm.donatedAt && (
                 <h2>
-                    <strong>Donated on:</strong>
+                    <strong>Confirmed on:</strong>
                     {moment(donationForm.donatedAt, "x").format("MMMM D, YYYY, h:mma")}
                 </h2>
             )}
