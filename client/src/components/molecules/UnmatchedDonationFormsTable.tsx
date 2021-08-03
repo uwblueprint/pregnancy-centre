@@ -24,8 +24,8 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     const [selectedDonationFormForDropoff, setSelectedDonationFormForDropoff] = useState<DonationForm | null>(null);
 
     const updateDonationFormStatusMutation = gql`
-        mutation UpdateDonationFormStatus($id: ID!, $status: DonationItemStatus!) {
-            updateDonationForm(donationForm: { _id: $id, status: $status }) {
+        mutation UpdateDonationFormStatus($id: ID!, $status: DonationItemStatus!, $donatedAt: String) {
+            updateDonationForm(donationForm: { _id: $id, status: $status, donatedAt: $donatedAt }) {
                 _id
             }
         }
@@ -94,7 +94,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                 options.push(
                     <span
                         className="menu-option"
-                        onClick={() => setDonationFormStatus(donationFormId, ItemStatus.PENDING_DROPOFF)}
+                        onClick={() => setDonationFormStatus(donationFormId, ItemStatus.PENDING_DROPOFF, null)}
                     >
                         Unconfirm
                     </span>
@@ -109,8 +109,13 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         return options;
     };
 
-    const setDonationFormStatus = (donationFormId: string, newStatus: ItemStatus, updateCallback?: () => void) => {
-        updateDonationFormStatus({ variables: { id: donationFormId, status: newStatus } })
+    const setDonationFormStatus = (
+        donationFormId: string,
+        newStatus: ItemStatus,
+        donatedAt?: string | null,
+        updateCallback?: () => void
+    ) => {
+        updateDonationFormStatus({ variables: { id: donationFormId, status: newStatus, donatedAt } })
             .then(() => {
                 if (newStatus === ItemStatus.MATCHED) {
                     removeDonationFormFromDisplay(donationFormId);
@@ -178,7 +183,12 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                 })
             );
         };
-        setDonationFormStatus(donationForm._id as string, ItemStatus.PENDING_MATCH, updateDonationForm);
+        setDonationFormStatus(
+            donationForm._id as string,
+            ItemStatus.PENDING_MATCH,
+            Date.now().toString(),
+            updateDonationForm
+        );
         setSelectedDonationFormForDropoff(null);
     };
 
