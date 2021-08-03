@@ -1,15 +1,13 @@
-import { Dropdown, Spinner } from "react-bootstrap";
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
 
-import { sampleDonationForms, sampleRequests } from "../examples/MatchingRequestTableContainer";
 import { DonationForm } from "../../data/types/donationForm";
 import MatchingDonationFormView from "./MatchingDonationFormView";
 import MatchingRequestsView from "./MatchingRequestsView";
 import Request from "../../data/types/request";
 import RequestType from "../../data/types/requestType";
-
 interface ParamTypes {
     id: string;
 }
@@ -78,6 +76,10 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             openRequests {
                 _id
                 quantity
+                requestType {
+                    _id
+                    name
+                }
                 clientName
                 createdAt
                 matchedDonations {
