@@ -168,7 +168,16 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
                 variables: { requests: updatedRequestsInput }
             })
             updateDonationForm({
-                variables: { donationForm: curDonationForm }
+                variables: { donationForm: {
+                    _id: curDonationForm?._id,
+                    name: curDonationForm?.name,
+                    quantity: curDonationForm?.quantity,
+                    condition: curDonationForm?.condition,
+                    status: curDonationForm?.status,
+                    quantityRemaining: curDonationForm?.quantityRemaining,
+                    adminNotes: curDonationForm?.adminNotes,
+                    donatedAt: curDonationForm?.donatedAt
+                }}
             })
         }
         setIsSaved(true);
@@ -197,9 +206,6 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
                 newMatches.push({ donationForm: curDonationForm!._id as string, quantity: newQuantity });
             }
         }
-
-        //update donation form
-        setCurDonationForm({...curDonationForm, quantityRemaining: curDonationForm!.quantity! - totalQuantitySelected})
    
         // update updatedRequestsInput 
         if (updatedRequestsInput !== null){
