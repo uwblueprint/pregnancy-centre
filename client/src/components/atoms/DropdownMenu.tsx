@@ -19,7 +19,8 @@ const DropdownMenu: FunctionComponent<Props> = (props: Props) => {
         <div className="dropdown-menu-atom">
             <div
                 className="trigger"
-                onClick={() => {
+                onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                    e.stopPropagation();
                     setIsMenuOpen(!isMenuOpen);
                 }}
                 ref={triggerRef}
@@ -29,14 +30,13 @@ const DropdownMenu: FunctionComponent<Props> = (props: Props) => {
             {isMenuOpen && (
                 <div
                     className="menu-anchor"
-                    onClick={() => {
+                    onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                        e.stopPropagation();
                         setIsMenuOpen(false);
                     }}
                     ref={dropdownReference}
                 >
-                    <div className="menu">
-                      {props.children}
-                      </div>
+                    <div className="menu">{props.children}</div>
                 </div>
             )}
         </div>

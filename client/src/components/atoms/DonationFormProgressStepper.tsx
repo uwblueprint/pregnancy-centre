@@ -44,7 +44,8 @@ const DonationFormProgressStepper: FunctionComponent<Props> = (props: Props) => 
                 <div
                     className={"step " + (props.status === stepData.status ? "active-step" : "disabled-step")}
                     key={stepData.label}
-                    onClick={() => {
+                    onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                        e.stopPropagation();
                         if (props.status === stepData.status) {
                             props.onStatusChange(stepData.nextStatus);
                         }

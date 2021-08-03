@@ -87,4 +87,9 @@
     .item-quantity {
         margin-left: 31px;
     }
+
+    .item-description span,
+    .admin-notes span {
+        white-space: pre-line;
+    }
 }
