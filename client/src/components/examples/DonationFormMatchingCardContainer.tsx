@@ -10,7 +10,7 @@ const DonationFormMatchingCardContainer: FunctionComponent<Record<string, never>
             firstName: "Miley",
             lastName: "Cyrus"
         },
-        createdAt: new Date(),
+        createdAt: new Date().valueOf(),
         quantity: 5,
         quantityRemaining: 4
     };

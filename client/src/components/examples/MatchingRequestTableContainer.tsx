@@ -22,8 +22,8 @@ export const sampleDonationForms: DonationForm[] = [
         quantityRemaining: 8,
         age: 18,
         condition: ItemCondition.BRAND_NEW,
-        createdAt: new Date(1548834531667),
-        donatedAt: new Date(1548834531667)
+        createdAt: 1548834531667,
+        donatedAt: 1548834531667
     },
     {
         _id: "60fcbbef3e3ece32ac7be357",
@@ -40,8 +40,8 @@ export const sampleDonationForms: DonationForm[] = [
         quantityRemaining: 5,
         age: 5,
         condition: ItemCondition.FAIR,
-        createdAt: new Date(1618956689867),
-        donatedAt: new Date(1618956689867)
+        createdAt: 1618956689867,
+        donatedAt: 1618956689867
     },
     {
         _id: "60fcbbef3e3ece32ac7be359",
@@ -58,8 +58,8 @@ export const sampleDonationForms: DonationForm[] = [
         quantityRemaining: 11,
         age: 11,
         condition: ItemCondition.BRAND_NEW,
-        createdAt: new Date(1614159243916),
-        donatedAt: new Date(1614159243916)
+        createdAt: 1614159243916,
+        donatedAt: 1614159243916
     },
     {
         _id: "60fcbbef3e3ece32ac7be35b",
@@ -76,8 +76,8 @@ export const sampleDonationForms: DonationForm[] = [
         quantityRemaining: 3,
         age: 2,
         condition: ItemCondition.POOR,
-        createdAt: new Date(1551481112686),
-        donatedAt: new Date(1551481112686)
+        createdAt: 1551481112686,
+        donatedAt: 1551481112686
     },
     {
         _id: "60fcbbef3e3ece32ac7be35f",
@@ -96,8 +96,8 @@ export const sampleDonationForms: DonationForm[] = [
         quantityRemaining: 15,
         age: 0,
         condition: ItemCondition.GREAT,
-        createdAt: new Date(1615517307047),
-        donatedAt: new Date(1615517307047)
+        createdAt: 1615517307047,
+        donatedAt: 1615517307047
     }
 ];
 
@@ -178,8 +178,6 @@ const MatchingRequestTableContainer: FunctionComponent<Record<string, never>> = 
         setDonationForms(donationForms);
         setCurDonationForm(donationForms[1]);
     }, []);
-
-    const [totalSelected, setTotalSelected] = useState(0);
 
     const onQuantitySelected = (quantity: number, requestId: string) => {
         // find the index of the updated request

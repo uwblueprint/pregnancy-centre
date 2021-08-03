@@ -32,7 +32,7 @@ const DonationFormMatchingCard: FunctionComponent<DonationFormMatchingCardProps>
                 <div className="header-text">
                     <h1>{itemsAvailableStr}</h1>
                     {props.donationForm.createdAt && (
-                        <h2>{moment(props.donationForm.createdAt).format("MMM D, YYYY, h:mma")}</h2>
+                        <h2>{moment(props.donationForm.createdAt, "x").format("MMM D, YYYY, h:mma")}</h2>
                     )}
                 </div>
                 <Button text="Match" copyText="" onClick={props.onSelectMatch} />

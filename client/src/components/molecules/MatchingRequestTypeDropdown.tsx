@@ -10,7 +10,7 @@ interface Props {
     requestType?: RequestType;
     requests: Request[];
     donationForm: DonationForm;
-    isMatching: boolean; // TODO: use react context to avoid prop drilling
+    isMatching: boolean;
     isErroneous: boolean;
     onQuantitySelected: (newQuantity: number, requestId: string) => void;
 }
