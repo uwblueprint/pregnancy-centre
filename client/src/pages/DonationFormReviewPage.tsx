@@ -1,3 +1,4 @@
+import { gql, useMutation } from "@apollo/client";
 import React, { FunctionComponent } from "react";
 
 import { DonationForm } from "../data/types/donationForm";
@@ -16,13 +17,80 @@ interface Props {
 }
 
 const DonationFormReviewPage: FunctionComponent<Props> = (props: Props) => {
+    const createDonationFromMutation = gql`
+        mutation CreateDonationForm(
+            $age: Int!
+            $condition: DonationItemCondition!
+            $description: String
+            $email: String
+            $firstName: String
+            $lastName: String
+            $name: String!
+            $phoneNumber: String
+            $quantity: Int!
+            $requestGroup: ID
+            $status: DonationItemStatus
+        ) {
+            donationForm: createDonationForm(
+                donationForm: {
+                    age: $age
+                    condition: $condition
+                    contact: { email: $email, firstName: $firstName, lastName: $lastName, phoneNumber: $phoneNumber }
+                    description: $description
+                    name: $name
+                    quantity: $quantity
+                    quantityRemaining: $quantity
+                    requestGroup: $requestGroup
+                    status: $status
+                }
+            ) {
+                _id
+            }
+        }
+    `;
+
+    const [createDonationForm] = useMutation(createDonationFromMutation, {
+        onError: (error) => {
+            console.log(error);
+        }
+    });
+
+    const onSubmit = () => {
+        const createDonationFormPromises = props.donationForms.map((donationForm) =>
+            createDonationForm({
+                variables: {
+                    age: donationForm.age,
+                    condition: donationForm.condition,
+                    description: donationForm.description,
+                    email: props.donor.email,
+                    firstName: props.donor.firstName,
+                    lastName: props.donor.lastName,
+                    name: donationForm.name,
+                    phoneNumber: props.donor.phoneNumber,
+                    quantity: donationForm.quantity,
+                    requestGroup: donationForm.requestGroup?._id,
+                    status: donationForm.status
+                }
+            })
+        );
+
+        Promise.all(createDonationFormPromises)
+            .then((results) => {
+                const donationFormIds = results.map((result) => result.data.donationForm._id);
+                console.log(donationFormIds);
+            })
+            .then(() => {
+                props.onNextPage();
+            });
+    };
+
     return (
         <DonationFormPage
             className="donation-form-review-page"
             includeContentHeader={true}
             includeFooter={true}
             nextButtonText="Submit Form"
-            onNextPage={props.onNextPage}
+            onNextPage={onSubmit}
             onPreviousPage={props.onPreviousPage}
             pageName={props.steps[props.pageNumber]}
             pageNumber={props.pageNumber}
