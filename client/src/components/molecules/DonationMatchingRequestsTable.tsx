@@ -47,7 +47,7 @@ const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) =
             }, 0);
 
             return {
-                quantity: quantityAssignedToForm as number,
+                quantity: quantityAssignedToForm!,
                 totalRequired
             };
         }
@@ -123,13 +123,13 @@ const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) =
                                             ).map((value, index) => (
                                                 <span
                                                     key={index}
-                                                    onClick={() => onQuantityChange(value, request._id as string)}
+                                                    onClick={() => onQuantityChange(value, request._id!)}
                                                 >
                                                     {value}
                                                 </span>
                                             ))}
                                             onDropdownOpen={() => {
-                                                setReqCurrentlyEditing(request._id as string);
+                                                setReqCurrentlyEditing(request._id!);
                                             }}
                                             onDropdownClose={() => {
                                                 setReqCurrentlyEditing("");

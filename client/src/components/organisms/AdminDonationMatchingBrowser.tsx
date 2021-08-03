@@ -119,7 +119,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
                 // set requests
                 const openRequests = res.requestGroup.requestTypes.reduce(
                     (requests: Request[], requestType: RequestType) => {
-                        return requests.concat(requestType.openRequests as Request[]);
+                        return requests.concat(requestType.openRequests!);
                     },
                     []
                 );
@@ -208,7 +208,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             prevQuantity = newMatches[contributionIndex!].quantity;
             newMatches[contributionIndex!].quantity = newQuantity;
         } else {
-            newMatches.push({ donationForm: curDonationForm!._id as string, quantity: newQuantity });
+            newMatches.push({ donationForm: curDonationForm!._id!, quantity: newQuantity });
         }
 
         // update new total quantity
