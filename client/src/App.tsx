@@ -8,7 +8,6 @@ import AdminRequestGroupView from "./pages/AdminRequestGroupView";
 import AuthAction from "./pages/AuthAction";
 import DonationForm from "./pages/DonationForm";
 import DonorHomepage from "./pages/DonorHomepage";
-import MatchingRequestTableContainer from "./components/examples/MatchingRequestTableContainer";
 import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
@@ -20,12 +19,6 @@ function App(): JSX.Element {
                 <Switch>
                     <Route path="/matching/donation-form/:id">
                         <AdminDonationMatchingPage />
-                    </Route>
-                    <Route path="/testing">
-                        <AdminDonationMatchingPage />
-                    </Route>
-                    <Route path="/test">
-                        <MatchingRequestTableContainer />
                     </Route>
                     <Route path="/login">
                         <SignInModal />
