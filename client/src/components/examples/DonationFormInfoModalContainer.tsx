@@ -12,8 +12,6 @@ const DonationFormInfoModalContainer: FunctionComponent<Record<string, never>> =
             lastName: "Cyrus"
         },
         description: "This bottle feeds lots of milk, you will be very happy with this bottle!",
-        donatedAt: new Date(),
-        createdAt: new Date(),
         name: "Bottles",
         quantity: 5,
         quantityRemaining: 4

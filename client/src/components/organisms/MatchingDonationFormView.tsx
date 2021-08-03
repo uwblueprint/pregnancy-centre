@@ -25,6 +25,7 @@ const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps>
     const [curInfoModalShown, setCurInfoModalShown] = useState<string>("");
 
     useEffect(() => {
+        // update the donation form in the list
         const newDonations = availableDonations;
         const index = availableDonations.findIndex((donationForm) => donationForm._id === props.donationForm._id);
         if (index !== -1) {

@@ -12,7 +12,6 @@ const DonationFormInfoDisplayContainer: FunctionComponent<Record<string, never>>
             lastName: "Cyrus"
         },
         description: "This bottle feeds lots of milk, you will be very happy with this bottle!",
-        createdAt: new Date().valueOf(),
         quantity: 5,
         quantityRemaining: 4
     };
