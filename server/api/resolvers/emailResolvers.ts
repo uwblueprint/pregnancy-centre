@@ -21,10 +21,10 @@ async function sendConfirmationEmail(firstName: string, lastName: string, email:
     let htmlString = `<body><p>Dear ${firstName} ${lastName}, <p>`;
     htmlString += "<p>Thank you for submitting a donation form.</p>";
     htmlString += "<table> <tr> <th> <p>Item</p> </th> <th> <p>Quantity</p> </th> </tr>";
-    items.forEach(item => {
+    items.forEach((item) => {
         htmlString += `<tr> <td>${item.name}</td> <td> ${item.quantity} </td> </tr>`;
-    }) 
-    
+    });
+
     htmlString += "</table> <br>The Pregnancy Centre</body>";
 
     const info = await transporter.sendMail({
@@ -47,21 +47,18 @@ const emailResolvers = {
         const firstName = object.contact.firstName;
         const lastName = object.contact.lastName;
         const email = object.contact.email;
-        const firstItem = {name: object.name, quantity: object.quantity};
+        const firstItem = { name: object.name, quantity: object.quantity };
         const promises = [];
-        for(let i = 1; i < ids.length; ++i) {
+        for (let i = 1; i < ids.length; ++i) {
             promises.push(DonationForm.findById(ids[i]).exec());
         }
-        Promise.all(promises).then(res => {
+        Promise.all(promises).then((res) => {
             console.log(res);
-            const remainingItems = res.map(form => ({name: form.name, quantity: form.quantity}));
-            sendConfirmationEmail(firstName, lastName, email, [firstItem, ... remainingItems]).catch(
-                console.error
-            );
-        })
+            const remainingItems = res.map((form) => ({ name: form.name, quantity: form.quantity }));
+            sendConfirmationEmail(firstName, lastName, email, [firstItem, ...remainingItems]).catch(console.error);
+        });
         return "sent!";
     }
 };
 
 export { emailResolvers };
-
