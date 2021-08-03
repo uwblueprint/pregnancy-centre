@@ -25,19 +25,7 @@ const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) =
         ? ["Client Name", "Quantity", "Total Required", "Date Requested"]
         : ["Client Name", "Item Name", "Quantity", "Total Required", "Date Requested"];
 
-    const [requests, setRequests] = useState<Request[]>([]);
     const [reqCurrentlyEditing, setReqCurrentlyEditing] = useState<string>("");
-
-    // // TODO: remove
-    // useEffect(() => {
-    //     // sort requests by most recent date
-    //     const sortedRequests: Request[] = props.requests
-    //         .filter((request) => !request.deleted && !request.fulfilled)
-    //         .sort((a, b) => {
-    //             return b!.createdAt!.valueOf() - a!.createdAt!.valueOf();
-    //         });
-    //     setRequests(sortedRequests);
-    // }, []);
 
     /**
      * Calculates the numerical values to display in the table row for a specific request
