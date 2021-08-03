@@ -1,9 +1,9 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
 
-import { DonationForm } from "../../data/types/donationForm";
+import { DonationForm, UpdateRequestsInput } from "../../data/types/donationForm";
 import MatchingDonationFormView from "./MatchingDonationFormView";
 import MatchingRequestsView from "./MatchingRequestsView";
 import Request from "../../data/types/request";
@@ -24,6 +24,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
     const [isSaved, setIsSaved] = useState(false);
     const [matchingError, setMatchingError] = useState("");
     const [hasRequestGroup, setHasRequestGroup] = useState(false);
+    const [updatedRequestsInput, setUpdatedRequestsInput] = useState<UpdateRequestsInput[] | null>(null);
 
     const query = gql`
         query donationForm($id: ID) {
@@ -90,6 +91,22 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
         }
     `;
 
+    const updateRequestsMutation = gql`
+        mutation updateRequests($requests: [UpdateRequestsInput]){
+            updateRequests(requests: $requests ){
+            _id
+        }  
+        }
+    `;
+    
+    const updateDonationFormMutation = gql`
+        mutation updateDonationForm($donationForm: UpdateDonationFormInput){
+            updateDonationForm(donationForm: $donationForm){
+                _id
+            }
+        }
+    `;
+
     useQuery(query, {
         variables: { id: id },
         onCompleted: (data: { donationForm: DonationForm }) => {
@@ -117,11 +134,16 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             setRequests(res);
         }
     });
-
+    
+    const [updateRequests, {data}] = useMutation(updateRequestsMutation);
+    const [updateDonationForm] = useMutation(updateDonationFormMutation)
+    console.log(data);
+    
     useEffect(() => {
         if (isMatching && curDonationForm !== null) {
             // check if quantities selected exceed the available donation amount
             const totalAvailable = curDonationForm!.quantity as number;
+            
             setMatchingError(
                 totalQuantitySelected > totalAvailable
                     ? `You have selected more than the maximum amount available. Please change the total quantity to be less than ${
@@ -142,6 +164,12 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
     const onConfirmMatches = () => {
         if (matchingError == "") {
             // TODO: save changes: mutation to update requests and donationForm
+            updateRequests({
+                variables: { requests: updatedRequestsInput }
+            })
+            updateDonationForm({
+                variables: { donationForm: curDonationForm }
+            })
         }
         setIsSaved(true);
     };
@@ -170,6 +198,29 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             }
         }
 
+        //update donation form
+        setCurDonationForm({...curDonationForm, quantityRemaining: curDonationForm!.quantity! - totalQuantitySelected})
+   
+        // update updatedRequestsInput 
+        if (updatedRequestsInput !== null){
+            const newMatchRequest = {
+                _id: requestId,
+                matchedDonations: newMatches
+            }
+            updatedRequestsInput.find((obj, index) => {
+                if (obj._id === requestId) {
+                    updatedRequestsInput[index] = newMatchRequest
+                    return true;
+                }
+            })
+            setUpdatedRequestsInput(updatedRequestsInput) 
+        }else{
+            setUpdatedRequestsInput([{
+                _id: requestId,
+                matchedDonations: newMatches
+            }])
+        }
+        
         // update requests with new donation matches
         setRequests([
             ...requests.slice(0, reqIndex),

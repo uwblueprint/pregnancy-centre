@@ -45,3 +45,8 @@ export interface DonationForm {
     updatedAt?: number;
     deletedAt?: number;
 }
+
+export interface UpdateRequestsInput {
+    _id?: string;
+    matchedDonations?: DonationFormContributionTuple[];
+}
