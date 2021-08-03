@@ -4,8 +4,10 @@ import React, { FunctionComponent, useState } from "react";
 import { Button } from "../atoms/Button";
 import { DonationForm } from "../../data/types/donationForm";
 import DonationFormInfoDisplay from "./DonationFormInfoDisplay";
+import DonationFormInfoModal from "./DonationFormInfoModal";
 import DonationFormMatchingCard from "../atoms/DonationFormMatchingCard";
 import RequestGroup from "../../data/types/requestGroup";
+import { useEffect } from "react";
 interface MatchingDonationFormViewProps {
     donationForm: DonationForm;
     isSaved: boolean;
@@ -19,7 +21,17 @@ const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps>
     props: MatchingDonationFormViewProps
 ) => {
     const [availableDonations, setAvailableDonations] = useState<DonationForm[]>([]);
-    const [sortByEarliest, setSortByEarliest] = useState<boolean>(true);
+    const [sortByEarliest, setSortByEarliest] = useState(true);
+    const [curInfoModalShown, setCurInfoModalShown] = useState<string>("");
+
+    useEffect(() => {
+        const newDonations = availableDonations;
+        const index = availableDonations.findIndex((donationForm) => donationForm._id === props.donationForm._id);
+        if (index !== -1) {
+            newDonations[index] = props.donationForm;
+            setAvailableDonations(newDonations);
+        }
+    }, [props.donationForm]);
 
     const onChangeSort = () => {
         const newSortByEarliest = !sortByEarliest;
@@ -42,9 +54,13 @@ const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps>
                         firstName
                         lastName
                     }
+                    name
+                    age
+                    description
                     quantity
                     quantityRemaining
                     createdAt
+                    donatedAt
                     adminNotes
                 }
             }
@@ -96,7 +112,7 @@ const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps>
                                     <DonationFormMatchingCard
                                         donationForm={donationForm}
                                         onSelectMatch={() => {}}
-                                        onViewForm={() => {}}
+                                        onViewForm={() => setCurInfoModalShown(donationForm._id!)}
                                     />
                                 </div>
                             ))}
@@ -111,6 +127,12 @@ const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps>
                     </p>
                     <Button text="Confirm matches" copyText="" onClick={props.onConfirmMatches} />
                 </div>
+            )}
+            {curInfoModalShown !== "" && (
+                <DonationFormInfoModal
+                    donationForm={availableDonations.find((form) => form._id === curInfoModalShown)!}
+                    handleClose={() => setCurInfoModalShown("")}
+                />
             )}
         </div>
     );

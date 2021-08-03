@@ -44,7 +44,7 @@ const DonationFormInfoModal: FunctionComponent<Props> = (props: Props) => {
                     <i className="bi bi-calendar-check-fill" />
                     <span>
                         <strong>Form filled on:</strong>{" "}
-                        {moment(props.donationForm.createdAt).format("MMMM D, YYYY, h:mma")}
+                        {moment(props.donationForm.createdAt, "x").format("MMMM D, YYYY, h:mma")}
                     </span>
                 </div>
             )}
@@ -53,7 +53,7 @@ const DonationFormInfoModal: FunctionComponent<Props> = (props: Props) => {
                     <i className="bi bi-cart-check-fill" />
                     <span>
                         <strong>Donated on:</strong>{" "}
-                        {moment(props.donationForm.donatedAt).format("MMMM D, YYYY, h:mma")}
+                        {moment(props.donationForm.donatedAt, "x").format("MMMM D, YYYY, h:mma")}
                     </span>
                 </div>
             )}
