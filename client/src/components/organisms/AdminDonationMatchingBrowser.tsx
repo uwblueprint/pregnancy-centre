@@ -8,6 +8,7 @@ import { DonationForm } from "../../data/types/donationForm";
 import MatchingDonationFormView from "./MatchingDonationFormView";
 import MatchingRequestsView from "./MatchingRequestsView";
 import Request from "../../data/types/request";
+import RequestType from "../../data/types/requestType";
 
 interface ParamTypes {
     id: string;
@@ -92,8 +93,17 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
         onCompleted: (data: { donationForm: DonationForm }) => {
             const res = JSON.parse(JSON.stringify(data.donationForm)); // deep-copy since data object is frozen
             setCurDonationForm(res);
-            if (res.requestGroup !== null) {
+            if (res.requestGroup != null) {
                 setHasRequestGroup(true);
+
+                // set requests
+                const openRequests = res.requestGroup.requestTypes.reduce(
+                    (requests: Request[], requestType: RequestType) => {
+                        return requests.concat(requestType.openRequests as Request[]);
+                    },
+                    []
+                );
+                setRequests(openRequests);
             }
         }
     });
@@ -110,18 +120,20 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
         if (isMatching && curDonationForm !== null) {
             // check if quantities selected exceed the available donation amount
             const totalAvailable = curDonationForm!.quantity as number;
-
             setMatchingError(
                 totalQuantitySelected > totalAvailable
-                    ? "You have selected more than the maximum amount available. Please change the total quantity to be less than 5."
+                    ? `You have selected more than the maximum amount available. Please change the total quantity to be less than ${
+                          totalAvailable + 1
+                      }.`
                     : ""
             );
         }
     }, [totalQuantitySelected, isMatching]);
 
     useEffect(() => {
-        if (curDonationForm !== undefined) {
-            // TODO: set total number of matched requests
+        if (curDonationForm?.quantity && curDonationForm?.quantityRemaining) {
+            const totalMatched = curDonationForm.quantity - curDonationForm.quantityRemaining;
+            setTotalQuantitySelected(totalMatched);
         }
     }, [curDonationForm]);
 
@@ -133,7 +145,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
     };
 
     /*
-     * Updates the requests when a new quantity is selected for the given request
+     * Updates the requests and donation form when a new quantity is selected for the given request
      */
     const onQuantityChanged = (newQuantity: number, requestId: string) => {
         // find the index of the updated request
@@ -144,7 +156,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             (contrib) => contrib.donationForm == curDonationForm!._id
         ) as number;
 
-        // update the matching selection
+        // update the matching array
         let prevQuantity = 0;
         const newMatches = req?.matchedDonations;
         if (newMatches) {
@@ -166,7 +178,17 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             ...requests.slice(reqIndex + 1)
         ]);
 
-        setTotalQuantitySelected(totalQuantitySelected - prevQuantity + newQuantity);
+        const newTotalSelected = totalQuantitySelected - prevQuantity + newQuantity;
+        setTotalQuantitySelected(newTotalSelected);
+
+        const totalAvailable = curDonationForm?.quantity as number;
+        if (newTotalSelected <= totalAvailable) {
+            // update quantity remaining based on selection
+            setCurDonationForm({
+                ...curDonationForm,
+                quantityRemaining: totalAvailable - newTotalSelected
+            });
+        }
     };
 
     const onBrowseAvailableDonationForms = () => {
