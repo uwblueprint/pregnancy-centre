@@ -43,7 +43,7 @@ const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) =
         if (props.isMatching) {
             // calculate the number of items assigned to the current item being matched
             const quantityAssignedToForm = matchedDonations?.reduce((total, contribution) => {
-                return contribution.donationForm == props?.donationForm?._id ? total + contribution.quantity : total;
+                return contribution.donationForm === props?.donationForm?._id ? total + contribution.quantity : total;
             }, 0);
 
             return {

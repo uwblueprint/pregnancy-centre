@@ -154,8 +154,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
     }, [totalQuantitySelected, isMatching]);
 
     const onConfirmMatches = () => {
-        if (matchingError == "") {
-            // TODO: save changes: mutation to update requests and donationForm
+        if (matchingError === "") {
             updateRequests({
                 variables: { requests: updatedRequestsInput }
             });
@@ -195,11 +194,11 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
      */
     const onQuantityChanged = (newQuantity: number, requestId: string) => {
         // find the index of the updated request
-        const reqIndex = requests.findIndex((req) => req._id == requestId);
+        const reqIndex = requests.findIndex((req) => req._id === requestId);
         const req = requests[reqIndex];
 
         const contributionIndex = req?.matchedDonations?.findIndex(
-            (contrib) => contrib.donationForm == curDonationForm!._id
+            (contrib) => contrib.donationForm === curDonationForm!._id
         );
 
         // update the matching array
