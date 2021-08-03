@@ -5,20 +5,20 @@ import { Button } from "../atoms/Button";
 import { DonationForm } from "../../data/types/donationForm";
 import DonationFormInfoDisplay from "./DonationFormInfoDisplay";
 import DonationFormMatchingCard from "../atoms/DonationFormMatchingCard";
-import { sampleDonationForms } from "../examples/MatchingRequestTableContainer";
-
+import RequestGroup from "../../data/types/requestGroup";
 interface MatchingDonationFormViewProps {
     donationForm: DonationForm;
     isSaved: boolean;
     isMatching: boolean;
     matchingError: string;
     onBrowseDonationForms: () => void;
+    onConfirmMatches: () => void;
 }
 
 const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps> = (
     props: MatchingDonationFormViewProps
 ) => {
-    const [availableDonations, setAvailableDonations] = useState<DonationForm[]>(sampleDonationForms);
+    const [availableDonations, setAvailableDonations] = useState<DonationForm[]>([]);
     const [sortByEarliest, setSortByEarliest] = useState<boolean>(true);
 
     const onChangeSort = () => {
@@ -33,7 +33,7 @@ const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps>
         setAvailableDonations(sortedDonations);
     };
 
-    const donationFormsQuery = gql`
+    const donationsByRequestGroupQuery = gql`
         query AllDonationFormsByRequestGroup($id: ID) {
             requestGroup(_id: $id) {
                 donationForms {
@@ -51,6 +51,15 @@ const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps>
         }
     `;
 
+    useQuery(donationsByRequestGroupQuery, {
+        variables: { id: props.donationForm?.requestGroup?._id },
+        skip: !props.donationForm.requestGroup,
+        onCompleted: (data: { requestGroup: RequestGroup }) => {
+            const res = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
+            setAvailableDonations(res.donationForms);
+        }
+    });
+
     return (
         <div className="matching-donation-form-view">
             {props.donationForm.requestGroup && (
@@ -58,7 +67,7 @@ const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps>
                     {props.isMatching ? (
                         <button className="matching-donation-form-view-browse" onClick={props.onBrowseDonationForms}>
                             <i className="bi bi-arrow-left-circle"></i>
-                            <span>Go to all {props.donationForm.name}s</span>
+                            <span>Go to all {props.donationForm.name}</span>
                         </button>
                     ) : (
                         <h1>Available Donations</h1>
@@ -72,7 +81,7 @@ const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps>
                         <DonationFormInfoDisplay
                             donationForm={props.donationForm}
                             isMatching={props.isMatching}
-                            onSelectMatch={() => {}}
+                            onSelectMatch={() => {}} // TODO: select match
                         />
                     </div>
                 ) : (
@@ -100,7 +109,7 @@ const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps>
                     <p className={"footer-text " + (props.matchingError && "error ") + (props.isSaved && "saved")}>
                         {props.matchingError !== "" ? props.matchingError : props.isSaved ? "Saved!" : ""}
                     </p>
-                    <Button text="Confirm matches" copyText="" onClick={() => {}} />
+                    <Button text="Confirm matches" copyText="" onClick={props.onConfirmMatches} />
                 </div>
             )}
         </div>

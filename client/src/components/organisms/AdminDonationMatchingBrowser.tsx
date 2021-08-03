@@ -198,6 +198,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
                             isMatching={isMatching}
                             matchingError={matchingError}
                             onBrowseDonationForms={onBrowseAvailableDonationForms}
+                            onConfirmMatches={onConfirmMatches}
                         />
                     </div>
                 </div>
