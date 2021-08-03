@@ -141,6 +141,7 @@ const createDonationForm = (requestGroup = null) => {
         description: faker.lorem.sentence(),
         ...(!!requestGroup && { requestGroup: requestGroup._id }),
         quantity: Math.floor(Math.random() * maxQuantityPerDonationForm) + 1,
+        quantityRemaining: Math.floor(Math.random() * maxQuantityPerDonationForm) + 1,
         age: Math.floor(Math.random() * 21), // random integer between 0 and 20
         condition: faker.random.arrayElement(donationFormConditions),
         status: faker.random.arrayElement(donationFormStatuses),
