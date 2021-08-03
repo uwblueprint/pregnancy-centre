@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
 
-import { DonationForm, UpdateRequestsInput } from "../../data/types/donationForm";
+import { DonationForm, DonationFormContributionTuple, UpdateRequestsInput } from "../../data/types/donationForm";
 import MatchingDonationFormView from "./MatchingDonationFormView";
 import MatchingRequestsView from "./MatchingRequestsView";
 import Request from "../../data/types/request";
@@ -16,15 +16,13 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
     const { id } = useParams<ParamTypes>();
 
     const [curDonationForm, setCurDonationForm] = useState<DonationForm | null>(null);
-
+    const [hasRequestGroup, setHasRequestGroup] = useState(false);
     const [requests, setRequests] = useState<Request[]>([]);
-
+    const [updatedRequestsInput, setUpdatedRequestsInput] = useState<UpdateRequestsInput[]>([]);
     const [totalQuantitySelected, setTotalQuantitySelected] = useState(0);
     const [isMatching, setIsMatching] = useState(true);
     const [isSaved, setIsSaved] = useState(false);
     const [matchingError, setMatchingError] = useState("");
-    const [hasRequestGroup, setHasRequestGroup] = useState(false);
-    const [updatedRequestsInput, setUpdatedRequestsInput] = useState<UpdateRequestsInput[] | null>(null);
 
     const query = gql`
         query donationForm($id: ID) {
@@ -112,6 +110,9 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
         onCompleted: (data: { donationForm: DonationForm }) => {
             const res = JSON.parse(JSON.stringify(data.donationForm)); // deep-copy since data object is frozen
             setCurDonationForm(res);
+            const totalMatched = res.quantity - res.quantityRemaining;
+            setTotalQuantitySelected(totalMatched);
+
             if (res.requestGroup != null) {
                 setHasRequestGroup(true);
 
@@ -130,6 +131,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
     useQuery(openRequestsQuery, {
         skip: hasRequestGroup,
         onCompleted: (data: { openRequests: [Request] }) => {
+            console.log("fetched requests!");
             const res = JSON.parse(JSON.stringify(data.openRequests));
             setRequests(res);
         }
@@ -140,9 +142,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
 
     useEffect(() => {
         if (isMatching && curDonationForm !== null) {
-            // check if quantities selected exceed the available donation amount
-            const totalAvailable = curDonationForm!.quantity as number;
-            
+            const totalAvailable = curDonationForm!.quantity!;
             setMatchingError(
                 totalQuantitySelected > totalAvailable
                     ? `You have selected more than the maximum amount available. Please change the total quantity to be less than ${
@@ -152,13 +152,6 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             );
         }
     }, [totalQuantitySelected, isMatching]);
-
-    useEffect(() => {
-        if (curDonationForm?.quantity && curDonationForm?.quantityRemaining) {
-            const totalMatched = curDonationForm.quantity - curDonationForm.quantityRemaining;
-            setTotalQuantitySelected(totalMatched);
-        }
-    }, [curDonationForm]);
 
     const onConfirmMatches = () => {
         if (matchingError == "") {
@@ -170,18 +163,31 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
                 variables: {
                     donationForm: {
                         _id: curDonationForm?._id,
-                        name: curDonationForm?.name,
-                        quantity: curDonationForm?.quantity,
-                        condition: curDonationForm?.condition,
-                        status: curDonationForm?.status,
-                        quantityRemaining: curDonationForm?.quantityRemaining,
-                        adminNotes: curDonationForm?.adminNotes,
-                        donatedAt: curDonationForm?.donatedAt
+                        quantityRemaining: curDonationForm?.quantityRemaining
                     }
                 }
             });
+            setIsSaved(true);
         }
-        setIsSaved(true);
+    };
+
+    /*
+     * Updates the requests whose quantities have been changed.
+     */
+    const updateModifiedRequests = (requestId: string, newMatches: DonationFormContributionTuple[]) => {
+        const newInput = updatedRequestsInput;
+        const reqIndex = newInput!.findIndex((input) => input._id === requestId);
+        const newMatchRequest = {
+            _id: requestId,
+            matchedDonations: newMatches
+        };
+
+        if (reqIndex !== -1) {
+            newInput![reqIndex] = newMatchRequest;
+        } else {
+            newInput!.push(newMatchRequest);
+        }
+        setUpdatedRequestsInput(newInput);
     };
 
     /*
@@ -194,41 +200,23 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
 
         const contributionIndex = req?.matchedDonations?.findIndex(
             (contrib) => contrib.donationForm == curDonationForm!._id
-        ) as number;
+        );
 
         // update the matching array
         let prevQuantity = 0;
-        const newMatches = req?.matchedDonations;
-        if (newMatches) {
-            if (contributionIndex != -1) {
-                prevQuantity = newMatches[contributionIndex].quantity;
-                newMatches[contributionIndex].quantity = newQuantity;
-            } else {
-                newMatches.push({ donationForm: curDonationForm!._id as string, quantity: newQuantity });
-            }
+        const newMatches = req.matchedDonations!;
+        if (contributionIndex !== -1) {
+            prevQuantity = newMatches[contributionIndex!].quantity;
+            newMatches[contributionIndex!].quantity = newQuantity;
+        } else {
+            newMatches.push({ donationForm: curDonationForm!._id as string, quantity: newQuantity });
         }
 
-        // update updatedRequestsInput
-        if (updatedRequestsInput !== null) {
-            const newMatchRequest = {
-                _id: requestId,
-                matchedDonations: newMatches
-            };
-            updatedRequestsInput.find((obj, index) => {
-                if (obj._id === requestId) {
-                    updatedRequestsInput[index] = newMatchRequest;
-                    return true;
-                }
-            });
-            setUpdatedRequestsInput(updatedRequestsInput);
-        } else {
-            setUpdatedRequestsInput([
-                {
-                    _id: requestId,
-                    matchedDonations: newMatches
-                }
-            ]);
-        }
+        // update new total quantity
+        const newTotalSelected = totalQuantitySelected - prevQuantity + newQuantity;
+        setTotalQuantitySelected(newTotalSelected);
+
+        updateModifiedRequests(requestId, newMatches!);
 
         // update requests with new donation matches
         setRequests([
@@ -240,12 +228,9 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             ...requests.slice(reqIndex + 1)
         ]);
 
-        const newTotalSelected = totalQuantitySelected - prevQuantity + newQuantity;
-        setTotalQuantitySelected(newTotalSelected);
-
-        const totalAvailable = curDonationForm?.quantity as number;
+        // update quantity remaining on donation form
+        const totalAvailable = curDonationForm!.quantity!;
         if (newTotalSelected <= totalAvailable) {
-            // update quantity remaining based on selection
             setCurDonationForm({
                 ...curDonationForm,
                 quantityRemaining: totalAvailable - newTotalSelected
@@ -254,6 +239,7 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
     };
 
     const onBrowseAvailableDonationForms = () => {
+        // TODO: show alert dialog?
         setMatchingError("");
         setIsMatching(false);
     };
