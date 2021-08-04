@@ -5,6 +5,17 @@
     align-items: center;
     flex-direction: column;
 
+    .alert-dialog-buttons {
+        // justify-content: center;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+
+        .alert-stay-button {
+            padding-bottom: 0px;
+        }
+    }
+
     &-content {
         border-top: $border-line;
         min-height: 100%;
