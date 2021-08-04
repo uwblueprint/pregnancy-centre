@@ -2,13 +2,13 @@ import { gql, useMutation } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 import moment from "moment";
 
-import { DonationForm, DonationFormContact, ItemStatus } from "../../data/types/donationForm";
+import { DonationForm, ItemStatus } from "../../data/types/donationForm";
+import { getContactName, ItemStatusToReadableString } from "../utils/donationForm";
 import ConfirmDonationFormApprovalDialog from "../organisms/ConfirmDonationFormApprovalDialog";
 import DonationEditFormModal from "../organisms/DonationEditFormModal";
 import DonationFormInfoModal from "../organisms/DonationFormInfoModal";
 import DonationFormProgressStepper from "../atoms/DonationFormProgressStepper";
 import DropdownMenu from "../atoms/DropdownMenu";
-import { ItemStatusToReadableString } from "../utils/donationForm";
 import Tag from "../atoms/Tag";
 
 export interface Props {
@@ -24,8 +24,15 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     const [selectedDonationFormForDropoff, setSelectedDonationFormForDropoff] = useState<DonationForm | null>(null);
 
     const updateDonationFormStatusMutation = gql`
-        mutation UpdateDonationFormStatus($id: ID!, $status: DonationItemStatus!, $donatedAt: String) {
-            updateDonationForm(donationForm: { _id: $id, status: $status, donatedAt: $donatedAt }) {
+        mutation UpdateDonationFormStatus(
+            $id: ID!
+            $status: DonationItemStatus!
+            $donatedAt: String
+            $matchedAt: String
+        ) {
+            updateDonationForm(
+                donationForm: { _id: $id, status: $status, donatedAt: $donatedAt, matchedAt: $matchedAt }
+            ) {
                 _id
             }
         }
@@ -41,21 +48,6 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
 
     const [updateDonationFormStatus] = useMutation(updateDonationFormStatusMutation);
     const [deleteDonationForm] = useMutation(deleteDonationFormMutation);
-
-    const getContactName = (contact?: DonationFormContact) => {
-        const firstName = contact?.firstName ?? "";
-        const lastName = contact?.lastName ?? "";
-        if (contact == null || (firstName.length === 0 && lastName.length === 0)) {
-            return null;
-        }
-        if (firstName.length !== 0 && lastName.length !== 0) {
-            return firstName + " " + lastName;
-        }
-        if (firstName.length !== 0) {
-            return firstName;
-        }
-        return lastName;
-    };
 
     const getReadableStringForItemStatus = (itemStatus?: ItemStatus) => {
         if (itemStatus == null) {
@@ -113,9 +105,10 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         donationFormId: string,
         newStatus: ItemStatus,
         donatedAt?: string | null,
+        matchedAt?: string | null,
         updateCallback?: () => void
     ) => {
-        updateDonationFormStatus({ variables: { id: donationFormId, status: newStatus, donatedAt } })
+        updateDonationFormStatus({ variables: { id: donationFormId, status: newStatus, donatedAt, matchedAt } })
             .then(() => {
                 if (newStatus === ItemStatus.MATCHED) {
                     removeDonationFormFromDisplay(donationFormId);
@@ -161,7 +154,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                 setSelectedDonationFormForDropoff(donationForm);
                 break;
             case ItemStatus.MATCHED:
-                setDonationFormStatus(donationForm._id as string, newStatus);
+                setDonationFormStatus(donationForm._id as string, newStatus, undefined, Date.now().toString());
                 break;
         }
     };
@@ -187,6 +180,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
             donationForm._id as string,
             ItemStatus.PENDING_MATCH,
             Date.now().toString(),
+            undefined,
             updateDonationForm
         );
         setSelectedDonationFormForDropoff(null);
@@ -261,7 +255,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                         <td />
                         <td />
                     </tr>
-                    {donationForms.sort().map((donationForm: DonationForm) => (
+                    {donationForms.map((donationForm: DonationForm) => (
                         <>
                             <tr
                                 key={donationForm._id}

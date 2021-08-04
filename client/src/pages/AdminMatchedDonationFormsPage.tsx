@@ -3,25 +3,24 @@ import React, { FunctionComponent, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import AdminPage from "../components/layouts/AdminPage";
 import { DonationForm } from "../data/types/donationForm";
+import MatchedDonationFormsTable from "../components/molecules/MatchedDonationFormsTable";
 import Nav from "react-bootstrap/Nav";
 import { Spinner } from "react-bootstrap";
-import UnmatchedDonationFormsTable from "../components/molecules/UnmatchedDonationFormsTable";
 
-const AdminUnmatchedDonationFormPage: FunctionComponent = () => {
+const AdminMatchedDonationFormsPage: FunctionComponent = () => {
     const [donationForms, setDonationForms] = useState<Array<DonationForm> | null>(null);
 
     const getDonationFormsQuery = gql`
         query GetDonationForms {
-            donationForms: donationFormsPage(filterOptions: { deleted: false, statusNot: MATCHED }) {
+            donationForms: donationFormsPage(filterOptions: { deleted: false, status: MATCHED }, sortBy: MATCHED_AT) {
                 _id
                 contact {
                     firstName
                     lastName
                 }
-                createdAt
                 name
                 quantity
-                status
+                matchedAt
             }
         }
     `;
@@ -35,24 +34,24 @@ const AdminUnmatchedDonationFormPage: FunctionComponent = () => {
     });
 
     return (
-        <div className="admin-unmatched-donation-forms-page">
+        <div className="admin-matched-donation-forms-page">
             <AdminPage>
                 <div className="page-header">
-                    <Nav.Link className="link active" href="/unmatched-forms">
+                    <Nav.Link className="link" href="/unmatched-forms">
                         Forms
                     </Nav.Link>
-                    <Nav.Link className="link" href="/matched-forms">
+                    <Nav.Link className="link active" href="/matched-forms">
                         Matched
                     </Nav.Link>
                 </div>
                 {donationForms == null ? (
                     <Spinner animation="border" role="status" />
                 ) : (
-                    <UnmatchedDonationFormsTable initialDonationForms={donationForms} />
+                    <MatchedDonationFormsTable initialDonationForms={donationForms} />
                 )}
             </AdminPage>
         </div>
     );
 };
 
-export default AdminUnmatchedDonationFormPage;
+export default AdminMatchedDonationFormsPage;

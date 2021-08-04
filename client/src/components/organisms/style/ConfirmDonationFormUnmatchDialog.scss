@@ -1,0 +1,37 @@
+.confirm-donation-form-unmatch-dialog {
+    .modal-dialog {
+        width: 35%;
+    }
+
+    .modal-header {
+        border-bottom: $border-line;
+        height: 50px;
+        display: block;
+
+        button.close {
+            // Modal close button provided by bootstrap
+            margin-top: -45px;
+        }
+
+        .modal-title {
+            @include heavy-text;
+            font-size: 18px;
+            line-height: 22px;
+        }
+    }
+
+    .modal-body {
+        padding: 16px 32px 22px 32px;
+    }
+
+    .form-modal-buttons {
+        width: 60%;
+        margin-top: 5px;
+        align-self: flex-end;
+
+        .form-modal-cancel-button,
+        .form-modal-submit-button {
+            width: 48%;
+        }
+    }
+}

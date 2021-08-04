@@ -95,7 +95,7 @@ const DonationFormInfoModal: FunctionComponent<Props> = (props: Props) => {
                             </span>
                         </div>
                     )}
-                    {donationForm.age && (
+                    {ageDescription && (
                         <div className="field item-age">
                             <span>
                                 <strong>Age:</strong> {ageDescription}

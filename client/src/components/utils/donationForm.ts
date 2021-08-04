@@ -1,4 +1,4 @@
-import { ItemCondition, ItemStatus } from "../../data/types/donationForm";
+import { DonationFormContact, ItemCondition, ItemStatus } from "../../data/types/donationForm";
 
 export const ItemConditionToDescriptionMap = new Map<ItemCondition, string>([
     [ItemCondition.BRAND_NEW, "Brand New (still in package)"],
@@ -37,4 +37,19 @@ export const getItemAgeDescription = (age: number): string => {
         return descriptionArr[descriptionArr.length - 1];
     }
     return descriptionArr[age];
+};
+
+export const getContactName = (contact?: DonationFormContact): string | null => {
+    const firstName = contact?.firstName ?? "";
+    const lastName = contact?.lastName ?? "";
+    if (contact == null || (firstName.length === 0 && lastName.length === 0)) {
+        return null;
+    }
+    if (firstName.length !== 0 && lastName.length !== 0) {
+        return firstName + " " + lastName;
+    }
+    if (firstName.length !== 0) {
+        return firstName;
+    }
+    return lastName;
 };

@@ -1,6 +1,11 @@
 import { DonationForm, DonationFormInterface } from "../../database/models/donationFormModel";
 import { RequestGroup, RequestGroupInterface } from "../../database/models/requestGroupModel";
 
+enum SortOptions {
+    CREATED_AT = "CREATED_AT",
+    MATCHED_AT = "MATCHED_AT"
+}
+
 const donationFormEmbeddingFromDonationForm = (donationForm: DonationFormInterface) => {
     return {
         _id: donationForm._id
@@ -19,7 +24,7 @@ const donationFormQueryResolvers = {
     donationForms: async (_, __, ___): Promise<Array<DonationFormInterface>> => {
         return DonationForm.find().exec();
     },
-    donationFormsPage: async (_, { skip, limit, filterOptions }, __): Promise<Array<DonationFormInterface>> => {
+    donationFormsPage: async (_, { skip, limit, filterOptions, sortBy }, __): Promise<Array<DonationFormInterface>> => {
         const { name, deleted, requestGroup, formType, status, statusNot } = filterOptions;
         const filter: any = {};
 
@@ -46,7 +51,14 @@ const donationFormQueryResolvers = {
             filter.status = { $ne: statusNot };
         }
 
-        return DonationForm.find(filter).sort({ createdAt: "descending" }).skip(skip).limit(limit).exec();
+        let sortConfig: any = { createdAt: "descending" };
+        if (sortBy === SortOptions.MATCHED_AT) {
+            sortConfig = {
+                matchedAt: "descending"
+            };
+        }
+
+        return DonationForm.find(filter).sort(sortConfig).skip(skip).limit(limit).exec();
     }
 };
 

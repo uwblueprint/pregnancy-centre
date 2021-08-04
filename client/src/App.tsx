@@ -2,6 +2,7 @@ import "./App.scss";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
 
+import AdminMatchedDonationFormsPage from "./pages/AdminMatchedDonationFormsPage";
 import AdminRequestGroupsPage from "./pages/AdminRequestGroupsPage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView";
 import AdminUnmatchedDonationFormsPage from "./pages/AdminUnmatchedDonationFormsPage";
@@ -26,6 +27,7 @@ function App(): JSX.Element {
                     <Route path="/needs" component={AdminRequestGroupsPage} />
                     <Route path="/need/:id" component={AdminRequestGroupView} />
                     <Route path="/unmatched-forms" component={AdminUnmatchedDonationFormsPage} />
+                    <Route path="/matched-forms" component={AdminMatchedDonationFormsPage} />
                     <Route path="/donation-form" component={DonationForm} />
                     <Route path="/" component={DonorHomepage} />
                 </Switch>
