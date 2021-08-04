@@ -14,8 +14,6 @@ interface Props {
 }
 
 const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
-    const emailAddress = "reception@pregnancycentre.ca";
-
     const [requestGroupData, setRequestGroupData] = useState<RequestGroup | undefined>(undefined);
 
     const query = gql`
@@ -77,19 +75,10 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                                 title="CAN YOU MEET A NEED?"
                                 text="To arrange your donation, contact the Pregnancy Center directly at 519-886-4001 or send an email."
                                 buttonProps={{
-                                    text: "Send an email",
-                                    onClick: (e) => {
-                                        const button = e.target as HTMLButtonElement;
-                                        button.textContent = "Email copied";
-                                        button.classList.add("alt-button");
-
-                                        setTimeout(() => {
-                                            button.textContent = "Send an email";
-                                            button.classList.remove("alt-button");
-                                        }, 5000);
-                                    },
-                                    copyText: emailAddress
+                                    text: "Donate an item",
+                                    copyText: ""
                                 }}
+                                buttonLink="/donation-form"
                             />
                         </div>
                         <div id="description">
