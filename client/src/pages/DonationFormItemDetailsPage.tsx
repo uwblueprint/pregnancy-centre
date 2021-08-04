@@ -1,4 +1,6 @@
+import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
 
 import { DonationForm as BaseDonationForm } from "../data/types/donationForm";
 import DonationFormPage from "../components/layouts/DonationFormPage";
@@ -23,16 +25,27 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
             ? [{ isSaved: false, isSavedBefore: false }]
             : props.initialDonationForms
     );
+    const [requestGroups, setRequestGroups] = useState<Array<RequestGroup> | null>(null);
     const [formDetailsError, setFormDetailsError] = useState("");
     const [numSavedBeforeDonationForms, setNumSavedBeforeDonationForms] = useState(props.initialDonationForms.length);
     const [existsSavedDonationFormsBeingEdited, setExistsSavedDonationFormsBeingEdited] = useState(false);
 
-    // TODO(meganniu): replace mock request groups with data from GraphQL query
-    const requestGroups: Array<RequestGroup> = [
-        { _id: "1", name: "Bassinet" },
-        { _id: "2", name: "Exersaucer" },
-        { _id: "3", name: "Bag" }
-    ];
+    const fetchRequestGroupsQuery = gql`
+        query FetchRequestGroups {
+            requestGroups {
+                _id
+                name
+            }
+        }
+    `;
+
+    useQuery(fetchRequestGroupsQuery, {
+        fetchPolicy: "network-only",
+        onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
+            const requestGroups: Array<RequestGroup> = JSON.parse(JSON.stringify(data.requestGroups)); // deep-copy since data object is frozen
+            setRequestGroups(requestGroups);
+        }
+    });
 
     const updateFormDetailsError = () => {
         let error = "";
@@ -86,7 +99,6 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
     };
 
     const onPreviousPage = () => {
-        console.log(donationForms);
         props.onPrevious(donationForms);
     };
 
@@ -126,40 +138,46 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
             previousButtonText="Back"
             steps={props.steps}
         >
-            <>
-                {donationForms.map((donationForm, idx) =>
-                    donationForm.isSaved ? (
-                        <DonationItemCard
-                            donationForm={donationForm}
-                            key={idx}
-                            showDeleteIcon={donationForms.length > 1}
-                            onEdit={() => onEditDonationForm(idx)}
-                            onDelete={() => onDeleteDonationForm(idx)}
-                            showEditIcon={true}
-                        />
-                    ) : (
-                        <>
-                            {idx !== 0 && donationForms[idx - 1].isSaved && <HorizontalDividerLine />}
-                            <DonationItemForm
+            {requestGroups == null ? (
+                <Spinner animation="border" role="status" />
+            ) : (
+                <>
+                    {donationForms.map((donationForm, idx) =>
+                        donationForm.isSaved ? (
+                            <DonationItemCard
                                 donationForm={donationForm}
                                 key={idx}
-                                requestGroups={requestGroups}
-                                showDeleteButton={donationForms.length > 1}
-                                formDetailsError={formDetailsError}
-                                onChange={(newDonationForm: DonationForm) => {
-                                    onChangeDonationForm(newDonationForm, idx);
-                                }}
+                                showDeleteIcon={donationForms.length > 1}
+                                onEdit={() => onEditDonationForm(idx)}
                                 onDelete={() => onDeleteDonationForm(idx)}
-                                onSave={(newDonationForm: DonationForm) => onChangeDonationForm(newDonationForm, idx)}
+                                showEditIcon={true}
                             />
-                            {idx !== donationForms.length - 1 && <HorizontalDividerLine />}
-                        </>
-                    )
-                )}
-                <p className="add-item-trigger" onClick={onCreateDonationForm}>
-                    {donationForms.length === 0 ? "+ Donate an Item" : "+ Donate Another Item"}
-                </p>
-            </>
+                        ) : (
+                            <>
+                                {idx !== 0 && donationForms[idx - 1].isSaved && <HorizontalDividerLine />}
+                                <DonationItemForm
+                                    donationForm={donationForm}
+                                    key={idx}
+                                    requestGroups={requestGroups}
+                                    showDeleteButton={donationForms.length > 1}
+                                    formDetailsError={formDetailsError}
+                                    onChange={(newDonationForm: DonationForm) => {
+                                        onChangeDonationForm(newDonationForm, idx);
+                                    }}
+                                    onDelete={() => onDeleteDonationForm(idx)}
+                                    onSave={(newDonationForm: DonationForm) =>
+                                        onChangeDonationForm(newDonationForm, idx)
+                                    }
+                                />
+                                {idx !== donationForms.length - 1 && <HorizontalDividerLine />}
+                            </>
+                        )
+                    )}
+                    <p className="add-item-trigger" onClick={onCreateDonationForm}>
+                        {donationForms.length === 0 ? "+ Donate an Item" : "+ Donate Another Item"}
+                    </p>
+                </>
+            )}
         </DonationFormPage>
     );
 };
