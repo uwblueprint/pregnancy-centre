@@ -1,12 +1,12 @@
 .navbar {
-    height: 156px;
+    height: 100px;
     padding-left: 80px;
     @media (max-width: 992px) {
         padding-left: 50px;
     }
     padding-right: 45px;
     display: flex;
-    justify-content: space-between;
+    border-bottom: $border-line;
 }
 
 .logo {
@@ -17,14 +17,27 @@
 .navbar-links {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
 
-    & .nav-link {
+    .nav-link {
+        @include light-text;
         padding: 0;
         margin: 0 25px;
 
         color: inherit;
-        font-weight: 600;
         font-size: 16px;
         line-height: 19px;
+    }
+
+    .left,
+    .right {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .active {
+        @include heavy-text;
     }
 }

@@ -113,9 +113,11 @@ const typeDefs = gql`
     # }
 
     input DonationFormFilterOptions {
+        deleted: Boolean
         requestGroup: ID
         formType: DonationItemType
         status: DonationItemStatus
+        statusNot: DonationItemStatus
     }
 
     enum DonationItemType {

@@ -1,0 +1,27 @@
+.dropdown-menu-atom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .trigger {
+        cursor: pointer;
+    }
+
+    .menu-anchor {
+        position: relative;
+        height: 100%;
+    }
+
+    .menu {
+        border-radius: $box-border-radius;
+        background: $dropdown-color;
+        box-shadow: $dropdown-box-shadow;
+
+        display: flex;
+        flex-direction: column;
+
+        position: absolute;
+        height: unset;
+        z-index: 99;
+    }
+}

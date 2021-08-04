@@ -1,4 +1,4 @@
-.request-group-table {
+.unmatched-donation-forms-table {
     @include table-base;
 
     table {
@@ -52,43 +52,6 @@
         -webkit-border-bottom-right-radius: 4px;
     }
 
-    .data-row:hover {
-        td:not(.spacing-col) {
-            background-color: $selected-item-background;
-        }
-    }
-
-    .name-col {
-        width: 222px;
-        overflow: hidden;
-        word-wrap: break-word;
-    }
-    .numOpen-col {
-        width: 146px;
-        overflow: hidden;
-        word-wrap: break-word;
-    }
-    .types-col {
-        width: 370px;
-        overflow: hidden;
-        word-wrap: break-word;
-    }
-    .nextRecipient-col {
-        width: 272px;
-        overflow: hidden;
-        word-wrap: break-word;
-    }
-    .date-col {
-        width: 178px;
-        overflow: hidden;
-        word-wrap: break-word;
-    }
-    .image-col {
-        width: 136px;
-        overflow: hidden;
-        word-wrap: break-word;
-    }
-
     .spacing-row {
         td {
             height: 0px;
@@ -103,7 +66,7 @@
 
         td {
             height: 0px;
-            padding: 5px 0;
+            padding: 0;
 
             .border-line {
                 height: 0px;
@@ -112,35 +75,101 @@
         }
     }
 
-    .requestType-tag-list {
-        display: flex;
-        flex-wrap: wrap;
-
-        .requestType-tag-list-item {
-            padding: 3px;
+    .data-row:hover {
+        td:not(.spacing-col) {
+            background-color: $selected-item-background;
         }
     }
 
-    .img-wrapper {
-        width: 80px;
-        height: 59px;
-        border-radius: $box-border-radius;
+    .spacing-col {
+        width: 5%;
+    }
+
+    .item-col {
+        width: 13%;
         overflow: hidden;
+        word-wrap: break-word;
+    }
 
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+    .contact-col {
+        width: 12%;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+
+    .quantity-col {
+        width: 8%;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+
+    .date-submitted-col {
+        width: 12%;
+        overflow: hidden;
+        word-wrap: break-word;
+        // display: flex;
+        // flex-direction: column;
+    }
+
+    .status-col {
+        width: 16%;
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+
+    .status-progress-col {
+        width: 16%;
+        overflow: hidden;
+        word-wrap: break-word;
+        padding-right: 6px;
+    }
+
+    .menu-col {
+        width: 8%;
+        word-wrap: break-word;
+    }
+
+    .date-submitted {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .pending-approval-tag {
+        background: #ff8a001a;
+        color: #ff8a00;
+    }
+
+    .pending-dropoff-tag {
+        background: #65bf731a;
+        color: #65bf73;
+    }
+
+    .pending-match-tag {
+        background: #2097f61a;
+        color: #2097f6;
+    }
+
+    .menu-anchor {
+        margin-left: -150px;
+    }
+
+    .menu {
+        width: 170px;
+    }
+
+    .menu-option {
+        @include semibold-text;
+        font-size: 16px;
+        padding: 14px 20px;
+        width: 100%;
+        cursor: pointer;
+
+        &:hover {
+            background: $dropdown-item-focus-color;
         }
     }
 
-    .no-groups-msg {
-        margin-left: 80px;
-
-        .create-group-link {
-            @include semibold-text;
-            color: $tpc-green;
-            cursor: pointer;
-        }
+    .no-forms-msg {
+        margin-left: 6%;
     }
 }
