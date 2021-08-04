@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { DonationForm } from "../../data/types/donationForm";
 import MatchingRequestTypeDropdown from "../molecules/MatchingRequestTypeDropdown";
+import Request from "../../data/types/request";
 import RequestType from "../../data/types/requestType";
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
     donationForm: DonationForm;
     isMatching: boolean;
     isErroneous: boolean;
-    onQuantitySelected: (newQuantity: number, requestId: string) => void;
+    onQuantitySelected: (newQuantity: number, request: Request) => void;
 }
 
 const MatchingRequestTypeDropdownList: FunctionComponent<Props> = (props: Props) => {

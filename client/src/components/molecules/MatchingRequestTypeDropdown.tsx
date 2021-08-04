@@ -12,7 +12,7 @@ interface Props {
     donationForm: DonationForm;
     isMatching: boolean;
     isErroneous: boolean;
-    onQuantitySelected: (newQuantity: number, requestId: string) => void;
+    onQuantitySelected: (newQuantity: number, request: Request) => void;
 }
 
 const MatchingRequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {

@@ -5,15 +5,15 @@ import DonationMatchingRequestsTable from "../molecules/DonationMatchingRequests
 import MatchingRequestTypeDropdownList from "./MatchingRequestTypeDropdownList";
 import Request from "../../data/types/request";
 
-interface Props {
+interface MatchingRequestViewProps {
     requests: Request[];
     donationForm: DonationForm;
     isMatching: boolean;
     isErroneous: boolean;
-    onQuantitySelected: (newQuantity: number, requestId: string) => void;
+    onQuantitySelected: (newQuantity: number, request: Request) => void;
 }
 
-const MatchingRequestsView: FunctionComponent<Props> = (props: Props) => {
+const MatchingRequestsView: FunctionComponent<MatchingRequestViewProps> = (props: MatchingRequestViewProps) => {
     const requestGroup = props.donationForm.requestGroup;
     return (
         <div className="matching-requests-view">

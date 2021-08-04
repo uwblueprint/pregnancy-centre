@@ -232,7 +232,7 @@ const MatchingRequestTableContainer: FunctionComponent<Record<string, never>> = 
             <DonationMatchingRequestsTable
                 requests={requests}
                 donationForm={curDonationForm}
-                onQuantitySelected={onQuantitySelected}
+                onQuantitySelected={() => {}}
                 isMatching={true}
                 isErroneous={false}
             />
@@ -241,7 +241,7 @@ const MatchingRequestTableContainer: FunctionComponent<Record<string, never>> = 
             <DonationMatchingRequestsTable
                 requests={requests}
                 donationForm={curDonationForm}
-                onQuantitySelected={onQuantitySelected}
+                onQuantitySelected={() => {}}
                 isMatching={true}
                 isErroneous={true}
             />

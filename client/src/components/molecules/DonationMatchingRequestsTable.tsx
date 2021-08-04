@@ -12,7 +12,7 @@ interface Props {
     donationForm: DonationForm;
     isMatching: boolean;
     isErroneous: boolean; // indicates whether the selected quantities are erroneous
-    onQuantitySelected: (newQuantity: number, requestId: string) => void;
+    onQuantitySelected: (newQuantity: number, request: Request) => void;
 }
 
 type RequestQuantities = {
@@ -67,8 +67,8 @@ const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) =
         return quantity + totalRequired;
     };
 
-    const onQuantityChange = (quantity: number, requestId: string) => {
-        props.onQuantitySelected(quantity, requestId);
+    const onQuantityChange = (quantity: number, request: Request) => {
+        props.onQuantitySelected(quantity, request);
         setReqCurrentlyEditing("");
     };
 
@@ -121,7 +121,7 @@ const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) =
                                                 { length: maxSelection + 1 },
                                                 (_, index) => index
                                             ).map((value, index) => (
-                                                <span key={index} onClick={() => onQuantityChange(value, request._id!)}>
+                                                <span key={index} onClick={() => onQuantityChange(value, request)}>
                                                     {value}
                                                 </span>
                                             ))}
