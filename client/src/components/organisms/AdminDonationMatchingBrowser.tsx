@@ -144,6 +144,9 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             const totalMatched = res.quantity - res.quantityRemaining;
             setTotalQuantitySelected(totalMatched);
 
+            // save the initial state
+            saveCurrentState(res);
+
             if (res.requestGroup != null) {
                 setHasRequestGroup(true);
 
@@ -155,9 +158,6 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
                     []
                 );
                 setRequests(openRequests);
-
-                // save the initial state
-                saveCurrentState(res);
             }
         }
     });
@@ -242,14 +242,16 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             // save current donation form
             saveCurrentState(curDonationForm!);
 
-            // update available donation forms with newly saved donation form
-            const updatedDonations = availableDonations;
-            const changedDonationIndex = updatedDonations.findIndex(
-                (donation) => donation._id === curDonationForm?._id
-            );
-            if (changedDonationIndex !== -1) {
-                updatedDonations[changedDonationIndex] = curDonationForm!;
-                setAvailableDonations(updatedDonations);
+            if (hasRequestGroup) {
+                // update available donation forms with newly saved donation form
+                const updatedDonations = availableDonations;
+                const changedDonationIndex = updatedDonations.findIndex(
+                    (donation) => donation._id === curDonationForm?._id
+                );
+                if (changedDonationIndex !== -1) {
+                    updatedDonations[changedDonationIndex] = curDonationForm!;
+                    setAvailableDonations(updatedDonations);
+                }
             }
         }
     };
@@ -276,12 +278,14 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
     const updateRequestMatches = (request: Request, newMatches: DonationFormContributionTuple[]) => {
         const reqIndex = requests.findIndex((req) => req._id === request._id);
 
-        // update the request inside of the requestGroup
-        const requestType = curDonationForm?.requestGroup?.requestTypes?.find(
-            (type) => type._id === request?.requestType?._id
-        );
-        const foundRequest = requestType?.openRequests?.find((r) => r._id === request._id);
-        foundRequest!.matchedDonations! = newMatches;
+        if (hasRequestGroup) {
+            // update the request inside of the requestGroup
+            const requestType = curDonationForm?.requestGroup?.requestTypes?.find(
+                (type) => type._id === request?.requestType?._id
+            );
+            const foundRequest = requestType?.openRequests?.find((r) => r._id === request._id);
+            foundRequest!.matchedDonations! = newMatches;
+        }
 
         // update the request in the array
         setRequests([
@@ -365,7 +369,6 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
             setIsMatching(true);
             setTotalQuantitySelected(curDonationForm!.quantity! - curDonationForm!.quantityRemaining!);
         } else {
-            console.log("pushing id: ", newId);
             history.push(`/matching/donation-form/${newId}`);
         }
     };
