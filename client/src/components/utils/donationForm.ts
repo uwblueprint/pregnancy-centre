@@ -39,7 +39,7 @@ export const getItemAgeDescription = (age: number): string => {
     return descriptionArr[age];
 };
 
-export const getContactName = (contact?: DonationFormContact) => {
+export const getContactName = (contact?: DonationFormContact): string | null => {
     const firstName = contact?.firstName ?? "";
     const lastName = contact?.lastName ?? "";
     if (contact == null || (firstName.length === 0 && lastName.length === 0)) {

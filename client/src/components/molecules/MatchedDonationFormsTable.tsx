@@ -3,6 +3,7 @@ import React, { FunctionComponent, useState } from "react";
 import moment from "moment";
 
 import { Button } from "../atoms/Button";
+import ConfirmDonationFormUnmatchDialog from "../organisms/ConfirmDonationFormUnmatchDialog";
 import { DonationForm } from "../../data/types/donationForm";
 import DonationFormInfoModal from "../organisms/DonationFormInfoModal";
 import { getContactName } from "../utils/donationForm";
@@ -16,6 +17,7 @@ const MatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => {
     const [selectedDonationFormForInspection, setSelectedDonationFormForInspection] = useState<DonationForm | null>(
         null
     );
+    const [selectedDonationFormForUnmatch, setSelectedDonationFormForUnmatch] = useState<DonationForm | null>(null);
 
     const unmatchDonationFormMutation = gql`
         mutation UnmatchDonationForm($id: ID!) {
@@ -48,6 +50,23 @@ const MatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => {
                     donationFormId={selectedDonationFormForInspection._id}
                     handleClose={() => {
                         setSelectedDonationFormForInspection(null);
+                    }}
+                />
+            )}
+            {selectedDonationFormForUnmatch && (
+                <ConfirmDonationFormUnmatchDialog
+                    contactName={getContactName(selectedDonationFormForUnmatch.contact)}
+                    handleClose={() => {
+                        setSelectedDonationFormForUnmatch(null);
+                    }}
+                    itemName={selectedDonationFormForUnmatch.name ?? null}
+                    onCancel={() => {
+                        setSelectedDonationFormForUnmatch(null);
+                    }}
+                    onSubmit={(e: React.FormEvent) => {
+                        e.preventDefault();
+                        unmatchDonationForm(selectedDonationFormForUnmatch._id as string);
+                        setSelectedDonationFormForUnmatch(null);
                     }}
                 />
             )}
@@ -118,7 +137,7 @@ const MatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => {
                                                 copyText=""
                                                 onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                                                     e.stopPropagation();
-                                                    unmatchDonationForm(donationForm._id as string);
+                                                    setSelectedDonationFormForUnmatch(donationForm);
                                                 }}
                                             />
                                         </td>

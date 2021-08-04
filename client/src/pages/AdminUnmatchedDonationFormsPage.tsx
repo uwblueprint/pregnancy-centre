@@ -38,8 +38,12 @@ const AdminUnmatchedDonationFormPage: FunctionComponent = () => {
         <div className="admin-unmatched-donation-forms-page">
             <AdminPage>
                 <div className="page-header">
-                    <Nav.Link className="link active" href="/unmatched-forms">Forms</Nav.Link>
-                    <Nav.Link className="link" href="/matched-forms">Matched</Nav.Link>
+                    <Nav.Link className="link active" href="/unmatched-forms">
+                        Forms
+                    </Nav.Link>
+                    <Nav.Link className="link" href="/matched-forms">
+                        Matched
+                    </Nav.Link>
                 </div>
                 {donationForms == null ? (
                     <Spinner animation="border" role="status" />
