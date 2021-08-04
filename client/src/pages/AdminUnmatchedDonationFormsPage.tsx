@@ -14,13 +14,9 @@ const AdminUnmatchedDonationFormPage: FunctionComponent = () => {
         query GetDonationForms {
             donationForms: donationFormsPage(filterOptions: { deleted: false, statusNot: MATCHED }) {
                 _id
-                adminNotes
-                condition
                 contact {
                     firstName
                     lastName
-                    email
-                    phoneNumber
                 }
                 createdAt
                 name
