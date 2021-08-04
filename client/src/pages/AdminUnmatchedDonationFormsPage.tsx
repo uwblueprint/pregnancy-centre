@@ -3,6 +3,7 @@ import React, { FunctionComponent, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import AdminPage from "../components/layouts/AdminPage";
 import { DonationForm } from "../data/types/donationForm";
+import Nav from "react-bootstrap/Nav";
 import { Spinner } from "react-bootstrap";
 import UnmatchedDonationFormsTable from "../components/molecules/UnmatchedDonationFormsTable";
 
@@ -41,8 +42,8 @@ const AdminUnmatchedDonationFormPage: FunctionComponent = () => {
         <div className="admin-unmatched-donation-forms-page">
             <AdminPage>
                 <div className="page-header">
-                    <span className="link active">Forms</span>
-                    <span className="link">Matched</span>
+                    <Nav.Link className="link active" href="/unmatched-forms">Forms</Nav.Link>
+                    <Nav.Link className="link" href="/matched-forms">Matched</Nav.Link>
                 </div>
                 {donationForms == null ? (
                     <Spinner animation="border" role="status" />

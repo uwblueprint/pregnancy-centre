@@ -25,7 +25,7 @@ function App(): JSX.Element {
                     <Route path="/email-password-reset" strict component={SendResetPasswordEmailModal} />
                     <Route path="/needs" component={AdminRequestGroupsPage} />
                     <Route path="/need/:id" component={AdminRequestGroupView} />
-                    <Route path="/forms" component={AdminUnmatchedDonationFormsPage} />
+                    <Route path="/unmatched-forms" component={AdminUnmatchedDonationFormsPage} />
                     <Route path="/donation-form" component={DonationForm} />
                     <Route path="/" component={DonorHomepage} />
                 </Switch>
