@@ -48,7 +48,6 @@ const DonationFormInfoModal: FunctionComponent<Props> = (props: Props) => {
             onCompleted: (data: { donationForm: DonationForm }) => {
                 const donationFormCopy: DonationForm = JSON.parse(JSON.stringify(data.donationForm)); // deep-copy since data object is frozen
                 setDonationForm(donationFormCopy);
-                console.log(donationFormCopy);
             }
         });
     }

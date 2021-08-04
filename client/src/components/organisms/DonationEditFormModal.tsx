@@ -28,9 +28,7 @@ const DonationEditFormModal: FunctionComponent<Props> = (props: Props) => {
 
     const [updateDonationForm] = useMutation(updateDonationFormMutation, {
         onCompleted: () => {
-            console.log("HERE4");
             const newDonationForm = { ...props.donationForm, quantity, adminNotes: notes.trim() ?? null };
-            console.log(newDonationForm);
             props.onSubmitComplete(newDonationForm);
         },
         onError: (error) => {
@@ -55,11 +53,8 @@ const DonationEditFormModal: FunctionComponent<Props> = (props: Props) => {
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("HERE");
         const tempQuantityError = updateQuantityError(quantity);
-        console.log("HERE2");
         if (tempQuantityError.length === 0) {
-            console.log("HERE3");
             updateDonationForm({
                 variables: {
                     id: props.donationForm._id,

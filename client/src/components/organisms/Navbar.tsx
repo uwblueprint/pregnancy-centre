@@ -17,7 +17,6 @@ interface Props {
 
 const Navbar: FunctionComponent<Props> = (props: Props) => {
     const location = useLocation();
-    console.log(location.pathname)
     const getLinksJSX = (links: Link[]) =>
         links.map((link: Link) => (
             <Nav.Link className={link.path === location.pathname ? "active" : ""} href={link.path} key={link.name}>
