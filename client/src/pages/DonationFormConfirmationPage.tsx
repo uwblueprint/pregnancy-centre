@@ -26,7 +26,7 @@ const DonationFormConfirmationPage: FunctionComponent<Props> = (props: Props) =>
                 <strong>{props.donorEmail}</strong>
             </p>
             <p>
-                If you have any questions or concerns feel free to reach out to: rebeccaferguson@thepregnancycentre.ca
+                If you have any questions or concerns feel free to reach out to: rebecca@pregnancycentre.ca
             </p>
             <p>Every item matters, your donation is greatly appreciated!</p>
             <Button text="Back to Main Donation Page" copyText="" onClick={() => history.push("/")} />
