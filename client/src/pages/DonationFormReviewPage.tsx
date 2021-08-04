@@ -29,7 +29,6 @@ const DonationFormReviewPage: FunctionComponent<Props> = (props: Props) => {
             $phoneNumber: String
             $quantity: Int!
             $requestGroup: ID
-            $status: DonationItemStatus
         ) {
             donationForm: createDonationForm(
                 donationForm: {
@@ -41,7 +40,7 @@ const DonationFormReviewPage: FunctionComponent<Props> = (props: Props) => {
                     quantity: $quantity
                     quantityRemaining: $quantity
                     requestGroup: $requestGroup
-                    status: $status
+                    status: PENDING_APPROVAL
                 }
             ) {
                 _id
@@ -68,8 +67,7 @@ const DonationFormReviewPage: FunctionComponent<Props> = (props: Props) => {
                     name: donationForm.name,
                     phoneNumber: props.donor.phoneNumber,
                     quantity: donationForm.quantity,
-                    requestGroup: donationForm.requestGroup?._id,
-                    status: donationForm.status
+                    requestGroup: donationForm.requestGroup?._id
                 }
             })
         );
