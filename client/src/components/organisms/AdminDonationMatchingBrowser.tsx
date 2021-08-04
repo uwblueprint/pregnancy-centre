@@ -10,11 +10,17 @@ import MatchingRequestsView from "./MatchingRequestsView";
 import Request from "../../data/types/request";
 import RequestGroup from "../../data/types/requestGroup";
 import { useHistory } from "react-router-dom";
+
+interface AdminDonationMatchingBrowserProps {
+    setHasUnsavedChanges: (arg: React.SetStateAction<boolean>) => void;
+}
 interface ParamTypes {
     id: string;
 }
 
-const AdminDonationMatchingBrowser: FunctionComponent = () => {
+const AdminDonationMatchingBrowser: FunctionComponent<AdminDonationMatchingBrowserProps> = (
+    props: AdminDonationMatchingBrowserProps
+) => {
     const { id } = useParams<ParamTypes>();
     const history = useHistory();
 
@@ -163,6 +169,10 @@ const AdminDonationMatchingBrowser: FunctionComponent = () => {
 
     const [updateRequests] = useMutation(updateRequestsMutation);
     const [updateDonationForm] = useMutation(updateDonationFormMutation);
+
+    useEffect(() => {
+        props.setHasUnsavedChanges(!isSaved && updatedRequestsInput.length > 0);
+    }, [isSaved, updatedRequestsInput.length]);
 
     useEffect(() => {
         resetMatchingState();
