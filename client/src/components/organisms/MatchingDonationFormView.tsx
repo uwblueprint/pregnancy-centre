@@ -1,4 +1,3 @@
-import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
 
 import { Button } from "../atoms/Button";
@@ -6,76 +5,34 @@ import { DonationForm } from "../../data/types/donationForm";
 import DonationFormInfoDisplay from "./DonationFormInfoDisplay";
 import DonationFormInfoModal from "./DonationFormInfoModal";
 import DonationFormMatchingCard from "../atoms/DonationFormMatchingCard";
-import RequestGroup from "../../data/types/requestGroup";
 import { useEffect } from "react";
 interface MatchingDonationFormViewProps {
     donationForm: DonationForm;
+    availableDonations: DonationForm[];
     isSaved: boolean;
     isMatching: boolean;
     matchingError: string;
     onBrowseDonationForms: () => void;
+    onDonationFormSelect: (id: string) => void;
     onConfirmMatches: () => void;
 }
 
 const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps> = (
     props: MatchingDonationFormViewProps
 ) => {
-    const [availableDonations, setAvailableDonations] = useState<DonationForm[]>([]);
+    const [availableDonations, setAvailableDonations] = useState<DonationForm[]>(props.availableDonations);
     const [sortByEarliest, setSortByEarliest] = useState(true);
     const [curInfoModalShown, setCurInfoModalShown] = useState<string>("");
 
     useEffect(() => {
-        // update the donation form in the list
-        const newDonations = availableDonations;
-        const index = availableDonations.findIndex((donationForm) => donationForm._id === props.donationForm._id);
-        if (index !== -1) {
-            newDonations[index] = props.donationForm;
-            setAvailableDonations(newDonations);
-        }
-    }, [props.donationForm]);
-
-    const onChangeSort = () => {
-        const newSortByEarliest = !sortByEarliest;
-        setSortByEarliest(newSortByEarliest);
-        const sortedDonations = availableDonations.sort((a, b) => {
-            if (newSortByEarliest) {
+        const sortedDonations = props.availableDonations.sort((a, b) => {
+            if (sortByEarliest) {
                 return b!.createdAt!.valueOf() - a!.createdAt!.valueOf();
             }
             return a!.createdAt!.valueOf() - b!.createdAt!.valueOf();
         });
         setAvailableDonations(sortedDonations);
-    };
-
-    const donationsByRequestGroupQuery = gql`
-        query AllDonationFormsByRequestGroup($id: ID) {
-            requestGroup(_id: $id) {
-                donationForms {
-                    _id
-                    contact {
-                        firstName
-                        lastName
-                    }
-                    name
-                    age
-                    description
-                    quantity
-                    quantityRemaining
-                    createdAt
-                    donatedAt
-                    adminNotes
-                }
-            }
-        }
-    `;
-
-    useQuery(donationsByRequestGroupQuery, {
-        variables: { id: props.donationForm?.requestGroup?._id },
-        skip: !props.donationForm.requestGroup,
-        onCompleted: (data: { requestGroup: RequestGroup }) => {
-            const res = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
-            setAvailableDonations(res.donationForms);
-        }
-    });
+    }, [props.availableDonations, sortByEarliest]);
 
     return (
         <div className="matching-donation-form-view">
@@ -98,21 +55,21 @@ const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps>
                         <DonationFormInfoDisplay
                             donationForm={props.donationForm}
                             isMatching={props.isMatching}
-                            onSelectMatch={() => {}} // TODO: select match
+                            onSelectMatch={() => {}}
                         />
                     </div>
                 ) : (
                     <div className="all-available-donations">
                         <div className="sort-header">
                             <p>Sort date by: {sortByEarliest ? "Earliest to latest" : "Latest to earliest"}</p>
-                            <i className="bi bi-arrow-down-up" onClick={onChangeSort}></i>
+                            <i className="bi bi-arrow-down-up" onClick={() => setSortByEarliest(!sortByEarliest)}></i>
                         </div>
                         <div className="donation-form-card-list">
                             {availableDonations.map((donationForm) => (
                                 <div key={donationForm._id}>
                                     <DonationFormMatchingCard
                                         donationForm={donationForm}
-                                        onSelectMatch={() => {}}
+                                        onSelectMatch={() => props.onDonationFormSelect(donationForm._id!)}
                                         onViewForm={() => setCurInfoModalShown(donationForm._id!)}
                                     />
                                 </div>
