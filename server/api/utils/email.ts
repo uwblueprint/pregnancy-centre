@@ -21,7 +21,7 @@ async function sendApprovalEmail(firstName: string, lastName: string, email: str
 
     const info = await transporter.sendMail({
         from: '"no reply " <no-reply@pregnancycentre.ca>', // sender address
-        to: "kevinwang@uwblueprint.org", // list of receivers
+        to: email, // list of receivers
         subject: "Pregnancy Centre: Donation form approval", // Subject line
         text: "Thank you for submitting a donation form.", // plain text body
         html: htmlString // html body
@@ -50,7 +50,7 @@ async function sendConfirmationEmail(firstName: string, lastName: string, email:
 
     const info = await transporter.sendMail({
         from: '"no reply " <no-reply@pregnancycentre.ca>', // sender address
-        to: "kevinwang@uwblueprint.org", // list of receivers
+        to: email, // list of receivers
         subject: "Pregnancy Centre: Donation form confirmation", // Subject line
         text: "Thank you for submitting a donation form.", // plain text body
         html: htmlString // html body
