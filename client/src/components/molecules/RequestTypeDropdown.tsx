@@ -70,7 +70,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     };
 
     useEffect(() => {
-        setNumRequests(props.requests!.reduce((total, request) => (request.deleted === false ? total + 1 : total), 0));
+        setNumRequests(props.requests!.reduce((total, request) => (request.deletedAt == null ? total + 1 : total), 0));
     }, []);
 
     const handleChangeNumRequests = (num: number) => {

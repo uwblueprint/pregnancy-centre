@@ -27,23 +27,18 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
             requestGroup(_id: $id) {
                 _id
                 name
-                description
-                updatedAt
                 deleted
                 countOpenRequests
                 requestTypes {
                     _id
                     name
-                    updatedAt
                     deleted
                     requests {
                         _id
-                        quantity
-                        updatedAt
                         createdAt
+                        deletedAt
                         fulfilledAt
-                        deleted
-                        fulfilled
+                        quantity
                         clientName
                     }
                 }
@@ -73,14 +68,14 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
         }
     }, [requestGroup]);
 
-    const deleteQuery = gql`
+    const deleteRequestGroupQuery = gql`
         mutation deleteRequestGroup($id: ID) {
             deleteRequestGroup(_id: $id) {
                 _id
             }
         }
     `;
-    const [mutateDeleteRequestGroup] = useMutation(deleteQuery);
+    const [mutateDeleteRequestGroup] = useMutation(deleteRequestGroupQuery);
 
     const deleteRequestGroup = async () => {
         await mutateDeleteRequestGroup({ variables: { id: requestGroup?._id } });

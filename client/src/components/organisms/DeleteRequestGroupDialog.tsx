@@ -13,7 +13,7 @@ interface Props {
 const DeleteRequestTypeDialog: FunctionComponent<Props> = (props: Props) => {
     return (
         <FormModal
-            className="delete-request-type-form"
+            className="delete-request-group-form"
             submitButtonText="Confirm"
             title="Delete Type"
             handleClose={props.handleClose}
@@ -21,7 +21,7 @@ const DeleteRequestTypeDialog: FunctionComponent<Props> = (props: Props) => {
             onSubmit={props.onSubmit}
             onCancel={props.onCancel}
         >
-            <div className="delete-request-type-form-content">
+            <div>
                 <p>
                     Are you sure you want to delete the group <b>&#34;{props.requestGroupName ?? "this"}&#34;</b>? This will delete the{" "}
                     <b>{props.numRequests}</b> requests in this group and cannot be undone.

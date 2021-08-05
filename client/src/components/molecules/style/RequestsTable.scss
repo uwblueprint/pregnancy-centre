@@ -8,8 +8,12 @@
     width: 1200px;
     margin-left: auto;
     margin-right: auto;
+    .form-check-input {
+        cursor: pointer;
+    }
     .edit {
         color: #333333;
+        cursor: pointer;
     }
     .delete {
         color: #333333;
