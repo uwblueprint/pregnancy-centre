@@ -10,6 +10,7 @@ import LogoModal from "../components/organisms/LogoModal";
 const SignUpModal: FunctionComponent = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [hidePassword, setHidePassword] = useState(true);
     const [hasOneLowerCase, setHasOneLowerCase] = useState(false);
     const [hasOneUpperCase, setHasOneUpperCase] = useState(false);
     const [hasOneNumber, setHasOneNumber] = useState(false);
@@ -116,7 +117,7 @@ const SignUpModal: FunctionComponent = () => {
                                 <div className="pass-req">
                                     <OverlayTrigger placement="bottom" overlay={popover}>
                                         <input
-                                            type="password"
+                                            type={hidePassword ? "password" : "text"}
                                             name="password"
                                             className={errors.password ? "text-field-input error" : "text-field-input"}
                                             placeholder="Enter your password"
@@ -124,6 +125,10 @@ const SignUpModal: FunctionComponent = () => {
                                             onChange={onChangePass}
                                         />
                                     </OverlayTrigger>
+                                    <i
+                                        onClick={() => setHidePassword(!hidePassword)}
+                                        className={hidePassword ? "bi bi-eye" : "bi bi-eye-slash"}
+                                    />
                                 </div>
                             </div>
                             <button role="link" className="button signup" disabled={requirementsAreFulfilled}>
