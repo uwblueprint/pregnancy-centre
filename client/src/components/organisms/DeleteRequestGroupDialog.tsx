@@ -23,7 +23,7 @@ const DeleteRequestTypeDialog: FunctionComponent<Props> = (props: Props) => {
         >
             <div>
                 <p>
-                    Are you sure you want to delete the group <b>&#34;{props.requestGroupName ?? "this"}&#34;</b>? This will delete the{" "}
+                    Are you sure you want to delete the group<b>&#34;{props.requestGroupName ? " " + props.requestGroupName : ""}&#34;</b>? This will delete the{" "}
                     <b>{props.numRequests}</b> requests in this group and cannot be undone.
                 </p>
             </div>
