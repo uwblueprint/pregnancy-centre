@@ -11,8 +11,8 @@ async function sendConfirmationEmail(firstName: string, lastName: string, email:
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "blueprintpregnancycentre@gmail.com", 
-            pass: "pregnancycentre" 
+            user: "blueprintpregnancycentre@gmail.com",
+            pass: "pregnancycentre"
         }
     });
     let htmlString = `<body><p>Dear ${firstName} ${lastName}, <p>`;
