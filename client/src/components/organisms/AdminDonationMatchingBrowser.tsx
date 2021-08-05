@@ -3,7 +3,12 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
 
-import { DonationForm, DonationFormContributionTuple, ItemStatus, UpdateRequestsInput } from "../../data/types/donationForm";
+import {
+    DonationForm,
+    DonationFormContributionTuple,
+    ItemStatus,
+    UpdateRequestsInput
+} from "../../data/types/donationForm";
 import AlertDialog from "../atoms/AlertDialog";
 import MatchingDonationFormView from "./MatchingDonationFormView";
 import MatchingRequestsView from "./MatchingRequestsView";
