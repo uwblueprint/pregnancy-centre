@@ -342,13 +342,14 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const handleClose = () => {
         let sameValues = false;
 
-        if (   clientName === (initialRequest?.clientName ?? "")
+        if ( props.operation === "edit" 
+            && clientName === (initialRequest?.clientName ?? "")
             && requestGroup?._id === initialRequest?.requestType?.requestGroup?._id
             && requestType?._id === initialRequest?.requestType?._id
             && quantity === (initialRequest?.quantity ?? 0)) {
                 sameValues = true;
         }
-        
+
         if (changeMade && !sameValues) {
             setShowAlertDialog(true);
         } else {
