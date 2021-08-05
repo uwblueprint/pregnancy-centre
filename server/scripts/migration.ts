@@ -250,8 +250,8 @@ const createRequestGroup = (_id, name, description, image, deleted, updatedAt, c
     image: image,
     createdAt: createdAt,
     updatedAt: updatedAt
-  })
-  if (deleted) requestGroup.deletedAt = updatedAt
+  });
+  if (deleted) requestGroup.deletedAt = updatedAt;
 
   return requestGroup
 }
@@ -259,17 +259,20 @@ const createRequestGroup = (_id, name, description, image, deleted, updatedAt, c
 const requestEmbeddingFromRequest = (request) => {
   const embedding = {
       _id: request._id,
-      createdAt: request.createdAt ? request.createdAt : null,
-  }
+      createdAt: request.createdAt ?? null
+  };
   if (request.deletedAt) embedding["deletedAt"] = request.deletedAt;
   if (request.fulfilledAt) embedding["fulfilledAt"] = request.fulfilledAt;
   return embedding;
 }
 
 const requestTypeEmbeddingFromRequestType = (requestType) => {
-  return {
-      _id: requestType._id
-  }
+  const embedding = {
+      _id: requestType._id,
+      name: requestType.name,
+  };
+  if (requestType.deletedAt) embedding["deletedAt"] = requestType.deletedAt;
+  return embedding;
 }
 
 const getOldData = async () => {
