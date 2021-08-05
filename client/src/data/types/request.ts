@@ -6,7 +6,7 @@ export default interface Request {
     quantity?: number;
     requestType?: RequestType;
     clientName?: string;
-    createdAt?: Date;
+    createdAt?: number;
     updatedAt?: Date;
     deletedAt?: Date;
     fulfilledAt?: Date;

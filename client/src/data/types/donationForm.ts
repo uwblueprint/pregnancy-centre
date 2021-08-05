@@ -19,7 +19,6 @@ export interface DonationFormContributionTuple {
     donationForm: string;
     quantity: number;
 }
-
 export interface DonationFormContact {
     firstName?: string;
     lastName?: string;
@@ -46,4 +45,9 @@ export interface DonationForm {
     updatedAt?: number;
     deletedAt?: number;
     matchedAt?: number;
+}
+
+export interface UpdateRequestsInput {
+    _id?: string;
+    matchedDonations?: DonationFormContributionTuple[];
 }

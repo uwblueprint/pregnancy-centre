@@ -10,12 +10,14 @@ import DonationFormInfoModal from "../organisms/DonationFormInfoModal";
 import DonationFormProgressStepper from "../atoms/DonationFormProgressStepper";
 import DropdownMenu from "../atoms/DropdownMenu";
 import Tag from "../atoms/Tag";
+import { useHistory } from "react-router-dom";
 
 export interface Props {
     initialDonationForms: Array<DonationForm>;
 }
 
 const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => {
+    const history = useHistory();
     const [donationForms, setDonationForms] = useState(props.initialDonationForms);
     const [selectedDonationFormForInspection, setSelectedDonationFormForInspection] = useState<DonationForm | null>(
         null
@@ -24,15 +26,8 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     const [selectedDonationFormForDropoff, setSelectedDonationFormForDropoff] = useState<DonationForm | null>(null);
 
     const updateDonationFormStatusMutation = gql`
-        mutation UpdateDonationFormStatus(
-            $id: ID!
-            $status: DonationItemStatus!
-            $donatedAt: String
-            $matchedAt: String
-        ) {
-            updateDonationForm(
-                donationForm: { _id: $id, status: $status, donatedAt: $donatedAt, matchedAt: $matchedAt }
-            ) {
+        mutation UpdateDonationFormStatus($id: ID!, $status: DonationItemStatus!, $donatedAt: String) {
+            updateDonationForm(donationForm: { _id: $id, status: $status, donatedAt: $donatedAt }) {
                 _id
             }
         }
@@ -105,10 +100,9 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         donationFormId: string,
         newStatus: ItemStatus,
         donatedAt?: string | null,
-        matchedAt?: string | null,
         updateCallback?: () => void
     ) => {
-        updateDonationFormStatus({ variables: { id: donationFormId, status: newStatus, donatedAt, matchedAt } })
+        updateDonationFormStatus({ variables: { id: donationFormId, status: newStatus, donatedAt } })
             .then(() => {
                 if (newStatus === ItemStatus.MATCHED) {
                     removeDonationFormFromDisplay(donationFormId);
@@ -154,7 +148,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                 setSelectedDonationFormForDropoff(donationForm);
                 break;
             case ItemStatus.MATCHED:
-                setDonationFormStatus(donationForm._id as string, newStatus, undefined, Date.now().toString());
+                history.push("/matching/donation-form/" + donationForm._id);
                 break;
         }
     };
@@ -180,7 +174,6 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
             donationForm._id as string,
             ItemStatus.PENDING_MATCH,
             Date.now().toString(),
-            undefined,
             updateDonationForm
         );
         setSelectedDonationFormForDropoff(null);

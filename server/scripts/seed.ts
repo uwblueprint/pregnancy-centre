@@ -52,8 +52,8 @@ const donationFormConditions: string[] = Object.keys(DonationItemCondition);
 const donationFormStatuses: string[] = Object.keys(DonationItemStatus);
 
 const numGroups = requestGroupNames.length;
-const numTypesPerGroup = 10;
-const maxNumRequestsPerType = 50;
+const numTypesPerGroup = 5;
+const maxNumRequestsPerType = 10;
 const maxUnclassifiedDonationForms = 10;
 const maxDonationFormsPerRequestGroup = 10;
 const maxQuantityPerRequest = 15;
@@ -139,6 +139,8 @@ const createDonationForm = (requestGroup = null) => {
         statusFields.matchedAt = new Date(randomDate(statusFields.donatedAt));
     }
 
+    const quantity = Math.floor(Math.random() * maxQuantityPerDonationForm) + 1;
+
     return new DonationForm({
         _id: mongoose.Types.ObjectId(),
         contact: {
@@ -150,7 +152,8 @@ const createDonationForm = (requestGroup = null) => {
         name: name,
         description: faker.lorem.sentence(),
         ...(!!requestGroup && { requestGroup: requestGroup._id }),
-        quantity: Math.floor(Math.random() * maxQuantityPerDonationForm) + 1,
+        quantity: quantity,
+        quantityRemaining: quantity,
         age: Math.floor(Math.random() * 21), // random integer between 0 and 20
         condition: faker.random.arrayElement(donationFormConditions),
         createdAt: dateCreated,

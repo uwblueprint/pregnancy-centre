@@ -50,6 +50,9 @@ const requestQueryResolvers = {
         } else {
             return Request.countDocuments();
         }
+    },
+    openRequests: async (_, __, ___): Promise<Array<RequestInterface>> => {
+        return Request.find({ deletedAt: { $eq: null }, fulfilledAt: { $eq: null } }).exec();
     }
     /* Left as a proof of concept:
     requestsFilter: async (_, { filter, options }, ___): Promise<Array<RequestInterface>> => {
@@ -89,6 +92,26 @@ const requestMutationResolvers = {
                     );
                 }
                 return newRequest;
+            });
+        });
+    },
+    updateRequests: async (_, { requests }, { authenticateUser }): Promise<RequestInterface> => {
+        return authenticateUser().then(async () => {
+            return sessionHandler(async (session) => {
+                const newRequests = [];
+                for (const request of requests) {
+                    newRequests.push(
+                        await Request.findByIdAndUpdate(
+                            request._id,
+                            { ...request },
+                            {
+                                new: true,
+                                session: session
+                            }
+                        )
+                    );
+                }
+                return newRequests;
             });
         });
     },
