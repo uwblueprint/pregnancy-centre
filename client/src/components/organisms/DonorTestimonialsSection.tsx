@@ -1,21 +1,16 @@
 import React, { FunctionComponent } from "react";
 import DonorHomepageConfig from "../../config/donorHomepageConfig.json";
-import TestimonialsCarousel from "../atoms/TestimonialsCarousel"
+import TestimonialsCarousel from "../atoms/TestimonialsCarousel";
 
 const DonorTestimonialsSection: FunctionComponent = () => {
-    const testimonialsInterval = DonorHomepageConfig.testimonialCarousel.interval;
+    const testimonialsInterval = DonorHomepageConfig.testimonialCarousel.interval * 10000;
     const testimonials = DonorHomepageConfig.testimonialCarousel.testimonials;
     return (
         <div className="donor-testimonials-section">
-            <h1 className="donor-testimonials-section-header">
-                Meet Our Clients
-            </h1>
-            <TestimonialsCarousel
-                transitionInterval={testimonialsInterval}
-                testimonials={testimonials}
-            />
+            <h1 className="donor-testimonials-section-header">Meet Our Clients</h1>
+            <TestimonialsCarousel transitionInterval={testimonialsInterval} testimonials={testimonials} />
         </div>
     );
-}
+};
 
 export default DonorTestimonialsSection;

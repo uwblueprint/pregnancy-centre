@@ -1,0 +1,46 @@
+.testimonials-carousel {
+    max-width: 1320px;
+    border-radius: 15px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+
+    .carousel {
+        padding: 48px;
+
+        &-item {
+            margin-bottom: 57px;
+
+            img {
+                border-radius: 10px;
+                width: 100%;
+                height: 364px;
+                object-fit: cover;
+                margin-right: 56px;
+            }
+
+            p {
+                font-size: 24px;
+                font-style: italic;
+                font-weight: 400;
+
+                @media (max-width: 978px) {
+                    margin-top: 56px;
+                }
+            }
+            @media (max-width: 978px) {
+                margin-bottom: 32px;
+            }
+        }
+
+        &-indicators li {
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+            background-color: #dcd6d6;
+            margin-right: 18px;
+        }
+
+        &-indicators li :active {
+            background-color: #ababab;
+        }
+    }
+}

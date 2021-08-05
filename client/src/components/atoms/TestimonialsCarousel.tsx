@@ -10,17 +10,17 @@ interface Testimonial {
     testimonial: string;
 }
 
-const TestimonialsCarousel: FunctionComponent<Props> = (props : Props) => {
+const TestimonialsCarousel: FunctionComponent<Props> = (props: Props) => {
     return (
-        <Container className="testimonial-container" fluid>
-            <Carousel controls={false} interval={props.transitionInterval} className="testimonial-carousel">
+        <Container className="testimonials-carousel" fluid>
+            <Carousel controls={false} interval={props.transitionInterval} className="carousel">
                 {props.testimonials.map((testimonial, index) => (
                     <Carousel.Item key={index}>
                         <Row sm={12}>
-                            <Col md={{ span: 6 }}>
+                            <Col md={12} lg={6}>
                                 <img src={testimonial.image}></img>
                             </Col>
-                            <Col md={{ span: 6 }}>
+                            <Col md={12} lg={6} className="my-auto">
                                 <p>{testimonial.testimonial}</p>
                             </Col>
                         </Row>
