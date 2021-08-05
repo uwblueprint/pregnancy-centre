@@ -10,12 +10,14 @@ import DonationFormInfoModal from "../organisms/DonationFormInfoModal";
 import DonationFormProgressStepper from "../atoms/DonationFormProgressStepper";
 import DropdownMenu from "../atoms/DropdownMenu";
 import Tag from "../atoms/Tag";
+import { useHistory } from "react-router-dom";
 
 export interface Props {
     initialDonationForms: Array<DonationForm>;
 }
 
 const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => {
+    const history = useHistory();
     const [donationForms, setDonationForms] = useState(props.initialDonationForms);
     const [selectedDonationFormForInspection, setSelectedDonationFormForInspection] = useState<DonationForm | null>(
         null
@@ -154,7 +156,8 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                 setSelectedDonationFormForDropoff(donationForm);
                 break;
             case ItemStatus.MATCHED:
-                setDonationFormStatus(donationForm._id as string, newStatus, undefined, Date.now().toString());
+                history.push("/matching/donation-form/" + donationForm._id);
+                // setDonationFormStatus(donationForm._id as string, newStatus, undefined, Date.now().toString());
                 break;
         }
     };
