@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { getItemAgeDescription, ItemConditionToShortDescriptionMap } from "../utils/donationForm";
-import DonationForm from "../../data/types/donationForm";
+import { DonationForm } from "../../data/types/donationForm";
 
 interface DonationItemCardProps {
     donationForm: DonationForm;

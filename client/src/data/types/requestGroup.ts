@@ -1,3 +1,4 @@
+import { DonationForm } from "./donationForm";
 import Request from "./request";
 import RequestType from "./requestType";
 
@@ -7,6 +8,7 @@ export default interface RequestGroup {
     description?: string;
     image?: string;
     requestTypes?: RequestType[];
+    donationForms?: DonationForm[];
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date;

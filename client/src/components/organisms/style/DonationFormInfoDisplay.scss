@@ -1,0 +1,48 @@
+.donation-form-info-display {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 27px;
+    }
+
+    .button {
+        @include alt-button;
+        @include semibold-text;
+        font-size: 16px;
+        height: 48px;
+        width: 30%;
+    }
+
+    h1 {
+        @include heavy-text;
+        font-size: 32px;
+        line-height: 32px;
+        margin: 0;
+    }
+
+    h2 {
+        @include light-text;
+        font-size: 18px;
+        line-height: 32px;
+        width: 100%;
+        margin: 0;
+        margin-bottom: 25px;
+    }
+
+    strong {
+        @include heavy-text;
+        margin-right: 6px;
+    }
+
+    .age-field,
+    .quantity-field {
+        width: 50%;
+    }
+}

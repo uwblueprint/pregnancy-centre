@@ -15,7 +15,7 @@ interface Props {
     onNextPage?: () => void;
     onPreviousPage?: () => void;
     pageName?: string;
-    pageNumber: number; // Index starting at 1
+    pageNumber: number; // Index starting at 0
     pageInstructions?: string;
     previousButtonText?: string;
     steps: Array<string>;
@@ -26,12 +26,13 @@ const DonationFormPage: FunctionComponent<Props> = (props: Props) => {
         <div className={"donation-form-page " + (props.className ?? "")}>
             <div className="donation-form-page-header">
                 <Navbar
-                    links={[
+                    leftLinks={[]}
+                    rightLinks={[
                         {
                             name: "Back to Main Website",
-                            link: "https://pregnancycentre.ca/"
+                            path: "https://pregnancycentre.ca/"
                         },
-                        { name: "Organization Login", link: "/login" }
+                        { name: "Organization Login", path: "/login" }
                     ]}
                 />
             </div>
@@ -44,7 +45,7 @@ const DonationFormPage: FunctionComponent<Props> = (props: Props) => {
                 <div className="donation-form-page-content">
                     {props.includeContentHeader && (
                         <div className="donation-form-page-content-header">
-                            <StepNumber stepNumber={props.pageNumber} isSelectedStep={true} />
+                            <StepNumber stepNumber={props.pageNumber + 1} isSelectedStep={true} />
                             <h1>{props.pageName}</h1>
                             <p className="donation-form-page-instructions">{props.pageInstructions}</p>
                         </div>

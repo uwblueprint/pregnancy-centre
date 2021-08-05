@@ -44,6 +44,7 @@ interface DonationFormInterface extends Document {
     deletedAt: Date;
     createdAt: Date;
     updatedAt: Date;
+    matchedAt: Date;
 }
 
 const DonationFormSchema = new Schema(
@@ -105,6 +106,9 @@ const DonationFormSchema = new Schema(
             type: Date
         },
         deletedAt: {
+            type: Date
+        },
+        matchedAt: {
             type: Date
         }
     },

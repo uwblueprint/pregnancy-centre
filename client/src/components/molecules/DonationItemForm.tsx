@@ -1,9 +1,10 @@
 import React, { FunctionComponent, useState } from "react";
 
-import DonationForm, { ItemCondition } from "../../data/types/donationForm";
 import { getItemAgeDescription, itemAgeDescriptions, ItemConditionToDescriptionMap } from "../utils/donationForm";
 import { Button } from "../atoms/Button";
+import { DonationForm } from "../../pages/DonationFormItemDetailsPage";
 import FormItem from "../molecules/FormItem";
+import { ItemCondition } from "../../data/types/donationForm";
 import RequestGroup from "../../data/types/requestGroup";
 import ScrollableDropdown from "../atoms/ScrollableDropdown";
 import SearchableDropdown from "../atoms/SearchableDropdown";
@@ -11,7 +12,8 @@ import TextArea from "../atoms/TextArea";
 import { TextField } from "../atoms/TextField";
 
 interface Props {
-    initialDonationForm?: DonationForm;
+    donationForm: DonationForm;
+    onChange: (donationForm: DonationForm) => void;
     onDelete: () => void;
     onSave: (donationForm: DonationForm) => void;
     requestGroups: Array<RequestGroup>;
@@ -20,18 +22,18 @@ interface Props {
 }
 
 const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
-    const [name, setName] = useState(props?.initialDonationForm?.name ?? "");
-    const [nameInput, setNameInput] = useState(props?.initialDonationForm?.name ?? "");
-    const [condition, setCondition] = useState<ItemCondition | null>(props?.initialDonationForm?.condition ?? null);
-    const [age, setAge] = useState(props?.initialDonationForm?.age ?? 1);
-    const [quantity, setQuantity] = useState<number>(props?.initialDonationForm?.quantity ?? 1);
-    const [description, setDescription] = useState<string>(props?.initialDonationForm?.description ?? "");
+    const [nameInput, setNameInput] = useState(props?.donationForm?.name ?? "");
     const [nameError, setNameError] = useState("");
     const [formError, setFormError] = useState("");
     const [isConditionErroneous, setIsConditionErroneous] = useState(false);
     const [isQuantityErroneous, setIsQuantityErroneous] = useState(false);
     const [isConditionDropdownOpen, setIsConditionDropdownOpen] = useState(false);
     const [isAgeDropdownOpen, setIsAgeDropdownOpen] = useState(false);
+    const name = props.donationForm?.name ?? "";
+    const condition = props.donationForm?.condition ?? null;
+    const age = props.donationForm?.age ?? 1;
+    const quantity = props.donationForm?.quantity ?? 1;
+    const description = props.donationForm?.description ?? "";
 
     const updateNameError = (itemName: string) => {
         let error = "";
@@ -44,8 +46,11 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
     };
 
     const onNameChange = (newItemName: string) => {
+        props.onChange({
+            ...props.donationForm,
+            name: newItemName
+        });
         updateNameError(newItemName);
-        setName(newItemName);
         setNameInput(newItemName);
     };
 
@@ -93,23 +98,35 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
     };
 
     const onConditionChange = (newCondition: ItemCondition) => {
-        setCondition(newCondition);
+        props.onChange({
+            ...props.donationForm,
+            condition: newCondition
+        });
         setIsConditionDropdownOpen(false);
         updateFormError(newCondition, quantity);
     };
 
     const onAgeChange = (newAge: number) => {
-        setAge(newAge);
+        props.onChange({
+            ...props.donationForm,
+            age: newAge
+        });
         setIsAgeDropdownOpen(false);
     };
 
     const onQuantityChange = (newQuantity: number) => {
-        setQuantity(newQuantity);
+        props.onChange({
+            ...props.donationForm,
+            quantity: newQuantity
+        });
         updateFormError(condition, newQuantity);
     };
 
     const onDescriptionChange = (newDescription: string) => {
-        setDescription(newDescription);
+        props.onChange({
+            ...props.donationForm,
+            description: newDescription
+        });
     };
 
     const onSave = () => {
@@ -124,6 +141,8 @@ const DonationItemForm: FunctionComponent<Props> = (props: Props) => {
                 age,
                 condition: condition ?? undefined,
                 description: trimmedDescription.length === 0 ? undefined : trimmedDescription,
+                isSaved: true,
+                isSavedBefore: true,
                 name,
                 quantity,
                 requestGroup: itemRequestGroup ?? null

@@ -125,9 +125,25 @@ const requestTypeMutationResolvers = {
     },
     deleteRequestType: async (_, { _id }, { authenticateUser }): Promise<RequestTypeInterface> => {
         return authenticateUser().then(async () => {
-            const requestType = await RequestType.findById(_id);
-            requestType.deletedAt = new Date();
-            return requestType.save();
+            return sessionHandler(async (session) => {
+                const requestType = await RequestType.findById(_id).session(session);
+
+                if (requestType.deletedAt != null) return requestType.save({ session: session });
+
+                requestType.deletedAt = new Date();
+
+                for (let i = 0; i < requestType.requests.length; i++) {
+                    const request = await Request.findById(requestType.requests[i]._id).session(session);
+
+                    if (request.deletedAt != null) continue;
+
+                    request.deletedAt = new Date();
+                    requestType.requests[i].deletedAt = request.deletedAt;
+                    await request.save({ session: session });
+                }
+
+                return requestType.save({ session: session });
+            });
         });
     },
     changeRequestGroupForRequestType: async (

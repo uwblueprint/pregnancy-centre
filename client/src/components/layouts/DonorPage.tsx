@@ -10,9 +10,10 @@ const DonorPage: FunctionComponent<Record<string, unknown>> = (
         <div className="donor-page">
             <div className="donor-page-header">
                 <Navbar
-                    links={[
-                        { name: "Back to Main Website", link: "https://pregnancycentre.ca/" },
-                        { name: "Organization Login", link: "/login" }
+                    leftLinks={[]}
+                    rightLinks={[
+                        { name: "Back to Main Website", path: "https://pregnancycentre.ca/" },
+                        { name: "Organization Login", path: "/login" }
                     ]}
                 />
             </div>
