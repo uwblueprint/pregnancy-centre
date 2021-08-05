@@ -1,0 +1,9 @@
+.donor-testimonials-section {
+    margin-right: 60px;
+    margin-left:60px;
+
+    &-header {
+        @include donor-homepage-section-header-text;
+        margin-bottom: 54px;
+    }
+}
