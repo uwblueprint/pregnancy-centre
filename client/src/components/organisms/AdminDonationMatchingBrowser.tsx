@@ -194,9 +194,7 @@ const AdminDonationMatchingBrowser: FunctionComponent<AdminDonationMatchingBrows
             const totalAvailable = curDonationForm!.quantity!;
             setMatchingError(
                 totalQuantitySelected > totalAvailable
-                    ? `You have selected more than the maximum amount available. Please change the total quantity to be less than ${
-                          totalAvailable + 1
-                      }.`
+                    ? `You have selected more than the maximum amount available. Please change the total quantity to be less than or equal to ${totalAvailable}.`
                     : ""
             );
         }
