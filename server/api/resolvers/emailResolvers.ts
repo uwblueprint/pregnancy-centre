@@ -8,14 +8,11 @@ interface Item {
 }
 
 async function sendConfirmationEmail(firstName: string, lastName: string, email: string, items: Array<Item>) {
-    const testAccount = await nodemailer.createTestAccount();
     const transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        service: "gmail",
         auth: {
-            user: testAccount.user, // generated ethereal user
-            pass: testAccount.pass // generated ethereal password
+            user: "blueprintpregnancycentre@gmail.com", 
+            pass: "pregnancycentre" 
         }
     });
     let htmlString = `<body><p>Dear ${firstName} ${lastName}, <p>`;
@@ -28,17 +25,15 @@ async function sendConfirmationEmail(firstName: string, lastName: string, email:
     htmlString += "</table> <br>The Pregnancy Centre</body>";
 
     const info = await transporter.sendMail({
-        from: '"no reply 👻" <no-reply@pregnancycentre.ca>', // sender address
-        to: email, // list of receivers
-        subject: "Hello ✔", // Subject line
+        from: '"no reply " <no-reply@pregnancycentre.ca>', // sender address
+        to: "kevinwang@uwblueprint.org", // list of receivers
+        subject: "Donation form confirmation", // Subject line
         text: "Hello world?", // plain text body
         html: htmlString // html body
     });
 
     console.log("Message sent: %s", info.messageId);
-
-    // Preview only available when sending through an Ethereal account
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 }
 
 const emailResolvers = {
