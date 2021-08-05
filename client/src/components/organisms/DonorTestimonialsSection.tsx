@@ -3,7 +3,7 @@ import DonorHomepageConfig from "../../config/donorHomepageConfig.json";
 import TestimonialsCarousel from "../atoms/TestimonialsCarousel";
 
 const DonorTestimonialsSection: FunctionComponent = () => {
-    const testimonialsInterval = DonorHomepageConfig.testimonialCarousel.interval * 10000;
+    const testimonialsInterval = DonorHomepageConfig.testimonialCarousel.interval * 1000;
     const testimonials = DonorHomepageConfig.testimonialCarousel.testimonials;
     return (
         <div className="donor-testimonials-section">
