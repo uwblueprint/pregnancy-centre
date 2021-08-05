@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
 
-import { DonationForm, DonationFormContributionTuple, UpdateRequestsInput } from "../../data/types/donationForm";
+import { DonationForm, DonationFormContributionTuple, ItemStatus, UpdateRequestsInput } from "../../data/types/donationForm";
 import AlertDialog from "../atoms/AlertDialog";
 import MatchingDonationFormView from "./MatchingDonationFormView";
 import MatchingRequestsView from "./MatchingRequestsView";
@@ -233,7 +233,8 @@ const AdminDonationMatchingBrowser: FunctionComponent<AdminDonationMatchingBrows
                     donationForm: {
                         _id: curDonationForm?._id,
                         quantityRemaining: newQuantityRemaining,
-                        ...(newQuantityRemaining === 0 && { matchedAt: Date.now().toString() })
+                        ...(newQuantityRemaining === 0 && { matchedAt: Date.now().toString() }),
+                        ...(newQuantityRemaining === 0 && { status: ItemStatus.MATCHED })
                     }
                 }
             });
