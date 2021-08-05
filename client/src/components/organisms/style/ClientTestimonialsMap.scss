@@ -1,0 +1,24 @@
+.client-testimonials-map {
+    display: flex;
+    flex-direction: row;
+    .card-with-shadow {
+        width: 562px;
+        height: 94px;
+        padding: 5px 17px;
+
+        display: flex;
+        flex-direction: row;
+
+        img {
+            width: 85px;
+            height: 85px;
+            object-fit: cover;
+        }
+
+        p {
+            margin-left: 16px;
+            width: calc(100% - 16px - 85px);
+            white-space: pre-line;
+        }
+    }
+}

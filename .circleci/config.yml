@@ -44,9 +44,9 @@ jobs:
             - node_modules
       - run: npm run build
       - persist_to_workspace:
-          root: '~'
+          root: "~"
           paths:
-            - 'app/client'
+            - "app/client"
   deploy-server:
     docker:
       - image: circleci/node
@@ -57,12 +57,12 @@ jobs:
       - gcp-cloud-run/init:
           google-project-id: PROJECT_ID
       - gcp-cloud-run/build:
-          config: './cloudbuild.staging.yaml'
+          config: "./cloudbuild.staging.yaml"
       - gcp-cloud-run/deploy:
-          image: 'gcr.io/${PROJECT_ID}/tpc-server'
+          image: "gcr.io/${PROJECT_ID}/tpc-server"
           region: us-east1
-          service-name: 'tpc-server'
-          args: '--vpc-connector=tcp-server-connector --vpc-egress=all --platform=managed'
+          service-name: "tpc-server"
+          args: "--vpc-connector=tcp-server-connector --vpc-egress=all --platform=managed"
   deploy-client:
     docker:
       - image: circleci/node
@@ -71,7 +71,7 @@ jobs:
       GOOGLE_APPLICATION_CREDENTIALS: /home/circleci/app/client/service_account.json
     steps:
       - attach_workspace:
-          at: '~'
+          at: "~"
       - run: echo $GCLOUD_SERVICE_KEY > $GOOGLE_APPLICATION_CREDENTIALS
       - run: ./node_modules/.bin/firebase use staging
       - run: ./node_modules/.bin/firebase deploy --only hosting
@@ -79,13 +79,13 @@ workflows:
   server:
     jobs:
       - lint-server
-      # - deploy-server:
-      #     context:
-      #       - tpc-staging
-      #     filters:
-      #       branches:
-      #         only:
-      #           - staging
+      - deploy-server:
+          context:
+            - tpc-staging
+          filters:
+            branches:
+              only:
+                - staging
   client:
     jobs:
       - lint-client
@@ -101,4 +101,3 @@ workflows:
             branches:
               only:
                 - staging
-  

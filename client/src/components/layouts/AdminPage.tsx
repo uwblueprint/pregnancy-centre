@@ -8,10 +8,11 @@ const AdminPage: FunctionComponent<Record<string, unknown>> = (
     return (
         <div className="admin-page">
             <Navbar
-                links={[
-                    { name: "Donation Hub", link: "https://pregnancycentre.ca/" },
-                    { name: "Logout", link: "/" }
+                leftLinks={[
+                    { name: "Needs", path: "/needs" },
+                    { name: "Forms", path: "/unmatched-forms" }
                 ]}
+                rightLinks={[{ name: "Log out", path: "/" }]}
             />
             <div className="admin-page-content">{props.children}</div>
         </div>

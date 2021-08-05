@@ -128,6 +128,16 @@ const createDonationForm = (requestGroup = null) => {
 
     // if not classified under a requestGroup, generate random name
     const name = requestGroup ? requestGroup.name : faker.commerce.product();
+    const status = faker.random.arrayElement(donationFormStatuses);
+    const statusFields: { status: string; donatedAt?: Date; matchedAt?: Date } = {
+        status
+    };
+    if (status === DonationItemStatus.PENDING_MATCH || status === DonationItemStatus.MATCHED) {
+        statusFields.donatedAt = new Date(randomDate(dateCreated));
+    }
+    if (status === DonationItemStatus.MATCHED) {
+        statusFields.matchedAt = new Date(randomDate(statusFields.donatedAt));
+    }
 
     const quantity = Math.floor(Math.random() * maxQuantityPerDonationForm) + 1;
 
@@ -146,8 +156,8 @@ const createDonationForm = (requestGroup = null) => {
         quantityRemaining: quantity,
         age: Math.floor(Math.random() * 21), // random integer between 0 and 20
         condition: faker.random.arrayElement(donationFormConditions),
-        status: faker.random.arrayElement(donationFormStatuses),
-        createdAt: dateCreated
+        createdAt: dateCreated,
+        ...statusFields
     });
 };
 

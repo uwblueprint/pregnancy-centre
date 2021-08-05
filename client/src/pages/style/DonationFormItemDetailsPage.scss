@@ -14,14 +14,6 @@
         margin-bottom: 40px;
     }
 
-    // .donation-item-card {
-    //     margin-bottom: 40px;
-    // }
-
-    // .donation-item-form {
-    //     margin-bottom: 40px;
-    // }
-
     .donation-form-page-footer {
         display: flex;
         flex-direction: row;
@@ -33,5 +25,15 @@
         @include tpc-green-text;
         @include bold-text;
         font-size: 16px;
+    }
+
+    .nav-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .dropdown .scroll-window {
+        max-height: 250px;
     }
 }

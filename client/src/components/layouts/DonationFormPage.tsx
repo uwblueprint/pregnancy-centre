@@ -26,12 +26,13 @@ const DonationFormPage: FunctionComponent<Props> = (props: Props) => {
         <div className={"donation-form-page " + (props.className ?? "")}>
             <div className="donation-form-page-header">
                 <Navbar
-                    links={[
+                    leftLinks={[]}
+                    rightLinks={[
                         {
                             name: "Back to Main Website",
-                            link: "https://pregnancycentre.ca/"
+                            path: "https://pregnancycentre.ca/"
                         },
-                        { name: "Organization Login", link: "/login" }
+                        { name: "Organization Login", path: "/login" }
                     ]}
                 />
             </div>

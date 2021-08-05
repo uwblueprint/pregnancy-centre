@@ -121,9 +121,16 @@ const typeDefs = gql`
     # }
 
     input DonationFormFilterOptions {
+        deleted: Boolean
         requestGroup: ID
         formType: DonationItemType
         status: DonationItemStatus
+        statusNot: DonationItemStatus
+    }
+
+    enum DonationFormSortOptions {
+        CREATED_AT
+        MATCHED_AT
     }
 
     enum DonationItemType {
@@ -179,6 +186,7 @@ const typeDefs = gql`
         deletedAt: String
         createdAt: String
         updatedAt: String
+        matchedAt: String
     }
 
     input CreateDonationFormInput {
@@ -202,6 +210,7 @@ const typeDefs = gql`
         quantityRemaining: Int
         adminNotes: String
         donatedAt: String
+        matchedAt: String
     }
 
     type Query {
@@ -229,7 +238,12 @@ const typeDefs = gql`
 
         donationForm(_id: ID): DonationForm
         donationForms: [DonationForm]
-        donationFormsPage(skip: Int, limit: Int, filterOptions: DonationFormFilterOptions): [DonationForm]
+        donationFormsPage(
+            skip: Int
+            limit: Int
+            filterOptions: DonationFormFilterOptions
+            sortBy: DonationFormSortOptions
+        ): [DonationForm]
     }
 
     type Mutation {

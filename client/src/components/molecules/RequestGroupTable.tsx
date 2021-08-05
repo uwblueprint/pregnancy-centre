@@ -80,7 +80,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                         key={requestGroup._id}
                                         className="data-row"
                                         onClick={() => {
-                                            history.push("/request-group/" + requestGroup._id);
+                                            history.push("/need/" + requestGroup._id);
                                         }}
                                     >
                                         <td className="spacing-col" />
