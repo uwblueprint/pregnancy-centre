@@ -26,15 +26,8 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     const [selectedDonationFormForDropoff, setSelectedDonationFormForDropoff] = useState<DonationForm | null>(null);
 
     const updateDonationFormStatusMutation = gql`
-        mutation UpdateDonationFormStatus(
-            $id: ID!
-            $status: DonationItemStatus!
-            $donatedAt: String
-            $matchedAt: String
-        ) {
-            updateDonationForm(
-                donationForm: { _id: $id, status: $status, donatedAt: $donatedAt, matchedAt: $matchedAt }
-            ) {
+        mutation UpdateDonationFormStatus($id: ID!, $status: DonationItemStatus!, $donatedAt: String) {
+            updateDonationForm(donationForm: { _id: $id, status: $status, donatedAt: $donatedAt }) {
                 _id
             }
         }
@@ -107,10 +100,9 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         donationFormId: string,
         newStatus: ItemStatus,
         donatedAt?: string | null,
-        matchedAt?: string | null,
         updateCallback?: () => void
     ) => {
-        updateDonationFormStatus({ variables: { id: donationFormId, status: newStatus, donatedAt, matchedAt } })
+        updateDonationFormStatus({ variables: { id: donationFormId, status: newStatus, donatedAt } })
             .then(() => {
                 if (newStatus === ItemStatus.MATCHED) {
                     removeDonationFormFromDisplay(donationFormId);
@@ -157,7 +149,6 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                 break;
             case ItemStatus.MATCHED:
                 history.push("/matching/donation-form/" + donationForm._id);
-                // setDonationFormStatus(donationForm._id as string, newStatus, undefined, Date.now().toString());
                 break;
         }
     };
@@ -183,7 +174,6 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
             donationForm._id as string,
             ItemStatus.PENDING_MATCH,
             Date.now().toString(),
-            undefined,
             updateDonationForm
         );
         setSelectedDonationFormForDropoff(null);
