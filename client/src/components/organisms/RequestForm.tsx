@@ -233,7 +233,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     };
 
     const onRequestGroupInputChange = (newRequestGroupInput: string) => {
-        setChangeMade(true);
+        if (newRequestGroupInput !== requestGroup?.name ?? "") setChangeMade(true);
         setRequestGroupInput(newRequestGroupInput);
     };
 
@@ -264,7 +264,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     };
 
     const onRequestTypeInputChange = (newRequestTypeInput: string) => {
-        setChangeMade(true);
+        if (newRequestTypeInput === requestType?.name ?? "") setChangeMade(true);
         setRequestTypeInput(newRequestTypeInput);
     };
 
@@ -340,7 +340,16 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     };
 
     const handleClose = () => {
-        if (changeMade) {
+        let sameValues = false;
+
+        if (   clientName === (initialRequest?.clientName ?? "")
+            && requestGroup?._id === initialRequest?.requestType?.requestGroup?._id
+            && requestType?._id === initialRequest?.requestType?._id
+            && quantity === (initialRequest?.quantity ?? 0)) {
+                sameValues = true;
+        }
+        
+        if (changeMade && !sameValues) {
             setShowAlertDialog(true);
         } else {
             props.handleClose();
@@ -360,7 +369,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             onSubmit={onSubmit}
             onCancel={props.handleClose}
             alertDialogProps={{
-                dialogText: "This request has not been created yet.",
+                dialogText: "This request has not been saved yet.",
                 onExit: props.handleClose,
                 onStay: () => {
                     setShowAlertDialog(false);
