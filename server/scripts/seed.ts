@@ -52,8 +52,8 @@ const donationFormConditions: string[] = Object.keys(DonationItemCondition);
 const donationFormStatuses: string[] = Object.keys(DonationItemStatus);
 
 const numGroups = requestGroupNames.length;
-const numTypesPerGroup = 10;
-const maxNumRequestsPerType = 50;
+const numTypesPerGroup = 5;
+const maxNumRequestsPerType = 10;
 const maxUnclassifiedDonationForms = 10;
 const maxDonationFormsPerRequestGroup = 10;
 const maxQuantityPerRequest = 15;
