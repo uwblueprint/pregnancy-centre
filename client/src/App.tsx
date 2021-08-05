@@ -3,7 +3,6 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
 
 import AdminDonationMatchingPage from "./pages/AdminDonationMatchingPage";
-import AdminHomepage from "./pages/AdminHomepage";
 import AdminMatchedDonationFormsPage from "./pages/AdminMatchedDonationFormsPage";
 import AdminRequestGroupsPage from "./pages/AdminRequestGroupsPage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView";
