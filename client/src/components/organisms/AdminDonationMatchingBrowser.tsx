@@ -226,11 +226,14 @@ const AdminDonationMatchingBrowser: FunctionComponent<AdminDonationMatchingBrows
             updateRequests({
                 variables: { requests: updatedRequestsInput }
             });
+
+            const newQuantityRemaining = curDonationForm?.quantityRemaining;
             updateDonationForm({
                 variables: {
                     donationForm: {
                         _id: curDonationForm?._id,
-                        quantityRemaining: curDonationForm?.quantityRemaining
+                        quantityRemaining: newQuantityRemaining,
+                        ...(newQuantityRemaining === 0 && { matchedAt: Date.now().toString() })
                     }
                 }
             });
