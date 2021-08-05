@@ -419,12 +419,12 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                                                 ? "There are no request needs"
                                                 : "This need does not exist"}
                                         </span>
-                                        <span className="create-need">
-                                            <a>
-                                                <span>Create a new need</span>
-                                                <i className="bi bi-arrow-right-short"></i>
-                                            </a>
-                                        </span>
+                                        {/* <span className="create-group">
+                      <a>
+                        <span>Create a new group</span>
+                        <i className="bi bi-arrow-right-short"></i>
+                      </a>
+                    </span> */}
                                     </div>
                                 }
                                 isTagDropdown={false}
