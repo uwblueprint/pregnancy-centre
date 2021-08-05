@@ -213,10 +213,6 @@ const typeDefs = gql`
         matchedAt: String
     }
 
-    type emailResponse {
-        message: String
-    }
-
     type Query {
         request(_id: ID): Request
         requests: [Request]
@@ -273,6 +269,7 @@ const typeDefs = gql`
         deleteDonationForm(_id: ID): DonationForm
 
         sendConfirmationEmail(ids: [ID]): String
+        sendApprovalEmail(id: ID): String
     }
 `;
 
