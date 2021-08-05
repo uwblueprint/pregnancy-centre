@@ -6,7 +6,7 @@ import DonationFormPage from "../components/layouts/DonationFormPage";
 
 interface Props {
     donorEmail: string;
-    pageNumber: number; // Index starting at 1
+    pageNumber: number; // Index starting at 0
     steps: Array<string>;
 }
 
@@ -25,9 +25,7 @@ const DonationFormConfirmationPage: FunctionComponent<Props> = (props: Props) =>
                 You will be receiving a confirmation email regarding your submission to{" "}
                 <strong>{props.donorEmail}</strong>
             </p>
-            <p>
-                If you have any questions or concerns feel free to reach out to: rebeccaferguson@thepregnancycentre.ca
-            </p>
+            <p>If you have any questions or concerns feel free to reach out to: rebecca@pregnancycentre.ca</p>
             <p>Every item matters, your donation is greatly appreciated!</p>
             <Button text="Back to Main Donation Page" copyText="" onClick={() => history.push("/")} />
         </DonationFormPage>

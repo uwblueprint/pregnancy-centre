@@ -17,7 +17,7 @@ const Footer: FunctionComponent = () => {
                     </Col>
                     <Col>
                         <h1>THE PREGNANCY CENTRE</h1>
-                        <p>38 Francis St S, Kitchener, ON</p>
+                        <p>40 Francis St S, Kitchener, ON</p>
                         <p>519-886-4001</p>
                         <p>info@thepregnancycentre.ca</p>
                     </Col>

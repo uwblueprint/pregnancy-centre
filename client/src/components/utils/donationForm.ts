@@ -1,4 +1,4 @@
-import { ItemCondition } from "../../data/types/donationForm";
+import { DonationFormContact, ItemCondition, ItemStatus } from "../../data/types/donationForm";
 
 export const ItemConditionToDescriptionMap = new Map<ItemCondition, string>([
     [ItemCondition.BRAND_NEW, "Brand New (still in package)"],
@@ -16,6 +16,13 @@ export const ItemConditionToShortDescriptionMap = new Map<ItemCondition, string>
     [ItemCondition.POOR, "Poor"]
 ]);
 
+export const ItemStatusToReadableString = new Map<ItemStatus, string>([
+    [ItemStatus.PENDING_APPROVAL, "Pending Approval"],
+    [ItemStatus.PENDING_DROPOFF, "Pending Dropoff"],
+    [ItemStatus.PENDING_MATCH, "Pending Match"],
+    [ItemStatus.MATCHED, "Matched"]
+]);
+
 // Item with age <=0 has description itemAgeDescriptions[0]
 // Item with age 1 has description itemAgeDescriptions[1]
 // etc.
@@ -30,4 +37,19 @@ export const getItemAgeDescription = (age: number): string => {
         return descriptionArr[descriptionArr.length - 1];
     }
     return descriptionArr[age];
+};
+
+export const getContactName = (contact?: DonationFormContact): string | null => {
+    const firstName = contact?.firstName ?? "";
+    const lastName = contact?.lastName ?? "";
+    if (contact == null || (firstName.length === 0 && lastName.length === 0)) {
+        return null;
+    }
+    if (firstName.length !== 0 && lastName.length !== 0) {
+        return firstName + " " + lastName;
+    }
+    if (firstName.length !== 0) {
+        return firstName;
+    }
+    return lastName;
 };

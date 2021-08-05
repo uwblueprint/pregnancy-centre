@@ -1,0 +1,95 @@
+.donation-form-info-modal {
+    .modal-dialog {
+        max-width: 25%;
+    }
+
+    .modal-header {
+        border-bottom: $border-line;
+        height: 50px;
+        display: block;
+
+        button.close {
+            // Modal close button provided by bootstrap
+            margin-top: -45px;
+        }
+
+        .modal-title {
+            @include heavy-text;
+            font-size: 18px;
+            line-height: 22px;
+        }
+    }
+
+    .modal-footer {
+        border: unset;
+        padding: 0 6% 3% 6%;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+
+        :last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        padding: 5% 6%;
+    }
+
+    h1 {
+        @include heavy-text;
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    .button {
+        @include grey-button;
+        @include semibold-text;
+    }
+
+    .spinner-border {
+        align-self: center;
+    }
+
+    i {
+        margin-right: 8px;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+    }
+
+    .field i {
+        font-size: 11px;
+    }
+
+    .field span {
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .item-name {
+        margin-bottom: 12px;
+    }
+
+    .item-name span {
+        @include heavy-text;
+        font-size: 16px;
+        line-height: 19px;
+    }
+
+    .item-age,
+    .item-quantity {
+        margin-left: 31px;
+    }
+
+    .item-description span,
+    .admin-notes span {
+        white-space: pre-line;
+    }
+}

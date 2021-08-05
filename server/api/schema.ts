@@ -32,6 +32,14 @@ const typeDefs = gql`
         requestType: ID
         clientName: String
     }
+    input UpdateRequestsInput {
+        _id: ID!
+        matchedDonations: [DonationFormContributionTupleInput]
+    }
+    input DonationFormContributionTupleInput {
+        donationForm: ID
+        quantity: Int
+    }
     # ---  Left as a proof of concept: ---
     # input FilterRequestInput {
     #     NOT_AVAILABLE: Boolean
@@ -111,11 +119,18 @@ const typeDefs = gql`
     # input FilterOptions {
     #     NOT_AVAILABLE: Boolean
     # }
-    
+
     input DonationFormFilterOptions {
-        requestGroup: ID,  
-        formType: DonationItemType, 
+        deleted: Boolean
+        requestGroup: ID
+        formType: DonationItemType
         status: DonationItemStatus
+        statusNot: DonationItemStatus
+    }
+
+    enum DonationFormSortOptions {
+        CREATED_AT
+        MATCHED_AT
     }
 
     enum DonationItemType {
@@ -171,6 +186,7 @@ const typeDefs = gql`
         deletedAt: String
         createdAt: String
         updatedAt: String
+        matchedAt: String
     }
 
     input CreateDonationFormInput {
@@ -194,6 +210,7 @@ const typeDefs = gql`
         quantityRemaining: Int
         adminNotes: String
         donatedAt: String
+        matchedAt: String
     }
 
     type Query {
@@ -201,6 +218,7 @@ const typeDefs = gql`
         requests: [Request]
         requestsPage(skip: Int, limit: Int): [Request]
         countRequests(open: Boolean): Int
+        openRequests: [Request]
         # --- Left as a proof of concept: ---
         # requestsFilter(filter: FilterRequestInput, options: FilterOptions): [Request]
 
@@ -220,12 +238,18 @@ const typeDefs = gql`
 
         donationForm(_id: ID): DonationForm
         donationForms: [DonationForm]
-        donationFormsPage(skip: Int, limit: Int, filterOptions: DonationFormFilterOptions): [DonationForm]
+        donationFormsPage(
+            skip: Int
+            limit: Int
+            filterOptions: DonationFormFilterOptions
+            sortBy: DonationFormSortOptions
+        ): [DonationForm]
     }
 
     type Mutation {
         createRequest(request: CreateRequestInput): Request
         updateRequest(request: UpdateRequestInput): Request
+        updateRequests(requests: [UpdateRequestsInput]): [Request]
         deleteRequest(_id: ID): Request
         fulfillRequest(_id: ID): Request
         unfulfillRequest(_id: ID): Request

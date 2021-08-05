@@ -24,7 +24,7 @@ const SignInModal: FunctionComponent = () => {
             .then((res) => {
                 setErrors(res);
                 if (!res.email.length && !res.password.length) {
-                    setRedirect("/admin");
+                    setRedirect("/needs");
                 }
                 if (res.email === AuthErrorMessage["unconfirmed-email"]) {
                     setConfirmationEmailSent(true);

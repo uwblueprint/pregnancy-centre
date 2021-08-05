@@ -1,6 +1,11 @@
 import { DonationForm, DonationFormInterface } from "../../database/models/donationFormModel";
 import { RequestGroup, RequestGroupInterface } from "../../database/models/requestGroupModel";
 
+enum SortOptions {
+    CREATED_AT = "CREATED_AT",
+    MATCHED_AT = "MATCHED_AT"
+}
+
 const donationFormEmbeddingFromDonationForm = (donationForm: DonationFormInterface) => {
     return {
         _id: donationForm._id
@@ -19,31 +24,42 @@ const donationFormQueryResolvers = {
     donationForms: async (_, __, ___): Promise<Array<DonationFormInterface>> => {
         return DonationForm.find().exec();
     },
-    donationFormsPage: async (_, { skip, limit, filterOptions }, __): Promise<Array<DonationFormInterface>> => {
-        const { name, requestGroup, formType, status } = filterOptions;
-        const filter: any = {}
-    
+    donationFormsPage: async (_, { skip, limit, filterOptions, sortBy }, __): Promise<Array<DonationFormInterface>> => {
+        const { name, deleted, requestGroup, formType, status, statusNot } = filterOptions;
+        const filter: any = {};
+
+        if (deleted === true) {
+            filter.deletedAt = { $ne: null };
+        } else if (deleted === false) {
+            filter.deletedAt = null;
+        }
         if (requestGroup) {
-            filter.requestGroup = { $eq: requestGroup }
+            filter.requestGroup = { $eq: requestGroup };
         }
         if (formType) {
-            if (formType === "GENERAL"){
+            if (formType === "GENERAL") {
                 filter.requestGroup = { $eq: null };
             }
-            if (formType === "SPECIFIC"){
+            if (formType === "SPECIFIC") {
                 filter.requestGroup = { ...filter.requestGroup, $ne: null };
-            } 
+            }
         }
-        if (status){
+        if (status) {
             filter.status = status;
         }
+        if (statusNot) {
+            filter.status = { $ne: statusNot };
+        }
 
-        return DonationForm.find(filter)
-            .sort({ name: "ascending" })
-            .skip(skip)
-            .limit(limit)
-            .exec();
-    },
+        let sortConfig: any = { createdAt: "descending" };
+        if (sortBy === SortOptions.MATCHED_AT) {
+            sortConfig = {
+                matchedAt: "descending"
+            };
+        }
+
+        return DonationForm.find(filter).sort(sortConfig).skip(skip).limit(limit).exec();
+    }
 };
 
 const donationFormMutationResolvers = {
@@ -57,7 +73,7 @@ const donationFormMutationResolvers = {
         return newDonationForm;
     },
     updateDonationForm: async (_, { donationForm }, { authenticateUser }): Promise<DonationFormInterface> => {
-        return authenticateUser.then(async () => {
+        return authenticateUser().then(async () => {
             return DonationForm.findByIdAndUpdate(donationForm._id, donationForm, { lean: true });
         });
     },

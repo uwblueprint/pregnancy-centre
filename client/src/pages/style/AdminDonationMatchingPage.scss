@@ -1,0 +1,26 @@
+.admin-donation-matching-page {
+    .alert-dialog {
+        width: 40vw;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        margin: 16px auto;
+
+        .alert-dialog-buttons {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+
+            .alert-stay-button {
+                padding-bottom: 0px;
+            }
+        }
+    }
+
+    .row {
+        position: absolute;
+        min-height: 100%;
+        width: 100%;
+        margin: 0;
+    }
+}
