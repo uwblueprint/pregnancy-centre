@@ -46,16 +46,15 @@ const requestGroupQueryResolvers = {
     requestGroups: async (_, __, ___): Promise<Array<RequestGroupInterface>> => {
         return RequestGroup.find().exec();
     },
-    requestGroupsPage: async (_, { skip, limit, name }, __): Promise<Array<RequestGroupInterface>> => {
+    requestGroupsPage: async (_, { skip, limit, name, open }, __): Promise<Array<RequestGroupInterface>> => {
+        const filter: {[key: string]: any} = {};
         if (name) {
-            return RequestGroup.find({ name: { $regex: "^" + name + ".*", $options: "i" } })
-                .sort({ name: "ascending", _id: "ascending" })
-                .skip(skip)
-                .limit(limit)
-                .exec();
-        } else {
-            return RequestGroup.find().sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
+            filter.name = { $regex: "^" + name + ".*", $options: "i" };
         }
+        if (open) {
+            filter.deletedAt = { $eq: null };
+        }
+        return RequestGroup.find(filter).sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
     },
     countRequestGroups: async (_, { open }, ___): Promise<number> => {
         if (open) {

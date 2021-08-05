@@ -75,8 +75,12 @@ const requestTypeQueryResolvers = {
     requestTypes: async (_, __, ___): Promise<Array<RequestTypeInterface>> => {
         return RequestType.find().exec();
     },
-    requestTypesPage: async (_, { skip, limit }, __): Promise<Array<RequestTypeInterface>> => {
-        return RequestType.find().sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
+    requestTypesPage: async (_, { skip, limit, open }, __): Promise<Array<RequestTypeInterface>> => {
+        const filter: {[key: string]: any} = {};
+        if (open) {
+            filter.deletedAt = { $eq: null };
+        }
+        return RequestType.find(filter).sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
     },
     countRequestTypes: async (_, { open }, ___): Promise<number> => {
         if (open) {
