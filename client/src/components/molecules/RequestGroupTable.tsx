@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 import moment from "moment";
+import { Spinner } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
 import Tag from "../atoms/Tag";
@@ -9,6 +10,7 @@ import RequestGroupForm from "../organisms/RequestGroupForm";
 
 export interface Props {
     requestGroups: Array<RequestGroup> | undefined;
+    countRequestGroups: number;
 }
 
 const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
@@ -75,9 +77,8 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                 return g1.name < g2.name ? -1 : 1;
                             })
                             .map((requestGroup: RequestGroup) => (
-                                <>
+                                <React.Fragment key={requestGroup._id}>
                                     <tr
-                                        key={requestGroup._id}
                                         className="data-row"
                                         onClick={() => {
                                             history.push("/need/" + requestGroup._id);
@@ -118,7 +119,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                         </td>
                                         <td className="spacing-col" />
                                     </tr>
-                                    <tr className="border-row" key={requestGroup._id + "b"}>
+                                    <tr className="border-row">
                                         <td className="spacing-col" />
                                         <td>
                                             <div className="border-line" />
@@ -140,12 +141,16 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                         </td>
                                         <td className="spacing-col" />
                                     </tr>
-                                </>
+                                </React.Fragment>
                             ))}
                     </tbody>
                 )}
             </table>
-            {props.requestGroups && props.requestGroups.length == 0 && (
+            {props.requestGroups && props.requestGroups.length === 0 && props.countRequestGroups !== 0 && 
+                <div className="spinner">
+                    <Spinner animation="border" role="status" />
+                </div>}
+            {props.countRequestGroups === 0 && (
                 <span className="no-groups-msg">
                     There are no needs created.
                     <a
