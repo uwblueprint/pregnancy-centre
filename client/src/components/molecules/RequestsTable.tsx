@@ -13,6 +13,7 @@ interface Props {
 }
 
 const RequestsTable: FunctionComponent<Props> = (props: Props) => {
+    const [requests, setRequests] = useState(props.requests.filter((request) => request.deletedAt == null));
     const [requestSelectedForEditing, setRequestSelectedForEditing] = useState("");
 
     const headingList = ["Fulfilled", "Client Name", "Quantity", "Date Requested", ""];
@@ -38,19 +39,17 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         }
     `;
 
-    const [requests, setRequests] = useState(props.requests.filter((request) => request.deleted === false));
-
     useEffect(() => {
         const nonFulfilledRequests = requests.filter((request) => {
             if (request !== undefined) {
-                if (request.fulfilled === false) {
+                if (request.fulfilledAt == null) {
                     return request;
                 }
             }
         });
         const fulfilledRequests = requests.filter((request) => {
             if (request !== undefined) {
-                if (request.fulfilled === true) {
+                if (request.fulfilledAt != null) {
                     return request;
                 }
             }
@@ -66,7 +65,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
 
         const sortedRequests: Request[] = nonFulfilledRequests!.concat(fulfilledRequests!) as Request[];
         setRequests(sortedRequests);
-    }, []);
+    }, [props.requests]);
 
     const [mutateDeleteRequest] = useMutation(deleteRequest);
     const [mutateFulfillRequest] = useMutation(fulfillRequest, {
@@ -126,35 +125,35 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                     </thead>
                     <tbody>
                         {requests.map((request, index) =>
-                            request.deleted === false ? (
+                            request.deletedAt == null ? (
                                 <tr key={request._id}>
                                     <td>
                                         <div>
                                             <Form.Check
                                                 type="checkbox"
                                                 onClick={() => onFulfilledRequest(request)}
-                                                defaultChecked={request.fulfilled}
+                                                defaultChecked={request.fulfilledAt != null}
                                             />
                                         </div>
                                     </td>
                                     {request.clientName !== null ? (
-                                        <td style={requests[index].fulfilled ? { opacity: 0.2 } : undefined}>
+                                        <td style={request.fulfilledAt ? { opacity: 0.2 } : undefined}>
                                             <div className="row-text-style">{request.clientName}</div>
                                         </td>
                                     ) : (
                                         <td>N/A</td>
                                     )}
-                                    <td style={requests[index].fulfilled ? { opacity: 0.2 } : undefined}>
+                                    <td style={request.fulfilledAt ? { opacity: 0.2 } : undefined}>
                                         {request.quantity}
                                     </td>
-                                    <td style={requests[index].fulfilled ? { opacity: 0.2 } : undefined}>
+                                    <td style={request.fulfilledAt ? { opacity: 0.2 } : undefined}>
                                         {moment(request.createdAt, "x").format("MMMM DD, YYYY")}
                                     </td>
                                     <td>
                                         <div className="btn-cont">
                                             <td>
                                                 <a
-                                                    className="request-table edit"
+                                                    className="edit"
                                                     onClick={() => {
                                                         if (request._id) {
                                                             setRequestSelectedForEditing(request._id);
@@ -166,7 +165,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                                             </td>
                                             <td>
                                                 <a
-                                                    className="request-table delete"
+                                                    className="delete"
                                                     onClick={() => onDeleteRequest(index)}
                                                 >
                                                     <i className="bi bi-trash"></i>
@@ -180,8 +179,6 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                     </tbody>
                 </Table>
             )}
-
-            {/* TODO: Add Edit and Delete Request Modals here*/}
         </div>
     );
 };

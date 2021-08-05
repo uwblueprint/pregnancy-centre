@@ -85,6 +85,8 @@ const requestGroupMutationResolvers = {
             return sessionHandler(async (session) => {
                 const requestGroup = await RequestGroup.findById(_id).session(session);
 
+                if (requestGroup == null) return requestGroup;
+
                 if (requestGroup.deletedAt != null) return requestGroup.save({ session: session });
 
                 requestGroup.deletedAt = new Date();

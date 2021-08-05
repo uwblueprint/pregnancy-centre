@@ -132,6 +132,8 @@ const requestTypeMutationResolvers = {
             return sessionHandler(async (session) => {
                 const requestType = await RequestType.findById(_id).session(session);
 
+                if (requestType == null) return requestType;
+
                 if (requestType.deletedAt != null) return requestType.save({ session: session });
 
                 requestType.deletedAt = new Date();
