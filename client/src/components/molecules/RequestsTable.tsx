@@ -42,7 +42,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     useEffect(() => {
         const nonFulfilledRequests = requests.filter((request) => {
             if (request !== undefined) {
-                if (request.fulfilled == null) {
+                if (request.fulfilledAt == null) {
                     return request;
                 }
             }
