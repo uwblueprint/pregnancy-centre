@@ -167,9 +167,13 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                     {showDeleteGroupModal && (
                         <DeleteRequestGroupDialog
                             requestGroupName={requestGroup.name}
-                            numRequests={numRequests}
-                            handleClose={() => { setShowDeleteGroupModal(false) }}
-                            onCancel={() => { setShowDeleteGroupModal(false) }}
+                            numRequests={requestGroup.countOpenRequests ?? 0}
+                            handleClose={() => {
+                                setShowDeleteGroupModal(false);
+                            }}
+                            onCancel={() => {
+                                setShowDeleteGroupModal(false);
+                            }}
                             onSubmit={() => {
                                 deleteRequestGroup();
                             }}

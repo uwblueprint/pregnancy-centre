@@ -23,9 +23,9 @@ const DeleteRequestTypeDialog: FunctionComponent<Props> = (props: Props) => {
         >
             <div>
                 <p>
-                    Are you sure you want to delete the group
-                    <b>&#34;{props.requestGroupName ? " " + props.requestGroupName : ""}&#34;</b>? This will delete the{" "}
-                    <b>{props.numRequests}</b> requests in this group and cannot be undone.
+                    Are you sure you want to delete the need{" "}
+                    <b>&#34;{props.requestGroupName ? props.requestGroupName : ""}&#34;</b>? This will delete the{" "}
+                    <b>{props.numRequests}</b> requests in this need and cannot be undone.
                 </p>
             </div>
         </FormModal>

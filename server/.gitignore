@@ -1,4 +1,5 @@
 /dist
+/node_modules_pain
 /node_modules
 .env
 .env.*
