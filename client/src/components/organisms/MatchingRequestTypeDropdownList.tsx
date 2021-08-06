@@ -19,7 +19,8 @@ const MatchingRequestTypeDropdownList: FunctionComponent<Props> = (props: Props)
             {undeletedRequestTypes.map((requestType) => {
                 // only display request types that have open requests
                 if (requestType.openRequests?.length) {
-                    const sortedRequests = requestType.openRequests.sort((a, b) => {
+                    const unfulfilledRequests = requestType.openRequests.filter((req) => !req.fulfilled);
+                    const sortedRequests = unfulfilledRequests.sort((a, b) => {
                         return b.createdAt!.valueOf() - a.createdAt!.valueOf();
                     });
                     return (

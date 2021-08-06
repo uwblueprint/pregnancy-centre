@@ -47,7 +47,7 @@ const requestGroupQueryResolvers = {
         return RequestGroup.find().exec();
     },
     requestGroupsPage: async (_, { skip, limit, name, open }, __): Promise<Array<RequestGroupInterface>> => {
-        const filter: {[key: string]: any} = {};
+        const filter: { [key: string]: any } = {};
         if (name) {
             filter.name = { $regex: "^" + name + ".*", $options: "i" };
         }

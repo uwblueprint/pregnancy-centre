@@ -42,7 +42,7 @@ const requestQueryResolvers = {
         return Request.find().exec();
     },
     requestsPage: async (_, { skip, limit, open }, __): Promise<Array<RequestInterface>> => {
-        const filter: {[key: string]: any} = {};
+        const filter: { [key: string]: any } = {};
         if (open) {
             filter.deletedAt = { $eq: null };
             filter.fulfilledAt = { $eq: null };

@@ -23,6 +23,8 @@ interface ParamTypes {
     id: string;
 }
 
+type UpdateRequestsInfo = UpdateRequestsInput & { quantity: number };
+
 const AdminDonationMatchingBrowser: FunctionComponent<AdminDonationMatchingBrowserProps> = (
     props: AdminDonationMatchingBrowserProps
 ) => {
@@ -35,7 +37,7 @@ const AdminDonationMatchingBrowser: FunctionComponent<AdminDonationMatchingBrows
     const [hasRequestGroup, setHasRequestGroup] = useState(false);
 
     const [requests, setRequests] = useState<Request[]>([]);
-    const [updatedRequestsInput, setUpdatedRequestsInput] = useState<UpdateRequestsInput[]>([]);
+    const [updatedRequestsInput, setUpdatedRequestsInput] = useState<UpdateRequestsInfo[]>([]);
     const [totalQuantitySelected, setTotalQuantitySelected] = useState(0);
     const [isMatching, setIsMatching] = useState(true);
     const [isSaved, setIsSaved] = useState(false);
@@ -145,6 +147,14 @@ const AdminDonationMatchingBrowser: FunctionComponent<AdminDonationMatchingBrows
         }
     `;
 
+    const fulfillRequestMutation = gql`
+        mutation FulfillRequest($_id: ID) {
+            fulfillRequest(_id: $_id) {
+                _id
+            }
+        }
+    `;
+
     useQuery(initialDonationFormQuery, {
         variables: { id: id },
         skip: curDonationForm != null,
@@ -167,13 +177,16 @@ const AdminDonationMatchingBrowser: FunctionComponent<AdminDonationMatchingBrows
     useQuery(openRequestsQuery, {
         skip: hasRequestGroup,
         onCompleted: (data: { openRequests: [Request] }) => {
-            const res = JSON.parse(JSON.stringify(data.openRequests));
-            setRequests(res);
+            // filter out requests that are fulfilled
+            const res: Request[] = JSON.parse(JSON.stringify(data.openRequests));
+            const unfulfilledRequests = res.filter((req) => !req.fulfilled);
+            setRequests(unfulfilledRequests);
         }
     });
 
     const [updateRequests] = useMutation(updateRequestsMutation);
     const [updateDonationForm] = useMutation(updateDonationFormMutation);
+    const [fulfillRequest] = useMutation(fulfillRequestMutation);
 
     useEffect(() => {
         props.setHasUnsavedChanges(!isSaved && updatedRequestsInput.length > 0);
@@ -227,9 +240,21 @@ const AdminDonationMatchingBrowser: FunctionComponent<AdminDonationMatchingBrows
 
     const onConfirmMatches = () => {
         if (matchingError === "") {
-            // perform mutations
+            // if request is fully matched, mark as fulfilled
+            for (const match of updatedRequestsInput) {
+                const totalMatched = match.matchedDonations?.reduce((total, contrib) => total + contrib.quantity, 0);
+                if (totalMatched === match.quantity) {
+                    fulfillRequest({ variables: { _id: match._id } });
+                }
+            }
+
+            // update requests with new matched donations
+            const updatedRequestMatches: UpdateRequestsInput[] = updatedRequestsInput.map((info) => ({
+                _id: info._id!,
+                matchedDonations: info.matchedDonations!
+            }));
             updateRequests({
-                variables: { requests: updatedRequestsInput }
+                variables: { requests: updatedRequestMatches }
             });
 
             const newQuantityRemaining = curDonationForm?.quantityRemaining;
@@ -263,12 +288,17 @@ const AdminDonationMatchingBrowser: FunctionComponent<AdminDonationMatchingBrows
     /*
      * Keeps track of the requests whose quantities have been changed throughout matching.
      */
-    const updateModifiedRequests = (requestId: string, newMatches: DonationFormContributionTuple[]) => {
+    const updateModifiedRequests = (
+        requestId: string,
+        originalQuantity: number,
+        newMatches: DonationFormContributionTuple[]
+    ) => {
         const newInput = updatedRequestsInput;
         const reqIndex = newInput!.findIndex((input) => input._id === requestId);
         const newMatchRequest = {
             _id: requestId,
-            matchedDonations: newMatches
+            matchedDonations: newMatches,
+            quantity: originalQuantity
         };
 
         if (reqIndex !== -1) {
@@ -294,7 +324,7 @@ const AdminDonationMatchingBrowser: FunctionComponent<AdminDonationMatchingBrows
         setIsSaved(false);
 
         // keep track of which requests have been modified
-        updateModifiedRequests(request._id!, newMatchedDonations!);
+        updateModifiedRequests(request._id!, request.quantity!, newMatchedDonations!);
 
         // update new total quantity
         const newTotalSelected = totalQuantitySelected - prevQuantity + newQuantity;
