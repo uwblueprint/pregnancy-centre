@@ -13,7 +13,6 @@ const emailResolvers = {
             promises.push(DonationForm.findById(ids[i]).exec());
         }
         Promise.all(promises).then((res) => {
-            console.log(res);
             const remainingItems = res.map((form) => ({ name: form.name, quantity: form.quantity }));
             sendConfirmationEmail(firstName, lastName, email, [firstItem, ...remainingItems]).catch(console.error);
         });
