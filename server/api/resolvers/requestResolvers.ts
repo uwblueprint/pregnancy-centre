@@ -6,9 +6,9 @@ import { sessionHandler } from "../utils/session";
 const requestEmbeddingFromRequest = (request: RequestInterface) => {
     return {
         _id: request._id,
-        createdAt: request.createdAt ?? null,
-        deletedAt: request.deletedAt ?? null,
-        fulfilledAt: request.fulfilledAt ?? null
+        createdAt: request.createdAt ? request.createdAt : null,
+        deletedAt: request.deletedAt ? request.deletedAt : null,
+        fulfilledAt: request.fulfilledAt ? request.fulfilledAt : null
     };
 };
 
