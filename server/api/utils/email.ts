@@ -8,7 +8,7 @@ async function sendApprovalEmail(firstName: string, lastName: string, email: str
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "blueprintpregnancycentre@gmail.com",
+            user: "blueprintpregnancycentre@gmail.com", // Change later once TPC gives us an email address
             pass: process.env.EMAIL_PASSWORD
         }
     });
