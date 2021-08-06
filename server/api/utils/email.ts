@@ -4,14 +4,16 @@ interface Item {
     name: string;
     quantity: number;
 }
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: "blueprintpregnancycentre@gmail.com", // TODO: Change later once TPC gives us an email address
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
+
 async function sendApprovalEmail(firstName: string, lastName: string, email: string, item: Item) {
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: "blueprintpregnancycentre@gmail.com", // TODO: Change later once TPC gives us an email address
-            pass: process.env.EMAIL_PASSWORD
-        }
-    });
     let htmlString = `<body><p>Dear ${firstName} ${lastName}, <p>`;
     htmlString += `<p>Your donation form of ${item.quantity} ${
         item.name + (item.quantity == 1 ? "" : "s")
@@ -29,13 +31,6 @@ async function sendApprovalEmail(firstName: string, lastName: string, email: str
 }
 
 async function sendConfirmationEmail(firstName: string, lastName: string, email: string, items: Array<Item>) {
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: "blueprintpregnancycentre@gmail.com",
-            pass: "pregnancycentre"
-        }
-    });
     let htmlString = `<body><p>Dear ${firstName} ${lastName}, <p>`;
     htmlString += "<p>Thank you for submitting a donation form.</p>";
     htmlString += "<table> <tr> <th> <p>Item</p> </th> <th> <p>Quantity</p> </th> </tr>";
