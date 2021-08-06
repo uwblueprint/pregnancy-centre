@@ -92,7 +92,6 @@ const DonationFormReviewPage: FunctionComponent<Props> = (props: Props) => {
                         ids: donationFormIds
                     }
                 });
-                console.log(donationFormIds);
             })
             .then(() => {
                 props.onNextPage();
