@@ -1,0 +1,17 @@
+.mobile-popup{
+    &-header{
+        border: none;
+    }
+    &-body {
+        width: 100%;
+    }
+    &-actionarea {
+        display: block;
+        text-align: center;
+    }
+    &-continue-button {
+        @include tpc-green-button;
+        width: 68%;
+    }
+
+}
