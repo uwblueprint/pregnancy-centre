@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
@@ -8,8 +8,23 @@ import DonorPage from "../components/layouts/DonorPage";
 import DonorRequestGroupBrowser from "../components/organisms/DonorRequestGroupBrowser";
 import DonorTestimonialsSection from "../components/organisms/DonorTestimonialsSection";
 
+import MobilePopup from "../components/atoms/MobilePopup";
+import tpcLogo from "../assets/tpc-logo.svg";
+
 const DonorHomepage: FunctionComponent = () => {
+    const [showMobilePopup, setShowMobilePopup] = useState(true);
+    const handleClose = () => setShowMobilePopup(false);
+    const [screenWidth, setScreenWidth] = React.useState(window.innerWidth);
+
+    const breakpoint = 576;
+
+    React.useEffect(() => {
+        const handleWindowResize = () => setScreenWidth(window.innerWidth);
+        window.addEventListener("resize", handleWindowResize);
+        setShowMobilePopup(screenWidth < breakpoint);
+    }, []);
     return (
+        <>
         <Container className="donor-homepage" fluid>
             <DonorPage>
                 <Row className="donor-homepage-banner">
@@ -26,6 +41,13 @@ const DonorHomepage: FunctionComponent = () => {
                 </Row>
             </DonorPage>
         </Container>
+        <MobilePopup
+            className="mobile-popup"
+            show={showMobilePopup}
+            handleClose={handleClose}
+            header={<img src={tpcLogo} />}
+        ></MobilePopup>
+    </>
     );
 };
 
