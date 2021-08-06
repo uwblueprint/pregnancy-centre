@@ -9,7 +9,7 @@ async function sendApprovalEmail(firstName: string, lastName: string, email: str
         service: "gmail",
         auth: {
             user: "blueprintpregnancycentre@gmail.com",
-            pass: process.env.EMAIL_PASSWORD 
+            pass: process.env.EMAIL_PASSWORD
         }
     });
     let htmlString = `<body><p>Dear ${firstName} ${lastName}, <p>`;
@@ -28,7 +28,6 @@ async function sendApprovalEmail(firstName: string, lastName: string, email: str
     });
 
     console.log("Message sent: %s", info.messageId);
-    // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 }
 
 async function sendConfirmationEmail(firstName: string, lastName: string, email: string, items: Array<Item>) {
