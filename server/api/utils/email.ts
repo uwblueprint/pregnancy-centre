@@ -43,7 +43,7 @@ async function sendApprovalEmail(firstName: string, lastName: string, email: str
         '</p><p>Please drop off the items to TPC’s location at 40 Francis Street South, Kitchener, ON N2G 2A2. To confirm current hours please see the website at <a href="https://pregnancycentre.ca/">Home - The Pregnancy Centre.</a></p>The Pregnancy Centre</body>';
 
     await transporter.sendMail({
-        from: '"no reply " <no-reply@pregnancycentre.ca>', // sender address
+        from: '"no-reply " <no-reply@pregnancycentre.ca>', // sender address
         to: email, // list of receivers
         subject: "TPC's Donation Review", // Subject line
         text: "Your donation form has been approved", // plain text body
@@ -70,7 +70,7 @@ async function sendConfirmationEmail(firstName: string, lastName: string, email:
         "<p>Next steps:</p><p>TPC will be reviewing your donation form and will notify you regarding donation approval and drop off details. If you have any questions or concerns, feel free to reach out to rebecca@thepregnancycentre.ca</p>The Pregnancy Centre</body>";
 
     await transporter.sendMail({
-        from: '"no reply " <no-reply@pregnancycentre.ca>', // sender address
+        from: '"no-reply " <no-reply@pregnancycentre.ca>', // sender address
         to: email, // list of receivers
         subject: "Thank you for submitting your Donation Form!", // Subject line
         text: "Thank you for submitting a donation form.", // plain text body
