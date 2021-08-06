@@ -118,7 +118,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                                             setShowEditGroupModal(true);
                                         }}
                                     >
-                                        Edit Group
+                                        Edit Need
                                     </Dropdown.Item>
                                     <Dropdown.Item
                                         className="request-group-button-dropdown-item"
