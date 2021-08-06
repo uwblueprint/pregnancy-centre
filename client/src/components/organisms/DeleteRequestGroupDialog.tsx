@@ -15,7 +15,7 @@ const DeleteRequestTypeDialog: FunctionComponent<Props> = (props: Props) => {
         <FormModal
             className="delete-request-group-form"
             submitButtonText="Confirm"
-            title="Delete Type"
+            title="Delete Need"
             handleClose={props.handleClose}
             show={true}
             onSubmit={props.onSubmit}

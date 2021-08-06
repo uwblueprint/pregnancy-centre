@@ -18,6 +18,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
     const history = useHistory();
     const [requestGroup, setRequestGroup] = useState<RequestGroup | undefined>(undefined);
     const [numTypes, setNumTypes] = useState(0);
+    const [numRequests, setNumRequests] = useState(0);
     const [showEditGroupModal, setShowEditGroupModal] = useState(false);
     const [showCreateTypeModal, setShowCreateTypeModal] = useState(false);
     const [showDeleteGroupModal, setShowDeleteGroupModal] = useState(false);
@@ -65,6 +66,12 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                       )
                     : 0
             );
+            setNumRequests(
+                requestGroup.requestTypes?.reduce((acc, requestType) => {
+                    const nonDeletedRequests = requestType.requests?.filter((request) => request.deletedAt == null) ?? [];
+                    return acc + nonDeletedRequests.length;
+                }, 0) ?? 0
+            );
         }
     }, [requestGroup]);
 
@@ -84,7 +91,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
     };
 
     return (
-        <div>
+        <div className="request-group-browser">
             {requestGroup === undefined ? (
                 <div className="spinner">
                     <Spinner animation="border" role="status" />
@@ -95,7 +102,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                         <div className="request-group-description">
                             <h1 className="request-group-title">{requestGroup!.name}</h1>
                             <p>
-                                Displaying {requestGroup!.countOpenRequests} total requests and {numTypes} types
+                                Displaying {numRequests} total requests and {numTypes} types
                             </p>
                         </div>
                         <div>
@@ -160,7 +167,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                     {showDeleteGroupModal && (
                         <DeleteRequestGroupDialog
                             requestGroupName={requestGroup.name}
-                            numRequests={requestGroup.countOpenRequests ?? 0}
+                            numRequests={numRequests}
                             handleClose={() => { setShowDeleteGroupModal(false) }}
                             onCancel={() => { setShowDeleteGroupModal(false) }}
                             onSubmit={() => {
