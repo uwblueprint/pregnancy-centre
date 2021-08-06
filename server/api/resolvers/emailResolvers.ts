@@ -8,13 +8,25 @@ const emailResolvers = {
             return `Error: Donation form id ${ids[0]} not found`;
         }
         const { firstName, lastName, email } = object.contact;
-        const firstItem = { name: object.name, quantity: object.quantity, condition: object.condition, age: object.age, description: object.description};
+        const firstItem = {
+            name: object.name,
+            quantity: object.quantity,
+            condition: object.condition,
+            age: object.age,
+            description: object.description
+        };
         const promises = [];
         for (let i = 1; i < ids.length; ++i) {
             promises.push(DonationForm.findById(ids[i]).exec());
         }
         Promise.all(promises).then((res) => {
-            const remainingItems = res.map((form) => ({ name: form.name, quantity: form.quantity, condition: object.condition, age: object.age, description: object.description }));
+            const remainingItems = res.map((form) => ({
+                name: form.name,
+                quantity: form.quantity,
+                condition: object.condition,
+                age: object.age,
+                description: object.description
+            }));
             sendConfirmationEmail(firstName, lastName, email, [firstItem, ...remainingItems]).catch(console.error);
         });
         return "sent!";
@@ -25,7 +37,13 @@ const emailResolvers = {
             return `Error: Donation form id ${id} not found`;
         }
         const { firstName, lastName, email } = object.contact;
-        const firstItem = { name: object.name, quantity: object.quantity, condition: object.condition, age: object.age, description: object.description};
+        const firstItem = {
+            name: object.name,
+            quantity: object.quantity,
+            condition: object.condition,
+            age: object.age,
+            description: object.description
+        };
         sendApprovalEmail(firstName, lastName, email, firstItem).catch(console.error);
         return "approved!";
     }

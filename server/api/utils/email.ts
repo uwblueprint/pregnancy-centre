@@ -29,16 +29,18 @@ const transporter = nodemailer.createTransport({
 
 async function sendApprovalEmail(firstName: string, lastName: string, email: string, item: Item) {
     let htmlString = `<body><p>Dear ${firstName} ${lastName}, <p>`;
-    htmlString += "<p>After reviewing your donation form, we would like to accept the following items to meet a client's needs.</p>";
+    htmlString +=
+        "<p>After reviewing your donation form, we would like to accept the following items to meet a client's needs.</p>";
     htmlString += `<p>Donated item: ${item.name}<br>`;
     htmlString += `Condition of Item: ${item.condition}<br>`;
-    htmlString += `Age of item: ${getItemAgeDescription(item.age)}<br>`
+    htmlString += `Age of item: ${getItemAgeDescription(item.age)}<br>`;
     htmlString += `Quantity: ${item.quantity}<br>`;
-    if(item.description != null) {
+    if (item.description != null) {
         htmlString += `Item Description: ${item.description}`;
     }
     htmlString += "</p>";
-    htmlString += '<p>Please drop off the items to TPC’s location at 40 Francis Street South, Kitchener, ON N2G 2A2. To confirm current hours please see the website at <a href="https://pregnancycentre.ca/">Home - The Pregnancy Centre.</a></p>'
+    htmlString +=
+        '<p>Please drop off the items to TPC’s location at 40 Francis Street South, Kitchener, ON N2G 2A2. To confirm current hours please see the website at <a href="https://pregnancycentre.ca/">Home - The Pregnancy Centre.</a></p>';
     htmlString += "The Pregnancy Centre</body>";
 
     await transporter.sendMail({
@@ -57,16 +59,17 @@ async function sendConfirmationEmail(firstName: string, lastName: string, email:
     items.forEach((item) => {
         htmlString += `<p>Donated item: ${item.name}<br>`;
         htmlString += `Condition of Item: ${item.condition}<br>`;
-        htmlString += `Age of item: ${getItemAgeDescription(item.age)}<br>`
+        htmlString += `Age of item: ${getItemAgeDescription(item.age)}<br>`;
         htmlString += `Quantity: ${item.quantity}<br>`;
-        if(item.description != null) {
+        if (item.description != null) {
             htmlString += `Item Description: ${item.description}`;
         }
         htmlString += "</p>";
     });
 
-    htmlString += "<p>Next steps:</p>"
-    htmlString += "<p>TPC will be reviewing your donation form and will notify you regarding donation approval and drop off details. If you have any questions or concerns, feel free to reach out to rebecca@thepregnancycentre.ca</p>";
+    htmlString += "<p>Next steps:</p>";
+    htmlString +=
+        "<p>TPC will be reviewing your donation form and will notify you regarding donation approval and drop off details. If you have any questions or concerns, feel free to reach out to rebecca@thepregnancycentre.ca</p>";
 
     htmlString += "The Pregnancy Centre</body>";
 
