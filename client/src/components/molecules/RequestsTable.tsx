@@ -91,7 +91,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         if (request._id == null) {
             return;
         }
-        if (request.fulfilled) {
+        if (request.fulfilledAt) {
             mutateUnfulfillRequest({ variables: { _id: request._id } });
         } else {
             mutateFulfillRequest({ variables: { _id: request._id } });
