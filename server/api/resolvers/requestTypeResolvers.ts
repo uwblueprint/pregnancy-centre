@@ -76,7 +76,7 @@ const requestTypeQueryResolvers = {
         return RequestType.find().exec();
     },
     requestTypesPage: async (_, { skip, limit, open }, __): Promise<Array<RequestTypeInterface>> => {
-        const filter: {[key: string]: any} = {};
+        const filter: { [key: string]: any } = {};
         if (open) {
             filter.deletedAt = { $eq: null };
         }

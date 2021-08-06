@@ -67,7 +67,13 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                             </div>
                         </div>
                         <RequestTypeList
-                            requestTypes={requestGroupData.requestTypes ? requestGroupData.requestTypes.filter(requestType => requestType.deletedAt == null) : []}
+                            requestTypes={
+                                requestGroupData.requestTypes
+                                    ? requestGroupData.requestTypes.filter(
+                                          (requestType) => requestType.deletedAt == null
+                                      )
+                                    : []
+                            }
                         />
                     </div>
                     <div className="section" id="right">

@@ -164,10 +164,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                                                 </a>
                                             </td>
                                             <td>
-                                                <a
-                                                    className="delete"
-                                                    onClick={() => onDeleteRequest(index)}
-                                                >
+                                                <a className="delete" onClick={() => onDeleteRequest(index)}>
                                                     <i className="bi bi-trash"></i>
                                                 </a>
                                             </td>
