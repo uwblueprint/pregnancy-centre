@@ -18,7 +18,7 @@ interface Props {
     onNextPage?: () => void;
     onPreviousPage?: () => void;
     pageName?: string;
-    pageNumber: number; // Index starting at 1
+    pageNumber: number; // Index starting at 0
     pageInstructions?: string;
     previousButtonText?: string;
     steps: Array<string>;
@@ -71,26 +71,24 @@ const DonationFormPage: FunctionComponent<Props> = (props: Props) => {
                                 <h1>{props.pageName}</h1>
                                 <p className="donation-form-page-instructions">{props.pageInstructions}</p>
                             </div>
-                        )}
-                        {props.children}
-                    </div>
+                <div className="donation-form-page-content">
+                    {props.includeContentHeader && (
+                        <div className="donation-form-page-content-header">
+                            <StepNumber stepNumber={props.pageNumber + 1} isSelectedStep={true} />
+                            <h1>{props.pageName}</h1>
+                            <p className="donation-form-page-instructions">{props.pageInstructions}</p>
+                        </div>
+                    )}
+                    {props.children}
                 </div>
-                {props.includeFooter && (
-                    <div className="donation-form-page-footer">
-                        {props.footer}
-                        <div className="nav-buttons">
-                            {props.previousButtonText && (
-                                <Button
-                                    className="previous-button"
-                                    text={props.previousButtonText}
-                                    copyText=""
-                                    onClick={props.onPreviousPage}
-                                />
-                            )}
-                            {props.nextButtonText && (
-                                <Button
-                                    className="next-button"
-                                    text={props.nextButtonText}
+            </div>
+                <div className="donation-form-page-footer">
+                    {props.footer}
+                    <div className="nav-buttons">
+                        {props.previousButtonText && (
+                            <Button
+                                className="previous-button"
+                                text={props.previousButtonText}
                                     copyText=""
                                     onClick={props.onNextPage}
                                 />

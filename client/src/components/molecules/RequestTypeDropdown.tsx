@@ -33,14 +33,14 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const [deleteModalShow, setDeleteModalShow] = useState(false);
     const [mutateDeleteRequestType] = useMutation(softDelete);
 
-    const getTotalQuantity = () => {
-        let totalQuantity = 0;
+    const getTotalCountRequests = () => {
+        let totalCount = 0;
         requestType?.requests!.forEach((request) => {
             if (!request.deleted) {
-                totalQuantity += request.quantity!;
+                totalCount += 1;
             }
         });
-        return totalQuantity;
+        return totalCount;
     };
 
     const onEditModalSubmit = (newRequestTypeName: string) => {
@@ -70,7 +70,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     };
 
     useEffect(() => {
-        setNumRequests(props.requests!.reduce((total, request) => (request.deleted === false ? total + 1 : total), 0));
+        setNumRequests(props.requests!.reduce((total, request) => (request.deletedAt == null ? total + 1 : total), 0));
     }, []);
 
     const handleChangeNumRequests = (num: number) => {
@@ -130,7 +130,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                         window.location.reload();
                     }}
                     onCancel={() => setDeleteModalShow(false)}
-                    numRequests={getTotalQuantity()}
+                    numRequests={getTotalCountRequests()}
                 />
             )}
         </div>

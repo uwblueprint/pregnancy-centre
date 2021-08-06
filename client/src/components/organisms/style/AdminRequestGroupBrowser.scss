@@ -1,48 +1,63 @@
-.request-group-header {
-    display: flex;
+.request-group-browser {
+    .request-group-header {
+        display: flex;
 
-    .request-group-description {
-        flex: 1;
-        margin-left: 160px;
+        .request-group-description {
+            flex: 1;
+            margin-left: 160px;
 
-        .request-group-title {
-            @include heavy-text;
+            .request-group-title {
+                @include heavy-text;
+            }
+        }
+
+        .buttonDiv {
+            position: relative;
+        }
+
+        .btn,
+        .btn:hover,
+        .btn:focus,
+        .btn:active,
+        .show > .btn-primary.dropdown-toggle {
+            background-color: $admin-request-group-browser-button-color;
+            color: $tpc-green;
+            border-color: $tpc-green;
+            height: 36px;
+            width: 60px;
         }
     }
 
-    .buttonDiv {
-        position: relative;
-    }
+    .request-group-button {
+        text-align: right;
 
-    .btn,
-    .btn:hover,
-    .btn:focus,
-    .btn:active,
-    .show > .btn-primary.dropdown-toggle {
-        background-color: $admin-request-group-browser-button-color;
-        color: $tpc-green;
-        border-color: $tpc-green;
-        height: 36px;
-        width: 60px;
-    }
-}
+        &-dropdown {
+            background-color: $dropdown-color;
+            border-radius: 4px;
+            box-shadow: $dropdown-box-shadow;
+            border: none;
+            padding: 0;
 
-.request-group-button {
-    text-align: right;
+            &-item {
+                padding: 14px 20px;
+            }
+        }
 
-    &-dropdown {
-        background-color: $admin-request-group-browser-dropdown-color;
-        border-radius: 4px;
-        box-shadow: 0 4px 3px $admin-request-group-browser-dropdown-shadow-color;
-        border: none;
-        padding: 0;
-
-        &-item {
-            padding: 14px 20px;
+        .dropdown-menu {
+            margin-top: 8px;
         }
     }
 
-    .dropdown-menu {
-        margin-top: 8px;
+    .spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        height: 100vh;
+        width: 100vw;
+
+        .spinner-border {
+            width: 40px;
+            height: 40px;
+        }
     }
 }

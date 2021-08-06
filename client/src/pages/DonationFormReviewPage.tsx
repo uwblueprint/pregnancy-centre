@@ -1,31 +1,97 @@
+import { gql, useMutation } from "@apollo/client";
 import React, { FunctionComponent } from "react";
 
-import DonationForm from "../data/types/donationForm";
+import { DonationForm } from "../data/types/donationForm";
+import { DonationFormContact } from "../data/types/donationForm";
 import DonationFormPage from "../components/layouts/DonationFormPage";
 import DonationItemCard from "../components/atoms/DonationItemCard";
-import Donor from "../data/types/donor";
 import HorizontalDividerLine from "../components/atoms/HorizontalDividerLine";
 
 interface Props {
-    donor: Donor;
+    donor: DonationFormContact;
     donationForms: Array<DonationForm>;
-    onPreviousPage: () => void;
     onNextPage: () => void;
-    pageNumber: number; // Index starting at 1
+    onPreviousPage: () => void;
+    pageNumber: number; // Index starting at 0
     steps: Array<string>;
 }
 
 const DonationFormReviewPage: FunctionComponent<Props> = (props: Props) => {
+    const createDonationFromMutation = gql`
+        mutation CreateDonationForm(
+            $age: Int!
+            $condition: DonationItemCondition!
+            $description: String
+            $email: String
+            $firstName: String
+            $lastName: String
+            $name: String!
+            $phoneNumber: String
+            $quantity: Int!
+            $requestGroup: ID
+        ) {
+            donationForm: createDonationForm(
+                donationForm: {
+                    age: $age
+                    condition: $condition
+                    contact: { email: $email, firstName: $firstName, lastName: $lastName, phoneNumber: $phoneNumber }
+                    description: $description
+                    name: $name
+                    quantity: $quantity
+                    quantityRemaining: $quantity
+                    requestGroup: $requestGroup
+                    status: PENDING_APPROVAL
+                }
+            ) {
+                _id
+            }
+        }
+    `;
+
+    const [createDonationForm] = useMutation(createDonationFromMutation, {
+        onError: (error) => {
+            console.log(error);
+        }
+    });
+
+    const onSubmit = () => {
+        const createDonationFormPromises = props.donationForms.map((donationForm) =>
+            createDonationForm({
+                variables: {
+                    age: donationForm.age,
+                    condition: donationForm.condition,
+                    description: donationForm.description,
+                    email: props.donor.email,
+                    firstName: props.donor.firstName,
+                    lastName: props.donor.lastName,
+                    name: donationForm.name,
+                    phoneNumber: props.donor.phoneNumber,
+                    quantity: donationForm.quantity,
+                    requestGroup: donationForm.requestGroup?._id
+                }
+            })
+        );
+
+        Promise.all(createDonationFormPromises)
+            .then((results) => {
+                const donationFormIds = results.map((result) => result.data.donationForm._id);
+                console.log(donationFormIds);
+            })
+            .then(() => {
+                props.onNextPage();
+            });
+    };
+
     return (
         <DonationFormPage
             className="donation-form-review-page"
             includeContentHeader={true}
             includeFooter={true}
             nextButtonText="Submit Form"
-            onNextPage={props.onNextPage}
+            onNextPage={onSubmit}
             onPreviousPage={props.onPreviousPage}
-            pageName={props.steps[props.pageNumber - 1]}
-            pageNumber={3}
+            pageName={props.steps[props.pageNumber]}
+            pageNumber={props.pageNumber}
             pageInstructions="Review the items you have entered, return to the previous page(s) through the back button if there are any changes that need to be made."
             previousButtonText="Back"
             steps={props.steps}

@@ -102,6 +102,11 @@ $tpc-green: #004d57;
     letter-spacing: 0.2px;
 }
 
+@mixin tpc-green-link() {
+    @include tpc-green-text();
+    text-decoration: underline;
+}
+
 @mixin semibold-text() {
     @include text;
     font-weight: 500;
@@ -246,8 +251,10 @@ $tpc-green-hover: #00363e;
 }
 
 /* Dropdown Config */
-$admin-request-group-browser-dropdown-color: #f4f4f4;
-$admin-request-group-browser-dropdown-shadow-color: #dbdbdb;
+$dropdown-color: #f4f4f4;
+$dropdown-shadow-color: #dbdbdb;
+$dropdown-box-shadow: 0 4px 3px $dropdown-shadow-color;
+$dropdown-item-focus-color: #e9ecef;
 /* TextField Config */
 $soft-black: #333333;
 $textfield-input-border: #797979;
@@ -284,3 +291,6 @@ $donation-item-form-dropdown-prompt-color: #adadad;
 
 /* Horizontal Diveder Line */
 $horizontal-divider-line-color: #a0a0a0;
+
+/* Donation Form Matching Card */
+$donation-form-matching-card-border-color: #c5c3c3;

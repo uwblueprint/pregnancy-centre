@@ -52,8 +52,8 @@ const donationFormConditions: string[] = Object.keys(DonationItemCondition);
 const donationFormStatuses: string[] = Object.keys(DonationItemStatus);
 
 const numGroups = requestGroupNames.length;
-const numTypesPerGroup = 10;
-const maxNumRequestsPerType = 50;
+const numTypesPerGroup = 5;
+const maxNumRequestsPerType = 10;
 const maxUnclassifiedDonationForms = 10;
 const maxDonationFormsPerRequestGroup = 10;
 const maxQuantityPerRequest = 15;
@@ -128,6 +128,18 @@ const createDonationForm = (requestGroup = null) => {
 
     // if not classified under a requestGroup, generate random name
     const name = requestGroup ? requestGroup.name : faker.commerce.product();
+    const status = faker.random.arrayElement(donationFormStatuses);
+    const statusFields: { status: string; donatedAt?: Date; matchedAt?: Date } = {
+        status
+    };
+    if (status === DonationItemStatus.PENDING_MATCH || status === DonationItemStatus.MATCHED) {
+        statusFields.donatedAt = new Date(randomDate(dateCreated));
+    }
+    if (status === DonationItemStatus.MATCHED) {
+        statusFields.matchedAt = new Date(randomDate(statusFields.donatedAt));
+    }
+
+    const quantity = Math.floor(Math.random() * maxQuantityPerDonationForm) + 1;
 
     return new DonationForm({
         _id: mongoose.Types.ObjectId(),
@@ -140,11 +152,12 @@ const createDonationForm = (requestGroup = null) => {
         name: name,
         description: faker.lorem.sentence(),
         ...(!!requestGroup && { requestGroup: requestGroup._id }),
-        quantity: Math.floor(Math.random() * maxQuantityPerDonationForm) + 1,
+        quantity: quantity,
+        quantityRemaining: quantity,
         age: Math.floor(Math.random() * 21), // random integer between 0 and 20
         condition: faker.random.arrayElement(donationFormConditions),
-        status: faker.random.arrayElement(donationFormStatuses),
-        createdAt: dateCreated
+        createdAt: dateCreated,
+        ...statusFields
     });
 };
 
@@ -232,7 +245,9 @@ connectDB(async () => {
             }
 
             requestGroup.requestTypes.push({
-                _id: requestType._id
+                _id: requestType._id,
+                name: requestType.name,
+                deletedAt: requestType.deletedAt
             });
 
             await requestType.save();

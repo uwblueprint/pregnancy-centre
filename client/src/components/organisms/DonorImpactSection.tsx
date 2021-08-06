@@ -7,7 +7,7 @@ import { Statistic, Testimonial } from "../../data/types/donorHomepageConfig";
 import BaseMap from "../../assets/kw-region-map.png";
 import Card from "../atoms/CardWithShadow";
 import Cursor from "../../assets/cursor.png";
-import DonorHomepageConfig from "../../config/donorHompageConfig.json";
+import DonorHomepageConfig from "../../config/donorHomepageConfig.json";
 
 const DonorImpactSection: FunctionComponent = () => {
     const [selectedTestimonial, _setSelectedTestimonial] = useState<Testimonial | null>(null);

@@ -27,15 +27,14 @@ const SearchableDropdown: FunctionComponent<Props> = (props: Props) => {
         // Case-insensitive alphabetical sort
         return a.toLowerCase().localeCompare(b.toLowerCase());
     });
-
     const [isDropdownOpened, setIsDropdownOpened] = useState(false);
     const [displayItems, setDisplayItems] = useState(sortedDropdownItems);
 
     const displayMatchingItems = (newSearchString: string) => {
         const newDisplayItems =
             newSearchString.length === 0
-                ? props.dropdownItems
-                : props.dropdownItems.filter((item) => searchStringMatches(newSearchString, item));
+                ? sortedDropdownItems
+                : sortedDropdownItems.filter((item) => searchStringMatches(newSearchString, item));
         setDisplayItems(newDisplayItems);
     };
 

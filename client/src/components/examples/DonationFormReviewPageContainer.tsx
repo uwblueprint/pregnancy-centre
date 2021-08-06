@@ -33,7 +33,7 @@ const DonationFormReviewPageContainer: FunctionComponent<Record<string, never>> 
             donationForms={donationForms}
             onPreviousPage={() => console.log("Back")}
             onNextPage={() => console.log("Submit Form")}
-            pageNumber={3}
+            pageNumber={2}
             steps={steps}
         />
     );

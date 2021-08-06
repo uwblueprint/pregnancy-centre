@@ -32,6 +32,14 @@ const typeDefs = gql`
         requestType: ID
         clientName: String
     }
+    input UpdateRequestsInput {
+        _id: ID!
+        matchedDonations: [DonationFormContributionTupleInput]
+    }
+    input DonationFormContributionTupleInput {
+        donationForm: ID
+        quantity: Int
+    }
     # ---  Left as a proof of concept: ---
     # input FilterRequestInput {
     #     NOT_AVAILABLE: Boolean
@@ -111,11 +119,18 @@ const typeDefs = gql`
     # input FilterOptions {
     #     NOT_AVAILABLE: Boolean
     # }
-    
+
     input DonationFormFilterOptions {
-        requestGroup: ID,  
-        formType: DonationItemType, 
+        deleted: Boolean
+        requestGroup: ID
+        formType: DonationItemType
         status: DonationItemStatus
+        statusNot: DonationItemStatus
+    }
+
+    enum DonationFormSortOptions {
+        CREATED_AT
+        MATCHED_AT
     }
 
     enum DonationItemType {
@@ -171,6 +186,7 @@ const typeDefs = gql`
         deletedAt: String
         createdAt: String
         updatedAt: String
+        matchedAt: String
     }
 
     input CreateDonationFormInput {
@@ -194,38 +210,46 @@ const typeDefs = gql`
         quantityRemaining: Int
         adminNotes: String
         donatedAt: String
+        matchedAt: String
     }
 
     type Query {
         request(_id: ID): Request
         requests: [Request]
-        requestsPage(skip: Int, limit: Int): [Request]
+        requestsPage(skip: Int, limit: Int, open: Boolean): [Request]
         countRequests(open: Boolean): Int
+        openRequests: [Request]
         # --- Left as a proof of concept: ---
         # requestsFilter(filter: FilterRequestInput, options: FilterOptions): [Request]
 
         requestType(_id: ID): RequestType
         requestTypes: [RequestType]
-        requestTypesPage(skip: Int, limit: Int): [RequestType]
+        requestTypesPage(skip: Int, limit: Int, open: Boolean): [RequestType]
         countRequestTypes(open: Boolean): Int
         # --- Left as a proof of concept: ---
         # requestTypesFilter(filter: FilterRequestTypeInput, options: FilterOptions): [RequestType]
 
         requestGroup(_id: ID): RequestGroup
         requestGroups: [RequestGroup]
-        requestGroupsPage(skip: Int, limit: Int, name: String): [RequestGroup]
-        countRequestGroups(open: Boolean): Int
+        requestGroupsPage(skip: Int, limit: Int, name: String, open: Boolean): [RequestGroup]
+        countRequestGroups(open: Boolean, name: String): Int
         # --- Left as a proof of concept: ---
         # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]
 
         donationForm(_id: ID): DonationForm
         donationForms: [DonationForm]
-        donationFormsPage(skip: Int, limit: Int, filterOptions: DonationFormFilterOptions): [DonationForm]
+        donationFormsPage(
+            skip: Int
+            limit: Int
+            filterOptions: DonationFormFilterOptions
+            sortBy: DonationFormSortOptions
+        ): [DonationForm]
     }
 
     type Mutation {
         createRequest(request: CreateRequestInput): Request
         updateRequest(request: UpdateRequestInput): Request
+        updateRequests(requests: [UpdateRequestsInput]): [Request]
         deleteRequest(_id: ID): Request
         fulfillRequest(_id: ID): Request
         unfulfillRequest(_id: ID): Request

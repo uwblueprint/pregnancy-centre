@@ -1,0 +1,31 @@
+.matching-requests-view {
+    display: flex;
+    flex-direction: column;
+
+    &-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 18px;
+
+        h1 {
+            @include heavy-text;
+            font-size: 32px;
+            line-height: 32px;
+        }
+    }
+
+    &-content {
+    }
+
+    &-clients-header {
+        @include heavy-text;
+        display: flex;
+        border-radius: 4px;
+        font-size: 16px;
+        padding: 16px 20px;
+        background-color: #ededed;
+    }
+}

@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useState } from "react";
 
+import { DonationFormContact } from "../data/types/donationForm";
 import DonationFormPage from "../components/layouts/DonationFormPage";
-import Donor from "../data/types/donor";
 import FormItem from "../components/molecules/FormItem";
 import { TextField } from "../components/atoms/TextField";
 
 interface Props {
-    initialDonor?: Donor;
-    onNext: (donor: Donor) => void;
-    pageNumber: number; // Index starting at 1
+    initialDonor?: DonationFormContact;
+    onNext: (donor: DonationFormContact) => void;
+    pageNumber: number; // Index starting at 0
     steps: Array<string>;
 }
 
@@ -69,22 +69,18 @@ const DonationFormContactInfoPage: FunctionComponent<Props> = (props: Props) => 
     };
 
     const onFirstNameChange = (newFirstName: string) => {
-        updateFirstNameError(newFirstName);
         setFirstName(newFirstName);
     };
 
     const onLastNameChange = (newLastName: string) => {
-        updateLastNameError(newLastName);
         setLastName(newLastName);
     };
 
     const onPhoneNumberChange = (newPhoneNumber: string) => {
-        updatePhoneNumberError(newPhoneNumber);
         setPhoneNumber(newPhoneNumber);
     };
 
     const onEmailChange = (newEmail: string) => {
-        updateEmailError(newEmail);
         setEmail(newEmail);
     };
 
@@ -116,8 +112,8 @@ const DonationFormContactInfoPage: FunctionComponent<Props> = (props: Props) => 
             includeFooter={true}
             nextButtonText="Next"
             onNextPage={onNext}
-            pageName="Contact Information"
-            pageNumber={1}
+            pageName={props.steps[props.pageNumber]}
+            pageNumber={props.pageNumber}
             pageInstructions="Please fill out your contact information so that The Pregnancy Centre can notify you about donation approval and drop off details."
             steps={props.steps}
         >

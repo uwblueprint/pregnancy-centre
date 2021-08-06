@@ -23,7 +23,7 @@ const RequestGroupList: FunctionComponent<Props> = (props: Props) => {
 
     const getPageQuery = gql`
         query GetRequestGroupsPage($skip: Int!, $limit: Int!) {
-            requestGroupsPage(skip: $skip, limit: $limit) {
+            requestGroupsPage(skip: $skip, limit: $limit, open: true) {
                 _id
                 name
                 image

@@ -1,0 +1,44 @@
+.banner-carousel {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+
+    &-container {
+        padding: 0;
+
+        .carousel {
+            z-index: 0;
+            display: block;
+
+            img {
+                object-fit: cover;
+                opacity: 0.4;
+                height: 435px;
+                width: 100%;
+                border-radius: 0;
+            }
+        }
+    }
+
+    &-info {
+        position: absolute;
+        text-align: center;
+        z-index: 1;
+
+        h1 {
+            font-weight: bold;
+            font-size: 38px;
+            line-height: 44px;
+            margin-bottom: 16px;
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 28px;
+            width: 100%;
+        }
+    }
+}

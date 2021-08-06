@@ -26,7 +26,9 @@ const filterDeletedRequestEmbeddings = (requestEmbeddings) => {
 
 const requestTypeEmbeddingFromRequestType = (requestType: RequestTypeInterface) => {
     return {
-        _id: requestType._id
+        _id: requestType._id,
+        name: requestType.name,
+        deletedAt: requestType.deletedAt ?? null
     };
 };
 
@@ -75,8 +77,12 @@ const requestTypeQueryResolvers = {
     requestTypes: async (_, __, ___): Promise<Array<RequestTypeInterface>> => {
         return RequestType.find().exec();
     },
-    requestTypesPage: async (_, { skip, limit }, __): Promise<Array<RequestTypeInterface>> => {
-        return RequestType.find().sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
+    requestTypesPage: async (_, { skip, limit, open }, __): Promise<Array<RequestTypeInterface>> => {
+        const filter: {[key: string]: any} = {};
+        if (open) {
+            filter.deletedAt = { $eq: null };
+        }
+        return RequestType.find(filter).sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
     },
     countRequestTypes: async (_, { open }, ___): Promise<number> => {
         if (open) {
@@ -125,9 +131,27 @@ const requestTypeMutationResolvers = {
     },
     deleteRequestType: async (_, { _id }, { authenticateUser }): Promise<RequestTypeInterface> => {
         return authenticateUser().then(async () => {
-            const requestType = await RequestType.findById(_id);
-            requestType.deletedAt = new Date();
-            return requestType.save();
+            return sessionHandler(async (session) => {
+                const requestType = await RequestType.findById(_id).session(session);
+
+                if (requestType == null) return requestType;
+
+                if (requestType.deletedAt != null) return requestType.save({ session: session });
+
+                requestType.deletedAt = new Date();
+
+                for (let i = 0; i < requestType.requests.length; i++) {
+                    const request = await Request.findById(requestType.requests[i]._id).session(session);
+
+                    if (request.deletedAt != null) continue;
+
+                    request.deletedAt = new Date();
+                    requestType.requests[i].deletedAt = request.deletedAt;
+                    await request.save({ session: session });
+                }
+
+                return requestType.save({ session: session });
+            });
         });
     },
     changeRequestGroupForRequestType: async (

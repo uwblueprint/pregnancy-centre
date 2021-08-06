@@ -46,23 +46,25 @@ const requestGroupQueryResolvers = {
     requestGroups: async (_, __, ___): Promise<Array<RequestGroupInterface>> => {
         return RequestGroup.find().exec();
     },
-    requestGroupsPage: async (_, { skip, limit, name }, __): Promise<Array<RequestGroupInterface>> => {
+    requestGroupsPage: async (_, { skip, limit, name, open }, __): Promise<Array<RequestGroupInterface>> => {
+        const filter: {[key: string]: any} = {};
         if (name) {
-            return RequestGroup.find({ name: { $regex: "^" + name + ".*", $options: "i" } })
-                .sort({ name: "ascending", _id: "ascending" })
-                .skip(skip)
-                .limit(limit)
-                .exec();
-        } else {
-            return RequestGroup.find().sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
+            filter.name = { $regex: "^" + name + ".*", $options: "i" };
         }
-    },
-    countRequestGroups: async (_, { open }, ___): Promise<number> => {
         if (open) {
-            return RequestGroup.countDocuments({ deletedAt: { $exists: false } });
-        } else {
-            return RequestGroup.countDocuments();
+            filter.deletedAt = { $eq: null };
         }
+        return RequestGroup.find(filter).sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
+    },
+    countRequestGroups: async (_, { open, name }, ___): Promise<number> => {
+        const filter: {[key: string]: any} = {};
+        if (name) {
+            filter.name = { $regex: "^" + name + ".*", $options: "i" };
+        }
+        if (open) {
+            filter.deletedAt = { $eq: null };
+        }
+        return RequestGroup.countDocuments(filter);
     }
     /* Left as a proof of concept:
     requestGroupsFilter: async (_, { filter, options }, ___): Promise<Array<RequestGroupInterface>> => {
@@ -83,9 +85,36 @@ const requestGroupMutationResolvers = {
     },
     deleteRequestGroup: async (_, { _id }, { authenticateUser }): Promise<RequestGroupInterface> => {
         return authenticateUser().then(async () => {
-            const requestGroup = await RequestGroup.findById(_id);
-            requestGroup.deletedAt = new Date();
-            return requestGroup.save();
+            return sessionHandler(async (session) => {
+                const requestGroup = await RequestGroup.findById(_id).session(session);
+
+                if (requestGroup == null) return requestGroup;
+
+                if (requestGroup.deletedAt != null) return requestGroup.save({ session: session });
+
+                requestGroup.deletedAt = new Date();
+
+                for (const requestTypeEmbedding of requestGroup.requestTypes) {
+                    const requestType = await RequestType.findById(requestTypeEmbedding._id).session(session);
+
+                    if (requestType.deletedAt != null) continue;
+
+                    requestType.deletedAt = new Date();
+                    await requestType.save({ session: session });
+
+                    for (let i = 0; i < requestType.requests.length; i++) {
+                        const request = await Request.findById(requestType.requests[i]._id).session(session);
+
+                        if (request.deletedAt != null) continue;
+
+                        request.deletedAt = new Date();
+                        requestType.requests[i].deletedAt = request.deletedAt;
+                        await request.save({ session: session });
+                    }
+                }
+
+                return requestGroup.save({ session: session });
+            });
         });
     }
 };
@@ -93,7 +122,7 @@ const requestGroupMutationResolvers = {
 const requestGroupResolvers = {
     requestTypes: async (parent, __, ___, info): Promise<Array<RequestTypeInterface>> => {
         // if we only want fields in the embedding, then pass the embedding along
-        if (infoContainsOnlyFields(info, ["_id"])) {
+        if (infoContainsOnlyFields(info, ["_id", "name", "deletedAt"])) {
             return parent.requestTypes;
         }
 

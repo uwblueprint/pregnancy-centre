@@ -6,9 +6,9 @@ import { sessionHandler } from "../utils/session";
 const requestEmbeddingFromRequest = (request: RequestInterface) => {
     return {
         _id: request._id,
-        createdAt: request.createdAt ? request.createdAt : null,
-        deletedAt: request.deletedAt ? request.deletedAt : null,
-        fulfilledAt: request.fulfilledAt ? request.fulfilledAt : null
+        createdAt: request.createdAt ?? null,
+        deletedAt: request.deletedAt ?? null,
+        fulfilledAt: request.fulfilledAt ?? null
     };
 };
 
@@ -41,7 +41,12 @@ const requestQueryResolvers = {
     requests: async (_, __, ___): Promise<Array<RequestInterface>> => {
         return Request.find().exec();
     },
-    requestsPage: async (_, { skip, limit }, __): Promise<Array<RequestInterface>> => {
+    requestsPage: async (_, { skip, limit, open }, __): Promise<Array<RequestInterface>> => {
+        const filter: {[key: string]: any} = {};
+        if (open) {
+            filter.deletedAt = { $eq: null };
+            filter.fulfilledAt = { $eq: null };
+        }
         return Request.find().sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
     },
     countRequests: async (_, { open }, ___): Promise<number> => {
@@ -50,6 +55,9 @@ const requestQueryResolvers = {
         } else {
             return Request.countDocuments();
         }
+    },
+    openRequests: async (_, __, ___): Promise<Array<RequestInterface>> => {
+        return Request.find({ deletedAt: { $eq: null }, fulfilledAt: { $eq: null } }).exec();
     }
     /* Left as a proof of concept:
     requestsFilter: async (_, { filter, options }, ___): Promise<Array<RequestInterface>> => {
@@ -92,10 +100,33 @@ const requestMutationResolvers = {
             });
         });
     },
+    updateRequests: async (_, { requests }, { authenticateUser }): Promise<RequestInterface> => {
+        return authenticateUser().then(async () => {
+            return sessionHandler(async (session) => {
+                const newRequests = [];
+                for (const request of requests) {
+                    newRequests.push(
+                        await Request.findByIdAndUpdate(
+                            request._id,
+                            { ...request },
+                            {
+                                new: true,
+                                session: session
+                            }
+                        )
+                    );
+                }
+                return newRequests;
+            });
+        });
+    },
     deleteRequest: async (_, { _id }, { authenticateUser }): Promise<RequestInterface> => {
         return authenticateUser().then(async () => {
             return sessionHandler(async (session) => {
                 const request = await Request.findById(_id);
+
+                if (request == null) return request;
+
                 request.deletedAt = new Date();
                 await updateRequestEmbedingInRequestTypes(request, session);
                 return request.save({ session: session });

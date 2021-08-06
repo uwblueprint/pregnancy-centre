@@ -1,14 +1,17 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { Area } from "react-easy-crop/types";
 
 import FormItem from "../molecules/FormItem";
 import FormModal from "./FormModal";
+import { getCroppedImg } from "../utils/imageCrop";
 import { getFilesFromFolder } from "../../services/storage";
 import ImagePicker from "../atoms/ImagePicker";
 import RequestGroup from "../../data/types/requestGroup";
 import RichTextField from "../atoms/RichTextField";
 import { TagInput } from "../atoms/TagInput";
 import { TextField } from "../atoms/TextField";
+import UploadThumbnailService from "../../services/upload-thumbnail";
 
 type Props = {
     handleClose: () => void;
@@ -27,6 +30,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
+    const [uploadedImg, setUploadedImg] = useState("");
     const [images, setImages] = useState([""]);
     const [requestTypesMap, setRequestTypesMap] = useState<Map<string, RequestTypeData>>(new Map());
     const [nameError, setNameError] = useState("");
@@ -34,6 +38,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
     const [imageError, setImageError] = useState("");
     const [requestTypesError, setRequestTypesError] = useState("");
     const [loadingRequestGroup, setLoadingRequestGroup] = useState(props.operation === "edit");
+    const [croppedArea, setCroppedArea] = useState<Area>({ width: 0, height: 0, x: 0, y: 0 });
     const [requestGroupsMap, setRequestGroupsMap] = useState<Map<string, RequestGroup>>(new Map());
 
     useEffect(() => {
@@ -276,21 +281,40 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
         return error;
     };
 
+    const onUploadImg = (uploadedImg: string) => {
+        setChangeMade(true);
+        updateImageError(uploadedImg);
+        setUploadedImg(uploadedImg);
+    };
+
     const onImageChange = (newImage: string) => {
         setChangeMade(true);
         updateImageError(newImage);
-        if (images.find((imageUrl) => imageUrl === newImage)) {
+        if (newImage.length === 0 || images.find((imageUrl) => imageUrl === newImage)) {
             setImage(newImage);
+            setUploadedImg("");
         }
     };
+    const onCroppedAreaChange = (area: Area) => {
+        setCroppedArea(area);
+    };
 
-    const onSubmit = (e: React.FormEvent) => {
+    const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         const tempNameError = updateNameError(name);
         const tempDescriptionError = updateDescriptionError(description);
-        const tempImageError = updateImageError(image);
+        const tempImageError = imageError;
 
         if (!tempNameError && !tempDescriptionError && !tempImageError) {
+            let selectedImg = image;
+            if (uploadedImg !== "") {
+                const croppedImg = await getCroppedImg(uploadedImg, croppedArea);
+
+                const croppedImgURL = await UploadThumbnailService.upload(croppedImg, new Date().toISOString());
+                selectedImg = croppedImgURL;
+            }
+
             if (props.operation === "create") {
                 let requestGroupId: string | null = null;
                 let newRequestTypeNames = Array.from(requestTypesMap)
@@ -299,7 +323,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                 if (newRequestTypeNames.length === 0) {
                     newRequestTypeNames = ["One Size"];
                 }
-                createRequestGroup({ variables: { name, description, image } })
+                createRequestGroup({ variables: { name, description, image: selectedImg } })
                     .then((response) => {
                         requestGroupId = response.data.createRequestGroup._id;
                         const createRequestTypePromises = newRequestTypeNames.map((requestTypeName) =>
@@ -333,7 +357,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                     .then(() => {
                         if (initialRequestGroup?._id) {
                             return updateRequestGroup({
-                                variables: { id: initialRequestGroup._id, name, description, image }
+                                variables: { id: initialRequestGroup._id, name, description, image: selectedImg }
                             });
                         }
                     })
@@ -452,15 +476,23 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
                     <div className="imagepicker-form-item">
                         <FormItem
                             formItemName="Image"
+                            instructions={
+                                image === ""
+                                    ? "Uploads must be JPEGs or PNGs, at least 600 x 430 pixels, and less than 5MB"
+                                    : ""
+                            }
                             errorString={imageError}
                             isDisabled={false}
                             showErrorIcon={false}
                             inputComponent={
                                 <ImagePicker
                                     onImageChange={onImageChange}
+                                    onCroppedAreaChange={onCroppedAreaChange}
                                     images={images}
                                     selected={image}
                                     isErroneous={imageError !== ""}
+                                    uploadedImg={uploadedImg}
+                                    onUploadImg={onUploadImg}
                                 />
                             }
                         />

@@ -4,6 +4,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 interface ButtonProps {
     className?: string;
+    disabled?: boolean;
     text: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
     copyText: string;
@@ -14,7 +15,12 @@ const Button: FunctionComponent<ButtonProps> = (props: ButtonProps) => {
     return (
         <React.Fragment>
             <CopyToClipboard text={props.copyText}>
-                <button className={"button " + props.className} onClick={props.onClick} type={props.type}>
+                <button
+                    className={"button " + props.className}
+                    disabled={props.disabled}
+                    onClick={props.onClick}
+                    type={props.type}
+                >
                     {props.text}
                 </button>
             </CopyToClipboard>
