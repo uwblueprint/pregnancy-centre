@@ -12,6 +12,7 @@ import SimplePageNavigation from "../atoms/SimplePageNavigation";
 import { usePaginator } from "../utils/hooks";
 
 const AdminRequestGroupList: FunctionComponent = () => {
+    const [searchString, setSearchString] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(0); // Indexing starting at 0.
     const [currentPageData, setCurrentPageData] = useState<Array<RequestGroup>>([]);
@@ -40,40 +41,44 @@ const AdminRequestGroupList: FunctionComponent = () => {
         }
     `;
     const paginator = usePaginator(numRequestGroupsPerPage, pages, getPageQuery, -1, 0);
+    const searchPaginator = usePaginator(numRequestGroupsPerPage, pages, getPageQuery, -1, 0);
 
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage);
     };
 
     const query = gql`
-        {
-            countRequestGroups(open: true)
+        query GetCountRequestGroups($name: String) {
+            countRequestGroups(open: true, name: $name)
         }
     `;
 
     useEffect(() => {
         if (countRequestGroups === 0) return;
-        paginator.getPage(currentPage).then((page) => {
+        const currentPaginator = searchString ? searchPaginator : paginator;
+        currentPaginator.getPage(currentPage).then((page) => {
             setCurrentPageData(page);
         });
-    }, [currentPage, countRequestGroups]);
+    }, [searchString, currentPage, countRequestGroups]);
 
     useQuery(query, {
+        variables: Object.assign(
+            searchString ? { name: searchString } : {}
+        ),
         onCompleted: (data: { countRequestGroups: number }) => {
             setCountRequestGroups(data.countRequestGroups);
             setIsLoading(false);
         }
     });
 
-    const onSearchStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCurrentPageData([]);
-        if (event.target.value) {
-            paginator.setQueryVariables({ name: event.target.value });
-        } else {
-            paginator.setQueryVariables({});
+    const onSearchStringChange = (searchString: string) => {
+        setSearchString(searchString);
+        if (searchString) {
+            searchPaginator.setQueryVariables({ name: searchString });
         }
-        paginator.clear();
         setCurrentPage(0);
+        setCurrentPageData([]);
+        setCountRequestGroups(0);
     };
 
     return (
