@@ -6,7 +6,7 @@ steps:
   - 'FIREBASE_API_KEY="AIzaSyCcxBQzXWxz4ZZ4Q8205i9xTpQH2XVJlhU"'
   - 'NODE_ENV=production'
   - 'CLIENT_URL="https://bp-pregnancy-centre-staging.web.app"'
-  secretEnv: ['MONGO_URI', 'FIREBASE_PRIVATE_KEY', 'FIREBASE_CLIENT_EMAIL']
+  secretEnv: ['MONGO_URI', 'FIREBASE_PRIVATE_KEY', 'FIREBASE_CLIENT_EMAIL', 'EMAIL_PASSWORD']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/tpc-server', '.']
 - name: 'gcr.io/cloud-builders/docker'
@@ -19,3 +19,5 @@ availableSecrets:
     env: 'FIREBASE_PRIVATE_KEY'
   - versionName: projects/bp-pregnancy-centre-staging/secrets/FIREBASE_CLIENT_EMAIL/versions/1
     env: 'FIREBASE_CLIENT_EMAIL'
+  - versionName: projects/bp-pregnancy-centre-staging/secrets/EMAIL_PASSWORD/versions/2
+    env: 'EMAIL_PASSWORD'
