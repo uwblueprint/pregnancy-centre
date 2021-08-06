@@ -4,7 +4,7 @@ import { DonationForm } from "../../database/models/donationFormModel";
 const emailResolvers = {
     sendConfirmationEmail: async (_, { ids }): Promise<string> => {
         const object = await DonationForm.findById(ids[0]).exec();
-        if(object == null) {
+        if (object == null) {
             return `Error: Donation form id ${ids[0]} not found`;
         }
         const firstName = object.contact.firstName;
@@ -23,7 +23,7 @@ const emailResolvers = {
     },
     sendApprovalEmail: async (_, { id }): Promise<string> => {
         const object = await DonationForm.findById(id).exec();
-        if(object == null) {
+        if (object == null) {
             return `Error: Donation form id ${id} not found`;
         }
         const firstName = object.contact.firstName;
