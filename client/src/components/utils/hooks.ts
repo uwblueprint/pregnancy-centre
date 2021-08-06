@@ -101,7 +101,6 @@ const usePaginator = (
                     return [];
                 });
         }
-
         return pages.current.get(index) ?? [];
     };
 

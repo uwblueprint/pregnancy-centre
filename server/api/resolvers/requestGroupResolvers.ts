@@ -122,7 +122,7 @@ const requestGroupMutationResolvers = {
 const requestGroupResolvers = {
     requestTypes: async (parent, __, ___, info): Promise<Array<RequestTypeInterface>> => {
         // if we only want fields in the embedding, then pass the embedding along
-        if (infoContainsOnlyFields(info, ["_id"])) {
+        if (infoContainsOnlyFields(info, ["_id", "name", "deletedAt"])) {
             return parent.requestTypes;
         }
 
