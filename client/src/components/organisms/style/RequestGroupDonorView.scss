@@ -1,6 +1,7 @@
 .request-group-view {
     display: block;
     width: 100%;
+    width: 50vw;
     max-width: 908px;
     margin-left: 32px;
     margin-right: 0;
@@ -23,8 +24,13 @@
     }
 
     .section {
+        display: flex;
+        align-items: baseline;
+        flex-direction: row;
         padding: 0;
+
         &#left {
+            display: block;
             flex: 1;
 
             .request-type-list {
@@ -32,13 +38,20 @@
             }
         }
         &#right {
-            display: block;
+            display: flex;
+            align-items: baseline;
+            flex-direction: column;
             margin: 0;
             margin-left: 32px;
 
             .infoBox {
+                width: 18vw;
                 margin: 0;
                 max-width: 331px;
+            }
+
+            .infoBox:last-child {
+                flex: 1;
             }
         }
     }
@@ -73,8 +86,6 @@
 
     #description {
         padding-top: 20px;
-        height: 468px;
-        width: 100%;
 
         .card-text {
             padding-top: 8px;
