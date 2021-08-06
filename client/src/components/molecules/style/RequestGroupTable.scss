@@ -141,6 +141,9 @@
             @include semibold-text;
             color: $tpc-green;
             cursor: pointer;
+            &:hover{
+                text-decoration: none;
+            }
         }
     }
     
