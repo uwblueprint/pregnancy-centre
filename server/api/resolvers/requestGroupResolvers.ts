@@ -56,12 +56,15 @@ const requestGroupQueryResolvers = {
         }
         return RequestGroup.find(filter).sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
     },
-    countRequestGroups: async (_, { open }, ___): Promise<number> => {
-        if (open) {
-            return RequestGroup.countDocuments({ deletedAt: { $exists: false } });
-        } else {
-            return RequestGroup.countDocuments();
+    countRequestGroups: async (_, { open, name }, ___): Promise<number> => {
+        const filter: {[key: string]: any} = {};
+        if (name) {
+            filter.name = { $regex: "^" + name + ".*", $options: "i" };
         }
+        if (open) {
+            filter.deletedAt = { $eq: null };
+        }
+        return RequestGroup.countDocuments(filter);
     }
     /* Left as a proof of concept:
     requestGroupsFilter: async (_, { filter, options }, ___): Promise<Array<RequestGroupInterface>> => {
@@ -119,7 +122,7 @@ const requestGroupMutationResolvers = {
 const requestGroupResolvers = {
     requestTypes: async (parent, __, ___, info): Promise<Array<RequestTypeInterface>> => {
         // if we only want fields in the embedding, then pass the embedding along
-        if (infoContainsOnlyFields(info, ["_id"])) {
+        if (infoContainsOnlyFields(info, ["_id", "name", "deletedAt"])) {
             return parent.requestTypes;
         }
 

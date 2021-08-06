@@ -15,7 +15,7 @@ interface Props {
 }
 
 const FormItem: FunctionComponent<Props> = (props: Props) => {
-    const isError = props.errorString.length > 0 || props.isErroneous;
+    const isError = (props.errorString ?? "").length > 0 || props.isErroneous;
 
     return (
         <div className={"form-item " + props.className}>

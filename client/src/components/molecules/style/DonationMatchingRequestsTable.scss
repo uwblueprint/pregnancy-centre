@@ -1,5 +1,7 @@
 .donation-matching-request-table {
     @include table-base;
+    table-layout: fixed;
+    width: 100%;
 
     thead th {
         padding: 16px 16px;

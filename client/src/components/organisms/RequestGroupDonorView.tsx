@@ -80,7 +80,7 @@ const RequestGroupDonorView: FunctionComponent<Props> = (props: Props) => {
                         <div id="contact">
                             <InfoBox
                                 title="CAN YOU MEET A NEED?"
-                                text="To arrange your donation, contact the Pregnancy Center directly at 519-886-4001 or send an email."
+                                text="We’d love to learn about your items. Submit a donation request now:"
                                 buttonProps={{
                                     text: "Donate an item",
                                     copyText: ""

@@ -48,6 +48,18 @@ const DonationFormReviewPage: FunctionComponent<Props> = (props: Props) => {
         }
     `;
 
+    const sendConfirmationEmailMutation = gql`
+        mutation sendConfirmationEmail($ids: [ID]) {
+            sendConfirmationEmail(ids: $ids)
+        }
+    `;
+
+    const [sendConfirmationEmail] = useMutation(sendConfirmationEmailMutation, {
+        onError: (error) => {
+            console.log(error);
+        }
+    });
+
     const [createDonationForm] = useMutation(createDonationFromMutation, {
         onError: (error) => {
             console.log(error);
@@ -75,7 +87,11 @@ const DonationFormReviewPage: FunctionComponent<Props> = (props: Props) => {
         Promise.all(createDonationFormPromises)
             .then((results) => {
                 const donationFormIds = results.map((result) => result.data.donationForm._id);
-                console.log(donationFormIds);
+                sendConfirmationEmail({
+                    variables: {
+                        ids: donationFormIds
+                    }
+                });
             })
             .then(() => {
                 props.onNextPage();

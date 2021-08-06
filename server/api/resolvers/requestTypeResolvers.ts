@@ -26,7 +26,9 @@ const filterDeletedRequestEmbeddings = (requestEmbeddings) => {
 
 const requestTypeEmbeddingFromRequestType = (requestType: RequestTypeInterface) => {
     return {
-        _id: requestType._id
+        _id: requestType._id,
+        name: requestType.name,
+        deletedAt: requestType.deletedAt ?? null
     };
 };
 
