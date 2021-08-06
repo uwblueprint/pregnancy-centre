@@ -8,7 +8,7 @@ async function sendApprovalEmail(firstName: string, lastName: string, email: str
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "blueprintpregnancycentre@gmail.com", // Change later once TPC gives us an email address
+            user: "blueprintpregnancycentre@gmail.com", // TODO: Change later once TPC gives us an email address
             pass: process.env.EMAIL_PASSWORD
         }
     });
@@ -19,15 +19,13 @@ async function sendApprovalEmail(firstName: string, lastName: string, email: str
 
     htmlString += "The Pregnancy Centre</body>";
 
-    const info = await transporter.sendMail({
+    await transporter.sendMail({
         from: '"no reply " <no-reply@pregnancycentre.ca>', // sender address
         to: email, // list of receivers
         subject: "Pregnancy Centre: Donation form approval", // Subject line
         text: "Thank you for submitting a donation form.", // plain text body
         html: htmlString // html body
     });
-
-    console.log("Message sent: %s", info.messageId);
 }
 
 async function sendConfirmationEmail(firstName: string, lastName: string, email: string, items: Array<Item>) {
@@ -47,16 +45,13 @@ async function sendConfirmationEmail(firstName: string, lastName: string, email:
 
     htmlString += "</table> <br>The Pregnancy Centre</body>";
 
-    const info = await transporter.sendMail({
+    await transporter.sendMail({
         from: '"no reply " <no-reply@pregnancycentre.ca>', // sender address
         to: email, // list of receivers
         subject: "Pregnancy Centre: Donation form confirmation", // Subject line
         text: "Thank you for submitting a donation form.", // plain text body
         html: htmlString // html body
     });
-
-    console.log("Message sent: %s", info.messageId);
-    // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 }
 
 export { sendApprovalEmail, sendConfirmationEmail };
