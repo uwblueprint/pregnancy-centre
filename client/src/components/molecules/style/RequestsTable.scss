@@ -1,13 +1,13 @@
 .request-table {
     @include table-base;
+    table-layout: fixed;
+    width: 100%;
+
     h1 {
         @include section-header-text;
         padding-bottom: 4px;
         margin: 0;
     }
-    width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
     .form-check-input {
         cursor: pointer;
     }
