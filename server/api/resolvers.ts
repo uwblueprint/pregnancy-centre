@@ -19,6 +19,8 @@ import {
     requestTypeResolvers
 } from "./resolvers/requestTypeResolvers";
 
+import { emailResolvers } from "./resolvers/emailResolvers";
+
 const resolvers = {
     DonationItemCondition,
     DonationItemStatus,
@@ -34,7 +36,8 @@ const resolvers = {
         ...donationFormMutationResolvers,
         ...requestMutationResolvers,
         ...requestTypeMutationResolvers,
-        ...requestGroupMutationResolvers
+        ...requestGroupMutationResolvers,
+        ...emailResolvers
     },
 
     Request: {

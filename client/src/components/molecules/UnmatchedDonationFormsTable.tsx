@@ -25,6 +25,12 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     const [selectedDonationFormForApproval, setSelectedDonationFormForApproval] = useState<DonationForm | null>(null);
     const [selectedDonationFormForDropoff, setSelectedDonationFormForDropoff] = useState<DonationForm | null>(null);
 
+    const sendApprovalEmailMutation = gql`
+        mutation sendApprovalEmail($id: ID) {
+            sendApprovalEmail(id: $id)
+        }
+    `;
+
     const updateDonationFormStatusMutation = gql`
         mutation UpdateDonationFormStatus($id: ID!, $status: DonationItemStatus!, $donatedAt: String) {
             updateDonationForm(donationForm: { _id: $id, status: $status, donatedAt: $donatedAt }) {
@@ -41,6 +47,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         }
     `;
 
+    const [sendApprovalEmail] = useMutation(sendApprovalEmailMutation);
     const [updateDonationFormStatus] = useMutation(updateDonationFormStatusMutation);
     const [deleteDonationForm] = useMutation(deleteDonationFormMutation);
 
@@ -155,6 +162,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
 
     const onApproveDonationForm = (donationForm: DonationForm) => {
         setDonationFormStatus(donationForm._id as string, ItemStatus.PENDING_DROPOFF);
+        sendApprovalEmail({ variables: { id: donationForm._id as string } });
         setSelectedDonationFormForApproval(null);
     };
 
