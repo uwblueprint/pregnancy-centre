@@ -41,13 +41,19 @@ const FormModal: FunctionComponent<Props> = (props: Props) => {
                             className="form-modal-cancel-button"
                             text="Cancel"
                             copyText=""
-                            onClick={(e) => { e.preventDefault(); props.onCancel() }}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                props.onCancel();
+                            }}
                         />
                         <Button
                             className="form-modal-submit-button"
                             text={props.submitButtonText}
                             copyText=""
-                            onClick={(e) => { e.preventDefault(); props.onSubmit(e) }}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                props.onSubmit(e);
+                            }}
                             type="submit"
                         />
                     </div>
