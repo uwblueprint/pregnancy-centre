@@ -1,6 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 
 import RequestForm from "../organisms/RequestForm";
 import RequestGroup from "../../data/types/requestGroup";
@@ -11,6 +12,7 @@ import SimplePageNavigation from "../atoms/SimplePageNavigation";
 import { usePaginator } from "../utils/hooks";
 
 const AdminRequestGroupList: FunctionComponent = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(0); // Indexing starting at 0.
     const [currentPageData, setCurrentPageData] = useState<Array<RequestGroup>>([]);
     const [showCreateRequestModal, setShowCreateRequestModal] = useState(false);
@@ -37,7 +39,7 @@ const AdminRequestGroupList: FunctionComponent = () => {
             }
         }
     `;
-    const paginator = usePaginator(numRequestGroupsPerPage, pages, getPageQuery, -1, 1);
+    const paginator = usePaginator(numRequestGroupsPerPage, pages, getPageQuery, -1, 0);
 
     const handlePageChange = (newPage: number) => {
         setCurrentPage(newPage);
@@ -50,6 +52,7 @@ const AdminRequestGroupList: FunctionComponent = () => {
     `;
 
     useEffect(() => {
+        if (countRequestGroups === 0) return;
         paginator.getPage(currentPage).then((page) => {
             setCurrentPageData(page);
         });
@@ -58,6 +61,7 @@ const AdminRequestGroupList: FunctionComponent = () => {
     useQuery(query, {
         onCompleted: (data: { countRequestGroups: number }) => {
             setCountRequestGroups(data.countRequestGroups);
+            setIsLoading(false);
         }
     });
 
@@ -131,7 +135,13 @@ const AdminRequestGroupList: FunctionComponent = () => {
                     onPageChange={(newPage) => handlePageChange(newPage - 1)}
                 />
             </div>
-            <RequestGroupTable requestGroups={currentPageData} />
+            {isLoading ?
+                <div className="spinner">
+                    <Spinner animation="border" role="status" />
+                </div>
+                :
+                <RequestGroupTable requestGroups={currentPageData} countRequestGroups={countRequestGroups} />
+            }
         </div>
     );
 };

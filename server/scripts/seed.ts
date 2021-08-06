@@ -245,7 +245,9 @@ connectDB(async () => {
             }
 
             requestGroup.requestTypes.push({
-                _id: requestType._id
+                _id: requestType._id,
+                name: requestType.name,
+                deletedAt: requestType.deletedAt
             });
 
             await requestType.save();

@@ -2,6 +2,8 @@ import { Document, model, Schema, Types } from "mongoose";
 
 interface RequestTypeEmbeddingInterface {
     _id: Types.ObjectId;
+    name: string;
+    deletedAt: Date;
 }
 interface DonationFormEmbeddingInterface {
     _id: Types.ObjectId;
@@ -50,7 +52,9 @@ const RequestGroupSchema = new Schema(
             type: [
                 {
                     // @ts-ignore
-                    _id: { type: Types.ObjectId, ref: "RequestType" }
+                    _id: { type: Types.ObjectId, ref: "RequestType" },
+                    name: { type: String },
+                    deletedAt: { type: Date }
                 }
             ],
             default: []
