@@ -9,7 +9,7 @@ async function sendApprovalEmail(firstName: string, lastName: string, email: str
         service: "gmail",
         auth: {
             user: "blueprintpregnancycentre@gmail.com",
-            pass: "pregnancycentre"
+            pass: process.env.EMAIL_PASSWORD 
         }
     });
     let htmlString = `<body><p>Dear ${firstName} ${lastName}, <p>`;
