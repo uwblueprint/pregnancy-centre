@@ -23,9 +23,9 @@ const emailResolvers = {
             const remainingItems = res.map((form) => ({
                 name: form.name,
                 quantity: form.quantity,
-                condition: object.condition,
-                age: object.age,
-                description: object.description
+                condition: form.condition,
+                age: form.age,
+                description: form.description
             }));
             sendConfirmationEmail(firstName, lastName, email, [firstItem, ...remainingItems]).catch(console.error);
         });
