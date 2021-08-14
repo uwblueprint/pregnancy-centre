@@ -20,7 +20,9 @@ const DonationEditFormModal: FunctionComponent<Props> = (props: Props) => {
 
     const updateDonationFormMutation = gql`
         mutation UpdateDonationForm($id: ID!, $adminNotes: String!, $quantity: Int!) {
-            updateDonationForm(donationForm: { _id: $id, adminNotes: $adminNotes, quantity: $quantity }) {
+            updateDonationForm(
+                donationForm: { _id: $id, adminNotes: $adminNotes, quantity: $quantity, quantityRemaining: $quantity }
+            ) {
                 _id
             }
         }
