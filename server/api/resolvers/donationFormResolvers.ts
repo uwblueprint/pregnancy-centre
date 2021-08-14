@@ -1,5 +1,6 @@
 import { DonationForm, DonationFormInterface } from "../../database/models/donationFormModel";
 import { RequestGroup, RequestGroupInterface } from "../../database/models/requestGroupModel";
+import { sessionHandler } from "../utils/session";
 
 enum SortOptions {
     CREATED_AT = "CREATED_AT",
@@ -11,10 +12,10 @@ const donationFormEmbeddingFromDonationForm = (donationForm: DonationFormInterfa
         _id: donationForm._id
     };
 };
-const addDonationFormToRequestGroup = async (donationForm, requestGroupId) => {
-    const newRequestGroup = await RequestGroup.findById(requestGroupId);
-    newRequestGroup.donationForms.push(donationFormEmbeddingFromDonationForm(donationForm));
-    await newRequestGroup.save();
+const addDonationFormToRequestGroup = async (donationForm, requestGroupId, session) => {
+    const newRequestGroup = await RequestGroup.findById(requestGroupId).session(session);
+    newRequestGroup.donationForms.push(donationFormEmbeddingFromDonationForm(donationForm))
+    await newRequestGroup.save({ session: session });
 };
 
 const donationFormQueryResolvers = {
@@ -64,13 +65,14 @@ const donationFormQueryResolvers = {
 
 const donationFormMutationResolvers = {
     createDonationForm: async (_, { donationForm }, ___): Promise<DonationFormInterface> => {
-        const newDonationForm = await new DonationForm({ ...donationForm }).save();
-
-        // link donation group to request group
-        if (newDonationForm.requestGroup) {
-            await addDonationFormToRequestGroup(donationForm, newDonationForm.requestGroup);
-        }
-        return newDonationForm;
+        return sessionHandler(async (session) => {
+            const newDonationForm = await new DonationForm({ ...donationForm }).save({ session: session });
+            // link donation group to request group
+            if (newDonationForm.requestGroup) {
+                await addDonationFormToRequestGroup(newDonationForm, newDonationForm.requestGroup, session);
+            }
+            return newDonationForm;
+        });
     },
     updateDonationForm: async (_, { donationForm }, { authenticateUser }): Promise<DonationFormInterface> => {
         return authenticateUser().then(async () => {
