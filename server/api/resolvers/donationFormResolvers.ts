@@ -62,8 +62,8 @@ const donationFormQueryResolvers = {
         return DonationForm.find(filter).sort(sortConfig).skip(skip).limit(limit).exec();
     },
 
-    unseenDonationFormsExist: async (_, __, ___): Promise<boolean> => {
-        return DonationForm.exists({ seen: { $exists: true } });
+    unseenDonationFormsExist: async (): Promise<boolean> => {
+        return DonationForm.exists({ seen:  true } );
     }
 };
 

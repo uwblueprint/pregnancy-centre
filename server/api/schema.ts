@@ -247,7 +247,7 @@ const typeDefs = gql`
             sortBy: DonationFormSortOptions
         ): [DonationForm]
 
-        unseenDonationFormsExist(): Boolean
+        unseenDonationFormsExist: Boolean
     }
 
     type Mutation {
