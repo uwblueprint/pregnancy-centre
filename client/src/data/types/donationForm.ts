@@ -45,6 +45,8 @@ export interface DonationForm {
     updatedAt?: number;
     deletedAt?: number;
     matchedAt?: number;
+
+    seen?: boolean;
 }
 
 export interface UpdateRequestsInput {

@@ -14,7 +14,7 @@ const donationFormEmbeddingFromDonationForm = (donationForm: DonationFormInterfa
 };
 const addDonationFormToRequestGroup = async (donationForm, requestGroupId, session) => {
     const newRequestGroup = await RequestGroup.findById(requestGroupId).session(session);
-    newRequestGroup.donationForms.push(donationFormEmbeddingFromDonationForm(donationForm))
+    newRequestGroup.donationForms.push(donationFormEmbeddingFromDonationForm(donationForm));
     await newRequestGroup.save({ session: session });
 };
 
@@ -60,6 +60,10 @@ const donationFormQueryResolvers = {
         }
 
         return DonationForm.find(filter).sort(sortConfig).skip(skip).limit(limit).exec();
+    },
+
+    unseenDonationFormsExist: async (_, __, ___): Promise<boolean> => {
+        return DonationForm.exists({ seen: { $exists: true } });
     }
 };
 

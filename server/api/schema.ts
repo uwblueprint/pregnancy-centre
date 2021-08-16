@@ -187,6 +187,8 @@ const typeDefs = gql`
         createdAt: String
         updatedAt: String
         matchedAt: String
+
+        seen: Boolean
     }
 
     input CreateDonationFormInput {
@@ -244,6 +246,8 @@ const typeDefs = gql`
             filterOptions: DonationFormFilterOptions
             sortBy: DonationFormSortOptions
         ): [DonationForm]
+
+        unseenDonationFormsExist(): Boolean
     }
 
     type Mutation {
