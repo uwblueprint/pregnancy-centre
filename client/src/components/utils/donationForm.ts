@@ -53,3 +53,12 @@ export const getContactName = (contact?: DonationFormContact): string | null => 
     }
     return lastName;
 };
+
+export const getContactEmail = (contact?: DonationFormContact): string | null => {
+    const email = contact?.email ?? "";
+    if(contact == null || email.length == 0) {
+        return null;
+    }
+    return email;
+}
+

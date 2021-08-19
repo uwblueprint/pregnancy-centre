@@ -20,12 +20,16 @@ const getItemAgeDescription = (age: number): string => {
 };
 
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "pregnancycentre.ca",
     auth: {
-        user: "blueprintpregnancycentre@gmail.com", // TODO: Change later once TPC gives us an email address
+        user: "noreply@pregnancycentre.ca", // TODO: Change later once TPC gives us an email address
         pass: process.env.EMAIL_PASSWORD
     }
 });
+
+async function sendRejectionEmail(firstName: string, lastName: string, email: string, item: Item) {
+
+}
 
 async function sendApprovalEmail(firstName: string, lastName: string, email: string, item: Item) {
     let htmlString = `
@@ -78,4 +82,4 @@ async function sendConfirmationEmail(firstName: string, lastName: string, email:
     });
 }
 
-export { sendApprovalEmail, sendConfirmationEmail };
+export { sendApprovalEmail, sendConfirmationEmail, sendRejectionEmail };

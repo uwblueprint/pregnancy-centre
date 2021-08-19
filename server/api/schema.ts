@@ -270,6 +270,7 @@ const typeDefs = gql`
 
         sendConfirmationEmail(ids: [ID]): String
         sendApprovalEmail(id: ID): String
+        sendRejectionEmail(id: ID): String
     }
 `;
 
