@@ -33,7 +33,7 @@ const emailResolvers = {
     },
     sendRejectionEmail: async (_, { id }): Promise<string> => {
         const object = await DonationForm.findById(id).exec();
-        if(object == null) {
+        if (object == null) {
             return `Error: Donation form id ${id} not found`;
         }
         const { firstName, lastName, email } = object.contact;

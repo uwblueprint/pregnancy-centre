@@ -27,9 +27,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-async function sendRejectionEmail(firstName: string, lastName: string, email: string, item: Item) {
-
-}
+async function sendRejectionEmail(firstName: string, lastName: string, email: string, item: Item) {}
 
 async function sendApprovalEmail(firstName: string, lastName: string, email: string, item: Item) {
     let htmlString = `

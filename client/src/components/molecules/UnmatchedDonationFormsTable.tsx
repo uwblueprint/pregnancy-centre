@@ -85,10 +85,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         switch (itemStatus) {
             case ItemStatus.PENDING_APPROVAL:
                 options.push(
-                    <span
-                        className="menu-option"
-                        onClick={() => setSelectedDonationFormForReject(donationForm)}
-                    >
+                    <span className="menu-option" onClick={() => setSelectedDonationFormForReject(donationForm)}>
                         Reject
                     </span>
                 );
@@ -159,7 +156,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         // sendRejectionEmail({ variables: { id: donationForm._id as string}});
         onDeleteDonationForm(donationForm._id as string);
         setSelectedDonationFormForReject(null);
-    }
+    };
 
     const onDeleteDonationForm = (donationFormId: string) => {
         deleteDonationForm({ variables: { id: donationFormId } })

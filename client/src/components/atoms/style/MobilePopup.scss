@@ -1,5 +1,5 @@
-.mobile-popup{
-    &-header{
+.mobile-popup {
+    &-header {
         border: none;
     }
     &-body {
@@ -13,5 +13,4 @@
         @include tpc-green-button;
         width: 68%;
     }
-
 }
