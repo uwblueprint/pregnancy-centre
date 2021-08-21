@@ -164,7 +164,10 @@ const createDonationForm = (requestGroup = null) => {
 
 const createDonorHomepage = () => {
     const carouselInterval = 10;
-    const numMapTestimonials = Math.floor(Math.random() * 8) + 1;
+    const numMapTestimonials = faker.datatype.number({
+        'min': 1,
+        'max': 8
+    });
     const numStats = 3;
     const map = {
         defaultMarkerSize: "53px",
@@ -247,7 +250,10 @@ const createDonorHomepage = () => {
         interval: carouselInterval
     };
 
-    const numCarouselTestimonials = Math.floor(Math.random() * 5) + 1;
+    const numCarouselTestimonials = faker.datatype.number({
+        'min': 1,
+        'max': 5
+    });
     const testimonialCarousel = {
         testimonials: [],
         interval: carouselInterval
