@@ -168,49 +168,40 @@ const createDonorHomepage = () => {
     const numStats = 3;
     const map = {
         defaultMarkerSize: "53px",
-        markerSizes: [
-            "80px",
-            "75px",
-            "72px",
-            "70px",
-            "65px",
-            "61px",
-            "55px",
-            "53px"
-        ],
+        markerSizes: ["80px", "75px", "72px", "70px", "65px", "61px", "55px", "53px"],
         points: [
             {
-                "x": 0.28,
-                "y": 0.62
-              },
-              {
-                "x": 0.69,
-                "y": 0.54
-              },
-              {
-                "x": 0.45,
-                "y": 0.2
-              },
-              {
-                "x": 0.1,
-                "y": 0.35
-              },
-              {
-                "x": 0.62,
-                "y": 0.75
-              },
-              {
-                "x": 0.33,
-                "y": 0.39
-              },
-              {
-                "x": 0.78,
-                "y": 0.75
-              },
-              {
-                "x": 0.47,
-                "y": 0.63
-              }
+                x: 0.28,
+                y: 0.62
+            },
+            {
+                x: 0.69,
+                y: 0.54
+            },
+            {
+                x: 0.45,
+                y: 0.2
+            },
+            {
+                x: 0.1,
+                y: 0.35
+            },
+            {
+                x: 0.62,
+                y: 0.75
+            },
+            {
+                x: 0.33,
+                y: 0.39
+            },
+            {
+                x: 0.78,
+                y: 0.75
+            },
+            {
+                x: 0.47,
+                y: 0.63
+            }
         ],
         testimonials: [],
         statistics: []
@@ -222,46 +213,50 @@ const createDonorHomepage = () => {
             id: i + 1,
             imagePath: faker.image.imageUrl(),
             testimonial: faker.lorem.sentence()
-        }
+        };
         map.testimonials.push(testimonial);
     }
 
     // Setting statistics
     const statIcons = ["bi bi-people", "bi bi-calendar4", "bi bi-door-closed"];
-    const statText = ["regular donors in the past year", "diapers distributed every month", "visits to our care closet"];
+    const statText = [
+        "regular donors in the past year",
+        "diapers distributed every month",
+        "visits to our care closet"
+    ];
     const stats = [];
     for (let i = 0; i < numStats; i++) {
         const stat = {
             icon: statIcons[i],
             measurement: `${faker.datatype.number()}+`,
             stat: statText[i]
-        }
+        };
         stats.push(stat);
     }
-    
+
     const banner = {
         header: "Help women and families in Kitchener-Waterloo thrive with your donation today",
         description: "Scroll to see our clients' current needs and arrange a donation",
         images: [
-            "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-1.jpg?alt=media&token=ed2309b1-c6ee-4aa6-ab43-11ded06a473a", 
-            "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-2.jpg?alt=media&token=802ada4d-4df0-4dda-8cf1-4e9b6194da50", 
-            "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-3.jpg?alt=media&token=b5886cb8-70b3-4600-b807-edbab5283cdd", 
-            "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-4.jpg?alt=media&token=54ff90e1-20ef-4a6b-b2ab-38db5cd087a5", 
+            "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-1.jpg?alt=media&token=ed2309b1-c6ee-4aa6-ab43-11ded06a473a",
+            "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-2.jpg?alt=media&token=802ada4d-4df0-4dda-8cf1-4e9b6194da50",
+            "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-3.jpg?alt=media&token=b5886cb8-70b3-4600-b807-edbab5283cdd",
+            "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-4.jpg?alt=media&token=54ff90e1-20ef-4a6b-b2ab-38db5cd087a5",
             "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-5.jpg?alt=media&token=3a2297f4-629d-4824-8259-77c2a5f89256"
-          ],
-          interval: carouselInterval
-    }
+        ],
+        interval: carouselInterval
+    };
 
     const numCarouselTestimonials = Math.floor(Math.random() * 5) + 1;
     const testimonialCarousel = {
         testimonials: [],
         interval: carouselInterval
-    }
+    };
     for (let i = 0; i < numCarouselTestimonials; i++) {
         const testimonial = {
             image: faker.image.imageUrl(),
             testimonial: faker.lorem.sentence()
-        }
+        };
         testimonialCarousel.testimonials.push(testimonial);
     }
 
@@ -272,7 +267,7 @@ const createDonorHomepage = () => {
         banner: banner,
         testimonialCarousel: testimonialCarousel
     });
-}
+};
 
 // connect to DB, and on success, seed documents
 connectDB(async () => {

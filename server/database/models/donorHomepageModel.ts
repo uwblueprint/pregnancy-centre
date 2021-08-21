@@ -101,4 +101,4 @@ const DonorHomepageSchema = new Schema({
 });
 
 const DonorHomepage = model<DonorHomepageInterface>("DonorHomepage", DonorHomepageSchema);
-export { DonorHomepage, DonorHomepageInterface, MapPoint, MapTestimonial, Statistic, ClientTestimonial }; 
+export { DonorHomepage, DonorHomepageInterface, MapPoint, MapTestimonial, Statistic, ClientTestimonial };
