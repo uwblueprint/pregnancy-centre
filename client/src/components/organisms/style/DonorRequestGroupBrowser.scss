@@ -7,6 +7,7 @@
 
     &-header {
         @include donor-homepage-section-header-text;
+        text-align: center;
     }
 
     &-content {
@@ -25,12 +26,22 @@
         min-width: 423px;
     }
 
-    &-header {
-        margin-bottom: 0;
-    }
-
     &-indiv-view {
         padding-top: 32px;
         flex-grow: 1;
+    }
+
+    .search-bar-container {
+        width: 704px;
+        height: 48px;
+
+        .search-bar {
+            padding-left: 20px;
+            font-size: 16px;
+        }
+
+        .search-bar-icon-container {
+            padding-right: 16px;
+        }
     }
 }

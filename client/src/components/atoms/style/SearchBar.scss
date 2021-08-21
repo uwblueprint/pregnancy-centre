@@ -2,16 +2,15 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 704px;
-    height: 48px;
+    width: 514px;
+    height: 40px;
 
     border: 1px solid $searchbar-border;
     border-radius: 4px;
 
     .search-bar {
-        vertical-align: middle;
-        width: 662px;
-        padding-left: 20px;
+        flex: 1;
+        padding-left: 12px;
         border: none;
         outline: none;
         caret-color: #b7b7b7;
@@ -27,12 +26,8 @@
     }
 
     .search-bar-icon-container {
-        width: 34px;
-        height: 100%;
-        padding-left: 6px;
-        display: inline-block;
-        position: relative;
-        vertical-align: middle;
+        padding-left: 8px;
+        padding-right: 12px;
         color: #9c9c9c;
 
         .search-bar-icon-default {

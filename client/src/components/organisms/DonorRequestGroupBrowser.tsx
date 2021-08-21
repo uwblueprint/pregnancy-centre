@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
+import SearchBarWithSubtext from "../molecules/SearchBarWithSubtext";
 
 import RequestGroupDonorView from "./RequestGroupDonorView";
 import RequestGroupList from "./RequestGroupList";
@@ -24,6 +25,12 @@ const DonorRequestGroupBrowser: FunctionComponent = () => {
         <div className="donor-request-group-browser">
             <div>
                 <h1 className="donor-request-group-browser-header">Our Current Needs</h1>
+                <SearchBarWithSubtext
+                    defaultText="Search for a need or a type"
+                    subtext="Press enter to search"
+                    searchWhileTyping={false}
+                    onSearch={() => {}}
+                />
             </div>
             <div className="donor-request-group-browser-content">
                 <div className="donor-request-group-browser-list">
