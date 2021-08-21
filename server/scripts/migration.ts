@@ -11,16 +11,15 @@
   - preferred: verify contents of MONGO_URI are correct
 */
 
-
 import dotenv from "dotenv";
 import { exit } from "process";
 import mongoose from "mongoose";
 
 import { connectDB } from "../database/mongoConnection";
 
-import { Request } from '../database/models/requestModel'
-import { RequestGroup } from '../database/models/requestGroupModel'
-import { RequestType } from '../database/models/requestTypeModel'
+import { Request } from "../database/models/requestModel";
+import { RequestGroup } from "../database/models/requestGroupModel";
+import { RequestType } from "../database/models/requestTypeModel";
 
 dotenv.config();
 
@@ -29,342 +28,388 @@ dotenv.config();
 // ------------------------------------------------------------------- //
 
 interface OldClientInterface {
-  _id: mongoose.Types.ObjectId
-  clientId: string
-  fullName: string
-  deleted: boolean
+    _id: mongoose.Types.ObjectId;
+    clientId: string;
+    fullName: string;
+    deleted: boolean;
 }
 type OldClientDocument = OldClientInterface & mongoose.Document;
 const OldClientSchema = new mongoose.Schema({
-  clientId: {
-    type: String,
-  },
-  fullName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  deleted: {
-    type: Boolean,
-    required: true,
-    default: false
-  }
-})
+    clientId: {
+        type: String
+    },
+    fullName: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    deleted: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
+});
 
 interface OldRequestGroupInterface {
-  _id: mongoose.Types.ObjectId
-  name: string
-  dateUpdated: Date,
-  dateCreated: Date,
-  description: string
-  deleted: boolean
-  requirements: string
-  image: string
-  requestTypes: [mongoose.Types.ObjectId]
+    _id: mongoose.Types.ObjectId;
+    name: string;
+    dateUpdated: Date;
+    dateCreated: Date;
+    description: string;
+    deleted: boolean;
+    requirements: string;
+    image: string;
+    requestTypes: [mongoose.Types.ObjectId];
 }
 type OldRequestGroupDocument = OldRequestGroupInterface & Document;
-const OldRequestGroupSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  dateUpdated: {
-    type: Date,
-    required: true,
-    default: Date.now()
-  },
-  dateCreated: {
-    type: Date,
-    required: true,
-    default: Date.now()
-  },
-  deleted: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  description: {
-    type: String
-  },
-  requirements: {
-    type: String
-  },
-  image: {
-    type: String
-  },
-  requestTypes: {
-    type: [ { type: mongoose.Types.ObjectId, ref: 'RequestType' } ],
-    default: []
-  }
-}, {
-  timestamps: {
-    currentTime: Date.now,
-    updatedAt: 'dateUpdated',
-    createdAt: 'dateCreated'
-  }
-})
+const OldRequestGroupSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        dateUpdated: {
+            type: Date,
+            required: true,
+            default: Date.now()
+        },
+        dateCreated: {
+            type: Date,
+            required: true,
+            default: Date.now()
+        },
+        deleted: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        description: {
+            type: String
+        },
+        requirements: {
+            type: String
+        },
+        image: {
+            type: String
+        },
+        requestTypes: {
+            type: [{ type: mongoose.Types.ObjectId, ref: "RequestType" }],
+            default: []
+        }
+    },
+    {
+        timestamps: {
+            currentTime: Date.now,
+            updatedAt: "dateUpdated",
+            createdAt: "dateCreated"
+        }
+    }
+);
 
 interface OldRequestInterface {
-  _id: mongoose.Types.ObjectId
-  requestType: mongoose.Types.ObjectId
-  requestId: string
-  client: mongoose.Types.ObjectId
-  dateUpdated: Date
-  dateCreated: Date
-  dateFulfilled: Date
-  deleted: boolean
-  fulfilled: boolean
-  quantity: number 
+    _id: mongoose.Types.ObjectId;
+    requestType: mongoose.Types.ObjectId;
+    requestId: string;
+    client: mongoose.Types.ObjectId;
+    dateUpdated: Date;
+    dateCreated: Date;
+    dateFulfilled: Date;
+    deleted: boolean;
+    fulfilled: boolean;
+    quantity: number;
 }
 type OldRequestDocument = OldRequestInterface & Document;
-const OldRequestSchema = new mongoose.Schema({
-  requestType: {
-    type: mongoose.Types.ObjectId, ref: 'RequestType'
-  },
-  requestId: {
-    type: String,
-  },
-  client: {
-    type: mongoose.Types.ObjectId, ref: 'Client'
-  },
-  dateUpdated: {
-    type: Date,
-    required: true,
-    default: Date.now
-  },
-  dateCreated: {
-    type: Date,
-    required: true,
-    default: Date.now
-  },
-  dateFulfilled: {
-    type: Date,
-    required: false,
-    default: undefined
-  },
-  deleted: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  fulfilled: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  quantity: {
-    type: Number,
-    required: true,
-    default: 1
-  }
-}, {
-  timestamps: {
-    currentTime: Date.now,
-    updatedAt: 'dateUpdated',
-    createdAt: 'dateCreated'
-  }
-})
+const OldRequestSchema = new mongoose.Schema(
+    {
+        requestType: {
+            type: mongoose.Types.ObjectId,
+            ref: "RequestType"
+        },
+        requestId: {
+            type: String
+        },
+        client: {
+            type: mongoose.Types.ObjectId,
+            ref: "Client"
+        },
+        dateUpdated: {
+            type: Date,
+            required: true,
+            default: Date.now
+        },
+        dateCreated: {
+            type: Date,
+            required: true,
+            default: Date.now
+        },
+        dateFulfilled: {
+            type: Date,
+            required: false,
+            default: undefined
+        },
+        deleted: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        fulfilled: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        quantity: {
+            type: Number,
+            required: true,
+            default: 1
+        }
+    },
+    {
+        timestamps: {
+            currentTime: Date.now,
+            updatedAt: "dateUpdated",
+            createdAt: "dateCreated"
+        }
+    }
+);
 
 interface OldRequestTypeInterface {
-  _id: mongoose.Types.ObjectId
-  requestGroup: mongoose.Types.ObjectId
-  name: string
-  dateUpdated: Date,
-  dateCreated: Date,
-  deleted: boolean,
-  requests: Array<mongoose.Types.ObjectId>
+    _id: mongoose.Types.ObjectId;
+    requestGroup: mongoose.Types.ObjectId;
+    name: string;
+    dateUpdated: Date;
+    dateCreated: Date;
+    deleted: boolean;
+    requests: Array<mongoose.Types.ObjectId>;
 }
-type OldRequestTypeDocument = OldRequestTypeInterface & Document
-const OldRequestTypeSchema = new mongoose.Schema({
-  requestGroup: {
-    type: mongoose.Types.ObjectId, ref: 'RequestGroup'
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  dateUpdated: {
-    type: Date,
-    required: true,
-    default: Date.now()
-  },
-  dateCreated: {
-    type: Date,
-    required: true,
-    default: Date.now()
-  },
-  deleted: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  requests: {
-    type: [{ type: mongoose.Types.ObjectId, ref: 'Request' }],
-    default: []
-  }
-}, {
-  timestamps: {
-    currentTime: Date.now,
-    updatedAt: 'dateUpdated',
-    createdAt: 'dateCreated'
-  }
-})
-
+type OldRequestTypeDocument = OldRequestTypeInterface & Document;
+const OldRequestTypeSchema = new mongoose.Schema(
+    {
+        requestGroup: {
+            type: mongoose.Types.ObjectId,
+            ref: "RequestGroup"
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        dateUpdated: {
+            type: Date,
+            required: true,
+            default: Date.now()
+        },
+        dateCreated: {
+            type: Date,
+            required: true,
+            default: Date.now()
+        },
+        deleted: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        requests: {
+            type: [{ type: mongoose.Types.ObjectId, ref: "Request" }],
+            default: []
+        }
+    },
+    {
+        timestamps: {
+            currentTime: Date.now,
+            updatedAt: "dateUpdated",
+            createdAt: "dateCreated"
+        }
+    }
+);
 
 // ------------------------------------------------------------------- //
 // UTILITY FUNCTIONS
 // ------------------------------------------------------------------- //
 
 const createRequest = (_id, deleted, fulfilled, quantity, clientName, updatedAt, createdAt) => {
-  const request = new Request({
-    _id: _id,
-    quantity: quantity,
-    clientName: clientName,
-    createdAt: createdAt,
-    updatedAt: updatedAt
-  })
-  if (deleted) request.deletedAt = updatedAt
-  if (fulfilled) request.fulfilledAt = updatedAt
+    const request = new Request({
+        _id: _id,
+        quantity: quantity,
+        clientName: clientName,
+        createdAt: createdAt,
+        updatedAt: updatedAt
+    });
+    if (deleted) request.deletedAt = updatedAt;
+    if (fulfilled) request.fulfilledAt = updatedAt;
 
-  return request
-}
+    return request;
+};
 
 const createRequestType = (_id, name, deleted, updatedAt, createdAt) => {
-  const requestType = new RequestType({
-    _id: _id,
-    name: name,
-    createdAt: createdAt,
-    updatedAt: updatedAt
-  })
-  if (deleted) requestType.deletedAt = updatedAt
+    const requestType = new RequestType({
+        _id: _id,
+        name: name,
+        createdAt: createdAt,
+        updatedAt: updatedAt
+    });
+    if (deleted) requestType.deletedAt = updatedAt;
 
-  return requestType
-}
+    return requestType;
+};
 
 const createRequestGroup = (_id, name, description, image, deleted, updatedAt, createdAt) => {
-  const requestGroup = new RequestGroup({
-    _id: _id,
-    name: name,
-    description: description,
-    image: image,
-    createdAt: createdAt,
-    updatedAt: updatedAt
-  });
-  if (deleted) requestGroup.deletedAt = updatedAt;
+    const requestGroup = new RequestGroup({
+        _id: _id,
+        name: name,
+        description: description,
+        image: image,
+        createdAt: createdAt,
+        updatedAt: updatedAt
+    });
+    if (deleted) requestGroup.deletedAt = updatedAt;
 
-  return requestGroup
-}
+    return requestGroup;
+};
 
 const requestEmbeddingFromRequest = (request) => {
-  const embedding = {
-      _id: request._id,
-      createdAt: request.createdAt ?? null
-  };
-  if (request.deletedAt) embedding["deletedAt"] = request.deletedAt;
-  if (request.fulfilledAt) embedding["fulfilledAt"] = request.fulfilledAt;
-  return embedding;
-}
+    const embedding = {
+        _id: request._id,
+        createdAt: request.createdAt ?? null
+    };
+    if (request.deletedAt) embedding["deletedAt"] = request.deletedAt;
+    if (request.fulfilledAt) embedding["fulfilledAt"] = request.fulfilledAt;
+    return embedding;
+};
 
 const requestTypeEmbeddingFromRequestType = (requestType) => {
-  const embedding = {
-      _id: requestType._id,
-      name: requestType.name,
-  };
-  if (requestType.deletedAt) embedding["deletedAt"] = requestType.deletedAt;
-  return embedding;
-}
+    const embedding = {
+        _id: requestType._id,
+        name: requestType.name
+    };
+    if (requestType.deletedAt) embedding["deletedAt"] = requestType.deletedAt;
+    return embedding;
+};
 
 const getOldData = async () => {
-  const oldUri = process.env.OLD_MONGO_URI;
-  const options = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false // use MongoDB driver's findOneAndUpdate() instead of its findAndModify() function
-  }; 
-  const conn = mongoose.createConnection(oldUri, options);
+    const oldUri = process.env.OLD_MONGO_URI;
+    const options = {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false // use MongoDB driver's findOneAndUpdate() instead of its findAndModify() function
+    };
+    const conn = mongoose.createConnection(oldUri, options);
 
-  const Client = conn.model('Client', OldClientSchema)
-  const RequestGroup = conn.model('RequestGroup', OldRequestGroupSchema)
-  const Request = conn.model('Request', OldRequestSchema)
-  const RequestType = conn.model('RequestType', OldRequestTypeSchema)
-  
-  const clients = await Client.find().exec().then((data: Array<mongoose.Document>) => { 
-    return data as unknown as Array<OldClientDocument>;
-  });
-  const requestgroups = await RequestGroup.find().exec().then((data: Array<mongoose.Document>) => { 
-    return data as unknown as Array<OldRequestGroupDocument>;
-  });
-  const requests = await Request.find().exec().then((data: Array<mongoose.Document>) => { 
-    return data as unknown as Array<OldRequestDocument>;
-  });
-  const requesttypes = await RequestType.find().exec().then((data: Array<mongoose.Document>) => { 
-    return data as unknown as Array<OldRequestTypeDocument>;
-  });
+    const Client = conn.model("Client", OldClientSchema);
+    const RequestGroup = conn.model("RequestGroup", OldRequestGroupSchema);
+    const Request = conn.model("Request", OldRequestSchema);
+    const RequestType = conn.model("RequestType", OldRequestTypeSchema);
 
-  return {clients: clients, requestgroups: requestgroups, requests: requests, requesttypes: requesttypes};
-}
+    const clients = await Client.find()
+        .exec()
+        .then((data: Array<mongoose.Document>) => {
+            return data as unknown as Array<OldClientDocument>;
+        });
+    const requestgroups = await RequestGroup.find()
+        .exec()
+        .then((data: Array<mongoose.Document>) => {
+            return data as unknown as Array<OldRequestGroupDocument>;
+        });
+    const requests = await Request.find()
+        .exec()
+        .then((data: Array<mongoose.Document>) => {
+            return data as unknown as Array<OldRequestDocument>;
+        });
+    const requesttypes = await RequestType.find()
+        .exec()
+        .then((data: Array<mongoose.Document>) => {
+            return data as unknown as Array<OldRequestTypeDocument>;
+        });
+
+    return { clients: clients, requestgroups: requestgroups, requests: requests, requesttypes: requesttypes };
+};
 
 // ------------------------------------------------------------------- //
 // MIGRATION SCRIPT
 // ------------------------------------------------------------------- //
 
 connectDB(async () => {
-  console.log('Started migration!');
+    console.log("Started migration!");
 
-  console.log('Fetching old data!');
-  const { clients: oldClients, requestgroups: oldRequestGroups, requests: oldRequests, requesttypes: oldRequestTypes } = await getOldData();
-  console.log('Fetched old data!');
-  
-  const newRequestGroups = {};
-  for (const requestGroup of oldRequestGroups) {
-    const newRequestGroup = createRequestGroup(requestGroup._id, requestGroup.name, requestGroup.description, requestGroup.image, requestGroup.deleted, requestGroup.dateUpdated, requestGroup.dateCreated);
-    newRequestGroups[newRequestGroup._id.toString()] = newRequestGroup;
+    console.log("Fetching old data!");
+    const {
+        clients: oldClients,
+        requestgroups: oldRequestGroups,
+        requests: oldRequests,
+        requesttypes: oldRequestTypes
+    } = await getOldData();
+    console.log("Fetched old data!");
 
-    await newRequestGroup.save();
-  }
+    const newRequestGroups = {};
+    for (const requestGroup of oldRequestGroups) {
+        const newRequestGroup = createRequestGroup(
+            requestGroup._id,
+            requestGroup.name,
+            requestGroup.description,
+            requestGroup.image,
+            requestGroup.deleted,
+            requestGroup.dateUpdated,
+            requestGroup.dateCreated
+        );
+        newRequestGroups[newRequestGroup._id.toString()] = newRequestGroup;
 
-  console.log('Migrated RequestGroups!');
+        await newRequestGroup.save();
+    }
 
-  const newRequestTypes = {};
-  for (const requestType of oldRequestTypes) {
-    const newRequestType = createRequestType(requestType._id, requestType.name, requestType.deleted, requestType.dateUpdated, requestType.dateCreated);
-    newRequestTypes[newRequestType._id.toString()] = newRequestType;
+    console.log("Migrated RequestGroups!");
 
-    const newRequestTypeEmbedding = requestTypeEmbeddingFromRequestType(newRequestType);
-    newRequestGroups[requestType.requestGroup.toString()].requestTypes.push(newRequestTypeEmbedding);
-    newRequestType.requestGroup = requestType.requestGroup;
+    const newRequestTypes = {};
+    for (const requestType of oldRequestTypes) {
+        const newRequestType = createRequestType(
+            requestType._id,
+            requestType.name,
+            requestType.deleted,
+            requestType.dateUpdated,
+            requestType.dateCreated
+        );
+        newRequestTypes[newRequestType._id.toString()] = newRequestType;
 
-    await newRequestType.save();
-    await newRequestGroups[requestType.requestGroup.toString()].save();
-  }
-  console.log('Migrated RequestTypes!');
-  console.log('Added RequestType embeddings to RequestGroups!');
-  
-  const newRequests = {};
-  for (const request of oldRequests) {
-    const client = oldClients.find((c : OldClientDocument) => {
-      return request.client.equals(c._id);
-    });
+        const newRequestTypeEmbedding = requestTypeEmbeddingFromRequestType(newRequestType);
+        newRequestGroups[requestType.requestGroup.toString()].requestTypes.push(newRequestTypeEmbedding);
+        newRequestType.requestGroup = requestType.requestGroup;
 
-    if (client === undefined) {
-      console.log("ERROR: FAILED TO FIND CLIENT WITH ID: " + request.client.toString());
-      return;
-    };
+        await newRequestType.save();
+        await newRequestGroups[requestType.requestGroup.toString()].save();
+    }
+    console.log("Migrated RequestTypes!");
+    console.log("Added RequestType embeddings to RequestGroups!");
 
-    const newRequest = createRequest(request._id, request.deleted, request.fulfilled, request.quantity, client.fullName, request.dateUpdated, request.dateCreated);
-    newRequests[newRequest._id.toString()] = newRequest;
+    const newRequests = {};
+    for (const request of oldRequests) {
+        const client = oldClients.find((c: OldClientDocument) => {
+            return request.client.equals(c._id);
+        });
 
-    const newRequestEmbedding = requestEmbeddingFromRequest(newRequest);
-    newRequestTypes[request.requestType.toString()].requests.push(newRequestEmbedding);
-    newRequest.requestType = request.requestType;
+        if (client === undefined) {
+            console.log("ERROR: FAILED TO FIND CLIENT WITH ID: " + request.client.toString());
+            return;
+        }
 
-    await newRequest.save();
-    await newRequestTypes[request.requestType.toString()].save();
-  }
-  console.log('Migrated Requests and Clients!');
-  console.log('Added Request embeddings to RequestTypes!');
+        const newRequest = createRequest(
+            request._id,
+            request.deleted,
+            request.fulfilled,
+            request.quantity,
+            client.fullName,
+            request.dateUpdated,
+            request.dateCreated
+        );
+        newRequests[newRequest._id.toString()] = newRequest;
 
-  console.log('Finished migration!');
-  exit();
+        const newRequestEmbedding = requestEmbeddingFromRequest(newRequest);
+        newRequestTypes[request.requestType.toString()].requests.push(newRequestEmbedding);
+        newRequest.requestType = request.requestType;
+
+        await newRequest.save();
+        await newRequestTypes[request.requestType.toString()].save();
+    }
+    console.log("Migrated Requests and Clients!");
+    console.log("Added Request embeddings to RequestTypes!");
+
+    console.log("Finished migration!");
+    exit();
 });
