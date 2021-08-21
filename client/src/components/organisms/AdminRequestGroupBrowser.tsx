@@ -68,7 +68,8 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
             );
             setNumRequests(
                 requestGroup.requestTypes?.reduce((acc, requestType) => {
-                    const nonDeletedRequests = requestType.requests?.filter((request) => request.deletedAt == null) ?? [];
+                    const nonDeletedRequests =
+                        requestType.requests?.filter((request) => request.deletedAt == null) ?? [];
                     return acc + nonDeletedRequests.length;
                 }, 0) ?? 0
             );
