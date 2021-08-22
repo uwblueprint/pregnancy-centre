@@ -82,8 +82,6 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     });
     const handleDeleteRequest = (index: number) => {
         const req = requests[index];
-        console.log("handling delete");
-        console.log(req.fulfilledAt);
         if (req.fulfilledAt != null) {
             // If Request is fulfilled then don't show warning
             onDeleteRequest(index);
@@ -93,7 +91,6 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             if (matchedDonations != null) {
                 matchedDonations.forEach((item) => {
                     if (item.quantity > 0) {
-                        console.log("cant do that");
                         canDelete = false;
                     }
                 });
