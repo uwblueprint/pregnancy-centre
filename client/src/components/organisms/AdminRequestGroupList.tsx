@@ -62,9 +62,7 @@ const AdminRequestGroupList: FunctionComponent = () => {
     }, [searchString, currentPage, countRequestGroups]);
 
     useQuery(query, {
-        variables: Object.assign(
-            searchString ? { name: searchString } : {}
-        ),
+        variables: Object.assign(searchString ? { name: searchString } : {}),
         onCompleted: (data: { countRequestGroups: number }) => {
             setCountRequestGroups(data.countRequestGroups);
             setIsLoading(false);
@@ -140,13 +138,13 @@ const AdminRequestGroupList: FunctionComponent = () => {
                     onPageChange={(newPage) => handlePageChange(newPage - 1)}
                 />
             </div>
-            {isLoading ?
+            {isLoading ? (
                 <div className="spinner">
                     <Spinner animation="border" role="status" />
                 </div>
-                :
+            ) : (
                 <RequestGroupTable requestGroups={currentPageData} countRequestGroups={countRequestGroups} />
-            }
+            )}
         </div>
     );
 };

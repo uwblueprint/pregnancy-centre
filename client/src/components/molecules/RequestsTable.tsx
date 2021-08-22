@@ -84,29 +84,27 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         const req = requests[index];
         console.log("handling delete");
         console.log(req.fulfilledAt);
-        if(req.fulfilledAt != null) {
+        if (req.fulfilledAt != null) {
             // Request is fulfilled
             onDeleteRequest(index);
-        }
-        else {
+        } else {
             let canDelete = true;
             const matchedDonations = req.matchedDonations;
-            if(matchedDonations != null) {
-                matchedDonations.forEach(item => {
-                    if(item.quantity > 0) {
+            if (matchedDonations != null) {
+                matchedDonations.forEach((item) => {
+                    if (item.quantity > 0) {
                         console.log("cant do that");
                         canDelete = false;
                     }
-                })
+                });
             }
-            if(canDelete) {
+            if (canDelete) {
                 onDeleteRequest(index);
-            }
-            else {
+            } else {
                 setShowWarningDialog(true);
             }
         }
-    }
+    };
     const onDeleteRequest = (index: number) => {
         const requestsCopy = requests.slice();
         const req = { ...requestsCopy[index] };
@@ -131,7 +129,13 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
 
     return (
         <div className="request-list">
-            {showWarningDialog && <WarningDialog dialogTitle="This request has attached donation forms." dialogText="It cannot be deleted until the amount contributed by all donation forms to this request is zero." onClose={()=>setShowWarningDialog(false)} />}
+            {showWarningDialog && (
+                <WarningDialog
+                    dialogTitle="This request has attached donation forms."
+                    dialogText="It cannot be deleted until the amount contributed by all donation forms to this request is zero."
+                    onClose={() => setShowWarningDialog(false)}
+                />
+            )}
             {requestSelectedForEditing && (
                 <RequestForm
                     onSubmitComplete={() => {

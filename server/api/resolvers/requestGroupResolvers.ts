@@ -57,7 +57,7 @@ const requestGroupQueryResolvers = {
         return RequestGroup.find(filter).sort({ name: "ascending", _id: "ascending" }).skip(skip).limit(limit).exec();
     },
     countRequestGroups: async (_, { open, name }, ___): Promise<number> => {
-        const filter: {[key: string]: any} = {};
+        const filter: { [key: string]: any } = {};
         if (name) {
             filter.name = { $regex: "^" + name + ".*", $options: "i" };
         }
