@@ -85,7 +85,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         console.log("handling delete");
         console.log(req.fulfilledAt);
         if (req.fulfilledAt != null) {
-            // Request is fulfilled
+            // If Request is fulfilled then don't show warning
             onDeleteRequest(index);
         } else {
             let canDelete = true;
