@@ -97,23 +97,21 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     });
     const [mutateUpdateDonationForm] = useMutation(updateDonationForm);
     const [getDonationForm, { data: donationFormResponse }] = useLazyQuery(queryDonationForm);
-    if(donationFormResponse) {
-        console.log(donationFormResponse);
+    if (donationFormResponse) {
         const id = donationFormResponse.donationForm._id;
         const quantity = donationFormResponse.donationForm.quantity - 1;
-        console.log("decrementing donation form", quantity);
-        mutateUpdateDonationForm({ variables: { donationForm : { _id: id, quantity: quantity}}});
+        mutateUpdateDonationForm({ variables: { donationForm: { _id: id, quantity: quantity } } });
     }
     const handleDeleteRequest = (index: number) => {
         const req = requests[index];
         if (req.fulfilledAt != null) {
             // If Request is fulfilled then don't show warning
             console.log(req.matchedDonations);
-            if(req.matchedDonations != null) {
-                req.matchedDonations.forEach(item => {
+            if (req.matchedDonations != null) {
+                req.matchedDonations.forEach((item) => {
                     const id = item.donationForm;
-                    getDonationForm({ variables: { _id: id }});
-                })
+                    getDonationForm({ variables: { _id: id } });
+                });
             }
             onDeleteRequest(index);
         } else {
