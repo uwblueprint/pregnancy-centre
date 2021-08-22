@@ -206,8 +206,7 @@ const createDonorHomepage = () => {
                 y: 0.63
             }
         ],
-        testimonials: [],
-        statistics: []
+        testimonials: []
     };
 
     // Setting mapTestimonials
@@ -260,7 +259,8 @@ const createDonorHomepage = () => {
     };
     for (let i = 0; i < numCarouselTestimonials; i++) {
         const testimonial = {
-            image: faker.image.imageUrl(),
+            id: i + 1,
+            imagePath: faker.image.imageUrl(),
             testimonial: faker.lorem.sentence()
         };
         testimonialCarousel.testimonials.push(testimonial);

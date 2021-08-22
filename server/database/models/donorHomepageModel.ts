@@ -3,6 +3,7 @@ import { Document, model, Schema, Types } from "mongoose";
 interface MapPoint {
     x: number;
     y: number;
+    markerSize: string;
 }
 
 interface MapTestimonial {
@@ -18,7 +19,8 @@ interface Statistic {
 }
 
 interface ClientTestimonial {
-    image: string;
+    id: number;
+    imagePath: string;
     testimonial: string;
 }
 
@@ -36,7 +38,7 @@ interface DonorHomepageInterface extends Document {
     banner: {
         header: string;
         description: string;
-        images: Array<string>;
+        imagePaths: Array<string>;
         interval: number;
     };
     testimonialCarousel: {
@@ -48,14 +50,9 @@ interface DonorHomepageInterface extends Document {
 const DonorHomepageSchema = new Schema({
     // Properties
     map: {
-        defaultMarkerSize: {
-            type: String,
-            required: true,
-            default: "53px"
-        },
-        markerSizes: [String],
         points: [
             {
+                markerSize: { type: String, required: true, default: "53px" },
                 x: { type: Number, required: true },
                 y: { type: Number, required: true }
             }
@@ -86,13 +83,14 @@ const DonorHomepageSchema = new Schema({
             required: true,
             default: "Scroll to see our clients' current needs and arrange a donation"
         },
-        images: { type: [String], required: true },
+        imagePaths: { type: [String], required: true },
         interval: { type: Number, required: true, default: 10 }
     },
     testimonialCarousel: {
         testimonials: [
             {
-                image: { type: String, required: true },
+                id: { type: Number, required: true },
+                imagePath: { type: String, required: true },
                 testimonial: { type: String, required: true }
             }
         ],
