@@ -10,6 +10,11 @@
         text-align: center;
     }
 
+    &-info {
+        @include table-text;
+        align-self: flex-start;
+    }
+
     &-content {
         margin-top: 20px;
         border-top: $border-line;

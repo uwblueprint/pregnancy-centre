@@ -53,7 +53,10 @@ const SearchBar: FunctionComponent<Props> = (props: Props) => {
             />
             <div className="search-bar-icon-container">
                 {isSearching ? (
-                    <i role="button" onClick={() => setSearchString("")} className="bi-x-lg search-bar-icon-cancel"></i>
+                    <i role="button" onClick={() => {
+                        setSearchString("")
+                        props.onEnterPressed?.("")
+                    }} className="bi-x search-bar-icon-cancel"></i>
                 ) : (
                     <i className="bi-search search-bar-icon-default"></i>
                 )}
