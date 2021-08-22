@@ -1,13 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 
 import { Dispatch } from "react";
-import { gql } from "@apollo/client";
 import PageNavigation from "../atoms/PageNavigation";
 import RequestGroup from "../../data/types/requestGroup";
 import RequestGroupScrollWindow from "../molecules/RequestGroupScrollWindow";
 import { SetStateAction } from "react";
 import { Spinner } from "react-bootstrap";
-import { usePaginator } from "../utils/hooks";
 
 type Props = {
     countRequestGroups: number;
