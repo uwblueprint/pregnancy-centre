@@ -121,8 +121,6 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             mutateFulfillRequest({ variables: { _id: request._id } });
         }
     };
-    console.log(requests);
-    console.log(requests[0].matchedDonations);
 
     return (
         <div className="request-list">
