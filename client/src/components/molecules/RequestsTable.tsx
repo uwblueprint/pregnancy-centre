@@ -1,4 +1,4 @@
-import { gql, useMutation } from "@apollo/client";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import moment from "moment";
@@ -36,6 +36,21 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     const deleteRequest = gql`
         mutation DeleteRequest($_id: ID) {
             deleteRequest(_id: $_id) {
+                _id
+            }
+        }
+    `;
+    const queryDonationForm = gql`
+        query DonationForm($_id: ID) {
+            donationForm(_id: $_id) {
+                _id
+                quantity
+            }
+        }
+    `;
+    const updateDonationForm = gql`
+        mutation UpdateDonationForm($donationForm: UpdateDonationFormInput) {
+            updateDonationForm(donationForm: $donationForm) {
                 _id
             }
         }
@@ -80,12 +95,26 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             window.location.reload();
         }
     });
+    const [mutateUpdateDonationForm] = useMutation(updateDonationForm);
+    const [getDonationForm, { data: donationFormResponse }] = useLazyQuery(queryDonationForm);
+    if(donationFormResponse) {
+        console.log(donationFormResponse);
+        const id = donationFormResponse.donationForm._id;
+        const quantity = donationFormResponse.donationForm.quantity - 1;
+        console.log("decrementing donation form", quantity);
+        mutateUpdateDonationForm({ variables: { donationForm : { _id: id, quantity: quantity}}});
+    }
     const handleDeleteRequest = (index: number) => {
         const req = requests[index];
-        console.log("handling delete");
-        console.log(req.fulfilledAt);
         if (req.fulfilledAt != null) {
             // If Request is fulfilled then don't show warning
+            console.log(req.matchedDonations);
+            if(req.matchedDonations != null) {
+                req.matchedDonations.forEach(item => {
+                    const id = item.donationForm;
+                    getDonationForm({ variables: { _id: id }});
+                })
+            }
             onDeleteRequest(index);
         } else {
             let canDelete = true;
@@ -124,8 +153,6 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             mutateFulfillRequest({ variables: { _id: request._id } });
         }
     };
-    console.log(requests);
-    console.log(requests[0].matchedDonations);
 
     return (
         <div className="request-list">
