@@ -213,6 +213,49 @@ const typeDefs = gql`
         matchedAt: String
     }
 
+    type MapPoint {
+        markerSize: String!
+        x: Int!
+        y: Int!
+    }
+
+    type MapTestimonial {
+        id: Int!
+        imagePath: String
+        testimonial: String
+    }
+
+
+    type Map {
+        points: [MapPoint]!
+        testimonials: [MapTestimonial]
+    }
+
+    type Statistic {
+        icon: String
+        measurement: String
+        stat: String
+    }
+
+    type ClientTestimonial {
+        id: Int!
+        imagePath: String
+        testimonial: String
+    }
+
+    type TestimonialCarousel {
+        testimonials: [ClientTestimonial]
+        interval: Int
+    }
+
+    type donorHomepage {
+        _id: ID!
+        map: Map
+        statistics: [Statistic]
+        banner: Banner
+        testimonialCarousel: [TestimonialCarousel]
+    }
+
     type Query {
         request(_id: ID): Request
         requests: [Request]
