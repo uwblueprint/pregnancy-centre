@@ -10,6 +10,7 @@ interface Props {
     requestType?: RequestType;
     requests: Request[];
     donationForm: DonationForm;
+    showAssignedMatchesOnly?: boolean;
     isMatching: boolean;
     isErroneous: boolean;
     onQuantitySelected: (newQuantity: number, request: Request) => void;
@@ -32,6 +33,7 @@ const MatchingRequestTypeDropdown: FunctionComponent<Props> = (props: Props) => 
                         donationForm={props.donationForm}
                         isMatching={props.isMatching}
                         isErroneous={props.isErroneous}
+                        showAssignedMatchesOnly={props.showAssignedMatchesOnly}
                         onQuantitySelected={props.onQuantitySelected}
                     />
                 }

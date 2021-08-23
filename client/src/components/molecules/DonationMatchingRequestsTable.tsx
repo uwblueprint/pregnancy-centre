@@ -10,6 +10,7 @@ import { TextField } from "../atoms/TextField";
 interface Props {
     requests: Request[];
     donationForm: DonationForm;
+    showAssignedMatchesOnly?: boolean; // only display the quantity assigned to the specific donation form
     isMatching: boolean;
     isErroneous: boolean; // indicates whether the selected quantities are erroneous
     onQuantitySelected: (newQuantity: number, request: Request) => void;
@@ -40,7 +41,7 @@ const DonationMatchingRequestsTable: FunctionComponent<Props> = (props: Props) =
         const requestTotal = request?.quantity ?? 0;
         const totalRequired = requestTotal - totalQuantityMatched;
 
-        if (props.isMatching) {
+        if (props.isMatching || props.showAssignedMatchesOnly) {
             // calculate the number of items assigned to the current item being matched
             const quantityAssignedToForm = matchedDonations?.reduce((total, contribution) => {
                 return contribution.donationForm === props?.donationForm?._id ? total + contribution.quantity : total;

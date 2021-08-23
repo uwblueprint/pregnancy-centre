@@ -15,6 +15,11 @@
             font-size: 32px;
             line-height: 32px;
         }
+
+        .button {
+            @include alt-button;
+            padding: 12px 28px;
+        }
     }
 
     &-content {

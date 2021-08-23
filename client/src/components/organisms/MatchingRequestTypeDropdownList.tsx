@@ -7,6 +7,8 @@ import RequestType from "../../data/types/requestType";
 interface Props {
     requestTypes: RequestType[];
     donationForm: DonationForm;
+    showFulfilledRequests: boolean;
+    showAssignedMatchesOnly?: boolean;
     isMatching: boolean;
     isErroneous: boolean;
     onQuantitySelected: (newQuantity: number, request: Request) => void;
@@ -17,10 +19,10 @@ const MatchingRequestTypeDropdownList: FunctionComponent<Props> = (props: Props)
     return (
         <div className="donation-matching-dropdown-list">
             {undeletedRequestTypes.map((requestType) => {
-                // only display request types that have open requests
-                if (requestType.openRequests?.length) {
-                    const unfulfilledRequests = requestType.openRequests.filter((req) => !req.fulfilled);
-                    const sortedRequests = unfulfilledRequests.sort((a, b) => {
+                const requests = props.showFulfilledRequests ? requestType.requests : requestType.openRequests;
+                // only display request types that have requests
+                if (requests?.length) {
+                    const sortedRequests = requests.sort((a, b) => {
                         return b.createdAt!.valueOf() - a.createdAt!.valueOf();
                     });
                     return (
@@ -29,6 +31,7 @@ const MatchingRequestTypeDropdownList: FunctionComponent<Props> = (props: Props)
                             requestType={requestType}
                             requests={sortedRequests}
                             donationForm={props.donationForm}
+                            showAssignedMatchesOnly={props.showAssignedMatchesOnly}
                             isMatching={props.isMatching}
                             isErroneous={props.isErroneous}
                             onQuantitySelected={props.onQuantitySelected}

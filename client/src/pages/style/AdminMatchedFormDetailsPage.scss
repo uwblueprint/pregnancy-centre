@@ -1,0 +1,31 @@
+.admin-matched-form-details-page {
+    .admin-page-content {
+        width: 100%;
+        min-height: calc(100vh - 100px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &-content {
+        flex: 1;
+        border-top: $border-line;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+
+    .requests-view {
+        border-right: $border-line;
+        padding: 36px 4rem;
+        flex: 6;
+    }
+
+    .form-details {
+        flex-grow: 1;
+        padding: 36px 28px;
+        flex: 4;
+    }
+}

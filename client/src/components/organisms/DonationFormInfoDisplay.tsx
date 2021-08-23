@@ -8,6 +8,7 @@ import { getItemAgeDescription } from "../utils/donationForm";
 interface Props {
     donationForm: DonationForm;
     isMatching: boolean;
+    viewOnly: boolean;
     onSelectMatch: () => void;
 }
 
@@ -18,6 +19,7 @@ const DonationFormInfoDisplay: FunctionComponent<Props> = (props: Props) => {
         .filter((name) => name)
         .join(" ");
     let itemsAvailableStr = "";
+
     if (donationForm.quantityRemaining != null) {
         itemsAvailableStr = itemsAvailableStr.concat(donationForm.quantityRemaining.toString());
         if (donationForm.quantity != null) {
@@ -31,12 +33,14 @@ const DonationFormInfoDisplay: FunctionComponent<Props> = (props: Props) => {
         <div className="donation-form-info-display">
             <div className="header">
                 <h1>{itemsAvailableStr}</h1>
-                <Button
-                    disabled={true}
-                    text={isMatching ? "Matching" : "Match"}
-                    copyText=""
-                    onClick={isMatching ? undefined : onSelectMatch}
-                />
+                {!props.viewOnly && (
+                    <Button
+                        disabled={true}
+                        text={isMatching ? "Matching" : "Match"}
+                        copyText=""
+                        onClick={isMatching ? undefined : onSelectMatch}
+                    />
+                )}
             </div>
             {donationForm.adminNotes && (
                 <h2>

@@ -4,6 +4,7 @@ import React from "react";
 
 import AdminDonationMatchingPage from "./pages/AdminDonationMatchingPage";
 import AdminMatchedDonationFormsPage from "./pages/AdminMatchedDonationFormsPage";
+import AdminMatchedFormDetailsPage from "./pages/AdminMatchedFormDetailsPage";
 import AdminRequestGroupsPage from "./pages/AdminRequestGroupsPage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView";
 import AdminUnmatchedDonationFormsPage from "./pages/AdminUnmatchedDonationFormsPage";
@@ -32,6 +33,7 @@ function App(): JSX.Element {
                     <Route path="/need/:id" component={AdminRequestGroupView} />
                     <Route path="/unmatched-forms" component={AdminUnmatchedDonationFormsPage} />
                     <Route path="/matched-forms" component={AdminMatchedDonationFormsPage} />
+                    <Route path="/matched-form/:id" component={AdminMatchedFormDetailsPage} />
                     <Route path="/donation-form" component={DonationForm} />
                     <Route path="/" component={DonorHomepage} />
                 </Switch>
