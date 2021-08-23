@@ -1,9 +1,9 @@
 import { Document, model, Schema, Types } from "mongoose";
 
 interface MapPoint {
+    markerSize: string;
     x: number;
     y: number;
-    markerSize: string;
 }
 
 interface MapTestimonial {
