@@ -165,8 +165,8 @@ const createDonationForm = (requestGroup = null) => {
 const createDonorHomepage = () => {
     const carouselInterval = 10;
     const numMapTestimonials = faker.datatype.number({
-        'min': 1,
-        'max': 8
+        min: 1,
+        max: 8
     });
     const numStats = 3;
     const map = {
@@ -256,8 +256,8 @@ const createDonorHomepage = () => {
     };
 
     const numCarouselTestimonials = faker.datatype.number({
-        'min': 1,
-        'max': 5
+        min: 1,
+        max: 5
     });
     const testimonialCarousel = {
         testimonials: [],
