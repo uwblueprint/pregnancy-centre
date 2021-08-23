@@ -170,38 +170,44 @@ const createDonorHomepage = () => {
     });
     const numStats = 3;
     const map = {
-        defaultMarkerSize: "53px",
-        markerSizes: ["80px", "75px", "72px", "70px", "65px", "61px", "55px", "53px"],
         points: [
             {
+                markerSize: "80px",
                 x: 0.28,
                 y: 0.62
             },
             {
+                markerSize: "75px",
                 x: 0.69,
                 y: 0.54
             },
             {
+                markerSize: "72px",
                 x: 0.45,
                 y: 0.2
             },
             {
+                markerSize: "70px",
                 x: 0.1,
                 y: 0.35
             },
             {
+                markerSize: "65px",
                 x: 0.62,
                 y: 0.75
             },
             {
+                markerSize: "61px",
                 x: 0.33,
                 y: 0.39
             },
             {
+                markerSize: "55px",
                 x: 0.78,
                 y: 0.75
             },
             {
+                markerSize: "53px",
                 x: 0.47,
                 y: 0.63
             }

@@ -29,8 +29,6 @@ interface DonorHomepageInterface extends Document {
 
     // Properties
     map: {
-        defaultMarkerSize: string;
-        markerSizes: Array<string>;
         points: Array<MapPoint>;
         testimonials: Array<MapTestimonial>;
     };
