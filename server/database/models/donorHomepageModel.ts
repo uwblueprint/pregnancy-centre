@@ -6,19 +6,13 @@ interface MapPoint {
     y: number;
 }
 
-interface MapTestimonial {
-    id: number;
-    imagePath: string;
-    testimonial: string;
-}
-
 interface Statistic {
     icon: string;
     measurement: string;
     stat: string;
 }
 
-interface ClientTestimonial {
+interface Testimonial {
     id: number;
     imagePath: string;
     testimonial: string;
@@ -30,7 +24,7 @@ interface DonorHomepageInterface extends Document {
     // Properties
     map: {
         points: Array<MapPoint>;
-        testimonials: Array<MapTestimonial>;
+        testimonials: Array<Testimonial>;
     };
     statistics: Array<Statistic>;
     banner: {
@@ -40,7 +34,7 @@ interface DonorHomepageInterface extends Document {
         interval: number;
     };
     testimonialCarousel: {
-        testimonials: Array<ClientTestimonial>;
+        testimonials: Array<Testimonial>;
         interval: number;
     };
 }
