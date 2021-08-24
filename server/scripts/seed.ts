@@ -164,11 +164,12 @@ const createDonationForm = (requestGroup = null) => {
 
 const createDonorHomepage = () => {
     const carouselInterval = 10;
+    const numStats = 3;
+
     const numMapTestimonials = faker.datatype.number({
         min: 1,
         max: 8
-    });
-    const numStats = 3;
+    });    
     const map = {
         defaultMarkerSize: "53px",
         markerSizes: ["80px", "75px", "72px", "70px", "65px", "61px", "55px", "53px"],
