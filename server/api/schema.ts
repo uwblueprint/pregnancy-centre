@@ -214,7 +214,6 @@ const typeDefs = gql`
     }
 
     type MapPoint {
-        markerSize: String!
         x: Int!
         y: Int!
     }
@@ -226,6 +225,8 @@ const typeDefs = gql`
     }
 
     type Map {
+        defaultMarkerSize: String!
+        markerSizes: [String]!
         points: [MapPoint]!
         testimonials: [Testimonial]
     }
@@ -241,12 +242,30 @@ const typeDefs = gql`
         interval: Int
     }
 
+    type Banner {
+        header: String!
+        description: String!
+        imagePaths: [String]!
+        interval: Int!
+    }
+
     type DonorHomepage {
         _id: ID!
         map: Map!
         statistics: [Statistic]
-        banner: Banner
+        banner: Banner!
         testimonialCarousel: [TestimonialCarousel]
+    }
+
+    enum StatisticType {
+        REGULAR_DONORS
+        DIAPERS_DISTRIBUTED
+        CARE_CLOSET_VISITS
+    }
+
+    input StatisticMeasurement {
+        measurement: String
+        type: StatisticType!
     }
 
     type Query {
@@ -282,7 +301,10 @@ const typeDefs = gql`
             sortBy: DonationFormSortOptions
         ): [DonationForm]
 
-        donorHomepage: DonorHomepage
+        donorHomepageBanner: Banner
+        donorHomepageTestimonialCarousel: TestimonialCarousel
+        donorHomepageMap: Map
+        donorHomepageStats: [Statistic]
     }
 
     type Mutation {
@@ -311,6 +333,8 @@ const typeDefs = gql`
         sendConfirmationEmail(ids: [ID]): String
         sendApprovalEmail(id: ID): String
         sendRejectionEmail(id: ID): String
+
+        updateDonorHomepage(mapTestimonials : [Testimonial!]!, testimonialCarousel : [Testimonial!], measurements : [StatisticMeasurement]) : DonorHomepage
     }
 `;
 
