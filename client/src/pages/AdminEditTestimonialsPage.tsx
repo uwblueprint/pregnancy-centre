@@ -1,13 +1,9 @@
 import React, { FunctionComponent, useState } from "react";
 
-import {
-    DonorHomepageConfig as DonorHomepageConfigType,
-    Statistic,
-    StatisticType
-} from "../data/types/donorHomepageConfig";
 import AdminPage from "../components/layouts/AdminPage";
 import { Button } from "../components/atoms/Button";
 import DonorHomepageConfig from "../config/donorHomepageConfig.json";
+import { DonorHomepageConfig as DonorHomepageConfigType } from "../data/types/donorHomepageConfig";
 import EditStatisticsSection from "../components/molecules/EditStatisticsSection";
 
 export type EditTestimonialsFormState = {
@@ -38,11 +34,6 @@ export const EditTestimonialsContext = React.createContext<{
     },
     setFormState: () => {}
 });
-
-const findStatistic = (type: StatisticType, statistics: Array<Statistic>) => {
-    const statistic = statistics.find((stat) => stat.type === type);
-    return statistic === undefined ? null : statistic;
-};
 
 const AdminEditTestimonialsPage: FunctionComponent = () => {
     const [formState, setFormState] = useState<EditTestimonialsFormState>(initialFormState);

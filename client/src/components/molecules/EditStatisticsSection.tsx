@@ -1,18 +1,18 @@
 import React, { FunctionComponent, useContext } from "react";
 
 import { Statistic, StatisticType } from "../../data/types/donorHomepageConfig";
+import { EditTestimonialsContext } from "../../pages/AdminEditTestimonialsPage";
 import FormItem from "../molecules/FormItem";
 import { TextField } from "../atoms/TextField";
-import { EditTestimonialsContext } from "../../pages/AdminEditTestimonialsPage";
 
 const EditStatisticsSection: FunctionComponent = () => {
     const { formState, setFormState } = useContext(EditTestimonialsContext);
     const { careClosetVisitsStatError, diapersDistributedStatError, regularDonorsStatError } = formState;
     const findStat = (statType: StatisticType) =>
         formState.donorHomepageConfig.statistics.find((stat) => stat.type === statType);
-    let regularDonorsStat: Statistic | null = findStat(StatisticType.REGULAR_DONORS) ?? null;
-    let diapersDistributedStat: Statistic | null = findStat(StatisticType.DIAPERS_DISTRIBUTED) ?? null;
-    let careClosetVisitsStat: Statistic | null = findStat(StatisticType.CARE_CLOSET_VISITS) ?? null;
+    const regularDonorsStat: Statistic | null = findStat(StatisticType.REGULAR_DONORS) ?? null;
+    const diapersDistributedStat: Statistic | null = findStat(StatisticType.DIAPERS_DISTRIBUTED) ?? null;
+    const careClosetVisitsStat: Statistic | null = findStat(StatisticType.CARE_CLOSET_VISITS) ?? null;
 
     const setStatistic = (measurement: string, statisticType: StatisticType) => {
         if (careClosetVisitsStat == null || diapersDistributedStat == null || regularDonorsStat == null) {
@@ -48,19 +48,19 @@ const EditStatisticsSection: FunctionComponent = () => {
     const getStatisticField = (statistic: Statistic, errorMessage: string) => (
         <div className="statistic-field">
             <FormItem
-                formItemName={capitalizeFirstLetter(statistic.measurement)}
+                formItemName={capitalizeFirstLetter(statistic.stat)}
                 errorString={errorMessage}
                 isDisabled={false}
                 showErrorIcon={true}
                 labelBoostrapIcon={statistic.icon}
                 inputComponent={
                     <TextField
-                        input={statistic.stat}
+                        input={statistic.measurement}
                         isDisabled={false}
                         isErroneous={false}
                         showRedErrorText={true}
                         onChange={(e) => setStatistic(e.target.value, statistic.type as StatisticType)}
-                        name={`${statistic.measurement} field`}
+                        name={`${statistic.type} field`}
                         placeholder=""
                         type="text"
                     />
