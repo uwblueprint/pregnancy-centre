@@ -219,16 +219,15 @@ const typeDefs = gql`
         y: Int!
     }
 
-    type MapTestimonial {
+    type Testimonial {
         id: Int!
         imagePath: String
         testimonial: String
     }
 
-
     type Map {
         points: [MapPoint]!
-        testimonials: [MapTestimonial]
+        testimonials: [Testimonial]
     }
 
     type Statistic {
@@ -237,20 +236,14 @@ const typeDefs = gql`
         stat: String
     }
 
-    type ClientTestimonial {
-        id: Int!
-        imagePath: String
-        testimonial: String
-    }
-
     type TestimonialCarousel {
-        testimonials: [ClientTestimonial]
+        testimonials: [Testimonial]
         interval: Int
     }
 
-    type donorHomepage {
+    type DonorHomepage {
         _id: ID!
-        map: Map
+        map: Map!
         statistics: [Statistic]
         banner: Banner
         testimonialCarousel: [TestimonialCarousel]
@@ -288,6 +281,9 @@ const typeDefs = gql`
             filterOptions: DonationFormFilterOptions
             sortBy: DonationFormSortOptions
         ): [DonationForm]
+
+        donorHomepage: DonorHomepage
+        
     }
 
     type Mutation {
