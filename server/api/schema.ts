@@ -268,12 +268,30 @@ const typeDefs = gql`
         interval: Int!
     }
 
+    type Banner {
+        header: String!
+        description: String!
+        imagePaths: [String]!
+        interval: Int!
+    }
+
     type DonorHomepage {
         _id: ID!
         map: Map!
         statistics: [Statistic]!
         banner: Banner!
         testimonialCarousel: TestimonialCarousel!
+    }
+
+    enum StatisticType {
+        REGULAR_DONORS
+        DIAPERS_DISTRIBUTED
+        CARE_CLOSET_VISITS
+    }
+
+    input StatisticMeasurement {
+        measurement: String
+        type: StatisticType!
     }
 
     type Query {
