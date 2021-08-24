@@ -283,7 +283,6 @@ const typeDefs = gql`
         ): [DonationForm]
 
         donorHomepage: DonorHomepage
-        
     }
 
     type Mutation {
