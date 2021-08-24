@@ -1,7 +1,6 @@
 import { Document, model, Schema, Types } from "mongoose";
 
 interface MapPoint {
-    markerSize: string;
     x: number;
     y: number;
 }
@@ -23,6 +22,8 @@ interface DonorHomepageInterface extends Document {
 
     // Properties
     map: {
+        defaultMarkerSize: string;
+        markerSizes: Array<string>;
         points: Array<MapPoint>;
         testimonials: Array<Testimonial>;
     };
@@ -42,9 +43,10 @@ interface DonorHomepageInterface extends Document {
 const DonorHomepageSchema = new Schema({
     // Properties
     map: {
+        defaultMarkerSize: { type: String, required: true, default: "53px" },
+        markerSizes: { type: [String], required: true, default: ["80px", "75px", "72px", "70px", "65px", "61px", "55px", "53px"] },
         points: [
             {
-                markerSize: { type: String, required: true, default: "53px" },
                 x: { type: Number, required: true },
                 y: { type: Number, required: true }
             }
