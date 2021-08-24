@@ -1,3 +1,9 @@
+export enum StatisticType {
+    REGULAR_DONORS = "REGULAR_DONORS",
+    DIAPERS_DISTRIBUTED = "DIAPERS_DISTRIBUTED",
+    CARE_CLOSET_VISITS = "CARE_CLOSET_VISITS"
+}
+
 export interface Point {
     x: number;
     y: number;
@@ -13,6 +19,7 @@ export interface Statistic {
     icon: string;
     measurement: string;
     stat: string;
+    type: string;
 }
 
 export interface DonorHomepageConfig {

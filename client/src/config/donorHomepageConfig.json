@@ -69,20 +69,23 @@
     ]
   },
   "statistics": [
-    {
+    {      
       "icon": "bi bi-people",
       "measurement": "700+",
-      "stat": "regular donors in the past year"
+      "stat": "regular donors in the past year",
+      "type": "REGULAR_DONORS"
     },
     {
       "icon": "bi bi-calendar4",
       "measurement": "4200+",
-      "stat": "diapers distributed every month"
+      "stat": "diapers distributed every month",
+      "type": "DIAPERS_DISTRIBUTED"
     },
     {
       "icon": "bi bi-door-closed",
       "measurement": "140+",
-      "stat": "visits to our case closet"
+      "stat": "visits to our case closet",
+      "type": "CARE_CLOSET_VISITS"
     }
   ],
   "banner": {

@@ -1,0 +1,10 @@
+.edit-statistics-section {
+    display: flex;
+    flex-direction: column;
+
+    .text-fields {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
