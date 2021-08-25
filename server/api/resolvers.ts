@@ -21,7 +21,7 @@ import {
 
 import { emailResolvers } from "./resolvers/emailResolvers";
 
-import {donorHomepageMutationResolvers, donorHomepageQueryResolvers } from "./resolvers/donorHomepageResolvers"
+import { donorHomepageMutationResolvers, donorHomepageQueryResolvers } from "./resolvers/donorHomepageResolvers";
 
 const resolvers = {
     DonationItemCondition,
@@ -58,7 +58,7 @@ const resolvers = {
 
     DonationForm: {
         ...donationFormResolvers
-    },
+    }
 };
 
 export { resolvers };
