@@ -20,8 +20,6 @@ const initialFormState: EditTestimonialsFormState = {
     regularDonorsStatError: ""
 };
 
-// export type EditTestimonialsContextValueType =
-
 export const EditTestimonialsContext = React.createContext<{
     formState: EditTestimonialsFormState;
     setFormState: (newFormState: EditTestimonialsFormState) => void;
@@ -37,19 +35,6 @@ export const EditTestimonialsContext = React.createContext<{
 
 const AdminEditTestimonialsPage: FunctionComponent = () => {
     const [formState, setFormState] = useState<EditTestimonialsFormState>(initialFormState);
-
-    // const [regularDonorsStat, setRegularDonorsStat] = useState(
-    //     findStatistic(StatisticType.REGULAR_DONORS, DonorHomepageConfig.statistics)
-    // );
-    // const [diapersDistributedStat, setDiapersDistributedStat] = useState(
-    //     findStatistic(StatisticType.DIAPERS_DISTRIBUTED, DonorHomepageConfig.statistics)
-    // );
-    // const [careClosetVisitsStat, setCareClosetVisitsStat] = useState(
-    //     findStatistic(StatisticType.CARE_CLOSET_VISITS, DonorHomepageConfig.statistics)
-    // );
-    // const [regularDonorsStatError, setRegularDonorsStatError] = useState("");
-    // const [diapersDistributedStatError, setDiapersDistributedError] = useState("");
-    // const [careClosetVisitsStatError, setCareClosetVisitsStatError] = useState("");
 
     const handleSave = () => {
         console.log("save");

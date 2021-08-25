@@ -23,7 +23,7 @@ const FormItem: FunctionComponent<Props> = (props: Props) => {
             <div className="form-item-top">
                 <span className={props.isDisabled ? "form-item-disabled" : undefined}>
                     {props.labelBoostrapIcon && (
-                        <i className={props.labelBoostrapIcon} />
+                        <i className={props.labelBoostrapIcon + " label-icon"} />
                     )}
                     {props.formItemName}
                     {props.tooltipText && <Tooltip className="form-item-tooltip" tooltipText={props.tooltipText} />}
