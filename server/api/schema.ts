@@ -231,10 +231,22 @@ const typeDefs = gql`
         testimonials: [Testimonial]
     }
 
+    enum StatisticType {
+        REGULAR_DONORS
+        DIAPERS_DISTRIBUTED
+        CARE_CLOSET_VISITS
+    }
+
     type Statistic {
-        icon: String
+        icon: String!
+        measurement: String!
+        stat: String!
+        type: StatisticType!
+    }
+
+    input StatisticMeasurement {
         measurement: String
-        stat: String
+        type: StatisticType!
     }
 
     type TestimonialCarousel {
@@ -255,17 +267,6 @@ const typeDefs = gql`
         statistics: [Statistic]
         banner: Banner!
         testimonialCarousel: [TestimonialCarousel]
-    }
-
-    enum StatisticType {
-        REGULAR_DONORS
-        DIAPERS_DISTRIBUTED
-        CARE_CLOSET_VISITS
-    }
-
-    input StatisticMeasurement {
-        measurement: String
-        type: StatisticType!
     }
 
     type Query {
@@ -334,7 +335,11 @@ const typeDefs = gql`
         sendApprovalEmail(id: ID): String
         sendRejectionEmail(id: ID): String
 
-        updateDonorHomepage(mapTestimonials : [Testimonial!]!, testimonialCarousel : [Testimonial!], measurements : [StatisticMeasurement]) : DonorHomepage
+        updateDonorHomepage(
+            mapTestimonials: [Testimonial!]!
+            testimonialCarousel: [Testimonial!]
+            statMeasurements: [StatisticMeasurement]
+        ): DonorHomepage
     }
 `;
 

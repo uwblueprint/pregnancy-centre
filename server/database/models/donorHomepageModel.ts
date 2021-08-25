@@ -5,6 +5,31 @@ interface MapPoint {
     y: number;
 }
 
+interface Testimonial {
+    id: number;
+    imagePath: string;
+    testimonial: string;
+}
+
+interface Banner {
+    header: string;
+    description: string;
+    imagePaths: Array<string>;
+    interval: number;
+}
+
+interface TestimonialCarousel {
+    testimonials: Array<Testimonial>;
+    interval: number;
+}
+
+interface Map {
+    defaultMarkerSize: string;
+    markerSizes: Array<string>;
+    points: Array<MapPoint>;
+    testimonials: Array<Testimonial>;
+}
+
 enum StatisticType {
     REGULAR_DONORS = "REGULAR_DONORS",
     DIAPERS_DISTRIBUTED = "DIAPERS_DISTRIBUTED",
@@ -18,33 +43,19 @@ interface Statistic {
     type: StatisticType;
 }
 
-interface Testimonial {
-    id: number;
-    imagePath: string;
-    testimonial: string;
+interface StatisticMeasurement {
+    measurement: string;
+    type: StatisticType;
 }
 
 interface DonorHomepageInterface extends Document {
     _id: Types.ObjectId;
 
     // Properties
-    map: {
-        defaultMarkerSize: string;
-        markerSizes: Array<string>;
-        points: Array<MapPoint>;
-        testimonials: Array<Testimonial>;
-    };
+    map: Map;
     statistics: Array<Statistic>;
-    banner: {
-        header: string;
-        description: string;
-        imagePaths: Array<string>;
-        interval: number;
-    };
-    testimonialCarousel: {
-        testimonials: Array<Testimonial>;
-        interval: number;
-    };
+    banner: Banner;
+    testimonialCarousel: TestimonialCarousel;
 }
 
 const DonorHomepageSchema = new Schema({
@@ -115,4 +126,15 @@ const DonorHomepageSchema = new Schema({
 });
 
 const DonorHomepage = model<DonorHomepageInterface>("DonorHomepage", DonorHomepageSchema);
-export { DonorHomepage, DonorHomepageInterface, MapPoint, Statistic, Testimonial, StatisticType };
+export {
+    DonorHomepage,
+    DonorHomepageInterface,
+    MapPoint,
+    Statistic,
+    Testimonial,
+    StatisticMeasurement,
+    StatisticType,
+    Map,
+    Banner,
+    TestimonialCarousel
+};
