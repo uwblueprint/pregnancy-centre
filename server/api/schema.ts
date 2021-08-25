@@ -336,7 +336,7 @@ const typeDefs = gql`
         sendRejectionEmail(id: ID): String
 
         updateDonorHomepage(
-            mapTestimonials: [Testimonial!]!
+            mapTestimonials: [Testimonial!]
             testimonialCarousel: [Testimonial!]
             statMeasurements: [StatisticMeasurement]
         ): DonorHomepage
