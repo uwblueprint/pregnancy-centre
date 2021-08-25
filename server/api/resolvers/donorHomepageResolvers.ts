@@ -45,11 +45,12 @@ const donorHomepageMutationResolvers = {
 
             const statistics = await donorHomepageQueryResolvers.donorHomepageStatistics();
             statistics.forEach((statistic) => {
-                statMeasurements.forEach((statMeasurement) => {
+                for (const statMeasurement of statMeasurements) {
                     if (statistic.type === statMeasurement.type) {
                         statistic.measurement = statMeasurement.measurement;
+                        break;
                     }
-                });
+                }
             });
 
             const donorHomepage = {
