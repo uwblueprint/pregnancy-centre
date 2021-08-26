@@ -44,8 +44,9 @@ interface Statistic {
 }
 
 interface StatisticMeasurement {
-    measurement: string;
-    type: StatisticType;
+    REGULAR_DONORS: string;
+    DIAPERS_DISTRIBUTED: string;
+    CARE_CLOSET_VISITS: string;
 }
 
 interface DonorHomepageInterface extends Document {

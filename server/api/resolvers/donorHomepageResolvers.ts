@@ -45,11 +45,9 @@ const donorHomepageMutationResolvers = {
 
             const statistics = await donorHomepageQueryResolvers.donorHomepageStatistics();
             statistics.forEach((statistic) => {
-                for (const statMeasurement of statMeasurements) {
-                    if (statistic.type === statMeasurement.type) {
-                        statistic.measurement = statMeasurement.measurement;
-                        break;
-                    }
+                const type = statistic.type.toString();
+                if (statMeasurements[type] !== "") {
+                    statistic.measurement = statMeasurements[type];
                 }
             });
 

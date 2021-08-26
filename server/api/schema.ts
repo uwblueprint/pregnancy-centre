@@ -245,8 +245,9 @@ const typeDefs = gql`
     }
 
     input StatisticMeasurement {
-        measurement: String
-        type: StatisticType!
+        REGULAR_DONORS: String,
+        DIAPERS_DISTRIBUTED: String,
+        CARE_CLOSET_VISITS: String
     }
 
     type TestimonialCarousel {
@@ -338,7 +339,7 @@ const typeDefs = gql`
         updateDonorHomepage(
             mapTestimonials: [Testimonial!]
             testimonialCarousel: [Testimonial!]
-            statMeasurements: [StatisticMeasurement]
+            statMeasurements: StatisticMeasurement
         ): DonorHomepage
     }
 `;
