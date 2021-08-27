@@ -5,11 +5,20 @@ import { EditTestimonialsContext } from "../../pages/AdminEditTestimonialsPage";
 import FormItem from "../molecules/FormItem";
 import { TextField } from "../atoms/TextField";
 
+const capitalizeFirstLetter = (str: string) => {
+    if (str.length === 0) {
+        return str;
+    }
+    return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 const EditStatisticsSection: FunctionComponent = () => {
     const { formState, setFormState } = useContext(EditTestimonialsContext);
     const { careClosetVisitsStatError, diapersDistributedStatError, regularDonorsStatError } = formState;
+
     const findStat = (statType: StatisticType) =>
         formState.donorHomepageConfig.statistics.find((stat) => stat.type === statType);
+
     const regularDonorsStat: Statistic | null = findStat(StatisticType.REGULAR_DONORS) ?? null;
     const diapersDistributedStat: Statistic | null = findStat(StatisticType.DIAPERS_DISTRIBUTED) ?? null;
     const careClosetVisitsStat: Statistic | null = findStat(StatisticType.CARE_CLOSET_VISITS) ?? null;
@@ -36,13 +45,6 @@ const EditStatisticsSection: FunctionComponent = () => {
                 statistics: [regularDonorsStat, diapersDistributedStat, careClosetVisitsStat]
             }
         });
-    };
-
-    const capitalizeFirstLetter = (str: string) => {
-        if (str.length === 0) {
-            return str;
-        }
-        return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
     const getStatisticField = (statistic: Statistic, errorMessage: string) => (
