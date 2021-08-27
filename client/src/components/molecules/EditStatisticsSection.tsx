@@ -63,6 +63,7 @@ const EditStatisticsSection: FunctionComponent = () => {
                         name={`${statistic.type} field`}
                         placeholder=""
                         type="text"
+                        maxNumChars={10}
                     />
                 }
             />

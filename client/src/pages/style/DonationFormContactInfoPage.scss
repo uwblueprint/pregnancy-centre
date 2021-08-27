@@ -13,7 +13,10 @@
     }
 
     .text-field {
-        height: 45px;
         width: 100%;
+        
+        .input-container {
+            height: 45px;
+        }
     }
 }

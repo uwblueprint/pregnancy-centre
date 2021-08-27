@@ -14,9 +14,12 @@
     }
 
     .text-field {
-        width: 357px;
-        height: 45px;
         margin-right: 72px;
+
+        .input-container {
+            width: 357px;
+            height: 45px;
+        }
     }
 
     .form-item .label-icon {
