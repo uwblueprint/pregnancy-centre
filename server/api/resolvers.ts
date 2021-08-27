@@ -17,7 +17,7 @@ import {
     requestTypeMutationResolvers,
     requestTypeQueryResolvers,
     requestTypeResolvers
-} from "./resolvers/requestTypeResolvers";
+} from "./resolvers/requestTypeResolvers"; 
 
 import { emailResolvers } from "./resolvers/emailResolvers";
 

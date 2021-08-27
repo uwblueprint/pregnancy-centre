@@ -245,8 +245,8 @@ const typeDefs = gql`
     }
 
     input StatisticMeasurement {
-        REGULAR_DONORS: String,
-        DIAPERS_DISTRIBUTED: String,
+        REGULAR_DONORS: String
+        DIAPERS_DISTRIBUTED: String
         CARE_CLOSET_VISITS: String
     }
 
