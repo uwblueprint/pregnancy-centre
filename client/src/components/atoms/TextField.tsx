@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef } from "react";
+import React, { FunctionComponent, useRef, useState } from "react";
 
 interface TextFieldProps {
     input: string | number;
@@ -23,6 +23,7 @@ interface TextFieldProps {
 }
 
 const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => {
+    const [isInputFocused, setIsInputFocused] = useState(false);
     const textFieldRef = useRef<HTMLInputElement>(null);
     const onIconClick = (event: React.MouseEvent<HTMLElement>) => {
         if (props.isDisabled) {
@@ -50,7 +51,6 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
         }
         props.onChange(event);
     };
-    const isInputFocused = document.activeElement === textFieldRef.current;
     return (
         <div className="text-field">
             <div className="input-container">
@@ -65,8 +65,10 @@ const TextField: FunctionComponent<TextFieldProps> = (props: TextFieldProps) => 
                     }
                     placeholder={props.placeholder}
                     value={props.input}
+                    onBlur={() => setIsInputFocused(false)}
                     onChange={onChange}
                     onClick={props.onClick}
+                    onFocus={() => setIsInputFocused(true)}
                     disabled={props.isDisabled}
                     autoComplete={props.autocompleteOff ? "off" : "on"}
                     onKeyDown={onKeyDown}
