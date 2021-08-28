@@ -302,22 +302,22 @@ const getOldData = async () => {
     const clients = await Client.find()
         .exec()
         .then((data: Array<mongoose.Document>) => {
-            return (data as unknown) as Array<OldClientDocument>;
+            return data as unknown as Array<OldClientDocument>;
         });
     const requestgroups = await RequestGroup.find()
         .exec()
         .then((data: Array<mongoose.Document>) => {
-            return (data as unknown) as Array<OldRequestGroupDocument>;
+            return data as unknown as Array<OldRequestGroupDocument>;
         });
     const requests = await Request.find()
         .exec()
         .then((data: Array<mongoose.Document>) => {
-            return (data as unknown) as Array<OldRequestDocument>;
+            return data as unknown as Array<OldRequestDocument>;
         });
     const requesttypes = await RequestType.find()
         .exec()
         .then((data: Array<mongoose.Document>) => {
-            return (data as unknown) as Array<OldRequestTypeDocument>;
+            return data as unknown as Array<OldRequestTypeDocument>;
         });
 
     return { clients: clients, requestgroups: requestgroups, requests: requests, requesttypes: requesttypes };
