@@ -33,10 +33,9 @@ const donorHomepageQueryResolvers = {
 };
 
 const donorHomepageMutationResolvers = {
-    updatedonorHomepageBanner: async (
-        mapTestimonials: Array<Testimonial>,
-        testimonialCarousel: TestimonialCarousel,
-        statMeasurements: Array<StatisticMeasurement>,
+    updateDonorHomepage: async (
+        _,
+        { mapTestimonials, carouselTestimonials, statMeasurements },
         { authenticateUser }
     ): Promise<DonorHomepageInterface> => {
         return authenticateUser().then(async () => {
@@ -50,6 +49,9 @@ const donorHomepageMutationResolvers = {
                     statistic.measurement = statMeasurements[type];
                 }
             });
+            
+            const testimonialCarousel = await donorHomepageQueryResolvers.donorHomepageTestimonialCarousel();
+            testimonialCarousel.testimonials = carouselTestimonials;
 
             const donorHomepage = {
                 map: map,

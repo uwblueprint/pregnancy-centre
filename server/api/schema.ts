@@ -214,12 +214,18 @@ const typeDefs = gql`
     }
 
     type MapPoint {
-        x: Int!
-        y: Int!
+        x: Float!
+        y: Float!
     }
 
     type Testimonial {
-        id: Int!
+        id: Int
+        imagePath: String
+        testimonial: String
+    }
+
+    input TestimonialInput {
+        id: Int
         imagePath: String
         testimonial: String
     }
@@ -252,7 +258,7 @@ const typeDefs = gql`
 
     type TestimonialCarousel {
         testimonials: [Testimonial]
-        interval: Int
+        interval: Int!
     }
 
     type Banner {
@@ -265,9 +271,9 @@ const typeDefs = gql`
     type DonorHomepage {
         _id: ID!
         map: Map!
-        statistics: [Statistic]
+        statistics: [Statistic]!
         banner: Banner!
-        testimonialCarousel: [TestimonialCarousel]
+        testimonialCarousel: TestimonialCarousel!
     }
 
     type Query {
@@ -306,7 +312,7 @@ const typeDefs = gql`
         donorHomepageBanner: Banner
         donorHomepageTestimonialCarousel: TestimonialCarousel
         donorHomepageMap: Map
-        donorHomepageStats: [Statistic]
+        donorHomepageStatistics: [Statistic]
     }
 
     type Mutation {
@@ -337,8 +343,8 @@ const typeDefs = gql`
         sendRejectionEmail(id: ID): String
 
         updateDonorHomepage(
-            mapTestimonials: [Testimonial!]
-            testimonialCarousel: [Testimonial!]
+            mapTestimonials: [TestimonialInput!]
+            carouselTestimonials: [TestimonialInput!]
             statMeasurements: StatisticMeasurement
         ): DonorHomepage
     }
