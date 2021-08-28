@@ -10,7 +10,8 @@ const AdminPage: FunctionComponent<Record<string, unknown>> = (
             <Navbar
                 leftLinks={[
                     { name: "Needs", path: "/needs" },
-                    { name: "Forms", path: "/unmatched-forms" }
+                    { name: "Forms", path: "/unmatched-forms" },
+                    { name: "Edit Main Page", path: "/edit-main-page" }
                 ]}
                 rightLinks={[{ name: "Log out", path: "/" }]}
             />

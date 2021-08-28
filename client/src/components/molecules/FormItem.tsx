@@ -12,6 +12,7 @@ interface Props {
     showErrorIcon: boolean;
     className?: string;
     isErroneous?: boolean;
+    labelBoostrapIcon?: string;
 }
 
 const FormItem: FunctionComponent<Props> = (props: Props) => {
@@ -21,6 +22,9 @@ const FormItem: FunctionComponent<Props> = (props: Props) => {
         <div className={"form-item " + props.className}>
             <div className="form-item-top">
                 <span className={props.isDisabled ? "form-item-disabled" : undefined}>
+                    {props.labelBoostrapIcon && (
+                        <i className={props.labelBoostrapIcon + " label-icon"} />
+                    )}
                     {props.formItemName}
                     {props.tooltipText && <Tooltip className="form-item-tooltip" tooltipText={props.tooltipText} />}
                 </span>

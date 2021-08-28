@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
 
 import AdminDonationMatchingPage from "./pages/AdminDonationMatchingPage";
+import AdminEditTestimonialsPage from "./pages/AdminEditTestimonialsPage";
 import AdminMatchedDonationFormsPage from "./pages/AdminMatchedDonationFormsPage";
 import AdminRequestGroupsPage from "./pages/AdminRequestGroupsPage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView";
@@ -33,6 +34,7 @@ function App(): JSX.Element {
                     <Route path="/unmatched-forms" component={AdminUnmatchedDonationFormsPage} />
                     <Route path="/matched-forms" component={AdminMatchedDonationFormsPage} />
                     <Route path="/donation-form" component={DonationForm} />
+                    <Route path="/edit-main-page" component={AdminEditTestimonialsPage} />
                     <Route path="/" component={DonorHomepage} />
                 </Switch>
             </Router>
