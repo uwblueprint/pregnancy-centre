@@ -34,7 +34,7 @@ export interface DonorHomepageConfig {
         header: string;
         description: string;
         imagePaths: Array<string>;
-        interval: 10;
+        interval: number;
     }
     testimonialCarousel: {
         testimonials: Array<Testimonial>;
