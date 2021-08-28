@@ -2,32 +2,33 @@ import React, { FunctionComponent, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
+import { MapQuote, Statistic } from "../../data/types/donorHomepageConfig";
 import MapWithMarkers, { MapWithMarkersPoint } from "../atoms/MapWithMarkers";
-import { Statistic, Testimonial } from "../../data/types/donorHomepageConfig";
 import BaseMap from "../../assets/kw-region-map.png";
 import Card from "../atoms/CardWithShadow";
+import CircleImage from "../atoms/CircleImage";
 import Cursor from "../../assets/cursor.png";
 import DonorHomepageConfig from "../../config/donorHomepageConfig.json";
 
 const DonorImpactSection: FunctionComponent = () => {
-    const [selectedTestimonial, _setSelectedTestimonial] = useState<Testimonial | null>(null);
-    const testimonials = DonorHomepageConfig.map.testimonials;
+    const [selectedMapQuote, _setSelectedMapQuote] = useState<MapQuote | null>(null);
+    const mapQuotes = DonorHomepageConfig.map.testimonials;
     const setSelectedTestimonial = (id: number | null) => {
         if (!id) {
-            _setSelectedTestimonial(null);
+            _setSelectedMapQuote(null);
             return;
         }
-        const testimonial = testimonials.find((testimonial: Testimonial) => testimonial.id === id);
-        _setSelectedTestimonial(testimonial ?? null);
+        const testimonial = mapQuotes.find((testimonial: MapQuote) => testimonial.id === id);
+        _setSelectedMapQuote(testimonial ?? null);
     };
     const points = DonorHomepageConfig.map.points;
     const markerSize =
-        testimonials.length > 0 && testimonials.length <= DonorHomepageConfig.map.markerSizes.length
-            ? DonorHomepageConfig.map.markerSizes[testimonials.length - 1]
+        mapQuotes.length > 0 && mapQuotes.length <= DonorHomepageConfig.map.markerSizes.length
+            ? DonorHomepageConfig.map.markerSizes[mapQuotes.length - 1]
             : DonorHomepageConfig.map.defaultMarkerSize;
     const maxPoints = points.length;
-    const testimonialPoints: Array<MapWithMarkersPoint> = testimonials.reduce(
-        (accumulator: Array<MapWithMarkersPoint>, testimonial: Testimonial, index) => {
+    const testimonialPoints: Array<MapWithMarkersPoint> = mapQuotes.reduce(
+        (accumulator: Array<MapWithMarkersPoint>, testimonial: MapQuote, index) => {
             if (index >= maxPoints) {
                 return accumulator;
             }
@@ -72,10 +73,10 @@ const DonorImpactSection: FunctionComponent = () => {
                             </div>
                         ))}
                     </div>
-                    {selectedTestimonial && (
+                    {selectedMapQuote && (
                         <Card>
-                            <img src={selectedTestimonial.imagePath} />
-                            <p>{selectedTestimonial.testimonial}</p>
+                            <CircleImage imagePath={selectedMapQuote.imagePath}/>
+                            <p>{selectedMapQuote.testimonial}</p>
                         </Card>
                     )}
                 </Col>

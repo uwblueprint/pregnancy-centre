@@ -16,6 +16,7 @@ const UploadImageModal: FunctionComponent<Props> = (props: Props) => {
     const [image, setImage] = useState("");
     const [croppedArea, setCroppedArea] = useState<Area>({ width: 0, height: 0, x: 0, y: 0 });
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const updateError = (image: string) => {
         let error = "";
@@ -38,6 +39,7 @@ const UploadImageModal: FunctionComponent<Props> = (props: Props) => {
             return;
         }
 
+        setLoading(true);
         const croppedImg = await getCroppedImg(image, croppedArea);
         const croppedImgURL = await UploadThumbnailService.upload(
             croppedImg,
@@ -56,6 +58,8 @@ const UploadImageModal: FunctionComponent<Props> = (props: Props) => {
             submitButtonText="Upload"
             onSubmit={onSubmit}
             onCancel={props.handleClose}
+            disableSubmitButton={loading}
+            disableCancelButton={loading}
         >
             <div className="form-item">
                 <FormItem

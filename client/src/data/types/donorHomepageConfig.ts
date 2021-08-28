@@ -9,7 +9,7 @@ export interface Point {
     y: number;
 }
 
-export interface Testimonial {
+export interface MapQuote {
     id: number;
     imagePath: string;
     testimonial: string;
@@ -27,7 +27,7 @@ export interface DonorHomepageConfig {
         defaultMarkerSize: string;
         markerSizes: Array<string>;
         points: Array<Point>;
-        testimonials: Array<Testimonial>;
+        testimonials: Array<MapQuote>;
     };
     statistics: Array<Statistic>;
 }

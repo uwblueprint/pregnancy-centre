@@ -1,15 +1,19 @@
 import React, { FunctionComponent, useState } from "react";
 
+import { DonorHomepageConfig as DonorHomepageConfigType, MapQuote } from "../data/types/donorHomepageConfig";
 import AdminPage from "../components/layouts/AdminPage";
 import { Button } from "../components/atoms/Button";
 import DonorHomepageConfig from "../config/donorHomepageConfig.json";
-import { DonorHomepageConfig as DonorHomepageConfigType } from "../data/types/donorHomepageConfig";
+import EditMapQuotesSection from "../components/molecules/EditMapQuotesSection";
 import EditStatisticsSection from "../components/molecules/EditStatisticsSection";
+
+export type MapQuoteEditState = MapQuote & { isEditing: boolean; error: string };
 
 export type EditTestimonialsFormState = {
     careClosetVisitsStatError: string;
     diapersDistributedStatError: string;
     donorHomepageConfig: DonorHomepageConfigType;
+    mapQuotes: Array<MapQuoteEditState>;
     regularDonorsStatError: string;
 };
 
@@ -17,6 +21,11 @@ const initialFormState: EditTestimonialsFormState = {
     careClosetVisitsStatError: "",
     diapersDistributedStatError: "",
     donorHomepageConfig: DonorHomepageConfig,
+    mapQuotes: DonorHomepageConfig.map.testimonials.map((mapQoute) => ({
+        ...mapQoute,
+        isEditing: false,
+        error: ""
+    })),
     regularDonorsStatError: ""
 };
 
@@ -24,12 +33,7 @@ export const EditTestimonialsContext = React.createContext<{
     formState: EditTestimonialsFormState;
     setFormState: (newFormState: EditTestimonialsFormState) => void;
 }>({
-    formState: {
-        careClosetVisitsStatError: "",
-        diapersDistributedStatError: "",
-        donorHomepageConfig: DonorHomepageConfig,
-        regularDonorsStatError: ""
-    },
+    formState: initialFormState,
     setFormState: () => {}
 });
 
@@ -49,6 +53,7 @@ const AdminEditTestimonialsPage: FunctionComponent = () => {
                             <h1>Editing Main Page</h1>
                         </div>
                         <EditStatisticsSection />
+                        <EditMapQuotesSection />
                     </div>
                     <div className="page-footer">
                         <Button className="save-button" text="Submit all changes" copyText="" onClick={handleSave} />
