@@ -227,13 +227,14 @@ const createDonorHomepage = () => {
         "diapers distributed every month",
         "visits to our care closet"
     ];
-    const statType = [];
+    const statType = [StatisticType.REGULAR_DONORS, StatisticType.DIAPERS_DISTRIBUTED, StatisticType.CARE_CLOSET_VISITS];
     const stats = [];
     for (let i = 0; i < numStats; i++) {
         const stat = {
             icon: statIcons[i],
             measurement: `${faker.datatype.number()}+`,
-            stat: statText[i]
+            stat: statText[i],
+            type: statType[i]
         };
         stats.push(stat);
     }

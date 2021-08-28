@@ -5,10 +5,17 @@ interface MapPoint {
     y: number;
 }
 
+enum StatisticType {
+    REGULAR_DONORS = "REGULAR_DONORS",
+    DIAPERS_DISTRIBUTED = "DIAPERS_DISTRIBUTED",
+    CARE_CLOSET_VISITS = "CARE_CLOSET_VISITS"
+}
+
 interface Statistic {
     icon: string;
     measurement: string;
     stat: string;
+    type: StatisticType;
 }
 
 interface Testimonial {
@@ -97,4 +104,4 @@ const DonorHomepageSchema = new Schema({
 });
 
 const DonorHomepage = model<DonorHomepageInterface>("DonorHomepage", DonorHomepageSchema);
-export { DonorHomepage, DonorHomepageInterface, MapPoint, Statistic, Testimonial };
+export { DonorHomepage, DonorHomepageInterface, MapPoint, Statistic, Testimonial, StatisticType };
