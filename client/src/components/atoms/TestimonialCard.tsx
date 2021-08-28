@@ -16,7 +16,7 @@ const TestimonialCard: FunctionComponent<Props> = (props : Props) => {
             <p>{props.testimonial}</p>
             <div className="action-icons">
                 <i className="bi bi-pencil" onClick={() => props.onEdit(props.id)} />
-                <i className="bi bi-trash" onClick={() => props.onDelete(props.id)} />
+                {props.showDelete && <i className="bi bi-trash" onClick={() => props.onDelete(props.id)} />}
             </div>
         </div>
     )
