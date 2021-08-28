@@ -27,7 +27,7 @@ const EditClientStoriesSection: FunctionComponent = () => {
         <div className="edit-client-stories-section">
             <div>
                 <h1>Meet our Clients</h1>
-                <Button type="button" copyText="" disabled={}/>
+                <Button text="Add another Client Story" type="button" copyText="" disabled={false}/>
             </div>
             <p>Total: {} </p>
         </div>
