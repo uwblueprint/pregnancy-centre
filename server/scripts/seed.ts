@@ -227,7 +227,7 @@ const createDonorHomepage = () => {
         "diapers distributed every month",
         "visits to our care closet"
     ];
-    const statType: string[] = Object.keys(DonationItemCondition);
+    const statType: string[] = Object.keys(StatisticType);
     const stats = [];
     for (let i = 0; i < numStats; i++) {
         const stat = {
