@@ -44,7 +44,11 @@ const DonorHomepageSchema = new Schema({
     // Properties
     map: {
         defaultMarkerSize: { type: String, required: true, default: "53px" },
-        markerSizes: { type: [String], required: true, default: ["80px", "75px", "72px", "70px", "65px", "61px", "55px", "53px"] },
+        markerSizes: {
+            type: [String],
+            required: true,
+            default: ["80px", "75px", "72px", "70px", "65px", "61px", "55px", "53px"]
+        },
         points: [
             {
                 x: { type: Number, required: true },

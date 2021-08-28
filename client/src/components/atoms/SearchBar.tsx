@@ -21,7 +21,9 @@ const SearchBar: FunctionComponent<Props> = (props: Props) => {
                     type="text"
                     placeholder={props.defaultText}
                     value={searchString}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setSearchString(e.target.value)}}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setSearchString(e.target.value);
+                    }}
                 />
                 <i className="bi-search search-bar-icon"></i>
             </form>
