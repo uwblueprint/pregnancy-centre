@@ -4,6 +4,8 @@ interface Props {
     id : number;
     imagePath: string;
     testimonial: string;
+    showDelete: boolean;
+    onDelete: (id: number) => void;
     onSave: (id: number, imagePath: string, testimonial: string) => void;
     onCancel: () => void;
 }

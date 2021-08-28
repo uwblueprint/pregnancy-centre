@@ -1,6 +1,7 @@
 import { Button, ButtonProps} from "../atoms/Button";
 //import { Col, Row } from "react-bootstrap";
 import React, { FunctionComponent, useContext, useState } from "react";
+import EditTestimonialCard from "../atoms/EditTestimonialCard";
 import { EditTestimonialsContext } from "../../pages/AdminEditTestimonialsPage";
 import { Testimonial } from "../../data/types/donorHomepageConfig";
 import TestimonialCard from "../atoms/TestimonialCard";
@@ -16,6 +17,7 @@ const EditClientStoriesSection: FunctionComponent = () => {
     const getNumTestimonials = () => {
         return formState.donorHomepageConfig.testimonialCarousel.testimonials.length;
     }
+    const [canDelete, setCanDelete] = useState(getNumTestimonials() > 1);
     const getTestimonials = () => {
         return formState.donorHomepageConfig.testimonialCarousel.testimonials;
     }
@@ -34,11 +36,6 @@ const EditClientStoriesSection: FunctionComponent = () => {
             }
         });
     }
-
-    // functions needed
-        // add new testimonial
-        // delete testimonial
-        // edit tesitmonial
 
     const updateTestimonial = (id : number, imagePath: string, testimonial: string) => {
         const updatedTestimonials = getTestimonials();
@@ -59,6 +56,7 @@ const EditClientStoriesSection: FunctionComponent = () => {
         const updatedTestimonials = getTestimonials();
         updatedTestimonials.splice(id - 1, 1);
         setTestimonialCarousel(updatedTestimonials);
+        setCanDelete(getNumTestimonials() > 1);
         resetEdit();
     }
 
@@ -70,6 +68,7 @@ const EditClientStoriesSection: FunctionComponent = () => {
             testimonial: ""
         }
         updatedTestimonials.push(newTestimonial);
+        setCanDelete(getNumTestimonials() > 1);
         setTestimonialCarousel(updatedTestimonials);
         setEdit({
             isEditing: true,
@@ -85,13 +84,12 @@ const EditClientStoriesSection: FunctionComponent = () => {
             </div>
             <p>Total: {getNumTestimonials()}/5</p>
             { edit.isEditing ? 
-
-                {}
+                (<EditTestimonialCard {...getTestimonials()[edit.testimonialID - 1]} showDelete={canDelete} onDelete={deleteTestimonial} onCancel={resetEdit} onSave={updateTestimonial}/>)
             : 
                 (<div className="testimonials">
                     {getTestimonials().map((testimonial: Testimonial, index: number) => {
                         return (
-                            <TestimonialCard key={index} {...testimonial} onEdit={selectTestimonial} onDelete={deleteTestimonial}/>
+                            <TestimonialCard key={index} {...testimonial} showDelete={canDelete} onEdit={selectTestimonial} onDelete={deleteTestimonial}/>
                         )
                     })}
                 </div>)
