@@ -74,7 +74,8 @@ const DonorHomepageSchema = new Schema({
         {
             icon: { type: String, required: true },
             measurement: { type: String, required: true },
-            stat: { type: String, required: true }
+            stat: { type: String, required: true },
+            type: { type: String, required: true, enum: Object.keys(StatisticType) }
         }
     ],
     banner: {
