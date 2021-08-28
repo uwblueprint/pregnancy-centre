@@ -6,8 +6,6 @@ import DonorHomepageConfig from "../config/donorHomepageConfig.json";
 import { DonorHomepageConfig as DonorHomepageConfigType } from "../data/types/donorHomepageConfig";
 import EditStatisticsSection from "../components/molecules/EditStatisticsSection";
 
-import UploadImageModal from "../components/organisms/UploadImageModal";
-
 export type EditTestimonialsFormState = {
     careClosetVisitsStatError: string;
     diapersDistributedStatError: string;
@@ -44,7 +42,6 @@ const AdminEditTestimonialsPage: FunctionComponent = () => {
 
     return (
         <div className="admin-edit-testimonials-page">
-            <UploadImageModal handleClose={() => console.log("close")} onSubmit={(imageURL) => console.log(imageURL)} />
             <AdminPage>
                 <EditTestimonialsContext.Provider value={{ formState, setFormState }}>
                     <div className="page-content">

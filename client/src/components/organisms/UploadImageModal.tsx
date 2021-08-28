@@ -39,7 +39,11 @@ const UploadImageModal: FunctionComponent<Props> = (props: Props) => {
         }
 
         const croppedImg = await getCroppedImg(image, croppedArea);
-        const croppedImgURL = await UploadThumbnailService.upload(croppedImg, new Date().toISOString());
+        const croppedImgURL = await UploadThumbnailService.upload(
+            croppedImg,
+            new Date().toISOString(),
+            "homepage_images"
+        );
         props.onSubmit(croppedImgURL);
     };
 
