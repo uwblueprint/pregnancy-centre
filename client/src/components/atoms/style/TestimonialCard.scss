@@ -1,0 +1,14 @@
+.testimonial-card {
+    display: flex;
+    flex-direction: row;
+
+    img {
+        width: 100%;
+        margin: 25px;
+    }
+
+    .action-icons {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+}
