@@ -1,0 +1,21 @@
+.edit-client-stories-section {
+    margin-top: 40px;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        h1 {
+            @include heavy-text;
+            font-size: 20px;
+            line-height: 24px;
+        }
+
+        button {
+            @include tpc-green-text-button;
+        }
+    }
+
+    p {
+        margin-bottom: 20px;
+    }
+}
