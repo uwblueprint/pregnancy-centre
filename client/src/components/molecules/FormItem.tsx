@@ -13,6 +13,8 @@ interface Props {
     className?: string;
     isErroneous?: boolean;
     labelBoostrapIcon?: string;
+    showLabel?: boolean;
+    showErrorUnderInput?: boolean;
 }
 
 const FormItem: FunctionComponent<Props> = (props: Props) => {
@@ -22,19 +24,22 @@ const FormItem: FunctionComponent<Props> = (props: Props) => {
         <div className={"form-item " + props.className}>
             <div className="form-item-top">
                 <span className={props.isDisabled ? "form-item-disabled" : undefined}>
-                    {props.labelBoostrapIcon && (
-                        <i className={props.labelBoostrapIcon + " label-icon"} />
-                    )}
-                    {props.formItemName}
+                    {props.labelBoostrapIcon && <i className={props.labelBoostrapIcon + " label-icon"} />}
+                    {props.showLabel !== false && props.formItemName}
                     {props.tooltipText && <Tooltip className="form-item-tooltip" tooltipText={props.tooltipText} />}
                 </span>
-                {isError && <span className="form-item-error-text">{props.errorString}</span>}
+                {isError && props.showErrorUnderInput !== true && (
+                    <span className="form-item-error-text">{props.errorString}</span>
+                )}
             </div>
             {props.instructions && <div className="form-item-instructions">{props.instructions}</div>}
             <div className="form-item-bottom">
                 {props.inputComponent}
                 {isError && props.showErrorIcon && (
                     <i className="form-item-error-icon bi bi-exclamation-circle alert-icon"></i>
+                )}
+                {isError && props.showErrorUnderInput && (
+                    <span className="form-item-error-text">{props.errorString}</span>
                 )}
             </div>
         </div>
