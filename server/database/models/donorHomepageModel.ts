@@ -89,7 +89,17 @@ const DonorHomepageSchema = new Schema({
             required: true,
             default: "Scroll to see our clients' current needs and arrange a donation"
         },
-        imagePaths: { type: [String], required: true },
+        imagePaths: {
+            type: [String],
+            required: true,
+            default: [
+                "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-1.jpg?alt=media&token=ed2309b1-c6ee-4aa6-ab43-11ded06a473a",
+                "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-2.jpg?alt=media&token=802ada4d-4df0-4dda-8cf1-4e9b6194da50",
+                "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-3.jpg?alt=media&token=b5886cb8-70b3-4600-b807-edbab5283cdd",
+                "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-4.jpg?alt=media&token=54ff90e1-20ef-4a6b-b2ab-38db5cd087a5",
+                "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fbanner-img-5.jpg?alt=media&token=3a2297f4-629d-4824-8259-77c2a5f89256"
+            ]
+        },
         interval: { type: Number, required: true, default: 10 }
     },
     testimonialCarousel: {
