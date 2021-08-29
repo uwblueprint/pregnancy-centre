@@ -1,10 +1,74 @@
 .edit-testimonial-card {
     border-radius: 5px;
     border: $window-border;
-    padding: 44px;
+    padding: 50px;
 
-    header {
-        font-weight: 600;
-        font-size: 16px;
+    .content {
+        width: fit-content;
+        .image-upload {
+            border-radius: 5px;
+
+            .base {
+                width: 382px;
+                height: 236px;
+                object-fit: cover;
+                position: relative;
+                opacity: 50%;
+                z-index: 1;
+            }
+
+            .overlay {
+                position: absolute;
+                top:0;
+                left:0;
+                right:0;
+                bottom:0;
+                width: 382px;
+                height: 236px;
+                text-align: center;
+                opacity: 100%;
+                z-index: 2;
+
+                &-text {
+                    @include white-text;
+                    @include semibold-text;
+                }
+            }
+        }
+
+        .text-and-submission {
+
+            text-area {
+                min-width:700px;
+                height:300px;
+            }
+    
+            .buttons {
+                display: flex;
+                flex-direction: row-reverse;
+                margin-top: 50px;
+                
+                .cancel-button {
+                    @include tpc-green-button();
+                    @include semibold-text();
+                    margin-left: 20px;
+                    width: 132px;
+                }
+    
+                .update-button {
+                    @include grey-button();
+                    @include semibold-text();
+                    margin-left: 20px;
+                    width: 132px;
+                }
+    
+                i {
+                    margin:auto;
+                    margin-right: 0;
+                    font-size: 24px;
+                    color: $grey-text-color;
+                }
+            }  
+        }      
     }
 }
