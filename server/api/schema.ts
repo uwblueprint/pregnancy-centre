@@ -181,14 +181,13 @@ const typeDefs = gql`
         adminNotes: String
         status: DonationItemStatus
         quantityRemaining: Int
+        seen: Boolean
 
         donatedAt: String
         deletedAt: String
         createdAt: String
         updatedAt: String
         matchedAt: String
-
-        seen: Boolean
     }
 
     input CreateDonationFormInput {
@@ -246,7 +245,6 @@ const typeDefs = gql`
             filterOptions: DonationFormFilterOptions
             sortBy: DonationFormSortOptions
         ): [DonationForm]
-
         unseenDonationFormsExist: Boolean
     }
 

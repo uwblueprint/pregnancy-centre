@@ -38,15 +38,14 @@ interface DonationFormInterface extends Document {
     adminNotes?: string;
     status: DonationItemStatus;
     quantityRemaining: number;
-
+    seen: boolean;
+    
     // Timestamps
     donatedAt: Date;
     deletedAt: Date;
     createdAt: Date;
     updatedAt: Date;
     matchedAt: Date;
-
-    seen: boolean;
 }
 
 const DonationFormSchema = new Schema(

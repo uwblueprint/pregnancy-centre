@@ -63,7 +63,7 @@ const donationFormQueryResolvers = {
     },
 
     unseenDonationFormsExist: async (): Promise<boolean> => {
-        return DonationForm.exists({ seen:  true } );
+        return DonationForm.exists({ seen: false } );
     }
 };
 
@@ -90,6 +90,7 @@ const donationFormMutationResolvers = {
             return donationForm.save();
         });
     }
+
 };
 
 const donationFormResolvers = {
