@@ -45,7 +45,7 @@ const donorHomepageMutationResolvers = {
             const statistics = await donorHomepageQueryResolvers.donorHomepageStatistics();
             statistics.forEach((statistic) => {
                 const type = statistic.type.toString();
-                if (statMeasurements[type] !== "") {
+                if (statMeasurements[type] !== "" || statMeasurements[type] === null) {
                     statistic.measurement = statMeasurements[type];
                 }
             });
