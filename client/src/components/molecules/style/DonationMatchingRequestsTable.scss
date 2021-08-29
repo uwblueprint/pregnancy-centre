@@ -25,15 +25,16 @@
         }
 
         .item-quantity-display {
-            .text-field {
+            .text-field .input-container {
                 width: 48px;
                 height: 40px;
-                &-input {
-                    border: 0.4px solid #dcdcdc;
-                    border-radius: 4px;
-                    padding-left: 0;
-                    text-align: center;
-                }
+            }
+
+            .text-field-input {
+                border: 0.4px solid #dcdcdc;
+                border-radius: 4px;
+                padding-left: 0;
+                text-align: center;
             }
         }
 
@@ -51,23 +52,22 @@
                 margin-right: 12px;
             }
 
-            .text-field {
+            .text-field-input {
                 width: 48px;
                 height: 40px;
-                &-input {
-                    border-color: #dcdcdc;
-                    &.error {
-                        border-color: $input-error;
-                    }
+                border-color: #dcdcdc;
+                &.error {
+                    border-color: $input-error;
                 }
-                & i {
-                    margin-left: -18px;
-                    font-size: 12px;
-                    color: $scroll-bar-color;
+            }
 
-                    &.error {
-                        color: $input-error;
-                    }
+            .text-field i {
+                margin-left: -18px;
+                font-size: 12px;
+                color: $scroll-bar-color;
+
+                &.error {
+                    color: $input-error;
                 }
             }
 

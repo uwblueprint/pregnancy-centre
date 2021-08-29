@@ -311,7 +311,11 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             if (uploadedImg !== "") {
                 const croppedImg = await getCroppedImg(uploadedImg, croppedArea);
 
-                const croppedImgURL = await UploadThumbnailService.upload(croppedImg, new Date().toISOString());
+                const croppedImgURL = await UploadThumbnailService.upload(
+                    croppedImg,
+                    new Date().toISOString(),
+                    "thumbnail_images"
+                );
                 selectedImg = croppedImgURL;
             }
 

@@ -51,4 +51,15 @@
             color: $input-error;
         }
     }
+
+    .char-count-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+
+        p {
+            margin: 4px 0 0 0;
+        }
+    }
 }
