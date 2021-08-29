@@ -87,7 +87,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         } else {
             let canDelete = true;
             const matchedDonations = req.matchedDonations;
-            if (matchedDonations != null) {
+            if (matchedDonations) {
                 matchedDonations.forEach((item) => {
                     if (item.quantity > 0) {
                         canDelete = false;
