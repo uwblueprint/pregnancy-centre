@@ -55,12 +55,6 @@ const MapQuoteEditCard: FunctionComponent<Props> = (props: Props) => {
                             <h1 onClick={() => setShowUploadImageModal(true)}>Change Photo</h1>
                         </div>
                         <div className="form-fields-right">
-                            <div className="text-area-label">
-                                <h1>Client Quote</h1>
-                                <h1>
-                                    {props.mapQuote.testimonial.length}/{MAX_QUOTE_LENGTH}
-                                </h1>
-                            </div>
                             <TextArea
                                 isErroneous={false}
                                 onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
@@ -68,6 +62,8 @@ const MapQuoteEditCard: FunctionComponent<Props> = (props: Props) => {
                                 }
                                 placeholder="Enter map quote"
                                 value={props.mapQuote.testimonial}
+                                label="Client Quote"
+                                maxNumChars={MAX_QUOTE_LENGTH}
                             />
                         </div>
                     </div>
