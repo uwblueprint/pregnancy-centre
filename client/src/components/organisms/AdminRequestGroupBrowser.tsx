@@ -87,8 +87,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
 
     const deleteRequestGroup = async () => {
         await mutateDeleteRequestGroup({ variables: { id: requestGroup?._id } });
-        // replace current page in browser so user cannot go back to non-existent requestGroup page
-        history.replace("/admin");
+        history.goBack();
     };
 
     return (
