@@ -82,7 +82,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     });
     const handleDeleteRequest = (index: number) => {
         const req = requests[index];
-        if (req.fulfilledAt != null) {
+        if (req.fulfilledAt) {
             onDeleteRequest(index);
         } else {
             let canDelete = true;
