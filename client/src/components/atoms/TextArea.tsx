@@ -18,7 +18,7 @@ const TextArea: FunctionComponent<TextAreaProps> = (props: TextAreaProps) => {
         }
         props.onChange(event);
     };
-    
+
     return (
         <div className="text-area-container">
             <div className="text-area-label">

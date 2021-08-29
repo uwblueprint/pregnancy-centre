@@ -16,7 +16,7 @@ const DonorRequestGroupBrowser: FunctionComponent = () => {
     const pages = Math.ceil(countRequestGroups / numRequestGroupsPerPage);
 
     const getPageQuery = gql`
-        query GetRequestGroupsPage($skip: Int!, $limit: Int!, $name: String ) {
+        query GetRequestGroupsPage($skip: Int!, $limit: Int!, $name: String) {
             requestGroupsPage(skip: $skip, limit: $limit, name: $name, open: true) {
                 _id
                 name
@@ -53,13 +53,13 @@ const DonorRequestGroupBrowser: FunctionComponent = () => {
         }
     });
 
-    const onSearch = (searchString : string) => {
+    const onSearch = (searchString: string) => {
         setFilterString(searchString);
         if (searchString !== undefined) {
-            paginator.setQueryVariables({name: searchString})
+            paginator.setQueryVariables({ name: searchString });
         }
         setCurrentPageNumber(0);
-    }
+    };
 
     return (
         <div className="donor-request-group-browser">
@@ -78,7 +78,7 @@ const DonorRequestGroupBrowser: FunctionComponent = () => {
                     <RequestGroupList
                         countRequestGroups={countRequestGroups}
                         selectedRequestGroup={selectedRequestGroup}
-                        paginator = {paginator}
+                        paginator={paginator}
                         pages={pages}
                         currentPageNumber={currentPageNumber}
                         setCurrentPageNumber={setCurrentPageNumber}
