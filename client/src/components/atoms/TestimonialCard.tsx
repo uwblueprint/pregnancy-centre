@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 interface Props {
-    id : number;
+    id: number;
     imagePath: string;
     testimonial: string;
     showDelete: boolean;
@@ -9,17 +9,17 @@ interface Props {
     onDelete: (id: number) => void;
 }
 
-const TestimonialCard: FunctionComponent<Props> = (props : Props) => {
+const TestimonialCard: FunctionComponent<Props> = (props: Props) => {
     return (
         <div className="testimonial-card">
-            <img src={props.imagePath}/>
+            <img src={props.imagePath} />
             <p>{props.testimonial}</p>
             <div className="action-icons">
                 <i className="bi bi-pencil" onClick={() => props.onEdit(props.id)} />
                 {props.showDelete && <i className="bi bi-trash" onClick={() => props.onDelete(props.id)} />}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default TestimonialCard;

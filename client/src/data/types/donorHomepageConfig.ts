@@ -35,9 +35,9 @@ export interface DonorHomepageConfig {
         description: string;
         imagePaths: Array<string>;
         interval: number;
-    }
+    };
     testimonialCarousel: {
         testimonials: Array<Testimonial>;
         interval: number;
-    }
+    };
 }
