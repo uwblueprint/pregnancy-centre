@@ -14,7 +14,7 @@ type Props = {
         clear: () => void;
         getPage: (index: number) => Promise<Array<any>>;
         setQueryVariables: (queryVariables: Record<string, unknown>) => void;
-    }
+    };
     pages: number;
     currentPageNumber: number;
     setCurrentPageNumber: Dispatch<SetStateAction<number>>;
@@ -24,14 +24,14 @@ type Props = {
 const RequestGroupList: FunctionComponent<Props> = (props: Props) => {
     const [loading, setLoading] = useState(true);
     const [currentPageData, setCurrentPageData] = useState<Array<RequestGroup>>([]);
-    
+
     useEffect(() => {
         setLoading(true);
         props.paginator.getPage(props.currentPageNumber).then((page) => {
             setCurrentPageData(page);
-            if (props.selectedRequestGroup === undefined && page[0]){
-                props.onRequestGroupChange(page[0]._id)
-            } 
+            if (props.selectedRequestGroup === undefined && page[0]) {
+                props.onRequestGroupChange(page[0]._id);
+            }
             setLoading(false);
         });
     }, [props.currentPageNumber, props.countRequestGroups, props.paginator]);

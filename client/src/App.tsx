@@ -15,6 +15,7 @@ import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
 
+import TextAreaContainer from "./components/examples/TextAreaContainer";
 import UploadImageModalContainer from "./components/examples/UploadImageModalContainer";
 
 function App(): JSX.Element {
@@ -38,6 +39,7 @@ function App(): JSX.Element {
                     <Route path="/donation-form" component={DonationForm} />
                     <Route path="/edit-main-page" component={AdminEditTestimonialsPage} />
                     <Route path="/upload-photo" component={UploadImageModalContainer} />
+                    <Route path="/text-area" component={TextAreaContainer} />
                     <Route path="/" component={DonorHomepage} />
                 </Switch>
             </Router>
