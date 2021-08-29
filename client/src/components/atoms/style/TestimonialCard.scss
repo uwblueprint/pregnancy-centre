@@ -1,14 +1,27 @@
 .testimonial-card {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 357px;
+    padding: 25px;
+    border: $window-border;
+    border-radius: 5px;
+    margin-right: 72px;
 
     img {
-        width: 100%;
-        margin: 25px;
+        width: 310px;
+        height: 190px;
+        object-fit: cover;
+        margin-bottom: 25px;
     }
 
     .action-icons {
+        margin-top: auto;
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: row-reverse;
+        i {
+            margin-left: 16px;
+            font-size: 25px;
+        }
     }
 }
