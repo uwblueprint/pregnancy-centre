@@ -104,10 +104,8 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     }
     const handleDeleteRequest = (index: number) => {
         const req = requests[index];
-        if (req.fulfilledAt != null) {
-            // If Request is fulfilled then don't show warning
-            console.log(req.matchedDonations);
-            if (req.matchedDonations != null) {
+        if (req.fulfilledAt) {
+            if (req.matchedDonations) {
                 req.matchedDonations.forEach((item) => {
                     const id = item.donationForm;
                     getDonationForm({ variables: { _id: id } });
@@ -117,10 +115,9 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         } else {
             let canDelete = true;
             const matchedDonations = req.matchedDonations;
-            if (matchedDonations != null) {
+            if (matchedDonations) {
                 matchedDonations.forEach((item) => {
                     if (item.quantity > 0) {
-                        console.log("cant do that");
                         canDelete = false;
                     }
                 });
