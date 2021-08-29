@@ -28,8 +28,8 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     const [selectedDonationFormForReject, setSelectedDonationFormForReject] = useState<DonationForm | null>(null);
 
     const sendRejectionEmailMutation = gql`
-        mutation RejectDonationForm($id: ID!) {
-            rejectDonationForm(id: $id)
+        mutation SendRejectionEmail($id: ID!) {
+            sendRejectionEmail(id: $id)
         }
     `;
 
@@ -153,7 +153,8 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     };
 
     const onRejectDonationForm = (donationForm: DonationForm) => {
-        // sendRejectionEmail({ variables: { id: donationForm._id as string}});
+        console.log(donationForm._id);
+        sendRejectionEmail({ variables: { id: donationForm._id as string}});
         onDeleteDonationForm(donationForm._id as string);
         setSelectedDonationFormForReject(null);
     };
