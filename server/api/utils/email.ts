@@ -36,12 +36,12 @@ async function sendRejectionEmail(firstName: string, lastName: string, email: st
         Condition of Item: ${item.condition}<br>
         Age of item: ${getItemAgeDescription(item.age)}<br>
         Quantity: ${item.quantity}<br>
-    `; 
+    `;
     if (item.description != null) {
         htmlString += `Item Description: ${item.description}`;
     }
     htmlString +=
-        '</p><p>Please contact us with any questions at info@thepregnancycentre.ca and please consider donating other items in the future.</p>The Pregnancy Centre</body>';
+        "</p><p>Please contact us with any questions at info@thepregnancycentre.ca and please consider donating other items in the future.</p>The Pregnancy Centre</body>";
 
     await transporter.sendMail({
         from: '"no-reply " <noreply@pregnancycentre.ca>', // sender address
@@ -50,7 +50,6 @@ async function sendRejectionEmail(firstName: string, lastName: string, email: st
         text: "Your donation form has been approved", // plain text body
         html: htmlString // html body
     });
-
 }
 
 async function sendApprovalEmail(firstName: string, lastName: string, email: string, item: Item) {
