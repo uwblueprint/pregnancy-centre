@@ -9,6 +9,12 @@
         margin-bottom: 5px;
         width: 100%;
     }
+    
+    .dropdown-action {
+        @include normal-text;
+        font-size: 14px;
+        padding: 8px 14px;
+    }
 
     .dropdown-header {
         @include normal-text;
