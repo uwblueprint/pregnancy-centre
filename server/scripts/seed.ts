@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import { connectDB } from "../database/mongoConnection";
 
 import { DonationForm, DonationItemCondition, DonationItemStatus } from "../database/models/donationFormModel";
-import { DonorHomepage } from "../database/models/donorHomepageModel";
+import { DonorHomepage, StatisticType } from "../database/models/donorHomepageModel";
 import { Request } from "../database/models/requestModel";
 import { RequestGroup } from "../database/models/requestGroupModel";
 import { RequestType } from "../database/models/requestTypeModel";
@@ -227,12 +227,14 @@ const createDonorHomepage = () => {
         "diapers distributed every month",
         "visits to our care closet"
     ];
+    const statType: string[] = Object.keys(StatisticType);
     const stats = [];
     for (let i = 0; i < numStats; i++) {
         const stat = {
             icon: statIcons[i],
             measurement: `${faker.datatype.number()}+`,
-            stat: statText[i]
+            stat: statText[i],
+            type: statType[i]
         };
         stats.push(stat);
     }
