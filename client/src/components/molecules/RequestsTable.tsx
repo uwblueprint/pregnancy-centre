@@ -102,6 +102,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         const quantity = donationFormResponse.donationForm.quantity - 1;
         mutateUpdateDonationForm({ variables: { donationForm: { _id: id, quantity: quantity } } });
     }
+
     const handleDeleteRequest = (index: number) => {
         const req = requests[index];
         if (req.fulfilledAt) {
