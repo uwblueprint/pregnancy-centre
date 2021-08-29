@@ -41,6 +41,9 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                         fulfilledAt
                         quantity
                         clientName
+                        matchedDonations {
+                            quantity
+                        }
                     }
                 }
             }

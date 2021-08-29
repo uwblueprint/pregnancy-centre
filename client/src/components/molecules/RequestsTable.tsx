@@ -6,6 +6,7 @@ import Table from "react-bootstrap/Table";
 
 import Request from "../../data/types/request";
 import RequestForm from "../organisms/RequestForm";
+import WarningDialog from "../atoms/WarningDialog";
 
 interface Props {
     requests: Request[];
@@ -15,6 +16,7 @@ interface Props {
 const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     const [requests, setRequests] = useState(props.requests.filter((request) => request.deletedAt == null));
     const [requestSelectedForEditing, setRequestSelectedForEditing] = useState("");
+    const [showWarningDialog, setShowWarningDialog] = useState(false);
 
     const headingList = ["Fulfilled", "Client Name", "Quantity", "Date Requested", ""];
     const fulfillRequest = gql`
@@ -78,6 +80,27 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             window.location.reload();
         }
     });
+    const handleDeleteRequest = (index: number) => {
+        const req = requests[index];
+        if (req.fulfilledAt) {
+            onDeleteRequest(index);
+        } else {
+            let canDelete = true;
+            const matchedDonations = req.matchedDonations;
+            if (matchedDonations) {
+                matchedDonations.forEach((item) => {
+                    if (item.quantity > 0) {
+                        canDelete = false;
+                    }
+                });
+            }
+            if (canDelete) {
+                onDeleteRequest(index);
+            } else {
+                setShowWarningDialog(true);
+            }
+        }
+    };
     const onDeleteRequest = (index: number) => {
         const requestsCopy = requests.slice();
         const req = { ...requestsCopy[index] };
@@ -100,6 +123,13 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
 
     return (
         <div className="request-list">
+            {showWarningDialog && (
+                <WarningDialog
+                    dialogTitle="This request has attached donation forms."
+                    dialogText="It cannot be deleted until the amount contributed by all donation forms to this request is zero."
+                    onClose={() => setShowWarningDialog(false)}
+                />
+            )}
             {requestSelectedForEditing && (
                 <RequestForm
                     onSubmitComplete={() => {
@@ -164,7 +194,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                                                 </a>
                                             </td>
                                             <td>
-                                                <a className="delete" onClick={() => onDeleteRequest(index)}>
+                                                <a className="delete" onClick={() => handleDeleteRequest(index)}>
                                                     <i className="bi bi-trash"></i>
                                                 </a>
                                             </td>

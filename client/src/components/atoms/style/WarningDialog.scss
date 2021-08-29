@@ -1,0 +1,34 @@
+.warning-dialog {
+    display: block;
+
+    position: fixed;
+    top: 0;
+    left: 37%;
+    width: 25%;
+    border-radius: 4px;
+    background-color: $alert-light-color;
+    color: $alert-dark-color;
+    padding: 10px 18px;
+
+    .warning-display-text {
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+
+    .warning-dialog-buttons {
+        margin-left: 83%;
+    }
+
+    .warning-leave-button {
+        display: inline-block;
+        border-radius: 4px;
+        border: none;
+        background-color: $alert-dark-color;
+        color: $white-text-color;
+        padding: 6px 19px;
+    }
+
+    .warning-prompt {
+        margin-bottom: -5px;
+    }
+}
