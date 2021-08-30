@@ -20,8 +20,6 @@ const DonationItemCard: FunctionComponent<DonationItemCardProps> = (props: Donat
             </div>
         );
 
-    console.log(props.donationForm.age);
-
     return (
         <div className="donation-item-card">
             <div className="item-details">
