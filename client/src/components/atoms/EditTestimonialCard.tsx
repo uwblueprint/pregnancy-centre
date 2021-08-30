@@ -20,8 +20,8 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
     const [imagePath, setImagePath] = props.imagePath === "" ? useState(DefaultImage) : useState(props.imagePath);
     const [showImagePicker, setShowImagePicker] = useState(false);
     const minNumChars = 80;
-    const [testimonialError, setTestimonialError] = useState(testimonial.length < minNumChars);
-    const [ImageError, setImageError] = useState(imagePath === DefaultImage);
+    const [testimonialError, setTestimonialError] = useState(false);
+    const [ImageError, setImageError] = useState(false);
 
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setTestimonial(event.target.value);
@@ -43,14 +43,16 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
         className: "update-button",
         text: "Update",
         onClick: () => {
+            let error = false;
             if (imagePath === DefaultImage) {
                 setImageError(true);
+                error = true;
             } 
             if (testimonial.length < minNumChars) {
-                console.log(testimonial.length);
                 setTestimonialError(true);
+                error = true;
             } 
-            if (!ImageError && !testimonialError) {
+            if (!error) {
                 setImageError(false);
                 setTestimonialError(false);
                 props.onSave(props.id, imagePath, testimonial)
