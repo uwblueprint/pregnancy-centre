@@ -1,6 +1,19 @@
 .admin-edit-testimonials-page {
     height: 100vh;
 
+    .spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        height: 100vh;
+        width: 100vw;
+
+        .spinner-border {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
     .admin-page,
     .admin-page-content {
         display: flex;
