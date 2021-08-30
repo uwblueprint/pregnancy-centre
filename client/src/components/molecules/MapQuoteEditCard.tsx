@@ -1,9 +1,8 @@
 import React, { ChangeEvent, FunctionComponent, useState } from "react";
 
-import { EditTestimonialsContext, MapQuoteEditState } from "../../pages/AdminEditTestimonialsPage";
 import { Button } from "../atoms/Button";
 import CircleImage from "../atoms/CircleImage";
-import { MapQuote } from "../../data/types/donorHomepageConfig";
+import { MapQuoteEditState } from "../../pages/AdminEditTestimonialsPage";
 import TextArea from "../atoms/TextArea";
 import UploadImageModal from "../organisms/UploadImageModal";
 

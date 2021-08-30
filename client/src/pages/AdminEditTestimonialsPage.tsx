@@ -7,7 +7,7 @@ import DonorHomepageConfig from "../config/donorHomepageConfig.json";
 import EditMapQuotesSection from "../components/molecules/EditMapQuotesSection";
 import EditStatisticsSection from "../components/molecules/EditStatisticsSection";
 
-export type MapQuoteEditState = MapQuote & { isEditing: boolean; error: string };
+export type MapQuoteEditState = MapQuote & { isEditing: boolean; isSavedBefore: boolean; error: string };
 
 export type EditTestimonialsFormState = {
     careClosetVisitsStatError: string;
@@ -24,6 +24,7 @@ const initialFormState: EditTestimonialsFormState = {
     mapQuotes: DonorHomepageConfig.map.testimonials.map((mapQoute) => ({
         ...mapQoute,
         isEditing: false,
+        isSavedBefore: true,
         error: ""
     })),
     regularDonorsStatError: ""
