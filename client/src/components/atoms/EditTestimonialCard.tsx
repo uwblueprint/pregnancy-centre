@@ -19,6 +19,7 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
     const [testimonial, setTestimonial] = useState(props.testimonial);
     const [imagePath, setImagePath] = useState(props.imagePath === "" ? DefaultImage : props.imagePath);
     const [showImagePicker, setShowImagePicker] = useState(false);
+    const maxNumChars = 400;
     const minNumChars = 80;
     const [testimonialError, setTestimonialError] = useState(false);
     const [imageError, setImageError] = useState(false);
@@ -35,7 +36,7 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
         value: testimonial,
         placeholder: "",
         label: "Edit Client Story",
-        maxNumChars: 400,
+        maxNumChars: maxNumChars,
         minNumChars: minNumChars
     };
 
