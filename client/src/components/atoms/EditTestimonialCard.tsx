@@ -45,14 +45,19 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
         setImageError(false);
         setTestimonialError(false);
         props.onSave(props.id, imagePath, testimonial);
-    }
+    };
 
     return (
         <div className="edit-testimonial-card">
-            {showImagePicker && <UploadImageModal handleClose={() => setShowImagePicker(false)} onSubmit={ (imagePath: string) => {
-            setImagePath(imagePath);
-            setImageError(false);
-        }}/>}
+            {showImagePicker && (
+                <UploadImageModal
+                    handleClose={() => setShowImagePicker(false)}
+                    onSubmit={(imagePath: string) => {
+                        setImagePath(imagePath);
+                        setImageError(false);
+                    }}
+                />
+            )}
             <div className="image-upload" onClick={() => setShowImagePicker(true)}>
                 <img className="base" src={imagePath} />
                 <div className="overlay">
@@ -74,7 +79,12 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
                 {testimonialError && <p className="error-text"> Please enter at least {minNumChars} characters.</p>}
                 <div className="buttons">
                     <Button className="update-button" text="Update" onClick={() => onUpdate} copyText="" />
-                    <Button className="cancel-button" text="Cancel" onClick={() => props.onCancel(props.id)} copyText=""/>
+                    <Button
+                        className="cancel-button"
+                        text="Cancel"
+                        onClick={() => props.onCancel(props.id)}
+                        copyText=""
+                    />
                     <i className="bi bi-trash" onClick={() => props.onDelete(props.id)} />
                 </div>
             </div>
