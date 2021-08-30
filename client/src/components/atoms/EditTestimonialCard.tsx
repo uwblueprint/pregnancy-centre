@@ -67,17 +67,12 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
         copyText: ""
     };
 
-    const uploadImageProps = {
-        handleClose: () => setShowImagePicker(false),
-        onSubmit: (imagePath: string) => {
-            setImagePath(imagePath);
-            setImageError(false);
-        }
-    };
-
     return (
         <div className="edit-testimonial-card">
-            {showImagePicker && <UploadImageModal {...uploadImageProps} />}
+            {showImagePicker && <UploadImageModal handleClose={() => setShowImagePicker(false)} onSubmit={ (imagePath: string) => {
+            setImagePath(imagePath);
+            setImageError(false);
+        }}/>}
             <div className="image-upload" onClick={() => setShowImagePicker(true)}>
                 <img className="base" src={imagePath} />
                 <div className="overlay">
