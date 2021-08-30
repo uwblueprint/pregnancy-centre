@@ -31,7 +31,7 @@ const donorHomepageQueryResolvers = {
     donorHomepage: async (): Promise<DonorHomepageInterface> => {
         return DonorHomepage.find()
             .exec()
-            .then((donorHomepageData) => {
+            .then(donorHomepageData => {
                 return donorHomepageData[0];
             });
     }
