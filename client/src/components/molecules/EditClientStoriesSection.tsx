@@ -12,21 +12,17 @@ interface editState {
 
 const EditClientStoriesSection: FunctionComponent = () => {
     const { formState, setFormState } = useContext(EditTestimonialsContext);
+    const testimonials = formState.donorHomepageConfig.testimonialCarousel.testimonials;
+    const numTestimonials = testimonials.length;
     const [edit, setEdit] = useState<editState>({ isEditing: false, testimonialID: 0 });
-    const getNumTestimonials = () => {
-        return formState.donorHomepageConfig.testimonialCarousel.testimonials.length;
-    };
-    const [canDelete, setCanDelete] = useState(getNumTestimonials() > 1);
-    const getTestimonials = () => {
-        return formState.donorHomepageConfig.testimonialCarousel.testimonials;
-    };
+    const [canDelete, setCanDelete] = useState(numTestimonials > 1);
+
     const resetEdit = () => {
         formState.editingClientStory = false;
         setEdit({ isEditing: false, testimonialID: 0 });
     };
 
     const cancelEdit = (id: number) => {
-        const testimonials = getTestimonials();
         const testimonial = testimonials[id - 1];
         if (testimonial.testimonial === "" || testimonial.imagePath === "") {
             testimonials.splice(id - 1, 1);
@@ -48,7 +44,7 @@ const EditClientStoriesSection: FunctionComponent = () => {
     };
 
     const updateTestimonial = (id: number, imagePath: string, testimonial: string) => {
-        const updatedTestimonials = getTestimonials();
+        const updatedTestimonials = testimonials;
         updatedTestimonials[id - 1] = {
             ...updatedTestimonials[id - 1],
             imagePath: imagePath,
@@ -64,22 +60,22 @@ const EditClientStoriesSection: FunctionComponent = () => {
     };
 
     const deleteTestimonial = (id: number) => {
-        const updatedTestimonials = getTestimonials();
+        const updatedTestimonials = testimonials;
         updatedTestimonials.splice(id - 1, 1);
         setTestimonialCarousel(updatedTestimonials);
-        setCanDelete(getNumTestimonials() > 1);
+        setCanDelete(numTestimonials > 1);
         resetEdit();
     };
 
     const addTestimonial = () => {
-        const updatedTestimonials = getTestimonials();
+        const updatedTestimonials = testimonials;
         const newTestimonial = {
-            id: getNumTestimonials() + 1,
+            id: numTestimonials + 1,
             imagePath: "",
             testimonial: ""
         };
         updatedTestimonials.push(newTestimonial);
-        setCanDelete(getNumTestimonials() > 1);
+        setCanDelete(numTestimonials > 1);
         setTestimonialCarousel(updatedTestimonials);
         setEdit({
             isEditing: true,
@@ -91,7 +87,7 @@ const EditClientStoriesSection: FunctionComponent = () => {
         <div className="edit-client-stories-section">
             <div className="header">
                 <h1>Meet our Clients</h1>
-                {getNumTestimonials() < 5 && (
+                {numTestimonials < 5 && (
                     <Button
                         className={edit.isEditing ? "disabled" : ""}
                         text="+ Add another Client Story"
@@ -102,10 +98,10 @@ const EditClientStoriesSection: FunctionComponent = () => {
                     />
                 )}
             </div>
-            <p>Total: {getNumTestimonials()}/5</p>
+            <p>Total: {numTestimonials}/5</p>
             {edit.isEditing ? (
                 <EditTestimonialCard
-                    {...getTestimonials()[edit.testimonialID - 1]}
+                    {...testimonials[edit.testimonialID - 1]}
                     showDelete={canDelete}
                     onDelete={deleteTestimonial}
                     onCancel={cancelEdit}
@@ -113,7 +109,7 @@ const EditClientStoriesSection: FunctionComponent = () => {
                 />
             ) : (
                 <div className="testimonials">
-                    {getTestimonials().map((testimonial: Testimonial, index: number) => {
+                    {testimonials.map((testimonial: Testimonial, index: number) => {
                         return (
                             <TestimonialCard
                                 key={index}
