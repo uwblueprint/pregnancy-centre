@@ -3,18 +3,11 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
 import MapWithMarkers, { MapWithMarkersPoint } from "../atoms/MapWithMarkers";
+import { Statistic, Testimonial } from "../../data/types/donorHomepageConfig";
 import BaseMap from "../../assets/kw-region-map.png";
 import Card from "../atoms/CardWithShadow";
 import Cursor from "../../assets/cursor.png";
 import DonorHomepageConfig from "../../config/donorHomepageConfig.json";
-import { Testimonial } from "../../data/types/donorHomepageConfig";
-
-interface Statistic {
-    icon: string;
-    measurement: string;
-    stat: string;
-    type: string;
-}
 
 const DonorImpactSection: FunctionComponent = () => {
     const [selectedTestimonial, _setSelectedTestimonial] = useState<Testimonial | null>(null);
@@ -69,13 +62,13 @@ const DonorImpactSection: FunctionComponent = () => {
                 </Col>
                 <Col className="info-section" sm={12} xl={5}>
                     <div className="stats-section">
-                        {DonorHomepageConfig.statistics.map((statistic: Statistic) => (
-                            <div className="stat" key={statistic.icon}>
+                        {DonorHomepageConfig.statistics.map((stat: Statistic) => (
+                            <div className="stat" key={stat.icon}>
                                 <div className="stat-top">
-                                    <i className={statistic.icon} />
-                                    <h1>{statistic.measurement}</h1>
+                                    <i className={stat.icon} />
+                                    <h1>{stat.measurement}</h1>
                                 </div>
-                                <p>{statistic.stat}</p>
+                                <p>{stat.stat}</p>
                             </div>
                         ))}
                     </div>

@@ -312,13 +312,6 @@ connectDB(async () => {
             exit();
         }
     });
-    DonorHomepage.deleteMany((err) => {
-        if (err) {
-            console.error("\x1b[31m", "Failed to delete all documents in 'donorHomepage' collection");
-            console.log("\x1b[0m");
-            exit();
-        }
-    });
 
     console.log("\x1b[34m", "Seeding data");
     console.log("\x1b[0m");

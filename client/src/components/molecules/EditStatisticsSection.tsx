@@ -16,9 +16,8 @@ const EditStatisticsSection: FunctionComponent = () => {
     const { formState, setFormState } = useContext(EditTestimonialsContext);
     const { careClosetVisitsStatError, diapersDistributedStatError, regularDonorsStatError } = formState;
 
-    const findStat = (statType: StatisticType) => {
-        return formState.donorHomepageConfig.statistics.find((stat) => stat.type === statType);
-    };
+    const findStat = (statType: StatisticType) =>
+        formState.donorHomepageConfig.statistics.find((stat) => stat.type === statType);
 
     const regularDonorsStat: Statistic | null = findStat(StatisticType.REGULAR_DONORS) ?? null;
     const diapersDistributedStat: Statistic | null = findStat(StatisticType.DIAPERS_DISTRIBUTED) ?? null;
