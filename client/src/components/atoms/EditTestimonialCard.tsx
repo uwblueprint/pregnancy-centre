@@ -30,15 +30,6 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
             setTestimonialError(false);
         }
     };
-    const textAreaProps = {
-        isErroneous: false,
-        onChange: onChange,
-        value: testimonial,
-        placeholder: "",
-        label: "Edit Client Story",
-        maxNumChars: maxNumChars,
-        minNumChars: minNumChars
-    };
 
     const primaryBtnProps = {
         className: "update-button",
@@ -76,7 +67,15 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
                 {imageError && <p className="error-text"> Please upload an image.</p>}
             </div>
             <div className="text-and-submission">
-                <TextArea {...textAreaProps} />
+                <TextArea
+                    isErroneous={false}
+                    onChange={onChange}
+                    value={testimonial}
+                    placeholder=""
+                    label="Edit Client Story"
+                    maxNumChars={maxNumChars}
+                    minNumChars={minNumChars}
+                />
                 {testimonialError && <p className="error-text"> Please enter at least {minNumChars} characters.</p>}
                 <div className="buttons">
                     <Button {...primaryBtnProps} />
