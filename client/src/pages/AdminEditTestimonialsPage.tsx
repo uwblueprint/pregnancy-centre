@@ -1,5 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
+import { Statistic, StatisticType } from "../data/types/donorHomepageConfig"
 import AdminPage from "../components/layouts/AdminPage";
 import { Button } from "../components/atoms/Button";
 import DonorHomepageConfig from "../config/donorHomepageConfig.json";
@@ -45,14 +46,20 @@ const AdminEditTestimonialsPage: FunctionComponent = () => {
 
     const handleSave = () => {
         console.log("save");
+        const statistics = formState.donorHomepageConfig.statistics;
         const statMeasurements = {
             REGULAR_DONORS: "",
             DIAPERS_DISTRIBUTED: "",
             CARE_CLOSET_VISITS: ""
         }
+        statistics.forEach((statistic : Statistic) => {
+            const type = statistic.type.toString();
+            statMeasurements[type] = statistic.measurement;
+        })
         mutateDonorHomepageConfig({ variables: {
             mapTestimonials: formState.donorHomepageConfig.map.testimonials,
-            carouselTestimonials: formState.donorHomepageConfig.
+            carouselTestimonials: formState.donorHomepageConfig.testimonialCarousel.testimonials,
+            statMeasurements: statMeasurements
         } });
     };
 

@@ -19,7 +19,7 @@ export interface Statistic {
     icon: string;
     measurement: string;
     stat: string;
-    type: string;
+    type: StatisticType;
 }
 
 export interface DonorHomepageConfig {
