@@ -96,11 +96,13 @@
     justify-content: space-between;
     padding: 17px;
     width: 45%;
+    height: 161px;
 
     .card-right {
         width: 78%;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
     }
 
     .card-icons {

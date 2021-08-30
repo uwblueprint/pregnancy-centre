@@ -6,8 +6,19 @@ import MapQuoteEditCard from "./MapQuoteEditCard";
 const EditMapQuotesSection: FunctionComponent = () => {
     const { formState, setFormState } = useContext(EditTestimonialsContext);
     const { mapQuotes } = formState;
+    const numCardsInLeftCol = Math.floor(mapQuotes.length / 2);
 
     const updateMapQuote = (newMapQuote: MapQuoteEditState) => {
+        const newMapQuotes = mapQuotes.map((oldMapQuote) =>
+            oldMapQuote.id === newMapQuote.id ? newMapQuote : oldMapQuote
+        );
+        setFormState({
+            ...formState,
+            mapQuotes: newMapQuotes
+        });
+    };
+
+    const updateDonorHompageConfigMapQuotes = (newMapQuote: MapQuoteEditState) => {
         const newMapQuotes = mapQuotes.map((oldMapQuote) =>
             oldMapQuote.id === newMapQuote.id ? newMapQuote : oldMapQuote
         );
@@ -64,17 +75,32 @@ const EditMapQuotesSection: FunctionComponent = () => {
 
     return (
         <div className="edit-map-quotes-section">
-            <h1>Map Quotes</h1>
+            <h1 className="section-title">Map Quotes</h1>
             <div className="cards">
-                {mapQuotes.map((mapQoute) => (
-                    <MapQuoteEditCard
-                        clearChanges={clearChangesOnMapQuote}
-                        deleteMapQuote={deleteMapQuote}
-                        key={mapQoute.id}
-                        mapQuote={mapQoute}
-                        updateMapQuote={updateMapQuote}
-                    />
-                ))}
+                <div className="left-col">
+                    {mapQuotes.slice(0, numCardsInLeftCol).map((mapQoute) => (
+                        <MapQuoteEditCard
+                            clearChanges={clearChangesOnMapQuote}
+                            deleteMapQuote={deleteMapQuote}
+                            key={mapQoute.id}
+                            mapQuote={mapQoute}
+                            saveMapQuote={updateDonorHompageConfigMapQuotes}
+                            updateMapQuote={updateMapQuote}
+                        />
+                    ))}
+                </div>
+                <div className="right-col">
+                    {mapQuotes.slice(numCardsInLeftCol).map((mapQoute) => (
+                        <MapQuoteEditCard
+                            clearChanges={clearChangesOnMapQuote}
+                            deleteMapQuote={deleteMapQuote}
+                            key={mapQoute.id}
+                            mapQuote={mapQoute}
+                            saveMapQuote={updateDonorHompageConfigMapQuotes}
+                            updateMapQuote={updateMapQuote}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     );

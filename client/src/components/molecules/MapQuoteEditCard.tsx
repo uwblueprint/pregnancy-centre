@@ -13,6 +13,7 @@ interface Props {
     clearChanges: (mapQuoteId: number) => void;
     deleteMapQuote: (mapQuoteId: number) => void;
     mapQuote: MapQuoteEditState;
+    saveMapQuote: (newMapQuote: MapQuoteEditState) => void;
     updateMapQuote: (newMapQuote: MapQuoteEditState) => void;
 }
 
@@ -31,7 +32,7 @@ const MapQuoteEditCard: FunctionComponent<Props> = (props: Props) => {
     };
 
     const onSave = () => {
-        props.updateMapQuote({ ...props.mapQuote, isEditing: false });
+        props.saveMapQuote({ ...props.mapQuote, isEditing: false });
     };
 
     const onEdit = () => {
