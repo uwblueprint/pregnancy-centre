@@ -256,7 +256,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                         <td />
                         <td />
                     </tr>
-                    {donationForms.map((donationForm: DonationForm, index) => (
+                    {donationForms.map((donationForm: DonationForm) => (
                         <>
                             <tr
                                 key={donationForm._id}
