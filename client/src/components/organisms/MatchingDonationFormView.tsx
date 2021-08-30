@@ -55,6 +55,7 @@ const MatchingDonationFormView: FunctionComponent<MatchingDonationFormViewProps>
                         <DonationFormInfoDisplay
                             donationForm={props.donationForm}
                             isMatching={props.isMatching}
+                            viewOnly={false}
                             onSelectMatch={() => {}}
                         />
                     </div>
