@@ -27,13 +27,7 @@ export const EditTestimonialsContext = React.createContext<{
     formState: EditTestimonialsFormState;
     setFormState: (newFormState: EditTestimonialsFormState) => void;
 }>({
-    formState: {
-        careClosetVisitsStatError: "",
-        diapersDistributedStatError: "",
-        donorHomepageConfig: DonorHomepageConfig,
-        regularDonorsStatError: "",
-        editingClientStory: false
-    },
+    formState: initialFormState,
     setFormState: () => {}
 });
 
