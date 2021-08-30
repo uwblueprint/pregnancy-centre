@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import BsNavbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import tpcLogo from "../../assets/tpc-logo.svg";
+import UnseenDot from "../atoms/UnseenDot";
 
 type Link = {
     name: string;
@@ -21,7 +22,7 @@ const Navbar: FunctionComponent<Props> = (props: Props) => {
     const getLinksJSX = (links: Link[]) =>
         links.map((link: Link) => (
             <Nav.Link className={link.path === location.pathname ? "active" : ""} href={link.path} key={link.name}>
-               {link.name}
+               {link.isEmphasized? <><UnseenDot /><div style={{marginLeft:10}}>{link.name}</div></> : link.name}
             </Nav.Link>
         ));
 
