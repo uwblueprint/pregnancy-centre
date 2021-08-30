@@ -47,7 +47,7 @@ async function sendRejectionEmail(firstName: string, lastName: string, email: st
         from: '"no-reply " <noreply@pregnancycentre.ca>', // sender address
         to: email, // list of receivers
         subject: "TPC's Donation Review", // Subject line
-        text: "Your donation form has been approved", // plain text body
+        text: "Your donation form has been rejected.", // plain text body
         html: htmlString // html body
     });
 }
