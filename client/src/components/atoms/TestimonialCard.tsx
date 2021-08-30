@@ -13,7 +13,7 @@ const TestimonialCard: FunctionComponent<Props> = (props: Props) => {
     return (
         <div className="testimonial-card">
             <img src={props.imagePath} />
-            <p>{props.testimonial}</p>
+            <p className="text">{props.testimonial}</p>
             <div className="action-icons">
                 <i className="bi bi-pencil" onClick={() => props.onEdit(props.id)} />
                 {props.showDelete && <i className="bi bi-trash" onClick={() => props.onDelete(props.id)} />}

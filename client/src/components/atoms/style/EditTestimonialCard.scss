@@ -41,6 +41,12 @@
             }
         }
 
+        .error-text {
+            @include error-text;
+            @include small-text;
+            color: $error-color;
+        }
+
         .text-and-submission {
             margin-left: 50px;
             flex: 1;
@@ -50,12 +56,6 @@
                 resize: none;
                 min-height:150px;
                 padding: 10px;
-            }
-    
-            .error-text {
-                @include error-text;
-                @include small-text;
-                color: $error-color;
             }
 
             .buttons {

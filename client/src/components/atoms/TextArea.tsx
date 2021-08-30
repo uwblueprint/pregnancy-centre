@@ -21,6 +21,8 @@ const TextArea: FunctionComponent<TextAreaProps> = (props: TextAreaProps) => {
             return;
         } else if (props.minNumChars != null && newValue.length < props.minNumChars) {
             setIsErroneous(true);
+        } else {
+            setIsErroneous(false);
         }
         props.onChange(event);
     };

@@ -21,12 +21,12 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
     const [imagePath, setImagePath] = props.imagePath === "" ? useState(DefaultImage) : useState(props.imagePath);
     const [showImagePicker, setShowImagePicker] = useState(false);
     const minNumChars = 80;
-    const [testimonialError, setTestimonialError] = useState(testimonial.length > minNumChars);
+    const [testimonialError, setTestimonialError] = useState(testimonial.length < minNumChars);
+    const [ImageError, setImageError] = useState(imagePath === DefaultImage);
+
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setTestimonial(event.target.value);
-        if (event.target.value.length < minNumChars) {
-            setTestimonialError(true);
-        } else {
+        if (testimonial.length > minNumChars) {
             setTestimonialError(false);
         }
     }
@@ -43,9 +43,21 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
     const primaryBtnProps = {
         className: "update-button",
         text: "Update",
-        onClick: () => props.onSave(props.id, imagePath, testimonial),
-        copyText: "",
-        disabled: testimonialError
+        onClick: () => {
+            if (imagePath === DefaultImage) {
+                setImageError(true);
+            } 
+            if (testimonial.length < minNumChars) {
+                console.log(testimonial.length);
+                setTestimonialError(true);
+            } 
+            if (!ImageError && !testimonialError) {
+                setImageError(false);
+                setTestimonialError(false);
+                props.onSave(props.id, imagePath, testimonial)
+            }
+        },
+        copyText: ""
     }
 
     const secondaryBtnProps = {
@@ -59,6 +71,7 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
         handleClose: () => setShowImagePicker(false),
         onSubmit: (imagePath: string) => {
             setImagePath(imagePath);
+            setImageError(false);
         }
     }
 
@@ -73,6 +86,9 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
                     <img className="overlay-image" src={OverlayImage}/>
                     <p className="overlay-text">Add Photo</p>
                 </div>
+                {ImageError && (
+                    <p className="error-text"> Please upload an image.</p>
+                )}
             </div>
             <div className="text-and-submission">
                 <TextArea {...textAreaProps} />
