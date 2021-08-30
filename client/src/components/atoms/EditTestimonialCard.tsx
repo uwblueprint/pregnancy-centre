@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { Button } from "../atoms/Button";
 import DefaultImage from "../../assets/grey-background.png";
 import OverlayImage from "../../assets/image-upload.png";
