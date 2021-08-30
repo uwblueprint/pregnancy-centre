@@ -27,6 +27,11 @@ const donorHomepageQueryResolvers = {
     },
     donorHomepageStatistics: async (): Promise<Array<Statistic>> => {
         return getDonorHomepageData<Array<Statistic>>("statistics");
+    },
+    donorHomepage: async (): Promise<DonorHomepageInterface> => {
+        return DonorHomepage.find().exec().then((donorHomepageData => {
+            return donorHomepageData[0];
+        }));
     }
 };
 

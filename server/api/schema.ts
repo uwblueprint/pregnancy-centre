@@ -313,6 +313,7 @@ const typeDefs = gql`
         donorHomepageTestimonialCarousel: TestimonialCarousel
         donorHomepageMap: Map
         donorHomepageStatistics: [Statistic]
+        donorHomepage: DonorHomepage
     }
 
     type Mutation {
