@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { Button } from "../atoms/Button";
 import DefaultImage from "../../assets/grey-background.png"
 import OverlayImage from "../../assets/image-upload.png"
@@ -21,7 +21,7 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
     const [showImagePicker, setShowImagePicker] = useState(false);
     const minNumChars = 80;
     const [testimonialError, setTestimonialError] = useState(false);
-    const [ImageError, setImageError] = useState(false);
+    const [imageError, setImageError] = useState(false);
 
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setTestimonial(event.target.value);
@@ -51,12 +51,11 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
             if (testimonial.length < minNumChars) {
                 setTestimonialError(true);
                 error = true;
-            } 
-            if (!error) {
-                setImageError(false);
-                setTestimonialError(false);
-                props.onSave(props.id, imagePath, testimonial)
             }
+            if (error) return;
+            setImageError(false);
+            setTestimonialError(false);
+            props.onSave(props.id, imagePath, testimonial);
         },
         copyText: ""
     }
@@ -87,7 +86,7 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
                     <img className="overlay-image" src={OverlayImage}/>
                     <p className="overlay-text">Add Photo</p>
                 </div>
-                {ImageError && (
+                {imageError && (
                     <p className="error-text"> Please upload an image.</p>
                 )}
             </div>

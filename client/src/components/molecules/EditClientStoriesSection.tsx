@@ -21,6 +21,7 @@ const EditClientStoriesSection: FunctionComponent = () => {
         return formState.donorHomepageConfig.testimonialCarousel.testimonials;
     };
     const resetEdit = () => {
+        formState.editingClientStory = false;
         setEdit({ isEditing: false, testimonialID: 0 });
     };
 
@@ -59,6 +60,7 @@ const EditClientStoriesSection: FunctionComponent = () => {
 
     const selectTestimonial = (id: number) => {
         setEdit({ isEditing: true, testimonialID: id });
+        formState.editingClientStory = true;
     };
 
     const deleteTestimonial = (id: number) => {

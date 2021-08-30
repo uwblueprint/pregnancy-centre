@@ -12,13 +12,15 @@ export type EditTestimonialsFormState = {
     diapersDistributedStatError: string;
     donorHomepageConfig: DonorHomepageConfigType;
     regularDonorsStatError: string;
+    editingClientStory: boolean;
 };
 
 const initialFormState: EditTestimonialsFormState = {
     careClosetVisitsStatError: "",
     diapersDistributedStatError: "",
     donorHomepageConfig: DonorHomepageConfig,
-    regularDonorsStatError: ""
+    regularDonorsStatError: "",
+    editingClientStory: false
 };
 
 export const EditTestimonialsContext = React.createContext<{
@@ -29,7 +31,8 @@ export const EditTestimonialsContext = React.createContext<{
         careClosetVisitsStatError: "",
         diapersDistributedStatError: "",
         donorHomepageConfig: DonorHomepageConfig,
-        regularDonorsStatError: ""
+        regularDonorsStatError: "",
+        editingClientStory: false
     },
     setFormState: () => {}
 });
