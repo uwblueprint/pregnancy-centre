@@ -15,7 +15,7 @@ const capitalizeFirstLetter = (str: string) => {
 const EditStatisticsSection: FunctionComponent = () => {
     const { formState, setFormState } = useContext(EditTestimonialsContext);
     const { careClosetVisitsStatError, diapersDistributedStatError, regularDonorsStatError } = formState;
-
+    
     const findStat = (statType: StatisticType) =>
         formState.donorHomepageConfig.statistics.find((stat) => stat.type === statType);
 
