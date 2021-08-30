@@ -85,6 +85,13 @@ const donationFormMutationResolvers = {
             donationForm.deletedAt = new Date();
             return donationForm.save();
         });
+    },
+    changeDonationFormQuantity:  async(_, { _id, quantity }, {authenticateUser }): Promise<DonationFormInterface> => {
+        return authenticateUser().then(async () => {
+            const donationForm = await DonationForm.findById(_id);
+            donationForm.deletedAt = new Date();
+            return donationForm.save();
+        });
     }
 };
 

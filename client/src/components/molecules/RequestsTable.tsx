@@ -96,11 +96,16 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         }
     });
     const [mutateUpdateDonationForm] = useMutation(updateDonationForm);
-    const [getDonationForm, { data: donationFormResponse }] = useLazyQuery(queryDonationForm);
-    if (donationFormResponse) {
-        const id = donationFormResponse.donationForm._id;
-        const quantity = donationFormResponse.donationForm.quantity - 1;
-        mutateUpdateDonationForm({ variables: { donationForm: { _id: id, quantity: quantity } } });
+
+    const decrementDonationForm = (subAmount: number) => {
+        const[getDonationForm] = useLazyQuery(queryDonationForm, {
+            onCompleted: (data) => {
+                const id = data.donationForm._id;
+                const quantity = data.donationForm.quantity - subAmount;
+                mutateUpdateDonationForm({ variables: { donationForm: { _id: id, quantity: quantity } } });
+            }
+        })
+        return getDonationForm;
     }
 
     const handleDeleteRequest = (index: number) => {
@@ -109,7 +114,9 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             if (req.matchedDonations) {
                 req.matchedDonations.forEach((item) => {
                     const id = item.donationForm;
-                    getDonationForm({ variables: { _id: id } });
+                    const quantity = item.quantity;
+                    decrementDonationForm(quantity)({ variables: { _id: id } });
+                    // getDonationForm({ variables: { _id: id } } );
                 });
             }
             onDeleteRequest(index);
