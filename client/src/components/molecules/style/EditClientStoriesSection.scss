@@ -1,11 +1,12 @@
 .edit-client-stories-section {
     margin-top: 40px;
     margin-bottom: 36px;
-    width: 1212px;
+    width: 1220px;
 
     .header {
         display: flex;
         justify-content: space-between;
+
         h1 {
             @include heavy-text;
             font-size: 20px;
@@ -14,6 +15,10 @@
 
         button {
             @include tpc-green-text-button;
+
+            .disabled {
+                @include faded-text();
+            }
         }
     }
 
@@ -24,5 +29,7 @@
     .testimonials {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
+        width: 1290px;
     }
 }

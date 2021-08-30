@@ -2,12 +2,14 @@
     border-radius: 5px;
     border: $window-border;
     padding: 50px;
+    display: flex;
+    flex-direction: row;
 
-    .content {
-        width: fit-content;
         .image-upload {
             border-radius: 5px;
-
+            width: fit-content;
+            position: relative;
+            
             .base {
                 width: 382px;
                 height: 236px;
@@ -18,11 +20,13 @@
             }
 
             .overlay {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
                 position: absolute;
-                top:0;
-                left:0;
-                right:0;
-                bottom:0;
+                top: 0;
+                left: 0;
                 width: 382px;
                 height: 236px;
                 text-align: center;
@@ -37,10 +41,13 @@
         }
 
         .text-and-submission {
+            margin-left: 50px;
+            flex: 1;
 
-            text-area {
-                min-width:700px;
-                height:300px;
+            .text-area {
+                resize: none;
+                min-height:150px;
+                padding: 10px;
             }
     
             .buttons {
@@ -71,4 +78,3 @@
             }  
         }      
     }
-}

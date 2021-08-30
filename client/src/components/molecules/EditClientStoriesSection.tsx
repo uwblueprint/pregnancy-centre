@@ -1,6 +1,5 @@
-import { Button, ButtonProps } from "../atoms/Button";
-//import { Col, Row } from "react-bootstrap";
 import React, { FunctionComponent, useContext, useState } from "react";
+import { Button } from "../atoms/Button";
 import EditTestimonialCard from "../atoms/EditTestimonialCard";
 import { EditTestimonialsContext } from "../../pages/AdminEditTestimonialsPage";
 import { Testimonial } from "../../data/types/donorHomepageConfig";
@@ -24,6 +23,16 @@ const EditClientStoriesSection: FunctionComponent = () => {
     const resetEdit = () => {
         setEdit({ isEditing: false, testimonialID: 0 });
     };
+
+    const cancelEdit = (id : number) => {
+        const testimonials = getTestimonials();
+        const testimonial = testimonials[id - 1];
+        if (testimonial.testimonial === "" || testimonial.imagePath === "") {
+            testimonials.splice(id - 1, 1);   
+        }
+        resetEdit();
+    }
+
     const setTestimonialCarousel = (testimonials: Array<Testimonial>) => {
         setFormState({
             ...formState,
@@ -81,7 +90,7 @@ const EditClientStoriesSection: FunctionComponent = () => {
             <div className="header">
                 <h1>Meet our Clients</h1>
                 {getNumTestimonials() < 5 && (
-                    <Button text="+ Add another Client Story" type="button" copyText="" onClick={addTestimonial} />
+                    <Button className={edit.isEditing ? "disabled" : ""} text="+ Add another Client Story" type="button" copyText="" onClick={addTestimonial} disabled={edit.isEditing}/>
                 )}
             </div>
             <p>Total: {getNumTestimonials()}/5</p>
@@ -90,7 +99,7 @@ const EditClientStoriesSection: FunctionComponent = () => {
                     {...getTestimonials()[edit.testimonialID - 1]}
                     showDelete={canDelete}
                     onDelete={deleteTestimonial}
-                    onCancel={resetEdit}
+                    onCancel={cancelEdit}
                     onSave={updateTestimonial}
                 />
             ) : (
