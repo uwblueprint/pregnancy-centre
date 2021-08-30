@@ -38,6 +38,7 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
             error = true;
         }
         if (testimonial.length < minNumChars) {
+
             setTestimonialError(true);
             error = true;
         }
@@ -78,7 +79,7 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
                 />
                 {testimonialError && <p className="error-text"> Please enter at least {minNumChars} characters.</p>}
                 <div className="buttons">
-                    <Button className="update-button" text="Update" onClick={() => onUpdate} copyText="" />
+                    <Button className="update-button" text="Update" onClick={onUpdate} copyText="" />
                     <Button
                         className="cancel-button"
                         text="Cancel"
