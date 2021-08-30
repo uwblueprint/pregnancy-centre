@@ -213,6 +213,69 @@ const typeDefs = gql`
         matchedAt: String
     }
 
+    type MapPoint {
+        x: Float!
+        y: Float!
+    }
+
+    type Testimonial {
+        id: Int
+        imagePath: String
+        testimonial: String
+    }
+
+    input TestimonialInput {
+        id: Int
+        imagePath: String
+        testimonial: String
+    }
+
+    type Map {
+        defaultMarkerSize: String!
+        markerSizes: [String]!
+        points: [MapPoint]!
+        testimonials: [Testimonial]
+    }
+
+    enum StatisticType {
+        REGULAR_DONORS
+        DIAPERS_DISTRIBUTED
+        CARE_CLOSET_VISITS
+    }
+
+    type Statistic {
+        icon: String!
+        measurement: String!
+        stat: String!
+        type: StatisticType!
+    }
+
+    input StatisticMeasurement {
+        REGULAR_DONORS: String
+        DIAPERS_DISTRIBUTED: String
+        CARE_CLOSET_VISITS: String
+    }
+
+    type TestimonialCarousel {
+        testimonials: [Testimonial]
+        interval: Int!
+    }
+
+    type Banner {
+        header: String!
+        description: String!
+        imagePaths: [String]!
+        interval: Int!
+    }
+
+    type DonorHomepage {
+        _id: ID!
+        map: Map!
+        statistics: [Statistic]!
+        banner: Banner!
+        testimonialCarousel: TestimonialCarousel!
+    }
+
     type Query {
         request(_id: ID): Request
         requests: [Request]
@@ -245,6 +308,11 @@ const typeDefs = gql`
             filterOptions: DonationFormFilterOptions
             sortBy: DonationFormSortOptions
         ): [DonationForm]
+
+        donorHomepageBanner: Banner
+        donorHomepageTestimonialCarousel: TestimonialCarousel
+        donorHomepageMap: Map
+        donorHomepageStatistics: [Statistic]
     }
 
     type Mutation {
@@ -273,6 +341,12 @@ const typeDefs = gql`
         sendConfirmationEmail(ids: [ID]): String
         sendApprovalEmail(id: ID): String
         sendRejectionEmail(id: ID): String
+
+        updateDonorHomepage(
+            mapTestimonials: [TestimonialInput!]
+            carouselTestimonials: [TestimonialInput!]
+            statMeasurements: StatisticMeasurement
+        ): DonorHomepage
     }
 `;
 
