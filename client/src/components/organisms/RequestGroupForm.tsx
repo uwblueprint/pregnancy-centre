@@ -123,6 +123,7 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             requestGroups {
                 _id
                 name
+                deletedAt
             }
         }
     `;
@@ -133,12 +134,14 @@ const RequestGroupForm: FunctionComponent<Props> = (props: Props) => {
             const requestGroups: Array<RequestGroup> = JSON.parse(JSON.stringify(data.requestGroups)); // deep-copy since data object is frozen
 
             const map = new Map(
-                requestGroups.reduce((entries, requestGroup) => {
-                    if (requestGroup && requestGroup.name) {
-                        entries.push([requestGroup.name, requestGroup]);
-                    }
-                    return entries;
-                }, [] as Array<[string, RequestGroup]>)
+                requestGroups
+                    .filter((requestGroup) => requestGroup.deletedAt == null)
+                    .reduce((entries, requestGroup) => {
+                        if (requestGroup && requestGroup.name) {
+                            entries.push([requestGroup.name, requestGroup]);
+                        }
+                        return entries;
+                    }, [] as Array<[string, RequestGroup]>)
             );
             setRequestGroupsMap(map);
         }
