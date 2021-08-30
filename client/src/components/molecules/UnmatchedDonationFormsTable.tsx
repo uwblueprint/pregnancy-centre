@@ -187,8 +187,6 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         );
         setSelectedDonationFormForDropoff(null);
     };
-
-    console.log(donationForms);
     return (
         <div className="unmatched-donation-forms-table">
             {selectedDonationFormForInspection && (
