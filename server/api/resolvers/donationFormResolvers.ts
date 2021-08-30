@@ -89,7 +89,8 @@ const donationFormMutationResolvers = {
     changeDonationFormQuantity:  async(_, { _id, quantity }, {authenticateUser }): Promise<DonationFormInterface> => {
         return authenticateUser().then(async () => {
             const donationForm = await DonationForm.findById(_id);
-            donationForm.deletedAt = new Date();
+            const newQuantity = donationForm.quantity + quantity;
+            donationForm.quantity = newQuantity;
             return donationForm.save();
         });
     }

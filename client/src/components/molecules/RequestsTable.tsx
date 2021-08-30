@@ -40,18 +40,11 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             }
         }
     `;
-    const queryDonationForm = gql`
-        query DonationForm($_id: ID) {
-            donationForm(_id: $_id) {
+    const changeDonationFormQuantity = gql`
+        mutation ChangeDonationFormQuantity($_id: ID, $quantity: Int) {
+            changeDonationFormQuantity(_id: $_id, quantity: $quantity) {
                 _id
                 quantity
-            }
-        }
-    `;
-    const updateDonationForm = gql`
-        mutation UpdateDonationForm($donationForm: UpdateDonationFormInput) {
-            updateDonationForm(donationForm: $donationForm) {
-                _id
             }
         }
     `;
@@ -95,18 +88,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             window.location.reload();
         }
     });
-    const [mutateUpdateDonationForm] = useMutation(updateDonationForm);
-
-    const decrementDonationForm = (subAmount: number) => {
-        const[getDonationForm] = useLazyQuery(queryDonationForm, {
-            onCompleted: (data) => {
-                const id = data.donationForm._id;
-                const quantity = data.donationForm.quantity - subAmount;
-                mutateUpdateDonationForm({ variables: { donationForm: { _id: id, quantity: quantity } } });
-            }
-        })
-        return getDonationForm;
-    }
+    const [mutateChangeDonationFormQuantity] = useMutation(changeDonationFormQuantity);
 
     const handleDeleteRequest = (index: number) => {
         const req = requests[index];
@@ -115,8 +97,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
                 req.matchedDonations.forEach((item) => {
                     const id = item.donationForm;
                     const quantity = item.quantity;
-                    decrementDonationForm(quantity)({ variables: { _id: id } });
-                    // getDonationForm({ variables: { _id: id } } );
+                    mutateChangeDonationFormQuantity({ variables: { _id: id, quantity: -quantity } });
                 });
             }
             onDeleteRequest(index);
