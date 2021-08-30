@@ -30,4 +30,14 @@ export interface DonorHomepageConfig {
         testimonials: Array<Testimonial>;
     };
     statistics: Array<Statistic>;
+    banner: {
+        header: string;
+        description: string;
+        imagePaths: Array<string>;
+        interval: number;
+    };
+    testimonialCarousel: {
+        testimonials: Array<Testimonial>;
+        interval: number;
+    };
 }

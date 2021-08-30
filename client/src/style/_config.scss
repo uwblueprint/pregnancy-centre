@@ -190,6 +190,14 @@ $admin-request-group-browser-button-color: #fbfbfb;
     border: none;
 }
 
+@mixin tpc-green-text-button() {
+    @include tpc-green-text();
+    @include semibold-text();
+    font-size: 20px;
+    background-color: transparent;
+    border: none;
+}
+
 /* Disable scrollbar for overflow */
 
 @mixin disable-scrollbar() {

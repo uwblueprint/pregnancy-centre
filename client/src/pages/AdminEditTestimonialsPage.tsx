@@ -4,6 +4,7 @@ import AdminPage from "../components/layouts/AdminPage";
 import { Button } from "../components/atoms/Button";
 import DonorHomepageConfig from "../config/donorHomepageConfig.json";
 import { DonorHomepageConfig as DonorHomepageConfigType } from "../data/types/donorHomepageConfig";
+import EditClientStoriesSection from "../components/molecules/EditClientStoriesSection";
 import EditStatisticsSection from "../components/molecules/EditStatisticsSection";
 
 export type EditTestimonialsFormState = {
@@ -11,25 +12,22 @@ export type EditTestimonialsFormState = {
     diapersDistributedStatError: string;
     donorHomepageConfig: DonorHomepageConfigType;
     regularDonorsStatError: string;
+    editingClientStory: boolean;
 };
 
 const initialFormState: EditTestimonialsFormState = {
     careClosetVisitsStatError: "",
     diapersDistributedStatError: "",
     donorHomepageConfig: DonorHomepageConfig,
-    regularDonorsStatError: ""
+    regularDonorsStatError: "",
+    editingClientStory: false
 };
 
 export const EditTestimonialsContext = React.createContext<{
     formState: EditTestimonialsFormState;
     setFormState: (newFormState: EditTestimonialsFormState) => void;
 }>({
-    formState: {
-        careClosetVisitsStatError: "",
-        diapersDistributedStatError: "",
-        donorHomepageConfig: DonorHomepageConfig,
-        regularDonorsStatError: ""
-    },
+    formState: initialFormState,
     setFormState: () => {}
 });
 
@@ -49,6 +47,7 @@ const AdminEditTestimonialsPage: FunctionComponent = () => {
                             <h1>Editing Main Page</h1>
                         </div>
                         <EditStatisticsSection />
+                        <EditClientStoriesSection />
                     </div>
                     <div className="page-footer">
                         <Button className="save-button" text="Submit all changes" copyText="" onClick={handleSave} />

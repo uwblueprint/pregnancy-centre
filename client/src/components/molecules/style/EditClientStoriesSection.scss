@@ -1,0 +1,35 @@
+.edit-client-stories-section {
+    margin-top: 40px;
+    margin-bottom: 36px;
+    width: 1220px;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+
+        h1 {
+            @include heavy-text;
+            font-size: 20px;
+            line-height: 24px;
+        }
+
+        button {
+            @include tpc-green-text-button;
+
+            .disabled {
+                @include faded-text();
+            }
+        }
+    }
+
+    p {
+        margin-bottom: 20px;
+    }
+
+    .testimonials {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 1290px;
+    }
+}

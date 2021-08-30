@@ -29,9 +29,11 @@ const donorHomepageQueryResolvers = {
         return getDonorHomepageData<Array<Statistic>>("statistics");
     },
     donorHomepage: async (): Promise<DonorHomepageInterface> => {
-        return DonorHomepage.find().exec().then((donorHomepageData => {
-            return donorHomepageData[0];
-        }));
+        return DonorHomepage.find()
+            .exec()
+            .then(donorHomepageData => {
+                return donorHomepageData[0];
+            });
     }
 };
 
@@ -52,7 +54,7 @@ const donorHomepageMutationResolvers = {
                     statistic.measurement = statMeasurements[type];
                 }
             });
-            
+
             const testimonialCarousel = await donorHomepageQueryResolvers.donorHomepageTestimonialCarousel();
             testimonialCarousel.testimonials = carouselTestimonials;
 
