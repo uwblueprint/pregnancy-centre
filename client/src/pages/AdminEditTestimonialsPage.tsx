@@ -103,7 +103,7 @@ const AdminEditTestimonialsPage: FunctionComponent = () => {
         setTimeout(() => {
             setShowSuccessAlert(false);
         }, 5000);
-    }, [])
+    }, [showSuccessAlert])
 
     const handleSave = () => {
         console.log("save");
