@@ -120,6 +120,7 @@ const AdminEditTestimonialsPage: FunctionComponent = () => {
             const type = statistic.type.toString();
             statMeasurements[type] = statistic.measurement;
         });
+        console.log(statMeasurements); // ✅✅
         mutateDonorHomepageConfig({
             variables: {
                 mapTestimonials: formState.donorHomepageConfig.map.testimonials,
