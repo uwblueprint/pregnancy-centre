@@ -1,4 +1,4 @@
-import { gql, useLazyQuery, useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import moment from "moment";
