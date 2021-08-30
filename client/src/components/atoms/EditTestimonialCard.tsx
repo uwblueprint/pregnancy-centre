@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Button } from "../atoms/Button";
-import DefaultImage from "../../assets/grey-background.png"
-import OverlayImage from "../../assets/image-upload.png"
+import DefaultImage from "../../assets/grey-background.png";
+import OverlayImage from "../../assets/image-upload.png";
 import TextArea from "../atoms/TextArea";
-import UploadImageModal from "../organisms/UploadImageModal"
+import UploadImageModal from "../organisms/UploadImageModal";
 
 interface Props {
     id: number;
@@ -28,7 +28,7 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
         if (testimonial.length > minNumChars) {
             setTestimonialError(false);
         }
-    }
+    };
     const textAreaProps = {
         isErroneous: false,
         onChange: onChange,
@@ -37,7 +37,7 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
         label: "Edit Client Story",
         maxNumChars: 400,
         minNumChars: minNumChars
-    }
+    };
 
     const primaryBtnProps = {
         className: "update-button",
@@ -47,7 +47,7 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
             if (imagePath === DefaultImage) {
                 setImageError(true);
                 error = true;
-            } 
+            }
             if (testimonial.length < minNumChars) {
                 setTestimonialError(true);
                 error = true;
@@ -58,14 +58,14 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
             props.onSave(props.id, imagePath, testimonial);
         },
         copyText: ""
-    }
+    };
 
     const secondaryBtnProps = {
         className: "cancel-button",
         text: "Cancel",
         onClick: () => props.onCancel(props.id),
         copyText: ""
-    }
+    };
 
     const uploadImageProps = {
         handleClose: () => setShowImagePicker(false),
@@ -73,29 +73,23 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
             setImagePath(imagePath);
             setImageError(false);
         }
-    }
+    };
 
     return (
         <div className="edit-testimonial-card">
-            {showImagePicker && (
-                <UploadImageModal {...uploadImageProps} />
-            )}
+            {showImagePicker && <UploadImageModal {...uploadImageProps} />}
             <div className="image-upload" onClick={() => setShowImagePicker(true)}>
-                <img className="base" src={imagePath}/>
+                <img className="base" src={imagePath} />
                 <div className="overlay">
-                    <img className="overlay-image" src={OverlayImage}/>
+                    <img className="overlay-image" src={OverlayImage} />
                     <p className="overlay-text">Add Photo</p>
                 </div>
-                {imageError && (
-                    <p className="error-text"> Please upload an image.</p>
-                )}
+                {imageError && <p className="error-text"> Please upload an image.</p>}
             </div>
             <div className="text-and-submission">
                 <TextArea {...textAreaProps} />
-                {testimonialError && (
-                    <p className="error-text"> Please enter at least {minNumChars} characters.</p>
-                )}
-                <div className="buttons" >
+                {testimonialError && <p className="error-text"> Please enter at least {minNumChars} characters.</p>}
+                <div className="buttons">
                     <Button {...primaryBtnProps} />
                     <Button {...secondaryBtnProps} />
                     <i className="bi bi-trash" onClick={() => props.onDelete(props.id)} />

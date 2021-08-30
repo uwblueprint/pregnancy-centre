@@ -25,14 +25,14 @@ const EditClientStoriesSection: FunctionComponent = () => {
         setEdit({ isEditing: false, testimonialID: 0 });
     };
 
-    const cancelEdit = (id : number) => {
+    const cancelEdit = (id: number) => {
         const testimonials = getTestimonials();
         const testimonial = testimonials[id - 1];
         if (testimonial.testimonial === "" || testimonial.imagePath === "") {
-            testimonials.splice(id - 1, 1);   
+            testimonials.splice(id - 1, 1);
         }
         resetEdit();
-    }
+    };
 
     const setTestimonialCarousel = (testimonials: Array<Testimonial>) => {
         setFormState({
@@ -92,7 +92,14 @@ const EditClientStoriesSection: FunctionComponent = () => {
             <div className="header">
                 <h1>Meet our Clients</h1>
                 {getNumTestimonials() < 5 && (
-                    <Button className={edit.isEditing ? "disabled" : ""} text="+ Add another Client Story" type="button" copyText="" onClick={addTestimonial} disabled={edit.isEditing}/>
+                    <Button
+                        className={edit.isEditing ? "disabled" : ""}
+                        text="+ Add another Client Story"
+                        type="button"
+                        copyText=""
+                        onClick={addTestimonial}
+                        disabled={edit.isEditing}
+                    />
                 )}
             </div>
             <p>Total: {getNumTestimonials()}/5</p>
