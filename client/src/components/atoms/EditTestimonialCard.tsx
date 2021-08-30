@@ -1,4 +1,3 @@
-import { Col, Row } from "react-bootstrap";
 import React, { FunctionComponent, useState } from "react";
 import { Button } from "../atoms/Button";
 import DefaultImage from "../../assets/grey-background.png"
