@@ -9,7 +9,6 @@ interface TextAreaProps {
     label?: string;
     maxNumChars?: number;
     minNumChars?: number;
-    onError?: () => void;
 }
 
 const TextArea: FunctionComponent<TextAreaProps> = (props: TextAreaProps) => {
