@@ -2,9 +2,9 @@ import { Col, Row } from "react-bootstrap";
 import React, { FunctionComponent, useState } from "react";
 import { Button } from "../atoms/Button";
 import DefaultImage from "../../assets/grey-background.png"
-import ImagePicker from "../atoms/ImagePicker"
 import OverlayImage from "../../assets/image-upload.png"
 import TextArea from "../atoms/TextArea";
+import UploadImageModal from "../organisms/UploadImageModal"
 
 interface Props {
     id: number;
@@ -20,8 +20,15 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
     const [testimonial, setTestimonial] = useState(props.testimonial);
     const [imagePath, setImagePath] = props.imagePath === "" ? useState(DefaultImage) : useState(props.imagePath);
     const [showImagePicker, setShowImagePicker] = useState(false);
+    const minNumChars = 80;
+    const [testimonialError, setTestimonialError] = useState(testimonial.length > minNumChars);
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setTestimonial(event.target.value);
+        if (event.target.value.length < minNumChars) {
+            setTestimonialError(true);
+        } else {
+            setTestimonialError(false);
+        }
     }
     const textAreaProps = {
         isErroneous: false,
@@ -30,14 +37,15 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
         placeholder: "",
         label: "Edit Client Story",
         maxNumChars: 400,
-        minNumChars: 80
+        minNumChars: minNumChars
     }
 
     const primaryBtnProps = {
         className: "update-button",
         text: "Update",
         onClick: () => props.onSave(props.id, imagePath, testimonial),
-        copyText: ""
+        copyText: "",
+        disabled: testimonialError
     }
 
     const secondaryBtnProps = {
@@ -47,18 +55,19 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
         copyText: ""
     }
 
-    const imagePickerProps = {
-        onImageChange: (imagePath: string) => {
+    const uploadImageProps = {
+        handleClose: () => setShowImagePicker(false),
+        onSubmit: (imagePath: string) => {
             setImagePath(imagePath);
         }
     }
 
     return (
         <div className="edit-testimonial-card">
-            {/* {showImagePicker && (
-                <ImagePicker/>
-            )} */}
-            <div className="image-upload">
+            {showImagePicker && (
+                <UploadImageModal {...uploadImageProps} />
+            )}
+            <div className="image-upload" onClick={() => setShowImagePicker(true)}>
                 <img className="base" src={imagePath}/>
                 <div className="overlay">
                     <img className="overlay-image" src={OverlayImage}/>
@@ -67,6 +76,9 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
             </div>
             <div className="text-and-submission">
                 <TextArea {...textAreaProps} />
+                {testimonialError && (
+                    <p className="error-text"> Please enter at least {minNumChars} characters.</p>
+                )}
                 <div className="buttons" >
                     <Button {...primaryBtnProps} />
                     <Button {...secondaryBtnProps} />

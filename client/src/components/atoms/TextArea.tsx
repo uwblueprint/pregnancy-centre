@@ -9,6 +9,7 @@ interface TextAreaProps {
     label?: string;
     maxNumChars?: number;
     minNumChars?: number;
+    onError?: () => void;
 }
 
 const TextArea: FunctionComponent<TextAreaProps> = (props: TextAreaProps) => {
@@ -16,6 +17,7 @@ const TextArea: FunctionComponent<TextAreaProps> = (props: TextAreaProps) => {
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = event.target.value;
         if (props.maxNumChars != null && newValue.length > props.maxNumChars) {
+            setIsErroneous(true);
             return;
         } else if (props.minNumChars != null && newValue.length < props.minNumChars) {
             setIsErroneous(true);
