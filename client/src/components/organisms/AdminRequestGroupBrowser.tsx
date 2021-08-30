@@ -42,6 +42,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                         quantity
                         clientName
                         matchedDonations {
+                            donationForm
                             quantity
                         }
                     }

@@ -40,6 +40,14 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             }
         }
     `;
+    const changeDonationFormQuantity = gql`
+        mutation ChangeDonationFormQuantity($_id: ID, $quantity: Int) {
+            changeDonationFormQuantity(_id: $_id, quantity: $quantity) {
+                _id
+                quantity
+            }
+        }
+    `;
 
     useEffect(() => {
         const nonFulfilledRequests = requests.filter((request) => {
@@ -80,9 +88,18 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             window.location.reload();
         }
     });
+    const [mutateChangeDonationFormQuantity] = useMutation(changeDonationFormQuantity);
+
     const handleDeleteRequest = (index: number) => {
         const req = requests[index];
         if (req.fulfilledAt) {
+            if (req.matchedDonations) {
+                req.matchedDonations.forEach((item) => {
+                    const id = item.donationForm;
+                    const quantity = item.quantity;
+                    mutateChangeDonationFormQuantity({ variables: { _id: id, quantity: -quantity } });
+                });
+            }
             onDeleteRequest(index);
         } else {
             let canDelete = true;

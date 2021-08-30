@@ -268,6 +268,7 @@ const typeDefs = gql`
         createDonationForm(donationForm: CreateDonationFormInput): DonationForm
         updateDonationForm(donationForm: UpdateDonationFormInput): DonationForm
         deleteDonationForm(_id: ID): DonationForm
+        changeDonationFormQuantity(_id: ID, quantity: Int): DonationForm
 
         sendConfirmationEmail(ids: [ID]): String
         sendApprovalEmail(id: ID): String
