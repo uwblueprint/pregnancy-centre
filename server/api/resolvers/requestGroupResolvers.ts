@@ -65,6 +65,16 @@ const requestGroupQueryResolvers = {
             filter.deletedAt = { $eq: null };
         }
         return RequestGroup.countDocuments(filter);
+    },
+    requestGroupsFilterByName: async (_, { filterString }, ___): Promise<Array<RequestGroupInterface>> => {
+        const requestGroups = await RequestGroup.find().exec();
+        const filteredRequestGroups = await requestGroups.filter((requestGroup) => {
+            return (
+                requestGroup.name.startsWith(filterString) ||
+                requestGroup.requestTypes.find((requestType) => requestType.name?.startsWith(filterString))
+            );
+        });
+        return filteredRequestGroups;
     }
     /* Left as a proof of concept:
     requestGroupsFilter: async (_, { filter, options }, ___): Promise<Array<RequestGroupInterface>> => {

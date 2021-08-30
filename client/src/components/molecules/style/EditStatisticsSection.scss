@@ -1,0 +1,29 @@
+.edit-statistics-section {
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+        @include heavy-text;
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .text-fields {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .text-field {
+        margin-right: 72px;
+
+        .input-container {
+            width: 357px;
+            height: 45px;
+        }
+    }
+
+    .form-item .label-icon {
+        font-size: 20px;
+        margin-right: 12px;
+    }
+}
