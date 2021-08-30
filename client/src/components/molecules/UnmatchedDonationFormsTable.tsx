@@ -153,7 +153,6 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     };
 
     const onRejectDonationForm = (donationForm: DonationForm) => {
-        console.log(donationForm._id);
         sendRejectionEmail({ variables: { id: donationForm._id as string } });
         onDeleteDonationForm(donationForm._id as string);
         setSelectedDonationFormForReject(null);
