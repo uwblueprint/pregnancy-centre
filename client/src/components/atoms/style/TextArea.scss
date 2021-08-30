@@ -1,15 +1,31 @@
-.text-area {
-    border-radius: $box-border-radius;
-    border-color: $textfield-input-border;
-    padding-left: 12px;
-    padding-top: 8px;
+.text-area-container {
+    display: flex;
+    flex-direction: column;
 
-    &.error {
-        border-color: $error-color;
+    .text-area-label {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        h1 {
+            font-size: 16px;
+            line-height: 28px;
+        }
     }
 
-    &:focus {
-        outline-width: 0;
-        border-color: $tpc-green;
+    .text-area {
+        border-radius: $box-border-radius;
+        border-color: $textfield-input-border;
+        padding-left: 12px;
+        padding-top: 8px;
+
+        &.error {
+            border-color: $error-color;
+        }
+
+        &:focus {
+            outline-width: 0;
+            border-color: $tpc-green;
+        }
     }
 }

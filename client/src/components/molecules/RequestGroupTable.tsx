@@ -146,10 +146,11 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                     </tbody>
                 )}
             </table>
-            {props.requestGroups && props.requestGroups.length === 0 && props.countRequestGroups !== 0 && 
+            {props.requestGroups && props.requestGroups.length === 0 && props.countRequestGroups !== 0 && (
                 <div className="spinner">
                     <Spinner animation="border" role="status" />
-                </div>}
+                </div>
+            )}
             {props.countRequestGroups === 0 && (
                 <span className="no-groups-msg">
                     There are no needs created.

@@ -14,7 +14,7 @@ const donationFormEmbeddingFromDonationForm = (donationForm: DonationFormInterfa
 };
 const addDonationFormToRequestGroup = async (donationForm, requestGroupId, session) => {
     const newRequestGroup = await RequestGroup.findById(requestGroupId).session(session);
-    newRequestGroup.donationForms.push(donationFormEmbeddingFromDonationForm(donationForm))
+    newRequestGroup.donationForms.push(donationFormEmbeddingFromDonationForm(donationForm));
     await newRequestGroup.save({ session: session });
 };
 
@@ -83,6 +83,14 @@ const donationFormMutationResolvers = {
         return authenticateUser().then(async () => {
             const donationForm = await DonationForm.findById(_id);
             donationForm.deletedAt = new Date();
+            return donationForm.save();
+        });
+    },
+    changeDonationFormQuantity: async (_, { _id, quantity }, { authenticateUser }): Promise<DonationFormInterface> => {
+        return authenticateUser().then(async () => {
+            const donationForm = await DonationForm.findById(_id);
+            const newQuantity = donationForm.quantity + quantity;
+            donationForm.quantity = newQuantity;
             return donationForm.save();
         });
     }

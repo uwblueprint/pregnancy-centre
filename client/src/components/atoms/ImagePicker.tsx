@@ -112,6 +112,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                 <button
                     className={imgInView ? "btn btn-light imagepicker-trash" : "imagepicker-hidden"}
                     onClick={clearImage}
+                    type="button"
                 >
                     <i className="bi bi-trash"></i>
                 </button>
@@ -152,7 +153,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                 )}
             </div>
             <div className={props.uploadedImg === "" ? "imagepicker-hidden" : "imagepicker-crop-controls"}>
-                <button className="btn imagepicker-minus" onClick={() => changeZoom(-0.1)}>
+                <button className="btn imagepicker-minus" onClick={() => changeZoom(-0.1)} type="button">
                     <i className="bi bi-dash"></i>
                 </button>
                 <div className="imagepicker-slider">
@@ -167,7 +168,7 @@ const ImagePicker: FunctionComponent<Props> = (props: Props) => {
                         }}
                     />
                 </div>
-                <button className="btn imagepicker-plus" onClick={() => changeZoom(0.1)}>
+                <button className="btn imagepicker-plus" onClick={() => changeZoom(0.1)} type="button">
                     <i className="bi bi-plus"></i>
                 </button>
             </div>

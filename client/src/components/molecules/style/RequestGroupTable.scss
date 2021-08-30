@@ -141,12 +141,12 @@
             @include semibold-text;
             color: $tpc-green;
             cursor: pointer;
-            &:hover{
+            &:hover {
                 text-decoration: none;
             }
         }
     }
-    
+
     .spinner {
         position: fixed;
         top: 50%;

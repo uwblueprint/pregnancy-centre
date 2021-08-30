@@ -8,6 +8,7 @@ import RequestGroup from "../../data/types/requestGroup";
 import RequestsTable from "./RequestsTable";
 import RequestType from "../../data/types/requestType";
 import RequestTypeForm from "../organisms/RequestTypeForm";
+import WarningDialog from "../atoms/WarningDialog";
 
 interface Props {
     key?: string;
@@ -19,6 +20,7 @@ interface Props {
 
 const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const [numRequests, setNumRequests] = useState(0);
+    const [showWarningDialog, setShowWarningDialog] = useState(false);
 
     const softDelete = gql`
         mutation deleteRequestType($id: ID) {
@@ -69,6 +71,30 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
         setDeleteModalShow(true);
     };
 
+    const handleDeleteRequestType = () => {
+        setDeleteModalShow(false);
+        let canDelete = true;
+        if (requestType && requestType.requests) {
+            requestType.requests.forEach((request) => {
+                if (!request.fulfilledAt) {
+                    if (request.matchedDonations) {
+                        request.matchedDonations.forEach((item) => {
+                            if (item.quantity > 0) {
+                                canDelete = false;
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        if (canDelete) {
+            deleteRequestType();
+            window.location.reload();
+        } else {
+            setShowWarningDialog(true);
+        }
+    };
+
     useEffect(() => {
         setNumRequests(props.requests!.reduce((total, request) => (request.deletedAt == null ? total + 1 : total), 0));
     }, []);
@@ -78,6 +104,13 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     };
     return (
         <div className="request-type-dropdown-container">
+            {showWarningDialog && (
+                <WarningDialog
+                    dialogTitle="This request type has unfulfilled requests with attached donation forms."
+                    dialogText="It cannot be deleted until the amount contributed by all donation forms to the requests is zero."
+                    onClose={() => setShowWarningDialog(false)}
+                />
+            )}
             <Dropdown
                 title={requestType?.name ? requestType.name.toUpperCase() + " (" + numRequests + ")" : ""}
                 header={
@@ -126,8 +159,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                     requestGroupName={props.requestGroup!.name}
                     handleClose={() => setDeleteModalShow(false)}
                     onSubmit={() => {
-                        deleteRequestType();
-                        window.location.reload();
+                        handleDeleteRequestType();
                     }}
                     onCancel={() => setDeleteModalShow(false)}
                     numRequests={getTotalCountRequests()}

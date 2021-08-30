@@ -235,6 +235,7 @@ const typeDefs = gql`
         countRequestGroups(open: Boolean, name: String): Int
         # --- Left as a proof of concept: ---
         # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]
+        requestGroupsFilterByName(filterString: String): [RequestGroup]
 
         donationForm(_id: ID): DonationForm
         donationForms: [DonationForm]
@@ -267,6 +268,7 @@ const typeDefs = gql`
         createDonationForm(donationForm: CreateDonationFormInput): DonationForm
         updateDonationForm(donationForm: UpdateDonationFormInput): DonationForm
         deleteDonationForm(_id: ID): DonationForm
+        changeDonationFormQuantity(_id: ID, quantity: Int): DonationForm
 
         sendConfirmationEmail(ids: [ID]): String
         sendApprovalEmail(id: ID): String

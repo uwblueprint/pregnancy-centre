@@ -41,6 +41,10 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                         fulfilledAt
                         quantity
                         clientName
+                        matchedDonations {
+                            donationForm
+                            quantity
+                        }
                     }
                 }
             }
@@ -68,7 +72,8 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
             );
             setNumRequests(
                 requestGroup.requestTypes?.reduce((acc, requestType) => {
-                    const nonDeletedRequests = requestType.requests?.filter((request) => request.deletedAt == null) ?? [];
+                    const nonDeletedRequests =
+                        requestType.requests?.filter((request) => request.deletedAt == null) ?? [];
                     return acc + nonDeletedRequests.length;
                 }, 0) ?? 0
             );
@@ -86,8 +91,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
 
     const deleteRequestGroup = async () => {
         await mutateDeleteRequestGroup({ variables: { id: requestGroup?._id } });
-        // replace current page in browser so user cannot go back to non-existent requestGroup page
-        history.replace("/admin");
+        history.goBack();
     };
 
     return (

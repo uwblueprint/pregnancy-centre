@@ -25,29 +25,29 @@ const DonorHomepage: FunctionComponent = () => {
     }, []);
     return (
         <>
-        <Container className="donor-homepage" fluid>
-            <DonorPage>
-                <Row className="donor-homepage-banner">
-                    <DonorHomepageBanner />
-                </Row>
-                <Row className="donor-homepage-request-groups-browser">
-                    <DonorRequestGroupBrowser />
-                </Row>
-                <Row className="donor-homepage-testimonials-section">
-                    <DonorTestimonialsSection />
-                </Row>
-                <Row className="donor-homepage-donor-impact-section">
-                    <DonorImpactSection />
-                </Row>
-            </DonorPage>
-        </Container>
-        <MobilePopup
-            className="mobile-popup"
-            show={showMobilePopup}
-            handleClose={handleClose}
-            header={<img src={tpcLogo} />}
-        ></MobilePopup>
-    </>
+            <Container className="donor-homepage" fluid>
+                <DonorPage>
+                    <Row className="donor-homepage-banner">
+                        <DonorHomepageBanner />
+                    </Row>
+                    <Row className="donor-homepage-request-groups-browser">
+                        <DonorRequestGroupBrowser />
+                    </Row>
+                    <Row className="donor-homepage-testimonials-section">
+                        <DonorTestimonialsSection />
+                    </Row>
+                    <Row className="donor-homepage-donor-impact-section">
+                        <DonorImpactSection />
+                    </Row>
+                </DonorPage>
+            </Container>
+            <MobilePopup
+                className="mobile-popup"
+                show={showMobilePopup}
+                handleClose={handleClose}
+                header={<img src={tpcLogo} />}
+            ></MobilePopup>
+        </>
     );
 };
 

@@ -1,0 +1,16 @@
+.search-bar-with-subtext-container {
+    margin-top: 20px;
+
+    .subtext-container {
+        margin-top: 8px;
+
+        .subtext {
+            font-size: 12px;
+            color: #959595;
+        }
+        .subtext-transparent {
+            font-size: 12px;
+            color: transparent;
+        }
+    }
+}

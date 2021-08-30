@@ -26,10 +26,13 @@
 
     .text-field {
         width: 100%;
-        height: 45px;
+
+        .input-container {
+            height: 45px;
+        }
     }
 
-    .text-area {
+    .text-area-container {
         width: 100%;
         min-height: 94px;
     }

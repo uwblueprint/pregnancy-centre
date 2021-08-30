@@ -5,9 +5,15 @@
         width: 100%;
     }
 
-    .text-field {
+    .text-field-input-container {
         margin-bottom: 5px;
         width: 100%;
+    }
+
+    .dropdown-action {
+        @include normal-text;
+        font-size: 14px;
+        padding: 8px 14px;
     }
 
     .dropdown-header {
