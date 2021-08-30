@@ -5,14 +5,14 @@ import { EditTestimonialsContext } from "../../pages/AdminEditTestimonialsPage";
 import { Testimonial } from "../../data/types/donorHomepageConfig";
 import TestimonialCard from "../atoms/TestimonialCard";
 
-interface edit {
+interface editState {
     isEditing: boolean;
     testimonialID: number;
 }
 
 const EditClientStoriesSection: FunctionComponent = () => {
     const { formState, setFormState } = useContext(EditTestimonialsContext);
-    const [edit, setEdit] = useState<edit>({ isEditing: false, testimonialID: 0 });
+    const [edit, setEdit] = useState<editState>({ isEditing: false, testimonialID: 0 });
     const getNumTestimonials = () => {
         return formState.donorHomepageConfig.testimonialCarousel.testimonials.length;
     };
@@ -126,13 +126,6 @@ const EditClientStoriesSection: FunctionComponent = () => {
                     })}
                 </div>
             )}
-            {/* 
-                - if edit mode on, then show edit card of that testimonial
-                    - cancel will turn edit mode off
-                - if edit mode off, then show all testimonials (map)
-                    - edit onClick
-                    - trash onClick will just update 
-            */}
         </div>
     );
 };
