@@ -22,6 +22,7 @@ const AdminUnmatchedDonationFormPage: FunctionComponent = () => {
                 name
                 quantity
                 status
+                seen
             }
         }
     `;
