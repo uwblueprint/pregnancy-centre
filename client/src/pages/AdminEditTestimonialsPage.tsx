@@ -1,5 +1,5 @@
+import { gql, useMutation } from "@apollo/client";
 import React, { FunctionComponent, useState } from "react";
-
 import AdminPage from "../components/layouts/AdminPage";
 import { Button } from "../components/atoms/Button";
 import DonorHomepageConfig from "../config/donorHomepageConfig.json";
@@ -33,9 +33,27 @@ export const EditTestimonialsContext = React.createContext<{
 
 const AdminEditTestimonialsPage: FunctionComponent = () => {
     const [formState, setFormState] = useState<EditTestimonialsFormState>(initialFormState);
+    const updateDonorHomepageConfig = gql`
+        mutation UpdateDonorHomepage($mapTestimonials: [TestimonialInput], $carouselTestimonials: [TestimonialInput], $statMeasurements : StatisticMeasurement) {
+            updateDonorHomepage(mapTestimonials: $mapTestimonials, carouselTestimonials: $carouselTestimonials, statMeasurements: $statMeasurements) {
+                
+            }
+        }
+    `;
+    const [mutateDonorHomepageConfig] = useMutation(updateDonorHomepageConfig);
+
 
     const handleSave = () => {
         console.log("save");
+        const statMeasurements = {
+            REGULAR_DONORS: "",
+            DIAPERS_DISTRIBUTED: "",
+            CARE_CLOSET_VISITS: ""
+        }
+        mutateDonorHomepageConfig({ variables: {
+            mapTestimonials: formState.donorHomepageConfig.map.testimonials,
+            carouselTestimonials: formState.donorHomepageConfig.
+        } });
     };
 
     return (
