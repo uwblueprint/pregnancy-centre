@@ -258,13 +258,14 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                         <td />
                         <td />
                     </tr>
-                    {donationForms.map((donationForm: DonationForm) => (
+                    {donationForms.map((donationForm: DonationForm, index) => (
                         <>
                             <tr
                                 key={donationForm._id}
                                 className="data-row"
                                 onClick={() => {
                                     setSelectedDonationFormForInspection(donationForm);
+                                    donationForm.seen = true;
                                 }}
                             >
                                 <td className="spacing-col"> {donationForm.seen ? <></> : <UnseenDot />}</td>

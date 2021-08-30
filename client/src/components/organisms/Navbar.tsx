@@ -8,6 +8,7 @@ import tpcLogo from "../../assets/tpc-logo.svg";
 type Link = {
     name: string;
     path: string;
+    isEmphasized?: boolean;
 };
 
 interface Props {
@@ -20,7 +21,7 @@ const Navbar: FunctionComponent<Props> = (props: Props) => {
     const getLinksJSX = (links: Link[]) =>
         links.map((link: Link) => (
             <Nav.Link className={link.path === location.pathname ? "active" : ""} href={link.path} key={link.name}>
-                {link.name}
+               {link.name}
             </Nav.Link>
         ));
 
