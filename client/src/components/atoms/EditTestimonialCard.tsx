@@ -60,13 +60,6 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
         copyText: ""
     };
 
-    const secondaryBtnProps = {
-        className: "cancel-button",
-        text: "Cancel",
-        onClick: () => props.onCancel(props.id),
-        copyText: ""
-    };
-
     return (
         <div className="edit-testimonial-card">
             {showImagePicker && <UploadImageModal handleClose={() => setShowImagePicker(false)} onSubmit={ (imagePath: string) => {
@@ -86,7 +79,7 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
                 {testimonialError && <p className="error-text"> Please enter at least {minNumChars} characters.</p>}
                 <div className="buttons">
                     <Button {...primaryBtnProps} />
-                    <Button {...secondaryBtnProps} />
+                    <Button className="cancel-button" text="Cancel" onClick={() => props.onCancel(props.id)} copyText=""/>
                     <i className="bi bi-trash" onClick={() => props.onDelete(props.id)} />
                 </div>
             </div>
