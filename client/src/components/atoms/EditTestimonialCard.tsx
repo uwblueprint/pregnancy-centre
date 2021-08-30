@@ -31,26 +31,21 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
         }
     };
 
-    const primaryBtnProps = {
-        className: "update-button",
-        text: "Update",
-        onClick: () => {
-            let error = false;
-            if (imagePath === DefaultImage) {
-                setImageError(true);
-                error = true;
-            }
-            if (testimonial.length < minNumChars) {
-                setTestimonialError(true);
-                error = true;
-            }
-            if (error) return;
-            setImageError(false);
-            setTestimonialError(false);
-            props.onSave(props.id, imagePath, testimonial);
-        },
-        copyText: ""
-    };
+    const onUpdate = () => {
+        let error = false;
+        if (imagePath === DefaultImage) {
+            setImageError(true);
+            error = true;
+        }
+        if (testimonial.length < minNumChars) {
+            setTestimonialError(true);
+            error = true;
+        }
+        if (error) return;
+        setImageError(false);
+        setTestimonialError(false);
+        props.onSave(props.id, imagePath, testimonial);
+    }
 
     return (
         <div className="edit-testimonial-card">
@@ -78,7 +73,7 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
                 />
                 {testimonialError && <p className="error-text"> Please enter at least {minNumChars} characters.</p>}
                 <div className="buttons">
-                    <Button {...primaryBtnProps} />
+                    <Button className="update-button" text="Update" onClick={() => onUpdate} copyText="" />
                     <Button className="cancel-button" text="Cancel" onClick={() => props.onCancel(props.id)} copyText=""/>
                     <i className="bi bi-trash" onClick={() => props.onDelete(props.id)} />
                 </div>
