@@ -74,27 +74,26 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const handleDeleteRequestType = () => {
         setDeleteModalShow(false);
         let canDelete = true;
-        if(requestType && requestType.requests) {
-            requestType.requests.forEach(request => {
-                if(!request.fulfilledAt) {
-                    if(request.matchedDonations) {
-                        request.matchedDonations.forEach(item => {
-                            if(item.quantity > 0) {
+        if (requestType && requestType.requests) {
+            requestType.requests.forEach((request) => {
+                if (!request.fulfilledAt) {
+                    if (request.matchedDonations) {
+                        request.matchedDonations.forEach((item) => {
+                            if (item.quantity > 0) {
                                 canDelete = false;
                             }
-                        })
+                        });
                     }
                 }
-            })
+            });
         }
-        if(canDelete) {
+        if (canDelete) {
             deleteRequestType();
             window.location.reload();
-        }
-        else {
+        } else {
             setShowWarningDialog(true);
         }
-    }
+    };
 
     useEffect(() => {
         setNumRequests(props.requests!.reduce((total, request) => (request.deletedAt == null ? total + 1 : total), 0));
