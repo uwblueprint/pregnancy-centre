@@ -6,7 +6,7 @@ import Navbar from "../organisms/Navbar";
 const AdminPage: FunctionComponent<Record<string, unknown>> = (
     props: React.PropsWithChildren<Record<string, unknown>>
 ) => {
-    const [isEmphasized, setIsEmphasized] = useState(false);
+    const [unseenDonationFormsExist, setUnseenDonationFormsExist] = useState(false);
     const unseenDonationFormsExistQuery = gql`
         query unseenDonationFormsExist {
             unseenDonationFormsExist
@@ -14,7 +14,7 @@ const AdminPage: FunctionComponent<Record<string, unknown>> = (
     `;
       useQuery(unseenDonationFormsExistQuery, {
         onCompleted: (data: { unseenDonationFormsExist: boolean }) => {
-            setIsEmphasized(data.unseenDonationFormsExist);
+            setUnseenDonationFormsExist(data.unseenDonationFormsExist);
         }
     });
     return (
@@ -22,7 +22,7 @@ const AdminPage: FunctionComponent<Record<string, unknown>> = (
             <Navbar
                 leftLinks={[
                     { name: "Needs", path: "/needs" },
-                    { name: "Forms", path: "/unmatched-forms", isEmphasized: isEmphasized }
+                    { name: "Forms", path: "/unmatched-forms", isEmphasized: unseenDonationFormsExist }
                 ]}
                 rightLinks={[{ name: "Log out", path: "/" }]}
             />
