@@ -90,7 +90,7 @@ const donationFormMutationResolvers = {
             return donationForm.save();
         });
     },
-    updateSeenDonationForm: async (_, { authenticateUser }): Promise<DonationFormInterface> => {
+    updateSeenDonationForms: async (_, __, { authenticateUser }): Promise<DonationFormInterface> => {
         return authenticateUser().then(async () => {
             return DonationForm.updateMany({seen: false}, {seen: true})
         });

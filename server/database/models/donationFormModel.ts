@@ -113,7 +113,8 @@ const DonationFormSchema = new Schema(
             type: Date
         },
         seen: {
-            type: Boolean
+            type: Boolean,
+            default: false,
         }
     },
     {

@@ -269,7 +269,7 @@ const typeDefs = gql`
         createDonationForm(donationForm: CreateDonationFormInput): DonationForm
         updateDonationForm(donationForm: UpdateDonationFormInput): DonationForm
         deleteDonationForm(_id: ID): DonationForm
-        updateSeenDonationForm(donationForm: UpdateDonationFormInput): DonationForm
+        updateSeenDonationForms: DonationForm
 
         sendConfirmationEmail(ids: [ID]): String
         sendApprovalEmail(id: ID): String
