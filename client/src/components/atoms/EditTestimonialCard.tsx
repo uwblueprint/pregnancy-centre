@@ -17,7 +17,7 @@ interface Props {
 
 const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
     const [testimonial, setTestimonial] = useState(props.testimonial);
-    const [imagePath, setImagePath] = props.imagePath === "" ? useState(DefaultImage) : useState(props.imagePath);
+    const [imagePath, setImagePath] = useState(props.imagePath === "" ? DefaultImage : props.imagePath);
     const [showImagePicker, setShowImagePicker] = useState(false);
     const minNumChars = 80;
     const [testimonialError, setTestimonialError] = useState(false);
