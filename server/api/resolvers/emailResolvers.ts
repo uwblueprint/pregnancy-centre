@@ -1,4 +1,4 @@
-import { sendApprovalEmail, sendConfirmationEmail } from "../utils/email";
+import { sendApprovalEmail, sendConfirmationEmail, sendRejectionEmail } from "../utils/email";
 import { DonationForm } from "../../database/models/donationFormModel";
 
 const emailResolvers = {
@@ -30,6 +30,22 @@ const emailResolvers = {
             sendConfirmationEmail(firstName, lastName, email, [firstItem, ...remainingItems]).catch(console.error);
         });
         return "sent!";
+    },
+    sendRejectionEmail: async (_, { id }): Promise<string> => {
+        const object = await DonationForm.findById(id).exec();
+        if (object == null) {
+            return `Error: Donation form id ${id} not found`;
+        }
+        const { firstName, lastName, email } = object.contact;
+        const firstItem = {
+            name: object.name,
+            quantity: object.quantity,
+            condition: object.condition,
+            age: object.age,
+            description: object.description
+        };
+        sendRejectionEmail(firstName, lastName, email, firstItem).catch(console.error);
+        return "rejected!";
     },
     sendApprovalEmail: async (_, { id }): Promise<string> => {
         const object = await DonationForm.findById(id).exec();

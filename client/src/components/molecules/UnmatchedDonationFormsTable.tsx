@@ -5,6 +5,7 @@ import moment from "moment";
 import { DonationForm, ItemStatus } from "../../data/types/donationForm";
 import { getContactName, ItemStatusToReadableString } from "../utils/donationForm";
 import ConfirmDonationFormApprovalDialog from "../organisms/ConfirmDonationFormApprovalDialog";
+import ConfirmDonationFormRejectDialog from "../organisms/ConfirmDonationFormRejectDialog";
 import DonationEditFormModal from "../organisms/DonationEditFormModal";
 import DonationFormInfoModal from "../organisms/DonationFormInfoModal";
 import DonationFormProgressStepper from "../atoms/DonationFormProgressStepper";
@@ -24,9 +25,16 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     );
     const [selectedDonationFormForApproval, setSelectedDonationFormForApproval] = useState<DonationForm | null>(null);
     const [selectedDonationFormForDropoff, setSelectedDonationFormForDropoff] = useState<DonationForm | null>(null);
+    const [selectedDonationFormForReject, setSelectedDonationFormForReject] = useState<DonationForm | null>(null);
+
+    const sendRejectionEmailMutation = gql`
+        mutation SendRejectionEmail($id: ID!) {
+            sendRejectionEmail(id: $id)
+        }
+    `;
 
     const sendApprovalEmailMutation = gql`
-        mutation sendApprovalEmail($id: ID) {
+        mutation SendApprovalEmail($id: ID) {
             sendApprovalEmail(id: $id)
         }
     `;
@@ -48,6 +56,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
     `;
 
     const [sendApprovalEmail] = useMutation(sendApprovalEmailMutation);
+    const [sendRejectionEmail] = useMutation(sendRejectionEmailMutation);
     const [updateDonationFormStatus] = useMutation(updateDonationFormStatusMutation);
     const [deleteDonationForm] = useMutation(deleteDonationFormMutation);
 
@@ -71,14 +80,21 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         return "";
     };
 
-    const getMenuOptionsForItemStatus = (donationFormId: string, itemStatus?: ItemStatus) => {
+    const getMenuOptionsForItemStatus = (donationForm: DonationForm, itemStatus?: ItemStatus) => {
         const options = [];
         switch (itemStatus) {
+            case ItemStatus.PENDING_APPROVAL:
+                options.push(
+                    <span className="menu-option" onClick={() => setSelectedDonationFormForReject(donationForm)}>
+                        Reject
+                    </span>
+                );
+                break;
             case ItemStatus.PENDING_DROPOFF:
                 options.push(
                     <span
                         className="menu-option"
-                        onClick={() => setDonationFormStatus(donationFormId, ItemStatus.PENDING_APPROVAL)}
+                        onClick={() => setDonationFormStatus(donationForm._id!, ItemStatus.PENDING_APPROVAL)}
                     >
                         Unapprove
                     </span>
@@ -88,7 +104,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                 options.push(
                     <span
                         className="menu-option"
-                        onClick={() => setDonationFormStatus(donationFormId, ItemStatus.PENDING_DROPOFF, null)}
+                        onClick={() => setDonationFormStatus(donationForm._id!, ItemStatus.PENDING_DROPOFF, null)}
                     >
                         Unconfirm
                     </span>
@@ -96,7 +112,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                 break;
         }
         options.push(
-            <span className="menu-option" onClick={() => onDeleteDonationForm(donationFormId)}>
+            <span className="menu-option" onClick={() => onDeleteDonationForm(donationForm._id!)}>
                 Delete
             </span>
         );
@@ -134,6 +150,12 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
 
     const removeDonationFormFromDisplay = (donationFormId: string) => {
         setDonationForms(donationForms.filter((donationForm) => donationForm._id !== donationFormId));
+    };
+
+    const onRejectDonationForm = (donationForm: DonationForm) => {
+        sendRejectionEmail({ variables: { id: donationForm._id as string } });
+        onDeleteDonationForm(donationForm._id as string);
+        setSelectedDonationFormForReject(null);
     };
 
     const onDeleteDonationForm = (donationFormId: string) => {
@@ -208,6 +230,21 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                     }}
                     onSubmit={() => {
                         onApproveDonationForm(selectedDonationFormForApproval);
+                    }}
+                />
+            )}
+            {selectedDonationFormForReject && (
+                <ConfirmDonationFormRejectDialog
+                    contactName={getContactName(selectedDonationFormForReject.contact)}
+                    itemName={selectedDonationFormForReject.name!}
+                    handleClose={() => {
+                        setSelectedDonationFormForReject(null);
+                    }}
+                    onCancel={() => {
+                        setSelectedDonationFormForReject(null);
+                    }}
+                    onSubmit={() => {
+                        onRejectDonationForm(selectedDonationFormForReject);
                     }}
                 />
             )}
@@ -302,7 +339,7 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                                 <td className="menu-col">
                                     <DropdownMenu trigger={<i className="bi bi-three-dots" />}>
                                         {donationForm._id &&
-                                            getMenuOptionsForItemStatus(donationForm._id, donationForm.status)}
+                                            getMenuOptionsForItemStatus(donationForm, donationForm.status)}
                                     </DropdownMenu>
                                 </td>
                                 <td className="spacing-col" />
