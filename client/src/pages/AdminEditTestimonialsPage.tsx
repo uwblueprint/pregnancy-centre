@@ -7,7 +7,12 @@ import DonorHomepageConfig from "../config/donorHomepageConfig.json";
 import EditMapQuotesSection from "../components/molecules/EditMapQuotesSection";
 import EditStatisticsSection from "../components/molecules/EditStatisticsSection";
 
-export type MapQuoteEditState = MapQuote & { isEditing: boolean; isSavedBefore: boolean; error: string };
+export type MapQuoteEditState = MapQuote & {
+    isEditing: boolean;
+    isSavedBefore: boolean;
+    imageError: string;
+    textAreaError: string;
+};
 
 export type EditTestimonialsFormState = {
     careClosetVisitsStatError: string;
@@ -25,7 +30,8 @@ const initialFormState: EditTestimonialsFormState = {
         ...mapQoute,
         isEditing: false,
         isSavedBefore: true,
-        error: ""
+        imageError: "",
+        textAreaError: ""
     })),
     regularDonorsStatError: ""
 };

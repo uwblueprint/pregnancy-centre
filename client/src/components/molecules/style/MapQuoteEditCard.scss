@@ -41,7 +41,29 @@
 
     .form-fields-right {
         width: 80%;
+        display: flex;
+        flex-direction: column;
         margin-top: -6px;
+    }
+
+    .text-area-error {
+        display: flex;
+        flex-direction: row;
+        margin: 5px 0 0 0;
+        align-self: flex-end;
+
+        .error-icon {
+            font-size: 15px;
+            color: $error-color;
+        }
+
+        h1 {
+            margin: 0 0 0 5px;
+            font-size: 12px;
+            line-height: 24px;
+            color: $error-color;
+            align-self: flex-end;
+        }
     }
 
     .text-area-label {

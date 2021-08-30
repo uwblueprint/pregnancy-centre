@@ -31,9 +31,10 @@ const EditMapQuotesSection: FunctionComponent = () => {
     };
 
     const updateMapQuoteState = (newMapQuote: MapQuoteEditState) => {
-        const error = newMapQuote.imagePath === "" ? newMapQuote.error : "";
+        const imageError = newMapQuote.imagePath === "" ? newMapQuote.imageError : "";
+        const textAreaError = newMapQuote.testimonial.length === 0 ? newMapQuote.textAreaError : "";
         const newMapQuotes = mapQuotes.map((oldMapQuote) =>
-            oldMapQuote.id === newMapQuote.id ? { ...newMapQuote, error } : oldMapQuote
+            oldMapQuote.id === newMapQuote.id ? { ...newMapQuote, imageError, textAreaError } : oldMapQuote
         );
         setFormState({
             ...formState,
@@ -42,14 +43,16 @@ const EditMapQuotesSection: FunctionComponent = () => {
     };
 
     const saveMapQuote = (newMapQuote: MapQuoteEditState) => {
-        const error = newMapQuote.imagePath === "" ? "A photo must be uploaded" : "";
+        const imageError = newMapQuote.imagePath === "" ? "A photo must be uploaded" : "";
+        const textAreaError = newMapQuote.testimonial.length === 0 ? "Enter a map quote" : "";
         const newMapQuotes = mapQuotes.map((oldMapQuote) =>
             oldMapQuote.id === newMapQuote.id
                 ? {
                       ...newMapQuote,
-                      isEditing: error !== "",
-                      isSavedBefore: newMapQuote.isSavedBefore || error === "",
-                      error
+                      isEditing: imageError !== "" || textAreaError !== "",
+                      isSavedBefore: newMapQuote.isSavedBefore || (imageError === "" && textAreaError === ""),
+                      imageError,
+                      textAreaError
                   }
                 : oldMapQuote
         );
@@ -78,7 +81,8 @@ const EditMapQuotesSection: FunctionComponent = () => {
                 isSavedBefore: false,
                 testimonial: "",
                 isEditing: true,
-                error: ""
+                imageError: "",
+                textAreaError: ""
             })
         });
     };
@@ -94,12 +98,13 @@ const EditMapQuotesSection: FunctionComponent = () => {
         const newMapQuotes = mapQuotes.map((mapQuote) => {
             if (mapQuote.id === mapQuoteId) {
                 return {
-                    error: "",
                     id: oldMapQoute.id,
+                    imageError: "",
                     imagePath: oldMapQoute.imagePath,
                     isSavedBefore: mapQuote.isSavedBefore,
                     isEditing: false,
-                    testimonial: oldMapQoute.testimonial
+                    testimonial: oldMapQoute.testimonial,
+                    textAreaError: ""
                 };
             }
             return mapQuote;

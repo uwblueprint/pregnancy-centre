@@ -53,7 +53,7 @@ const MapQuoteEditCard: FunctionComponent<Props> = (props: Props) => {
                         <div className="form-fields-left">
                             <CircleImage imagePath={props.mapQuote.imagePath} />
                             <h1 onClick={() => setShowUploadImageModal(true)}>Change Photo</h1>
-                            <h1 className="error-message">{props.mapQuote.error}</h1>
+                            <h1 className="error-message">{props.mapQuote.imageError}</h1>
                         </div>
                         <div className="form-fields-right">
                             <TextArea
@@ -66,6 +66,12 @@ const MapQuoteEditCard: FunctionComponent<Props> = (props: Props) => {
                                 label="Client Quote"
                                 maxNumChars={MAX_QUOTE_LENGTH}
                             />
+                            {props.mapQuote.textAreaError !== "" && (
+                                <div className="text-area-error">
+                                    <i className="error-icon bi bi-exclamation-circle alert-icon"></i>
+                                    <h1 className="error-message">{props.mapQuote.textAreaError}</h1>
+                                    </div>
+                            )}
                         </div>
                     </div>
                     <div className="form-footer">
