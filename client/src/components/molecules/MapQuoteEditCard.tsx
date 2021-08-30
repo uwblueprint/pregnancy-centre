@@ -53,6 +53,7 @@ const MapQuoteEditCard: FunctionComponent<Props> = (props: Props) => {
                         <div className="form-fields-left">
                             <CircleImage imagePath={props.mapQuote.imagePath} />
                             <h1 onClick={() => setShowUploadImageModal(true)}>Change Photo</h1>
+                            <h1 className="error-message">{props.mapQuote.error}</h1>
                         </div>
                         <div className="form-fields-right">
                             <TextArea
@@ -78,7 +79,12 @@ const MapQuoteEditCard: FunctionComponent<Props> = (props: Props) => {
                                 onClick={() => props.clearChanges(props.mapQuote.id)}
                                 copyText=""
                             />
-                            <Button className="save-button" text="Update" onClick={onSave} copyText="" />
+                            <Button
+                                className="save-button"
+                                text={props.mapQuote.isSavedBefore ? "Update" : "Add"}
+                                onClick={onSave}
+                                copyText=""
+                            />
                         </div>
                     </div>
                 </div>

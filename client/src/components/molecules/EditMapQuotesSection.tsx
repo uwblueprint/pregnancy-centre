@@ -31,8 +31,9 @@ const EditMapQuotesSection: FunctionComponent = () => {
     };
 
     const updateMapQuoteState = (newMapQuote: MapQuoteEditState) => {
+        const error = newMapQuote.imagePath === "" ? newMapQuote.error : "";
         const newMapQuotes = mapQuotes.map((oldMapQuote) =>
-            oldMapQuote.id === newMapQuote.id ? newMapQuote : oldMapQuote
+            oldMapQuote.id === newMapQuote.id ? { ...newMapQuote, error } : oldMapQuote
         );
         setFormState({
             ...formState,
@@ -41,8 +42,16 @@ const EditMapQuotesSection: FunctionComponent = () => {
     };
 
     const saveMapQuote = (newMapQuote: MapQuoteEditState) => {
+        const error = newMapQuote.imagePath === "" ? "A photo must be uploaded" : "";
         const newMapQuotes = mapQuotes.map((oldMapQuote) =>
-            oldMapQuote.id === newMapQuote.id ? { ...newMapQuote, isSavedBefore: true } : oldMapQuote
+            oldMapQuote.id === newMapQuote.id
+                ? {
+                      ...newMapQuote,
+                      isEditing: error !== "",
+                      isSavedBefore: newMapQuote.isSavedBefore || error === "",
+                      error
+                  }
+                : oldMapQuote
         );
         updateMapQuotesAndConfigState(newMapQuotes);
     };
@@ -65,8 +74,7 @@ const EditMapQuotesSection: FunctionComponent = () => {
             ...formState,
             mapQuotes: mapQuotes.concat({
                 id: nextAvailableId,
-                imagePath:
-                    "https://firebasestorage.googleapis.com/v0/b/bp-pregnancy-centre-dev-7c10c.appspot.com/o/homepage_images%2Fclient-img-1.png?alt=media&token=bbe38f98-e906-4006-ad46-2ba958021339",
+                imagePath: "",
                 isSavedBefore: false,
                 testimonial: "",
                 isEditing: true,

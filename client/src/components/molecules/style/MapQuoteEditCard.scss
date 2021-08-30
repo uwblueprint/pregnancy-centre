@@ -30,6 +30,13 @@
             color: $tpc-green;
             cursor: pointer;
         }
+
+        .error-message {
+            font-size: 12px;
+            line-height: 12px;
+            color: $error-color;
+            text-align: center;
+        }
     }
 
     .form-fields-right {
@@ -49,9 +56,10 @@
         }
     }
 
+    .text-area-container,
     .text-area {
         width: 100%;
-        height: 85px;
+        height: 100%;
     }
 
     .form-footer {
