@@ -155,27 +155,18 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         }
         if (request.fulfilledAt) {
             mutateUnfulfillRequest({ variables: { _id: request._id } });
-            const targetId = request._id;
-            const tempRequests = requests.map((req) => {
-                if (req._id === targetId) {
-                    req.fulfilledAt = undefined;
-                }
-                return req;
-            });
-            const newSortedRequests = reorderRequests(tempRequests);
-            setRequests(newSortedRequests);
         } else {
             mutateFulfillRequest({ variables: { _id: request._id } });
-            const targetId = request._id;
-            const tempRequests = requests.map((req) => {
-                if (req._id === targetId) {
-                    req.fulfilledAt = new Date();
-                }
-                return req;
-            });
-            const newSortedRequests = reorderRequests(tempRequests);
-            setRequests(newSortedRequests);
         }
+        const targetId = request._id;
+        const tempRequests = requests.map((req) => {
+            if (req._id === targetId) {
+                req.fulfilledAt = request.fulfilledAt ? undefined : new Date();
+            }
+            return req;
+        });
+        const newSortedRequests = reorderRequests(tempRequests);
+        setRequests(newSortedRequests);
     };
 
     return (
