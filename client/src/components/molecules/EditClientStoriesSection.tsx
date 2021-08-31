@@ -17,25 +17,24 @@ const EditClientStoriesSection: FunctionComponent = () => {
     const [edit, setEdit] = useState<editState>({ isEditing: false, testimonialID: 0 });
     const [canDelete, setCanDelete] = useState(numTestimonials > 1);
 
-    const resetEdit = () => {
-        formState.editingClientStory = false;
-        setEdit({ isEditing: false, testimonialID: 0 });
-    };
-
     const cancelEdit = (id: number) => {
         const testimonial = testimonials[id - 1];
         if (testimonial.testimonial === "" || testimonial.imagePath === "") {
             testimonials.splice(id - 1, 1);
         }
-        resetEdit();
+
+        // reset edit state
+        setFormState({ ...formState, editingClientStory: false });
+        setEdit({ isEditing: false, testimonialID: 0 });
     };
 
-    const setTestimonialCarousel = (testimonials: Array<Testimonial>) => {
+    const setTestimonialCarousel = (testimonials: Array<Testimonial>, reset: boolean) => {
         if (formState.donorHomepageConfig == null) {
             return;
         }
         setFormState({
             ...formState,
+            editingClientStory: reset ? false : formState.editingClientStory,
             donorHomepageConfig: {
                 ...formState.donorHomepageConfig,
                 testimonialCarousel: {
@@ -44,6 +43,10 @@ const EditClientStoriesSection: FunctionComponent = () => {
                 }
             }
         });
+
+        if (reset) {
+            setEdit({ isEditing: false, testimonialID: 0 });
+        }
     };
 
     const updateTestimonial = (id: number, imagePath: string, testimonial: string) => {
@@ -53,21 +56,19 @@ const EditClientStoriesSection: FunctionComponent = () => {
             imagePath: imagePath,
             testimonial: testimonial
         };
-        setTestimonialCarousel(updatedTestimonials);
-        resetEdit();
+        setTestimonialCarousel(updatedTestimonials, true);
     };
 
     const selectTestimonial = (id: number) => {
         setEdit({ isEditing: true, testimonialID: id });
-        formState.editingClientStory = true;
+        setFormState({ ...formState, editingClientStory: true });
     };
 
     const deleteTestimonial = (id: number) => {
         const updatedTestimonials = testimonials;
         updatedTestimonials.splice(id - 1, 1);
-        setTestimonialCarousel(updatedTestimonials);
+        setTestimonialCarousel(updatedTestimonials, true);
         setCanDelete(numTestimonials > 1);
-        resetEdit();
     };
 
     const addTestimonial = () => {
@@ -79,7 +80,7 @@ const EditClientStoriesSection: FunctionComponent = () => {
         };
         updatedTestimonials.push(newTestimonial);
         setCanDelete(numTestimonials > 1);
-        setTestimonialCarousel(updatedTestimonials);
+        setTestimonialCarousel(updatedTestimonials, false);
         setEdit({
             isEditing: true,
             testimonialID: newTestimonial.id
