@@ -11,6 +11,7 @@ import WarningDialog from "../atoms/WarningDialog";
 interface Props {
     requests: Request[];
     onChangeNumRequests?: (num: number) => void;
+    changeRequest: (num: number) => void;
 }
 
 const RequestsTable: FunctionComponent<Props> = (props: Props) => {
@@ -146,6 +147,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         props.onChangeNumRequests!(requestsCopy.length);
         setRequests(requestsCopy);
         mutateDeleteRequest({ variables: { _id: id } });
+        props.changeRequest(-1);
     };
     const onFulfilledRequest = (request: Request) => {
         if (request._id == null) {

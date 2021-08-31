@@ -16,6 +16,7 @@ interface Props {
     requestGroup?: RequestGroup;
     requests?: Request[];
     deletable?: boolean;
+    changeRequest: (num: number) => void;
 }
 
 const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
@@ -139,6 +140,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                 }
                 body={
                     <RequestsTable
+                        changeRequest={props.changeRequest}
                         onChangeNumRequests={handleChangeNumRequests}
                         requests={props.requests ? props.requests : []}
                     />
