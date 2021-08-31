@@ -15,6 +15,18 @@ export interface Testimonial {
     testimonial: string;
 }
 
+export interface TestimonialCarousel {
+    testimonials: Array<Testimonial>;
+    interval: number;
+}
+
+export interface Banner {
+    header: string;
+    description: string;
+    imagePaths: Array<string>;
+    interval: number;
+}
+
 export interface Statistic {
     icon: string;
     measurement: string;

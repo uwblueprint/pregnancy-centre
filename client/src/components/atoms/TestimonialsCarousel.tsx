@@ -2,7 +2,7 @@ import { Carousel, Col, Container, Row } from "react-bootstrap";
 import React, { FunctionComponent } from "react";
 interface Props {
     testimonials: Array<Testimonial>;
-    transitionInterval: number;
+    interval: number;
 }
 
 interface Testimonial {
@@ -13,7 +13,7 @@ interface Testimonial {
 const TestimonialsCarousel: FunctionComponent<Props> = (props: Props) => {
     return (
         <Container className="testimonials-carousel" fluid>
-            <Carousel controls={false} interval={props.transitionInterval} className="carousel">
+            <Carousel controls={false} interval={props.interval} className="carousel">
                 {props.testimonials.map((testimonial, index) => (
                     <Carousel.Item key={index}>
                         <Row sm={12}>
@@ -21,7 +21,7 @@ const TestimonialsCarousel: FunctionComponent<Props> = (props: Props) => {
                                 <img src={testimonial.imagePath}></img>
                             </Col>
                             <Col md={12} lg={6} className="my-auto">
-                                <p>{testimonial.testimonial}</p>
+                                <p>{"\"" + testimonial.testimonial + "\""}</p>
                             </Col>
                         </Row>
                     </Carousel.Item>

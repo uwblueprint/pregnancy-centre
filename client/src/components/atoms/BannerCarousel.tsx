@@ -2,18 +2,18 @@ import { Carousel, Container } from "react-bootstrap";
 import React, { FunctionComponent } from "react";
 
 interface Props {
-    images: Array<string>;
     header: string;
     description: string;
-    transitionInterval: number;
+    imagePaths: Array<string>;
+    interval: number;
 }
 
 const BannerCarousel: FunctionComponent<Props> = (props: Props) => {
     return (
         <div className="banner-carousel">
             <Container fluid className="banner-carousel-container">
-                <Carousel controls={false} interval={props.transitionInterval} indicators={false} fade>
-                    {props.images.map((imgLink, index) => (
+                <Carousel controls={false} interval={props.interval} indicators={false} fade>
+                    {props.imagePaths.map((imgLink, index) => (
                         <Carousel.Item key={index}>
                             <img src={imgLink} />
                         </Carousel.Item>

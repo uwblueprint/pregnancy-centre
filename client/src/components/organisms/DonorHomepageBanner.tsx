@@ -1,19 +1,40 @@
-import React, { FunctionComponent } from "react";
+import { gql, useQuery } from "@apollo/client";
+import React, { FunctionComponent, useState } from "react";
+import { Banner } from "../../data/types/donorHomepageConfig"
 import BannerCarousel from "../atoms/BannerCarousel";
-import DonorHomepageConfig from "../../config/donorHomepageConfig.json";
 
 const DonorHomepageBanner: FunctionComponent = () => {
-    const bannerImgs = DonorHomepageConfig.banner.imagePaths;
-    const bannerHeader = DonorHomepageConfig.banner.header;
-    const bannerDesc = DonorHomepageConfig.banner.description;
-    const bannerIntv = DonorHomepageConfig.banner.interval * 1000;
+    const [banner, setBanner] = useState<Banner | undefined>(undefined);
+
+    const query = gql`
+        query GetDonorHomepageBanner {
+            donorHomepageBanner {
+                header
+                description
+                imagePaths
+                interval
+            }
+        }
+    `;
+
+    const { error } = useQuery(query, {
+        onCompleted: (data: { donorHomepageBanner: Banner }) => {
+            const res = JSON.parse(JSON.stringify(data.donorHomepageBanner));
+            const updateBanner = {
+                ...res,
+                interval: res.interval * 1000
+            }
+            setBanner(updateBanner);
+        }
+    });
+    if (error) console.log(error.graphQLErrors);
+
     return (
-        <BannerCarousel
-            images={bannerImgs}
-            header={bannerHeader}
-            description={bannerDesc}
-            transitionInterval={bannerIntv}
-        />
+        <div>
+            {banner != undefined && (
+                <BannerCarousel {...banner} />   
+            )}
+        </div>
     );
 };
 
