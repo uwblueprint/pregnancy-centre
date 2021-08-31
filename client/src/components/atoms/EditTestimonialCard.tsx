@@ -55,15 +55,16 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
                     onSubmit={(imagePath: string) => {
                         setImagePath(imagePath);
                         setImageError(false);
+                        setShowImagePicker(false);
                     }}
                 />
             )}
             <div className="image-upload" onClick={() => setShowImagePicker(true)}>
-            <img className="base" src={imagePath} />
+                <img className="base" src={imagePath} />
                 <div className="overlay">
                     <img className="overlay-image" src={OverlayImage} />
                     <p className="overlay-text">Add Photo</p>
-                </div>                
+                </div>
                 {imageError && <p className="error-text"> Please upload an image.</p>}
             </div>
             <div className="text-and-submission">
