@@ -10,6 +10,9 @@ const EditMapQuotesSection: FunctionComponent = () => {
     const { mapQuotes } = formState;
 
     const updateMapQuotesAndConfigState = (newMapQuotes: Array<MapQuoteEditState>) => {
+        if (formState.donorHomepageConfig == null) {
+            return;
+        }
         const configMapQotes = newMapQuotes
             .filter((mapQoute) => mapQoute.isSavedBefore)
             .map((mapQuote) => ({
@@ -88,7 +91,7 @@ const EditMapQuotesSection: FunctionComponent = () => {
     };
 
     const clearChangesOnMapQuote = (mapQuoteId: number) => {
-        const oldMapQoute = formState.donorHomepageConfig.map.testimonials.find(
+        const oldMapQoute = formState.donorHomepageConfig?.map.testimonials.find(
             (mapQoute) => mapQoute.id === mapQuoteId
         );
         if (oldMapQoute == null) {
