@@ -183,6 +183,8 @@ const typeDefs = gql`
         adminNotes: String
         status: DonationItemStatus
         quantityRemaining: Int
+        seen: Boolean
+
         donatedAt: String
         deletedAt: String
         createdAt: String
@@ -309,7 +311,9 @@ const typeDefs = gql`
             filterOptions: DonationFormFilterOptions
             sortBy: DonationFormSortOptions
         ): [DonationForm]
-
+        
+        unseenDonationFormsExist: Boolean
+        
         donorHomepageBanner: Banner
         donorHomepageTestimonialCarousel: TestimonialCarousel
         donorHomepageMap: Map
@@ -338,6 +342,8 @@ const typeDefs = gql`
         createDonationForm(donationForm: CreateDonationFormInput): DonationForm
         updateDonationForm(donationForm: UpdateDonationFormInput): DonationForm
         deleteDonationForm(_id: ID): DonationForm
+        updateSeenDonationForms: DonationForm
+
         changeDonationFormQuantity(_id: ID, quantity: Int): DonationForm
 
         sendConfirmationEmail(ids: [ID]): String

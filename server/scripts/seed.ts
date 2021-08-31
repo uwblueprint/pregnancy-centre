@@ -158,6 +158,7 @@ const createDonationForm = (requestGroup = null) => {
         age: Math.floor(Math.random() * 21), // random integer between 0 and 20
         condition: faker.random.arrayElement(donationFormConditions),
         createdAt: dateCreated,
+        seen: Boolean(Math.round(Math.random())),
         ...statusFields
     });
 };
@@ -308,6 +309,13 @@ connectDB(async () => {
     DonationForm.deleteMany((err) => {
         if (err) {
             console.error("\x1b[31m", "Failed to delete all documents in 'donationForms' collection");
+            console.log("\x1b[0m");
+            exit();
+        }
+    });
+    DonorHomepage.deleteMany((err) => {
+        if (err) {
+            console.error("\x1b[31m", "Failed to delete all documents in 'donorHomepage' collection");
             console.log("\x1b[0m");
             exit();
         }

@@ -39,7 +39,8 @@ export interface DonationForm {
     adminNotes?: string;
     status?: ItemStatus;
     quantityRemaining?: number;
-
+    seen?: boolean;
+    
     donatedAt?: number;
     createdAt?: number;
     updatedAt?: number;

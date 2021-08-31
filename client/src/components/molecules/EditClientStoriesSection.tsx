@@ -12,7 +12,7 @@ interface editState {
 
 const EditClientStoriesSection: FunctionComponent = () => {
     const { formState, setFormState } = useContext(EditTestimonialsContext);
-    const testimonials = formState.donorHomepageConfig.testimonialCarousel.testimonials;
+    const testimonials = formState.donorHomepageConfig?.testimonialCarousel.testimonials ?? [];
     const numTestimonials = testimonials.length;
     const [edit, setEdit] = useState<editState>({ isEditing: false, testimonialID: 0 });
     const [canDelete, setCanDelete] = useState(numTestimonials > 1);
@@ -31,6 +31,9 @@ const EditClientStoriesSection: FunctionComponent = () => {
     };
 
     const setTestimonialCarousel = (testimonials: Array<Testimonial>) => {
+        if (formState.donorHomepageConfig == null) {
+            return;
+        }
         setFormState({
             ...formState,
             donorHomepageConfig: {

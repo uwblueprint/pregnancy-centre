@@ -19,6 +19,7 @@ const DonationItemCard: FunctionComponent<DonationItemCardProps> = (props: Donat
                 <h3>{value}</h3>
             </div>
         );
+
     return (
         <div className="donation-item-card">
             <div className="item-details">
@@ -31,7 +32,7 @@ const DonationItemCard: FunctionComponent<DonationItemCardProps> = (props: Donat
                 {itemAttributeField("Quantity", props.donationForm.quantity?.toString())}
                 {itemAttributeField(
                     "Age of Item",
-                    props.donationForm.age ? getItemAgeDescription(props.donationForm.age) : "Unknown"
+                    props.donationForm.age != null ? getItemAgeDescription(props.donationForm.age) : "Unknown"
                 )}
                 {itemAttributeField("Description", props.donationForm.description, "item-description-field")}
             </div>

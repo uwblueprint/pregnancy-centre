@@ -11,6 +11,7 @@ import DonationFormInfoModal from "../organisms/DonationFormInfoModal";
 import DonationFormProgressStepper from "../atoms/DonationFormProgressStepper";
 import DropdownMenu from "../atoms/DropdownMenu";
 import Tag from "../atoms/Tag";
+import UnseenDot from "../atoms/UnseenDot";
 import { useHistory } from "react-router-dom";
 
 export interface Props {
@@ -208,7 +209,6 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
         );
         setSelectedDonationFormForDropoff(null);
     };
-
     return (
         <div className="unmatched-donation-forms-table">
             {selectedDonationFormForInspection && (
@@ -293,16 +293,20 @@ const UnmatchedDonationFormsTable: FunctionComponent<Props> = (props: Props) => 
                         <td />
                         <td />
                     </tr>
-                    {donationForms.map((donationForm: DonationForm) => (
+                    {donationForms.map((donationForm: DonationForm, index) => (
                         <>
                             <tr
                                 key={donationForm._id}
                                 className="data-row"
                                 onClick={() => {
                                     setSelectedDonationFormForInspection(donationForm);
+                                    const newDonationForms = donationForms;
+                                    newDonationForms[index].seen == true;
+                                    setDonationForms(newDonationForms)
                                 }}
                             >
-                                <td className="spacing-col" />
+                                <td className="spacing-col"> {donationForm.seen ? <></> : <UnseenDot />}</td>
+
                                 <td className="item-col">{donationForm.name}</td>
                                 <td className="contact-col">{getContactName(donationForm.contact) ?? "N/A"}</td>
                                 <td className="quantity-col">{donationForm.quantity}</td>
