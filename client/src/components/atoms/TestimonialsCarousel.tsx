@@ -6,7 +6,7 @@ interface Props {
 }
 
 interface Testimonial {
-    image: string;
+    imagePath: string;
     testimonial: string;
 }
 
@@ -18,7 +18,7 @@ const TestimonialsCarousel: FunctionComponent<Props> = (props: Props) => {
                     <Carousel.Item key={index}>
                         <Row sm={12}>
                             <Col md={12} lg={6}>
-                                <img src={testimonial.image}></img>
+                                <img src={testimonial.imagePath}></img>
                             </Col>
                             <Col md={12} lg={6} className="my-auto">
                                 <p>{testimonial.testimonial}</p>

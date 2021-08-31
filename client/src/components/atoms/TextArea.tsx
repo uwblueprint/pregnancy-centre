@@ -8,13 +8,20 @@ interface TextAreaProps {
     value: string;
     label?: string;
     maxNumChars?: number;
+    minNumChars?: number;
 }
 
 const TextArea: FunctionComponent<TextAreaProps> = (props: TextAreaProps) => {
+    const [isErroneous, setIsErroneous] = React.useState(props.isErroneous);
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = event.target.value;
         if (props.maxNumChars != null && newValue.length > props.maxNumChars) {
+            setIsErroneous(true);
             return;
+        } else if (props.minNumChars != null && newValue.length < props.minNumChars) {
+            setIsErroneous(true);
+        } else {
+            setIsErroneous(false);
         }
         props.onChange(event);
     };
@@ -30,7 +37,7 @@ const TextArea: FunctionComponent<TextAreaProps> = (props: TextAreaProps) => {
                 )}
             </div>
             <textarea
-                className={"text-area " + (props.isErroneous ? "error " : "") + props.className}
+                className={"text-area " + (isErroneous ? "error " : "") + props.className}
                 onChange={onChange}
                 placeholder={props.placeholder}
                 value={props.value}

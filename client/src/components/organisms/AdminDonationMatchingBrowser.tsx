@@ -179,8 +179,7 @@ const AdminDonationMatchingBrowser: FunctionComponent<AdminDonationMatchingBrows
         onCompleted: (data: { openRequests: [Request] }) => {
             // filter out requests that are fulfilled
             const res: Request[] = JSON.parse(JSON.stringify(data.openRequests));
-            const unfulfilledRequests = res.filter((req) => !req.fulfilled);
-            setRequests(unfulfilledRequests);
+            setRequests(res);
         }
     });
 

@@ -9,6 +9,14 @@ import Card from "../atoms/CardWithShadow";
 import CircleImage from "../atoms/CircleImage";
 import Cursor from "../../assets/cursor.png";
 import DonorHomepageConfig from "../../config/donorHomepageConfig.json";
+import { Testimonial } from "../../data/types/donorHomepageConfig";
+
+interface Statistic {
+    icon: string;
+    measurement: string;
+    stat: string;
+    type: string;
+}
 
 const DonorImpactSection: FunctionComponent = () => {
     const [selectedMapQuote, _setSelectedMapQuote] = useState<MapQuote | null>(null);
@@ -63,13 +71,13 @@ const DonorImpactSection: FunctionComponent = () => {
                 </Col>
                 <Col className="info-section" sm={12} xl={5}>
                     <div className="stats-section">
-                        {DonorHomepageConfig.statistics.map((stat: Statistic) => (
-                            <div className="stat" key={stat.icon}>
+                        {DonorHomepageConfig.statistics.map((statistic: Statistic) => (
+                            <div className="stat" key={statistic.icon}>
                                 <div className="stat-top">
-                                    <i className={stat.icon} />
-                                    <h1>{stat.measurement}</h1>
+                                    <i className={statistic.icon} />
+                                    <h1>{statistic.measurement}</h1>
                                 </div>
-                                <p>{stat.stat}</p>
+                                <p>{statistic.stat}</p>
                             </div>
                         ))}
                     </div>

@@ -21,6 +21,8 @@ import {
 
 import { emailResolvers } from "./resolvers/emailResolvers";
 
+import { donorHomepageMutationResolvers, donorHomepageQueryResolvers } from "./resolvers/donorHomepageResolvers";
+
 const resolvers = {
     DonationItemCondition,
     DonationItemStatus,
@@ -29,7 +31,8 @@ const resolvers = {
         ...donationFormQueryResolvers,
         ...requestQueryResolvers,
         ...requestTypeQueryResolvers,
-        ...requestGroupQueryResolvers
+        ...requestGroupQueryResolvers,
+        ...donorHomepageQueryResolvers
     },
 
     Mutation: {
@@ -37,7 +40,8 @@ const resolvers = {
         ...requestMutationResolvers,
         ...requestTypeMutationResolvers,
         ...requestGroupMutationResolvers,
-        ...emailResolvers
+        ...emailResolvers,
+        ...donorHomepageMutationResolvers
     },
 
     Request: {

@@ -19,7 +19,7 @@ export interface Statistic {
     icon: string;
     measurement: string;
     stat: string;
-    type: string;
+    type: StatisticType;
 }
 
 export interface DonorHomepageConfig {
@@ -30,4 +30,8 @@ export interface DonorHomepageConfig {
         testimonials: Array<MapQuote>;
     };
     statistics: Array<Statistic>;
+    testimonialCarousel: {
+        testimonials: Array<Testimonial>;
+        interval: number;
+    };
 }
