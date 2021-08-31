@@ -18,10 +18,13 @@ const DonorHomepageBanner: FunctionComponent = () => {
     `;
 
     const { error } = useQuery(query, {
-        onCompleted: (data: { donorHomepage: Banner }) => {
-            const res = JSON.parse(JSON.stringify(data.donorHomepage));
-            setBanner(res);
-            console.log(res);
+        onCompleted: (data: { donorHomepageBanner: Banner }) => {
+            const res = JSON.parse(JSON.stringify(data.donorHomepageBanner));
+            const updateBanner = {
+                ...res,
+                interval: res.interval * 1000
+            }
+            setBanner(updateBanner);
         }
     });
     if (error) console.log(error.graphQLErrors);
