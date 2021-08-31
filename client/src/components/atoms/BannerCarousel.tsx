@@ -2,9 +2,9 @@ import { Carousel, Container } from "react-bootstrap";
 import React, { FunctionComponent } from "react";
 
 interface Props {
-    imagePaths: Array<string>;
     header: string;
     description: string;
+    imagePaths: Array<string>;
     interval: number;
 }
 
