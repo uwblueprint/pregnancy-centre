@@ -10,16 +10,15 @@ interface Props {
 }
 
 const RequestTypeDropdownList: FunctionComponent<Props> = (props: Props) => {
-    const undeletedRequestTypes = props.requestTypes.filter((requestType) => requestType.deleted === false);
     return (
         <div className="request-type-dropdown-list">
-            {undeletedRequestTypes.map((requestType) => (
+            {props.requestTypes.map((requestType) => (
                 <RequestTypeDropdown
                     key={requestType._id}
                     requestGroup={props.requestGroup}
                     requestType={requestType}
                     requests={requestType.requests}
-                    deletable={undeletedRequestTypes.length > 1}
+                    deletable={props.requestTypes.length > 1}
                     changeRequest={props.changeRequest}
                 />
             ))}

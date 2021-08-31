@@ -40,16 +40,6 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
         }
     });
 
-    const getTotalCountRequests = () => {
-        let totalCount = 0;
-        requestType?.requests!.forEach((request) => {
-            if (!request.deleted) {
-                totalCount += 1;
-            }
-        });
-        return totalCount;
-    };
-
     const onEditModalSubmit = (newRequestTypeName: string) => {
         if (requestType) {
             const requestTypeCopy = requestType;
@@ -167,7 +157,7 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
                         handleDeleteRequestType();
                     }}
                     onCancel={() => setDeleteModalShow(false)}
-                    numRequests={getTotalCountRequests()}
+                    numRequests={numRequests}
                 />
             )}
         </div>

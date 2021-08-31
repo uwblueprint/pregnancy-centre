@@ -17,7 +17,6 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
     const { id } = useParams<ParamTypes>();
     const history = useHistory();
     const [requestGroup, setRequestGroup] = useState<RequestGroup | undefined>(undefined);
-    const [numTypes, setNumTypes] = useState(0);
     const [numRequests, setNumRequests] = useState(0);
     const [showEditGroupModal, setShowEditGroupModal] = useState(false);
     const [showCreateTypeModal, setShowCreateTypeModal] = useState(false);
@@ -32,7 +31,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                 requestTypes {
                     _id
                     name
-                    deleted
+                    deletedAt
                     requests {
                         _id
                         createdAt
@@ -53,7 +52,9 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
     const { error } = useQuery(query, {
         variables: { id: id },
         onCompleted: (data: { requestGroup: RequestGroup }) => {
-            const res = JSON.parse(JSON.stringify(data.requestGroup)); // deep-copy since data object is frozen
+            // deep-copy since data object is frozen
+            const res: RequestGroup = JSON.parse(JSON.stringify(data.requestGroup));
+            res.requestTypes = res.requestTypes?.filter((requestType) => requestType.deletedAt == null) ?? [];
             setRequestGroup(res);
         }
     });
@@ -61,14 +62,6 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
     if (error) console.log(error.graphQLErrors);
     useEffect(() => {
         if (requestGroup !== undefined) {
-            setNumTypes(
-                requestGroup!.requestTypes
-                    ? requestGroup!.requestTypes.reduce(
-                          (total, requestType) => (requestType.deleted === false ? total + 1 : total),
-                          0
-                      )
-                    : 0
-            );
             setNumRequests(
                 requestGroup.requestTypes?.reduce((acc, requestType) => {
                     const nonDeletedRequests =
@@ -105,7 +98,8 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                         <div className="request-group-description">
                             <h1 className="request-group-title">{requestGroup!.name}</h1>
                             <p>
-                                Displaying {numRequests} total requests and {numTypes} types
+                                Displaying {numRequests} total requests and {requestGroup.requestTypes?.length ?? 0}{" "}
+                                types
                             </p>
                         </div>
                         <div>
