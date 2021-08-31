@@ -183,7 +183,13 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                         />
                     )}
                     {requestGroup.requestTypes && (
-                        <RequestTypeDropdownList changeRequest={(num: number) => {setNumRequests(old => old + num)}} requestGroup={requestGroup} requestTypes={requestGroup.requestTypes} />
+                        <RequestTypeDropdownList
+                            changeRequest={(num: number) => {
+                                setNumRequests((old) => old + num);
+                            }}
+                            requestGroup={requestGroup}
+                            requestTypes={requestGroup.requestTypes}
+                        />
                     )}{" "}
                 </div>
             )}
