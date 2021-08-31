@@ -17,6 +17,8 @@ interface Props {
     alertDialogProps?: AlertDialogProps;
     showAlertDialog?: boolean;
     loading?: boolean;
+    disableSubmitButton?: boolean;
+    disableCancelButton?: boolean;
 }
 
 const FormModal: FunctionComponent<Props> = (props: Props) => {
@@ -45,6 +47,7 @@ const FormModal: FunctionComponent<Props> = (props: Props) => {
                                 e.preventDefault();
                                 props.onCancel();
                             }}
+                            disabled={props.disableCancelButton === true}
                         />
                         <Button
                             className="form-modal-submit-button"
@@ -55,6 +58,7 @@ const FormModal: FunctionComponent<Props> = (props: Props) => {
                                 props.onSubmit(e);
                             }}
                             type="submit"
+                            disabled={props.disableSubmitButton === true}
                         />
                     </div>
                 </form>

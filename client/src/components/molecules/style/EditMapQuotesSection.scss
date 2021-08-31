@@ -1,0 +1,40 @@
+.edit-map-quotes-section {
+    margin-top: 72px;
+
+    .section-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .title {
+            font-size: 20px;
+            line-height: 24px;
+        }
+
+        .add-map-quotes {
+            font-size: 20px;
+            line-height: 24px;
+            color: $tpc-green;
+            cursor: pointer;
+        }
+    }
+
+    .map-quotes-counter {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .cards {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: 50px;
+    }
+
+    .edit-map-quote-card,
+    .preview-map-quote-card {
+        width: 48%;
+        margin-bottom: 36px;
+    }
+}

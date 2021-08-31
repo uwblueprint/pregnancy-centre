@@ -38,7 +38,6 @@ const EditTestimonialCard: FunctionComponent<Props> = (props: Props) => {
             error = true;
         }
         if (testimonial.length < minNumChars) {
-
             setTestimonialError(true);
             error = true;
         }

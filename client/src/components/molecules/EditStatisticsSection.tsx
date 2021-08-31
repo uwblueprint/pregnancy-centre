@@ -17,7 +17,7 @@ const EditStatisticsSection: FunctionComponent = () => {
     const { careClosetVisitsStatError, diapersDistributedStatError, regularDonorsStatError } = formState;
 
     const findStat = (statType: StatisticType) => {
-        return formState.donorHomepageConfig.statistics.find((stat) => stat.type === statType);
+        return formState.donorHomepageConfig?.statistics.find((stat) => stat.type === statType);
     };
 
     const regularDonorsStat: Statistic | null = findStat(StatisticType.REGULAR_DONORS) ?? null;
@@ -25,7 +25,12 @@ const EditStatisticsSection: FunctionComponent = () => {
     const careClosetVisitsStat: Statistic | null = findStat(StatisticType.CARE_CLOSET_VISITS) ?? null;
 
     const setStatistic = (measurement: string, statisticType: StatisticType) => {
-        if (careClosetVisitsStat == null || diapersDistributedStat == null || regularDonorsStat == null) {
+        if (
+            formState.donorHomepageConfig == null ||
+            careClosetVisitsStat == null ||
+            diapersDistributedStat == null ||
+            regularDonorsStat == null
+        ) {
             return;
         }
         switch (statisticType) {
