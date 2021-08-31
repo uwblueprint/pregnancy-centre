@@ -136,7 +136,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
 
         const sortedRequests: Request[] = nonFulfilledRequests!.concat(fulfilledRequests!) as Request[];
         return sortedRequests;
-    }
+    };
 
     const onDeleteRequest = (index: number) => {
         const requestsCopy = requests.slice();
@@ -154,8 +154,8 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         if (request.fulfilledAt) {
             mutateUnfulfillRequest({ variables: { _id: request._id } });
             const targetId = request._id;
-            const tempRequests = requests.map(req => {
-                if(req._id === targetId) {
+            const tempRequests = requests.map((req) => {
+                if (req._id === targetId) {
                     req.fulfilledAt = undefined;
                 }
                 return req;
@@ -165,8 +165,8 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         } else {
             mutateFulfillRequest({ variables: { _id: request._id } });
             const targetId = request._id;
-            const tempRequests = requests.map(req => {
-                if(req._id === targetId) {
+            const tempRequests = requests.map((req) => {
+                if (req._id === targetId) {
                     req.fulfilledAt = new Date();
                 }
                 return req;
@@ -174,7 +174,6 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             const newSortedRequests = reorderRequests(tempRequests);
             setRequests(newSortedRequests);
         }
-
     };
 
     return (
