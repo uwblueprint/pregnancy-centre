@@ -6,6 +6,7 @@ import RequestTypeDropdown from "../molecules/RequestTypeDropdown";
 interface Props {
     requestTypes: RequestType[];
     requestGroup: RequestGroup;
+    changeRequest: (num: number) => void;
 }
 
 const RequestTypeDropdownList: FunctionComponent<Props> = (props: Props) => {
@@ -19,6 +20,7 @@ const RequestTypeDropdownList: FunctionComponent<Props> = (props: Props) => {
                     requestType={requestType}
                     requests={requestType.requests}
                     deletable={undeletedRequestTypes.length > 1}
+                    changeRequest={props.changeRequest}
                 />
             ))}
         </div>

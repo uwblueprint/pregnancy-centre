@@ -11,6 +11,7 @@ import WarningDialog from "../atoms/WarningDialog";
 interface Props {
     requests: Request[];
     onChangeNumRequests?: (num: number) => void;
+    changeRequest: (num: number) => void;
 }
 
 const RequestsTable: FunctionComponent<Props> = (props: Props) => {
@@ -78,16 +79,8 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
     }, [props.requests]);
 
     const [mutateDeleteRequest] = useMutation(deleteRequest);
-    const [mutateFulfillRequest] = useMutation(fulfillRequest, {
-        onCompleted: () => {
-            window.location.reload();
-        }
-    });
-    const [mutateUnfulfillRequest] = useMutation(unfulfillRequest, {
-        onCompleted: () => {
-            window.location.reload();
-        }
-    });
+    const [mutateFulfillRequest] = useMutation(fulfillRequest);
+    const [mutateUnfulfillRequest] = useMutation(unfulfillRequest);
     const [mutateChangeDonationFormQuantity] = useMutation(changeDonationFormQuantity);
 
     const handleDeleteRequest = (index: number) => {
@@ -118,6 +111,34 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
             }
         }
     };
+    const reorderRequests = (requests: Request[]) => {
+        const nonFulfilledRequests = requests.filter((request) => {
+            if (request !== undefined) {
+                if (request.fulfilledAt == null) {
+                    return request;
+                }
+            }
+        });
+        const fulfilledRequests = requests.filter((request) => {
+            if (request !== undefined) {
+                if (request.fulfilledAt != null) {
+                    return request;
+                }
+            }
+        });
+
+        nonFulfilledRequests.sort((a, b) => {
+            return a!.createdAt!.valueOf() - b!.createdAt!.valueOf();
+        });
+
+        fulfilledRequests.sort((a, b) => {
+            return a!.createdAt!.valueOf() - b!.createdAt!.valueOf();
+        });
+
+        const sortedRequests: Request[] = nonFulfilledRequests!.concat(fulfilledRequests!) as Request[];
+        return sortedRequests;
+    };
+
     const onDeleteRequest = (index: number) => {
         const requestsCopy = requests.slice();
         const req = { ...requestsCopy[index] };
@@ -126,6 +147,7 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         props.onChangeNumRequests!(requestsCopy.length);
         setRequests(requestsCopy);
         mutateDeleteRequest({ variables: { _id: id } });
+        props.changeRequest(-1);
     };
     const onFulfilledRequest = (request: Request) => {
         if (request._id == null) {
@@ -136,6 +158,15 @@ const RequestsTable: FunctionComponent<Props> = (props: Props) => {
         } else {
             mutateFulfillRequest({ variables: { _id: request._id } });
         }
+        const targetId = request._id;
+        const tempRequests = requests.map((req) => {
+            if (req._id === targetId) {
+                req.fulfilledAt = request.fulfilledAt ? undefined : new Date();
+            }
+            return req;
+        });
+        const newSortedRequests = reorderRequests(tempRequests);
+        setRequests(newSortedRequests);
     };
 
     return (

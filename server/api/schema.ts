@@ -1,5 +1,4 @@
-import { gql }
- from "apollo-server";
+import { gql } from "apollo-server";
 
 const typeDefs = gql`
     type DonationFormContributionTuple {
@@ -288,18 +287,18 @@ const typeDefs = gql`
         openRequests: [Request]
         # --- Left as a proof of concept: ---
         # requestsFilter(filter: FilterRequestInput, options: FilterOptions): [Request]
-        
+
         requestType(_id: ID): RequestType
         requestTypes: [RequestType]
         requestTypesPage(skip: Int, limit: Int, open: Boolean): [RequestType]
         countRequestTypes(open: Boolean): Int
         # --- Left as a proof of concept: ---
         # requestTypesFilter(filter: FilterRequestTypeInput, options: FilterOptions): [RequestType]
-        
+
         requestGroup(_id: ID): RequestGroup
         requestGroups: [RequestGroup]
         requestGroupsPage(skip: Int, limit: Int, name: String, open: Boolean): [RequestGroup]
-        countRequestGroups(open: Boolean, name: String): Int        
+        countRequestGroups(open: Boolean, name: String): Int
         # --- Left as a proof of concept: ---
         # requestGroupsFilter(filter: FilterRequestGroupInput, options: FilterOptions): [RequestGroup]
         requestGroupsFilterByName(filterString: String): [RequestGroup]
@@ -312,6 +311,7 @@ const typeDefs = gql`
             filterOptions: DonationFormFilterOptions
             sortBy: DonationFormSortOptions
         ): [DonationForm]
+        
         unseenDonationFormsExist: Boolean
         
         donorHomepageBanner: Banner
@@ -328,12 +328,12 @@ const typeDefs = gql`
         deleteRequest(_id: ID): Request
         fulfillRequest(_id: ID): Request
         unfulfillRequest(_id: ID): Request
-        
+
         changeRequestTypeForRequest(requestId: ID, requestTypeId: ID): Request
         createRequestType(requestType: CreateRequestTypeInput): RequestType
         updateRequestType(requestType: UpdateRequestTypeInput): RequestType
         deleteRequestType(_id: ID): RequestType
-        
+
         changeRequestGroupForRequestType(requestTypeId: ID, requestGroupId: ID): Request
         createRequestGroup(requestGroup: CreateRequestGroupInput): RequestGroup
         updateRequestGroup(requestGroup: UpdateRequestGroupInput): RequestGroup
@@ -349,13 +349,13 @@ const typeDefs = gql`
         sendConfirmationEmail(ids: [ID]): String
         sendApprovalEmail(id: ID): String
         sendRejectionEmail(id: ID): String
-        
+
         updateDonorHomepage(
             mapTestimonials: [TestimonialInput!]
             carouselTestimonials: [TestimonialInput!]
             statMeasurements: StatisticMeasurement
         ): DonorHomepage
-    }`;
+    }
+`;
 
-export { typeDefs }
-;
+export { typeDefs };

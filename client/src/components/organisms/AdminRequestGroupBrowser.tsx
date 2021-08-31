@@ -29,7 +29,6 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                 _id
                 name
                 deleted
-                countOpenRequests
                 requestTypes {
                     _id
                     name
@@ -171,7 +170,7 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                     {showDeleteGroupModal && (
                         <DeleteRequestGroupDialog
                             requestGroupName={requestGroup.name}
-                            numRequests={requestGroup.countOpenRequests ?? 0}
+                            numRequests={numRequests}
                             handleClose={() => {
                                 setShowDeleteGroupModal(false);
                             }}
@@ -184,7 +183,13 @@ const AdminRequestGroupBrowser: FunctionComponent = () => {
                         />
                     )}
                     {requestGroup.requestTypes && (
-                        <RequestTypeDropdownList requestGroup={requestGroup} requestTypes={requestGroup.requestTypes} />
+                        <RequestTypeDropdownList
+                            changeRequest={(num: number) => {
+                                setNumRequests((old) => old + num);
+                            }}
+                            requestGroup={requestGroup}
+                            requestTypes={requestGroup.requestTypes}
+                        />
                     )}{" "}
                 </div>
             )}
