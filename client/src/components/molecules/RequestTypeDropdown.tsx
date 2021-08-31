@@ -34,7 +34,9 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
     const [requestType, setRequestType] = useState(props.requestType);
     const [editModalShow, setEditModalShow] = useState(false);
     const [deleteModalShow, setDeleteModalShow] = useState(false);
-    const [mutateDeleteRequestType] = useMutation(softDelete);
+    const [mutateDeleteRequestType] = useMutation(softDelete, { onCompleted: () => {
+        window.location.reload();
+    }});
 
     const getTotalCountRequests = () => {
         let totalCount = 0;
@@ -90,7 +92,6 @@ const RequestTypeDropdown: FunctionComponent<Props> = (props: Props) => {
         }
         if (canDelete) {
             deleteRequestType();
-            window.location.reload();
         } else {
             setShowWarningDialog(true);
         }
