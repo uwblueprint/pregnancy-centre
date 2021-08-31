@@ -49,6 +49,7 @@ export const EditTestimonialsContext = React.createContext<{
 const AdminEditTestimonialsPage: FunctionComponent = () => {
     const [formState, setFormState] = useState<EditTestimonialsFormState | null>(null);
     const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+    const [saveError, setSaveError] = useState("");
     const query = gql`
         query GetDonorHomepage {
             donorHomepage {
@@ -77,9 +78,16 @@ const AdminEditTestimonialsPage: FunctionComponent = () => {
     `;
     const { error } = useQuery(query, {
         onCompleted: (data: { donorHomepage: DonorHomepageConfigType }) => {
-            const res = JSON.parse(JSON.stringify(data.donorHomepage));
+            const res: DonorHomepageConfigType = JSON.parse(JSON.stringify(data.donorHomepage));
             const initialFormState = {
                 ...InitialFormState,
+                mapQuotes: res.map.testimonials.map((testimonial) => ({
+                    ...testimonial,
+                    isEditing: false,
+                    isSavedBefore: true,
+                    imageError: "",
+                    textAreaError: ""
+                })),
                 donorHomepageConfig: res
             };
             setFormState(initialFormState);
@@ -129,6 +137,11 @@ const AdminEditTestimonialsPage: FunctionComponent = () => {
 
     const handleSave = () => {
         if (formState == null || formState.donorHomepageConfig == null) return;
+        if (formState.editingClientStory || formState.mapQuotes.find((quote) => quote.isEditing) != null) {
+            setSaveError("Save all testimonials and map quotes");
+            return;
+        }
+        setSaveError("");
         const statistics = formState.donorHomepageConfig.statistics;
         const statMeasurements: {
             [key: string]: string;
@@ -169,12 +182,22 @@ const AdminEditTestimonialsPage: FunctionComponent = () => {
                             <EditMapQuotesSection />
                         </div>
                         <div className="page-footer">
-                            <Button
-                                className="save-button"
-                                text="Submit all changes"
-                                copyText=""
-                                onClick={handleSave}
-                            />
+                            <div className="save-error">
+                                {saveError && (
+                                    <>
+                                        <i className="error-icon bi bi-exclamation-circle alert-icon" />
+                                        <h1 className="error-message">{saveError}</h1>
+                                    </>
+                                )}
+                            </div>
+                            <div className="button-containter">
+                                <Button
+                                    className="save-button"
+                                    text="Submit all changes"
+                                    copyText=""
+                                    onClick={handleSave}
+                                />
+                            </div>
                         </div>
                     </EditTestimonialsContext.Provider>
                 )}

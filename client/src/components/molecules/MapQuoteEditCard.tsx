@@ -68,7 +68,7 @@ const MapQuoteEditCard: FunctionComponent<Props> = (props: Props) => {
                             />
                             {props.mapQuote.textAreaError !== "" && (
                                 <div className="text-area-error">
-                                    <i className="error-icon bi bi-exclamation-circle alert-icon"></i>
+                                    <i className="error-icon bi bi-exclamation-circle alert-icon" />
                                     <h1 className="error-message">{props.mapQuote.textAreaError}</h1>
                                 </div>
                             )}
