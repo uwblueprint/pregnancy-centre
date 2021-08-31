@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
 import facebookLogo from "../../assets/facebook-logo.svg";
+import instagramLogo from "../../assets/instagram-logo.svg";
 import tpcLogo from "../../assets/tpc-footer-logo.svg";
 import twitterLogo from "../../assets/twitter-logo.svg";
 
@@ -19,7 +20,7 @@ const Footer: FunctionComponent = () => {
                         <h1>THE PREGNANCY CENTRE</h1>
                         <p>40 Francis St S, Kitchener, ON</p>
                         <p>519-886-4001</p>
-                        <p>info@thepregnancycentre.ca</p>
+                        <p>info@pregnancycentre.ca</p>
                     </Col>
                     <Col>
                         <h1>HOURS</h1>
@@ -28,17 +29,20 @@ const Footer: FunctionComponent = () => {
                     </Col>
                     <Col>
                         <h1>CONTACT</h1>
-                        <p>PHONE: 519.886.4001</p>
-                        <p>TEXT: 519.504.4411</p>
+                        <p>PHONE: 519-886-4001</p>
+                        <p>TEXT: 226-242-5196</p>
                         <p>EMAIL: info@pregnancycentre.ca</p>
                     </Col>
                 </Row>
                 <Row className="align-items-center footer-social-media-links">
                     <h1>© 2021 The Pregnancy Centre</h1>
+                    <a href="https://www.instagram.com/thepregnancycentre/">
+                        <img src={instagramLogo} />
+                    </a>
                     <a href="https://twitter.com/kwprc">
                         <img src={twitterLogo} />
                     </a>
-                    <a href="https://www.facebook.com/KWTPC/">
+                    <a href="https://www.facebook.com/pregnancycentre.ca">
                         <img src={facebookLogo} />
                     </a>
                 </Row>
