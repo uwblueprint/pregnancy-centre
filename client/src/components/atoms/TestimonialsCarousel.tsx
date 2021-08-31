@@ -21,7 +21,7 @@ const TestimonialsCarousel: FunctionComponent<Props> = (props: Props) => {
                                 <img src={testimonial.imagePath}></img>
                             </Col>
                             <Col md={12} lg={6} className="my-auto">
-                                <p>{testimonial.testimonial}</p>
+                                <p>{"\"" + testimonial.testimonial + "\""}</p>
                             </Col>
                         </Row>
                     </Carousel.Item>
