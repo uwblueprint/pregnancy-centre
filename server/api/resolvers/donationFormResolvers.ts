@@ -60,6 +60,10 @@ const donationFormQueryResolvers = {
         }
 
         return DonationForm.find(filter).sort(sortConfig).skip(skip).limit(limit).exec();
+    },
+
+    unseenDonationFormsExist: async (): Promise<boolean> => {
+        return DonationForm.exists({ seen: false } );
     }
 };
 
@@ -84,6 +88,11 @@ const donationFormMutationResolvers = {
             const donationForm = await DonationForm.findById(_id);
             donationForm.deletedAt = new Date();
             return donationForm.save();
+        });
+    },
+    updateSeenDonationForms: async (_, __, { authenticateUser }): Promise<DonationFormInterface> => {
+        return authenticateUser().then(async () => {
+            return DonationForm.updateMany({seen: false}, {seen: true})
         });
     },
     changeDonationFormQuantity: async (_, { _id, quantity }, { authenticateUser }): Promise<DonationFormInterface> => {

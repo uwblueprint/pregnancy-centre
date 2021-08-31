@@ -158,6 +158,7 @@ const createDonationForm = (requestGroup = null) => {
         age: Math.floor(Math.random() * 21), // random integer between 0 and 20
         condition: faker.random.arrayElement(donationFormConditions),
         createdAt: dateCreated,
+        seen: Boolean(Math.round(Math.random())),
         ...statusFields
     });
 };

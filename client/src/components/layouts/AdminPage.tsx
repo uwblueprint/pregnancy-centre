@@ -1,16 +1,28 @@
-import React, { FunctionComponent } from "react";
+import { gql, useQuery } from "@apollo/client";
+import React, { FunctionComponent, useState } from "react";
 
 import Navbar from "../organisms/Navbar";
 
 const AdminPage: FunctionComponent<Record<string, unknown>> = (
     props: React.PropsWithChildren<Record<string, unknown>>
 ) => {
+    const [unseenDonationFormsExist, setUnseenDonationFormsExist] = useState(false);
+    const unseenDonationFormsExistQuery = gql`
+        query unseenDonationFormsExist {
+            unseenDonationFormsExist
+        }
+    `;
+      useQuery(unseenDonationFormsExistQuery, {
+        onCompleted: (data: { unseenDonationFormsExist: boolean }) => {
+            setUnseenDonationFormsExist(data.unseenDonationFormsExist);
+        }
+    });
     return (
         <div className="admin-page">
             <Navbar
                 leftLinks={[
                     { name: "Needs", path: "/needs" },
-                    { name: "Forms", path: "/unmatched-forms" },
+                    { name: "Forms", path: "/unmatched-forms", isEmphasized: unseenDonationFormsExist },
                     { name: "Edit Main Page", path: "/edit-main-page" }
                 ]}
                 rightLinks={[{ name: "Log out", path: "/" }]}

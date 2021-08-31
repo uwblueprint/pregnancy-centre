@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import AdminPage from "../components/layouts/AdminPage";
 import { DonationForm } from "../data/types/donationForm";
 import Nav from "react-bootstrap/Nav";
@@ -22,15 +22,27 @@ const AdminUnmatchedDonationFormPage: FunctionComponent = () => {
                 name
                 quantity
                 status
+                seen
             }
         }
     `;
+
+    const updateSeenDonationFormsMutation = gql`
+        mutation UpdateSeenDonationForms {
+            updateSeenDonationForms {
+                _id
+            }
+        }
+    `;
+
+const [updateSeenDonationForms] = useMutation(updateSeenDonationFormsMutation);
 
     useQuery(getDonationFormsQuery, {
         fetchPolicy: "network-only",
         onCompleted: (data: { donationForms: Array<DonationForm> }) => {
             const donationFormsCopy: Array<DonationForm> = JSON.parse(JSON.stringify(data.donationForms)); // deep-copy since data object is frozen
             setDonationForms(donationFormsCopy);
+            updateSeenDonationForms();
         }
     });
 
