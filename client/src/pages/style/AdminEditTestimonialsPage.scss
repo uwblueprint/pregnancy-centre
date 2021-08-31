@@ -1,0 +1,63 @@
+.admin-edit-testimonials-page {
+    height: 100vh;
+
+    .spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        height: 100vh;
+        width: 100vw;
+
+        .spinner-border {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    .alert {
+        position: absolute;
+        align-self: center;
+        width: 32%;
+        border-radius: 5px;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .admin-page,
+    .admin-page-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .page-header h1 {
+        @include heavy-text;
+        font-size: 25px;
+        margin-bottom: 40px;
+    }
+
+    .page-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 4% 5% 0 5%;
+    }
+
+    .page-footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        align-self: flex-end;
+        height: 122px;
+        width: 100%;
+        padding: 20px;
+        margin-top: auto;
+        box-shadow: 0px -4px 20px rgba(219, 219, 219, 0.25);
+
+        .button {
+            @include tpc-green-button;
+        }
+    }
+}

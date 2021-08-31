@@ -35,6 +35,7 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
             requestGroups {
                 _id
                 name
+                deletedAt
             }
         }
     `;
@@ -42,7 +43,10 @@ const DonationFormItemDetailsPage: FunctionComponent<Props> = (props: Props) => 
     useQuery(fetchRequestGroupsQuery, {
         fetchPolicy: "network-only",
         onCompleted: (data: { requestGroups: Array<RequestGroup> }) => {
-            const requestGroups: Array<RequestGroup> = JSON.parse(JSON.stringify(data.requestGroups)); // deep-copy since data object is frozen
+            // deep-copy since data object is frozen
+            const requestGroups: Array<RequestGroup> = JSON.parse(JSON.stringify(data.requestGroups)).filter(
+                (requestGroup: RequestGroup) => requestGroup.deletedAt == null
+            );
             setRequestGroups(requestGroups);
         }
     });

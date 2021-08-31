@@ -15,8 +15,8 @@ const RequestGroupListItem: FunctionComponent<Props> = (props: Props) => {
                 <h1>{props.requestGroup.name}</h1>
                 <h2>
                     {props.requestGroup.countOpenRequests === 1
-                        ? "1 item needed"
-                        : `${props.requestGroup.countOpenRequests} items needed`}
+                        ? "1 open request"
+                        : `${props.requestGroup.countOpenRequests} open requests`}
                 </h2>
             </div>
         </div>

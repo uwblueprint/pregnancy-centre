@@ -3,7 +3,9 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import React from "react";
 
 import AdminDonationMatchingPage from "./pages/AdminDonationMatchingPage";
+import AdminEditTestimonialsPage from "./pages/AdminEditTestimonialsPage";
 import AdminMatchedDonationFormsPage from "./pages/AdminMatchedDonationFormsPage";
+import AdminMatchedFormDetailsPage from "./pages/AdminMatchedFormDetailsPage";
 import AdminRequestGroupsPage from "./pages/AdminRequestGroupsPage";
 import AdminRequestGroupView from "./pages/AdminRequestGroupView";
 import AdminUnmatchedDonationFormsPage from "./pages/AdminUnmatchedDonationFormsPage";
@@ -13,6 +15,9 @@ import DonorHomepage from "./pages/DonorHomepage";
 import SendResetPasswordEmailModal from "./pages/SendResetPasswordEmailModal";
 import SignInModal from "./pages/SignInModal";
 import SignUpModal from "./pages/SignUpModal";
+
+import TextAreaContainer from "./components/examples/TextAreaContainer";
+import UploadImageModalContainer from "./components/examples/UploadImageModalContainer";
 
 function App(): JSX.Element {
     return (
@@ -32,7 +37,11 @@ function App(): JSX.Element {
                     <Route path="/need/:id" component={AdminRequestGroupView} />
                     <Route path="/unmatched-forms" component={AdminUnmatchedDonationFormsPage} />
                     <Route path="/matched-forms" component={AdminMatchedDonationFormsPage} />
+                    <Route path="/matched-form/:id" component={AdminMatchedFormDetailsPage} />
                     <Route path="/donation-form" component={DonationForm} />
+                    <Route path="/edit-main-page" component={AdminEditTestimonialsPage} />
+                    <Route path="/upload-photo" component={UploadImageModalContainer} />
+                    <Route path="/text-area" component={TextAreaContainer} />
                     <Route path="/" component={DonorHomepage} />
                 </Switch>
             </Router>

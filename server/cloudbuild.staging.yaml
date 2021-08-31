@@ -19,5 +19,5 @@ availableSecrets:
     env: 'FIREBASE_PRIVATE_KEY'
   - versionName: projects/bp-pregnancy-centre-staging/secrets/FIREBASE_CLIENT_EMAIL/versions/1
     env: 'FIREBASE_CLIENT_EMAIL'
-  - versionName: projects/bp-pregnancy-centre-staging/secrets/EMAIL_PASSWORD/versions/2
+  - versionName: projects/bp-pregnancy-centre-staging/secrets/EMAIL_PASSWORD/versions/3
     env: 'EMAIL_PASSWORD'
