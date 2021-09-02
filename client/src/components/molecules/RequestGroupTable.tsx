@@ -93,7 +93,7 @@ const RequestGroupTable: FunctionComponent<Props> = (props: Props) => {
                                                     requestGroup.requestTypes.map(
                                                         (requestType) =>
                                                             requestType.name &&
-                                                            requestType.deletedAt == null && (
+                                                            !requestType.deleted && (
                                                                 <span
                                                                     className="requestType-tag-list-item"
                                                                     key={requestType._id}
