@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 //limit import to auth (keep comment to keep linter happy)
+import "firebase/analytics";
 import "firebase/auth";
 import "firebase/storage";
 
@@ -9,7 +10,8 @@ const firebaseConfig = {
     projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
     storageBucket: `${process.env.REACT_APP_FIREBASE_PROJECT_ID}.appspot.com`,
     messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 try {

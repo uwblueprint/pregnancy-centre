@@ -10,6 +10,7 @@ type Link = {
     name: string;
     path: string;
     isEmphasized?: boolean;
+    callback?: () => void;
 };
 
 interface Props {
@@ -21,8 +22,20 @@ const Navbar: FunctionComponent<Props> = (props: Props) => {
     const location = useLocation();
     const getLinksJSX = (links: Link[]) =>
         links.map((link: Link) => (
-            <Nav.Link className={link.path === location.pathname ? "active" : ""} href={link.path} key={link.name}>
-               {link.isEmphasized? <><UnseenDot /><div style={{marginLeft:10}}>{link.name}</div></> : link.name}
+            <Nav.Link
+                className={link.path === location.pathname ? "active" : ""}
+                href={link.path}
+                key={link.name}
+                onClick={link.callback}
+            >
+                {link.isEmphasized ? (
+                    <>
+                        <UnseenDot />
+                        <div style={{ marginLeft: 10 }}>{link.name}</div>
+                    </>
+                ) : (
+                    link.name
+                )}
             </Nav.Link>
         ));
 
