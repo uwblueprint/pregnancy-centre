@@ -35,7 +35,7 @@ const AdminRequestGroupList: FunctionComponent = () => {
                 requestTypes {
                     _id
                     name
-                    deletedAt
+                    deleted
                 }
             }
         }

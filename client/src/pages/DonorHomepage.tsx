@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 import Container from "react-bootstrap/Container";
+import firebase from "firebase/app";
 import Row from "react-bootstrap/Row";
 
 import DonorHomepageBanner from "../components/organisms/DonorHomepageBanner";
@@ -19,10 +20,12 @@ const DonorHomepage: FunctionComponent = () => {
     const breakpoint = 576;
 
     React.useEffect(() => {
+        firebase.analytics().logEvent("homepage_visit");
         const handleWindowResize = () => setScreenWidth(window.innerWidth);
         window.addEventListener("resize", handleWindowResize);
         setShowMobilePopup(screenWidth < breakpoint);
     }, []);
+
     return (
         <>
             <Container className="donor-homepage" fluid>

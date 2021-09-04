@@ -1,5 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import React, { FunctionComponent } from "react";
+import firebase from "firebase/app";
 
 import { DonationForm } from "../data/types/donationForm";
 import { DonationFormContact } from "../data/types/donationForm";
@@ -94,6 +95,9 @@ const DonationFormReviewPage: FunctionComponent<Props> = (props: Props) => {
                 });
             })
             .then(() => {
+                firebase
+                    .analytics()
+                    .logEvent("donation_form_submit", { num_donation_forms: createDonationFormPromises.length });
                 props.onNextPage();
             });
     };
