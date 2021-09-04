@@ -29,7 +29,7 @@ To populate local environment files with secrets from secr\et manager:
 `vault kv get -format=json kv/pregnancy-centre | python update_secret_files.py`
 
 To update the secrets inside secret manager using local environment files:
-`vault kv put kv/pregnancy-centre CLIENT_ENV_VARS=@client/.env SERVER_ENV_VARS=@server/.env`
+`vault kv put kv/pregnancy-centre CLIENT_ENV_VARS=@client/.env CLIENT_ENV_PROD_VARS=@client/.env.prod CLIENT_ENV_STAGING_VARS=@client/.env.staging SERVER_ENV_VARS=@server/.env SERVER_ENV_PROD_VARS=@server/.env.prod SERVER_ENV_STAGING_VARS=@server/.env.staging`
 
 Helpful secret manager setup guide:
 https://www.notion.so/uwblueprintexecs/Secret-Management-2d5b59ef0987415e93ec951ce05bf03e#3008f54889ab4b0cacfa276cbc43e613
