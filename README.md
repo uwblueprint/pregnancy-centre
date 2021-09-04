@@ -61,6 +61,9 @@ git push -f origin staging
 
 
 ### Manual Deployment
+
+Get all the dev, staging, and prod `.env` files for server and client from the secret manager.
+
 ![Diagram of deployment architecture](images/TPC-Deployment-Architecture.png)
 
 #### Client
