@@ -67,8 +67,8 @@ git push -f origin staging
 Tutorial: https://firebase.google.com/docs/hosting/quickstart?authuser=1
 
 1. Delete the old `client/build` folder
-
-2. Go to `/client`. Then run
+2. Ensure `client/.env` files contain the appropriate credentials. If you are deploying to prod, rename `client/.env.prod` to `client/.env`.
+3. Go to `/client`. Then run
 ```
 npm run build
 ./node_modules/.bin/firebase use <ENV>
